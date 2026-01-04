@@ -43,6 +43,9 @@ import AdvancedAnalyticsEngine from './AdvancedAnalyticsEngine';
 import MultiStageSimulator from './MultiStageSimulator';
 import AutomatedSecurityHardening from './AutomatedSecurityHardening';
 import ArchitecturalRefactoringAI from './ArchitecturalRefactoringAI';
+import AIMonitoringDashboard from './AIMonitoringDashboard';
+import Visual3DDiff from './Visual3DDiff';
+import AutomatedTestingFramework from './AutomatedTestingFramework';
 import { Cpu, HardDrive, Wifi, Database, ChevronRight, Mic, MicOff } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -466,6 +469,9 @@ export default function BlueprintSection() {
   const [showAnalytics, setShowAnalytics] = useState(false);
   const [showSimulator, setShowSimulator] = useState(false);
   const [showMultiStageSimulator, setShowMultiStageSimulator] = useState(false);
+  const [showMonitoring, setShowMonitoring] = useState(false);
+  const [showVisualDiff, setShowVisualDiff] = useState(false);
+  const [showTesting, setShowTesting] = useState(false);
   const [showComparison, setShowComparison] = useState(false);
   const [showVersionControl, setShowVersionControl] = useState(false);
   const [showHeatmap, setShowHeatmap] = useState(false);
@@ -708,6 +714,30 @@ export default function BlueprintSection() {
                   title="Version Control"
                 >
                   📋
+                </button>
+                
+                <button
+                  onClick={() => setShowVisualDiff(true)}
+                  className="py-2.5 sm:py-3 px-3 rounded-xl font-medium transition-all text-sm sm:text-base bg-white/5 border border-white/10 text-white/60 hover:bg-cyan-500/20 hover:border-cyan-500/40 hover:text-cyan-300"
+                  title="Visual Diff"
+                >
+                  👁️
+                </button>
+                
+                <button
+                  onClick={() => setShowMonitoring(true)}
+                  className="py-2.5 sm:py-3 px-3 rounded-xl font-medium transition-all text-sm sm:text-base bg-white/5 border border-white/10 text-white/60 hover:bg-purple-500/20 hover:border-purple-500/40 hover:text-purple-300"
+                  title="Monitoring"
+                >
+                  📊
+                </button>
+                
+                <button
+                  onClick={() => setShowTesting(true)}
+                  className="py-2.5 sm:py-3 px-3 rounded-xl font-medium transition-all text-sm sm:text-base bg-white/5 border border-white/10 text-white/60 hover:bg-pink-500/20 hover:border-pink-500/40 hover:text-pink-300"
+                  title="Testing"
+                >
+                  🧪
                 </button>
                 
                 <button
@@ -1098,6 +1128,31 @@ export default function BlueprintSection() {
             toast.success('Refactoring strategy initiated');
           }}
         />
+
+        {/* AI Monitoring Dashboard */}
+        {showMonitoring && (
+          <AIMonitoringDashboard
+            deployedBlueprints={[currentBlueprint]}
+            onClose={() => setShowMonitoring(false)}
+          />
+        )}
+
+        {/* Visual 3D Diff */}
+        {showVisualDiff && currentBlueprint && (
+          <Visual3DDiff
+            version1={currentBlueprint}
+            version2={currentBlueprint}
+            onClose={() => setShowVisualDiff(false)}
+          />
+        )}
+
+        {/* Automated Testing */}
+        {showTesting && currentBlueprint && (
+          <AutomatedTestingFramework
+            blueprint={currentBlueprint}
+            onClose={() => setShowTesting(false)}
+          />
+        )}
 
         {/* Cost Optimization */}
         <CostOptimizationAssistant
