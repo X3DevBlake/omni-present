@@ -21,6 +21,7 @@ import BlueprintComparison from './BlueprintComparison';
 import ProactiveAssistant from './ProactiveAssistant';
 import { getOptimalConfiguration } from './ComponentLibrary';
 import { Cpu, HardDrive, Wifi, Database, ChevronRight, Mic, MicOff } from 'lucide-react';
+import { toast } from 'sonner';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -461,20 +462,22 @@ export default function BlueprintSection() {
     { position: [0, 0, -1], size: [0.3, 0.3, 0.3], color: '#3b82f6', label: 'I/O Controller', description: 'PCIe Gen5 Interface', stats: '128 GT/s' },
   ];
 
-  const handleGenerateBlueprint = (constraints) => {
+  const handleGenerateBlueprint = async (constraints) => {
     setIsGenerating(true);
     
-    const blueprintConfig = {
-      constraints,
-      components: components,
-      timestamp: Date.now(),
-    };
-    
-    setCurrentBlueprint(blueprintConfig);
-    
-    // Simulate AI generation (replace with actual API call)
-    setTimeout(() => {
-      console.log('Generating blueprint with constraints:', constraints);
+    try {
+      const optimalConfig = getOptimalConfiguration(constraints);
+      
+      const blueprintConfig = {
+        name: `${constraints.workload.replace('-', ' ')} Blueprint`,
+        configuration: optimalConfig,
+        constraints,
+        estimatedCost: optimalConfig.estimatedCost,
+        estimatedPerformance: optimalConfig.estimatedPerformance,
+        timestamp: Date.now(),
+      };
+      
+      setCurrentBlueprint(blueprintConfig);
       setExploded(true);
       
       setTimeout(() => {
@@ -482,7 +485,10 @@ export default function BlueprintSection() {
         setExploded(false);
         setShowCollaboration(true);
       }, 3000);
-    }, 2000);
+    } catch (error) {
+      console.error('Generation failed:', error);
+      setIsGenerating(false);
+    }
   };
 
   const handleVoiceCommand = (command, params) => {
