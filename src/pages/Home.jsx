@@ -6,10 +6,12 @@ import TechShowcase from '../components/omni/TechShowcase';
 import FeatureGrid from '../components/omni/FeatureGrid';
 import BlueprintSection from '../components/omni/BlueprintSection';
 import CTASection from '../components/omni/CTASection';
+import ScrollProgress from '../components/omni/ScrollProgress';
 
 export default function Home() {
   return (
     <AuroraBackground className="min-h-screen">
+      <ScrollProgress />
       <FloatingNav />
       <HeroSection />
       <TechShowcase />
