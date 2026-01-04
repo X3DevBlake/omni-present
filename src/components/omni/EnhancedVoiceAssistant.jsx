@@ -64,6 +64,8 @@ export default function EnhancedVoiceAssistant({
       'analyze telemetry trends',
       'suggest optimizations',
       'show failure points',
+      'identify bottlenecks',
+      'health check',
     ];
     
     const detectedCommand = commands[Math.floor(Math.random() * commands.length)];
@@ -76,7 +78,19 @@ export default function EnhancedVoiceAssistant({
 
     if (detectedCommand.includes('explain current view')) {
       if (focusedComponent !== null && currentView) {
-        return detailedKnowledge[currentView]?.[focusedComponent] || "Detailed view analysis in progress.";
+        const knowledge = detailedKnowledge[currentView]?.[focusedComponent];
+        if (knowledge) {
+          let viewSpecific = '';
+          if (currentView === 'stress') {
+            viewSpecific = ' Under stress, watch for red zones indicating thermal limits. Yellow is optimal. The deformation visualization is exaggerated 100x for clarity.';
+          } else if (currentView === 'cross-section') {
+            viewSpecific = ' The cross-section reveals data pathways (cyan), compute units (purple), and cache hierarchy (honeycomb pattern).';
+          } else if (currentView === 'exploded') {
+            viewSpecific = ' Exploded view shows physical layering and interconnects between subsystems.';
+          }
+          return knowledge + viewSpecific;
+        }
+        return "Detailed view analysis in progress.";
       }
       return "Select a component and change its view mode to see detailed structural analysis. Try Shift+Click on any component for isolation view.";
     }
@@ -84,18 +98,31 @@ export default function EnhancedVoiceAssistant({
     if (detectedCommand.includes('telemetry') || detectedCommand.includes('trends')) {
       const cpuTrend = telemetry.cpuLoad > 60 ? 'increasing' : 'stable';
       const gpuTrend = telemetry.gpuLoad > 70 ? 'high but efficient' : 'nominal';
-      return `Telemetry analysis: CPU load ${cpuTrend} at ${Math.round(telemetry.cpuLoad)}%, GPU utilization ${gpuTrend} at ${Math.round(telemetry.gpuLoad)}%. Network throughput ${telemetry.networkTraffic.toFixed(0)} Gbps with ${telemetry.activeWorkflows} concurrent workflows. Data flow rate: ${telemetry.dataFlowRate.toFixed(1)} GB/s. System is performing within optimal parameters.`;
+      let anomalies = '';
+      if (telemetry.cpuLoad > 85) anomalies += ' ⚠️ CPU critically high - immediate scaling recommended.';
+      if (telemetry.memoryUsage > 70) anomalies += ' ⚠️ Memory pressure detected - potential thrashing risk.';
+      return `Telemetry analysis: CPU load ${cpuTrend} at ${Math.round(telemetry.cpuLoad)}%, GPU utilization ${gpuTrend} at ${Math.round(telemetry.gpuLoad)}%. Network throughput ${telemetry.networkTraffic.toFixed(0)} Gbps with ${telemetry.activeWorkflows} concurrent workflows. Data flow rate: ${telemetry.dataFlowRate.toFixed(1)} GB/s.${anomalies || ' System is performing within optimal parameters.'}`;
     }
 
     if (detectedCommand.includes('optimizations')) {
-      return "Based on current telemetry: 1) Consider implementing dynamic voltage scaling on idle GPU arrays to reduce power by 15%. 2) Current memory access patterns suggest enabling prefetch optimization. 3) Network traffic shows opportunity for compression, potentially doubling effective bandwidth.";
+      return "Based on current telemetry: 1) Consider implementing dynamic voltage scaling on idle GPU arrays to reduce power by 15%. 2) Current memory access patterns suggest enabling prefetch optimization. 3) Network traffic shows opportunity for compression, potentially doubling effective bandwidth. 4) Detected potential for workload batching to reduce context switching overhead by 20%.";
     }
 
     if (detectedCommand.includes('failure points')) {
-      return "Critical failure analysis: Primary risk is thermal runaway in Neural Core under sustained 100% load. Secondary concern: NVLink saturation during multi-GPU synchronization in large model training. Mitigation: Active load balancing and dynamic frequency scaling are deployed. Current MTBF: 50,000 hours.";
+      return "Critical failure analysis: Primary risk is thermal runaway in Neural Core under sustained 100% load. Secondary concern: NVLink saturation during multi-GPU synchronization in large model training. Tertiary: Single point of failure in Network Hub - no redundancy. Mitigation: Active load balancing and dynamic frequency scaling deployed. Current MTBF: 50,000 hours. Recommend adding Network Hub redundancy.";
     }
 
-    return "I can provide detailed analysis of component views, explain telemetry patterns, suggest optimizations, or generate custom blueprints. What would you like to explore?";
+    if (detectedCommand.includes('bottlenecks')) {
+      const bottleneck = telemetry.cpuLoad > telemetry.gpuLoad ? 'CPU' : 'GPU';
+      return `Primary bottleneck identified: ${bottleneck} subsystem. ${bottleneck === 'CPU' ? 'Neural Core is saturated - consider horizontal scaling or workload optimization.' : 'GPU arrays approaching capacity - add compute nodes or reduce batch size.'} Secondary: Memory bandwidth at ${Math.round(telemetry.memoryUsage)}% - cache hit rate optimization could improve performance by 15-25%.`;
+    }
+
+    if (detectedCommand.includes('health check')) {
+      const health = (telemetry.cpuLoad < 80 && telemetry.gpuLoad < 85 && telemetry.memoryUsage < 75) ? 'excellent' : telemetry.cpuLoad > 90 ? 'critical' : 'acceptable';
+      return `System health: ${health.toUpperCase()}. ${health === 'critical' ? '⚠️ Immediate action required - system under extreme stress.' : health === 'acceptable' ? 'Operating near capacity - monitor closely.' : '✅ All subsystems nominal. No immediate concerns detected.'}`;
+    }
+
+    return "I can provide detailed analysis of component views, explain telemetry patterns, suggest optimizations, identify bottlenecks, or generate custom blueprints. What would you like to explore?";
   };
 
   const toggleListening = () => {
