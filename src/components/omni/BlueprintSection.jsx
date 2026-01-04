@@ -24,6 +24,11 @@ import VersionControl from './VersionControl';
 import HeatmapVisualization from './HeatmapVisualization';
 import PDFReportGenerator from './PDFReportGenerator';
 import MediaUploader from './MediaUploader';
+import StrategicOptimizationAssistant from './StrategicOptimizationAssistant';
+import LiveCursors from './LiveCursors';
+import RealTimeComments from './RealTimeComments';
+import BenchmarkingSuite from './BenchmarkingSuite';
+import EnvironmentScanner from './EnvironmentScanner';
 import { Cpu, HardDrive, Wifi, Database, ChevronRight, Mic, MicOff } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -450,8 +455,13 @@ export default function BlueprintSection() {
   const [showVersionControl, setShowVersionControl] = useState(false);
   const [showHeatmap, setShowHeatmap] = useState(false);
   const [showMediaUploader, setShowMediaUploader] = useState(false);
+  const [showBenchmarking, setShowBenchmarking] = useState(false);
+  const [showEnvScanner, setShowEnvScanner] = useState(false);
+  const [showComments, setShowComments] = useState(false);
+  const [commentingComponent, setCommentingComponent] = useState(null);
   const [currentBlueprint, setCurrentBlueprint] = useState(null);
   const [simulationResults, setSimulationResults] = useState([]);
+  const [historicalTelemetryData, setHistoricalTelemetryData] = useState([]);
   const [historicalTelemetry, setHistoricalTelemetry] = useState(null);
   const sectionRef = useRef(null);
   const canvasRef = useRef(null);
@@ -567,12 +577,17 @@ export default function BlueprintSection() {
                   onComponentClick={(index) => {
                     setFocusedComponent(index);
                     setSelectedComponent(index);
+                    setCommentingComponent(index);
+                    setShowComments(true);
                   }}
                   onIsolateClick={(index) => {
                     setIsolatedComponent(index);
                   }}
                   telemetry={telemetry}
                 />
+                
+                {/* Live Cursors */}
+                <LiveCursors blueprintId={currentBlueprint?.id} />
                 <CameraController scrollProgress={scrollProgress} />
                 
                 {/* Touch Controls for Mobile */}
@@ -661,6 +676,22 @@ export default function BlueprintSection() {
                   title="Upload Media"
                 >
                   📤
+                </button>
+                
+                <button
+                  onClick={() => setShowBenchmarking(true)}
+                  className="py-2.5 sm:py-3 px-3 rounded-xl font-medium transition-all text-sm sm:text-base bg-white/5 border border-white/10 text-white/60 hover:bg-blue-500/20 hover:border-blue-500/40 hover:text-blue-300"
+                  title="Benchmarking"
+                >
+                  📈
+                </button>
+                
+                <button
+                  onClick={() => setShowEnvScanner(true)}
+                  className="py-2.5 sm:py-3 px-3 rounded-xl font-medium transition-all text-sm sm:text-base bg-white/5 border border-white/10 text-white/60 hover:bg-orange-500/20 hover:border-orange-500/40 hover:text-orange-300"
+                  title="Environment Scanner"
+                >
+                  📷
                 </button>
                 
                 <div className="px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl bg-black/60 backdrop-blur-sm border border-white/10 text-white/60 text-xs sm:text-sm whitespace-nowrap">
@@ -857,6 +888,50 @@ export default function BlueprintSection() {
               comparisons={[]}
             />
           </div>
+        )}
+
+        {/* Strategic Optimization Assistant */}
+        <StrategicOptimizationAssistant
+          historicalTelemetry={historicalTelemetryData}
+          simulationHistory={simulationResults}
+          versionHistory={[]}
+          currentBlueprint={currentBlueprint}
+          onApplyOptimization={(optimization) => {
+            console.log('Strategic optimization:', optimization);
+            toast.success('Strategic optimization applied');
+          }}
+        />
+
+        {/* Real-Time Comments */}
+        {showComments && commentingComponent !== null && (
+          <RealTimeComments
+            componentIndex={commentingComponent}
+            componentName={components[commentingComponent]?.label}
+            position={components[commentingComponent]?.position}
+            onClose={() => {
+              setShowComments(false);
+              setCommentingComponent(null);
+            }}
+          />
+        )}
+
+        {/* Benchmarking Suite */}
+        {showBenchmarking && (
+          <BenchmarkingSuite
+            blueprint={currentBlueprint}
+            onClose={() => setShowBenchmarking(false)}
+          />
+        )}
+
+        {/* Environment Scanner */}
+        {showEnvScanner && (
+          <EnvironmentScanner
+            onEnvironmentCreated={(env) => {
+              console.log('Environment created:', env);
+              setShowEnvScanner(false);
+            }}
+            onClose={() => setShowEnvScanner(false)}
+          />
         )}
 
         {/* Scroll Indicator */}
