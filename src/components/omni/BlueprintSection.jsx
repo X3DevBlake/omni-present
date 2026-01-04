@@ -36,6 +36,9 @@ import NotificationSystem from './NotificationSystem';
 import AIBlueprintGenerator from './AIBlueprintGenerator';
 import AnomalyDetectionSystem from './AnomalyDetectionSystem';
 import AutoTuningAssistant from './AutoTuningAssistant';
+import SecurityAuditSystem from './SecurityAuditSystem';
+import BlueprintMarketplace from './BlueprintMarketplace';
+import MultiCloudDeployment from './MultiCloudDeployment';
 import { Cpu, HardDrive, Wifi, Database, ChevronRight, Mic, MicOff } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -467,6 +470,8 @@ export default function BlueprintSection() {
   const [showComments, setShowComments] = useState(false);
   const [showDeployment, setShowDeployment] = useState(false);
   const [showMergeConflicts, setShowMergeConflicts] = useState(false);
+  const [showMarketplace, setShowMarketplace] = useState(false);
+  const [showMultiCloud, setShowMultiCloud] = useState(false);
   const [mergeConflictData, setMergeConflictData] = useState(null);
   const [commentingComponent, setCommentingComponent] = useState(null);
   const [benchmarkResults, setBenchmarkResults] = useState([]);
@@ -722,6 +727,14 @@ export default function BlueprintSection() {
                   title="Deploy"
                 >
                   🚀
+                </button>
+                
+                <button
+                  onClick={() => setShowMarketplace(true)}
+                  className="py-2.5 sm:py-3 px-3 rounded-xl font-medium transition-all text-sm sm:text-base bg-white/5 border border-white/10 text-white/60 hover:bg-purple-500/20 hover:border-purple-500/40 hover:text-purple-300"
+                  title="Marketplace"
+                >
+                  🏪
                 </button>
                 
                 <div className="px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl bg-black/60 backdrop-blur-sm border border-white/10 text-white/60 text-xs sm:text-sm whitespace-nowrap">
@@ -1002,11 +1015,34 @@ export default function BlueprintSection() {
 
         {/* Deployment Manager */}
         {showDeployment && currentBlueprint && (
-          <DeploymentManager
+          <MultiCloudDeployment
             blueprint={currentBlueprint}
+            onDeploy={(config) => {
+              console.log('Deployed:', config);
+              setShowDeployment(false);
+            }}
             onClose={() => setShowDeployment(false)}
           />
         )}
+
+        {/* Blueprint Marketplace */}
+        {showMarketplace && (
+          <BlueprintMarketplace
+            onSelectTemplate={(template) => {
+              setCurrentBlueprint(template);
+              setShowMarketplace(false);
+            }}
+            onClose={() => setShowMarketplace(false)}
+          />
+        )}
+
+        {/* Security Audit System */}
+        <SecurityAuditSystem
+          blueprint={currentBlueprint}
+          onApplyFix={(fix) => {
+            console.log('Security fix applied:', fix);
+          }}
+        />
 
         {/* Cost Optimization */}
         <CostOptimizationAssistant
