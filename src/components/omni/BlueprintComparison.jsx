@@ -71,6 +71,37 @@ export default function BlueprintComparison({ currentBlueprint, onClose }) {
     return 'bg-gray-500/10 border-gray-500/30 text-gray-400';
   };
 
+  const generateAIAnalysis = (comparison, current, selected) => {
+    const hasImprovement = comparison.some(d => d.impact === 'positive');
+    const hasDegradation = comparison.some(d => d.impact === 'negative');
+    const componentChange = comparison.find(d => d.category === 'Architecture');
+    
+    let analysis = `Comparing "${current?.name}" (current) with "${selected?.name}": `;
+    
+    if (hasImprovement && !hasDegradation) {
+      analysis += `This version represents a clear upgrade with ${comparison.length} improvements across key metrics. `;
+    } else if (hasDegradation && !hasImprovement) {
+      analysis += `This version shows ${comparison.length} areas of concern that may impact production workloads. `;
+    } else {
+      analysis += `This version presents trade-offs across ${comparison.length} dimensions requiring careful evaluation. `;
+    }
+    
+    if (componentChange) {
+      analysis += `The architectural changes include component count modifications. `;
+    }
+    
+    const perfChange = comparison.find(d => d.category === 'Est. Performance');
+    if (perfChange && Math.abs(parseFloat(perfChange.delta)) > 20) {
+      analysis += `Performance impact is significant (${perfChange.delta}%). `;
+    }
+    
+    analysis += hasDegradation 
+      ? 'Recommend thorough testing before production deployment.' 
+      : 'Suitable for production with standard validation procedures.';
+    
+    return analysis;
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -129,8 +160,25 @@ export default function BlueprintComparison({ currentBlueprint, onClose }) {
           </div>
 
           {comparison && (
-            <div className="space-y-3">
-              <h3 className="text-white font-semibold text-lg mb-4">Key Differences</h3>
+            <div className="space-y-6">
+              <h3 className="text-white font-semibold text-lg mb-4">AI-Generated Comparative Analysis</h3>
+              
+              {/* AI Analysis Summary */}
+              <div className="p-4 rounded-xl bg-gradient-to-br from-purple-500/10 to-cyan-500/10 border border-purple-500/30">
+                <div className="flex items-start gap-3 mb-3">
+                  <div className="w-8 h-8 rounded-lg bg-purple-500/20 flex items-center justify-center">
+                    <span className="text-lg">🤖</span>
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="text-white font-semibold mb-2">Executive Summary</h4>
+                    <p className="text-white/70 text-sm leading-relaxed">
+                      {generateAIAnalysis(comparison, currentBlueprint, selectedVersion)}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              
+              <h3 className="text-white font-semibold text-lg mb-4 mt-6">Key Differences</h3>
               
               {comparison.map((diff, idx) => (
                 <motion.div

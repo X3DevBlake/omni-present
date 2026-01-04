@@ -11,8 +11,14 @@ export default function ProactiveAssistant({ telemetry, blueprint, onApplyAdjust
     if (!telemetry) return;
 
     const newRecommendations = [];
+    
+    // Dynamic workload reallocation analysis
+    const workloadImbalance = Math.abs(telemetry.cpuLoad - telemetry.gpuLoad);
+    const totalLoad = (telemetry.cpuLoad + telemetry.gpuLoad) / 2;
+    const memoryPressureRatio = telemetry.memoryUsage / 100;
+    const networkUtilization = telemetry.networkTraffic / 400; // Assuming 400 Gbps max
 
-    // CPU overload detection
+    // CPU overload detection with frequency adjustment
     if (telemetry.cpuLoad > 85) {
       newRecommendations.push({
         id: 'cpu-overload',
@@ -111,20 +117,94 @@ export default function ProactiveAssistant({ telemetry, blueprint, onApplyAdjust
       });
     }
 
-    // Workload balancing
+    // Dynamic workload reallocation - Advanced
     const cpuGpuRatio = telemetry.cpuLoad / (telemetry.gpuLoad || 1);
-    if (cpuGpuRatio > 1.5) {
+    if (cpuGpuRatio > 1.5 && workloadImbalance > 25) {
       newRecommendations.push({
-        id: 'workload-imbalance',
+        id: 'workload-reallocation',
         severity: 'warning',
-        title: 'Workload Imbalance Detected',
-        description: 'CPU-heavy workload pattern. Offload to GPU for better performance.',
-        action: 'Migrate preprocessing to GPU',
-        expectedImprovement: '30% throughput increase',
+        title: 'Dynamic Workload Reallocation Required',
+        description: `CPU at ${Math.round(telemetry.cpuLoad)}%, GPU at ${Math.round(telemetry.gpuLoad)}%. Reallocate ${Math.round(workloadImbalance)}% of workload.`,
+        action: 'Migrate data preprocessing and inference batching to GPU',
+        expectedImprovement: `${Math.round(workloadImbalance * 0.6)}% load redistribution, 35% throughput boost`,
         autoApply: () => ({
-          type: 'optimize',
+          type: 'reallocate',
           target: 'workload',
-          action: 'migrate-to-gpu'
+          action: 'cpu-to-gpu-migration',
+          percentage: Math.round(workloadImbalance * 0.6),
+          tasks: ['preprocessing', 'batch-inference', 'tensor-operations']
+        })
+      });
+    } else if (cpuGpuRatio < 0.6 && telemetry.gpuLoad > 70) {
+      newRecommendations.push({
+        id: 'reverse-reallocation',
+        severity: 'info',
+        title: 'GPU Overutilization - CPU Available',
+        description: 'GPUs saturated while CPU has capacity. Move control flow logic to CPU.',
+        action: 'Offload scheduling and orchestration to CPU',
+        expectedImprovement: '20% GPU headroom gained',
+        autoApply: () => ({
+          type: 'reallocate',
+          target: 'workload',
+          action: 'gpu-to-cpu-migration',
+          tasks: ['orchestration', 'scheduling', 'monitoring']
+        })
+      });
+    }
+
+    // Component frequency adjustment recommendations
+    if (telemetry.cpuLoad > 70 && telemetry.cpuLoad < 85) {
+      newRecommendations.push({
+        id: 'cpu-frequency-boost',
+        severity: 'info',
+        title: 'CPU Frequency Boost Available',
+        description: 'CPU under sustained load but within safe limits. Boost clock speed for better performance.',
+        action: 'Increase CPU frequency by 15% (within thermal limits)',
+        expectedImprovement: '12-15% performance gain, +25W power',
+        autoApply: () => ({
+          type: 'frequency-adjust',
+          target: 'cpu',
+          action: 'boost',
+          percentage: 15,
+          thermalCheck: true
+        })
+      });
+    }
+
+    if (telemetry.gpuLoad < 40 && totalLoad < 50) {
+      newRecommendations.push({
+        id: 'power-efficiency-mode',
+        severity: 'info',
+        title: 'Power Efficiency Opportunity',
+        description: 'System underutilized. Reduce frequencies to save power without impacting performance.',
+        action: 'Enable dynamic frequency scaling - reduce by 20%',
+        expectedImprovement: '30% power savings (~200W reduction)',
+        autoApply: () => ({
+          type: 'frequency-adjust',
+          target: 'system',
+          action: 'efficiency-mode',
+          percentage: -20,
+          affectedComponents: ['cpu', 'gpu', 'memory']
+        })
+      });
+    }
+
+    // Immediate scaling recommendations with predictive analysis
+    if (telemetry.cpuLoad > 80 && telemetry.activeWorkflows > 5) {
+      const trendingUp = telemetry.dataFlowRate > 2.0;
+      newRecommendations.push({
+        id: 'predictive-scaling',
+        severity: 'critical',
+        title: 'Predictive Scaling Alert',
+        description: `High load with ${telemetry.activeWorkflows} workflows. ${trendingUp ? 'Trend indicates continued growth.' : 'Load stable but near capacity.'}`,
+        action: trendingUp ? 'Immediate scale-out: Add 4 nodes' : 'Standby scale-out: Prepare 2 nodes',
+        expectedImprovement: trendingUp ? 'Prevent imminent saturation' : 'Ready for spike mitigation',
+        autoApply: () => ({
+          type: 'scale',
+          target: 'cluster',
+          action: trendingUp ? 'immediate-scale-out' : 'standby-provision',
+          nodeCount: trendingUp ? 4 : 2,
+          priority: trendingUp ? 'critical' : 'high'
         })
       });
     }
