@@ -1,0 +1,122 @@
+import React, { useEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
+
+export default function AuroraBackground({ children, className = "" }) {
+  const containerRef = useRef(null);
+  const [mousePosition, setMousePosition] = React.useState({ x: 0.5, y: 0.5 });
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      if (containerRef.current) {
+        const rect = containerRef.current.getBoundingClientRect();
+        setMousePosition({
+          x: (e.clientX - rect.left) / rect.width,
+          y: (e.clientY - rect.top) / rect.height,
+        });
+      }
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
+  return (
+    <div ref={containerRef} className={`relative overflow-hidden ${className}`}>
+      {/* Base dark layer */}
+      <div className="absolute inset-0 bg-[#0a0a0f]" />
+      
+      {/* Aurora gradient orbs */}
+      <motion.div
+        className="absolute w-[800px] h-[800px] rounded-full opacity-30 blur-[120px]"
+        style={{
+          background: 'radial-gradient(circle, #00f5ff 0%, transparent 70%)',
+          left: `${mousePosition.x * 100 - 40}%`,
+          top: `${mousePosition.y * 100 - 40}%`,
+        }}
+        animate={{
+          scale: [1, 1.2, 1],
+        }}
+        transition={{
+          duration: 8,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      />
+      
+      <motion.div
+        className="absolute w-[600px] h-[600px] rounded-full opacity-25 blur-[100px]"
+        style={{
+          background: 'radial-gradient(circle, #a855f7 0%, transparent 70%)',
+          right: `${(1 - mousePosition.x) * 100 - 30}%`,
+          top: `${mousePosition.y * 100 - 20}%`,
+        }}
+        animate={{
+          scale: [1.2, 1, 1.2],
+        }}
+        transition={{
+          duration: 10,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      />
+      
+      <motion.div
+        className="absolute w-[500px] h-[500px] rounded-full opacity-20 blur-[80px]"
+        style={{
+          background: 'radial-gradient(circle, #ec4899 0%, transparent 70%)',
+          left: '20%',
+          bottom: '-10%',
+        }}
+        animate={{
+          x: [0, 100, 0],
+          y: [0, -50, 0],
+        }}
+        transition={{
+          duration: 15,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      />
+
+      <motion.div
+        className="absolute w-[400px] h-[400px] rounded-full opacity-15 blur-[60px]"
+        style={{
+          background: 'radial-gradient(circle, #3b82f6 0%, transparent 70%)',
+          right: '10%',
+          bottom: '20%',
+        }}
+        animate={{
+          scale: [1, 1.3, 1],
+          x: [0, -50, 0],
+        }}
+        transition={{
+          duration: 12,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      />
+
+      {/* Noise texture overlay */}
+      <div 
+        className="absolute inset-0 opacity-[0.03]"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+        }}
+      />
+
+      {/* Grid overlay */}
+      <div 
+        className="absolute inset-0 opacity-[0.02]"
+        style={{
+          backgroundImage: 'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)',
+          backgroundSize: '50px 50px',
+        }}
+      />
+
+      {/* Content */}
+      <div className="relative z-10">
+        {children}
+      </div>
+    </div>
+  );
+}
