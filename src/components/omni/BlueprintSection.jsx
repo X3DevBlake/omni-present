@@ -33,6 +33,9 @@ import DeploymentManager from './DeploymentManager';
 import MergeConflictResolver from './MergeConflictResolver';
 import CostOptimizationAssistant from './CostOptimizationAssistant';
 import NotificationSystem from './NotificationSystem';
+import AIBlueprintGenerator from './AIBlueprintGenerator';
+import AnomalyDetectionSystem from './AnomalyDetectionSystem';
+import AutoTuningAssistant from './AutoTuningAssistant';
 import { Cpu, HardDrive, Wifi, Database, ChevronRight, Mic, MicOff } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -805,6 +808,16 @@ export default function BlueprintSection() {
           />
         )}
 
+        {/* AI Blueprint Generator */}
+        <AIBlueprintGenerator
+          onBlueprintGenerated={(blueprint) => {
+            setCurrentBlueprint(blueprint);
+            setExploded(true);
+            setTimeout(() => setExploded(false), 3000);
+            toast.success('AI-generated blueprint loaded');
+          }}
+        />
+
         {/* Generative AI Input */}
         <GenerativeInput 
           onGenerate={handleGenerateBlueprint}
@@ -1003,6 +1016,24 @@ export default function BlueprintSection() {
           onApplyOptimization={(opt) => {
             console.log('Cost optimization:', opt);
             toast.success('Optimization applied');
+          }}
+        />
+
+        {/* Anomaly Detection System */}
+        <AnomalyDetectionSystem
+          telemetry={displayTelemetry}
+          historicalData={historicalTelemetryData}
+          onAnomalyDetected={(anomalies) => {
+            console.log('Anomalies detected:', anomalies);
+          }}
+        />
+
+        {/* Auto-Tuning Assistant */}
+        <AutoTuningAssistant
+          telemetry={displayTelemetry}
+          benchmarkResults={benchmarkResults}
+          onApplyTuning={(tuning) => {
+            console.log('Auto-tuning applied:', tuning);
           }}
         />
 
