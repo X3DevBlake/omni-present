@@ -32,6 +32,7 @@ import EnvironmentScanner from './EnvironmentScanner';
 import DeploymentManager from './DeploymentManager';
 import MergeConflictResolver from './MergeConflictResolver';
 import CostOptimizationAssistant from './CostOptimizationAssistant';
+import NotificationSystem from './NotificationSystem';
 import { Cpu, HardDrive, Wifi, Database, ChevronRight, Mic, MicOff } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -463,7 +464,9 @@ export default function BlueprintSection() {
   const [showComments, setShowComments] = useState(false);
   const [showDeployment, setShowDeployment] = useState(false);
   const [showMergeConflicts, setShowMergeConflicts] = useState(false);
+  const [mergeConflictData, setMergeConflictData] = useState(null);
   const [commentingComponent, setCommentingComponent] = useState(null);
+  const [benchmarkResults, setBenchmarkResults] = useState([]);
   const [currentBlueprint, setCurrentBlueprint] = useState(null);
   const [simulationResults, setSimulationResults] = useState([]);
   const [historicalTelemetryData, setHistoricalTelemetryData] = useState([]);
@@ -534,6 +537,17 @@ export default function BlueprintSection() {
     });
 
     return () => scrollTrigger.kill();
+  }, []);
+
+  useEffect(() => {
+    // Listen for merge conflict events
+    const handleMergeConflicts = (event) => {
+      setMergeConflictData(event.detail);
+      setShowMergeConflicts(true);
+    };
+
+    window.addEventListener('showMergeConflicts', handleMergeConflicts);
+    return () => window.removeEventListener('showMergeConflicts', handleMergeConflicts);
   }, []);
 
   return (
@@ -909,11 +923,34 @@ export default function BlueprintSection() {
           simulationHistory={simulationResults}
           versionHistory={[]}
           currentBlueprint={currentBlueprint}
+          benchmarkResults={benchmarkResults}
           onApplyOptimization={(optimization) => {
             console.log('Strategic optimization:', optimization);
             toast.success('Strategic optimization applied');
           }}
         />
+
+        {/* Notification System */}
+        <NotificationSystem blueprintId={currentBlueprint?.id} />
+
+        {/* Merge Conflict Resolver */}
+        {showMergeConflicts && mergeConflictData && (
+          <MergeConflictResolver
+            conflicts={mergeConflictData.conflicts}
+            sourceVersion={mergeConflictData.sourceBranch}
+            targetVersion={mergeConflictData.targetBranch}
+            onResolve={(resolution) => {
+              console.log('Conflicts resolved:', resolution);
+              setShowMergeConflicts(false);
+              setMergeConflictData(null);
+              toast.success('Merge conflicts resolved successfully');
+            }}
+            onClose={() => {
+              setShowMergeConflicts(false);
+              setMergeConflictData(null);
+            }}
+          />
+        )}
 
         {/* Real-Time Comments */}
         {showComments && commentingComponent !== null && (
@@ -933,6 +970,9 @@ export default function BlueprintSection() {
           <BenchmarkingSuite
             blueprint={currentBlueprint}
             onClose={() => setShowBenchmarking(false)}
+            onBenchmarkComplete={(results) => {
+              setBenchmarkResults(prev => [...prev, results]);
+            }}
           />
         )}
 

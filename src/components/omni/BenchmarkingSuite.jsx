@@ -29,7 +29,7 @@ const BENCHMARK_TESTS = {
   }
 };
 
-export default function BenchmarkingSuite({ blueprint, onClose }) {
+export default function BenchmarkingSuite({ blueprint, onClose, onBenchmarkComplete }) {
   const [selectedTest, setSelectedTest] = useState(null);
   const [isRunning, setIsRunning] = useState(false);
   const [currentResults, setCurrentResults] = useState(null);
@@ -98,6 +98,9 @@ export default function BenchmarkingSuite({ blueprint, onClose }) {
       
       // AI analysis of results
       analyzeResults(data);
+      
+      // Notify parent component
+      onBenchmarkComplete?.(data);
     },
   });
 

@@ -9,6 +9,7 @@ export default function StrategicOptimizationAssistant({
   simulationHistory, 
   versionHistory, 
   currentBlueprint,
+  benchmarkResults,
   onApplyOptimization 
 }) {
   const [strategicInsights, setStrategicInsights] = useState([]);
@@ -17,7 +18,7 @@ export default function StrategicOptimizationAssistant({
 
   useEffect(() => {
     analyzeStrategicOptimizations();
-  }, [historicalTelemetry, simulationHistory, versionHistory]);
+  }, [historicalTelemetry, simulationHistory, versionHistory, benchmarkResults]);
 
   const analyzeStrategicOptimizations = () => {
     const insights = [];
@@ -110,6 +111,72 @@ export default function StrategicOptimizationAssistant({
             action: 'component-modernization',
             targetComponents: oldComponents.map(c => c.id),
             replacement: 'H100'
+          })
+        });
+      }
+    }
+
+    // Benchmark-based optimization recommendations
+    if (benchmarkResults?.length > 0) {
+      const latestBenchmark = benchmarkResults[benchmarkResults.length - 1];
+      
+      if (latestBenchmark.metrics?.latency > 50) {
+        insights.push({
+          type: 'performance',
+          severity: 'warning',
+          title: 'Latency Optimization Required',
+          description: `Benchmark shows ${latestBenchmark.metrics.latency}ms latency, above target of 20ms. Root cause: Network topology and memory hierarchy.`,
+          recommendation: 'Strategic refactor: Implement NUMA-aware scheduling, upgrade to 400Gbps InfiniBand fabric, add Redis caching layer.',
+          impact: '70% latency reduction, 3x throughput improvement',
+          timeframe: 'High priority - 2-3 weeks',
+          autoApply: () => ({
+            type: 'strategic-refactor',
+            action: 'latency-optimization',
+            upgrades: ['infiniband-400g', 'numa-scheduling', 'redis-cache'],
+            expectedLatency: 15
+          })
+        });
+      }
+
+      if (latestBenchmark.metrics?.throughput < 1000) {
+        insights.push({
+          type: 'performance',
+          severity: 'critical',
+          title: 'Throughput Bottleneck Detected',
+          description: `Benchmark throughput ${latestBenchmark.metrics.throughput} req/s is insufficient for production scale (target: 5000 req/s).`,
+          recommendation: 'Multi-phase scaling strategy: 1) Add load balancing tier 2) Implement request batching 3) Deploy edge caching 4) Scale to 8+ replicas',
+          impact: '5x throughput increase, supports 10M+ daily users',
+          timeframe: 'Critical - begin immediately, complete in 4 weeks',
+          autoApply: () => ({
+            type: 'strategic-refactor',
+            action: 'throughput-scaling',
+            phases: ['load-balancer', 'batching', 'edge-cache', 'scale-replicas'],
+            targetThroughput: 5000
+          })
+        });
+      }
+    }
+
+    // Simulation-driven architectural insights
+    if (simulationHistory?.length > 3) {
+      const worstCaseSimulation = simulationHistory.reduce((worst, sim) => 
+        (sim.performance?.stability || 100) < (worst.performance?.stability || 100) ? sim : worst
+      );
+      
+      if (worstCaseSimulation.performance?.stability < 85) {
+        insights.push({
+          type: 'reliability',
+          severity: 'critical',
+          title: 'Resilience Architecture Upgrade Required',
+          description: `Worst-case simulation shows ${worstCaseSimulation.performance.stability}% stability under stress. Production requires 99.9% uptime.`,
+          recommendation: 'Implement advanced fault tolerance: Active-active replication across 3 regions, circuit breakers, graceful degradation, automated failover with sub-minute recovery.',
+          impact: 'Achieves 99.95% uptime SLA, zero data loss guarantee',
+          timeframe: 'Mission-critical - 3-4 week implementation',
+          autoApply: () => ({
+            type: 'strategic-refactor',
+            action: 'resilience-architecture',
+            features: ['multi-region', 'circuit-breakers', 'auto-failover'],
+            targetUptime: 99.95
           })
         });
       }
