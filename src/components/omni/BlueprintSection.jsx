@@ -52,6 +52,9 @@ import ProactiveCloudOptimizer from './ProactiveCloudOptimizer';
 import AIGovernanceDashboard from './AIGovernanceDashboard';
 import CICDIntegration from './CICDIntegration';
 import AIKnowledgeBase from './AIKnowledgeBase';
+import AIModelTrainingPlatform from './AIModelTrainingPlatform';
+import AIBlueprintTemplateGenerator from './AIBlueprintTemplateGenerator';
+import AIWorkflowOrchestrator from './AIWorkflowOrchestrator';
 import { Cpu, HardDrive, Wifi, Database, ChevronRight, Mic, MicOff, Brain } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -482,6 +485,9 @@ export default function BlueprintSection() {
   const [showGovernance, setShowGovernance] = useState(false);
   const [showCICD, setShowCICD] = useState(false);
   const [showKnowledgeBase, setShowKnowledgeBase] = useState(false);
+  const [showTraining, setShowTraining] = useState(false);
+  const [showTemplateGen, setShowTemplateGen] = useState(false);
+  const [showOrchestrator, setShowOrchestrator] = useState(false);
   const [showComparison, setShowComparison] = useState(false);
   const [showVersionControl, setShowVersionControl] = useState(false);
   const [showHeatmap, setShowHeatmap] = useState(false);
@@ -907,6 +913,28 @@ export default function BlueprintSection() {
             toast.success('AI-generated blueprint loaded');
           }}
         />
+
+        {/* Quick Actions */}
+        <div className="flex gap-2 mb-4">
+          <button
+            onClick={() => setShowTraining(true)}
+            className="flex-1 py-2 rounded-lg bg-purple-500/20 hover:bg-purple-500/30 text-purple-400 text-sm"
+          >
+            🧠 Train Model
+          </button>
+          <button
+            onClick={() => setShowTemplateGen(true)}
+            className="flex-1 py-2 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-400 text-sm"
+          >
+            ✨ Generate Template
+          </button>
+          <button
+            onClick={() => setShowOrchestrator(true)}
+            className="flex-1 py-2 rounded-lg bg-green-500/20 hover:bg-green-500/30 text-green-400 text-sm"
+          >
+            🔀 Orchestrate
+          </button>
+        </div>
 
         {/* AI Task Manager */}
         <AITaskManager
