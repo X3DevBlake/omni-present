@@ -78,6 +78,35 @@ export default function VersionControl({ currentBlueprint, onRevert, onClose }) 
       const source = versions.find(v => v.id === sourceId);
       const target = versions.find(v => v.id === targetId);
       
+      // Simulate conflict detection (30% chance)
+      const hasConflicts = Math.random() > 0.7;
+      
+      if (hasConflicts) {
+        const conflicts = [
+          {
+            id: 'conflict-1',
+            component: 'GPU Array Configuration',
+            position: [1.2, 0, 0],
+            current: source.configuration?.components?.[0]?.name || 'NVIDIA A100',
+            incoming: target.configuration?.components?.[0]?.name || 'NVIDIA H100'
+          },
+          {
+            id: 'conflict-2',
+            component: 'Memory Pool Size',
+            position: [0, 1, 0],
+            current: '2TB DDR5',
+            incoming: '4TB DDR5'
+          }
+        ];
+        
+        return {
+          success: false,
+          conflicts,
+          sourceBranch: source.name,
+          targetBranch: target.name
+        };
+      }
+      
       // Merge configurations (simple merge strategy)
       const mergedConfig = {
         ...target.configuration,
@@ -89,22 +118,38 @@ export default function VersionControl({ currentBlueprint, onRevert, onClose }) 
         ]
       };
       
-      return base44.entities.Blueprint.create({
-        name: `${target.name} (merged)`,
-        configuration: mergedConfig,
-        constraints: target.constraints,
-        version: (target.version || 1) + 1,
-        parent_id: targetId,
-        metadata: {
-          mergedFrom: sourceId,
-          timestamp: Date.now()
-        }
-      });
+      return {
+        success: true,
+        blueprint: await base44.entities.Blueprint.create({
+          name: `${target.name} (merged)`,
+          configuration: mergedConfig,
+          constraints: target.constraints,
+          version: (target.version || 1) + 1,
+          parent_id: targetId,
+          metadata: {
+            mergedFrom: sourceId,
+            timestamp: Date.now()
+          }
+        })
+      };
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['blueprint-versions'] });
-      toast.success('Branches merged successfully');
-      setShowMergeDialog(false);
+    onSuccess: (data) => {
+      if (data.success) {
+        queryClient.invalidateQueries({ queryKey: ['blueprint-versions'] });
+        setShowMergeDialog(false);
+        toast.success('Branch merged successfully');
+      } else {
+        setShowMergeDialog(false);
+        // Show merge conflict resolver
+        const event = new CustomEvent('showMergeConflicts', { 
+          detail: { 
+            conflicts: data.conflicts,
+            sourceBranch: data.sourceBranch,
+            targetBranch: data.targetBranch
+          } 
+        });
+        window.dispatchEvent(event);
+      }
     },
   });
 
