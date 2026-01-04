@@ -16,6 +16,8 @@ import TelemetryTimeline from './TelemetryTimeline';
 import PresenceSystem from './PresenceSystem';
 import BlueprintAnalytics from './BlueprintAnalytics';
 import ScenarioSimulator from './ScenarioSimulator';
+import TaskTracker from './TaskTracker';
+import BlueprintComparison from './BlueprintComparison';
 import { Cpu, HardDrive, Wifi, Database, ChevronRight, Mic, MicOff } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -437,6 +439,7 @@ export default function BlueprintSection() {
   const [showTelemetryTimeline, setShowTelemetryTimeline] = useState(false);
   const [showAnalytics, setShowAnalytics] = useState(false);
   const [showSimulator, setShowSimulator] = useState(false);
+  const [showComparison, setShowComparison] = useState(false);
   const [currentBlueprint, setCurrentBlueprint] = useState(null);
   const [historicalTelemetry, setHistoricalTelemetry] = useState(null);
   const sectionRef = useRef(null);
@@ -620,6 +623,14 @@ export default function BlueprintSection() {
                   ⚡
                 </button>
                 
+                <button
+                  onClick={() => setShowComparison(true)}
+                  className="py-2.5 sm:py-3 px-3 rounded-xl font-medium transition-all text-sm sm:text-base bg-white/5 border border-white/10 text-white/60 hover:bg-pink-500/20 hover:border-pink-500/40 hover:text-pink-300"
+                  title="Compare Versions"
+                >
+                  🔄
+                </button>
+                
                 <div className="px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl bg-black/60 backdrop-blur-sm border border-white/10 text-white/60 text-xs sm:text-sm whitespace-nowrap">
                   Scroll: {Math.round(scrollProgress * 100)}%
                 </div>
@@ -712,6 +723,9 @@ export default function BlueprintSection() {
 
         {/* Presence System */}
         <PresenceSystem blueprintId={currentBlueprint?.id} />
+        
+        {/* Task Tracker */}
+        <TaskTracker blueprintId={currentBlueprint?.id} />
 
         {/* Telemetry Timeline */}
         {showTelemetryTimeline && (
@@ -736,6 +750,14 @@ export default function BlueprintSection() {
             telemetry={displayTelemetry}
             onSimulate={(results) => console.log('Simulation:', results)}
             onClose={() => setShowSimulator(false)}
+          />
+        )}
+
+        {/* Blueprint Comparison */}
+        {showComparison && currentBlueprint && (
+          <BlueprintComparison
+            currentBlueprint={currentBlueprint}
+            onClose={() => setShowComparison(false)}
           />
         )}
 
