@@ -39,6 +39,9 @@ import AutoTuningAssistant from './AutoTuningAssistant';
 import SecurityAuditSystem from './SecurityAuditSystem';
 import BlueprintMarketplace from './BlueprintMarketplace';
 import MultiCloudDeployment from './MultiCloudDeployment';
+import AdvancedAnalyticsEngine from './AdvancedAnalyticsEngine';
+import MultiStageSimulator from './MultiStageSimulator';
+import AutomatedSecurityHardening from './AutomatedSecurityHardening';
 import { Cpu, HardDrive, Wifi, Database, ChevronRight, Mic, MicOff } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -461,6 +464,7 @@ export default function BlueprintSection() {
   const [showTelemetryTimeline, setShowTelemetryTimeline] = useState(false);
   const [showAnalytics, setShowAnalytics] = useState(false);
   const [showSimulator, setShowSimulator] = useState(false);
+  const [showMultiStageSimulator, setShowMultiStageSimulator] = useState(false);
   const [showComparison, setShowComparison] = useState(false);
   const [showVersionControl, setShowVersionControl] = useState(false);
   const [showHeatmap, setShowHeatmap] = useState(false);
@@ -679,6 +683,14 @@ export default function BlueprintSection() {
                   title="Scenario Simulator"
                 >
                   ⚡
+                </button>
+                
+                <button
+                  onClick={() => setShowMultiStageSimulator(true)}
+                  className="py-2.5 sm:py-3 px-3 rounded-xl font-medium transition-all text-sm sm:text-base bg-white/5 border border-white/10 text-white/60 hover:bg-purple-500/20 hover:border-purple-500/40 hover:text-purple-300"
+                  title="Multi-Stage Pipeline"
+                >
+                  🔄
                 </button>
                 
                 <button
@@ -1043,6 +1055,37 @@ export default function BlueprintSection() {
             console.log('Security fix applied:', fix);
           }}
         />
+
+        {/* Advanced Analytics Engine */}
+        <AdvancedAnalyticsEngine
+          blueprint={currentBlueprint}
+          telemetry={displayTelemetry}
+          historicalData={historicalTelemetryData}
+          onApplyRecommendation={(rec) => {
+            console.log('Applying recommendation:', rec);
+            toast.success('Architectural change applied');
+          }}
+        />
+
+        {/* Automated Security Hardening */}
+        <AutomatedSecurityHardening
+          blueprint={currentBlueprint}
+          onHardeningApplied={(measures) => {
+            console.log('Security hardening applied:', measures);
+          }}
+        />
+
+        {/* Multi-Stage Simulator */}
+        {showMultiStageSimulator && currentBlueprint && (
+          <MultiStageSimulator
+            blueprint={currentBlueprint}
+            onSimulationComplete={(results) => {
+              console.log('Pipeline simulation:', results);
+              setShowMultiStageSimulator(false);
+            }}
+            onClose={() => setShowMultiStageSimulator(false)}
+          />
+        )}
 
         {/* Cost Optimization */}
         <CostOptimizationAssistant
