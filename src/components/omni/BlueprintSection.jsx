@@ -473,6 +473,17 @@ export default function BlueprintSection() {
           </motion.div>
         </div>
 
+        {/* Component Detail Panel */}
+        {selectedComponent !== null && (
+          <ComponentDetailPanel
+            componentIndex={selectedComponent}
+            onClose={() => {
+              setSelectedComponent(null);
+              setFocusedComponent(null);
+            }}
+          />
+        )}
+
         {/* Scroll Indicator */}
         <motion.div
           className="mt-12 lg:mt-16 text-center"
