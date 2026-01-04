@@ -53,20 +53,24 @@ export function TelemetryPulse({ position, intensity, color }) {
   );
 }
 
-// Animated network traffic lines
-export function NetworkTrafficLine({ start, end, speed, color }) {
-  const lineRef = React.useRef();
-  const particleRef = React.useRef();
+// Animated network traffic lines with multiple packets
+export function NetworkTrafficLine({ start, end, speed, color, packetCount = 3 }) {
+  const particlesRef = React.useRef([]);
 
   useFrame((state) => {
-    if (particleRef.current) {
-      const t = (state.clock.getElapsedTime() * speed) % 1;
-      particleRef.current.position.lerpVectors(
-        new THREE.Vector3(...start),
-        new THREE.Vector3(...end),
-        t
-      );
-    }
+    particlesRef.current.forEach((particle, i) => {
+      if (particle) {
+        const offset = i / packetCount;
+        const t = ((state.clock.getElapsedTime() * speed) + offset) % 1;
+        particle.position.lerpVectors(
+          new THREE.Vector3(...start),
+          new THREE.Vector3(...end),
+          t
+        );
+        // Fade in/out at edges
+        particle.material.opacity = Math.sin(t * Math.PI) * 0.8;
+      }
+    });
   });
 
   return (
@@ -82,11 +86,38 @@ export function NetworkTrafficLine({ start, end, speed, color }) {
         </bufferGeometry>
         <lineBasicMaterial color={color} transparent opacity={0.3} />
       </line>
-      <mesh ref={particleRef}>
-        <sphereGeometry args={[0.03, 8, 8]} />
-        <meshBasicMaterial color={color} />
-      </mesh>
+      {Array.from({ length: packetCount }).map((_, i) => (
+        <mesh key={i} ref={(el) => (particlesRef.current[i] = el)}>
+          <sphereGeometry args={[0.02, 8, 8]} />
+          <meshBasicMaterial color={color} transparent />
+        </mesh>
+      ))}
     </group>
+  );
+}
+
+// Heatmap visualization for component load
+export function ComponentHeatmap({ position, size, intensity, color }) {
+  const meshRef = React.useRef();
+
+  useFrame((state) => {
+    if (meshRef.current) {
+      meshRef.current.material.emissiveIntensity = 0.2 + intensity * 0.8;
+      meshRef.current.material.opacity = 0.3 + intensity * 0.4;
+    }
+  });
+
+  return (
+    <mesh ref={meshRef} position={position}>
+      <boxGeometry args={size.map(s => s * 1.05)} />
+      <meshStandardMaterial
+        color={intensity > 0.7 ? '#ef4444' : intensity > 0.4 ? '#f59e0b' : color}
+        transparent
+        opacity={0.3}
+        emissive={intensity > 0.7 ? '#ef4444' : intensity > 0.4 ? '#f59e0b' : color}
+        emissiveIntensity={0.5}
+      />
+    </mesh>
   );
 }
 

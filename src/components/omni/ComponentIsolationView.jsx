@@ -125,9 +125,13 @@ function IsolatedComponent({ component, viewMode, stressLevel }) {
   );
 }
 
-export default function ComponentIsolationView({ component, componentIndex, onClose, telemetry }) {
+export default function ComponentIsolationView({ component, componentIndex, onClose, telemetry, onViewModeChange }) {
   const [viewMode, setViewMode] = React.useState('normal');
   const stressLevel = telemetry ? (componentIndex === 0 ? telemetry.cpuLoad / 100 : telemetry.gpuLoad / 100) : 0.5;
+
+  React.useEffect(() => {
+    onViewModeChange?.(viewMode);
+  }, [viewMode]);
 
   const viewModes = [
     { id: 'normal', label: 'Normal', icon: Layers },

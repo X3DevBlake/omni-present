@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Save, Share2, MessageSquare, Users, Download, Clock, ChevronRight } from 'lucide-react';
+import { Save, Share2, MessageSquare, Users, Download, Clock, ChevronRight, GitBranch, UserPlus } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import GlassCard from './GlassCard';
+import VersionControl from './VersionControl';
+import TaskAssignment from './TaskAssignment';
 import { toast } from 'sonner';
 
 export default function CollaborationPanel({ blueprintConfig, onClose }) {
@@ -78,8 +80,10 @@ export default function CollaborationPanel({ blueprintConfig, onClose }) {
   const tabs = [
     { id: 'save', label: 'Save', icon: Save },
     { id: 'history', label: 'History', icon: Clock },
+    { id: 'versions', label: 'Versions', icon: GitBranch },
     { id: 'share', label: 'Share', icon: Share2 },
     { id: 'annotate', label: 'Annotate', icon: MessageSquare },
+    { id: 'tasks', label: 'Tasks', icon: UserPlus },
   ];
 
   return (
@@ -168,6 +172,13 @@ export default function CollaborationPanel({ blueprintConfig, onClose }) {
             </div>
           )}
 
+          {activeTab === 'versions' && blueprints?.[0] && (
+            <VersionControl 
+              blueprintId={blueprints[0].id}
+              onRevert={() => toast.success('Blueprint reverted')}
+            />
+          )}
+
           {activeTab === 'annotate' && (
             <div>
               <div className="flex gap-2 mb-2">
@@ -200,6 +211,13 @@ export default function CollaborationPanel({ blueprintConfig, onClose }) {
                 {annotationMutation.isPending ? 'Adding...' : 'Add Annotation'}
               </button>
             </div>
+          )}
+
+          {activeTab === 'tasks' && (
+            <TaskAssignment
+              annotationId={blueprints?.[0]?.id}
+              onAssign={() => setActiveTab('history')}
+            />
           )}
         </div>
       </GlassCard>

@@ -10,8 +10,9 @@ import ComponentDetailPanel from './ComponentDetailPanel';
 import ComponentIsolationView from './ComponentIsolationView';
 import GenerativeInput from './GenerativeInput';
 import CollaborationPanel from './CollaborationPanel';
-import { useTelemetry, TelemetryPulse, DataFlowStream } from './TelemetrySystem';
+import { useTelemetry, TelemetryPulse, DataFlowStream, ComponentHeatmap } from './TelemetrySystem';
 import EnhancedVoiceAssistant from './EnhancedVoiceAssistant';
+import TelemetryTimeline from './TelemetryTimeline';
 import { Cpu, HardDrive, Wifi, Database, ChevronRight, Mic, MicOff } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -249,31 +250,51 @@ function BlueprintCore({ exploded, scrollProgress, focusedComponent, onComponent
       </mesh>
 
       {/* Real-time Telemetry Visualization */}
-      {telemetry && (
+      {displayTelemetry && (
         <>
+          {/* Heatmap overlays */}
+          <ComponentHeatmap
+            position={[0, 0, 0]}
+            size={[0.8, 0.8, 0.8]}
+            intensity={displayTelemetry.cpuLoad / 100}
+            color="#00f5ff"
+          />
+          <ComponentHeatmap
+            position={[1.2, 0, 0]}
+            size={[0.5, 0.5, 0.5]}
+            intensity={displayTelemetry.gpuLoad / 100}
+            color="#a855f7"
+          />
+          <ComponentHeatmap
+            position={[-1.2, 0, 0]}
+            size={[0.5, 0.5, 0.5]}
+            intensity={displayTelemetry.gpuLoad / 100}
+            color="#a855f7"
+          />
+          
           {/* CPU Load Pulse */}
           <TelemetryPulse 
             position={[0, 0, 0]} 
-            intensity={telemetry.cpuLoad / 100} 
+            intensity={displayTelemetry.cpuLoad / 100} 
             color="#00f5ff" 
           />
           
           {/* GPU Load Pulses */}
           <TelemetryPulse 
             position={[1.2, 0, 0]} 
-            intensity={telemetry.gpuLoad / 100} 
+            intensity={displayTelemetry.gpuLoad / 100} 
             color="#a855f7" 
           />
           <TelemetryPulse 
             position={[-1.2, 0, 0]} 
-            intensity={telemetry.gpuLoad / 100} 
+            intensity={displayTelemetry.gpuLoad / 100} 
             color="#a855f7" 
           />
           
           {/* Data Flow Visualization */}
           <DataFlowStream 
             componentIndex={0} 
-            intensity={telemetry.dataFlowRate / 3} 
+            intensity={displayTelemetry.dataFlowRate / 3} 
           />
         </>
       )}
@@ -407,14 +428,18 @@ export default function BlueprintSection() {
   const [focusedComponent, setFocusedComponent] = useState(null);
   const [selectedComponent, setSelectedComponent] = useState(null);
   const [isolatedComponent, setIsolatedComponent] = useState(null);
+  const [currentViewMode, setCurrentViewMode] = useState('normal');
   const [isGenerating, setIsGenerating] = useState(false);
   const [showCollaboration, setShowCollaboration] = useState(false);
+  const [showTelemetryTimeline, setShowTelemetryTimeline] = useState(false);
   const [currentBlueprint, setCurrentBlueprint] = useState(null);
+  const [historicalTelemetry, setHistoricalTelemetry] = useState(null);
   const sectionRef = useRef(null);
   const canvasRef = useRef(null);
   
   // Real-time telemetry hook
   const telemetry = useTelemetry();
+  const displayTelemetry = historicalTelemetry || telemetry;
   
   const components = [
     { position: [0, 0, 0], size: [0.8, 0.8, 0.8], color: '#00f5ff', label: 'Neural Core', description: 'Central AI processor', stats: '2.5 PetaFLOPS' },
@@ -542,25 +567,35 @@ export default function BlueprintSection() {
               
               {/* Enhanced Voice Assistant */}
               <EnhancedVoiceAssistant
-                focusedComponent={focusedComponent}
-                telemetry={telemetry}
+                focusedComponent={isolatedComponent !== null ? isolatedComponent : focusedComponent}
+                telemetry={displayTelemetry}
                 onTranscript={(text) => console.log('Assistant:', text)}
                 onVoiceCommand={handleVoiceCommand}
-                currentView={isolatedComponent !== null ? 'normal' : 'normal'}
+                currentView={currentViewMode}
               />
               
               {/* Controls */}
               <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 flex gap-3">
                 <button
                   onClick={() => setExploded(!exploded)}
-                  className={`
-                    flex-1 py-2.5 sm:py-3 rounded-xl font-medium transition-all text-sm sm:text-base
-                    ${exploded 
+                  className={`flex-1 py-2.5 sm:py-3 rounded-xl font-medium transition-all text-sm sm:text-base ${
+                    exploded 
                       ? 'bg-purple-500/20 border border-purple-500/40 text-purple-300' 
-                      : 'bg-cyan-500/20 border border-cyan-500/40 text-cyan-300'}
-                  `}
+                      : 'bg-cyan-500/20 border border-cyan-500/40 text-cyan-300'
+                  }`}
                 >
                   {exploded ? 'Collapse' : 'Explode'}
+                </button>
+                
+                <button
+                  onClick={() => setShowTelemetryTimeline(!showTelemetryTimeline)}
+                  className={`py-2.5 sm:py-3 px-3 rounded-xl font-medium transition-all text-sm sm:text-base ${
+                    showTelemetryTimeline
+                      ? 'bg-pink-500/20 border border-pink-500/40 text-pink-300'
+                      : 'bg-white/5 border border-white/10 text-white/60'
+                  }`}
+                >
+                  📊
                 </button>
                 
                 <div className="px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl bg-black/60 backdrop-blur-sm border border-white/10 text-white/60 text-xs sm:text-sm whitespace-nowrap">
@@ -639,7 +674,11 @@ export default function BlueprintSection() {
             component={components[isolatedComponent]}
             componentIndex={isolatedComponent}
             telemetry={telemetry}
-            onClose={() => setIsolatedComponent(null)}
+            onClose={() => {
+              setIsolatedComponent(null);
+              setCurrentViewMode('normal');
+            }}
+            onViewModeChange={setCurrentViewMode}
           />
         )}
 
@@ -648,6 +687,13 @@ export default function BlueprintSection() {
           onGenerate={handleGenerateBlueprint}
           isGenerating={isGenerating}
         />
+
+        {/* Telemetry Timeline */}
+        {showTelemetryTimeline && (
+          <TelemetryTimeline
+            onScrub={(data) => setHistoricalTelemetry(data)}
+          />
+        )}
 
         {/* Collaboration Panel */}
         {showCollaboration && currentBlueprint && (
