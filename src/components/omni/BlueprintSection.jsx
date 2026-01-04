@@ -13,6 +13,9 @@ import CollaborationPanel from './CollaborationPanel';
 import { useTelemetry, TelemetryPulse, DataFlowStream, ComponentHeatmap } from './TelemetrySystem';
 import EnhancedVoiceAssistant from './EnhancedVoiceAssistant';
 import TelemetryTimeline from './TelemetryTimeline';
+import PresenceSystem from './PresenceSystem';
+import BlueprintAnalytics from './BlueprintAnalytics';
+import ScenarioSimulator from './ScenarioSimulator';
 import { Cpu, HardDrive, Wifi, Database, ChevronRight, Mic, MicOff } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -432,6 +435,8 @@ export default function BlueprintSection() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [showCollaboration, setShowCollaboration] = useState(false);
   const [showTelemetryTimeline, setShowTelemetryTimeline] = useState(false);
+  const [showAnalytics, setShowAnalytics] = useState(false);
+  const [showSimulator, setShowSimulator] = useState(false);
   const [currentBlueprint, setCurrentBlueprint] = useState(null);
   const [historicalTelemetry, setHistoricalTelemetry] = useState(null);
   const sectionRef = useRef(null);
@@ -594,8 +599,25 @@ export default function BlueprintSection() {
                       ? 'bg-pink-500/20 border border-pink-500/40 text-pink-300'
                       : 'bg-white/5 border border-white/10 text-white/60'
                   }`}
+                  title="Historical Telemetry"
                 >
                   📊
+                </button>
+                
+                <button
+                  onClick={() => setShowAnalytics(true)}
+                  className="py-2.5 sm:py-3 px-3 rounded-xl font-medium transition-all text-sm sm:text-base bg-white/5 border border-white/10 text-white/60 hover:bg-purple-500/20 hover:border-purple-500/40 hover:text-purple-300"
+                  title="AI Analytics"
+                >
+                  🧠
+                </button>
+                
+                <button
+                  onClick={() => setShowSimulator(true)}
+                  className="py-2.5 sm:py-3 px-3 rounded-xl font-medium transition-all text-sm sm:text-base bg-white/5 border border-white/10 text-white/60 hover:bg-cyan-500/20 hover:border-cyan-500/40 hover:text-cyan-300"
+                  title="Scenario Simulator"
+                >
+                  ⚡
                 </button>
                 
                 <div className="px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl bg-black/60 backdrop-blur-sm border border-white/10 text-white/60 text-xs sm:text-sm whitespace-nowrap">
@@ -688,10 +710,32 @@ export default function BlueprintSection() {
           isGenerating={isGenerating}
         />
 
+        {/* Presence System */}
+        <PresenceSystem blueprintId={currentBlueprint?.id} />
+
         {/* Telemetry Timeline */}
         {showTelemetryTimeline && (
           <TelemetryTimeline
             onScrub={(data) => setHistoricalTelemetry(data)}
+          />
+        )}
+
+        {/* Analytics Panel */}
+        {showAnalytics && currentBlueprint && (
+          <BlueprintAnalytics
+            blueprint={currentBlueprint}
+            telemetry={displayTelemetry}
+            onClose={() => setShowAnalytics(false)}
+          />
+        )}
+
+        {/* Scenario Simulator */}
+        {showSimulator && (
+          <ScenarioSimulator
+            blueprint={currentBlueprint}
+            telemetry={displayTelemetry}
+            onSimulate={(results) => console.log('Simulation:', results)}
+            onClose={() => setShowSimulator(false)}
           />
         )}
 
