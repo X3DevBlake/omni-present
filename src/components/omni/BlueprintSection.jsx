@@ -46,7 +46,10 @@ import ArchitecturalRefactoringAI from './ArchitecturalRefactoringAI';
 import AIMonitoringDashboard from './AIMonitoringDashboard';
 import Visual3DDiff from './Visual3DDiff';
 import AutomatedTestingFramework from './AutomatedTestingFramework';
-import { Cpu, HardDrive, Wifi, Database, ChevronRight, Mic, MicOff } from 'lucide-react';
+import AIExplainabilityModule from './AIExplainabilityModule';
+import AITaskManager from './AITaskManager';
+import ProactiveCloudOptimizer from './ProactiveCloudOptimizer';
+import { Cpu, HardDrive, Wifi, Database, ChevronRight, Mic, MicOff, Brain } from 'lucide-react';
 import { toast } from 'sonner';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -472,6 +475,7 @@ export default function BlueprintSection() {
   const [showMonitoring, setShowMonitoring] = useState(false);
   const [showVisualDiff, setShowVisualDiff] = useState(false);
   const [showTesting, setShowTesting] = useState(false);
+  const [showExplainability, setShowExplainability] = useState(false);
   const [showComparison, setShowComparison] = useState(false);
   const [showVersionControl, setShowVersionControl] = useState(false);
   const [showHeatmap, setShowHeatmap] = useState(false);
@@ -874,6 +878,22 @@ export default function BlueprintSection() {
           }}
         />
 
+        {/* AI Task Manager */}
+        <AITaskManager
+          blueprint={currentBlueprint}
+          changes={[]}
+          issues={[]}
+        />
+
+        {/* Proactive Cloud Optimizer */}
+        <ProactiveCloudOptimizer
+          blueprint={currentBlueprint}
+          historicalUsage={historicalTelemetryData}
+          onOptimize={(action) => {
+            console.log('Cloud optimization applied:', action);
+          }}
+        />
+
         {/* Generative AI Input */}
         <GenerativeInput 
           onGenerate={handleGenerateBlueprint}
@@ -1153,6 +1173,26 @@ export default function BlueprintSection() {
             onClose={() => setShowTesting(false)}
           />
         )}
+
+        {/* AI Explainability Module */}
+        {showExplainability && (
+          <AIExplainabilityModule
+            blueprint={currentBlueprint}
+            anomalies={[]}
+            recommendations={[]}
+            onClose={() => setShowExplainability(false)}
+          />
+        )}
+
+        {/* Explainability Toggle */}
+        <motion.button
+          onClick={() => setShowExplainability(!showExplainability)}
+          className="fixed bottom-72 left-6 z-40 p-4 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <Brain className="w-6 h-6" />
+        </motion.button>
 
         {/* Cost Optimization */}
         <CostOptimizationAssistant
