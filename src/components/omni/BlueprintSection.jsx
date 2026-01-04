@@ -29,6 +29,9 @@ import LiveCursors from './LiveCursors';
 import RealTimeComments from './RealTimeComments';
 import BenchmarkingSuite from './BenchmarkingSuite';
 import EnvironmentScanner from './EnvironmentScanner';
+import DeploymentManager from './DeploymentManager';
+import MergeConflictResolver from './MergeConflictResolver';
+import CostOptimizationAssistant from './CostOptimizationAssistant';
 import { Cpu, HardDrive, Wifi, Database, ChevronRight, Mic, MicOff } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -458,6 +461,8 @@ export default function BlueprintSection() {
   const [showBenchmarking, setShowBenchmarking] = useState(false);
   const [showEnvScanner, setShowEnvScanner] = useState(false);
   const [showComments, setShowComments] = useState(false);
+  const [showDeployment, setShowDeployment] = useState(false);
+  const [showMergeConflicts, setShowMergeConflicts] = useState(false);
   const [commentingComponent, setCommentingComponent] = useState(null);
   const [currentBlueprint, setCurrentBlueprint] = useState(null);
   const [simulationResults, setSimulationResults] = useState([]);
@@ -692,6 +697,14 @@ export default function BlueprintSection() {
                   title="Environment Scanner"
                 >
                   📷
+                </button>
+                
+                <button
+                  onClick={() => setShowDeployment(true)}
+                  className="py-2.5 sm:py-3 px-3 rounded-xl font-medium transition-all text-sm sm:text-base bg-white/5 border border-white/10 text-white/60 hover:bg-green-500/20 hover:border-green-500/40 hover:text-green-300"
+                  title="Deploy"
+                >
+                  🚀
                 </button>
                 
                 <div className="px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl bg-black/60 backdrop-blur-sm border border-white/10 text-white/60 text-xs sm:text-sm whitespace-nowrap">
@@ -933,6 +946,25 @@ export default function BlueprintSection() {
             onClose={() => setShowEnvScanner(false)}
           />
         )}
+
+        {/* Deployment Manager */}
+        {showDeployment && currentBlueprint && (
+          <DeploymentManager
+            blueprint={currentBlueprint}
+            onClose={() => setShowDeployment(false)}
+          />
+        )}
+
+        {/* Cost Optimization */}
+        <CostOptimizationAssistant
+          blueprint={currentBlueprint}
+          historicalTelemetry={historicalTelemetryData}
+          benchmarkResults={[]}
+          onApplyOptimization={(opt) => {
+            console.log('Cost optimization:', opt);
+            toast.success('Optimization applied');
+          }}
+        />
 
         {/* Scroll Indicator */}
         <motion.div
