@@ -7,6 +7,8 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import GlassCard from './GlassCard';
 import ComponentDetailPanel from './ComponentDetailPanel';
+import GenerativeInput from './GenerativeInput';
+import { useTelemetry, TelemetryPulse, DataFlowStream } from './TelemetrySystem';
 import { Cpu, HardDrive, Wifi, Database, ChevronRight, Mic, MicOff } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -139,7 +141,7 @@ function CameraController({ scrollProgress }) {
 }
 
 // 3D Blueprint Core
-function BlueprintCore({ exploded, scrollProgress, focusedComponent, onComponentClick }) {
+function BlueprintCore({ exploded, scrollProgress, focusedComponent, onComponentClick, telemetry }) {
   const groupRef = useRef();
   const [hoveredComponent, setHoveredComponent] = useState(null);
 
@@ -233,6 +235,36 @@ function BlueprintCore({ exploded, scrollProgress, focusedComponent, onComponent
           wireframe 
         />
       </mesh>
+
+      {/* Real-time Telemetry Visualization */}
+      {telemetry && (
+        <>
+          {/* CPU Load Pulse */}
+          <TelemetryPulse 
+            position={[0, 0, 0]} 
+            intensity={telemetry.cpuLoad / 100} 
+            color="#00f5ff" 
+          />
+          
+          {/* GPU Load Pulses */}
+          <TelemetryPulse 
+            position={[1.2, 0, 0]} 
+            intensity={telemetry.gpuLoad / 100} 
+            color="#a855f7" 
+          />
+          <TelemetryPulse 
+            position={[-1.2, 0, 0]} 
+            intensity={telemetry.gpuLoad / 100} 
+            color="#a855f7" 
+          />
+          
+          {/* Data Flow Visualization */}
+          <DataFlowStream 
+            componentIndex={0} 
+            intensity={telemetry.dataFlowRate / 3} 
+          />
+        </>
+      )}
     </group>
   );
 }
@@ -326,8 +358,28 @@ export default function BlueprintSection() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [focusedComponent, setFocusedComponent] = useState(null);
   const [selectedComponent, setSelectedComponent] = useState(null);
+  const [isGenerating, setIsGenerating] = useState(false);
   const sectionRef = useRef(null);
   const canvasRef = useRef(null);
+  
+  // Real-time telemetry hook
+  const telemetry = useTelemetry();
+
+  const handleGenerateBlueprint = (constraints) => {
+    setIsGenerating(true);
+    
+    // Simulate AI generation (replace with actual API call)
+    setTimeout(() => {
+      console.log('Generating blueprint with constraints:', constraints);
+      // In production, this would call OpenAI Shap-E or similar
+      setExploded(true);
+      
+      setTimeout(() => {
+        setIsGenerating(false);
+        setExploded(false);
+      }, 3000);
+    }, 2000);
+  };
 
   useEffect(() => {
     if (!sectionRef.current) return;
@@ -392,6 +444,7 @@ export default function BlueprintSection() {
                     setFocusedComponent(index);
                     setSelectedComponent(index);
                   }}
+                  telemetry={telemetry}
                 />
                 <CameraController scrollProgress={scrollProgress} />
                 
@@ -440,6 +493,21 @@ export default function BlueprintSection() {
                   <p className="text-white/60 text-xs">Pinch to zoom • Drag to rotate</p>
                 </div>
               </div>
+
+              {/* Live Telemetry Indicator */}
+              <div className="absolute top-4 right-4 hidden lg:block">
+                <div className="px-3 py-2 rounded-lg bg-black/80 backdrop-blur-sm border border-cyan-500/30">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
+                    <span className="text-cyan-400 text-xs font-medium">Live Telemetry</span>
+                  </div>
+                  <div className="mt-2 space-y-1 text-[10px] text-white/50">
+                    <div>CPU: {Math.round(telemetry.cpuLoad)}%</div>
+                    <div>GPU: {Math.round(telemetry.gpuLoad)}%</div>
+                    <div>Workflows: {telemetry.activeWorkflows}</div>
+                  </div>
+                </div>
+              </div>
             </GlassCard>
           </motion.div>
 
@@ -483,6 +551,12 @@ export default function BlueprintSection() {
             }}
           />
         )}
+
+        {/* Generative AI Input */}
+        <GenerativeInput 
+          onGenerate={handleGenerateBlueprint}
+          isGenerating={isGenerating}
+        />
 
         {/* Scroll Indicator */}
         <motion.div
