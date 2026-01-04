@@ -11,6 +11,7 @@ import ComponentIsolationView from './ComponentIsolationView';
 import GenerativeInput from './GenerativeInput';
 import CollaborationPanel from './CollaborationPanel';
 import { useTelemetry, TelemetryPulse, DataFlowStream } from './TelemetrySystem';
+import EnhancedVoiceAssistant from './EnhancedVoiceAssistant';
 import { Cpu, HardDrive, Wifi, Database, ChevronRight, Mic, MicOff } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -472,7 +473,7 @@ export default function BlueprintSection() {
   }, []);
 
   return (
-    <section id="blueprint" ref={sectionRef} className="py-16 sm:py-24 lg:py-32 px-4 sm:px-6">
+    <section ref={sectionRef} className="py-16 sm:py-24 lg:py-32 px-4 sm:px-6">
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <motion.div
@@ -539,12 +540,13 @@ export default function BlueprintSection() {
                 />
               </Canvas>
               
-              {/* Voice Assistant */}
-              <VoiceAssistant 
+              {/* Enhanced Voice Assistant */}
+              <EnhancedVoiceAssistant
                 focusedComponent={focusedComponent}
                 telemetry={telemetry}
                 onTranscript={(text) => console.log('Assistant:', text)}
                 onVoiceCommand={handleVoiceCommand}
+                currentView={isolatedComponent !== null ? 'normal' : 'normal'}
               />
               
               {/* Controls */}

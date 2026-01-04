@@ -1,11 +1,13 @@
 import React from 'react';
 import AuroraBackground from '../components/omni/AuroraBackground';
-import HeroSection from '../components/omni/HeroSection';
+import TechShowcase from '../components/omni/TechShowcase';
 
-export default function Home() {
+export default function Technology() {
   return (
     <AuroraBackground className="min-h-screen">
-      <HeroSection />
+      <div className="pt-32 pb-16">
+        <TechShowcase />
+      </div>
     </AuroraBackground>
   );
 }

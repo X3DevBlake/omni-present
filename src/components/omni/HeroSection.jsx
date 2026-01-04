@@ -1,11 +1,13 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Sparkles } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { createPageUrl } from '../utils';
 import HolographicCore from './HolographicCore';
 
 export default function HeroSection() {
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Holographic Core Background */}
       <div className="absolute inset-0 flex items-center justify-center opacity-60">
         <HolographicCore className="w-full h-full max-w-3xl" />
@@ -56,38 +58,29 @@ export default function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
         >
-          <motion.button
-            className="group flex items-center gap-2 px-8 py-4 rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-medium shadow-lg shadow-cyan-500/25"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Experience the Future
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </motion.button>
-          
-          <motion.button
-            className="px-8 py-4 rounded-full border border-white/20 text-white/80 hover:text-white hover:border-white/40 transition-all"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            View Blueprint
-          </motion.button>
+          <Link to={createPageUrl('Features')}>
+            <motion.button
+              className="group flex items-center gap-2 px-8 py-4 rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-medium shadow-lg shadow-cyan-500/25"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Experience the Future
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </motion.button>
+          </Link>
+
+          <Link to={createPageUrl('Blueprint')}>
+            <motion.button
+              className="px-8 py-4 rounded-full border border-white/20 text-white/80 hover:text-white hover:border-white/40 transition-all"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              View Blueprint
+            </motion.button>
+          </Link>
         </motion.div>
 
-        {/* Scroll Indicator */}
-        <motion.div
-          className="absolute bottom-10 left-1/2 -translate-x-1/2"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1, y: [0, 10, 0] }}
-          transition={{ 
-            opacity: { delay: 1.5, duration: 0.5 },
-            y: { delay: 1.5, duration: 2, repeat: Infinity }
-          }}
-        >
-          <div className="w-6 h-10 rounded-full border-2 border-white/20 flex justify-center pt-2">
-            <div className="w-1 h-2 bg-white/40 rounded-full" />
-          </div>
-        </motion.div>
+
       </div>
     </section>
   );

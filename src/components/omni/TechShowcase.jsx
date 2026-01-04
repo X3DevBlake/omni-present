@@ -56,7 +56,7 @@ const itemVariants = {
 
 export default function TechShowcase() {
   return (
-    <section id="technology" className="py-32 px-6">
+    <section className="py-32 px-6">
       <div className="max-w-6xl mx-auto">
         {/* Section Header */}
         <motion.div
