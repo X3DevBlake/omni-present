@@ -7,14 +7,16 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import GlassCard from './GlassCard';
 import ComponentDetailPanel from './ComponentDetailPanel';
+import ComponentIsolationView from './ComponentIsolationView';
 import GenerativeInput from './GenerativeInput';
+import CollaborationPanel from './CollaborationPanel';
 import { useTelemetry, TelemetryPulse, DataFlowStream } from './TelemetrySystem';
 import { Cpu, HardDrive, Wifi, Database, ChevronRight, Mic, MicOff } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
 // Enhanced Component with Annotations and Click Handler
-function BlueprintComponent({ component, index, exploded, hoveredComponent, setHoveredComponent, onComponentClick, focusedComponent }) {
+function BlueprintComponent({ component, index, exploded, hoveredComponent, setHoveredComponent, onComponentClick, onIsolateClick, focusedComponent }) {
   const meshRef = useRef();
   const groupRef = useRef();
   const [hovered, setHovered] = useState(false);
@@ -61,7 +63,13 @@ function BlueprintComponent({ component, index, exploded, hoveredComponent, setH
           setHoveredComponent(null);
           document.body.style.cursor = 'auto';
         }}
-        onClick={() => onComponentClick(index)}
+        onClick={(e) => {
+          if (e.shiftKey) {
+            onIsolateClick(index);
+          } else {
+            onComponentClick(index);
+          }
+        }}
       >
         <boxGeometry args={component.size} />
         <meshStandardMaterial
@@ -112,7 +120,9 @@ function BlueprintComponent({ component, index, exploded, hoveredComponent, setH
               </div>
             )}
             {(hovered || focusedComponent === index) && (
-              <div className="mt-2 text-[9px] text-white/40">Click for details</div>
+              <div className="mt-2 text-[9px] text-white/40">
+                Click for details • Shift+Click to isolate
+              </div>
             )}
           </div>
         </div>
@@ -141,7 +151,7 @@ function CameraController({ scrollProgress }) {
 }
 
 // 3D Blueprint Core
-function BlueprintCore({ exploded, scrollProgress, focusedComponent, onComponentClick, telemetry }) {
+function BlueprintCore({ exploded, scrollProgress, focusedComponent, onComponentClick, onIsolateClick, telemetry }) {
   const groupRef = useRef();
   const [hoveredComponent, setHoveredComponent] = useState(null);
 
@@ -221,6 +231,7 @@ function BlueprintCore({ exploded, scrollProgress, focusedComponent, onComponent
           hoveredComponent={hoveredComponent}
           setHoveredComponent={setHoveredComponent}
           onComponentClick={onComponentClick}
+          onIsolateClick={onIsolateClick}
           focusedComponent={focusedComponent}
         />
       ))}
@@ -277,9 +288,10 @@ const blueprintLayers = [
 ];
 
 // Voice Assistant Component with Contextual Awareness
-function VoiceAssistant({ onTranscript, focusedComponent }) {
+function VoiceAssistant({ onTranscript, focusedComponent, telemetry, onVoiceCommand }) {
   const [isListening, setIsListening] = useState(false);
   const [transcript, setTranscript] = useState('');
+  const [lastCommand, setLastCommand] = useState('');
 
   const componentExplanations = {
     0: "The Neural Core is the heart of our system, operating at 2.5 PetaFLOPS. It uses a custom tensor core array architecture with support for multiple precision formats. The liquid cooling with phase change technology keeps this 450W powerhouse running at optimal temperatures.",
@@ -298,21 +310,50 @@ function VoiceAssistant({ onTranscript, focusedComponent }) {
     }
   }, [focusedComponent]);
 
+  const generateContextualResponse = () => {
+    // Check for voice commands
+    const commands = [
+      'generate blueprint',
+      'high performance',
+      'low cost',
+      'show telemetry',
+      'explain load',
+    ];
+    
+    const detectedCommand = commands[Math.floor(Math.random() * commands.length)];
+    setLastCommand(detectedCommand);
+
+    if (detectedCommand.includes('generate')) {
+      onVoiceCommand?.('generate', { budget: 'high', workload: 'ai-training' });
+      return "Generating high-performance AI training blueprint based on your requirements.";
+    }
+
+    if (detectedCommand.includes('telemetry') || detectedCommand.includes('load')) {
+      const cpuStatus = telemetry.cpuLoad > 70 ? 'high' : telemetry.cpuLoad > 40 ? 'moderate' : 'low';
+      const gpuStatus = telemetry.gpuLoad > 70 ? 'high' : telemetry.gpuLoad > 40 ? 'moderate' : 'low';
+      return `Current system status: CPU load is ${cpuStatus} at ${Math.round(telemetry.cpuLoad)}%, GPU load is ${gpuStatus} at ${Math.round(telemetry.gpuLoad)}%. We have ${telemetry.activeWorkflows} active workflows processing at ${telemetry.dataFlowRate.toFixed(1)} GB/s.`;
+    }
+
+    if (focusedComponent !== null) {
+      return componentExplanations[focusedComponent];
+    }
+
+    return "I can help you understand the blueprint, analyze telemetry data, or generate custom configurations. What would you like to know?";
+  };
+
   const toggleListening = () => {
     if (!isListening) {
       setIsListening(true);
-      setTranscript('Listening... Hover over or click any component for information.');
+      setTranscript('Listening... Ask about components, telemetry, or say "generate blueprint"');
       
       setTimeout(() => {
-        const generalResponse = focusedComponent !== null 
-          ? componentExplanations[focusedComponent]
-          : "I can explain any component in the blueprint. Try clicking on different parts to learn more about their specifications and role in the system.";
-        setTranscript(generalResponse);
-        onTranscript?.(generalResponse);
+        const response = generateContextualResponse();
+        setTranscript(response);
+        onTranscript?.(response);
         
         setTimeout(() => {
           setIsListening(false);
-        }, 6000);
+        }, 8000);
       }, 1500);
     } else {
       setIsListening(false);
@@ -346,6 +387,12 @@ function VoiceAssistant({ onTranscript, focusedComponent }) {
           animate={{ opacity: 1, y: 0 }}
           className="mt-3 p-4 rounded-xl bg-black/90 backdrop-blur-xl border border-white/20 max-w-xs"
         >
+          {lastCommand && (
+            <div className="text-cyan-400 text-xs mb-2 flex items-center gap-1">
+              <span className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-pulse" />
+              Command: {lastCommand}
+            </div>
+          )}
           <p className="text-white/80 text-sm">{transcript}</p>
         </motion.div>
       )}
@@ -358,27 +405,54 @@ export default function BlueprintSection() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [focusedComponent, setFocusedComponent] = useState(null);
   const [selectedComponent, setSelectedComponent] = useState(null);
+  const [isolatedComponent, setIsolatedComponent] = useState(null);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [showCollaboration, setShowCollaboration] = useState(false);
+  const [currentBlueprint, setCurrentBlueprint] = useState(null);
   const sectionRef = useRef(null);
   const canvasRef = useRef(null);
   
   // Real-time telemetry hook
   const telemetry = useTelemetry();
+  
+  const components = [
+    { position: [0, 0, 0], size: [0.8, 0.8, 0.8], color: '#00f5ff', label: 'Neural Core', description: 'Central AI processor', stats: '2.5 PetaFLOPS' },
+    { position: [1.2, 0, 0], size: [0.5, 0.5, 0.5], color: '#a855f7', label: 'GPU Array 1', description: 'NVIDIA HGX 8-GPU', stats: '640GB HBM3' },
+    { position: [-1.2, 0, 0], size: [0.5, 0.5, 0.5], color: '#a855f7', label: 'GPU Array 2', description: 'NVIDIA HGX 8-GPU', stats: '640GB HBM3' },
+    { position: [0, 1, 0], size: [0.4, 0.3, 0.6], color: '#ec4899', label: 'Memory Pool', description: 'DDR5 System RAM', stats: '2TB Capacity' },
+    { position: [0, -1, 0], size: [0.4, 0.3, 0.6], color: '#ec4899', label: 'Storage Layer', description: 'NVMe SSD Array', stats: '50TB Storage' },
+    { position: [0, 0, 1], size: [0.3, 0.3, 0.3], color: '#3b82f6', label: 'Network Hub', description: '400Gbps InfiniBand', stats: 'Low-latency mesh' },
+    { position: [0, 0, -1], size: [0.3, 0.3, 0.3], color: '#3b82f6', label: 'I/O Controller', description: 'PCIe Gen5 Interface', stats: '128 GT/s' },
+  ];
 
   const handleGenerateBlueprint = (constraints) => {
     setIsGenerating(true);
     
+    const blueprintConfig = {
+      constraints,
+      components: components,
+      timestamp: Date.now(),
+    };
+    
+    setCurrentBlueprint(blueprintConfig);
+    
     // Simulate AI generation (replace with actual API call)
     setTimeout(() => {
       console.log('Generating blueprint with constraints:', constraints);
-      // In production, this would call OpenAI Shap-E or similar
       setExploded(true);
       
       setTimeout(() => {
         setIsGenerating(false);
         setExploded(false);
+        setShowCollaboration(true);
       }, 3000);
     }, 2000);
+  };
+
+  const handleVoiceCommand = (command, params) => {
+    if (command === 'generate') {
+      handleGenerateBlueprint(params);
+    }
   };
 
   useEffect(() => {
@@ -444,6 +518,9 @@ export default function BlueprintSection() {
                     setFocusedComponent(index);
                     setSelectedComponent(index);
                   }}
+                  onIsolateClick={(index) => {
+                    setIsolatedComponent(index);
+                  }}
                   telemetry={telemetry}
                 />
                 <CameraController scrollProgress={scrollProgress} />
@@ -465,7 +542,9 @@ export default function BlueprintSection() {
               {/* Voice Assistant */}
               <VoiceAssistant 
                 focusedComponent={focusedComponent}
-                onTranscript={(text) => console.log('Assistant:', text)} 
+                telemetry={telemetry}
+                onTranscript={(text) => console.log('Assistant:', text)}
+                onVoiceCommand={handleVoiceCommand}
               />
               
               {/* Controls */}
@@ -552,11 +631,29 @@ export default function BlueprintSection() {
           />
         )}
 
+        {/* Component Isolation View */}
+        {isolatedComponent !== null && (
+          <ComponentIsolationView
+            component={components[isolatedComponent]}
+            componentIndex={isolatedComponent}
+            telemetry={telemetry}
+            onClose={() => setIsolatedComponent(null)}
+          />
+        )}
+
         {/* Generative AI Input */}
         <GenerativeInput 
           onGenerate={handleGenerateBlueprint}
           isGenerating={isGenerating}
         />
+
+        {/* Collaboration Panel */}
+        {showCollaboration && currentBlueprint && (
+          <CollaborationPanel
+            blueprintConfig={currentBlueprint}
+            onClose={() => setShowCollaboration(false)}
+          />
+        )}
 
         {/* Scroll Indicator */}
         <motion.div
