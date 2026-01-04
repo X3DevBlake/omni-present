@@ -18,6 +18,8 @@ import BlueprintAnalytics from './BlueprintAnalytics';
 import ScenarioSimulator from './ScenarioSimulator';
 import TaskTracker from './TaskTracker';
 import BlueprintComparison from './BlueprintComparison';
+import ProactiveAssistant from './ProactiveAssistant';
+import { getOptimalConfiguration } from './ComponentLibrary';
 import { Cpu, HardDrive, Wifi, Database, ChevronRight, Mic, MicOff } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -726,6 +728,16 @@ export default function BlueprintSection() {
         
         {/* Task Tracker */}
         <TaskTracker blueprintId={currentBlueprint?.id} />
+        
+        {/* Proactive AI Assistant */}
+        <ProactiveAssistant
+          telemetry={displayTelemetry}
+          blueprint={currentBlueprint}
+          onApplyAdjustment={(adjustment) => {
+            console.log('Applying adjustment:', adjustment);
+            toast.success('Adjustment applied to blueprint');
+          }}
+        />
 
         {/* Telemetry Timeline */}
         {showTelemetryTimeline && (
