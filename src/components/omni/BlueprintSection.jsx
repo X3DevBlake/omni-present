@@ -49,6 +49,9 @@ import AutomatedTestingFramework from './AutomatedTestingFramework';
 import AIExplainabilityModule from './AIExplainabilityModule';
 import AITaskManager from './AITaskManager';
 import ProactiveCloudOptimizer from './ProactiveCloudOptimizer';
+import AIGovernanceDashboard from './AIGovernanceDashboard';
+import CICDIntegration from './CICDIntegration';
+import AIKnowledgeBase from './AIKnowledgeBase';
 import { Cpu, HardDrive, Wifi, Database, ChevronRight, Mic, MicOff, Brain } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -476,6 +479,9 @@ export default function BlueprintSection() {
   const [showVisualDiff, setShowVisualDiff] = useState(false);
   const [showTesting, setShowTesting] = useState(false);
   const [showExplainability, setShowExplainability] = useState(false);
+  const [showGovernance, setShowGovernance] = useState(false);
+  const [showCICD, setShowCICD] = useState(false);
+  const [showKnowledgeBase, setShowKnowledgeBase] = useState(false);
   const [showComparison, setShowComparison] = useState(false);
   const [showVersionControl, setShowVersionControl] = useState(false);
   const [showHeatmap, setShowHeatmap] = useState(false);
@@ -742,6 +748,30 @@ export default function BlueprintSection() {
                   title="Testing"
                 >
                   🧪
+                </button>
+                
+                <button
+                  onClick={() => setShowGovernance(true)}
+                  className="py-2.5 sm:py-3 px-3 rounded-xl font-medium transition-all text-sm sm:text-base bg-white/5 border border-white/10 text-white/60 hover:bg-purple-500/20 hover:border-purple-500/40 hover:text-purple-300"
+                  title="AI Governance"
+                >
+                  🛡️
+                </button>
+                
+                <button
+                  onClick={() => setShowCICD(true)}
+                  className="py-2.5 sm:py-3 px-3 rounded-xl font-medium transition-all text-sm sm:text-base bg-white/5 border border-white/10 text-white/60 hover:bg-green-500/20 hover:border-green-500/40 hover:text-green-300"
+                  title="CI/CD"
+                >
+                  🚀
+                </button>
+                
+                <button
+                  onClick={() => setShowKnowledgeBase(true)}
+                  className="py-2.5 sm:py-3 px-3 rounded-xl font-medium transition-all text-sm sm:text-base bg-white/5 border border-white/10 text-white/60 hover:bg-cyan-500/20 hover:border-cyan-500/40 hover:text-cyan-300"
+                  title="Knowledge Base"
+                >
+                  📚
                 </button>
                 
                 <button
@@ -1193,6 +1223,31 @@ export default function BlueprintSection() {
         >
           <Brain className="w-6 h-6" />
         </motion.button>
+
+        {/* AI Governance Dashboard */}
+        {showGovernance && (
+          <AIGovernanceDashboard onClose={() => setShowGovernance(false)} />
+        )}
+
+        {/* CI/CD Integration */}
+        {showCICD && currentBlueprint && (
+          <CICDIntegration
+            blueprint={currentBlueprint}
+            onDeploy={(config) => {
+              console.log('Deployed:', config);
+              setShowCICD(false);
+            }}
+            onClose={() => setShowCICD(false)}
+          />
+        )}
+
+        {/* AI Knowledge Base */}
+        {showKnowledgeBase && (
+          <AIKnowledgeBase
+            userContext={{ blueprint: currentBlueprint, focusedComponent }}
+            onClose={() => setShowKnowledgeBase(false)}
+          />
+        )}
 
         {/* Cost Optimization */}
         <CostOptimizationAssistant
