@@ -20,6 +20,10 @@ import TaskTracker from './TaskTracker';
 import BlueprintComparison from './BlueprintComparison';
 import ProactiveAssistant from './ProactiveAssistant';
 import { getOptimalConfiguration } from './ComponentLibrary';
+import VersionControl from './VersionControl';
+import HeatmapVisualization from './HeatmapVisualization';
+import PDFReportGenerator from './PDFReportGenerator';
+import MediaUploader from './MediaUploader';
 import { Cpu, HardDrive, Wifi, Database, ChevronRight, Mic, MicOff } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -443,7 +447,11 @@ export default function BlueprintSection() {
   const [showAnalytics, setShowAnalytics] = useState(false);
   const [showSimulator, setShowSimulator] = useState(false);
   const [showComparison, setShowComparison] = useState(false);
+  const [showVersionControl, setShowVersionControl] = useState(false);
+  const [showHeatmap, setShowHeatmap] = useState(false);
+  const [showMediaUploader, setShowMediaUploader] = useState(false);
   const [currentBlueprint, setCurrentBlueprint] = useState(null);
+  const [simulationResults, setSimulationResults] = useState([]);
   const [historicalTelemetry, setHistoricalTelemetry] = useState(null);
   const sectionRef = useRef(null);
   const canvasRef = useRef(null);
@@ -639,6 +647,22 @@ export default function BlueprintSection() {
                   🔄
                 </button>
                 
+                <button
+                  onClick={() => setShowVersionControl(true)}
+                  className="py-2.5 sm:py-3 px-3 rounded-xl font-medium transition-all text-sm sm:text-base bg-white/5 border border-white/10 text-white/60 hover:bg-green-500/20 hover:border-green-500/40 hover:text-green-300"
+                  title="Version Control"
+                >
+                  📋
+                </button>
+                
+                <button
+                  onClick={() => setShowMediaUploader(true)}
+                  className="py-2.5 sm:py-3 px-3 rounded-xl font-medium transition-all text-sm sm:text-base bg-white/5 border border-white/10 text-white/60 hover:bg-yellow-500/20 hover:border-yellow-500/40 hover:text-yellow-300"
+                  title="Upload Media"
+                >
+                  📤
+                </button>
+                
                 <div className="px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl bg-black/60 backdrop-blur-sm border border-white/10 text-white/60 text-xs sm:text-sm whitespace-nowrap">
                   Scroll: {Math.round(scrollProgress * 100)}%
                 </div>
@@ -766,7 +790,12 @@ export default function BlueprintSection() {
           <ScenarioSimulator
             blueprint={currentBlueprint}
             telemetry={displayTelemetry}
-            onSimulate={(results) => console.log('Simulation:', results)}
+            onSimulate={(results) => {
+              setSimulationResults(prev => [...prev, results]);
+              if (results.impacts?.length > 0) {
+                setShowHeatmap(true);
+              }
+            }}
             onClose={() => setShowSimulator(false)}
           />
         )}
@@ -785,6 +814,49 @@ export default function BlueprintSection() {
             blueprintConfig={currentBlueprint}
             onClose={() => setShowCollaboration(false)}
           />
+        )}
+
+        {/* Version Control */}
+        {showVersionControl && currentBlueprint && (
+          <VersionControl
+            currentBlueprint={currentBlueprint}
+            onRevert={(version) => {
+              setCurrentBlueprint(version);
+              setShowVersionControl(false);
+            }}
+            onClose={() => setShowVersionControl(false)}
+          />
+        )}
+
+        {/* Heatmap Visualization */}
+        {showHeatmap && simulationResults.length > 0 && (
+          <HeatmapVisualization
+            simulationResults={simulationResults[simulationResults.length - 1]}
+            onClose={() => setShowHeatmap(false)}
+          />
+        )}
+
+        {/* Media Uploader */}
+        {showMediaUploader && (
+          <MediaUploader
+            onBlueprintGenerated={(config) => {
+              handleGenerateBlueprint(config);
+              setShowMediaUploader(false);
+            }}
+            onClose={() => setShowMediaUploader(false)}
+          />
+        )}
+
+        {/* PDF Report Generator */}
+        {currentBlueprint && (
+          <div className="fixed bottom-6 right-24 z-30">
+            <PDFReportGenerator
+              blueprint={currentBlueprint}
+              analytics={null}
+              simulations={simulationResults}
+              comparisons={[]}
+            />
+          </div>
         )}
 
         {/* Scroll Indicator */}
