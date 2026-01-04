@@ -42,6 +42,7 @@ import MultiCloudDeployment from './MultiCloudDeployment';
 import AdvancedAnalyticsEngine from './AdvancedAnalyticsEngine';
 import MultiStageSimulator from './MultiStageSimulator';
 import AutomatedSecurityHardening from './AutomatedSecurityHardening';
+import ArchitecturalRefactoringAI from './ArchitecturalRefactoringAI';
 import { Cpu, HardDrive, Wifi, Database, ChevronRight, Mic, MicOff } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -1086,6 +1087,17 @@ export default function BlueprintSection() {
             onClose={() => setShowMultiStageSimulator(false)}
           />
         )}
+
+        {/* Architectural Refactoring AI */}
+        <ArchitecturalRefactoringAI
+          blueprint={currentBlueprint}
+          simulationHistory={simulationResults}
+          telemetryHistory={historicalTelemetryData}
+          onApplyRefactoring={(strategy) => {
+            console.log('Applying architectural refactoring:', strategy);
+            toast.success('Refactoring strategy initiated');
+          }}
+        />
 
         {/* Cost Optimization */}
         <CostOptimizationAssistant
