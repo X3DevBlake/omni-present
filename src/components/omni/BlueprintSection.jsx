@@ -6,20 +6,26 @@ import * as THREE from 'three';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import GlassCard from './GlassCard';
+import ComponentDetailPanel from './ComponentDetailPanel';
 import { Cpu, HardDrive, Wifi, Database, ChevronRight, Mic, MicOff } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Enhanced Component with Annotations
-function BlueprintComponent({ component, index, exploded, hoveredComponent, setHoveredComponent }) {
+// Enhanced Component with Annotations and Click Handler
+function BlueprintComponent({ component, index, exploded, hoveredComponent, setHoveredComponent, onComponentClick, focusedComponent }) {
   const meshRef = useRef();
   const groupRef = useRef();
   const [hovered, setHovered] = useState(false);
 
   useFrame((state) => {
     if (meshRef.current) {
-      const targetScale = hovered ? 1.1 : 1;
+      const targetScale = hovered || focusedComponent === index ? 1.15 : 1;
       meshRef.current.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.1);
+      
+      // Add rotation animation when focused
+      if (focusedComponent === index) {
+        meshRef.current.rotation.y = state.clock.getElapsedTime() * 0.5;
+      }
     }
   });
 
@@ -53,6 +59,7 @@ function BlueprintComponent({ component, index, exploded, hoveredComponent, setH
           setHoveredComponent(null);
           document.body.style.cursor = 'auto';
         }}
+        onClick={() => onComponentClick(index)}
       >
         <boxGeometry args={component.size} />
         <meshStandardMaterial
@@ -60,7 +67,7 @@ function BlueprintComponent({ component, index, exploded, hoveredComponent, setH
           transparent
           opacity={0.85}
           emissive={component.color}
-          emissiveIntensity={hovered ? 0.5 : 0.2}
+          emissiveIntensity={hovered || focusedComponent === index ? 0.7 : 0.2}
           metalness={0.8}
           roughness={0.2}
         />
@@ -69,8 +76,16 @@ function BlueprintComponent({ component, index, exploded, hoveredComponent, setH
       {/* Wireframe */}
       <mesh>
         <boxGeometry args={component.size.map(s => s * 1.02)} />
-        <meshBasicMaterial color={component.color} wireframe transparent opacity={0.5} />
+        <meshBasicMaterial color={component.color} wireframe transparent opacity={hovered ? 0.8 : 0.5} />
       </mesh>
+      
+      {/* Spectral glow when focused */}
+      {focusedComponent === index && (
+        <mesh>
+          <sphereGeometry args={[Math.max(...component.size) * 0.8, 16, 16]} />
+          <meshBasicMaterial color={component.color} transparent opacity={0.1} />
+        </mesh>
+      )}
 
       {/* HTML Annotation with Occlusion */}
       <Html
@@ -79,18 +94,23 @@ function BlueprintComponent({ component, index, exploded, hoveredComponent, setH
         occlude
         style={{
           transition: 'all 0.3s',
-          opacity: hovered || hoveredComponent === index ? 1 : 0.6,
-          transform: `scale(${hovered || hoveredComponent === index ? 1 : 0.85})`,
+          opacity: hovered || hoveredComponent === index || focusedComponent === index ? 1 : 0.6,
+          transform: `scale(${hovered || hoveredComponent === index || focusedComponent === index ? 1.1 : 0.85})`,
         }}
       >
         <div className="pointer-events-none">
-          <div className="bg-black/90 backdrop-blur-xl border border-white/20 rounded-lg px-3 py-2 min-w-[120px] shadow-lg">
+          <div className={`bg-black/90 backdrop-blur-xl border rounded-lg px-3 py-2 min-w-[120px] shadow-lg transition-all ${
+            focusedComponent === index ? 'border-cyan-400/60 shadow-cyan-400/20' : 'border-white/20'
+          }`}>
             <div className="text-xs font-semibold text-white mb-1">{component.label}</div>
             <div className="text-[10px] text-white/50">{component.description}</div>
             {component.stats && (
               <div className="mt-2 pt-2 border-t border-white/10">
                 <div className="text-[10px] text-cyan-400">{component.stats}</div>
               </div>
+            )}
+            {(hovered || focusedComponent === index) && (
+              <div className="mt-2 text-[9px] text-white/40">Click for details</div>
             )}
           </div>
         </div>
@@ -119,7 +139,7 @@ function CameraController({ scrollProgress }) {
 }
 
 // 3D Blueprint Core
-function BlueprintCore({ exploded, scrollProgress }) {
+function BlueprintCore({ exploded, scrollProgress, focusedComponent, onComponentClick }) {
   const groupRef = useRef();
   const [hoveredComponent, setHoveredComponent] = useState(null);
 
@@ -198,6 +218,8 @@ function BlueprintCore({ exploded, scrollProgress }) {
           exploded={exploded}
           hoveredComponent={hoveredComponent}
           setHoveredComponent={setHoveredComponent}
+          onComponentClick={onComponentClick}
+          focusedComponent={focusedComponent}
         />
       ))}
 
@@ -222,36 +244,49 @@ const blueprintLayers = [
   { icon: Wifi, label: 'UI/UX Layer', tech: '@react-three/drei HTML Occlusion', feature: 'Hoverable annotations with live telemetry' },
 ];
 
-// Voice Assistant Component
-function VoiceAssistant({ onTranscript }) {
+// Voice Assistant Component with Contextual Awareness
+function VoiceAssistant({ onTranscript, focusedComponent }) {
   const [isListening, setIsListening] = useState(false);
   const [transcript, setTranscript] = useState('');
+
+  const componentExplanations = {
+    0: "The Neural Core is the heart of our system, operating at 2.5 PetaFLOPS. It uses a custom tensor core array architecture with support for multiple precision formats. The liquid cooling with phase change technology keeps this 450W powerhouse running at optimal temperatures.",
+    1: "GPU Array 1 features NVIDIA HGX 8-GPU configuration with 640GB of HBM3 memory. Each GPU has 142,336 CUDA cores and delivers 700 watts of processing power. The 900 GB/s NVLink interconnect ensures seamless communication between GPUs.",
+    2: "GPU Array 2 provides redundancy and load balancing. It mirrors Array 1's specifications, ensuring continuous operation even during intensive AI training workloads. The dual-array architecture maximizes throughput and reliability.",
+    3: "The Memory Pool provides 2TB of DDR5 RAM running at 5600 MT/s across 8 channels. With 358 GB/s bandwidth and full ECC support, it handles massive datasets for real-time AI processing without bottlenecks.",
+    4: "Our Storage Layer uses PCIe Gen5 NVMe SSDs with 50TB capacity. Read speeds reach 14,000 MB/s with 2.5 million IOPS, ensuring instant access to AI models and training data. The 10 DWPD endurance rating guarantees long-term reliability.",
+    5: "The Network Hub uses InfiniBand HDR technology delivering 400 Gbps with sub-microsecond latency. The fat-tree mesh topology and RDMA support enable efficient data movement between all system components.",
+    6: "The I/O Controller manages 64 lanes of PCIe Gen5, providing 128 GT/s bandwidth. It supports advanced protocols like NVMe and CXL 3.0, with 16 independent DMA engines for parallel data transfers."
+  };
+
+  useEffect(() => {
+    if (focusedComponent !== null) {
+      setTranscript(componentExplanations[focusedComponent] || "Component information loading...");
+      onTranscript?.(componentExplanations[focusedComponent]);
+    }
+  }, [focusedComponent]);
 
   const toggleListening = () => {
     if (!isListening) {
       setIsListening(true);
-      setTranscript('Listening... Ask about any blueprint component.');
+      setTranscript('Listening... Hover over or click any component for information.');
       
-      // Simulate voice recognition (replace with actual OpenAI Realtime API)
       setTimeout(() => {
-        const responses = [
-          "The Neural Core operates at 2.5 PetaFLOPS, providing the central processing power for omnipresent AI operations.",
-          "Our GPU Arrays utilize NVIDIA HGX 8-GPU systems with 640GB HBM3 memory for parallel processing.",
-          "The InfiniBand network provides 400Gbps low-latency mesh connectivity between components.",
-          "Storage layer consists of NVMe SSD arrays delivering 50TB capacity with real-time data access."
-        ];
-        const response = responses[Math.floor(Math.random() * responses.length)];
-        setTranscript(response);
-        onTranscript?.(response);
+        const generalResponse = focusedComponent !== null 
+          ? componentExplanations[focusedComponent]
+          : "I can explain any component in the blueprint. Try clicking on different parts to learn more about their specifications and role in the system.";
+        setTranscript(generalResponse);
+        onTranscript?.(generalResponse);
         
         setTimeout(() => {
           setIsListening(false);
-          setTranscript('');
-        }, 5000);
-      }, 2000);
+        }, 6000);
+      }, 1500);
     } else {
       setIsListening(false);
-      setTranscript('');
+      if (focusedComponent === null) {
+        setTranscript('');
+      }
     }
   };
 
@@ -289,6 +324,8 @@ function VoiceAssistant({ onTranscript }) {
 export default function BlueprintSection() {
   const [exploded, setExploded] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [focusedComponent, setFocusedComponent] = useState(null);
+  const [selectedComponent, setSelectedComponent] = useState(null);
   const sectionRef = useRef(null);
   const canvasRef = useRef(null);
 
@@ -347,7 +384,15 @@ export default function BlueprintSection() {
                 <pointLight position={[-10, -10, -10]} intensity={0.6} color="#a855f7" />
                 <spotLight position={[0, 10, 0]} intensity={0.5} color="#ec4899" />
                 
-                <BlueprintCore exploded={exploded} scrollProgress={scrollProgress} />
+                <BlueprintCore 
+                  exploded={exploded} 
+                  scrollProgress={scrollProgress}
+                  focusedComponent={focusedComponent}
+                  onComponentClick={(index) => {
+                    setFocusedComponent(index);
+                    setSelectedComponent(index);
+                  }}
+                />
                 <CameraController scrollProgress={scrollProgress} />
                 
                 {/* Touch Controls for Mobile */}
@@ -365,7 +410,10 @@ export default function BlueprintSection() {
               </Canvas>
               
               {/* Voice Assistant */}
-              <VoiceAssistant onTranscript={(text) => console.log('Assistant:', text)} />
+              <VoiceAssistant 
+                focusedComponent={focusedComponent}
+                onTranscript={(text) => console.log('Assistant:', text)} 
+              />
               
               {/* Controls */}
               <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 flex gap-3">

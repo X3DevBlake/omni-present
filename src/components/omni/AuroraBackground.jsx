@@ -104,14 +104,55 @@ export default function AuroraBackground({ children, className = "" }) {
         }}
       />
 
-      {/* Grid overlay */}
-      <div 
-        className="absolute inset-0 opacity-[0.02]"
+      {/* Animated Grid overlay */}
+      <motion.div 
+        className="absolute inset-0 opacity-[0.03]"
         style={{
-          backgroundImage: 'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)',
+          backgroundImage: 'linear-gradient(rgba(0,245,255,0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(168,85,247,0.15) 1px, transparent 1px)',
           backgroundSize: '50px 50px',
         }}
+        animate={{
+          backgroundPosition: ['0px 0px', '50px 50px'],
+        }}
+        transition={{
+          duration: 20,
+          repeat: Infinity,
+          ease: "linear"
+        }}
       />
+      
+      {/* Data stream lines */}
+      <svg className="absolute inset-0 w-full h-full opacity-10">
+        <defs>
+          <linearGradient id="streamGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#00f5ff" stopOpacity="0" />
+            <stop offset="50%" stopColor="#00f5ff" stopOpacity="1" />
+            <stop offset="100%" stopColor="#00f5ff" stopOpacity="0" />
+          </linearGradient>
+        </defs>
+        {[0, 1, 2, 3].map((i) => (
+          <motion.line
+            key={i}
+            x1={`${i * 25}%`}
+            y1="0%"
+            x2={`${i * 25 + 50}%`}
+            y2="100%"
+            stroke="url(#streamGradient)"
+            strokeWidth="2"
+            initial={{ pathLength: 0, opacity: 0 }}
+            animate={{ 
+              pathLength: [0, 1, 0],
+              opacity: [0, 0.5, 0]
+            }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              delay: i * 0.7,
+              ease: "linear"
+            }}
+          />
+        ))}
+      </svg>
 
       {/* Content */}
       <div className="relative z-10">

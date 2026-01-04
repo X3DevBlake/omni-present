@@ -123,7 +123,19 @@ function CoreGeometry() {
 
 function DataStream({ index }) {
   const ref = useRef();
+  const particlesRef = useRef();
   const angle = (index / 6) * Math.PI * 2;
+  
+  const particleCount = 20;
+  const particlePositions = useMemo(() => {
+    const positions = new Float32Array(particleCount * 3);
+    for (let i = 0; i < particleCount; i++) {
+      positions[i * 3] = 0;
+      positions[i * 3 + 1] = (i / particleCount) * 0.8 - 0.4;
+      positions[i * 3 + 2] = 0;
+    }
+    return positions;
+  }, []);
   
   useFrame((state) => {
     const t = state.clock.getElapsedTime();
@@ -132,17 +144,42 @@ function DataStream({ index }) {
       ref.current.scale.y = scale;
       ref.current.position.y = Math.sin(t * 3 + index * 0.5) * 0.2;
     }
+    
+    if (particlesRef.current) {
+      const positions = particlesRef.current.geometry.attributes.position.array;
+      for (let i = 0; i < particleCount; i++) {
+        positions[i * 3 + 1] = ((t * 0.5 + i / particleCount) % 1) * 0.8 - 0.4;
+      }
+      particlesRef.current.geometry.attributes.position.needsUpdate = true;
+    }
   });
 
   return (
-    <mesh
-      ref={ref}
-      position={[Math.cos(angle) * 0.6, 0, Math.sin(angle) * 0.6]}
-      rotation={[0, -angle, 0]}
-    >
-      <boxGeometry args={[0.02, 0.4, 0.02]} />
-      <meshBasicMaterial color="#00f5ff" transparent opacity={0.6} />
-    </mesh>
+    <group position={[Math.cos(angle) * 0.6, 0, Math.sin(angle) * 0.6]} rotation={[0, -angle, 0]}>
+      <mesh ref={ref}>
+        <boxGeometry args={[0.02, 0.4, 0.02]} />
+        <meshBasicMaterial color="#00f5ff" transparent opacity={0.6} />
+      </mesh>
+      
+      {/* Flowing particles */}
+      <points ref={particlesRef}>
+        <bufferGeometry>
+          <bufferAttribute
+            attach="attributes-position"
+            count={particleCount}
+            array={particlePositions}
+            itemSize={3}
+          />
+        </bufferGeometry>
+        <pointsMaterial
+          size={0.015}
+          color="#00f5ff"
+          transparent
+          opacity={0.8}
+          sizeAttenuation
+        />
+      </points>
+    </group>
   );
 }
 
