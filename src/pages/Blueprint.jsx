@@ -15,6 +15,9 @@ import { MultiAgentCoordinator, AgentCommunicationProtocol } from '../components
 import { AgentMemory, AgentMemoryViewer } from '../components/blueprint/AgentMemorySystem';
 import AgentSocietySimulator from '../components/blueprint/AgentSocietySimulator';
 import AgentSimulationRecorder from '../components/blueprint/AgentSimulationRecorder';
+import BehaviorDebugger from '../components/blueprint/BehaviorDebugger';
+import AgentSimulationVideo from '../components/blueprint/AgentSimulationVideo';
+import AgentTemplateLibrary from '../components/blueprint/AgentTemplateLibrary';
 import { base44 } from '@/api/base44Client';
 import { toast } from 'sonner';
 import { Canvas } from '@react-three/fiber';
@@ -151,6 +154,10 @@ export default function Blueprint() {
   const [environmentInteractions, setEnvironmentInteractions] = useState([]);
   const [showSocietySimulator, setShowSocietySimulator] = useState(false);
   const [showSimulationRecorder, setShowSimulationRecorder] = useState(false);
+  const [showBehaviorDebugger, setShowBehaviorDebugger] = useState(false);
+  const [showSimulationVideo, setShowSimulationVideo] = useState(false);
+  const [showTemplateLibrary, setShowTemplateLibrary] = useState(false);
+  const [selectedBehaviorForDebug, setSelectedBehaviorForDebug] = useState(null);
   const [holographicAgents, setHolographicAgents] = useState([]);
   const [agentMemories, setAgentMemories] = useState(new Map());
   const [currentEnvironment, setCurrentEnvironment] = useState('office');
@@ -459,7 +466,21 @@ export default function Blueprint() {
   };
 
   const handleBehaviorSaved = (behavior) => {
+    setSelectedBehaviorForDebug(behavior);
     toast.success('Behavior pattern saved!');
+  };
+
+  const handleTemplateSelected = (template) => {
+    const agent = {
+      id: Date.now().toString(),
+      name: template.name,
+      type: 'template',
+      color: template.color,
+      personality: template.personality,
+      behaviors: template.behaviors
+    };
+    handleAgentCreated(agent);
+    setShowTemplateLibrary(false);
   };
 
   const handleTrainingComplete = (trainedAgent) => {
@@ -671,6 +692,13 @@ export default function Blueprint() {
                       Create Agent
                     </button>
                     <button
+                      onClick={() => setShowTemplateLibrary(true)}
+                      className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/40 text-purple-300 rounded-xl text-sm hover:from-purple-500/30 hover:to-pink-500/30"
+                    >
+                      <Bot className="w-4 h-4" />
+                      Templates
+                    </button>
+                    <button
                       onClick={() => setShowEnvironmentCreator(true)}
                       className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 border border-blue-500/40 text-blue-300 rounded-xl text-sm hover:from-blue-500/30 hover:to-cyan-500/30"
                     >
@@ -704,7 +732,23 @@ export default function Blueprint() {
                     >
                       <GitBranch className="w-4 h-4" />
                       Behaviors
-                      </button>
+                    </button>
+                    <button
+                      onClick={() => setShowBehaviorDebugger(true)}
+                      disabled={!selectedBehaviorForDebug}
+                      className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-red-500/20 to-orange-500/20 border border-red-500/40 text-red-300 rounded-xl text-sm hover:from-red-500/30 hover:to-orange-500/30 disabled:opacity-50"
+                    >
+                      <Brain className="w-4 h-4" />
+                      Debug
+                    </button>
+                    <button
+                      onClick={() => setShowSimulationVideo(true)}
+                      disabled={holographicAgents.length === 0}
+                      className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-indigo-500/20 to-purple-500/20 border border-indigo-500/40 text-indigo-300 rounded-xl text-sm hover:from-indigo-500/30 hover:to-purple-500/30 disabled:opacity-50"
+                    >
+                      <Video className="w-4 h-4" />
+                      Preview Video
+                    </button>
                       <button
                       onClick={() => setShowSocietySimulator(true)}
                       className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border border-yellow-500/40 text-yellow-300 rounded-xl text-sm hover:from-yellow-500/30 hover:to-orange-500/30"
@@ -1294,6 +1338,29 @@ export default function Blueprint() {
         show={showSimulationRecorder}
         onClose={() => setShowSimulationRecorder(false)}
         simulationRef={sectionRef}
+      />
+
+      {/* Behavior Debugger */}
+      <BehaviorDebugger
+        show={showBehaviorDebugger}
+        onClose={() => setShowBehaviorDebugger(false)}
+        behavior={selectedBehaviorForDebug}
+        agent={holographicAgents[0]}
+      />
+
+      {/* Simulation Video Preview */}
+      <AgentSimulationVideo
+        show={showSimulationVideo}
+        onClose={() => setShowSimulationVideo(false)}
+        agent={holographicAgents[0]}
+        duration={45}
+      />
+
+      {/* Agent Template Library */}
+      <AgentTemplateLibrary
+        show={showTemplateLibrary}
+        onClose={() => setShowTemplateLibrary(false)}
+        onSelectTemplate={handleTemplateSelected}
       />
 
       {/* Holographic Agents Section */}
