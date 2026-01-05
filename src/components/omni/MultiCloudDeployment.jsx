@@ -9,6 +9,8 @@ export default function MultiCloudDeployment({ blueprint, onDeploy, onClose }) {
   const [selectedProvider, setSelectedProvider] = useState(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [isDeploying, setIsDeploying] = useState(false);
+  const [budgetForecast, setBudgetForecast] = useState(null);
+  const [deploymentPattern, setDeploymentPattern] = useState('single-cloud');
 
   useEffect(() => {
     if (blueprint) {
@@ -20,26 +22,31 @@ export default function MultiCloudDeployment({ blueprint, onDeploy, onClose }) {
     setIsAnalyzing(true);
 
     try {
-      const prompt = `
-        Analyze this AI infrastructure blueprint for optimal cloud deployment:
-        ${JSON.stringify(blueprint)}
-        
-        Compare AWS, Azure, and GCP for:
-        1. Cost-effectiveness for this specific workload
-        2. Performance characteristics
-        3. GPU availability and pricing
-        4. Network latency
-        5. Compliance and regional availability
-        
-        Provide detailed recommendations with cost estimates.
-      `;
-
       const analysis = await base44.integrations.Core.InvokeLLM({
-        prompt,
+        prompt: `
+          Comprehensive AI cloud provider analysis for optimal deployment.
+          
+          Blueprint: ${JSON.stringify(blueprint)}
+          
+          Analyze AWS, Azure, GCP for:
+          1. COST OPTIMIZATION: Detailed pricing, reserved instances, spot pricing
+          2. PERFORMANCE: Compute capabilities, GPU availability, network latency
+          3. COMPLIANCE: GDPR, HIPAA, SOC2, data residency requirements
+          4. SERVICE AVAILABILITY: Required services, regional coverage
+          5. MULTI-CLOUD PATTERNS: Hybrid cloud, multi-region, active-active, DR
+          
+          Recommend:
+          - Best single provider OR multi-cloud strategy
+          - Architectural patterns (hybrid, multi-region, etc.)
+          - Compliance considerations
+          - Cost vs performance trade-offs
+        `,
         response_json_schema: {
           type: 'object',
           properties: {
             recommendedProvider: { type: 'string' },
+            recommendedPattern: { type: 'string' },
+            patternBenefits: { type: 'string' },
             providers: {
               type: 'array',
               items: {
@@ -49,9 +56,11 @@ export default function MultiCloudDeployment({ blueprint, onDeploy, onClose }) {
                   score: { type: 'number' },
                   monthlyCost: { type: 'number' },
                   performance: { type: 'number' },
+                  complianceScore: { type: 'number' },
                   pros: { type: 'array', items: { type: 'string' } },
                   cons: { type: 'array', items: { type: 'string' } },
-                  bestFor: { type: 'string' }
+                  bestFor: { type: 'string' },
+                  recommendedRegion: { type: 'string' }
                 }
               }
             }
@@ -61,10 +70,57 @@ export default function MultiCloudDeployment({ blueprint, onDeploy, onClose }) {
 
       setRecommendations(analysis);
       setSelectedProvider(analysis.recommendedProvider);
+      setDeploymentPattern(analysis.recommendedPattern || 'single-cloud');
+
+      // Generate budget forecast
+      await generateBudgetForecast(analysis.providers);
     } catch (error) {
       console.error('Cloud analysis failed:', error);
     } finally {
       setIsAnalyzing(false);
+    }
+  };
+
+  const generateBudgetForecast = async (providers) => {
+    try {
+      const result = await base44.integrations.Core.InvokeLLM({
+        prompt: `
+          Generate AI-driven budget forecasting with anomaly detection.
+          
+          Blueprint: ${JSON.stringify(blueprint)}
+          Providers: ${JSON.stringify(providers)}
+          
+          Create 12-month forecast:
+          1. Monthly cost projections with confidence levels
+          2. Usage pattern analysis and scaling predictions
+          3. Anomaly alerts for potential cost spikes
+          4. Cost optimization opportunities
+          5. Multi-cloud cost comparison
+        `,
+        response_json_schema: {
+          type: 'object',
+          properties: {
+            monthlyForecasts: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  month: { type: 'number' },
+                  cost: { type: 'number' },
+                  confidence: { type: 'number' }
+                }
+              }
+            },
+            anomalyAlerts: { type: 'array', items: { type: 'string' } },
+            optimizationTips: { type: 'array', items: { type: 'string' } },
+            annualTotal: { type: 'number' }
+          }
+        }
+      });
+
+      setBudgetForecast(result);
+    } catch (error) {
+      console.error('Budget forecast failed:', error);
     }
   };
 
@@ -124,12 +180,53 @@ export default function MultiCloudDeployment({ blueprint, onDeploy, onClose }) {
           </div>
         ) : recommendations ? (
           <>
-            <div className="mb-6 p-4 rounded-xl bg-cyan-500/10 border border-cyan-500/30">
-              <div className="text-cyan-400 text-sm mb-2">AI Recommendation</div>
-              <div className="text-white text-lg">
-                Deploy to <span className="font-bold">{recommendations.recommendedProvider}</span> for optimal cost-performance
+            <div className="grid grid-cols-2 gap-4 mb-6">
+              <div className="p-4 rounded-xl bg-cyan-500/10 border border-cyan-500/30">
+                <div className="text-cyan-400 text-sm mb-2">AI Recommendation</div>
+                <div className="text-white text-lg">
+                  Deploy to <span className="font-bold">{recommendations.recommendedProvider}</span>
+                </div>
+              </div>
+              <div className="p-4 rounded-xl bg-purple-500/10 border border-purple-500/30">
+                <div className="text-purple-400 text-sm mb-2">Deployment Pattern</div>
+                <div className="text-white text-lg font-bold">{deploymentPattern}</div>
+                <div className="text-white/60 text-xs mt-1">{recommendations.patternBenefits}</div>
               </div>
             </div>
+
+            {budgetForecast && (
+              <div className="mb-6 p-4 rounded-xl bg-gradient-to-r from-green-500/10 to-cyan-500/10 border border-green-500/30">
+                <div className="text-green-400 font-semibold mb-3">Budget Forecast</div>
+                <div className="grid grid-cols-4 gap-3 mb-3">
+                  <div>
+                    <div className="text-white/50 text-xs">Annual Est.</div>
+                    <div className="text-white font-bold text-lg">${budgetForecast.annualTotal?.toLocaleString()}</div>
+                  </div>
+                  <div>
+                    <div className="text-white/50 text-xs">Avg Monthly</div>
+                    <div className="text-white font-bold text-lg">${Math.round(budgetForecast.annualTotal / 12)?.toLocaleString()}</div>
+                  </div>
+                  <div>
+                    <div className="text-white/50 text-xs">Confidence</div>
+                    <div className="text-white font-bold text-lg">
+                      {Math.round(budgetForecast.monthlyForecasts?.[0]?.confidence || 85)}%
+                    </div>
+                  </div>
+                  <div>
+                    <div className="text-white/50 text-xs">Alerts</div>
+                    <div className="text-orange-400 font-bold text-lg">{budgetForecast.anomalyAlerts?.length || 0}</div>
+                  </div>
+                </div>
+                {budgetForecast.anomalyAlerts?.length > 0 && (
+                  <div className="p-2 rounded bg-orange-500/10 border border-orange-500/20">
+                    <div className="text-orange-400 text-xs font-medium mb-1">⚠ Anomaly Alerts:</div>
+                    {budgetForecast.anomalyAlerts.slice(0, 2).map((alert, i) => (
+                      <div key={i} className="text-white/70 text-xs">• {alert}</div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
 
             <div className="grid gap-4 mb-6">
               {recommendations.providers?.map((provider) => (
