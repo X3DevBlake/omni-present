@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Filter, Star, Download, TrendingUp, Users, Clock, ShoppingCart, X, Check } from 'lucide-react';
+import { Search, Filter, Star, Download, TrendingUp, Users, Clock, ShoppingCart, X, Check, DollarSign, MessageSquare } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
+import CreatorDashboard from '../components/marketplace/CreatorDashboard';
 import { base44 } from '@/api/base44Client';
 import { toast } from 'sonner';
 
@@ -99,6 +100,9 @@ export default function Marketplace() {
   const [items, setItems] = useState(mockItems);
   const [selectedItem, setSelectedItem] = useState(null);
   const [cart, setCart] = useState([]);
+  const [showCreatorDashboard, setShowCreatorDashboard] = useState(false);
+  const [showReviewModal, setShowReviewModal] = useState(false);
+  const [newReview, setNewReview] = useState({ rating: 5, comment: '' });
 
   const filteredItems = items.filter(item => {
     const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -130,10 +134,44 @@ export default function Marketplace() {
   const handleDownload = async (item) => {
     try {
       toast.success(`Downloading ${item.name}...`);
-      // Simulate download
       setTimeout(() => toast.success('Download complete!'), 1500);
     } catch (error) {
       toast.error('Download failed');
+    }
+  };
+
+  const handlePurchase = async (item) => {
+    try {
+      toast.info('Processing payment...');
+      // Simulate payment processing
+      setTimeout(() => {
+        toast.success(`Purchased ${item.name}!`);
+        removeFromCart(item.id);
+      }, 2000);
+    } catch (error) {
+      toast.error('Payment failed');
+    }
+  };
+
+  const submitReview = async () => {
+    if (!newReview.comment.trim()) {
+      toast.error('Please write a review');
+      return;
+    }
+    try {
+      const user = await base44.auth.me();
+      const review = {
+        rating: newReview.rating,
+        comment: newReview.comment,
+        author: user.full_name || user.email,
+        date: new Date().toISOString()
+      };
+      // Save review logic here
+      toast.success('Review submitted!');
+      setShowReviewModal(false);
+      setNewReview({ rating: 5, comment: '' });
+    } catch (error) {
+      toast.error('Failed to submit review');
     }
   };
 
@@ -184,10 +222,11 @@ export default function Marketplace() {
               <option value="rating">Highest Rated</option>
               <option value="newest">Newest</option>
             </select>
-            <button
-              onClick={() => setCart([])}
-              className="relative px-4 py-3 bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 rounded-xl hover:bg-cyan-500/30 flex items-center gap-2"
-            >
+            <button onClick={() => setShowCreatorDashboard(!showCreatorDashboard)} className="px-4 py-3 bg-purple-500/20 border border-purple-500/40 text-purple-300 rounded-xl hover:bg-purple-500/30 flex items-center gap-2">
+              <DollarSign className="w-5 h-5" />
+              Creator
+            </button>
+            <button onClick={() => setCart([])} className="relative px-4 py-3 bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 rounded-xl hover:bg-cyan-500/30 flex items-center gap-2">
               <ShoppingCart className="w-5 h-5" />
               Cart
               {cart.length > 0 && (
@@ -249,15 +288,45 @@ export default function Marketplace() {
           </motion.div>
         )}
 
+        {/* Creator Dashboard */}
+        {showCreatorDashboard && (
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
+            <CreatorDashboard />
+          </motion.div>
+        )}
+
+        {/* Featured Creators */}
+        {selectedCategory === 'all' && !showCreatorDashboard && (
+          <motion.div className="mb-8" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+            <h2 className="text-2xl font-bold text-white mb-4">⭐ Featured Creators</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {['AI Labs', 'BehaviorTech', '3D Studio'].map((creator, i) => (
+                <div key={creator} className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 backdrop-blur-xl border border-purple-500/30 rounded-xl p-4">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-400 to-purple-400 flex items-center justify-center text-white font-bold">
+                      {creator[0]}
+                    </div>
+                    <div>
+                      <div className="text-white font-semibold">{creator}</div>
+                      <div className="text-white/60 text-xs">{15 + i * 5} items</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4 text-sm text-white/60">
+                    <span className="flex items-center gap-1"><Star className="w-3 h-3 text-yellow-400" />4.{8 - i}</span>
+                    <span className="flex items-center gap-1"><Download className="w-3 h-3" />{1000 + i * 500}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        )}
+
         {/* All Items */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-        >
-          <h2 className="text-2xl font-bold text-white mb-4">
-            {selectedCategory === 'all' ? 'All Items' : categories.find(c => c.id === selectedCategory)?.label}
-          </h2>
+        {!showCreatorDashboard && (
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
+            <h2 className="text-2xl font-bold text-white mb-4">
+              {selectedCategory === 'all' ? 'All Items' : categories.find(c => c.id === selectedCategory)?.label}
+            </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {filteredItems.map(item => (
               <motion.div
@@ -341,7 +410,7 @@ export default function Marketplace() {
 
                 <p className="text-white/70 mb-6">{selectedItem.description}</p>
 
-                <div className="bg-white/5 rounded-xl p-4 mb-6">
+                <div className="bg-white/5 rounded-xl p-4 mb-4">
                   <h3 className="text-white font-semibold mb-3">Features</h3>
                   <ul className="space-y-2 text-white/60 text-sm">
                     <li className="flex items-center gap-2"><Check className="w-4 h-4 text-green-400" /> Fully customizable and extensible</li>
@@ -349,6 +418,30 @@ export default function Marketplace() {
                     <li className="flex items-center gap-2"><Check className="w-4 h-4 text-green-400" /> Regular updates and support</li>
                     <li className="flex items-center gap-2"><Check className="w-4 h-4 text-green-400" /> Compatible with all environments</li>
                   </ul>
+                </div>
+
+                <div className="bg-gradient-to-r from-blue-500/10 to-cyan-500/10 border border-blue-500/30 rounded-xl p-4 mb-6">
+                  <div className="flex items-center justify-between mb-3">
+                    <h3 className="text-blue-400 font-semibold">Reviews (24)</h3>
+                    <button onClick={() => setShowReviewModal(true)} className="px-3 py-1 bg-blue-500/20 border border-blue-500/40 text-blue-300 rounded text-xs hover:bg-blue-500/30">
+                      Write Review
+                    </button>
+                  </div>
+                  <div className="space-y-2">
+                    {[{ author: 'John D.', rating: 5, comment: 'Excellent quality!' }, { author: 'Sarah M.', rating: 4, comment: 'Very useful, highly recommend.' }].map((review, i) => (
+                      <div key={i} className="bg-white/5 rounded-lg p-3">
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="text-white text-sm font-medium">{review.author}</span>
+                          <div className="flex gap-0.5">
+                            {Array.from({ length: 5 }).map((_, i) => (
+                              <Star key={i} className={`w-3 h-3 ${i < review.rating ? 'text-yellow-400 fill-current' : 'text-white/20'}`} />
+                            ))}
+                          </div>
+                        </div>
+                        <p className="text-white/60 text-xs">{review.comment}</p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
 
                 <div className="flex gap-3">
@@ -363,7 +456,7 @@ export default function Marketplace() {
                         <ShoppingCart className="w-5 h-5" />
                         Add to Cart
                       </button>
-                      <button className="flex-1 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-medium rounded-xl hover:opacity-90">
+                      <button onClick={() => handlePurchase(selectedItem)} className="flex-1 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-medium rounded-xl hover:opacity-90">
                         Buy Now {selectedItem.price}
                       </button>
                     </>
@@ -400,9 +493,46 @@ export default function Marketplace() {
                   </div>
                 ))}
               </div>
-              <button className="w-full py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-medium rounded-xl hover:opacity-90">
+              <div className="text-white/60 text-sm mb-2">
+                Total: <span className="text-white font-semibold">${cart.reduce((sum, item) => sum + (item.price === 'Free' ? 0 : parseFloat(item.price.replace('$', ''))), 0).toFixed(2)}</span>
+              </div>
+              <button onClick={() => cart.forEach(item => handlePurchase(item))} className="w-full py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-medium rounded-xl hover:opacity-90">
                 Checkout
               </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Review Modal */}
+        <AnimatePresence>
+          {showReviewModal && (
+            <motion.div className="fixed inset-0 z-50 flex items-center justify-center p-4" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+              <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={() => setShowReviewModal(false)} />
+              <motion.div className="relative bg-black/90 backdrop-blur-xl border border-white/20 rounded-2xl p-6 max-w-md w-full" initial={{ scale: 0.9 }} animate={{ scale: 1 }}>
+                <button onClick={() => setShowReviewModal(false)} className="absolute top-4 right-4 p-2 rounded-full bg-white/5 hover:bg-white/10">
+                  <X className="w-5 h-5 text-white/70" />
+                </button>
+                <h3 className="text-xl font-bold text-white mb-4">Write a Review</h3>
+                <div className="space-y-4">
+                  <div>
+                    <label className="text-white/70 text-sm mb-2 block">Rating</label>
+                    <div className="flex gap-2">
+                      {[1, 2, 3, 4, 5].map(rating => (
+                        <button key={rating} onClick={() => setNewReview({...newReview, rating})} className={`p-2 ${newReview.rating >= rating ? 'text-yellow-400' : 'text-white/20'}`}>
+                          <Star className="w-6 h-6 fill-current" />
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <label className="text-white/70 text-sm mb-2 block">Your Review</label>
+                    <textarea value={newReview.comment} onChange={(e) => setNewReview({...newReview, comment: e.target.value})} placeholder="Share your experience..." className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/40 h-32" />
+                  </div>
+                  <button onClick={submitReview} className="w-full py-3 bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-medium rounded-xl hover:opacity-90">
+                    Submit Review
+                  </button>
+                </div>
+              </motion.div>
             </motion.div>
           )}
         </AnimatePresence>

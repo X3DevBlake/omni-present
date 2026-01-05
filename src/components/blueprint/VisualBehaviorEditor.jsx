@@ -82,6 +82,16 @@ const AvailableNodes = {
     { id: 'check_terrain', label: 'Check Terrain', type: 'CONDITION', inputs: ['in'], outputs: ['passable', 'blocked'] },
     { id: 'perceive_change', label: 'Perceive Change', type: 'TRIGGER', outputs: ['next'], params: ['changeType'] }
   ],
+  metacognition: [
+    { id: 'analyze_performance', label: 'Analyze Performance', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['timeframe'] },
+    { id: 'identify_mistakes', label: 'Identify Mistakes', type: 'CONDITION', inputs: ['in'], outputs: ['found', 'none'], params: ['threshold'] },
+    { id: 'adjust_parameters', label: 'Adjust Parameters', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['parameter', 'adjustment'] },
+    { id: 'modify_tree', label: 'Modify Behavior Tree', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['modification'] },
+    { id: 'assess_threat', label: 'Assess Threat', type: 'CONDITION', inputs: ['in'], outputs: ['high', 'low'], params: ['threatType'] },
+    { id: 'calculate_risk', label: 'Calculate Risk', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['scenario'] },
+    { id: 'mitigate_risk', label: 'Mitigate Risk', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['strategy'] },
+    { id: 'self_reflect', label: 'Self Reflect', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['aspect'] }
+  ],
   sensing: [
     { id: 'scan_area', label: 'Scan Area', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['radius'] },
     { id: 'detect_sound', label: 'Detect Sound', type: 'TRIGGER', outputs: ['next'], params: ['soundType'] },

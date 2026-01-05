@@ -276,6 +276,7 @@ export default function AgentSocietySimulator({ show, onClose, agents }) {
     environmentalStress: 0
   });
   const [showAnalytics, setShowAnalytics] = useState(false);
+  const [showScenarioGenerator, setShowScenarioGenerator] = useState(false);
   const simulationRef = useRef(null);
 
   const scenarios = [
@@ -499,6 +500,18 @@ export default function AgentSocietySimulator({ show, onClose, agents }) {
           )}
         </motion.div>
       </motion.div>
+
+      <DynamicScenarioGenerator
+        show={showScenarioGenerator}
+        onClose={() => setShowScenarioGenerator(false)}
+        onScenarioGenerated={(scenario) => {
+          if (society) {
+            scenario.effects && Object.assign(society.resources, scenario.effects);
+            toast.success(`Scenario "${scenario.name}" applied!`);
+          }
+        }}
+        currentState={stats || {}}
+      />
     </AnimatePresence>
   );
 }
