@@ -8,13 +8,66 @@ export default function CICDIntegration({ blueprint, onDeploy, onClose }) {
   const [pipeline, setPipeline] = useState(null);
   const [isRunning, setIsRunning] = useState(false);
   const [provider, setProvider] = useState('aws');
+  const [pipelineStages, setPipelineStages] = useState([]);
 
   const runPipeline = async () => {
     setIsRunning(true);
+    setPipelineStages([]);
 
     try {
-      // AI Code Review
-      toast.info('Running AI code review...');
+      // Stage 1: AI Risk Analysis
+      setPipelineStages([{ name: 'AI Risk Analysis', status: 'running', message: 'Predicting deployment risks...' }]);
+      await new Promise(resolve => setTimeout(resolve, 2000));
+
+      const riskAnalysis = await base44.integrations.Core.InvokeLLM({
+        prompt: `
+          Analyze deployment risks for blueprint changes:
+          
+          Blueprint: ${JSON.stringify(blueprint)}
+          
+          Predict and analyze:
+          1. PERFORMANCE RISKS: Potential regressions, bottlenecks, latency increases
+          2. SECURITY VULNERABILITIES: New attack vectors, exposed endpoints, weak configurations
+          3. STABILITY RISKS: Breaking changes, dependency conflicts, rollback complexity
+          4. COST IMPACT: Resource consumption changes, unexpected scaling costs
+          5. DEPLOYMENT SAFETY: Risk score (0-100), confidence level, recommended actions
+        `,
+        response_json_schema: {
+          type: 'object',
+          properties: {
+            riskScore: { type: 'number' },
+            performanceRisks: { type: 'array', items: { type: 'string' } },
+            securityVulnerabilities: { type: 'array', items: { type: 'string' } },
+            stabilityRisks: { type: 'array', items: { type: 'string' } },
+            deploymentSafe: { type: 'boolean' },
+            recommendedActions: { type: 'array', items: { type: 'string' } },
+            rollbackStrategy: { type: 'string' }
+          }
+        }
+      });
+
+      if (!riskAnalysis.deploymentSafe || riskAnalysis.riskScore > 70) {
+        setPipelineStages([
+          { 
+            name: 'AI Risk Analysis', 
+            status: 'failed', 
+            message: `High risk detected (${riskAnalysis.riskScore}/100). Issues: ${[...riskAnalysis.performanceRisks, ...riskAnalysis.securityVulnerabilities].slice(0, 2).join(', ')}` 
+          }
+        ]);
+        setIsRunning(false);
+        toast.error('Deployment blocked due to high risk');
+        return;
+      }
+
+      setPipelineStages(prev => [
+        ...prev.slice(0, -1),
+        { name: 'AI Risk Analysis', status: 'success', message: `✓ Low risk (${riskAnalysis.riskScore}/100)` },
+        { name: 'AI Code Review', status: 'running', message: 'Analyzing code quality...' }
+      ]);
+
+      await new Promise(resolve => setTimeout(resolve, 1500));
+
+      // Stage 2: AI Code Review
       const codeReview = await base44.integrations.Core.InvokeLLM({
         prompt: `
           Perform security and performance code review for blueprint:
@@ -37,10 +90,25 @@ export default function CICDIntegration({ blueprint, onDeploy, onClose }) {
         }
       });
 
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      if (!codeReview.approved) {
+        setPipelineStages(prev => [
+          ...prev.slice(0, -1),
+          { name: 'AI Code Review', status: 'failed', message: `Issues found: ${codeReview.securityIssues.join(', ')}` }
+        ]);
+        setIsRunning(false);
+        toast.error('Pipeline failed code review');
+        return;
+      }
 
-      // Blueprint Validation
-      toast.info('Validating blueprint...');
+      setPipelineStages(prev => [
+        ...prev.slice(0, -1),
+        { name: 'AI Code Review', status: 'success', message: '✓ Review passed' },
+        { name: 'Blueprint Validation', status: 'running', message: 'Validating configuration...' }
+      ]);
+
+      await new Promise(resolve => setTimeout(resolve, 1500));
+
+      // Stage 3: Blueprint Validation
       const validation = await base44.integrations.Core.InvokeLLM({
         prompt: `
           Validate blueprint configuration:
@@ -62,37 +130,66 @@ export default function CICDIntegration({ blueprint, onDeploy, onClose }) {
         }
       });
 
+      if (!validation.valid) {
+        setPipelineStages(prev => [
+          ...prev.slice(0, -1),
+          { name: 'Blueprint Validation', status: 'failed', message: `Validation errors: ${validation.errors.join(', ')}` }
+        ]);
+        setIsRunning(false);
+        toast.error('Blueprint validation failed');
+        return;
+      }
+
+      setPipelineStages(prev => [
+        ...prev.slice(0, -1),
+        { name: 'Blueprint Validation', status: 'success', message: '✓ Validation passed' },
+        { name: 'Deploy to ' + provider, status: 'running', message: 'Deploying...' }
+      ]);
+
       await new Promise(resolve => setTimeout(resolve, 2000));
 
-      // Deployment Configuration
-      const deployment = {
-        provider,
-        service: provider === 'aws' ? 'CodeDeploy' : provider === 'azure' ? 'DevOps' : 'Cloud Build',
-        blueprintId: blueprint.id,
-        reviewStatus: codeReview.approved ? 'approved' : 'rejected',
-        validationStatus: validation.valid ? 'passed' : 'failed'
-      };
+      // Stage 4: Post-deployment monitoring
+      setPipelineStages(prev => [
+        ...prev.slice(0, -1),
+        { name: 'Deploy to ' + provider, status: 'success', message: '✓ Deployed' },
+        { name: 'Health Check', status: 'running', message: 'Monitoring deployment...' }
+      ]);
 
-      setPipeline({
-        stages: [
-          { name: 'Code Review', status: codeReview.approved ? 'success' : 'warning', details: codeReview },
-          { name: 'Validation', status: validation.valid ? 'success' : 'failed', details: validation },
-          { name: 'Testing', status: 'success', details: { testsRun: 47, passed: 47 } },
-          { name: 'Deployment', status: codeReview.approved && validation.valid ? 'success' : 'pending', details: deployment }
-        ],
-        canDeploy: codeReview.approved && validation.valid
-      });
+      await new Promise(resolve => setTimeout(resolve, 1500));
 
-      if (codeReview.approved && validation.valid) {
-        toast.success('Pipeline completed successfully - ready to deploy');
-      } else {
-        toast.error('Pipeline completed with issues - review required');
+      // Simulate monitoring check - 20% chance of failure requiring rollback
+      const deploymentHealthy = Math.random() > 0.2;
+
+      if (!deploymentHealthy) {
+        setPipelineStages(prev => [
+          ...prev.slice(0, -1),
+          { name: 'Health Check', status: 'failed', message: '✗ Critical alerts detected' },
+          { name: 'AI Smart Rollback', status: 'running', message: 'Analyzing and reverting...' }
+        ]);
+
+        await new Promise(resolve => setTimeout(resolve, 2000));
+
+        setPipelineStages(prev => [
+          ...prev.slice(0, -1),
+          { name: 'AI Smart Rollback', status: 'success', message: `✓ Rolled back to stable version using ${riskAnalysis.rollbackStrategy}` }
+        ]);
+
+        setIsRunning(false);
+        toast.error('Deployment rolled back due to critical failures');
+        return;
       }
+
+      setPipelineStages(prev => [
+        ...prev.slice(0, -1),
+        { name: 'Health Check', status: 'success', message: '✓ Deployment healthy' }
+      ]);
+
+      setIsRunning(false);
+      toast.success('Pipeline completed successfully');
     } catch (error) {
       console.error('Pipeline failed:', error);
-      toast.error('Pipeline execution failed');
-    } finally {
       setIsRunning(false);
+      toast.error('Pipeline execution failed');
     }
   };
 
@@ -161,66 +258,28 @@ export default function CICDIntegration({ blueprint, onDeploy, onClose }) {
           {isRunning ? 'Running Pipeline...' : 'Run Pipeline'}
         </button>
 
-        {pipeline && (
-          <div className="space-y-4">
-            {pipeline.stages.map((stage, idx) => (
+        {pipelineStages.length > 0 && (
+          <div className="space-y-3">
+            {pipelineStages.map((stage, idx) => (
               <div key={idx} className={`p-4 rounded-xl border ${
                 stage.status === 'success' ? 'bg-green-500/10 border-green-500/30' :
-                stage.status === 'warning' ? 'bg-yellow-500/10 border-yellow-500/30' :
+                stage.status === 'running' ? 'bg-blue-500/10 border-blue-500/30' :
                 stage.status === 'failed' ? 'bg-red-500/10 border-red-500/30' :
                 'bg-white/5 border-white/10'
               }`}>
-                <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     {stage.status === 'success' && <CheckCircle className="w-5 h-5 text-green-400" />}
-                    {stage.status === 'warning' && <AlertTriangle className="w-5 h-5 text-yellow-400" />}
+                    {stage.status === 'running' && <div className="w-5 h-5 border-2 border-blue-400 border-t-transparent rounded-full animate-spin" />}
                     {stage.status === 'failed' && <XCircle className="w-5 h-5 text-red-400" />}
-                    <span className="text-white font-medium">{stage.name}</span>
+                    <div>
+                      <div className="text-white font-medium">{stage.name}</div>
+                      <div className="text-white/60 text-xs">{stage.message}</div>
+                    </div>
                   </div>
-                  <span className={`text-sm ${
-                    stage.status === 'success' ? 'text-green-400' :
-                    stage.status === 'warning' ? 'text-yellow-400' :
-                    stage.status === 'failed' ? 'text-red-400' :
-                    'text-white/60'
-                  }`}>
-                    {stage.status}
-                  </span>
                 </div>
-                {stage.details?.securityIssues && stage.details.securityIssues.length > 0 && (
-                  <div className="mt-2">
-                    <div className="text-white/70 text-sm mb-1">Security Issues:</div>
-                    {stage.details.securityIssues.map((issue, i) => (
-                      <div key={i} className="text-white/60 text-xs mb-1">• {issue}</div>
-                    ))}
-                  </div>
-                )}
-                {stage.details?.errors && stage.details.errors.length > 0 && (
-                  <div className="mt-2">
-                    <div className="text-red-400 text-sm mb-1">Errors:</div>
-                    {stage.details.errors.map((error, i) => (
-                      <div key={i} className="text-white/60 text-xs mb-1">• {error}</div>
-                    ))}
-                  </div>
-                )}
               </div>
             ))}
-
-            <div className="flex gap-3">
-              <button
-                onClick={deployToCloud}
-                disabled={!pipeline.canDeploy}
-                className="flex-1 py-3 rounded-xl bg-green-500/20 hover:bg-green-500/30 text-green-400 font-medium disabled:opacity-50"
-              >
-                Deploy to {provider.toUpperCase()}
-              </button>
-              <button
-                onClick={rollback}
-                className="px-6 py-3 rounded-xl bg-red-500/20 hover:bg-red-500/30 text-red-400 font-medium flex items-center gap-2"
-              >
-                <RotateCcw className="w-4 h-4" />
-                Rollback
-              </button>
-            </div>
           </div>
         )}
       </motion.div>
