@@ -137,8 +137,7 @@ export class AgentSociety {
     });
   }
 
-  evolvecultura() {
-    // Cultural traits emerge based on repeated behaviors
+  evolveCulture() {
     const avgContribution = this.agents.reduce((sum, a) => sum + a.contribution, 0) / this.agents.length;
     
     if (avgContribution > 50 && !this.culturalTraits.includes('work_ethic')) {
@@ -152,6 +151,92 @@ export class AgentSociety {
     if (this.resources.knowledge > 50 && !this.culturalTraits.includes('innovation')) {
       this.culturalTraits.push('innovation');
     }
+  }
+
+  updateSentiment(agent, interactionType, target) {
+    if (!agent.sentiment) agent.sentiment = { overall: 0, recent: [] };
+    
+    const sentimentChange = {
+      cooperation: 10,
+      conflict: -15,
+      trade: 5,
+      teaching: 8,
+      helped: 12,
+      betrayed: -20
+    }[interactionType] || 0;
+
+    agent.sentiment.overall = Math.max(-100, Math.min(100, agent.sentiment.overall + sentimentChange));
+    agent.sentiment.recent.push({ type: interactionType, target: target?.id, value: sentimentChange, time: Date.now() });
+    
+    if (agent.sentiment.recent.length > 20) {
+      agent.sentiment.recent = agent.sentiment.recent.slice(-20);
+    }
+  }
+
+  learnFromExperience(agent, experience) {
+    if (!agent.learningHistory) agent.learningHistory = [];
+    
+    agent.learningHistory.push({
+      experience,
+      outcome: experience.success ? 'positive' : 'negative',
+      timestamp: Date.now()
+    });
+
+    if (experience.success) {
+      agent.confidence = Math.min(100, (agent.confidence || 50) + 5);
+    } else {
+      agent.confidence = Math.max(0, (agent.confidence || 50) - 3);
+    }
+  }
+
+  formAlliance(agent1, agent2) {
+    const relationship = agent1.relationships.get(agent2.id) || 0;
+    
+    if (relationship > 75) {
+      const existingAlliance = this.alliances.find(a => 
+        a.members.includes(agent1.id) && a.members.includes(agent2.id)
+      );
+      
+      if (!existingAlliance) {
+        this.alliances.push({
+          members: [agent1.id, agent2.id],
+          strength: relationship,
+          formed: Date.now(),
+          type: 'mutual_benefit'
+        });
+        this.updateSentiment(agent1, 'cooperation', agent2);
+        this.updateSentiment(agent2, 'cooperation', agent1);
+      }
+    }
+  }
+
+  detectRivalries() {
+    if (!this.rivalries) this.rivalries = [];
+    
+    this.agents.forEach(agent1 => {
+      this.agents.forEach(agent2 => {
+        if (agent1 !== agent2) {
+          const relationship = agent1.relationships.get(agent2.id) || 0;
+          
+          if (relationship < -50) {
+            const exists = this.rivalries.find(r => 
+              r.parties.includes(agent1.id) && r.parties.includes(agent2.id)
+            );
+            
+            if (!exists) {
+              this.rivalries.push({
+                parties: [agent1.id, agent2.id],
+                intensity: Math.abs(relationship),
+                cause: 'resource_competition',
+                started: Date.now()
+              });
+              this.updateSentiment(agent1, 'conflict', agent2);
+              this.updateSentiment(agent2, 'conflict', agent1);
+            }
+          }
+        }
+      });
+    });
   }
 
   updateRelationships(agent) {
