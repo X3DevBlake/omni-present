@@ -3,7 +3,15 @@ import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { PhysicsInteractiveObject } from './PhysicsSystem';
 
-function Office() {
+function Office({ onInteract, onObjectPickup }) {
+  const [lightsOn, setLightsOn] = useState(true);
+
+  const handleInteract = (id, type, state) => {
+    if (type === 'switch' && id === 'light_switch') {
+      setLightsOn(state === 'on');
+    }
+    onInteract?.(id, type, state);
+  };
   return (
     <group>
       {/* Floor */}
@@ -255,7 +263,7 @@ function Mountain() {
   );
 }
 
-export default function Environment3DScene({ environmentType }) {
+export default function Environment3DScene({ environmentType, onInteract, onObjectPickup }) {
   const getLighting = () => {
     switch (environmentType) {
       case 'nature':

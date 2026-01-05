@@ -8,6 +8,7 @@ import BlueprintControlPanel from '../components/blueprint/BlueprintControlPanel
 import AgentCreator from '../components/blueprint/AgentCreator';
 import EnvironmentCreator from '../components/blueprint/EnvironmentCreator';
 import AI3DModelGenerator from '../components/blueprint/AI3DModelGenerator';
+import ProceduralEnvironmentGenerator from '../components/blueprint/ProceduralEnvironmentGenerator';
 import VisualBehaviorEditor from '../components/blueprint/VisualBehaviorEditor';
 import AgentTrainingModule from '../components/blueprint/AgentTrainingModule';
 import { MultiAgentCoordinator, AgentCommunicationProtocol } from '../components/blueprint/MultiAgentCoordinator';
@@ -143,6 +144,8 @@ export default function Blueprint() {
   const [showBehaviorEditor, setShowBehaviorEditor] = useState(false);
   const [showTrainingModule, setShowTrainingModule] = useState(false);
   const [selectedAgentForTraining, setSelectedAgentForTraining] = useState(null);
+  const [showProceduralGenerator, setShowProceduralGenerator] = useState(false);
+  const [environmentInteractions, setEnvironmentInteractions] = useState([]);
   const [holographicAgents, setHolographicAgents] = useState([]);
   const [currentEnvironment, setCurrentEnvironment] = useState('office');
   const [agentMovementTargets, setAgentMovementTargets] = useState({});
@@ -460,6 +463,21 @@ export default function Blueprint() {
     setShowTrainingModule(true);
   };
 
+  const handleProceduralEnvironmentGenerated = (environment) => {
+    setCurrentEnvironment(environment.name);
+    toast.success(`${environment.name} environment created!`);
+  };
+
+  const handleEnvironmentInteraction = (id, type, state) => {
+    const interaction = { id, type, state, timestamp: Date.now() };
+    setEnvironmentInteractions(prev => [...prev, interaction].slice(-10));
+    toast.info(`${type} ${state}`);
+  };
+
+  const handleObjectPickup = (objectId, position) => {
+    toast.info(`Object picked up: ${objectId}`);
+  };
+
   const selectedComponentData = componentsData[selectedComponent];
 
   return (
@@ -637,6 +655,13 @@ export default function Blueprint() {
                     >
                       <Map className="w-4 h-4" />
                       Environment
+                    </button>
+                    <button
+                      onClick={() => setShowProceduralGenerator(true)}
+                      className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/40 text-purple-300 rounded-xl text-sm hover:from-purple-500/30 hover:to-pink-500/30"
+                    >
+                      <Wand2 className="w-4 h-4" />
+                      Generate World
                     </button>
                     <button
                       onClick={() => { setModelGeneratorType('object'); setShow3DModelGenerator(true); }}
@@ -1215,6 +1240,13 @@ export default function Blueprint() {
         onSaveBehavior={handleBehaviorSaved}
       />
 
+      {/* Procedural Environment Generator */}
+      <ProceduralEnvironmentGenerator
+        show={showProceduralGenerator}
+        onClose={() => setShowProceduralGenerator(false)}
+        onEnvironmentGenerated={handleProceduralEnvironmentGenerated}
+      />
+
       {/* Holographic Agents Section */}
       {holographicAgents.length > 0 && (
         <motion.div
@@ -1276,7 +1308,11 @@ export default function Blueprint() {
               </button>
             </div>
             <Canvas camera={{ position: [0, 5, 10], fov: 60 }} onClick={handleEnvironmentClick}>
-              <Environment3DScene environmentType={currentEnvironment} />
+              <Environment3DScene 
+                environmentType={currentEnvironment} 
+                onInteract={handleEnvironmentInteraction}
+                onObjectPickup={handleObjectPickup}
+              />
 
               {holographicAgents.map((agent, i) => (
                 <HolographicAIAgent
