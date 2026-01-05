@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
@@ -55,7 +55,7 @@ export function DynamicEnvironmentSystem({ children, weatherType = 'clear', time
   return (
     <group>
       {/* Dynamic fog based on weather */}
-      {weatherType === 'fog' && <fog attach="fog" args={['#cccccc', 5, 50]} />}
+      {weatherType === 'fog' && <fog attach="fog" args={['#cccccc', 5, 50]} ref={fogRef} />}
       
       {/* Rain particles */}
       {weatherType === 'rain' && (
@@ -103,7 +103,7 @@ export function DynamicEnvironmentSystem({ children, weatherType = 'clear', time
 
 export function InteractiveEnvironmentElement({ type, position, onInteract }) {
   const meshRef = useRef();
-  const [activated, setActivated] = React.useState(false);
+  const [activated, setActivated] = useState(false);
 
   const handleClick = () => {
     setActivated(!activated);
