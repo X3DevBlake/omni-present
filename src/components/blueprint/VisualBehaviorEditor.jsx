@@ -15,25 +15,69 @@ const AvailableNodes = {
     { id: 'env_enter', label: 'Enter Environment', type: 'TRIGGER', outputs: ['next'] },
     { id: 'near_object', label: 'Near Object', type: 'TRIGGER', outputs: ['next'], params: ['objectType', 'distance'] },
     { id: 'timer', label: 'Timer', type: 'TRIGGER', outputs: ['next'], params: ['seconds'] },
-    { id: 'agent_interaction', label: 'Agent Interaction', type: 'TRIGGER', outputs: ['next'] }
+    { id: 'agent_interaction', label: 'Agent Interaction', type: 'TRIGGER', outputs: ['next'] },
+    { id: 'object_detected', label: 'Object Detected', type: 'TRIGGER', outputs: ['next'], params: ['objectType'] },
+    { id: 'collision', label: 'Collision', type: 'TRIGGER', outputs: ['next'] }
   ],
   actions: [
     { id: 'move_to', label: 'Move To', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['target'] },
     { id: 'interact', label: 'Interact', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['interactionType'] },
     { id: 'wait', label: 'Wait', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['duration'] },
     { id: 'say', label: 'Say', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['message'] },
-    { id: 'push_object', label: 'Push Object', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['object', 'force'] }
+    { id: 'push_object', label: 'Push Object', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['object', 'force'] },
+    { id: 'pick_up', label: 'Pick Up Object', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['object'] },
+    { id: 'place_object', label: 'Place Object', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['position'] },
+    { id: 'open_door', label: 'Open Door', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['doorId'] },
+    { id: 'activate_switch', label: 'Activate Switch', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['switchId'] }
   ],
   conditions: [
     { id: 'random', label: 'Random Choice', type: 'CONDITION', inputs: ['in'], outputs: ['true', 'false'], params: ['probability'] },
     { id: 'check_distance', label: 'Check Distance', type: 'CONDITION', inputs: ['in'], outputs: ['true', 'false'], params: ['target', 'threshold'] },
-    { id: 'check_state', label: 'Check State', type: 'CONDITION', inputs: ['in'], outputs: ['true', 'false'], params: ['stateName', 'value'] }
+    { id: 'check_state', label: 'Check State', type: 'CONDITION', inputs: ['in'], outputs: ['true', 'false'], params: ['stateName', 'value'] },
+    { id: 'check_inventory', label: 'Check Inventory', type: 'CONDITION', inputs: ['in'], outputs: ['true', 'false'], params: ['item'] }
+  ],
+  planning: [
+    { id: 'set_goal', label: 'Set Goal', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['goal'] },
+    { id: 'plan_path', label: 'Plan Path', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['destination'] },
+    { id: 'evaluate_options', label: 'Evaluate Options', type: 'CONDITION', inputs: ['in'], outputs: ['best', 'alternative'], params: ['criteria'] },
+    { id: 'prioritize', label: 'Prioritize Tasks', type: 'ACTION', inputs: ['in'], outputs: ['done'] }
+  ],
+  learning: [
+    { id: 'learn_pattern', label: 'Learn Pattern', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['pattern'] },
+    { id: 'reinforce', label: 'Reinforce Behavior', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['reward'] },
+    { id: 'adapt', label: 'Adapt Strategy', type: 'ACTION', inputs: ['in'], outputs: ['done'] },
+    { id: 'remember', label: 'Remember Event', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['event'] }
+  ],
+  social: [
+    { id: 'request_help', label: 'Request Help', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['task'] },
+    { id: 'share_info', label: 'Share Information', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['info'] },
+    { id: 'negotiate', label: 'Negotiate', type: 'CONDITION', inputs: ['in'], outputs: ['success', 'failure'], params: ['offer'] },
+    { id: 'observe_agent', label: 'Observe Agent', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['agentId'] }
+  ],
+  emotion: [
+    { id: 'feel_emotion', label: 'Feel Emotion', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['emotion', 'intensity'] },
+    { id: 'emotion_check', label: 'Emotion Check', type: 'CONDITION', inputs: ['in'], outputs: ['positive', 'negative'], params: ['emotion'] },
+    { id: 'mood_influence', label: 'Mood Influence', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['modifier'] }
+  ],
+  physics: [
+    { id: 'apply_force', label: 'Apply Force', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['force', 'direction'] },
+    { id: 'detect_collision', label: 'Detect Collision', type: 'TRIGGER', outputs: ['next'], params: ['objectType'] },
+    { id: 'grab_object', label: 'Grab Object', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['object'] },
+    { id: 'throw_object', label: 'Throw Object', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['velocity', 'direction'] }
+  ],
+  sensing: [
+    { id: 'scan_area', label: 'Scan Area', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['radius'] },
+    { id: 'detect_sound', label: 'Detect Sound', type: 'TRIGGER', outputs: ['next'], params: ['soundType'] },
+    { id: 'sense_danger', label: 'Sense Danger', type: 'CONDITION', inputs: ['in'], outputs: ['danger', 'safe'] },
+    { id: 'visual_perception', label: 'Visual Perception', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['target'] }
   ],
   personality: [
     { id: 'curiosity', label: 'Curiosity', type: 'PERSONALITY', modifier: 'explorationRate', range: [0, 1] },
     { id: 'caution', label: 'Caution', type: 'PERSONALITY', modifier: 'riskTolerance', range: [0, 1] },
     { id: 'sociability', label: 'Sociability', type: 'PERSONALITY', modifier: 'interactionFrequency', range: [0, 1] },
-    { id: 'energy', label: 'Energy Level', type: 'PERSONALITY', modifier: 'movementSpeed', range: [0.5, 2] }
+    { id: 'energy', label: 'Energy Level', type: 'PERSONALITY', modifier: 'movementSpeed', range: [0.5, 2] },
+    { id: 'aggressiveness', label: 'Aggressiveness', type: 'PERSONALITY', modifier: 'forceUsage', range: [0, 1] },
+    { id: 'helpfulness', label: 'Helpfulness', type: 'PERSONALITY', modifier: 'assistanceRate', range: [0, 1] }
   ]
 };
 
