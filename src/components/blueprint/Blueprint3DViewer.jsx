@@ -18,6 +18,17 @@ function AnimatedConnectionLine({ start, end, color, active, isDependency }) {
   const arrowRef = useRef();
   const [particleOffset, setParticleOffset] = useState(0);
 
+  // Memoize vectors and geometry
+  const startVec = useMemo(() => new THREE.Vector3(...start), [start.join(',')]);
+  const endVec = useMemo(() => new THREE.Vector3(...end), [end.join(',')]);
+  
+  const geometry = useMemo(() => {
+    const points = [startVec, endVec];
+    return new THREE.BufferGeometry().setFromPoints(points);
+  }, [startVec, endVec]);
+
+  const midpoint = useMemo(() => startVec.clone().lerp(endVec, 0.5), [startVec, endVec]);
+
   useFrame((state) => {
     setParticleOffset((prev) => (prev + 0.02) % 1);
     if (lineRef.current && active) {
@@ -28,14 +39,7 @@ function AnimatedConnectionLine({ start, end, color, active, isDependency }) {
     }
   });
 
-  const startVec = new THREE.Vector3(...start);
-  const endVec = new THREE.Vector3(...end);
-  const points = [startVec, endVec];
-  const geometry = new THREE.BufferGeometry().setFromPoints(points);
-
-  const particlePos = startVec.clone().lerp(endVec, particleOffset);
-  const direction = endVec.clone().sub(startVec).normalize();
-  const midpoint = startVec.clone().lerp(endVec, 0.5);
+  const particlePos = useMemo(() => startVec.clone().lerp(endVec, particleOffset), [startVec, endVec, particleOffset]);
 
   return (
     <group>
