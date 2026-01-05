@@ -12,6 +12,9 @@ import ProceduralEnvironmentGenerator from '../components/blueprint/ProceduralEn
 import VisualBehaviorEditor from '../components/blueprint/VisualBehaviorEditor';
 import AgentTrainingModule from '../components/blueprint/AgentTrainingModule';
 import { MultiAgentCoordinator, AgentCommunicationProtocol } from '../components/blueprint/MultiAgentCoordinator';
+import { AgentMemory, AgentMemoryViewer } from '../components/blueprint/AgentMemorySystem';
+import AgentSocietySimulator from '../components/blueprint/AgentSocietySimulator';
+import AgentSimulationRecorder from '../components/blueprint/AgentSimulationRecorder';
 import { base44 } from '@/api/base44Client';
 import { toast } from 'sonner';
 import { Canvas } from '@react-three/fiber';
@@ -1329,10 +1332,35 @@ export default function Blueprint() {
                   </div>
                 </div>
                 <div className="text-white/60 text-xs">{agent.type}</div>
+                {agentMemories.get(agent.id) && (
+                  <div className="mt-2 text-cyan-400 text-xs">
+                    {agentMemories.get(agent.id).getMemoryStats().totalExperiences} memories
+                  </div>
+                )}
               </div>
             ))}
           </div>
+
+          {holographicAgents.length > 0 && agentMemories.get(holographicAgents[0].id) && (
+            <div className="mt-4">
+              <AgentMemoryViewer
+                agent={holographicAgents[0]}
+                memorySystem={agentMemories.get(holographicAgents[0].id)}
+              />
+            </div>
+          )}
         </motion.div>
+      )}
+
+      {/* Multi-Agent Coordinator */}
+      {holographicAgents.length >= 2 && (
+        <MultiAgentCoordinator
+          agents={holographicAgents}
+          protocol={communicationProtocol.current}
+          onCoordinationUpdate={(collab) => {
+            // Handle coordination updates
+          }}
+        />
       )}
 
       {/* 3D Holographic Agents Display with Environment */}
