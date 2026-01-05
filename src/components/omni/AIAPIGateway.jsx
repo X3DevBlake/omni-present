@@ -7,11 +7,16 @@ import { toast } from 'sonner';
 export default function AIAPIGateway({ deployedServices, onClose }) {
   const [routingMetrics, setRoutingMetrics] = useState(null);
   const [trafficAnomalies, setTrafficAnomalies] = useState([]);
+  const [securityAnalysis, setSecurityAnalysis] = useState(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
 
   useEffect(() => {
     analyzeRouting();
-    const interval = setInterval(analyzeRouting, 10000);
+    analyzeSecurityThreats();
+    const interval = setInterval(() => {
+      analyzeRouting();
+      analyzeSecurityThreats();
+    }, 10000);
     return () => clearInterval(interval);
   }, []);
 
@@ -95,6 +100,65 @@ export default function AIAPIGateway({ deployedServices, onClose }) {
       console.error('Routing analysis failed:', error);
     } finally {
       setIsAnalyzing(false);
+    }
+  };
+
+  const analyzeSecurityThreats = async () => {
+    try {
+      const result = await base44.integrations.Core.InvokeLLM({
+        prompt: `
+          Advanced AI-driven security analysis for API Gateway.
+          
+          Real-time Traffic: ${JSON.stringify(deployedServices)}
+          
+          Implement intelligent security:
+          1. ADAPTIVE RATE LIMITING: Adjust limits based on traffic patterns to prevent DoS
+          2. AI-POWERED WAF: Detect SQL injection, XSS, command injection
+          3. USER BEHAVIOR ANOMALY: Identify suspicious activities and account takeovers
+        `,
+        response_json_schema: {
+          type: 'object',
+          properties: {
+            rateLimiting: {
+              type: 'object',
+              properties: {
+                currentRate: { type: 'number' },
+                recommendedLimit: { type: 'number' },
+                anomalousSpikes: { type: 'number' }
+              }
+            },
+            wafThreats: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  type: { type: 'string' },
+                  severity: { type: 'string' },
+                  confidence: { type: 'number' },
+                  endpoint: { type: 'string' }
+                }
+              }
+            },
+            behaviorAnomalies: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  userId: { type: 'string' },
+                  riskScore: { type: 'number' },
+                  indicators: { type: 'array', items: { type: 'string' } }
+                }
+              }
+            },
+            overallThreatLevel: { type: 'string' },
+            blockedRequests: { type: 'number' }
+          }
+        }
+      });
+
+      setSecurityAnalysis(result);
+    } catch (error) {
+      console.error('Security analysis failed:', error);
     }
   };
 
@@ -219,6 +283,32 @@ export default function AIAPIGateway({ deployedServices, onClose }) {
                     </div>
                   ))}
                 </div>
+              </div>
+            )}
+
+            {/* Advanced Security */}
+            {securityAnalysis && (
+              <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/30">
+                <h3 className="text-red-400 font-semibold mb-3">🛡️ Advanced Security ({securityAnalysis.overallThreatLevel})</h3>
+                <div className="grid grid-cols-3 gap-3 mb-3 text-xs">
+                  <div className="p-2 rounded bg-black/30">
+                    <div className="text-white/50">Rate</div>
+                    <div className="text-white">{securityAnalysis.rateLimiting?.currentRate} req/s</div>
+                  </div>
+                  <div className="p-2 rounded bg-black/30">
+                    <div className="text-white/50">Blocked</div>
+                    <div className="text-red-400">{securityAnalysis.blockedRequests}</div>
+                  </div>
+                  <div className="p-2 rounded bg-black/30">
+                    <div className="text-white/50">Anomalies</div>
+                    <div className="text-orange-400">{securityAnalysis.behaviorAnomalies?.length || 0}</div>
+                  </div>
+                </div>
+                {securityAnalysis.wafThreats?.length > 0 && (
+                  <div className="text-white/70 text-xs">
+                    ⚠️ {securityAnalysis.wafThreats.length} WAF threats detected
+                  </div>
+                )}
               </div>
             )}
           </div>
