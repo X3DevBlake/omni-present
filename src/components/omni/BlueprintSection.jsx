@@ -66,6 +66,10 @@ import AICollaborationAssistant from './AICollaborationAssistant';
 import AIObservabilityDashboard from './AIObservabilityDashboard';
 import AutonomousAIAgent from './AutonomousAIAgent';
 import RoleBasedDashboard from './RoleBasedDashboard';
+import AIModelGovernance from './AIModelGovernance';
+import AICodeReviewAssistant from './AICodeReviewAssistant';
+import CustomizableDashboard from './CustomizableDashboard';
+import AIDocumentationGenerator from './AIDocumentationGenerator';
 import { Cpu, HardDrive, Wifi, Database, ChevronRight, Mic, MicOff, Brain, Sparkles } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -509,6 +513,8 @@ export default function BlueprintSection() {
   const [showObservability, setShowObservability] = useState(false);
   const [userRole, setUserRole] = useState('developer');
   const [riskTolerance, setRiskTolerance] = useState('medium');
+  const [showGovernancePanel, setShowGovernancePanel] = useState(false);
+  const [showCustomDashboard, setShowCustomDashboard] = useState(false);
   const [showVersionControl, setShowVersionControl] = useState(false);
   const [showHeatmap, setShowHeatmap] = useState(false);
   const [showMediaUploader, setShowMediaUploader] = useState(false);
@@ -1486,16 +1492,69 @@ export default function BlueprintSection() {
           }}
         />
 
-        {/* Onboarding trigger button */}
-        <motion.button
-          onClick={() => setShowOnboarding(true)}
-          className="fixed top-24 left-6 z-40 px-4 py-2 rounded-lg bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-500/40 text-cyan-400 text-sm hover:bg-cyan-500/30"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <Sparkles className="w-4 h-4 inline mr-2" />
-          Start Tour
-        </motion.button>
+        {/* AI Model Governance */}
+        {showGovernancePanel && (
+          <AIModelGovernance
+            deployedModels={[{ modelId: 'model-1', name: 'Blueprint Analyzer' }]}
+            onRollback={(config) => {
+              console.log('Model rollback:', config);
+              toast.success('Model rolled back successfully');
+            }}
+            onClose={() => setShowGovernancePanel(false)}
+          />
+        )}
+
+        {/* AI Code Review Assistant */}
+        <AICodeReviewAssistant
+          blueprint={currentBlueprint}
+          onApplyFix={(fix) => {
+            console.log('Fix applied:', fix);
+            toast.success('Code fix applied');
+          }}
+        />
+
+        {/* Customizable Dashboard */}
+        {showCustomDashboard && (
+          <CustomizableDashboard
+            userRole={userRole}
+            onClose={() => setShowCustomDashboard(false)}
+          />
+        )}
+
+        {/* AI Documentation Generator */}
+        <AIDocumentationGenerator
+          blueprint={currentBlueprint}
+          telemetry={displayTelemetry}
+        />
+
+        {/* Quick action buttons */}
+        <div className="fixed top-24 left-6 z-40 flex flex-col gap-2">
+          <motion.button
+            onClick={() => setShowOnboarding(true)}
+            className="px-4 py-2 rounded-lg bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-500/40 text-cyan-400 text-sm hover:bg-cyan-500/30"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <Sparkles className="w-4 h-4 inline mr-2" />
+            Start Tour
+          </motion.button>
+          <motion.button
+            onClick={() => setShowGovernancePanel(true)}
+            className="px-4 py-2 rounded-lg bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/40 text-purple-400 text-sm hover:bg-purple-500/30"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            🛡️ Governance
+          </motion.button>
+          <motion.button
+            onClick={() => setShowCustomDashboard(true)}
+            className="px-4 py-2 rounded-lg bg-gradient-to-r from-green-500/20 to-cyan-500/20 border border-green-500/40 text-green-400 text-sm hover:bg-green-500/30"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            📊 Customize
+          </motion.button>
+        </div>
 
         {/* AI Observability Dashboard */}
         {showObservability && (

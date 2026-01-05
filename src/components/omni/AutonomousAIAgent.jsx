@@ -14,6 +14,8 @@ export default function AutonomousAIAgent({
   const [actions, setActions] = useState([]);
   const [isActive, setIsActive] = useState(true);
   const [showPanel, setShowPanel] = useState(false);
+  const [learningData, setLearningData] = useState([]);
+  const [multiCloudRecommendations, setMultiCloudRecommendations] = useState([]);
 
   useEffect(() => {
     if (isActive) {
@@ -39,6 +41,9 @@ export default function AutonomousAIAgent({
           2. COST INEFFICIENCIES: Underutilized resources, expensive configurations
           3. MODEL DRIFT: ML models needing retraining
           4. OPTIMIZATION OPPORTUNITIES: Configuration improvements
+          5. MULTI-CLOUD PATTERNS: Identify optimal deployment patterns across AWS/Azure/GCP
+          6. RIGHTSIZING OPPORTUNITIES: Auto-implement resource adjustments
+          7. LEARNING FROM FEEDBACK: User overrides: ${JSON.stringify(learningData.slice(-5))}
           
           For each issue, decide:
           - Should I auto-apply optimization? (based on risk tolerance)
@@ -78,12 +83,25 @@ export default function AutonomousAIAgent({
                   parameters: { type: 'object' }
                 }
               }
+            },
+            multiCloudOptimizations: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  pattern: { type: 'string' },
+                  provider: { type: 'string' },
+                  costSavings: { type: 'number' },
+                  performanceGain: { type: 'number' }
+                }
+              }
             }
           }
         }
       });
 
       setActions(result.findings || []);
+      setMultiCloudRecommendations(result.multiCloudOptimizations || []);
 
       // Execute auto-approved actions
       for (const actionItem of result.actionsToExecute || []) {
@@ -97,8 +115,13 @@ export default function AutonomousAIAgent({
     }
   };
 
-  const executeAction = async (actionItem) => {
+  const executeAction = async (actionItem, userOverride = false) => {
     const { action, blueprintId, parameters } = actionItem;
+
+    // Learn from user feedback
+    if (userOverride) {
+      setLearningData(prev => [...prev, { action, override: true, timestamp: Date.now() }]);
+    }
 
     if (action.includes('optimize')) {
       toast.info(`Agent: Applying optimization to ${blueprintId}`);
@@ -106,6 +129,9 @@ export default function AutonomousAIAgent({
     } else if (action.includes('retrain')) {
       toast.info(`Agent: Triggering model retraining for ${blueprintId}`);
       await onRetrainingTriggered?.({ blueprintId, parameters });
+    } else if (action.includes('rightsize')) {
+      toast.info(`Agent: Auto-rightsizing resources for ${blueprintId}`);
+      await onOptimizationApplied?.({ blueprintId, parameters, type: 'rightsize' });
     }
 
     toast.success(`Agent: ${action} completed`);
@@ -195,7 +221,27 @@ export default function AutonomousAIAgent({
                     <div className="text-white/70 text-xs mb-2">{action.description}</div>
                     <div className="text-cyan-400 text-xs mb-1">{action.recommendedAction}</div>
                     <div className="text-white/50 text-xs">{action.estimatedImpact}</div>
+                    {!action.autoApply && (
+                      <button
+                        onClick={() => executeAction({ action: action.recommendedAction, blueprintId: action.blueprintId }, true)}
+                        className="mt-2 w-full py-1 rounded bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-400 text-xs"
+                      >
+                        Apply Override
+                      </button>
+                    )}
                   </motion.div>
+                ))}
+              </div>
+            )}
+
+            {multiCloudRecommendations.length > 0 && (
+              <div className="mt-4">
+                <div className="text-white/70 text-xs mb-2">Multi-Cloud Optimizations:</div>
+                {multiCloudRecommendations.map((rec, idx) => (
+                  <div key={idx} className="p-2 rounded bg-green-500/10 border border-green-500/30 mb-2">
+                    <div className="text-white text-xs">{rec.pattern}</div>
+                    <div className="text-green-400 text-xs">{rec.provider}: -${rec.costSavings}/mo</div>
+                  </div>
                 ))}
               </div>
             )}
