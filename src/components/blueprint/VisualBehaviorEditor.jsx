@@ -38,15 +38,22 @@ const AvailableNodes = {
   ],
   planning: [
     { id: 'set_goal', label: 'Set Goal', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['goal'] },
+    { id: 'autonomous_goal', label: 'Auto Set Goal', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['personalityFactor'] },
     { id: 'plan_path', label: 'Plan Path', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['destination'] },
     { id: 'evaluate_options', label: 'Evaluate Options', type: 'CONDITION', inputs: ['in'], outputs: ['best', 'alternative'], params: ['criteria'] },
-    { id: 'prioritize', label: 'Prioritize Tasks', type: 'ACTION', inputs: ['in'], outputs: ['done'] }
+    { id: 'prioritize', label: 'Prioritize Tasks', type: 'ACTION', inputs: ['in'], outputs: ['done'] },
+    { id: 'dynamic_planning', label: 'Dynamic Plan', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['contextAware'] },
+    { id: 'goal_stack', label: 'Goal Stack', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['maxGoals'] }
   ],
   learning: [
     { id: 'learn_pattern', label: 'Learn Pattern', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['pattern'] },
     { id: 'reinforce', label: 'Reinforce Behavior', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['reward'] },
     { id: 'adapt', label: 'Adapt Strategy', type: 'ACTION', inputs: ['in'], outputs: ['done'] },
-    { id: 'remember', label: 'Remember Event', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['event'] }
+    { id: 'remember', label: 'Remember Event', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['event'] },
+    { id: 'rl_update', label: 'RL Update', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['state', 'action', 'reward'] },
+    { id: 'pattern_recognition', label: 'Pattern Recognition', type: 'CONDITION', inputs: ['in'], outputs: ['recognized', 'unknown'] },
+    { id: 'experience_replay', label: 'Experience Replay', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['sampleSize'] },
+    { id: 'transfer_learning', label: 'Transfer Learning', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['sourceDomain'] }
   ],
   social: [
     { id: 'request_help', label: 'Request Help', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['task'] },
@@ -64,6 +71,16 @@ const AvailableNodes = {
     { id: 'detect_collision', label: 'Detect Collision', type: 'TRIGGER', outputs: ['next'], params: ['objectType'] },
     { id: 'grab_object', label: 'Grab Object', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['object'] },
     { id: 'throw_object', label: 'Throw Object', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['velocity', 'direction'] }
+  ],
+  environment: [
+    { id: 'dig_terrain', label: 'Dig Terrain', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['depth', 'radius'] },
+    { id: 'level_terrain', label: 'Level Terrain', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['height', 'area'] },
+    { id: 'build_structure', label: 'Build Structure', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['structureType', 'materials'] },
+    { id: 'modify_water', label: 'Modify Water Flow', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['direction', 'rate'] },
+    { id: 'adjust_lighting', label: 'Adjust Lighting', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['intensity', 'color'] },
+    { id: 'place_resource', label: 'Place Resource', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['resourceType', 'amount'] },
+    { id: 'check_terrain', label: 'Check Terrain', type: 'CONDITION', inputs: ['in'], outputs: ['passable', 'blocked'] },
+    { id: 'perceive_change', label: 'Perceive Change', type: 'TRIGGER', outputs: ['next'], params: ['changeType'] }
   ],
   sensing: [
     { id: 'scan_area', label: 'Scan Area', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['radius'] },

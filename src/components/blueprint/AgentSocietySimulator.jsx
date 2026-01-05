@@ -8,12 +8,27 @@ export class AgentSociety {
   constructor(name, config) {
     this.name = name;
     this.agents = [];
-    this.resources = config.resources || { food: 100, shelter: 10, tools: 5 };
+    this.resources = config.resources || { food: 100, shelter: 10, tools: 5, water: 100, knowledge: 0 };
     this.rules = config.rules || [];
     this.goals = config.goals || [];
     this.socialStructure = config.socialStructure || 'egalitarian';
     this.emergentBehaviors = [];
     this.history = [];
+    this.interactionRules = config.interactionRules || this.getDefaultInteractionRules();
+    this.resourceManagement = config.resourceManagement || { distribution: 'equal', threshold: 20 };
+    this.collectiveGoals = config.collectiveGoals || [];
+    this.culturalTraits = [];
+    this.conflicts = [];
+    this.alliances = [];
+  }
+
+  getDefaultInteractionRules() {
+    return {
+      cooperation: { threshold: 50, benefit: 1.5 },
+      competition: { threshold: -30, penalty: 0.8 },
+      trading: { enabled: true, fairness: 0.7 },
+      teaching: { enabled: true, knowledgeTransfer: 0.3 }
+    };
   }
 
   addAgent(agent) {
@@ -34,12 +49,100 @@ export class AgentSociety {
     this.agents.forEach(agent => {
       this.updateRelationships(agent);
       this.performRoleActions(agent);
-      this.checkEmergentBehaviors();
+      this.applyInteractionRules(agent);
     });
     
     this.manageResources();
+    this.handleConflicts();
+    this.manageAlliances();
+    this.checkEmergentBehaviors();
     this.evaluateGoals();
+    this.evolveCulture();
     this.recordHistory();
+  }
+
+  applyInteractionRules(agent) {
+    this.agents.forEach(other => {
+      if (agent === other) return;
+      
+      const relationship = agent.relationships.get(other.id) || 0;
+      
+      // Cooperation
+      if (relationship > this.interactionRules.cooperation.threshold) {
+        if (Math.random() > 0.7) {
+          this.resources.food += this.interactionRules.cooperation.benefit;
+          agent.contribution += 1;
+          other.contribution += 1;
+        }
+      }
+      
+      // Trading
+      if (this.interactionRules.trading.enabled && Math.random() > 0.8) {
+        const trade = Math.random() * 5;
+        agent.contribution += trade;
+        other.contribution += trade * this.interactionRules.trading.fairness;
+      }
+      
+      // Teaching/Knowledge Transfer
+      if (this.interactionRules.teaching.enabled && agent.contribution > other.contribution) {
+        this.resources.knowledge += this.interactionRules.teaching.knowledgeTransfer;
+      }
+    });
+  }
+
+  handleConflicts() {
+    if (this.resources.food < 30 && this.agents.length > 15) {
+      const conflict = {
+        type: 'resource_scarcity',
+        participants: this.agents.slice(0, Math.floor(Math.random() * 5) + 2),
+        severity: 'high',
+        timestamp: Date.now()
+      };
+      this.conflicts.push(conflict);
+      
+      if (this.conflicts.length > 3 && !this.emergentBehaviors.includes('conflict_resolution')) {
+        this.emergentBehaviors.push('conflict_resolution');
+      }
+    }
+  }
+
+  manageAlliances() {
+    // Form alliances between agents with high relationships
+    this.agents.forEach((agent1, i) => {
+      this.agents.slice(i + 1).forEach(agent2 => {
+        const relationship = agent1.relationships.get(agent2.id) || 0;
+        if (relationship > 80 && Math.random() > 0.9) {
+          const existingAlliance = this.alliances.find(a => 
+            a.members.includes(agent1.id) && a.members.includes(agent2.id)
+          );
+          
+          if (!existingAlliance) {
+            this.alliances.push({
+              members: [agent1.id, agent2.id],
+              strength: relationship,
+              formed: Date.now()
+            });
+          }
+        }
+      });
+    });
+  }
+
+  evolvecultura() {
+    // Cultural traits emerge based on repeated behaviors
+    const avgContribution = this.agents.reduce((sum, a) => sum + a.contribution, 0) / this.agents.length;
+    
+    if (avgContribution > 50 && !this.culturalTraits.includes('work_ethic')) {
+      this.culturalTraits.push('work_ethic');
+    }
+    
+    if (this.getAverageRelationship() > 70 && !this.culturalTraits.includes('harmony')) {
+      this.culturalTraits.push('harmony');
+    }
+    
+    if (this.resources.knowledge > 50 && !this.culturalTraits.includes('innovation')) {
+      this.culturalTraits.push('innovation');
+    }
   }
 
   updateRelationships(agent) {
@@ -91,7 +194,27 @@ export class AgentSociety {
   }
 
   manageResources() {
+    // Resource consumption
     this.resources.food = Math.max(0, this.resources.food - this.agents.length * 0.5);
+    this.resources.water = Math.max(0, this.resources.water - this.agents.length * 0.3);
+    
+    // Resource distribution based on management system
+    if (this.resourceManagement.distribution === 'equal') {
+      // Equal distribution
+    } else if (this.resourceManagement.distribution === 'merit') {
+      // Top contributors get more
+      const topContributors = this.agents.sort((a, b) => b.contribution - a.contribution).slice(0, 3);
+      topContributors.forEach(agent => agent.contribution += 2);
+    } else if (this.resourceManagement.distribution === 'need') {
+      // Those with lowest resources get priority
+    }
+    
+    // Critical resource warning
+    if (this.resources.food < this.resourceManagement.threshold) {
+      if (!this.emergentBehaviors.includes('resource_crisis')) {
+        this.emergentBehaviors.push('resource_crisis');
+      }
+    }
   }
 
   evaluateGoals() {
@@ -132,7 +255,10 @@ export class AgentSociety {
       resources: this.resources,
       avgRelationship: this.getAverageRelationship().toFixed(1),
       emergentBehaviors: this.emergentBehaviors,
-      topContributors: this.agents.sort((a, b) => b.contribution - a.contribution).slice(0, 3)
+      topContributors: this.agents.sort((a, b) => b.contribution - a.contribution).slice(0, 3),
+      conflicts: this.conflicts.length,
+      alliances: this.alliances.length,
+      culturalTraits: this.culturalTraits
     };
   }
 }
@@ -260,7 +386,22 @@ export default function AgentSocietySimulator({ show, onClose, agents }) {
                       <div className="text-xs text-orange-400 mb-1">Avg Relations</div>
                       <div className="text-2xl font-bold text-white">{stats.avgRelationship}</div>
                     </div>
-                  </div>
+                    </div>
+
+                    <div className="grid grid-cols-3 gap-3 mt-3">
+                    <div className="bg-white/5 rounded-lg p-2">
+                      <div className="text-xs text-white/60">Conflicts</div>
+                      <div className="text-lg font-bold text-red-400">{stats.conflicts}</div>
+                    </div>
+                    <div className="bg-white/5 rounded-lg p-2">
+                      <div className="text-xs text-white/60">Alliances</div>
+                      <div className="text-lg font-bold text-blue-400">{stats.alliances}</div>
+                    </div>
+                    <div className="bg-white/5 rounded-lg p-2">
+                      <div className="text-xs text-white/60">Knowledge</div>
+                      <div className="text-lg font-bold text-purple-400">{stats.resources.knowledge?.toFixed(0) || 0}</div>
+                    </div>
+                    </div>
 
                   {stats.emergentBehaviors.length > 0 && (
                     <div className="bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border border-cyan-500/30 rounded-xl p-4">
@@ -272,6 +413,19 @@ export default function AgentSocietySimulator({ show, onClose, agents }) {
                         {stats.emergentBehaviors.map(behavior => (
                           <div key={behavior} className="px-3 py-1 bg-cyan-500/20 border border-cyan-500/40 rounded-full text-cyan-300 text-xs capitalize">
                             {behavior.replace('_', ' ')}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {stats.culturalTraits && stats.culturalTraits.length > 0 && (
+                    <div className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/30 rounded-xl p-4">
+                      <h4 className="text-purple-400 font-semibold mb-2">Cultural Traits</h4>
+                      <div className="flex gap-2 flex-wrap">
+                        {stats.culturalTraits.map(trait => (
+                          <div key={trait} className="px-3 py-1 bg-purple-500/20 border border-purple-500/40 rounded-full text-purple-300 text-xs capitalize">
+                            {trait.replace('_', ' ')}
                           </div>
                         ))}
                       </div>
