@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
+import { PhysicsInteractiveObject } from './PhysicsSystem';
 
 function Office() {
   return (
@@ -21,17 +22,33 @@ function Office() {
         <meshStandardMaterial color="#3a3a3a" />
       </mesh>
       
-      {/* Desk */}
+      {/* Desk - Static */}
       <mesh position={[3, 0, 2]}>
         <boxGeometry args={[4, 1.5, 2]} />
         <meshStandardMaterial color="#8b4513" />
       </mesh>
       
-      {/* Chair */}
-      <mesh position={[3, -0.3, 4]}>
-        <cylinderGeometry args={[0.5, 0.5, 0.8]} />
-        <meshStandardMaterial color="#1a1a1a" />
-      </mesh>
+      {/* Interactive Chair */}
+      <PhysicsInteractiveObject
+        geometry={{ type: 'cylinder', args: [0.5, 0.5, 0.8] }}
+        position={[3, 0.1, 4]}
+        color="#1a1a1a"
+        physicsProps={{ mass: 2, friction: 0.7, restitution: 0.2, canBePushed: true }}
+      />
+      
+      {/* Interactive objects on desk */}
+      <PhysicsInteractiveObject
+        geometry={{ type: 'box', args: [0.3, 0.3, 0.3] }}
+        position={[3.5, 1.6, 2]}
+        color="#ff6b6b"
+        physicsProps={{ mass: 0.5, friction: 0.5, restitution: 0.3 }}
+      />
+      <PhysicsInteractiveObject
+        geometry={{ type: 'sphere', args: [0.15] }}
+        position={[2.5, 1.6, 2]}
+        color="#4ecdc4"
+        physicsProps={{ mass: 0.3, friction: 0.3, restitution: 0.6 }}
+      />
       
       {/* Shelves */}
       {[0, 1, 2].map(i => (

@@ -1,12 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Cpu, Database, HardDrive, Wifi, ChevronRight, X, Info, Layers, Plus, MessageCircle, Send, Users, History, Share2, Save, FolderOpen, Wand2, Gauge, Bot, Map } from 'lucide-react';
+import { Cpu, Database, HardDrive, Wifi, ChevronRight, X, Info, Layers, Plus, MessageCircle, Send, Users, History, Share2, Save, FolderOpen, Wand2, Gauge, Bot, Map, Box, GitBranch } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import Blueprint3DViewer from '../components/blueprint/Blueprint3DViewer';
 import AutomatedBlueprintGenerator from '../components/blueprint/AutomatedBlueprintGenerator';
 import BlueprintControlPanel from '../components/blueprint/BlueprintControlPanel';
 import AgentCreator from '../components/blueprint/AgentCreator';
 import EnvironmentCreator from '../components/blueprint/EnvironmentCreator';
+import AI3DModelGenerator from '../components/blueprint/AI3DModelGenerator';
+import VisualBehaviorEditor from '../components/blueprint/VisualBehaviorEditor';
 import { base44 } from '@/api/base44Client';
 import { toast } from 'sonner';
 import { Canvas } from '@react-three/fiber';
@@ -135,9 +137,12 @@ export default function Blueprint() {
   const [showControlPanel, setShowControlPanel] = useState(false);
   const [showAgentCreator, setShowAgentCreator] = useState(false);
   const [showEnvironmentCreator, setShowEnvironmentCreator] = useState(false);
+  const [show3DModelGenerator, setShow3DModelGenerator] = useState(false);
+  const [showBehaviorEditor, setShowBehaviorEditor] = useState(false);
   const [holographicAgents, setHolographicAgents] = useState([]);
   const [currentEnvironment, setCurrentEnvironment] = useState('office');
   const [agentMovementTargets, setAgentMovementTargets] = useState({});
+  const [customModels, setCustomModels] = useState([]);
   const sectionRef = useRef(null);
 
   useEffect(() => {
@@ -427,6 +432,16 @@ export default function Blueprint() {
     }
   };
 
+  const handleModelGenerated = (model) => {
+    setCustomModels([...customModels, { ...model, id: Date.now().toString() }]);
+    toast.success('3D model added to environment!');
+  };
+
+  const handleBehaviorSaved = (behavior) => {
+    // Save behavior to agent or global behavior library
+    toast.success('Behavior pattern saved!');
+  };
+
   const selectedComponentData = componentsData[selectedComponent];
 
   return (
@@ -604,6 +619,20 @@ export default function Blueprint() {
                     >
                       <Map className="w-4 h-4" />
                       Environment
+                    </button>
+                    <button
+                      onClick={() => setShow3DModelGenerator(true)}
+                      className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/40 text-purple-300 rounded-xl text-sm hover:from-purple-500/30 hover:to-pink-500/30"
+                    >
+                      <Box className="w-4 h-4" />
+                      3D Models
+                    </button>
+                    <button
+                      onClick={() => setShowBehaviorEditor(true)}
+                      className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-500/20 to-red-500/20 border border-orange-500/40 text-orange-300 rounded-xl text-sm hover:from-orange-500/30 hover:to-red-500/30"
+                    >
+                      <GitBranch className="w-4 h-4" />
+                      Behaviors
                     </button>
                     </div>
 
@@ -1136,6 +1165,20 @@ export default function Blueprint() {
         onClose={() => setShowEnvironmentCreator(false)}
         onEnvironmentSelect={setCurrentEnvironment}
         currentEnvironment={currentEnvironment}
+      />
+
+      {/* 3D Model Generator */}
+      <AI3DModelGenerator
+        show={show3DModelGenerator}
+        onClose={() => setShow3DModelGenerator(false)}
+        onModelGenerated={handleModelGenerated}
+      />
+
+      {/* Visual Behavior Editor */}
+      <VisualBehaviorEditor
+        show={showBehaviorEditor}
+        onClose={() => setShowBehaviorEditor(false)}
+        onSaveBehavior={handleBehaviorSaved}
       />
 
       {/* Holographic Agents Section */}
