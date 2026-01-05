@@ -364,6 +364,11 @@ export default function Blueprint() {
                   collaborators={collaborators}
                   showPerformance={showPerformance}
                   lightingPreset={lightingPreset}
+                  onComponentPositionUpdate={(index, newPos) => {
+                    setBuildComponents(prev => prev.map((comp, i) => 
+                      i === index ? { ...comp, position: newPos } : comp
+                    ));
+                  }}
                 />
                 
                 <div className="absolute bottom-4 left-4 right-4 flex gap-2 flex-wrap">

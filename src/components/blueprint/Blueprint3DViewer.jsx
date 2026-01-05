@@ -13,14 +13,18 @@ const componentsData = [
   { position: [0, 0, -1.2], size: [0.3, 0.3, 0.3], color: '#3b82f6', label: 'I/O Controller', connections: [5], load: 55 },
 ];
 
-function AnimatedConnectionLine({ start, end, color, active }) {
+function AnimatedConnectionLine({ start, end, color, active, isDependency }) {
   const lineRef = useRef();
+  const arrowRef = useRef();
   const [particleOffset, setParticleOffset] = useState(0);
 
   useFrame((state) => {
     setParticleOffset((prev) => (prev + 0.02) % 1);
     if (lineRef.current && active) {
       lineRef.current.material.opacity = 0.3 + Math.sin(state.clock.elapsedTime * 2) * 0.2;
+    }
+    if (arrowRef.current && isDependency) {
+      arrowRef.current.rotation.z = state.clock.elapsedTime * 2;
     }
   });
 
@@ -30,16 +34,31 @@ function AnimatedConnectionLine({ start, end, color, active }) {
   const geometry = new THREE.BufferGeometry().setFromPoints(points);
 
   const particlePos = startVec.clone().lerp(endVec, particleOffset);
+  const direction = endVec.clone().sub(startVec).normalize();
+  const midpoint = startVec.clone().lerp(endVec, 0.5);
 
   return (
     <group>
       <line ref={lineRef} geometry={geometry}>
-        <lineBasicMaterial color={color} opacity={0.3} transparent linewidth={2} />
+        <lineBasicMaterial 
+          color={color} 
+          opacity={isDependency ? 0.6 : 0.3} 
+          transparent 
+          linewidth={isDependency ? 3 : 2} 
+        />
       </line>
+      
       {active && (
         <mesh position={[particlePos.x, particlePos.y, particlePos.z]}>
           <sphereGeometry args={[0.03, 8, 8]} />
           <meshBasicMaterial color={color} />
+        </mesh>
+      )}
+
+      {isDependency && (
+        <mesh ref={arrowRef} position={[midpoint.x, midpoint.y, midpoint.z]} lookAt={endVec}>
+          <coneGeometry args={[0.05, 0.15, 8]} />
+          <meshBasicMaterial color={color} transparent opacity={0.7} />
         </mesh>
       )}
     </group>
@@ -56,7 +75,8 @@ function ConnectionLines({ components, showConnections }) {
         return comp.connections.map(targetIdx => {
           if (targetIdx >= components.length) return null;
           const target = components[targetIdx];
-          const isActive = comp.load > 70 || target.load > 70;
+          const isActive = (comp.load || 0) > 70 || (target.load || 0) > 70;
+          const isDependency = i < targetIdx; // Direction indicator
           
           return (
             <AnimatedConnectionLine
@@ -65,6 +85,7 @@ function ConnectionLines({ components, showConnections }) {
               end={target.position}
               color={comp.color}
               active={isActive}
+              isDependency={isDependency}
             />
           );
         });
@@ -102,31 +123,71 @@ function PerformanceOverlay({ component, position }) {
   );
 }
 
-function BlueprintComponent({ component, index, exploded, scrollProgress, isSelected, onClick, buildMode, onBuildModeClick, showPerformance }) {
+function BlueprintComponent({ component, index, exploded, scrollProgress, isSelected, onClick, buildMode, onBuildModeClick, showPerformance, onDragStart, onDragEnd, onPositionUpdate }) {
   const meshRef = useRef();
   const groupRef = useRef();
   const [hovered, setHovered] = useState(false);
   const [pulseIntensity, setPulseIntensity] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState(null);
+  const velocityRef = useRef([0, 0, 0]);
+  const lastPositionRef = useRef([...component.position]);
 
-  useFrame((state) => {
+  useFrame((state, delta) => {
     if (meshRef.current) {
-      const targetScale = hovered || isSelected ? 1.15 : 1;
+      const targetScale = hovered || isSelected || isDragging ? 1.15 : 1;
       meshRef.current.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.1);
       
-      if (!buildMode && !exploded) {
+      if (!buildMode && !exploded && !isDragging) {
         meshRef.current.rotation.y = scrollProgress * Math.PI * 2 + index * 0.5;
       }
 
-      if (isSelected) {
+      if (isSelected && !isDragging) {
         meshRef.current.rotation.y += 0.01;
       }
 
-      // Pulse based on load
       const load = component.load || 0;
       if (load > 70) {
         setPulseIntensity(0.2 + Math.sin(state.clock.elapsedTime * 3) * 0.3);
       } else {
         setPulseIntensity(0.2);
+      }
+    }
+
+    // Physics simulation in build mode
+    if (buildMode && groupRef.current && !isDragging) {
+      // Apply gravity
+      velocityRef.current[1] -= 2 * delta;
+      
+      // Update position
+      const newPos = [
+        groupRef.current.position.x + velocityRef.current[0] * delta,
+        groupRef.current.position.y + velocityRef.current[1] * delta,
+        groupRef.current.position.z + velocityRef.current[2] * delta
+      ];
+
+      // Ground collision with bounce
+      if (newPos[1] < -2) {
+        newPos[1] = -2;
+        velocityRef.current[1] = -velocityRef.current[1] * 0.6; // bounce dampening
+        velocityRef.current[0] *= 0.8; // friction
+        velocityRef.current[2] *= 0.8;
+      }
+
+      // Apply drag force
+      velocityRef.current[0] *= 0.98;
+      velocityRef.current[1] *= 0.98;
+      velocityRef.current[2] *= 0.98;
+
+      groupRef.current.position.set(newPos[0], newPos[1], newPos[2]);
+      
+      // Update parent if position changed significantly
+      const moved = Math.abs(newPos[0] - lastPositionRef.current[0]) > 0.01 ||
+                    Math.abs(newPos[1] - lastPositionRef.current[1]) > 0.01 ||
+                    Math.abs(newPos[2] - lastPositionRef.current[2]) > 0.01;
+      if (moved) {
+        lastPositionRef.current = newPos;
+        onPositionUpdate?.(newPos);
       }
     }
   });
@@ -143,34 +204,66 @@ function BlueprintComponent({ component, index, exploded, scrollProgress, isSele
     }
   }, [exploded, component.position, buildMode]);
 
+  const handlePointerDown = (e) => {
+    if (buildMode) {
+      e.stopPropagation();
+      setIsDragging(true);
+      setDragStart(e.point);
+      velocityRef.current = [0, 0, 0];
+      onDragStart?.();
+    }
+  };
+
+  const handlePointerUp = (e) => {
+    if (isDragging) {
+      e.stopPropagation();
+      setIsDragging(false);
+      setDragStart(null);
+      onDragEnd?.();
+    } else if (buildMode) {
+      onBuildModeClick?.();
+    } else {
+      onClick?.();
+    }
+  };
+
+  const handlePointerMove = (e) => {
+    if (isDragging && dragStart && groupRef.current) {
+      e.stopPropagation();
+      const delta = {
+        x: e.point.x - dragStart.x,
+        y: e.point.y - dragStart.y,
+        z: e.point.z - dragStart.z
+      };
+      groupRef.current.position.x = component.position[0] + delta.x;
+      groupRef.current.position.y = component.position[1] + delta.y;
+      groupRef.current.position.z = component.position[2] + delta.z;
+    }
+  };
+
   return (
     <group ref={groupRef} position={component.position}>
       <mesh
         ref={meshRef}
         onPointerOver={() => {
           setHovered(true);
-          document.body.style.cursor = 'pointer';
+          document.body.style.cursor = buildMode ? 'grab' : 'pointer';
         }}
         onPointerOut={() => {
           setHovered(false);
           document.body.style.cursor = 'auto';
         }}
-        onClick={(e) => {
-          e.stopPropagation();
-          if (buildMode) {
-            onBuildModeClick?.();
-          } else {
-            onClick?.();
-          }
-        }}
+        onPointerDown={handlePointerDown}
+        onPointerUp={handlePointerUp}
+        onPointerMove={handlePointerMove}
       >
         <boxGeometry args={component.size} />
         <meshStandardMaterial
           color={component.color}
           transparent
-          opacity={buildMode ? 0.7 : 0.85}
+          opacity={isDragging ? 0.9 : buildMode ? 0.7 : 0.85}
           emissive={component.color}
-          emissiveIntensity={hovered || isSelected ? 0.8 : pulseIntensity}
+          emissiveIntensity={hovered || isSelected || isDragging ? 0.8 : pulseIntensity}
           metalness={0.8}
           roughness={0.2}
         />
@@ -182,7 +275,7 @@ function BlueprintComponent({ component, index, exploded, scrollProgress, isSele
           color={component.color} 
           wireframe 
           transparent 
-          opacity={hovered || isSelected ? 0.8 : 0.5} 
+          opacity={hovered || isSelected || isDragging ? 0.8 : 0.5} 
         />
       </mesh>
 
@@ -190,6 +283,13 @@ function BlueprintComponent({ component, index, exploded, scrollProgress, isSele
         <mesh>
           <sphereGeometry args={[Math.max(...component.size) * 0.9, 16, 16]} />
           <meshBasicMaterial color={component.color} transparent opacity={0.15} />
+        </mesh>
+      )}
+
+      {isDragging && (
+        <mesh>
+          <sphereGeometry args={[Math.max(...component.size) * 1.1, 16, 16]} />
+          <meshBasicMaterial color="#ffffff" transparent opacity={0.1} wireframe />
         </mesh>
       )}
 
@@ -208,9 +308,11 @@ function BlueprintCore({
   onBuildComponentClick,
   showConnections,
   collaborators,
-  showPerformance
+  showPerformance,
+  onComponentPositionUpdate
 }) {
   const groupRef = useRef();
+  const [draggingIndex, setDraggingIndex] = useState(null);
 
   useFrame((state) => {
     if (groupRef.current && !exploded && !buildMode) {
@@ -234,6 +336,9 @@ function BlueprintCore({
           buildMode={buildMode}
           onBuildModeClick={() => buildMode && onBuildComponentClick(i)}
           showPerformance={showPerformance}
+          onDragStart={() => setDraggingIndex(i)}
+          onDragEnd={() => setDraggingIndex(null)}
+          onPositionUpdate={(newPos) => onComponentPositionUpdate?.(i, newPos)}
         />
       ))}
 
@@ -247,6 +352,14 @@ function BlueprintCore({
           color={collab.color}
         />
       ))}
+
+      {/* Ground plane for visual reference in build mode */}
+      {buildMode && (
+        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -2, 0]}>
+          <planeGeometry args={[10, 10, 10, 10]} />
+          <meshBasicMaterial color="#ffffff" transparent opacity={0.05} wireframe />
+        </mesh>
+      )}
 
       <mesh>
         <sphereGeometry args={[2.5, 32, 32]} />
@@ -272,7 +385,8 @@ export default function Blueprint3DViewer({
   showConnections,
   collaborators = [],
   showPerformance = false,
-  lightingPreset = 'default'
+  lightingPreset = 'default',
+  onComponentPositionUpdate
 }) {
   const getLightingConfig = () => {
     switch (lightingPreset) {
@@ -337,6 +451,7 @@ export default function Blueprint3DViewer({
         showConnections={showConnections}
         collaborators={collaborators}
         showPerformance={showPerformance}
+        onComponentPositionUpdate={onComponentPositionUpdate}
       />
       
       <OrbitControls
@@ -345,6 +460,7 @@ export default function Blueprint3DViewer({
         enableRotate={true}
         minDistance={3}
         maxDistance={10}
+        enabled={!buildMode}
       />
     </Canvas>
   );
