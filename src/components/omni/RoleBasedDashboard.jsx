@@ -6,10 +6,13 @@ export default function RoleBasedDashboard({ userRole, children }) {
   const [customizedView, setCustomizedView] = useState(null);
 
   useEffect(() => {
-    customizeInterface();
+    if (userRole) {
+      customizeInterface();
+    }
   }, [userRole]);
 
   const customizeInterface = async () => {
+    if (!userRole) return;
     try {
       const result = await base44.integrations.Core.InvokeLLM({
         prompt: `
@@ -74,18 +77,15 @@ export default function RoleBasedDashboard({ userRole, children }) {
   };
 
   return (
-    <div className="role-based-container" data-role={userRole} data-customized={!!customizedView}>
+    <>
       {children}
-      
-      {customizedView && (
+      {customizedView && userRole && (
         <div className="fixed top-6 right-80 z-30 px-3 py-1.5 rounded-full bg-purple-500/20 border border-purple-500/40">
           <span className="text-purple-400 text-xs">
-            View: {userRole?.replace('_', ' ')}
+            View: {userRole.replace('_', ' ')}
           </span>
         </div>
       )}
-    </div>
+    </>
   );
 }
-
-export { RoleBasedDashboard };
