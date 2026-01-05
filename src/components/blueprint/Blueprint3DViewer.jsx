@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useMemo } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
@@ -133,6 +133,13 @@ function BlueprintComponent({ component, index, exploded, scrollProgress, isSele
   const velocityRef = useRef([0, 0, 0]);
   const lastPositionRef = useRef([...component.position]);
 
+  // Memoize geometry to avoid recreating on every render
+  const geometry = useMemo(() => new THREE.BoxGeometry(...component.size), [component.size]);
+  const wireframeGeometry = useMemo(() => 
+    new THREE.BoxGeometry(...component.size.map(s => s * 1.02)), 
+    [component.size]
+  );
+
   useFrame((state, delta) => {
     if (meshRef.current) {
       const targetScale = hovered || isSelected || isDragging ? 1.15 : 1;
@@ -154,37 +161,32 @@ function BlueprintComponent({ component, index, exploded, scrollProgress, isSele
       }
     }
 
-    // Physics simulation in build mode
-    if (buildMode && groupRef.current && !isDragging) {
-      // Apply gravity
+    // Optimized physics simulation (reduced iterations)
+    if (buildMode && groupRef.current && !isDragging && state.clock.elapsedTime % 0.016 < delta) {
       velocityRef.current[1] -= 2 * delta;
       
-      // Update position
       const newPos = [
         groupRef.current.position.x + velocityRef.current[0] * delta,
         groupRef.current.position.y + velocityRef.current[1] * delta,
         groupRef.current.position.z + velocityRef.current[2] * delta
       ];
 
-      // Ground collision with bounce
       if (newPos[1] < -2) {
         newPos[1] = -2;
-        velocityRef.current[1] = -velocityRef.current[1] * 0.6; // bounce dampening
-        velocityRef.current[0] *= 0.8; // friction
+        velocityRef.current[1] = Math.abs(velocityRef.current[1]) > 0.1 ? -velocityRef.current[1] * 0.6 : 0;
+        velocityRef.current[0] *= 0.8;
         velocityRef.current[2] *= 0.8;
       }
 
-      // Apply drag force
       velocityRef.current[0] *= 0.98;
       velocityRef.current[1] *= 0.98;
       velocityRef.current[2] *= 0.98;
 
       groupRef.current.position.set(newPos[0], newPos[1], newPos[2]);
       
-      // Update parent if position changed significantly
-      const moved = Math.abs(newPos[0] - lastPositionRef.current[0]) > 0.01 ||
-                    Math.abs(newPos[1] - lastPositionRef.current[1]) > 0.01 ||
-                    Math.abs(newPos[2] - lastPositionRef.current[2]) > 0.01;
+      const moved = Math.abs(newPos[0] - lastPositionRef.current[0]) > 0.02 ||
+                    Math.abs(newPos[1] - lastPositionRef.current[1]) > 0.02 ||
+                    Math.abs(newPos[2] - lastPositionRef.current[2]) > 0.02;
       if (moved) {
         lastPositionRef.current = newPos;
         onPositionUpdate?.(newPos);
@@ -245,6 +247,7 @@ function BlueprintComponent({ component, index, exploded, scrollProgress, isSele
     <group ref={groupRef} position={component.position}>
       <mesh
         ref={meshRef}
+        geometry={geometry}
         onPointerOver={() => {
           setHovered(true);
           document.body.style.cursor = buildMode ? 'grab' : 'pointer';
@@ -257,7 +260,6 @@ function BlueprintComponent({ component, index, exploded, scrollProgress, isSele
         onPointerUp={handlePointerUp}
         onPointerMove={handlePointerMove}
       >
-        <boxGeometry args={component.size} />
         <meshStandardMaterial
           color={component.color}
           transparent
@@ -269,8 +271,7 @@ function BlueprintComponent({ component, index, exploded, scrollProgress, isSele
         />
       </mesh>
       
-      <mesh>
-        <boxGeometry args={component.size.map(s => s * 1.02)} />
+      <mesh geometry={wireframeGeometry}>
         <meshBasicMaterial 
           color={component.color} 
           wireframe 
