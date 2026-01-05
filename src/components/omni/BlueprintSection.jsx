@@ -63,6 +63,7 @@ import AIModelLifecycleManager from './AIModelLifecycleManager';
 import AIProactiveMonitor from './AIProactiveMonitor';
 import AIOnboardingSystem from './AIOnboardingSystem';
 import AICollaborationAssistant from './AICollaborationAssistant';
+import AIObservabilityDashboard from './AIObservabilityDashboard';
 import { Cpu, HardDrive, Wifi, Database, ChevronRight, Mic, MicOff, Brain, Sparkles } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -503,6 +504,7 @@ export default function BlueprintSection() {
   const [showLifecycleManager, setShowLifecycleManager] = useState(false);
   const [showComparison, setShowComparison] = useState(false);
   const [showOnboarding, setShowOnboarding] = useState(false);
+  const [showObservability, setShowObservability] = useState(false);
   const [showVersionControl, setShowVersionControl] = useState(false);
   const [showHeatmap, setShowHeatmap] = useState(false);
   const [showMediaUploader, setShowMediaUploader] = useState(false);
@@ -760,6 +762,14 @@ export default function BlueprintSection() {
                   title="Monitoring"
                 >
                   📊
+                </button>
+
+                <button
+                  onClick={() => setShowObservability(true)}
+                  className="py-2.5 sm:py-3 px-3 rounded-xl font-medium transition-all text-sm sm:text-base bg-white/5 border border-white/10 text-white/60 hover:bg-cyan-500/20 hover:border-cyan-500/40 hover:text-cyan-300"
+                  title="Observability"
+                >
+                  🔬
                 </button>
                 
                 <button
@@ -1466,6 +1476,14 @@ export default function BlueprintSection() {
           <Sparkles className="w-4 h-4 inline mr-2" />
           Start Tour
         </motion.button>
+
+        {/* AI Observability Dashboard */}
+        {showObservability && (
+          <AIObservabilityDashboard
+            deployedServices={currentBlueprint ? [currentBlueprint] : []}
+            onClose={() => setShowObservability(false)}
+          />
+        )}
 
         {/* Anomaly Detection System */}
         <AnomalyDetectionSystem

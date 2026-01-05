@@ -14,6 +14,8 @@ export default function AIModelMarketplace({ userContext, onModelSelected, onClo
   const [fineTuneConfig, setFineTuneConfig] = useState(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [isFineTuning, setIsFineTuning] = useState(false);
+  const [governanceReport, setGovernanceReport] = useState(null);
+  const [semanticSearch, setSemanticSearch] = useState(null);
   const queryClient = useQueryClient();
 
   const { data: models } = useQuery({
@@ -250,6 +252,117 @@ export default function AIModelMarketplace({ userContext, onModelSelected, onClo
     setFineTuneConfig(null);
   };
 
+  const scanModelGovernance = async (model) => {
+    try {
+      const result = await base44.integrations.Core.InvokeLLM({
+        prompt: `
+          Comprehensive AI governance scan for marketplace model.
+          
+          Model: ${JSON.stringify(model)}
+          
+          Scan for:
+          1. SECURITY VULNERABILITIES: Code injection, backdoors, malicious patterns
+          2. LICENSE COMPLIANCE: Check against common licenses (MIT, Apache, GPL)
+          3. ETHICAL IMPLICATIONS: Bias detection, fairness concerns
+          4. PERFORMANCE MONITORING: Long-term degradation patterns
+          5. UNINTENDED CONSEQUENCES: Edge cases, unexpected behaviors
+          
+          Provide:
+          - Security score (0-100)
+          - License compliance status
+          - Bias/fairness analysis
+          - Deployment recommendations
+        `,
+        response_json_schema: {
+          type: 'object',
+          properties: {
+            securityScore: { type: 'number' },
+            vulnerabilities: { type: 'array', items: { type: 'string' } },
+            licenseCompliance: {
+              type: 'object',
+              properties: {
+                status: { type: 'string' },
+                detectedLicense: { type: 'string' },
+                conflicts: { type: 'array', items: { type: 'string' } }
+              }
+            },
+            ethicalAnalysis: {
+              type: 'object',
+              properties: {
+                biasDetected: { type: 'boolean' },
+                biasTypes: { type: 'array', items: { type: 'string' } },
+                fairnessScore: { type: 'number' },
+                recommendations: { type: 'array', items: { type: 'string' } }
+              }
+            },
+            performanceMonitoring: {
+              type: 'object',
+              properties: {
+                driftPrediction: { type: 'string' },
+                longTermReliability: { type: 'number' }
+              }
+            },
+            approved: { type: 'boolean' },
+            reasoning: { type: 'string' }
+          }
+        }
+      });
+
+      setGovernanceReport(result);
+      toast.success('Governance scan complete');
+    } catch (error) {
+      console.error('Governance scan failed:', error);
+      toast.error('Scan failed');
+    }
+  };
+
+  const performSemanticSearch = async (requirements) => {
+    try {
+      const result = await base44.integrations.Core.InvokeLLM({
+        prompt: `
+          Advanced semantic model discovery for complex organizational needs.
+          
+          User Requirements: ${requirements}
+          User Context: ${JSON.stringify(userContext)}
+          Available Models: ${JSON.stringify(models)}
+          
+          Go beyond keyword matching:
+          1. SEMANTIC UNDERSTANDING: Interpret intent and requirements
+          2. CAPABILITY MATCHING: Match model capabilities to needs
+          3. USE CASE ALIGNMENT: Industry-specific recommendations
+          4. TEAM READINESS: Consider expertise level
+          5. INTEGRATION COMPLEXITY: Match to organizational capabilities
+          
+          Recommend highly relevant models with detailed reasoning.
+        `,
+        response_json_schema: {
+          type: 'object',
+          properties: {
+            matches: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  modelId: { type: 'string' },
+                  relevanceScore: { type: 'number' },
+                  semanticReasoning: { type: 'string' },
+                  capabilityMatch: { type: 'string' },
+                  implementationPath: { type: 'string' }
+                }
+              }
+            },
+            alternativeSuggestions: { type: 'array', items: { type: 'string' } }
+          }
+        }
+      });
+
+      setSemanticSearch(result);
+      toast.success('Semantic search complete');
+    } catch (error) {
+      console.error('Semantic search failed:', error);
+    }
+  };
+
   const filteredModels = models?.filter(model => {
     const matchesSearch = model.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          model.description.toLowerCase().includes(searchQuery.toLowerCase());
@@ -285,17 +398,56 @@ export default function AIModelMarketplace({ userContext, onModelSelected, onClo
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search models..."
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && searchQuery.length > 10) {
+                performSemanticSearch(searchQuery);
+              }
+            }}
+            placeholder="Describe your needs (e.g., 'detect fraud in financial transactions')..."
             className="flex-1 px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-white placeholder:text-white/40"
           />
+          <button
+            onClick={() => performSemanticSearch(searchQuery)}
+            disabled={searchQuery.length < 10}
+            className="px-4 py-2 rounded-lg bg-purple-500/20 hover:bg-purple-500/30 text-purple-400 flex items-center gap-2 disabled:opacity-50"
+          >
+            <Sparkles className="w-4 h-4" />
+            Semantic Search
+          </button>
           <button
             onClick={getRecommendations}
             className="px-4 py-2 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-400 flex items-center gap-2"
           >
             <Sparkles className="w-4 h-4" />
-            Refresh Recommendations
+            AI Recommendations
           </button>
         </div>
+
+        {/* Semantic Search Results */}
+        {semanticSearch && (
+          <div className="mb-6 p-4 rounded-xl bg-gradient-to-r from-purple-500/10 to-blue-500/10 border border-purple-500/30">
+            <h3 className="text-purple-400 font-semibold mb-3">🔍 Semantic Search Results</h3>
+            <div className="space-y-2">
+              {semanticSearch.matches?.map((match) => {
+                const model = models?.find(m => m.id === match.modelId);
+                if (!model) return null;
+                return (
+                  <div key={match.modelId} className="p-3 rounded bg-black/30">
+                    <div className="flex items-start justify-between mb-2">
+                      <div className="flex-1">
+                        <div className="text-white font-medium mb-1">{model.name}</div>
+                        <div className="text-purple-400 text-sm mb-1">{match.semanticReasoning}</div>
+                        <div className="text-white/60 text-xs">{match.capabilityMatch}</div>
+                      </div>
+                      <div className="text-purple-400 font-bold text-lg">{match.relevanceScore}</div>
+                    </div>
+                    <div className="text-cyan-400 text-xs">Path: {match.implementationPath}</div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
 
         {/* AI Recommendations Section */}
         {recommendations && recommendations.length > 0 && (
@@ -386,6 +538,12 @@ export default function AIModelMarketplace({ userContext, onModelSelected, onClo
 
               <div className="flex gap-2">
                 <button
+                  onClick={() => scanModelGovernance(model)}
+                  className="flex-1 py-2 rounded-lg bg-purple-500/20 hover:bg-purple-500/30 text-purple-400 text-sm"
+                >
+                  🛡️ Scan
+                </button>
+                <button
                   onClick={() => analyzeSuitability(model)}
                   className="flex-1 py-2 rounded-lg bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 text-sm"
                 >
@@ -397,12 +555,6 @@ export default function AIModelMarketplace({ userContext, onModelSelected, onClo
                   className="flex-1 py-2 rounded-lg bg-green-500/20 hover:bg-green-500/30 text-green-400 text-sm disabled:opacity-50"
                 >
                   Deploy
-                </button>
-                <button 
-                  onClick={() => initializeFineTuning(model)}
-                  className="px-4 py-2 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-400 text-sm"
-                >
-                  Fine-tune
                 </button>
               </div>
             </div>
