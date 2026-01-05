@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Cpu, Database, HardDrive, Wifi, ChevronRight, X, Info, Layers, Plus, MessageCircle, Send, Users, History, Share2, Save, FolderOpen, Wand2, Gauge, Bot, Map, Box, GitBranch, Brain } from 'lucide-react';
+import { Cpu, Database, HardDrive, Wifi, ChevronRight, X, Info, Layers, Plus, MessageCircle, Send, Users, History, Share2, Save, FolderOpen, Wand2, Gauge, Bot, Map, Box, GitBranch, Brain, Video } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import Blueprint3DViewer from '../components/blueprint/Blueprint3DViewer';
 import AutomatedBlueprintGenerator from '../components/blueprint/AutomatedBlueprintGenerator';
@@ -146,7 +146,10 @@ export default function Blueprint() {
   const [selectedAgentForTraining, setSelectedAgentForTraining] = useState(null);
   const [showProceduralGenerator, setShowProceduralGenerator] = useState(false);
   const [environmentInteractions, setEnvironmentInteractions] = useState([]);
+  const [showSocietySimulator, setShowSocietySimulator] = useState(false);
+  const [showSimulationRecorder, setShowSimulationRecorder] = useState(false);
   const [holographicAgents, setHolographicAgents] = useState([]);
+  const [agentMemories, setAgentMemories] = useState(new Map());
   const [currentEnvironment, setCurrentEnvironment] = useState('office');
   const [agentMovementTargets, setAgentMovementTargets] = useState({});
   const [customModels, setCustomModels] = useState([]);
@@ -422,7 +425,13 @@ export default function Blueprint() {
   };
 
   const handleAgentCreated = (agent) => {
-    setHolographicAgents([...holographicAgents, agent]);
+    const newAgent = { ...agent, id: agent.id || Date.now().toString() };
+    setHolographicAgents([...holographicAgents, newAgent]);
+    
+    const memory = new AgentMemory(newAgent.id);
+    memory.recordExperience({ action: 'created', location: currentEnvironment });
+    setAgentMemories(new Map(agentMemories.set(newAgent.id, memory)));
+    
     toast.success(`Agent "${agent.name}" created!`);
   };
 
@@ -471,6 +480,15 @@ export default function Blueprint() {
   const handleEnvironmentInteraction = (id, type, state) => {
     const interaction = { id, type, state, timestamp: Date.now() };
     setEnvironmentInteractions(prev => [...prev, interaction].slice(-10));
+    
+    holographicAgents.forEach(agent => {
+      const memory = agentMemories.get(agent.id);
+      if (memory) {
+        memory.recordExperience({ action: `witnessed_${type}_${state}`, objectId: id });
+        memory.rememberLocation(id, { type, state });
+      }
+    });
+    
     toast.info(`${type} ${state}`);
   };
 
@@ -683,7 +701,21 @@ export default function Blueprint() {
                     >
                       <GitBranch className="w-4 h-4" />
                       Behaviors
-                    </button>
+                      </button>
+                      <button
+                      onClick={() => setShowSocietySimulator(true)}
+                      className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border border-yellow-500/40 text-yellow-300 rounded-xl text-sm hover:from-yellow-500/30 hover:to-orange-500/30"
+                      >
+                      <Users className="w-4 h-4" />
+                      Society Sim
+                      </button>
+                      <button
+                      onClick={() => setShowSimulationRecorder(true)}
+                      className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-red-500/20 to-pink-500/20 border border-red-500/40 text-red-300 rounded-xl text-sm hover:from-red-500/30 hover:to-pink-500/30"
+                      >
+                      <Video className="w-4 h-4" />
+                      Record
+                      </button>
                     </div>
 
                   <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-3">
@@ -1245,6 +1277,20 @@ export default function Blueprint() {
         show={showProceduralGenerator}
         onClose={() => setShowProceduralGenerator(false)}
         onEnvironmentGenerated={handleProceduralEnvironmentGenerated}
+      />
+
+      {/* Agent Society Simulator */}
+      <AgentSocietySimulator
+        show={showSocietySimulator}
+        onClose={() => setShowSocietySimulator(false)}
+        agents={holographicAgents}
+      />
+
+      {/* Simulation Recorder */}
+      <AgentSimulationRecorder
+        show={showSimulationRecorder}
+        onClose={() => setShowSimulationRecorder(false)}
+        simulationRef={sectionRef}
       />
 
       {/* Holographic Agents Section */}
