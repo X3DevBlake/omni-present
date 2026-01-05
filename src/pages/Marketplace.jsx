@@ -536,7 +536,6 @@ export default function Marketplace() {
             </motion.div>
           )}
         </AnimatePresence>
-      </div>
     </AuroraBackground>
   );
 }
