@@ -18,6 +18,9 @@ export class AgentMemory {
     this.semanticMemory = new Map();
     this.emotionalMemory = [];
     this.characterArc = { milestones: [], traits: [], evolution: [] };
+    this.associativeLinks = new Map(); // Links between memories
+    this.decayRates = new Map(); // Forgetting curves for memories
+    this.reinforcementHistory = []; // Track successful behaviors
   }
 
   recordExperience(experience) {
@@ -87,17 +90,91 @@ export class AgentMemory {
   calculateRelevance(memory, query) {
     let score = 0;
     
-    // Recency
+    // Recency with decay
     const age = (Date.now() - memory.timestamp) / (1000 * 60 * 60 * 24); // days
-    score += Math.max(0, 10 - age);
+    const decayRate = this.decayRates.get(memory.id) || 0.1;
+    score += Math.max(0, 10 - age * decayRate);
     
-    // Retrieval frequency
+    // Retrieval frequency (strengthens memory)
     score += memory.retrievalCount * 2;
     
     // Emotional significance
     score += memory.emotionalSignificance;
     
+    // Associative activation
+    if (query.relatedMemories) {
+      const associations = this.associativeLinks.get(memory.id) || [];
+      const associationBoost = associations.filter(link => 
+        query.relatedMemories.includes(link)
+      ).length * 3;
+      score += associationBoost;
+    }
+    
     return score;
+  }
+
+  createAssociativeLink(memory1Id, memory2Id, strength = 1) {
+    // Create bidirectional link
+    const links1 = this.associativeLinks.get(memory1Id) || [];
+    const links2 = this.associativeLinks.get(memory2Id) || [];
+    
+    links1.push({ targetId: memory2Id, strength, created: Date.now() });
+    links2.push({ targetId: memory1Id, strength, created: Date.now() });
+    
+    this.associativeLinks.set(memory1Id, links1);
+    this.associativeLinks.set(memory2Id, links2);
+  }
+
+  selectivelyForget() {
+    // Prune low-relevance memories
+    const now = Date.now();
+    
+    this.experiences = this.experiences.filter(exp => {
+      const age = (now - exp.timestamp) / (1000 * 60 * 60 * 24);
+      const importance = exp.importance || 1;
+      const threshold = 0.5 + (importance * 0.1);
+      
+      return age < 30 || Math.random() > threshold;
+    });
+
+    // Consolidate similar patterns
+    const patternKeys = Array.from(this.learnedPatterns.keys());
+    patternKeys.forEach(key => {
+      const pattern = this.learnedPatterns.get(key);
+      if (pattern.count < 3 && (now - pattern.data[0].learned) > 7 * 24 * 60 * 60 * 1000) {
+        this.learnedPatterns.delete(key);
+      }
+    });
+  }
+
+  reinforcementLearning(behavior, outcome) {
+    this.reinforcementHistory.push({
+      behavior,
+      outcome,
+      reward: outcome.success ? outcome.reward || 1 : -1,
+      timestamp: Date.now()
+    });
+
+    // Update behavior weights
+    if (outcome.success) {
+      this.learnPattern(behavior, { 
+        success: true, 
+        reward: outcome.reward,
+        context: outcome.context 
+      });
+      
+      // Strengthen associative links for successful behavior chains
+      const recentBehaviors = this.reinforcementHistory.slice(-5);
+      recentBehaviors.forEach((past, i) => {
+        if (i < recentBehaviors.length - 1 && past.reward > 0) {
+          this.createAssociativeLink(
+            `behavior_${past.behavior}`,
+            `behavior_${behavior}`,
+            0.5
+          );
+        }
+      });
+    }
   }
 
   updateCharacterArc(trait, value) {

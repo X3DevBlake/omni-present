@@ -20,6 +20,9 @@ export class AgentSociety {
     this.culturalTraits = [];
     this.conflicts = [];
     this.alliances = [];
+    this.dynamicRules = [];
+    this.proposedRules = [];
+    this.ruleEffectiveness = new Map();
   }
 
   getDefaultInteractionRules() {
@@ -67,7 +70,107 @@ export class AgentSociety {
     this.checkEmergentBehaviors();
     this.evaluateGoals();
     this.evolveCulture();
+    this.processDynamicRules();
+    this.evaluateRuleEffectiveness();
     this.recordHistory();
+  }
+
+  proposeRule(proposerId, rule) {
+    const proposal = {
+      id: `rule_${Date.now()}`,
+      proposer: proposerId,
+      rule,
+      support: 1,
+      opposition: 0,
+      status: 'proposed',
+      proposedAt: Date.now()
+    };
+    this.proposedRules.push(proposal);
+    return proposal;
+  }
+
+  voteOnRule(agentId, ruleId, vote) {
+    const proposal = this.proposedRules.find(p => p.id === ruleId);
+    if (!proposal) return;
+
+    if (vote === 'support') {
+      proposal.support++;
+    } else {
+      proposal.opposition++;
+    }
+
+    // Auto-adopt if majority support
+    const threshold = this.agents.length * 0.6;
+    if (proposal.support >= threshold) {
+      this.adoptRule(proposal);
+    } else if (proposal.opposition >= threshold) {
+      proposal.status = 'rejected';
+    }
+  }
+
+  adoptRule(proposal) {
+    this.dynamicRules.push({
+      ...proposal.rule,
+      id: proposal.id,
+      adoptedAt: Date.now(),
+      effectiveness: 0
+    });
+    proposal.status = 'adopted';
+    this.ruleEffectiveness.set(proposal.id, { 
+      conflicts: this.conflicts.length,
+      happiness: this.getAverageSentiment(),
+      resources: { ...this.resources }
+    });
+  }
+
+  processDynamicRules() {
+    this.dynamicRules.forEach(rule => {
+      if (rule.type === 'resource_distribution') {
+        this.resourceManagement.distribution = rule.distribution;
+      } else if (rule.type === 'conflict_resolution') {
+        if (this.conflicts.length > 0) {
+          this.conflicts = this.conflicts.slice(-Math.floor(this.conflicts.length * 0.7));
+        }
+      }
+    });
+  }
+
+  evaluateRuleEffectiveness() {
+    this.dynamicRules.forEach(rule => {
+      const baseline = this.ruleEffectiveness.get(rule.id);
+      if (!baseline) return;
+
+      const currentConflicts = this.conflicts.length;
+      const currentHappiness = this.getAverageSentiment();
+      
+      rule.effectiveness = 
+        (baseline.conflicts - currentConflicts) * 2 +
+        (currentHappiness - baseline.happiness) * 10 +
+        ((this.resources.food - baseline.resources.food) / 10);
+
+      // Propose modification if ineffective
+      if (rule.effectiveness < -10) {
+        this.proposeRuleModification(rule);
+      }
+    });
+  }
+
+  proposeRuleModification(rule) {
+    const modification = {
+      originalRule: rule.id,
+      modification: `Adjust ${rule.type} parameters`,
+      reason: 'Low effectiveness detected',
+      timestamp: Date.now()
+    };
+    
+    if (!this.emergentBehaviors.includes('rule_evolution')) {
+      this.emergentBehaviors.push('rule_evolution');
+    }
+  }
+
+  getAverageSentiment() {
+    if (this.agents.length === 0) return 0;
+    return this.agents.reduce((sum, a) => sum + (a.sentiment?.overall || 0), 0) / this.agents.length;
   }
 
   applyInteractionRules(agent) {

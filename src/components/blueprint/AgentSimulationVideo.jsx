@@ -212,16 +212,37 @@ function CameraAnimation({ duration }) {
   return <OrbitControls ref={controlsRef} enableZoom={false} enablePan={false} enableRotate={false} />;
 }
 
-export default function AgentSimulationVideo({ show, onClose, agent, duration = 45 }) {
+export default function AgentSimulationVideo({ show, onClose, agent, duration = 45, cameraAngle = 'follow', narration = true }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
+  const [aiNarration, setAiNarration] = useState('');
+  const [focusAgent, setFocusAgent] = useState(true);
 
   useEffect(() => {
     if (show) {
       setIsPlaying(true);
       setCurrentTime(0);
+      if (narration) {
+        generateNarration();
+      }
     }
   }, [show]);
+
+  const generateNarration = async () => {
+    const narratives = [
+      `Observing ${agent?.name || 'the agent'} as it explores the park environment with autonomous behavior...`,
+      `The agent demonstrates learned walking patterns and environmental awareness...`,
+      `Notice how the agent navigates around obstacles and interacts with the surroundings...`,
+      `This simulation showcases emergent behavior based on the agent's training and personality...`,
+      `The agent's movements reflect its goal-seeking behavior and adaptive learning...`
+    ];
+    
+    for (let i = 0; i < narratives.length; i++) {
+      setTimeout(() => {
+        setAiNarration(narratives[i]);
+      }, (duration / narratives.length) * i * 1000);
+    }
+  };
 
   useEffect(() => {
     if (isPlaying && currentTime < duration) {
@@ -316,12 +337,27 @@ export default function AgentSimulationVideo({ show, onClose, agent, duration = 
               </div>
             </div>
 
-            <div className="absolute top-6 left-6 bg-black/80 backdrop-blur-xl border border-white/20 rounded-xl p-3">
+            <div className="absolute top-6 left-6 bg-black/80 backdrop-blur-xl border border-white/20 rounded-xl p-3 max-w-sm">
               <div className="flex items-center gap-2 mb-2">
                 <div className="w-3 h-3 rounded-full bg-green-400 animate-pulse" />
                 <span className="text-white text-sm font-semibold">Live Simulation</span>
               </div>
-              <div className="text-white/60 text-xs">Realistic human-like behavior</div>
+              <div className="text-white/60 text-xs mb-2">Realistic human-like behavior</div>
+              {narration && aiNarration && (
+                <div className="mt-2 pt-2 border-t border-white/10">
+                  <div className="text-cyan-400 text-xs font-semibold mb-1">AI Commentary:</div>
+                  <div className="text-white/80 text-xs italic">{aiNarration}</div>
+                </div>
+              )}
+            </div>
+
+            <div className="absolute top-6 right-6 flex flex-col gap-2">
+              <button 
+                onClick={() => setFocusAgent(!focusAgent)}
+                className={`px-3 py-2 rounded-lg text-xs font-medium ${focusAgent ? 'bg-cyan-500/20 border border-cyan-500/40 text-cyan-300' : 'bg-white/10 border border-white/20 text-white/60'}`}
+              >
+                {focusAgent ? '🎯 Agent Focus' : '🌍 Free Camera'}
+              </button>
             </div>
           </div>
         </motion.div>
