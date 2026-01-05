@@ -55,6 +55,9 @@ import AIKnowledgeBase from './AIKnowledgeBase';
 import AIModelTrainingPlatform from './AIModelTrainingPlatform';
 import AIBlueprintTemplateGenerator from './AIBlueprintTemplateGenerator';
 import AIWorkflowOrchestrator from './AIWorkflowOrchestrator';
+import AIAPIGateway from './AIAPIGateway';
+import DistributedTracingMonitor from './DistributedTracingMonitor';
+import AIModelMarketplace from './AIModelMarketplace';
 import { Cpu, HardDrive, Wifi, Database, ChevronRight, Mic, MicOff, Brain } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -488,6 +491,9 @@ export default function BlueprintSection() {
   const [showTraining, setShowTraining] = useState(false);
   const [showTemplateGen, setShowTemplateGen] = useState(false);
   const [showOrchestrator, setShowOrchestrator] = useState(false);
+  const [showAPIGateway, setShowAPIGateway] = useState(false);
+  const [showTracing, setShowTracing] = useState(false);
+  const [showModelMarketplace, setShowModelMarketplace] = useState(false);
   const [showComparison, setShowComparison] = useState(false);
   const [showVersionControl, setShowVersionControl] = useState(false);
   const [showHeatmap, setShowHeatmap] = useState(false);
@@ -778,6 +784,30 @@ export default function BlueprintSection() {
                   title="Knowledge Base"
                 >
                   📚
+                </button>
+                
+                <button
+                  onClick={() => setShowAPIGateway(true)}
+                  className="py-2.5 sm:py-3 px-3 rounded-xl font-medium transition-all text-sm sm:text-base bg-white/5 border border-white/10 text-white/60 hover:bg-blue-500/20 hover:border-blue-500/40 hover:text-blue-300"
+                  title="API Gateway"
+                >
+                  🌐
+                </button>
+                
+                <button
+                  onClick={() => setShowTracing(true)}
+                  className="py-2.5 sm:py-3 px-3 rounded-xl font-medium transition-all text-sm sm:text-base bg-white/5 border border-white/10 text-white/60 hover:bg-orange-500/20 hover:border-orange-500/40 hover:text-orange-300"
+                  title="Tracing"
+                >
+                  🔍
+                </button>
+                
+                <button
+                  onClick={() => setShowModelMarketplace(true)}
+                  className="py-2.5 sm:py-3 px-3 rounded-xl font-medium transition-all text-sm sm:text-base bg-white/5 border border-white/10 text-white/60 hover:bg-purple-500/20 hover:border-purple-500/40 hover:text-purple-300"
+                  title="Model Marketplace"
+                >
+                  🏪
                 </button>
                 
                 <button
