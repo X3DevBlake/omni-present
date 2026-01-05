@@ -4,12 +4,13 @@ import { X, Upload, Wand2, Loader, Box, Download } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import { toast } from 'sonner';
 
-export default function AI3DModelGenerator({ show, onClose, onModelGenerated }) {
+export default function AI3DModelGenerator({ show, onClose, onModelGenerated, modelType = 'object' }) {
   const [generationMode, setGenerationMode] = useState('text'); // 'text', 'image'
   const [textDescription, setTextDescription] = useState('');
   const [uploadedImages, setUploadedImages] = useState([]);
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedModel, setGeneratedModel] = useState(null);
+  const [assetCategory, setAssetCategory] = useState('furniture');
 
   const handleTextGeneration = async () => {
     if (!textDescription.trim()) {
@@ -20,16 +21,20 @@ export default function AI3DModelGenerator({ show, onClose, onModelGenerated }) 
     setIsGenerating(true);
     try {
       const result = await base44.integrations.Core.InvokeLLM({
-        prompt: `Generate a detailed 3D model specification for: "${textDescription}"
+        prompt: `Generate a detailed 3D ${modelType} specification for: "${textDescription}"
+        
+        Category: ${assetCategory}
+        Type: ${modelType === 'environment' ? 'Environmental asset (furniture, architecture, decor)' : 'Agent or interactive object'}
         
         Create comprehensive specifications including:
         1. Geometric structure (primitives: box, sphere, cylinder, cone, torus)
-        2. Precise dimensions and proportions
+        2. Precise dimensions and proportions (realistic scale)
         3. Material properties (color, opacity, metalness, roughness)
         4. Positioning and hierarchy
         5. Animation parameters
         6. Interaction points
         7. Physics properties (mass, friction, bounciness)
+        8. Environment integration (placement suggestions)
         
         Format as a hierarchical structure that can be rendered with Three.js`,
         response_json_schema: {
@@ -172,7 +177,9 @@ export default function AI3DModelGenerator({ show, onClose, onModelGenerated }) 
             </div>
             <div>
               <h3 className="text-2xl font-bold text-white">AI 3D Model Generator</h3>
-              <p className="text-white/60">Create custom 3D assets with AI</p>
+              <p className="text-white/60">
+                {modelType === 'environment' ? 'Create environmental assets' : 'Create custom 3D assets'}
+              </p>
             </div>
           </div>
 
@@ -199,12 +206,24 @@ export default function AI3DModelGenerator({ show, onClose, onModelGenerated }) 
 
           {generationMode === 'text' && (
             <div className="space-y-4">
+              {modelType === 'environment' && (
+                <div>
+                  <label className="text-white/70 text-sm mb-2 block">Asset Category</label>
+                  <div className="grid grid-cols-3 gap-2">
+                    {['furniture', 'architecture', 'decor', 'lighting', 'plants', 'equipment'].map(cat => (
+                      <button key={cat} onClick={() => setAssetCategory(cat)} className={`px-3 py-2 rounded-lg text-sm capitalize ${assetCategory === cat ? 'bg-purple-500/30 border border-purple-500/50 text-purple-300' : 'bg-white/5 border border-white/10 text-white/60'}`}>
+                        {cat}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
               <div>
                 <label className="text-white/70 text-sm mb-2 block">Describe the 3D model</label>
                 <textarea
                   value={textDescription}
                   onChange={(e) => setTextDescription(e.target.value)}
-                  placeholder="E.g., A modern office chair with wheels, adjustable height, ergonomic backrest..."
+                  placeholder={modelType === 'environment' ? "E.g., A wooden bookshelf with 5 shelves, modern design..." : "E.g., A modern office chair with wheels, adjustable height..."}
                   className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/40 h-32"
                 />
               </div>

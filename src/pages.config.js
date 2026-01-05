@@ -2,8 +2,8 @@ import Blueprint from './pages/Blueprint';
 import Contact from './pages/Contact';
 import Features from './pages/Features';
 import Home from './pages/Home';
-import Technology from './pages/Technology';
 import Settings from './pages/Settings';
+import Technology from './pages/Technology';
 import __Layout from './Layout.jsx';
 
 
@@ -12,8 +12,8 @@ export const PAGES = {
     "Contact": Contact,
     "Features": Features,
     "Home": Home,
-    "Technology": Technology,
     "Settings": Settings,
+    "Technology": Technology,
 }
 
 export const pagesConfig = {

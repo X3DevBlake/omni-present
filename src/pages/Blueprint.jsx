@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Cpu, Database, HardDrive, Wifi, ChevronRight, X, Info, Layers, Plus, MessageCircle, Send, Users, History, Share2, Save, FolderOpen, Wand2, Gauge, Bot, Map, Box, GitBranch } from 'lucide-react';
+import { Cpu, Database, HardDrive, Wifi, ChevronRight, X, Info, Layers, Plus, MessageCircle, Send, Users, History, Share2, Save, FolderOpen, Wand2, Gauge, Bot, Map, Box, GitBranch, Brain } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import Blueprint3DViewer from '../components/blueprint/Blueprint3DViewer';
 import AutomatedBlueprintGenerator from '../components/blueprint/AutomatedBlueprintGenerator';
@@ -9,6 +9,8 @@ import AgentCreator from '../components/blueprint/AgentCreator';
 import EnvironmentCreator from '../components/blueprint/EnvironmentCreator';
 import AI3DModelGenerator from '../components/blueprint/AI3DModelGenerator';
 import VisualBehaviorEditor from '../components/blueprint/VisualBehaviorEditor';
+import AgentTrainingModule from '../components/blueprint/AgentTrainingModule';
+import { MultiAgentCoordinator, AgentCommunicationProtocol } from '../components/blueprint/MultiAgentCoordinator';
 import { base44 } from '@/api/base44Client';
 import { toast } from 'sonner';
 import { Canvas } from '@react-three/fiber';
@@ -139,10 +141,14 @@ export default function Blueprint() {
   const [showEnvironmentCreator, setShowEnvironmentCreator] = useState(false);
   const [show3DModelGenerator, setShow3DModelGenerator] = useState(false);
   const [showBehaviorEditor, setShowBehaviorEditor] = useState(false);
+  const [showTrainingModule, setShowTrainingModule] = useState(false);
+  const [selectedAgentForTraining, setSelectedAgentForTraining] = useState(null);
   const [holographicAgents, setHolographicAgents] = useState([]);
   const [currentEnvironment, setCurrentEnvironment] = useState('office');
   const [agentMovementTargets, setAgentMovementTargets] = useState({});
   const [customModels, setCustomModels] = useState([]);
+  const [modelGeneratorType, setModelGeneratorType] = useState('object');
+  const communicationProtocol = useRef(new AgentCommunicationProtocol());
   const sectionRef = useRef(null);
 
   useEffect(() => {
@@ -438,8 +444,20 @@ export default function Blueprint() {
   };
 
   const handleBehaviorSaved = (behavior) => {
-    // Save behavior to agent or global behavior library
     toast.success('Behavior pattern saved!');
+  };
+
+  const handleTrainingComplete = (trainedAgent) => {
+    setHolographicAgents(holographicAgents.map(a => 
+      a.id === trainedAgent.id ? trainedAgent : a
+    ));
+    setShowTrainingModule(false);
+    toast.success('Agent training applied!');
+  };
+
+  const openTrainingModule = (agent) => {
+    setSelectedAgentForTraining(agent);
+    setShowTrainingModule(true);
   };
 
   const selectedComponentData = componentsData[selectedComponent];
@@ -621,11 +639,18 @@ export default function Blueprint() {
                       Environment
                     </button>
                     <button
-                      onClick={() => setShow3DModelGenerator(true)}
+                      onClick={() => { setModelGeneratorType('object'); setShow3DModelGenerator(true); }}
                       className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/40 text-purple-300 rounded-xl text-sm hover:from-purple-500/30 hover:to-pink-500/30"
                     >
                       <Box className="w-4 h-4" />
                       3D Models
+                    </button>
+                    <button
+                      onClick={() => { setModelGeneratorType('environment'); setShow3DModelGenerator(true); }}
+                      className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500/20 to-teal-500/20 border border-emerald-500/40 text-emerald-300 rounded-xl text-sm hover:from-emerald-500/30 hover:to-teal-500/30"
+                    >
+                      <Box className="w-4 h-4" />
+                      Environment Assets
                     </button>
                     <button
                       onClick={() => setShowBehaviorEditor(true)}
@@ -1172,7 +1197,18 @@ export default function Blueprint() {
         show={show3DModelGenerator}
         onClose={() => setShow3DModelGenerator(false)}
         onModelGenerated={handleModelGenerated}
+        modelType={modelGeneratorType}
       />
+
+      {/* Agent Training Module */}
+      {selectedAgentForTraining && (
+        <AgentTrainingModule
+          show={showTrainingModule}
+          onClose={() => setShowTrainingModule(false)}
+          agent={selectedAgentForTraining}
+          onTrainingComplete={handleTrainingComplete}
+        />
+      )}
 
       {/* Visual Behavior Editor */}
       <VisualBehaviorEditor
@@ -1200,12 +1236,21 @@ export default function Blueprint() {
                     <div className="w-3 h-3 rounded-full" style={{ backgroundColor: agent.color }} />
                     <span className="text-white text-sm font-medium">{agent.name}</span>
                   </div>
-                  <button
-                    onClick={() => deleteAgent(agent.id)}
-                    className="text-red-400 hover:text-red-300"
-                  >
-                    <X className="w-4 h-4" />
-                  </button>
+                  <div className="flex gap-1">
+                    <button
+                      onClick={() => openTrainingModule(agent)}
+                      className="text-cyan-400 hover:text-cyan-300"
+                      title="Train Agent"
+                    >
+                      <Brain className="w-4 h-4" />
+                    </button>
+                    <button
+                      onClick={() => deleteAgent(agent.id)}
+                      className="text-red-400 hover:text-red-300"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
                 </div>
                 <div className="text-white/60 text-xs">{agent.type}</div>
               </div>
