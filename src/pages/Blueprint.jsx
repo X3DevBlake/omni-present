@@ -1,12 +1,16 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Cpu, Database, HardDrive, Wifi, ChevronRight, X, Info, Layers, Plus, MessageCircle, Send, Users, History, Share2, Save, FolderOpen, Wand2, Gauge } from 'lucide-react';
+import { Cpu, Database, HardDrive, Wifi, ChevronRight, X, Info, Layers, Plus, MessageCircle, Send, Users, History, Share2, Save, FolderOpen, Wand2, Gauge, Bot } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import Blueprint3DViewer from '../components/blueprint/Blueprint3DViewer';
 import AutomatedBlueprintGenerator from '../components/blueprint/AutomatedBlueprintGenerator';
 import BlueprintControlPanel from '../components/blueprint/BlueprintControlPanel';
+import AgentCreator from '../components/blueprint/AgentCreator';
 import { base44 } from '@/api/base44Client';
 import { toast } from 'sonner';
+import { Canvas } from '@react-three/fiber';
+import { OrbitControls } from '@react-three/drei';
+import HolographicAIAgent from '../components/blueprint/HolographicAIAgent';
 
 const componentsData = [
   { 
@@ -127,6 +131,8 @@ export default function Blueprint() {
   const [isOptimizing, setIsOptimizing] = useState(false);
   const [showAutoGenerator, setShowAutoGenerator] = useState(false);
   const [showControlPanel, setShowControlPanel] = useState(false);
+  const [showAgentCreator, setShowAgentCreator] = useState(false);
+  const [holographicAgents, setHolographicAgents] = useState([]);
   const sectionRef = useRef(null);
 
   useEffect(() => {
@@ -396,6 +402,16 @@ export default function Blueprint() {
     setShowAIOptimizer(false);
   };
 
+  const handleAgentCreated = (agent) => {
+    setHolographicAgents([...holographicAgents, agent]);
+    toast.success(`Agent "${agent.name}" created!`);
+  };
+
+  const deleteAgent = (agentId) => {
+    setHolographicAgents(holographicAgents.filter(a => a.id !== agentId));
+    toast.success('Agent removed');
+  };
+
   const selectedComponentData = componentsData[selectedComponent];
 
   return (
@@ -559,6 +575,13 @@ export default function Blueprint() {
                     >
                       <Gauge className="w-4 h-4" />
                       Control Panel
+                    </button>
+                    <button
+                      onClick={() => setShowAgentCreator(true)}
+                      className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-500/40 text-green-300 rounded-xl text-sm hover:from-green-500/30 hover:to-emerald-500/30"
+                    >
+                      <Bot className="w-4 h-4" />
+                      Create Agent
                     </button>
                     </div>
 
@@ -1077,6 +1100,78 @@ export default function Blueprint() {
         onClose={() => setShowControlPanel(false)}
         blueprint={{ components: buildComponents, name: blueprintName }}
       />
+
+      {/* Agent Creator */}
+      <AgentCreator
+        show={showAgentCreator}
+        onClose={() => setShowAgentCreator(false)}
+        onAgentCreated={handleAgentCreated}
+      />
+
+      {/* Holographic Agents Section */}
+      {holographicAgents.length > 0 && (
+        <motion.div
+          className="fixed bottom-6 left-6 bg-black/90 backdrop-blur-xl border border-white/20 rounded-2xl p-4 shadow-2xl z-40 max-w-sm"
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+        >
+          <h3 className="text-white font-semibold mb-3 flex items-center gap-2">
+            <Bot className="w-5 h-5 text-cyan-400" />
+            Active Agents ({holographicAgents.length})
+          </h3>
+          <div className="space-y-2 max-h-60 overflow-y-auto">
+            {holographicAgents.map((agent) => (
+              <div key={agent.id} className="bg-white/5 rounded-lg p-3 hover:bg-white/10 transition-colors">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 rounded-full" style={{ backgroundColor: agent.color }} />
+                    <span className="text-white text-sm font-medium">{agent.name}</span>
+                  </div>
+                  <button
+                    onClick={() => deleteAgent(agent.id)}
+                    className="text-red-400 hover:text-red-300"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+                <div className="text-white/60 text-xs">{agent.type}</div>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+      )}
+
+      {/* 3D Holographic Agents Display */}
+      <AnimatePresence>
+        {holographicAgents.length > 0 && (
+          <motion.div
+            className="fixed top-1/2 right-6 -translate-y-1/2 w-64 h-80 bg-black/40 backdrop-blur-xl border border-white/20 rounded-2xl overflow-hidden z-30"
+            initial={{ opacity: 0, scale: 0.8, x: 100 }}
+            animate={{ opacity: 1, scale: 1, x: 0 }}
+            exit={{ opacity: 0, scale: 0.8, x: 100 }}
+          >
+            <div className="absolute top-4 left-4 right-4 z-10">
+              <h4 className="text-white font-semibold text-sm">Holographic View</h4>
+            </div>
+            <Canvas camera={{ position: [0, 1, 3], fov: 50 }}>
+              <ambientLight intensity={0.5} />
+              <pointLight position={[10, 10, 10]} intensity={1} color="#00f5ff" />
+              <pointLight position={[-10, -10, -10]} intensity={0.5} color="#a855f7" />
+
+              {holographicAgents.map((agent, i) => (
+                <HolographicAIAgent
+                  key={agent.id}
+                  agent={agent}
+                  position={[Math.sin(i * 1.5) * 2, 0, Math.cos(i * 1.5) * 2]}
+                  scale={0.8}
+                />
+              ))}
+
+              <OrbitControls enableZoom={true} enablePan={false} />
+            </Canvas>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Component Detail Panel */}
       <AnimatePresence>
