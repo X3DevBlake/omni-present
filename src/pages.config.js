@@ -5,6 +5,8 @@ import Home from './pages/Home';
 import Settings from './pages/Settings';
 import Technology from './pages/Technology';
 import Marketplace from './pages/Marketplace';
+import About from './pages/About';
+import Profile from './pages/Profile';
 import __Layout from './Layout.jsx';
 
 
@@ -16,6 +18,8 @@ export const PAGES = {
     "Settings": Settings,
     "Technology": Technology,
     "Marketplace": Marketplace,
+    "About": About,
+    "Profile": Profile,
 }
 
 export const pagesConfig = {

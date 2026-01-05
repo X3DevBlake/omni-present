@@ -64,7 +64,32 @@ const AvailableNodes = {
   emotion: [
     { id: 'feel_emotion', label: 'Feel Emotion', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['emotion', 'intensity'] },
     { id: 'emotion_check', label: 'Emotion Check', type: 'CONDITION', inputs: ['in'], outputs: ['positive', 'negative'], params: ['emotion'] },
-    { id: 'mood_influence', label: 'Mood Influence', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['modifier'] }
+    { id: 'mood_influence', label: 'Mood Influence', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['modifier'] },
+    { id: 'emotion_decay', label: 'Emotion Decay', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['decayRate'] },
+    { id: 'empathy_response', label: 'Empathy Response', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['targetAgent'] }
+  ],
+  utility: [
+    { id: 'calculate_utility', label: 'Calculate Utility', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['factors'] },
+    { id: 'utility_compare', label: 'Compare Options', type: 'CONDITION', inputs: ['in'], outputs: ['best', 'other'], params: ['options'] },
+    { id: 'utility_threshold', label: 'Utility Threshold', type: 'CONDITION', inputs: ['in'], outputs: ['sufficient', 'insufficient'], params: ['threshold'] },
+    { id: 'weighted_decision', label: 'Weighted Decision', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['weights'] }
+  ],
+  fuzzy: [
+    { id: 'fuzzy_set', label: 'Fuzzy Set', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['membershipFunc'] },
+    { id: 'fuzzy_rule', label: 'Fuzzy Rule', type: 'CONDITION', inputs: ['in'], outputs: ['true', 'false'], params: ['rule'] },
+    { id: 'defuzzify', label: 'Defuzzify', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['method'] }
+  ],
+  hierarchical: [
+    { id: 'push_state', label: 'Push State', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['state'] },
+    { id: 'pop_state', label: 'Pop State', type: 'ACTION', inputs: ['in'], outputs: ['done'] },
+    { id: 'check_state_stack', label: 'Check State Stack', type: 'CONDITION', inputs: ['in'], outputs: ['has', 'empty'] },
+    { id: 'state_transition', label: 'State Transition', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['fromState', 'toState'] }
+  ],
+  motivation: [
+    { id: 'set_drive', label: 'Set Drive', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['driveType', 'intensity'] },
+    { id: 'drive_decay', label: 'Drive Decay', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['driveType', 'rate'] },
+    { id: 'motivation_check', label: 'Motivation Check', type: 'CONDITION', inputs: ['in'], outputs: ['motivated', 'unmotivated'], params: ['driveType', 'threshold'] },
+    { id: 'goal_priority', label: 'Goal Priority', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['motivationFactors'] }
   ],
   physics: [
     { id: 'apply_force', label: 'Apply Force', type: 'ACTION', inputs: ['in'], outputs: ['done'], params: ['force', 'direction'] },
