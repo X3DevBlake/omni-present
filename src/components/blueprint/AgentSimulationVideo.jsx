@@ -265,7 +265,6 @@ export default function AgentSimulationVideo({ show, onClose, agent, duration = 
           <div className="flex-1 relative">
             <Canvas shadows camera={{ position: [5, 3, -10], fov: 60 }}>
               <Sky sunPosition={[100, 20, 100]} />
-              <Environment preset="park" />
               <ambientLight intensity={0.5} />
               <directionalLight position={[10, 10, 5]} intensity={1} castShadow shadow-mapSize={[2048, 2048]} />
               
