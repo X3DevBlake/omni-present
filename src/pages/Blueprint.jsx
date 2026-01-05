@@ -1,14 +1,11 @@
-import React, { useState, useRef, useEffect, Suspense } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei';
-import * as THREE from 'three';
-import { Cpu, Database, HardDrive, Wifi, ChevronRight, X, Info, Layers, Plus, MessageCircle, Send, Users } from 'lucide-react';
+import { Cpu, Database, HardDrive, Wifi, ChevronRight, X, Info, Layers, Plus, MessageCircle, Send, Users, History, Share2, Save, FolderOpen } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
+import Blueprint3DViewer from '../components/blueprint/Blueprint3DViewer';
 import { base44 } from '@/api/base44Client';
 import { toast } from 'sonner';
 
-// Component data
 const componentsData = [
   { 
     position: [0, 0, 0], 
@@ -33,11 +30,7 @@ const componentsData = [
     description: 'NVIDIA HGX 8-GPU',
     stats: '640GB HBM3',
     connections: [0, 5],
-    details: {
-      specs: 'NVIDIA HGX H100',
-      cores: '142,336 CUDA cores',
-      memory: '80GB HBM3 per GPU'
-    }
+    details: { specs: 'NVIDIA HGX H100', cores: '142,336 CUDA cores' }
   },
   { 
     position: [-1.5, 0, 0], 
@@ -47,10 +40,7 @@ const componentsData = [
     description: 'NVIDIA HGX 8-GPU',
     stats: '640GB HBM3',
     connections: [0, 5],
-    details: {
-      specs: 'Redundant HGX H100',
-      cores: '142,336 CUDA cores'
-    }
+    details: { specs: 'Redundant HGX H100', cores: '142,336 CUDA cores' }
   },
   { 
     position: [0, 1.2, 0], 
@@ -60,10 +50,7 @@ const componentsData = [
     description: 'DDR5 System RAM',
     stats: '2TB Capacity',
     connections: [0, 4],
-    details: {
-      specs: 'DDR5-5600',
-      bandwidth: '358 GB/s'
-    }
+    details: { specs: 'DDR5-5600', bandwidth: '358 GB/s' }
   },
   { 
     position: [0, -1.2, 0], 
@@ -73,10 +60,7 @@ const componentsData = [
     description: 'NVMe SSD Array',
     stats: '50TB Storage',
     connections: [0, 3],
-    details: {
-      specs: 'PCIe Gen5 NVMe',
-      speed: '14,000 MB/s read'
-    }
+    details: { specs: 'PCIe Gen5 NVMe', speed: '14,000 MB/s' }
   },
   { 
     position: [0, 0, 1.2], 
@@ -86,10 +70,7 @@ const componentsData = [
     description: '400Gbps InfiniBand',
     stats: 'Low-latency mesh',
     connections: [1, 2, 6],
-    details: {
-      specs: 'InfiniBand HDR',
-      bandwidth: '400 Gbps'
-    }
+    details: { specs: 'InfiniBand HDR', bandwidth: '400 Gbps' }
   },
   { 
     position: [0, 0, -1.2], 
@@ -99,250 +80,22 @@ const componentsData = [
     description: 'PCIe Gen5 Interface',
     stats: '128 GT/s',
     connections: [5],
-    details: {
-      specs: 'PCIe 5.0 x64',
-      bandwidth: '128 GT/s'
-    }
+    details: { specs: 'PCIe 5.0 x64', bandwidth: '128 GT/s' }
   },
 ];
-
-// Connection Lines Component
-function ConnectionLines({ components, showConnections }) {
-  if (!showConnections) return null;
-  
-  const lines = [];
-  components.forEach((comp, i) => {
-    if (comp.connections) {
-      comp.connections.forEach(targetIdx => {
-        if (targetIdx < components.length) {
-          const target = components[targetIdx];
-          lines.push({ start: comp.position, end: target.position, color: comp.color });
-        }
-      });
-    }
-  });
-
-  return (
-    <group>
-      {lines.map((line, i) => {
-        const start = new THREE.Vector3(...line.start);
-        const end = new THREE.Vector3(...line.end);
-        const points = [start, end];
-        const geometry = new THREE.BufferGeometry().setFromPoints(points);
-        
-        return (
-          <line key={i} geometry={geometry}>
-            <lineBasicMaterial color={line.color} opacity={0.3} transparent linewidth={2} />
-          </line>
-        );
-      })}
-    </group>
-  );
-}
-
-// Cursor Component for multiplayer
-function CollaboratorCursor({ position, name, color }) {
-  return (
-    <group position={position}>
-      <mesh>
-        <sphereGeometry args={[0.05, 16, 16]} />
-        <meshBasicMaterial color={color} />
-      </mesh>
-      <mesh position={[0.1, 0.1, 0]}>
-        <planeGeometry args={[0.3, 0.1]} />
-        <meshBasicMaterial color="#000" opacity={0.8} transparent />
-      </mesh>
-    </group>
-  );
-}
-
-// Blueprint Component with physics
-function BlueprintComponent({ 
-  component, 
-  index, 
-  exploded, 
-  scrollProgress, 
-  isSelected, 
-  onClick, 
-  buildMode, 
-  onBuildModeClick,
-  velocity = [0, 0, 0],
-  onPositionChange
-}) {
-  const meshRef = useRef();
-  const groupRef = useRef();
-  const [hovered, setHovered] = useState(false);
-  const velocityRef = useRef(velocity);
-
-  useFrame((state, delta) => {
-    if (meshRef.current) {
-      const targetScale = hovered || isSelected ? 1.15 : 1;
-      meshRef.current.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.1);
-      
-      if (!buildMode && !exploded) {
-        meshRef.current.rotation.y = scrollProgress * Math.PI * 2 + index * 0.5;
-      }
-
-      if (isSelected) {
-        meshRef.current.rotation.y += 0.01;
-      }
-    }
-
-    // Physics in build mode
-    if (buildMode && groupRef.current) {
-      velocityRef.current[1] += -0.5 * delta; // gravity
-      
-      const newY = groupRef.current.position.y + velocityRef.current[1] * delta;
-      if (newY < -2) {
-        groupRef.current.position.y = -2;
-        velocityRef.current[1] = -velocityRef.current[1] * 0.5; // bounce
-      } else {
-        groupRef.current.position.y = newY;
-      }
-
-      onPositionChange?.([
-        groupRef.current.position.x,
-        groupRef.current.position.y,
-        groupRef.current.position.z
-      ]);
-    }
-  });
-
-  useEffect(() => {
-    if (groupRef.current && !buildMode) {
-      const displacement = new THREE.Vector3(...component.position)
-        .normalize()
-        .multiplyScalar(exploded ? 2 : 0);
-      
-      groupRef.current.position.x = component.position[0] + displacement.x;
-      groupRef.current.position.y = component.position[1] + displacement.y;
-      groupRef.current.position.z = component.position[2] + displacement.z;
-    }
-  }, [exploded, component.position, buildMode]);
-
-  return (
-    <group ref={groupRef} position={component.position}>
-      <mesh
-        ref={meshRef}
-        onPointerOver={() => {
-          setHovered(true);
-          document.body.style.cursor = 'pointer';
-        }}
-        onPointerOut={() => {
-          setHovered(false);
-          document.body.style.cursor = 'auto';
-        }}
-        onClick={(e) => {
-          e.stopPropagation();
-          if (buildMode) {
-            onBuildModeClick?.();
-          } else {
-            onClick?.();
-          }
-        }}
-      >
-        <boxGeometry args={component.size} />
-        <meshStandardMaterial
-          color={component.color}
-          transparent
-          opacity={buildMode ? 0.7 : 0.85}
-          emissive={component.color}
-          emissiveIntensity={hovered || isSelected ? 0.8 : 0.2}
-          metalness={0.8}
-          roughness={0.2}
-        />
-      </mesh>
-      
-      <mesh>
-        <boxGeometry args={component.size.map(s => s * 1.02)} />
-        <meshBasicMaterial 
-          color={component.color} 
-          wireframe 
-          transparent 
-          opacity={hovered || isSelected ? 0.8 : 0.5} 
-        />
-      </mesh>
-
-      {isSelected && (
-        <mesh>
-          <sphereGeometry args={[Math.max(...component.size) * 0.9, 16, 16]} />
-          <meshBasicMaterial color={component.color} transparent opacity={0.15} />
-        </mesh>
-      )}
-    </group>
-  );
-}
-
-// Blueprint Core
-function BlueprintCore({ 
-  exploded, 
-  scrollProgress, 
-  selectedComponent, 
-  onComponentClick, 
-  buildMode, 
-  buildComponents, 
-  onBuildComponentClick,
-  showConnections,
-  collaborators,
-  onComponentPositionChange
-}) {
-  const groupRef = useRef();
-
-  useFrame((state) => {
-    if (groupRef.current && !exploded && !buildMode) {
-      groupRef.current.rotation.y = state.clock.getElapsedTime() * 0.05;
-    }
-  });
-
-  const componentsToRender = buildMode ? buildComponents : componentsData;
-
-  return (
-    <group ref={groupRef}>
-      {componentsToRender.map((comp, i) => (
-        <BlueprintComponent
-          key={buildMode ? comp.id : i}
-          component={comp}
-          index={i}
-          exploded={exploded}
-          scrollProgress={scrollProgress}
-          isSelected={selectedComponent === i}
-          onClick={() => !buildMode && onComponentClick(i)}
-          buildMode={buildMode}
-          onBuildModeClick={() => buildMode && onBuildComponentClick(i)}
-          velocity={comp.velocity}
-          onPositionChange={(pos) => onComponentPositionChange?.(i, pos)}
-        />
-      ))}
-
-      <ConnectionLines components={componentsToRender} showConnections={showConnections} />
-
-      {collaborators.map((collab, i) => (
-        <CollaboratorCursor 
-          key={i}
-          position={collab.cursorPosition}
-          name={collab.name}
-          color={collab.color}
-        />
-      ))}
-
-      <mesh>
-        <sphereGeometry args={[2.5, 32, 32]} />
-        <meshBasicMaterial 
-          color="#00f5ff" 
-          transparent 
-          opacity={0.03} 
-          wireframe 
-        />
-      </mesh>
-    </group>
-  );
-}
 
 const blueprintLayers = [
   { icon: Cpu, label: 'Hardware Layer', tech: 'NVIDIA Architectures', feature: 'Exploded GPU view' },
   { icon: Database, label: 'Data Layer', tech: 'Vertex AI Streams', feature: 'Data flow pulse' },
   { icon: HardDrive, label: 'Logic Layer', tech: 'Generative AI Design', feature: 'Real-time updates' },
   { icon: Wifi, label: 'UI/UX Layer', tech: '@react-three/drei', feature: 'Live annotations' },
+];
+
+const defaultTemplates = [
+  { id: 'ml-training', name: 'ML Training', description: 'High-performance setup for AI training', components: [0, 1, 2, 3, 5] },
+  { id: 'web-serving', name: 'Web Serving', description: 'Optimized for web applications', components: [0, 3, 4, 5, 6] },
+  { id: 'data-processing', name: 'Data Processing', description: 'ETL and batch processing', components: [0, 3, 4, 5] },
+  { id: 'inference', name: 'Inference', description: 'Real-time AI inference', components: [0, 1, 3, 5, 6] },
 ];
 
 export default function Blueprint() {
@@ -358,6 +111,12 @@ export default function Blueprint() {
   const [aiPrompt, setAiPrompt] = useState('');
   const [collaborators, setCollaborators] = useState([]);
   const [isProcessingPrompt, setIsProcessingPrompt] = useState(false);
+  const [showVersionHistory, setShowVersionHistory] = useState(false);
+  const [showShareDialog, setShowShareDialog] = useState(false);
+  const [showTemplates, setShowTemplates] = useState(false);
+  const [versionHistory, setVersionHistory] = useState([]);
+  const [blueprintName, setBlueprintName] = useState('Untitled Blueprint');
+  const [shareEmail, setShareEmail] = useState('');
   const sectionRef = useRef(null);
 
   useEffect(() => {
@@ -378,24 +137,10 @@ export default function Blueprint() {
   // Simulate collaborators
   useEffect(() => {
     const mockCollaborators = [
-      { name: 'Alice', color: '#ff6b6b', cursorPosition: [1, 0.5, 0] },
-      { name: 'Bob', color: '#4ecdc4', cursorPosition: [-1, -0.5, 0.5] }
+      { name: 'Alice', color: '#ff6b6b', email: 'alice@example.com' },
+      { name: 'Bob', color: '#4ecdc4', email: 'bob@example.com' }
     ];
     setCollaborators(mockCollaborators);
-
-    // Animate cursors
-    const interval = setInterval(() => {
-      setCollaborators(prev => prev.map(c => ({
-        ...c,
-        cursorPosition: [
-          c.cursorPosition[0] + (Math.random() - 0.5) * 0.1,
-          c.cursorPosition[1] + (Math.random() - 0.5) * 0.1,
-          c.cursorPosition[2] + (Math.random() - 0.5) * 0.1,
-        ]
-      })));
-    }, 1000);
-
-    return () => clearInterval(interval);
   }, []);
 
   const addComponentToBuild = (componentType) => {
@@ -404,19 +149,70 @@ export default function Blueprint() {
       ...baseComponent,
       id: `${Date.now()}-${Math.random()}`,
       position: [(Math.random() - 0.5) * 3, 2, (Math.random() - 0.5) * 3],
-      velocity: [0, 0, 0]
     };
     setBuildComponents([...buildComponents, newComponent]);
+    saveVersion('Added component: ' + baseComponent.label);
   };
 
   const removeComponentFromBuild = (index) => {
+    const removed = buildComponents[index];
     setBuildComponents(buildComponents.filter((_, i) => i !== index));
+    if (removed) saveVersion('Removed component: ' + removed.label);
   };
 
-  const handleComponentPositionChange = (index, newPosition) => {
-    setBuildComponents(prev => prev.map((comp, i) => 
-      i === index ? { ...comp, position: newPosition } : comp
-    ));
+  const saveVersion = (action) => {
+    const version = {
+      id: Date.now(),
+      timestamp: new Date(),
+      action,
+      components: [...buildComponents],
+      name: blueprintName
+    };
+    setVersionHistory([version, ...versionHistory.slice(0, 9)]);
+  };
+
+  const revertToVersion = (version) => {
+    setBuildComponents(version.components);
+    setBlueprintName(version.name);
+    setShowVersionHistory(false);
+    toast.success('Reverted to version from ' + new Date(version.timestamp).toLocaleString());
+  };
+
+  const saveAsTemplate = async () => {
+    try {
+      const user = await base44.auth.me();
+      const template = {
+        name: blueprintName,
+        description: `Custom template with ${buildComponents.length} components`,
+        components: buildComponents,
+        created_by: user.email,
+        created_at: new Date().toISOString()
+      };
+      
+      await base44.auth.updateMe({
+        blueprint_templates: [...(user.blueprint_templates || []), template]
+      });
+      
+      toast.success('Template saved!');
+    } catch (error) {
+      toast.error('Failed to save template');
+    }
+  };
+
+  const loadTemplate = (template) => {
+    const components = template.components.map(idx => {
+      const base = componentsData[idx];
+      return {
+        ...base,
+        id: `${Date.now()}-${Math.random()}-${idx}`,
+        position: [(Math.random() - 0.5) * 3, (Math.random() - 0.5) * 2, (Math.random() - 0.5) * 3]
+      };
+    });
+    setBuildComponents(components);
+    setBlueprintName(template.name);
+    setShowTemplates(false);
+    saveVersion('Loaded template: ' + template.name);
+    toast.success('Template loaded!');
   };
 
   const handleSendMessage = () => {
@@ -432,7 +228,7 @@ export default function Blueprint() {
     setIsProcessingPrompt(true);
     try {
       const result = await base44.integrations.Core.InvokeLLM({
-        prompt: `Based on this AI infrastructure request: "${aiPrompt}", suggest which components to add and where to position them. Return a JSON array of component indices (0-6) to add. Available: 0=Neural Core, 1=GPU1, 2=GPU2, 3=Memory, 4=Storage, 5=Network, 6=I/O. Only return valid JSON array like [1,2,5]`,
+        prompt: `Based on: "${aiPrompt}", suggest component indices (0-6) to add. Available: 0=Neural Core, 1=GPU1, 2=GPU2, 3=Memory, 4=Storage, 5=Network, 6=I/O. Return JSON array like [1,2,5]`,
         response_json_schema: {
           type: "object",
           properties: {
@@ -458,6 +254,23 @@ export default function Blueprint() {
     }
   };
 
+  const shareBlueprint = async () => {
+    if (!shareEmail.trim()) return;
+    
+    try {
+      await base44.integrations.Core.SendEmail({
+        to: shareEmail,
+        subject: `Blueprint shared: ${blueprintName}`,
+        body: `You've been invited to collaborate on "${blueprintName}". It contains ${buildComponents.length} components.`
+      });
+      toast.success('Blueprint shared with ' + shareEmail);
+      setShareEmail('');
+      setShowShareDialog(false);
+    } catch (error) {
+      toast.error('Failed to share blueprint');
+    }
+  };
+
   const selectedComponentData = componentsData[selectedComponent];
 
   return (
@@ -474,7 +287,7 @@ export default function Blueprint() {
               <span className="bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent"> Blueprint</span>
             </h2>
             <p className="text-white/50 max-w-2xl mx-auto text-base sm:text-lg px-4">
-              {buildMode ? 'Assemble your custom AI infrastructure' : 'Explore the architecture powering omnipresent intelligence'}
+              {buildMode ? blueprintName : 'Explore the architecture powering omnipresent intelligence'}
             </p>
           </motion.div>
 
@@ -485,39 +298,17 @@ export default function Blueprint() {
               className="relative order-2 lg:order-1"
             >
               <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl p-4 aspect-square relative overflow-hidden">
-                <Suspense fallback={<div className="flex items-center justify-center h-full text-white">Loading 3D...</div>}>
-                  <Canvas
-                    camera={{ position: [5, 3, 5], fov: 45 }}
-                    gl={{ antialias: true, alpha: true }}
-                    dpr={[1, 2]}
-                  >
-                    <ambientLight intensity={0.4} />
-                    <pointLight position={[10, 10, 10]} intensity={1.2} color="#00f5ff" />
-                    <pointLight position={[-10, -10, -10]} intensity={0.6} color="#a855f7" />
-                    <spotLight position={[0, 10, 0]} intensity={0.5} color="#ec4899" />
-                    
-                    <BlueprintCore 
-                      exploded={exploded} 
-                      scrollProgress={scrollProgress}
-                      selectedComponent={selectedComponent}
-                      onComponentClick={setSelectedComponent}
-                      buildMode={buildMode}
-                      buildComponents={buildComponents}
-                      onBuildComponentClick={removeComponentFromBuild}
-                      showConnections={showConnections}
-                      collaborators={collaborators}
-                      onComponentPositionChange={handleComponentPositionChange}
-                    />
-                    
-                    <OrbitControls
-                      enablePan={true}
-                      enableZoom={true}
-                      enableRotate={true}
-                      minDistance={3}
-                      maxDistance={10}
-                    />
-                  </Canvas>
-                </Suspense>
+                <Blueprint3DViewer
+                  exploded={exploded}
+                  scrollProgress={scrollProgress}
+                  selectedComponent={selectedComponent}
+                  onComponentClick={setSelectedComponent}
+                  buildMode={buildMode}
+                  buildComponents={buildComponents}
+                  onBuildComponentClick={removeComponentFromBuild}
+                  showConnections={showConnections}
+                  collaborators={collaborators}
+                />
                 
                 <div className="absolute bottom-4 left-4 right-4 flex gap-2 flex-wrap">
                   {!buildMode && (
@@ -560,14 +351,15 @@ export default function Blueprint() {
                   </button>
                 </div>
 
-                {/* Collaborators indicator */}
                 {collaborators.length > 0 && (
                   <div className="absolute top-4 right-4 flex items-center gap-2 px-3 py-2 rounded-lg bg-black/80 backdrop-blur-sm border border-white/20">
                     <Users className="w-4 h-4 text-cyan-400" />
-                    <span className="text-white text-xs">{collaborators.length} online</span>
+                    <span className="text-white text-xs">{collaborators.length}</span>
                     <div className="flex -space-x-2">
                       {collaborators.map((c, i) => (
-                        <div key={i} className="w-6 h-6 rounded-full border-2 border-black" style={{ backgroundColor: c.color }} />
+                        <div key={i} className="w-6 h-6 rounded-full border-2 border-black flex items-center justify-center text-white text-xs font-bold" style={{ backgroundColor: c.color }}>
+                          {c.name[0]}
+                        </div>
                       ))}
                     </div>
                   </div>
@@ -579,6 +371,39 @@ export default function Blueprint() {
                   </div>
                 </div>
               </div>
+
+              {buildMode && (
+                <div className="mt-4 flex gap-2 flex-wrap">
+                  <button
+                    onClick={() => setShowVersionHistory(true)}
+                    className="flex items-center gap-2 px-4 py-2 bg-blue-500/20 border border-blue-500/40 text-blue-300 rounded-xl text-sm hover:bg-blue-500/30"
+                  >
+                    <History className="w-4 h-4" />
+                    History
+                  </button>
+                  <button
+                    onClick={() => setShowShareDialog(true)}
+                    className="flex items-center gap-2 px-4 py-2 bg-purple-500/20 border border-purple-500/40 text-purple-300 rounded-xl text-sm hover:bg-purple-500/30"
+                  >
+                    <Share2 className="w-4 h-4" />
+                    Share
+                  </button>
+                  <button
+                    onClick={saveAsTemplate}
+                    className="flex items-center gap-2 px-4 py-2 bg-green-500/20 border border-green-500/40 text-green-300 rounded-xl text-sm hover:bg-green-500/30"
+                  >
+                    <Save className="w-4 h-4" />
+                    Save Template
+                  </button>
+                  <button
+                    onClick={() => setShowTemplates(true)}
+                    className="flex items-center gap-2 px-4 py-2 bg-orange-500/20 border border-orange-500/40 text-orange-300 rounded-xl text-sm hover:bg-orange-500/30"
+                  >
+                    <FolderOpen className="w-4 h-4" />
+                    Templates
+                  </button>
+                </div>
+              )}
             </motion.div>
 
             <motion.div
@@ -588,7 +413,16 @@ export default function Blueprint() {
             >
               {buildMode ? (
                 <div className="space-y-3">
-                  {/* AI Prompt */}
+                  <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-4">
+                    <input
+                      type="text"
+                      value={blueprintName}
+                      onChange={(e) => setBlueprintName(e.target.value)}
+                      className="w-full bg-transparent border-none text-white font-semibold text-lg outline-none"
+                      placeholder="Blueprint Name"
+                    />
+                  </div>
+
                   <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-4">
                     <h3 className="text-white font-semibold text-sm mb-2">AI Assistant</h3>
                     <div className="flex gap-2">
@@ -632,7 +466,7 @@ export default function Blueprint() {
                   {buildComponents.length > 0 && (
                     <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-3">
                       <h4 className="text-white font-medium mb-1 text-xs">Your Build ({buildComponents.length})</h4>
-                      <div className="text-white/60 text-[10px]">Physics enabled • Click to remove</div>
+                      <div className="text-white/60 text-[10px]">Click components to remove</div>
                     </div>
                   )}
                 </div>
@@ -665,7 +499,7 @@ export default function Blueprint() {
         </div>
       </section>
 
-      {/* Chat Panel */}
+      {/* Chat Button */}
       <motion.button
         onClick={() => setShowChat(!showChat)}
         className="fixed bottom-6 right-6 p-4 rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 text-white shadow-lg z-40"
@@ -680,6 +514,7 @@ export default function Blueprint() {
         )}
       </motion.button>
 
+      {/* Chat Panel */}
       <AnimatePresence>
         {showChat && (
           <motion.div
@@ -721,6 +556,171 @@ export default function Blueprint() {
         )}
       </AnimatePresence>
 
+      {/* Version History */}
+      <AnimatePresence>
+        {showVersionHistory && (
+          <motion.div
+            className="fixed inset-0 z-50 flex items-center justify-center p-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={() => setShowVersionHistory(false)} />
+            <motion.div
+              className="relative bg-black/90 backdrop-blur-xl border border-white/20 rounded-2xl p-6 max-w-2xl w-full max-h-[80vh] overflow-y-auto"
+              initial={{ scale: 0.9, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, y: 20 }}
+            >
+              <button
+                onClick={() => setShowVersionHistory(false)}
+                className="absolute top-4 right-4 p-2 rounded-full bg-white/5 hover:bg-white/10"
+              >
+                <X className="w-5 h-5 text-white/70" />
+              </button>
+
+              <h3 className="text-2xl font-bold text-white mb-4">Version History</h3>
+              
+              {versionHistory.length === 0 ? (
+                <p className="text-white/50">No version history yet</p>
+              ) : (
+                <div className="space-y-2">
+                  {versionHistory.map((version) => (
+                    <div key={version.id} className="bg-white/5 rounded-xl p-4 hover:bg-white/10 transition-colors">
+                      <div className="flex justify-between items-start mb-2">
+                        <div>
+                          <div className="text-white font-medium">{version.action}</div>
+                          <div className="text-white/50 text-sm">{new Date(version.timestamp).toLocaleString()}</div>
+                        </div>
+                        <button
+                          onClick={() => revertToVersion(version)}
+                          className="px-3 py-1 bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 rounded-lg text-sm hover:bg-cyan-500/30"
+                        >
+                          Revert
+                        </button>
+                      </div>
+                      <div className="text-white/40 text-xs">{version.components.length} components</div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Share Dialog */}
+      <AnimatePresence>
+        {showShareDialog && (
+          <motion.div
+            className="fixed inset-0 z-50 flex items-center justify-center p-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={() => setShowShareDialog(false)} />
+            <motion.div
+              className="relative bg-black/90 backdrop-blur-xl border border-white/20 rounded-2xl p-6 max-w-md w-full"
+              initial={{ scale: 0.9, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, y: 20 }}
+            >
+              <button
+                onClick={() => setShowShareDialog(false)}
+                className="absolute top-4 right-4 p-2 rounded-full bg-white/5 hover:bg-white/10"
+              >
+                <X className="w-5 h-5 text-white/70" />
+              </button>
+
+              <h3 className="text-2xl font-bold text-white mb-4">Share Blueprint</h3>
+              
+              <div className="mb-4">
+                <label className="text-white/70 text-sm mb-2 block">Email address</label>
+                <input
+                  type="email"
+                  value={shareEmail}
+                  onChange={(e) => setShareEmail(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && shareBlueprint()}
+                  placeholder="colleague@example.com"
+                  className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/40"
+                />
+              </div>
+
+              <div className="mb-4">
+                <div className="text-white/70 text-sm mb-2">Currently collaborating</div>
+                <div className="space-y-2">
+                  {collaborators.map((c, i) => (
+                    <div key={i} className="flex items-center gap-3 bg-white/5 rounded-lg p-2">
+                      <div className="w-8 h-8 rounded-full flex items-center justify-center text-white font-bold" style={{ backgroundColor: c.color }}>
+                        {c.name[0]}
+                      </div>
+                      <div>
+                        <div className="text-white text-sm">{c.name}</div>
+                        <div className="text-white/50 text-xs">{c.email}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <button
+                onClick={shareBlueprint}
+                className="w-full py-3 bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-medium rounded-xl hover:opacity-90"
+              >
+                Send Invitation
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Templates Library */}
+      <AnimatePresence>
+        {showTemplates && (
+          <motion.div
+            className="fixed inset-0 z-50 flex items-center justify-center p-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={() => setShowTemplates(false)} />
+            <motion.div
+              className="relative bg-black/90 backdrop-blur-xl border border-white/20 rounded-2xl p-6 max-w-3xl w-full max-h-[80vh] overflow-y-auto"
+              initial={{ scale: 0.9, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, y: 20 }}
+            >
+              <button
+                onClick={() => setShowTemplates(false)}
+                className="absolute top-4 right-4 p-2 rounded-full bg-white/5 hover:bg-white/10"
+              >
+                <X className="w-5 h-5 text-white/70" />
+              </button>
+
+              <h3 className="text-2xl font-bold text-white mb-4">Blueprint Templates</h3>
+              
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {defaultTemplates.map((template) => (
+                  <div key={template.id} className="bg-white/5 rounded-xl p-4 hover:bg-white/10 transition-colors border border-white/10">
+                    <h4 className="text-white font-semibold mb-2">{template.name}</h4>
+                    <p className="text-white/60 text-sm mb-3">{template.description}</p>
+                    <div className="flex items-center justify-between">
+                      <div className="text-white/40 text-xs">{template.components.length} components</div>
+                      <button
+                        onClick={() => loadTemplate(template)}
+                        className="px-4 py-2 bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 rounded-lg text-sm hover:bg-cyan-500/30"
+                      >
+                        Load
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Component Detail Panel */}
       <AnimatePresence>
         {selectedComponent !== null && selectedComponentData && (
@@ -730,10 +730,7 @@ export default function Blueprint() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
-            <motion.div
-              className="absolute inset-0 bg-black/80 backdrop-blur-sm"
-              onClick={() => setSelectedComponent(null)}
-            />
+            <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={() => setSelectedComponent(null)} />
             <motion.div
               className="relative bg-black/90 backdrop-blur-xl border border-white/20 rounded-2xl p-6 max-w-2xl w-full max-h-[80vh] overflow-y-auto"
               initial={{ scale: 0.9, y: 20 }}
@@ -742,7 +739,7 @@ export default function Blueprint() {
             >
               <button
                 onClick={() => setSelectedComponent(null)}
-                className="absolute top-4 right-4 p-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors"
+                className="absolute top-4 right-4 p-2 rounded-full bg-white/5 hover:bg-white/10"
               >
                 <X className="w-5 h-5 text-white/70" />
               </button>
