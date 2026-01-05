@@ -61,7 +61,9 @@ import AIModelMarketplace from './AIModelMarketplace';
 import AIAdvancedOptimizer from './AIAdvancedOptimizer';
 import AIModelLifecycleManager from './AIModelLifecycleManager';
 import AIProactiveMonitor from './AIProactiveMonitor';
-import { Cpu, HardDrive, Wifi, Database, ChevronRight, Mic, MicOff, Brain } from 'lucide-react';
+import AIOnboardingSystem from './AIOnboardingSystem';
+import AICollaborationAssistant from './AICollaborationAssistant';
+import { Cpu, HardDrive, Wifi, Database, ChevronRight, Mic, MicOff, Brain, Sparkles } from 'lucide-react';
 import { toast } from 'sonner';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -500,6 +502,7 @@ export default function BlueprintSection() {
   const [showAdvancedOptimizer, setShowAdvancedOptimizer] = useState(false);
   const [showLifecycleManager, setShowLifecycleManager] = useState(false);
   const [showComparison, setShowComparison] = useState(false);
+  const [showOnboarding, setShowOnboarding] = useState(false);
   const [showVersionControl, setShowVersionControl] = useState(false);
   const [showHeatmap, setShowHeatmap] = useState(false);
   const [showMediaUploader, setShowMediaUploader] = useState(false);
@@ -1432,6 +1435,37 @@ export default function BlueprintSection() {
             toast.success('Preventative measures applied');
           }}
         />
+
+        {/* AI Onboarding System */}
+        {showOnboarding && (
+          <AIOnboardingSystem
+            userRole="developer"
+            blueprintContext={currentBlueprint}
+            onComplete={() => setShowOnboarding(false)}
+          />
+        )}
+
+        {/* AI Collaboration Assistant */}
+        <AICollaborationAssistant
+          blueprintChanges={[]}
+          activeTasks={[]}
+          monitoringAlerts={[]}
+          onInviteMember={(role) => {
+            console.log('Invite member:', role);
+            toast.info(`Inviting ${role} to collaborate`);
+          }}
+        />
+
+        {/* Onboarding trigger button */}
+        <motion.button
+          onClick={() => setShowOnboarding(true)}
+          className="fixed top-24 left-6 z-40 px-4 py-2 rounded-lg bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-500/40 text-cyan-400 text-sm hover:bg-cyan-500/30"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <Sparkles className="w-4 h-4 inline mr-2" />
+          Start Tour
+        </motion.button>
 
         {/* Anomaly Detection System */}
         <AnomalyDetectionSystem
