@@ -45,12 +45,29 @@ export function DynamicEnvironmentSystem({ children, weatherType = 'clear', time
 
   // Generate weather particles
   const particleCount = 1000;
-  const positions = new Float32Array(particleCount * 3);
-  for (let i = 0; i < particleCount; i++) {
-    positions[i * 3] = (Math.random() - 0.5) * 50;
-    positions[i * 3 + 1] = Math.random() * 20;
-    positions[i * 3 + 2] = (Math.random() - 0.5) * 50;
-  }
+  const rainGeometry = React.useMemo(() => {
+    const geometry = new THREE.BufferGeometry();
+    const positions = new Float32Array(particleCount * 3);
+    for (let i = 0; i < particleCount; i++) {
+      positions[i * 3] = (Math.random() - 0.5) * 50;
+      positions[i * 3 + 1] = Math.random() * 20;
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 50;
+    }
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    return geometry;
+  }, []);
+
+  const snowGeometry = React.useMemo(() => {
+    const geometry = new THREE.BufferGeometry();
+    const positions = new Float32Array(particleCount * 3);
+    for (let i = 0; i < particleCount; i++) {
+      positions[i * 3] = (Math.random() - 0.5) * 50;
+      positions[i * 3 + 1] = Math.random() * 20;
+      positions[i * 3 + 2] = (Math.random() - 0.5) * 50;
+    }
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    return geometry;
+  }, []);
 
   return (
     <group>
@@ -59,30 +76,14 @@ export function DynamicEnvironmentSystem({ children, weatherType = 'clear', time
       
       {/* Rain particles */}
       {weatherType === 'rain' && (
-        <points ref={rainParticlesRef}>
-          <bufferGeometry>
-            <bufferAttribute
-              attach="attributes-position"
-              count={particleCount}
-              array={positions}
-              itemSize={3}
-            />
-          </bufferGeometry>
+        <points ref={rainParticlesRef} geometry={rainGeometry}>
           <pointsMaterial size={0.1} color="#4a90e2" transparent opacity={0.6} />
         </points>
       )}
 
       {/* Snow particles */}
       {weatherType === 'snow' && (
-        <points ref={snowParticlesRef}>
-          <bufferGeometry>
-            <bufferAttribute
-              attach="attributes-position"
-              count={particleCount}
-              array={positions}
-              itemSize={3}
-            />
-          </bufferGeometry>
+        <points ref={snowParticlesRef} geometry={snowGeometry}>
           <pointsMaterial size={0.15} color="#ffffff" transparent opacity={0.8} />
         </points>
       )}
