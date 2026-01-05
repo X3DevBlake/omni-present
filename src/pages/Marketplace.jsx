@@ -360,11 +360,12 @@ export default function Marketplace() {
                 </div>
               </motion.div>
             ))}
-          </div>
-        </motion.div>
+            </div>
+            </motion.div>
+            )}
 
-        {/* Item Detail Modal */}
-        <AnimatePresence>
+            {/* Item Detail Modal */}
+            <AnimatePresence>
           {selectedItem && (
             <motion.div
               className="fixed inset-0 z-50 flex items-center justify-center p-4"
