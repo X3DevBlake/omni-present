@@ -1,16 +1,18 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Cpu, Database, HardDrive, Wifi, ChevronRight, X, Info, Layers, Plus, MessageCircle, Send, Users, History, Share2, Save, FolderOpen, Wand2, Gauge, Bot } from 'lucide-react';
+import { Cpu, Database, HardDrive, Wifi, ChevronRight, X, Info, Layers, Plus, MessageCircle, Send, Users, History, Share2, Save, FolderOpen, Wand2, Gauge, Bot, Map } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import Blueprint3DViewer from '../components/blueprint/Blueprint3DViewer';
 import AutomatedBlueprintGenerator from '../components/blueprint/AutomatedBlueprintGenerator';
 import BlueprintControlPanel from '../components/blueprint/BlueprintControlPanel';
 import AgentCreator from '../components/blueprint/AgentCreator';
+import EnvironmentCreator from '../components/blueprint/EnvironmentCreator';
 import { base44 } from '@/api/base44Client';
 import { toast } from 'sonner';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import HolographicAIAgent from '../components/blueprint/HolographicAIAgent';
+import Environment3DScene from '../components/blueprint/Environment3DScene';
 
 const componentsData = [
   { 
@@ -132,7 +134,10 @@ export default function Blueprint() {
   const [showAutoGenerator, setShowAutoGenerator] = useState(false);
   const [showControlPanel, setShowControlPanel] = useState(false);
   const [showAgentCreator, setShowAgentCreator] = useState(false);
+  const [showEnvironmentCreator, setShowEnvironmentCreator] = useState(false);
   const [holographicAgents, setHolographicAgents] = useState([]);
+  const [currentEnvironment, setCurrentEnvironment] = useState('office');
+  const [agentMovementTargets, setAgentMovementTargets] = useState({});
   const sectionRef = useRef(null);
 
   useEffect(() => {
@@ -412,6 +417,16 @@ export default function Blueprint() {
     toast.success('Agent removed');
   };
 
+  const handleEnvironmentClick = (event) => {
+    if (holographicAgents.length > 0 && event.point) {
+      const randomAgent = holographicAgents[Math.floor(Math.random() * holographicAgents.length)];
+      setAgentMovementTargets({
+        ...agentMovementTargets,
+        [randomAgent.id]: [event.point.x, event.point.y, event.point.z]
+      });
+    }
+  };
+
   const selectedComponentData = componentsData[selectedComponent];
 
   return (
@@ -582,6 +597,13 @@ export default function Blueprint() {
                     >
                       <Bot className="w-4 h-4" />
                       Create Agent
+                    </button>
+                    <button
+                      onClick={() => setShowEnvironmentCreator(true)}
+                      className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 border border-blue-500/40 text-blue-300 rounded-xl text-sm hover:from-blue-500/30 hover:to-cyan-500/30"
+                    >
+                      <Map className="w-4 h-4" />
+                      Environment
                     </button>
                     </div>
 
@@ -1108,6 +1130,14 @@ export default function Blueprint() {
         onAgentCreated={handleAgentCreated}
       />
 
+      {/* Environment Creator */}
+      <EnvironmentCreator
+        show={showEnvironmentCreator}
+        onClose={() => setShowEnvironmentCreator(false)}
+        onEnvironmentSelect={setCurrentEnvironment}
+        currentEnvironment={currentEnvironment}
+      />
+
       {/* Holographic Agents Section */}
       {holographicAgents.length > 0 && (
         <motion.div
@@ -1141,34 +1171,43 @@ export default function Blueprint() {
         </motion.div>
       )}
 
-      {/* 3D Holographic Agents Display */}
+      {/* 3D Holographic Agents Display with Environment */}
       <AnimatePresence>
         {holographicAgents.length > 0 && (
           <motion.div
-            className="fixed top-1/2 right-6 -translate-y-1/2 w-64 h-80 bg-black/40 backdrop-blur-xl border border-white/20 rounded-2xl overflow-hidden z-30"
+            className="fixed top-1/2 right-6 -translate-y-1/2 w-96 h-96 bg-black/40 backdrop-blur-xl border border-white/20 rounded-2xl overflow-hidden z-30"
             initial={{ opacity: 0, scale: 0.8, x: 100 }}
             animate={{ opacity: 1, scale: 1, x: 0 }}
             exit={{ opacity: 0, scale: 0.8, x: 100 }}
           >
-            <div className="absolute top-4 left-4 right-4 z-10">
-              <h4 className="text-white font-semibold text-sm">Holographic View</h4>
+            <div className="absolute top-4 left-4 right-4 z-10 flex items-center justify-between">
+              <h4 className="text-white font-semibold text-sm">Environment: {currentEnvironment}</h4>
+              <button
+                onClick={() => setShowEnvironmentCreator(true)}
+                className="px-2 py-1 bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 rounded text-xs hover:bg-cyan-500/30"
+              >
+                Change
+              </button>
             </div>
-            <Canvas camera={{ position: [0, 1, 3], fov: 50 }}>
-              <ambientLight intensity={0.5} />
-              <pointLight position={[10, 10, 10]} intensity={1} color="#00f5ff" />
-              <pointLight position={[-10, -10, -10]} intensity={0.5} color="#a855f7" />
+            <Canvas camera={{ position: [0, 5, 10], fov: 60 }} onClick={handleEnvironmentClick}>
+              <Environment3DScene environmentType={currentEnvironment} />
 
               {holographicAgents.map((agent, i) => (
                 <HolographicAIAgent
                   key={agent.id}
                   agent={agent}
-                  position={[Math.sin(i * 1.5) * 2, 0, Math.cos(i * 1.5) * 2]}
-                  scale={0.8}
+                  position={[Math.sin(i * 1.5) * 3, 0, Math.cos(i * 1.5) * 3]}
+                  scale={0.6}
+                  isMoving={!!agentMovementTargets[agent.id]}
+                  targetPosition={agentMovementTargets[agent.id]}
                 />
               ))}
 
-              <OrbitControls enableZoom={true} enablePan={false} />
+              <OrbitControls enableZoom={true} enablePan={true} maxPolarAngle={Math.PI / 2} />
             </Canvas>
+            <div className="absolute bottom-4 left-4 right-4 bg-black/60 rounded-lg p-2 text-white/70 text-xs">
+              Click environment to move agents
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

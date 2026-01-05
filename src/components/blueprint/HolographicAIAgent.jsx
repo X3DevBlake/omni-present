@@ -2,18 +2,44 @@ import React, { useRef, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 
-export default function HolographicAIAgent({ agent, position = [0, 0, 0], scale = 1 }) {
+export default function HolographicAIAgent({ agent, position = [0, 0, 0], scale = 1, isMoving = false, targetPosition }) {
   const groupRef = useRef();
   const [isInteracting, setIsInteracting] = useState(false);
+  const [currentPos, setCurrentPos] = useState(position);
 
-  useFrame((state) => {
+  useFrame((state, delta) => {
     if (groupRef.current) {
       // Gentle floating animation
-      groupRef.current.position.y = position[1] + Math.sin(state.clock.elapsedTime * 0.5) * 0.1;
+      const baseY = currentPos[1] + Math.sin(state.clock.elapsedTime * 0.5) * 0.1;
       
-      // Rotate slowly if interacting
-      if (isInteracting) {
-        groupRef.current.rotation.y += 0.01;
+      // Move towards target position if moving
+      if (isMoving && targetPosition) {
+        const targetVec = new THREE.Vector3(...targetPosition);
+        const currentVec = new THREE.Vector3(currentPos[0], currentPos[1], currentPos[2]);
+        const direction = targetVec.clone().sub(currentVec);
+        const distance = direction.length();
+        
+        if (distance > 0.1) {
+          direction.normalize().multiplyScalar(delta * 2);
+          const newPos = [
+            currentPos[0] + direction.x,
+            currentPos[1] + direction.y,
+            currentPos[2] + direction.z
+          ];
+          setCurrentPos(newPos);
+          groupRef.current.position.set(newPos[0], baseY, newPos[2]);
+          
+          // Face movement direction
+          const angle = Math.atan2(direction.x, direction.z);
+          groupRef.current.rotation.y = angle;
+        }
+      } else {
+        groupRef.current.position.y = baseY;
+        
+        // Rotate slowly if interacting
+        if (isInteracting) {
+          groupRef.current.rotation.y += 0.01;
+        }
       }
     }
   });
