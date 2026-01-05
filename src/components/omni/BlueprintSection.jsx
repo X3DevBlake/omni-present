@@ -58,6 +58,8 @@ import AIWorkflowOrchestrator from './AIWorkflowOrchestrator';
 import AIAPIGateway from './AIAPIGateway';
 import DistributedTracingMonitor from './DistributedTracingMonitor';
 import AIModelMarketplace from './AIModelMarketplace';
+import AIAdvancedOptimizer from './AIAdvancedOptimizer';
+import AIModelLifecycleManager from './AIModelLifecycleManager';
 import { Cpu, HardDrive, Wifi, Database, ChevronRight, Mic, MicOff, Brain } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -494,6 +496,8 @@ export default function BlueprintSection() {
   const [showAPIGateway, setShowAPIGateway] = useState(false);
   const [showTracing, setShowTracing] = useState(false);
   const [showModelMarketplace, setShowModelMarketplace] = useState(false);
+  const [showAdvancedOptimizer, setShowAdvancedOptimizer] = useState(false);
+  const [showLifecycleManager, setShowLifecycleManager] = useState(false);
   const [showComparison, setShowComparison] = useState(false);
   const [showVersionControl, setShowVersionControl] = useState(false);
   const [showHeatmap, setShowHeatmap] = useState(false);
@@ -964,6 +968,18 @@ export default function BlueprintSection() {
           >
             🔀 Orchestrate
           </button>
+          <button
+            onClick={() => setShowAdvancedOptimizer(true)}
+            className="flex-1 py-2 rounded-lg bg-orange-500/20 hover:bg-orange-500/30 text-orange-400 text-sm"
+          >
+            ⚡ Advanced Optimizer
+          </button>
+          <button
+            onClick={() => setShowLifecycleManager(true)}
+            className="flex-1 py-2 rounded-lg bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 text-sm"
+          >
+            🔄 Model Lifecycle
+          </button>
         </div>
 
         {/* AI Task Manager */}
@@ -1375,6 +1391,34 @@ export default function BlueprintSection() {
             toast.success('Optimization applied');
           }}
         />
+
+        {/* Advanced Optimizer */}
+        {showAdvancedOptimizer && currentBlueprint && (
+          <AIAdvancedOptimizer
+            blueprint={currentBlueprint}
+            historicalData={historicalTelemetryData}
+            monitoringData={displayTelemetry}
+            costData={{}}
+            onApplyOptimization={(opt) => {
+              console.log('Advanced optimization:', opt);
+              toast.success('Optimization applied');
+            }}
+            onClose={() => setShowAdvancedOptimizer(false)}
+          />
+        )}
+
+        {/* Model Lifecycle Manager */}
+        {showLifecycleManager && (
+          <AIModelLifecycleManager
+            deployedModels={[{ modelId: 'model-1', name: 'Blueprint Analyzer' }]}
+            monitoringData={displayTelemetry}
+            onInitiateRetraining={(config) => {
+              console.log('Retraining initiated:', config);
+              toast.success('Model retraining pipeline started');
+            }}
+            onClose={() => setShowLifecycleManager(false)}
+          />
+        )}
 
         {/* Anomaly Detection System */}
         <AnomalyDetectionSystem
