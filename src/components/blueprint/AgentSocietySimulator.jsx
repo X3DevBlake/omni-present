@@ -50,11 +50,20 @@ export class AgentSociety {
       this.updateRelationships(agent);
       this.performRoleActions(agent);
       this.applyInteractionRules(agent);
+
+      // Learning and adaptation
+      if (Math.random() > 0.8) {
+        this.learnFromExperience(agent, {
+          action: agent.societyRole,
+          success: agent.contribution > 30
+        });
+      }
     });
-    
+
     this.manageResources();
     this.handleConflicts();
     this.manageAlliances();
+    this.detectRivalries();
     this.checkEmergentBehaviors();
     this.evaluateGoals();
     this.evolveCulture();
@@ -250,14 +259,18 @@ export class AgentSociety {
   }
 
   getStats() {
+    const avgSentiment = this.agents.reduce((sum, a) => sum + (a.sentiment?.overall || 0), 0) / this.agents.length;
+
     return {
       population: this.agents.length,
       resources: this.resources,
       avgRelationship: this.getAverageRelationship().toFixed(1),
+      avgSentiment: avgSentiment.toFixed(1),
       emergentBehaviors: this.emergentBehaviors,
       topContributors: this.agents.sort((a, b) => b.contribution - a.contribution).slice(0, 3),
       conflicts: this.conflicts.length,
       alliances: this.alliances.length,
+      rivalries: this.rivalries?.length || 0,
       culturalTraits: this.culturalTraits
     };
   }
@@ -478,6 +491,22 @@ export default function AgentSocietySimulator({ show, onClose, agents }) {
                       </div>
                     </div>
                   )}
+
+                  <div className="bg-gradient-to-r from-blue-500/10 to-cyan-500/10 border border-blue-500/30 rounded-xl p-4">
+                    <h4 className="text-blue-400 font-semibold mb-2">Social Dynamics</h4>
+                    <div className="grid grid-cols-2 gap-3 text-sm">
+                      <div>
+                        <div className="text-white/60 text-xs">Avg Sentiment</div>
+                        <div className={`text-lg font-bold ${parseFloat(stats.avgSentiment) > 0 ? 'text-green-400' : 'text-red-400'}`}>
+                          {stats.avgSentiment > 0 ? '+' : ''}{stats.avgSentiment}
+                        </div>
+                      </div>
+                      <div>
+                        <div className="text-white/60 text-xs">Rivalries</div>
+                        <div className="text-lg font-bold text-red-400">{stats.rivalries}</div>
+                      </div>
+                    </div>
+                  </div>
 
                   <div className="bg-white/5 rounded-xl p-4">
                     <h4 className="text-white font-semibold mb-3">Top Contributors</h4>

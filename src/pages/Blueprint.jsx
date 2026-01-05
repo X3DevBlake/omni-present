@@ -18,6 +18,8 @@ import AgentSimulationRecorder from '../components/blueprint/AgentSimulationReco
 import BehaviorDebugger from '../components/blueprint/BehaviorDebugger';
 import AgentSimulationVideo from '../components/blueprint/AgentSimulationVideo';
 import AgentTemplateLibrary from '../components/blueprint/AgentTemplateLibrary';
+import CommunicationProtocolEditor from '../components/blueprint/CommunicationProtocolEditor';
+import { DynamicEnvironmentSystem, InteractiveEnvironmentElement } from '../components/blueprint/DynamicEnvironmentSystem';
 import { base44 } from '@/api/base44Client';
 import { toast } from 'sonner';
 import { Canvas } from '@react-three/fiber';
@@ -157,7 +159,11 @@ export default function Blueprint() {
   const [showBehaviorDebugger, setShowBehaviorDebugger] = useState(false);
   const [showSimulationVideo, setShowSimulationVideo] = useState(false);
   const [showTemplateLibrary, setShowTemplateLibrary] = useState(false);
+  const [showProtocolEditor, setShowProtocolEditor] = useState(false);
   const [selectedBehaviorForDebug, setSelectedBehaviorForDebug] = useState(null);
+  const [communicationProtocol, setCommunicationProtocol] = useState(null);
+  const [weatherType, setWeatherType] = useState('clear');
+  const [timeOfDay, setTimeOfDay] = useState(0.5);
   const [holographicAgents, setHolographicAgents] = useState([]);
   const [agentMemories, setAgentMemories] = useState(new Map());
   const [currentEnvironment, setCurrentEnvironment] = useState('office');
@@ -742,12 +748,11 @@ export default function Blueprint() {
                       Debug
                     </button>
                     <button
-                      onClick={() => setShowSimulationVideo(true)}
-                      disabled={holographicAgents.length === 0}
-                      className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-indigo-500/20 to-purple-500/20 border border-indigo-500/40 text-indigo-300 rounded-xl text-sm hover:from-indigo-500/30 hover:to-purple-500/30 disabled:opacity-50"
+                      onClick={() => setShowProtocolEditor(true)}
+                      className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-500/40 text-cyan-300 rounded-xl text-sm hover:from-cyan-500/30 hover:to-blue-500/30"
                     >
-                      <Video className="w-4 h-4" />
-                      Preview Video
+                      <Send className="w-4 h-4" />
+                      Communication
                     </button>
                       <button
                       onClick={() => setShowSocietySimulator(true)}
@@ -1363,6 +1368,18 @@ export default function Blueprint() {
         onSelectTemplate={handleTemplateSelected}
       />
 
+      {/* Communication Protocol Editor */}
+      <CommunicationProtocolEditor
+        show={showProtocolEditor}
+        onClose={() => setShowProtocolEditor(false)}
+        onSaveProtocol={(protocol) => {
+          setCommunicationProtocol(protocol);
+          communicationProtocol.current.setProtocol(protocol);
+          toast.success('Communication protocol updated!');
+        }}
+        existingProtocol={communicationProtocol}
+      />
+
       {/* Holographic Agents Section */}
       {holographicAgents.length > 0 && (
         <motion.div
@@ -1471,7 +1488,16 @@ export default function Blueprint() {
             </Canvas>
             <div className="absolute bottom-4 left-4 right-4 bg-black/60 rounded-lg p-2 space-y-1">
               <div className="text-white/70 text-xs">🟢 Exploring  🟣 Interacting  🟡 Moving  🔵 Observing</div>
-              <div className="text-white/50 text-xs">Agents autonomously explore • Click to set waypoints</div>
+              <div className="flex gap-2 mt-2">
+                <select value={weatherType} onChange={(e) => setWeatherType(e.target.value)} className="flex-1 bg-white/10 border border-white/20 rounded px-2 py-1 text-white text-xs">
+                  <option value="clear">☀️ Clear</option>
+                  <option value="rain">🌧️ Rain</option>
+                  <option value="snow">❄️ Snow</option>
+                  <option value="fog">🌫️ Fog</option>
+                </select>
+                <input type="range" min="0" max="1" step="0.01" value={timeOfDay} onChange={(e) => setTimeOfDay(parseFloat(e.target.value))} className="flex-1" />
+                <span className="text-white/70 text-xs">{timeOfDay < 0.25 ? '🌙' : timeOfDay < 0.75 ? '☀️' : '🌆'}</span>
+              </div>
             </div>
           </motion.div>
         )}
