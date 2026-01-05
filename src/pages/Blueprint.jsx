@@ -1,12 +1,14 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { OrbitControls, Html } from '@react-three/drei';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
-import { Cpu, Database, HardDrive, Wifi, ChevronRight, X, Info, Layers, Plus, Trash2 } from 'lucide-react';
+import { Cpu, Database, HardDrive, Wifi, ChevronRight, X, Info, Layers, Plus, MessageCircle, Send, Users } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
+import { base44 } from '@/api/base44Client';
+import { toast } from 'sonner';
 
-// Component data with detailed info
+// Component data
 const componentsData = [
   { 
     position: [0, 0, 0], 
@@ -15,111 +17,168 @@ const componentsData = [
     label: 'Neural Core',
     description: 'Central AI processor',
     stats: '2.5 PetaFLOPS',
+    connections: [1, 2],
     details: {
-      specs: 'Custom tensor core array with multi-precision support',
+      specs: 'Custom tensor core array',
       power: '450W TDP',
-      cooling: 'Liquid cooling with phase change technology',
-      performance: 'INT8: 5 PFLOPS, FP16: 2.5 PFLOPS, FP32: 1.25 PFLOPS'
+      cooling: 'Liquid cooling',
+      performance: 'INT8: 5 PFLOPS'
     }
   },
   { 
-    position: [1.2, 0, 0], 
+    position: [1.5, 0, 0], 
     size: [0.5, 0.5, 0.5], 
     color: '#a855f7', 
     label: 'GPU Array 1',
     description: 'NVIDIA HGX 8-GPU',
     stats: '640GB HBM3',
+    connections: [0, 5],
     details: {
-      specs: 'NVIDIA HGX H100 configuration',
-      cores: '142,336 CUDA cores per GPU',
-      memory: '80GB HBM3 per GPU, 900 GB/s bandwidth',
-      interconnect: 'NVLink 900 GB/s per GPU'
+      specs: 'NVIDIA HGX H100',
+      cores: '142,336 CUDA cores',
+      memory: '80GB HBM3 per GPU'
     }
   },
   { 
-    position: [-1.2, 0, 0], 
+    position: [-1.5, 0, 0], 
     size: [0.5, 0.5, 0.5], 
     color: '#a855f7', 
     label: 'GPU Array 2',
     description: 'NVIDIA HGX 8-GPU',
     stats: '640GB HBM3',
+    connections: [0, 5],
     details: {
-      specs: 'Redundant HGX H100 for load balancing',
-      cores: '142,336 CUDA cores per GPU',
-      memory: '80GB HBM3 per GPU',
-      purpose: 'Ensures continuous operation during intensive workloads'
+      specs: 'Redundant HGX H100',
+      cores: '142,336 CUDA cores'
     }
   },
   { 
-    position: [0, 1, 0], 
+    position: [0, 1.2, 0], 
     size: [0.4, 0.3, 0.6], 
     color: '#ec4899', 
     label: 'Memory Pool',
     description: 'DDR5 System RAM',
     stats: '2TB Capacity',
+    connections: [0, 4],
     details: {
-      specs: 'DDR5-5600 across 8 channels',
-      bandwidth: '358 GB/s aggregate',
-      ecc: 'Full ECC support',
-      latency: 'CL40 (7.14ns)'
+      specs: 'DDR5-5600',
+      bandwidth: '358 GB/s'
     }
   },
   { 
-    position: [0, -1, 0], 
+    position: [0, -1.2, 0], 
     size: [0.4, 0.3, 0.6], 
     color: '#ec4899', 
     label: 'Storage Layer',
     description: 'NVMe SSD Array',
     stats: '50TB Storage',
+    connections: [0, 3],
     details: {
-      specs: 'PCIe Gen5 NVMe SSDs',
-      speed: '14,000 MB/s read, 12,000 MB/s write',
-      iops: '2.5M random IOPS',
-      endurance: '10 DWPD (Drive Writes Per Day)'
+      specs: 'PCIe Gen5 NVMe',
+      speed: '14,000 MB/s read'
     }
   },
   { 
-    position: [0, 0, 1], 
+    position: [0, 0, 1.2], 
     size: [0.3, 0.3, 0.3], 
     color: '#3b82f6', 
     label: 'Network Hub',
     description: '400Gbps InfiniBand',
     stats: 'Low-latency mesh',
+    connections: [1, 2, 6],
     details: {
-      specs: 'InfiniBand HDR (High Data Rate)',
-      bandwidth: '400 Gbps bidirectional',
-      latency: 'Sub-microsecond',
-      topology: 'Fat-tree mesh with RDMA'
+      specs: 'InfiniBand HDR',
+      bandwidth: '400 Gbps'
     }
   },
   { 
-    position: [0, 0, -1], 
+    position: [0, 0, -1.2], 
     size: [0.3, 0.3, 0.3], 
     color: '#3b82f6', 
     label: 'I/O Controller',
     description: 'PCIe Gen5 Interface',
     stats: '128 GT/s',
+    connections: [5],
     details: {
-      specs: 'PCIe 5.0 x64 lanes',
-      bandwidth: '128 GT/s (256 GB/s bidirectional)',
-      protocols: 'NVMe, CXL 3.0',
-      dma: '16 independent DMA engines'
+      specs: 'PCIe 5.0 x64',
+      bandwidth: '128 GT/s'
     }
   },
 ];
 
-// Blueprint 3D Component with animations
-function BlueprintComponent({ component, index, exploded, scrollProgress, isSelected, onClick, buildMode, onBuildModeClick }) {
+// Connection Lines Component
+function ConnectionLines({ components, showConnections }) {
+  if (!showConnections) return null;
+  
+  const lines = [];
+  components.forEach((comp, i) => {
+    if (comp.connections) {
+      comp.connections.forEach(targetIdx => {
+        if (targetIdx < components.length) {
+          const target = components[targetIdx];
+          lines.push({ start: comp.position, end: target.position, color: comp.color });
+        }
+      });
+    }
+  });
+
+  return (
+    <group>
+      {lines.map((line, i) => {
+        const start = new THREE.Vector3(...line.start);
+        const end = new THREE.Vector3(...line.end);
+        const points = [start, end];
+        const geometry = new THREE.BufferGeometry().setFromPoints(points);
+        
+        return (
+          <line key={i} geometry={geometry}>
+            <lineBasicMaterial color={line.color} opacity={0.3} transparent linewidth={2} />
+          </line>
+        );
+      })}
+    </group>
+  );
+}
+
+// Cursor Component for multiplayer
+function CollaboratorCursor({ position, name, color }) {
+  return (
+    <group position={position}>
+      <mesh>
+        <sphereGeometry args={[0.05, 16, 16]} />
+        <meshBasicMaterial color={color} />
+      </mesh>
+      <mesh position={[0.1, 0.1, 0]}>
+        <planeGeometry args={[0.3, 0.1]} />
+        <meshBasicMaterial color="#000" opacity={0.8} transparent />
+      </mesh>
+    </group>
+  );
+}
+
+// Blueprint Component with physics
+function BlueprintComponent({ 
+  component, 
+  index, 
+  exploded, 
+  scrollProgress, 
+  isSelected, 
+  onClick, 
+  buildMode, 
+  onBuildModeClick,
+  velocity = [0, 0, 0],
+  onPositionChange
+}) {
   const meshRef = useRef();
   const groupRef = useRef();
   const [hovered, setHovered] = useState(false);
+  const velocityRef = useRef(velocity);
 
-  useFrame((state) => {
+  useFrame((state, delta) => {
     if (meshRef.current) {
       const targetScale = hovered || isSelected ? 1.15 : 1;
       meshRef.current.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.1);
       
-      // Rotation based on scroll
       if (!buildMode && !exploded) {
         meshRef.current.rotation.y = scrollProgress * Math.PI * 2 + index * 0.5;
       }
@@ -128,37 +187,36 @@ function BlueprintComponent({ component, index, exploded, scrollProgress, isSele
         meshRef.current.rotation.y += 0.01;
       }
     }
+
+    // Physics in build mode
+    if (buildMode && groupRef.current) {
+      velocityRef.current[1] += -0.5 * delta; // gravity
+      
+      const newY = groupRef.current.position.y + velocityRef.current[1] * delta;
+      if (newY < -2) {
+        groupRef.current.position.y = -2;
+        velocityRef.current[1] = -velocityRef.current[1] * 0.5; // bounce
+      } else {
+        groupRef.current.position.y = newY;
+      }
+
+      onPositionChange?.([
+        groupRef.current.position.x,
+        groupRef.current.position.y,
+        groupRef.current.position.z
+      ]);
+    }
   });
 
   useEffect(() => {
-    if (groupRef.current) {
+    if (groupRef.current && !buildMode) {
       const displacement = new THREE.Vector3(...component.position)
         .normalize()
-        .multiplyScalar(exploded ? 1.8 : 0);
+        .multiplyScalar(exploded ? 2 : 0);
       
-      const targetX = component.position[0] + displacement.x;
-      const targetY = component.position[1] + displacement.y;
-      const targetZ = component.position[2] + displacement.z;
-
-      if (buildMode) {
-        return;
-      }
-
-      const startX = groupRef.current.position.x;
-      const startY = groupRef.current.position.y;
-      const startZ = groupRef.current.position.z;
-
-      let progress = 0;
-      const animate = () => {
-        progress += 0.02;
-        if (progress < 1) {
-          groupRef.current.position.x = startX + (targetX - startX) * progress;
-          groupRef.current.position.y = startY + (targetY - startY) * progress;
-          groupRef.current.position.z = startZ + (targetZ - startZ) * progress;
-          requestAnimationFrame(animate);
-        }
-      };
-      animate();
+      groupRef.current.position.x = component.position[0] + displacement.x;
+      groupRef.current.position.y = component.position[1] + displacement.y;
+      groupRef.current.position.z = component.position[2] + displacement.z;
     }
   }, [exploded, component.position, buildMode]);
 
@@ -207,25 +265,27 @@ function BlueprintComponent({ component, index, exploded, scrollProgress, isSele
 
       {isSelected && (
         <mesh>
-          <sphereGeometry args={[Math.max(...component.size) * 0.8, 16, 16]} />
-          <meshBasicMaterial color={component.color} transparent opacity={0.1} />
+          <sphereGeometry args={[Math.max(...component.size) * 0.9, 16, 16]} />
+          <meshBasicMaterial color={component.color} transparent opacity={0.15} />
         </mesh>
-      )}
-
-      {(hovered || isSelected) && !buildMode && (
-        <Html position={[0, component.size[1] / 2 + 0.4, 0]} center>
-          <div className="bg-black/90 backdrop-blur-xl border border-white/20 rounded-lg px-3 py-2 min-w-[120px] shadow-xl pointer-events-none">
-            <div className="text-xs font-semibold text-white">{component.label}</div>
-            <div className="text-[10px] text-cyan-400 mt-1">{component.stats}</div>
-          </div>
-        </Html>
       )}
     </group>
   );
 }
 
-// 3D Blueprint Core
-function BlueprintCore({ exploded, scrollProgress, selectedComponent, onComponentClick, buildMode, buildComponents, onBuildComponentClick }) {
+// Blueprint Core
+function BlueprintCore({ 
+  exploded, 
+  scrollProgress, 
+  selectedComponent, 
+  onComponentClick, 
+  buildMode, 
+  buildComponents, 
+  onBuildComponentClick,
+  showConnections,
+  collaborators,
+  onComponentPositionChange
+}) {
   const groupRef = useRef();
 
   useFrame((state) => {
@@ -249,6 +309,19 @@ function BlueprintCore({ exploded, scrollProgress, selectedComponent, onComponen
           onClick={() => !buildMode && onComponentClick(i)}
           buildMode={buildMode}
           onBuildModeClick={() => buildMode && onBuildComponentClick(i)}
+          velocity={comp.velocity}
+          onPositionChange={(pos) => onComponentPositionChange?.(i, pos)}
+        />
+      ))}
+
+      <ConnectionLines components={componentsToRender} showConnections={showConnections} />
+
+      {collaborators.map((collab, i) => (
+        <CollaboratorCursor 
+          key={i}
+          position={collab.cursorPosition}
+          name={collab.name}
+          color={collab.color}
         />
       ))}
 
@@ -266,10 +339,10 @@ function BlueprintCore({ exploded, scrollProgress, selectedComponent, onComponen
 }
 
 const blueprintLayers = [
-  { icon: Cpu, label: 'Hardware Layer', tech: 'NVIDIA Reference Architectures', feature: 'Exploded view of GPU/Networking nodes' },
-  { icon: Database, label: 'Data Layer', tech: 'BigQuery / Vertex AI Streams', feature: 'Volumetric pulse indicating data flow' },
-  { icon: HardDrive, label: 'Logic Layer', tech: 'Generative AI Building Design', feature: 'Real-time parameter-based updates' },
-  { icon: Wifi, label: 'UI/UX Layer', tech: '@react-three/drei HTML Occlusion', feature: 'Hoverable annotations with live telemetry' },
+  { icon: Cpu, label: 'Hardware Layer', tech: 'NVIDIA Architectures', feature: 'Exploded GPU view' },
+  { icon: Database, label: 'Data Layer', tech: 'Vertex AI Streams', feature: 'Data flow pulse' },
+  { icon: HardDrive, label: 'Logic Layer', tech: 'Generative AI Design', feature: 'Real-time updates' },
+  { icon: Wifi, label: 'UI/UX Layer', tech: '@react-three/drei', feature: 'Live annotations' },
 ];
 
 export default function Blueprint() {
@@ -278,6 +351,13 @@ export default function Blueprint() {
   const [selectedComponent, setSelectedComponent] = useState(null);
   const [buildMode, setBuildMode] = useState(false);
   const [buildComponents, setBuildComponents] = useState([]);
+  const [showConnections, setShowConnections] = useState(true);
+  const [showChat, setShowChat] = useState(false);
+  const [chatMessages, setChatMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState('');
+  const [aiPrompt, setAiPrompt] = useState('');
+  const [collaborators, setCollaborators] = useState([]);
+  const [isProcessingPrompt, setIsProcessingPrompt] = useState(false);
   const sectionRef = useRef(null);
 
   useEffect(() => {
@@ -295,22 +375,87 @@ export default function Blueprint() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Simulate collaborators
+  useEffect(() => {
+    const mockCollaborators = [
+      { name: 'Alice', color: '#ff6b6b', cursorPosition: [1, 0.5, 0] },
+      { name: 'Bob', color: '#4ecdc4', cursorPosition: [-1, -0.5, 0.5] }
+    ];
+    setCollaborators(mockCollaborators);
+
+    // Animate cursors
+    const interval = setInterval(() => {
+      setCollaborators(prev => prev.map(c => ({
+        ...c,
+        cursorPosition: [
+          c.cursorPosition[0] + (Math.random() - 0.5) * 0.1,
+          c.cursorPosition[1] + (Math.random() - 0.5) * 0.1,
+          c.cursorPosition[2] + (Math.random() - 0.5) * 0.1,
+        ]
+      })));
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   const addComponentToBuild = (componentType) => {
     const baseComponent = componentsData[componentType];
     const newComponent = {
       ...baseComponent,
       id: `${Date.now()}-${Math.random()}`,
-      position: [
-        (Math.random() - 0.5) * 3,
-        (Math.random() - 0.5) * 2,
-        (Math.random() - 0.5) * 3
-      ]
+      position: [(Math.random() - 0.5) * 3, 2, (Math.random() - 0.5) * 3],
+      velocity: [0, 0, 0]
     };
     setBuildComponents([...buildComponents, newComponent]);
   };
 
   const removeComponentFromBuild = (index) => {
     setBuildComponents(buildComponents.filter((_, i) => i !== index));
+  };
+
+  const handleComponentPositionChange = (index, newPosition) => {
+    setBuildComponents(prev => prev.map((comp, i) => 
+      i === index ? { ...comp, position: newPosition } : comp
+    ));
+  };
+
+  const handleSendMessage = () => {
+    if (newMessage.trim()) {
+      setChatMessages([...chatMessages, { user: 'You', text: newMessage, time: new Date() }]);
+      setNewMessage('');
+    }
+  };
+
+  const handleAIPrompt = async () => {
+    if (!aiPrompt.trim()) return;
+    
+    setIsProcessingPrompt(true);
+    try {
+      const result = await base44.integrations.Core.InvokeLLM({
+        prompt: `Based on this AI infrastructure request: "${aiPrompt}", suggest which components to add and where to position them. Return a JSON array of component indices (0-6) to add. Available: 0=Neural Core, 1=GPU1, 2=GPU2, 3=Memory, 4=Storage, 5=Network, 6=I/O. Only return valid JSON array like [1,2,5]`,
+        response_json_schema: {
+          type: "object",
+          properties: {
+            components: { type: "array", items: { type: "integer" } },
+            explanation: { type: "string" }
+          }
+        }
+      });
+
+      if (result.components) {
+        result.components.forEach(idx => {
+          if (idx >= 0 && idx < componentsData.length) {
+            addComponentToBuild(idx);
+          }
+        });
+        toast.success(result.explanation || 'Components added!');
+      }
+    } catch (error) {
+      toast.error('Failed to process prompt');
+    } finally {
+      setIsProcessingPrompt(false);
+      setAiPrompt('');
+    }
   };
 
   const selectedComponentData = componentsData[selectedComponent];
@@ -340,40 +485,45 @@ export default function Blueprint() {
               className="relative order-2 lg:order-1"
             >
               <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl p-4 aspect-square relative overflow-hidden">
-                <Canvas
-                  camera={{ position: [5, 3, 5], fov: 45 }}
-                  gl={{ antialias: true, alpha: true }}
-                  dpr={[1, 2]}
-                >
-                  <ambientLight intensity={0.4} />
-                  <pointLight position={[10, 10, 10]} intensity={1.2} color="#00f5ff" />
-                  <pointLight position={[-10, -10, -10]} intensity={0.6} color="#a855f7" />
-                  <spotLight position={[0, 10, 0]} intensity={0.5} color="#ec4899" />
-                  
-                  <BlueprintCore 
-                    exploded={exploded} 
-                    scrollProgress={scrollProgress}
-                    selectedComponent={selectedComponent}
-                    onComponentClick={setSelectedComponent}
-                    buildMode={buildMode}
-                    buildComponents={buildComponents}
-                    onBuildComponentClick={removeComponentFromBuild}
-                  />
-                  
-                  <OrbitControls
-                    enablePan={true}
-                    enableZoom={true}
-                    enableRotate={true}
-                    minDistance={3}
-                    maxDistance={10}
-                  />
-                </Canvas>
+                <Suspense fallback={<div className="flex items-center justify-center h-full text-white">Loading 3D...</div>}>
+                  <Canvas
+                    camera={{ position: [5, 3, 5], fov: 45 }}
+                    gl={{ antialias: true, alpha: true }}
+                    dpr={[1, 2]}
+                  >
+                    <ambientLight intensity={0.4} />
+                    <pointLight position={[10, 10, 10]} intensity={1.2} color="#00f5ff" />
+                    <pointLight position={[-10, -10, -10]} intensity={0.6} color="#a855f7" />
+                    <spotLight position={[0, 10, 0]} intensity={0.5} color="#ec4899" />
+                    
+                    <BlueprintCore 
+                      exploded={exploded} 
+                      scrollProgress={scrollProgress}
+                      selectedComponent={selectedComponent}
+                      onComponentClick={setSelectedComponent}
+                      buildMode={buildMode}
+                      buildComponents={buildComponents}
+                      onBuildComponentClick={removeComponentFromBuild}
+                      showConnections={showConnections}
+                      collaborators={collaborators}
+                      onComponentPositionChange={handleComponentPositionChange}
+                    />
+                    
+                    <OrbitControls
+                      enablePan={true}
+                      enableZoom={true}
+                      enableRotate={true}
+                      minDistance={3}
+                      maxDistance={10}
+                    />
+                  </Canvas>
+                </Suspense>
                 
-                <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 flex gap-2">
+                <div className="absolute bottom-4 left-4 right-4 flex gap-2 flex-wrap">
                   {!buildMode && (
                     <button
                       onClick={() => setExploded(!exploded)}
-                      className={`flex-1 py-2.5 sm:py-3 rounded-xl font-medium transition-all text-sm sm:text-base ${
+                      className={`flex-1 py-2 rounded-xl font-medium transition-all text-xs sm:text-sm ${
                         exploded 
                           ? 'bg-purple-500/20 border border-purple-500/40 text-purple-300' 
                           : 'bg-cyan-500/20 border border-cyan-500/40 text-cyan-300'
@@ -384,35 +534,50 @@ export default function Blueprint() {
                   )}
                   
                   <button
+                    onClick={() => setShowConnections(!showConnections)}
+                    className={`px-3 py-2 rounded-xl font-medium transition-all text-xs sm:text-sm ${
+                      showConnections
+                        ? 'bg-blue-500/20 border border-blue-500/40 text-blue-300'
+                        : 'bg-white/5 border border-white/10 text-white/60'
+                    }`}
+                  >
+                    Links
+                  </button>
+                  
+                  <button
                     onClick={() => {
                       setBuildMode(!buildMode);
                       setSelectedComponent(null);
-                      if (!buildMode) setBuildComponents([]);
                     }}
-                    className={`flex items-center gap-2 px-4 py-2.5 sm:py-3 rounded-xl font-medium transition-all text-sm sm:text-base ${
+                    className={`flex items-center gap-2 px-3 py-2 rounded-xl font-medium transition-all text-xs sm:text-sm ${
                       buildMode
                         ? 'bg-pink-500/20 border border-pink-500/40 text-pink-300'
                         : 'bg-green-500/20 border border-green-500/40 text-green-300'
                     }`}
                   >
-                    <Layers className="w-4 h-4" />
-                    {buildMode ? 'Exit Build' : 'Build Mode'}
+                    <Layers className="w-3 h-3" />
+                    {buildMode ? 'Exit' : 'Build'}
                   </button>
                 </div>
 
-                <div className="absolute top-4 left-4 lg:hidden">
-                  <div className="px-3 py-2 rounded-lg bg-black/80 backdrop-blur-sm border border-white/20">
-                    <p className="text-white/60 text-xs">Pinch to zoom • Drag to rotate</p>
-                  </div>
-                </div>
-
-                {!buildMode && (
-                  <div className="absolute top-4 right-4 px-3 py-2 rounded-lg bg-black/80 backdrop-blur-sm border border-cyan-500/30">
-                    <div className="text-cyan-400 text-xs font-medium">
-                      Scroll: {Math.round(scrollProgress * 100)}%
+                {/* Collaborators indicator */}
+                {collaborators.length > 0 && (
+                  <div className="absolute top-4 right-4 flex items-center gap-2 px-3 py-2 rounded-lg bg-black/80 backdrop-blur-sm border border-white/20">
+                    <Users className="w-4 h-4 text-cyan-400" />
+                    <span className="text-white text-xs">{collaborators.length} online</span>
+                    <div className="flex -space-x-2">
+                      {collaborators.map((c, i) => (
+                        <div key={i} className="w-6 h-6 rounded-full border-2 border-black" style={{ backgroundColor: c.color }} />
+                      ))}
                     </div>
                   </div>
                 )}
+
+                <div className="absolute top-4 left-4 lg:hidden">
+                  <div className="px-3 py-2 rounded-lg bg-black/80 backdrop-blur-sm border border-white/20">
+                    <p className="text-white/60 text-xs">Pinch zoom • Drag rotate</p>
+                  </div>
+                </div>
               </div>
             </motion.div>
 
@@ -423,8 +588,31 @@ export default function Blueprint() {
             >
               {buildMode ? (
                 <div className="space-y-3">
-                  <h3 className="text-white font-semibold text-lg mb-3">Add Components</h3>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-2 gap-2">
+                  {/* AI Prompt */}
+                  <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-4">
+                    <h3 className="text-white font-semibold text-sm mb-2">AI Assistant</h3>
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        value={aiPrompt}
+                        onChange={(e) => setAiPrompt(e.target.value)}
+                        onKeyPress={(e) => e.key === 'Enter' && handleAIPrompt()}
+                        placeholder="Add GPUs for ML training..."
+                        className="flex-1 bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white text-sm placeholder-white/40"
+                        disabled={isProcessingPrompt}
+                      />
+                      <button
+                        onClick={handleAIPrompt}
+                        disabled={isProcessingPrompt}
+                        className="px-4 py-2 bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 rounded-lg text-sm hover:bg-cyan-500/30 disabled:opacity-50"
+                      >
+                        {isProcessingPrompt ? '...' : 'Build'}
+                      </button>
+                    </div>
+                  </div>
+
+                  <h3 className="text-white font-semibold text-sm">Add Components</h3>
+                  <div className="grid grid-cols-2 gap-2">
                     {componentsData.map((comp, index) => (
                       <button
                         key={index}
@@ -432,36 +620,36 @@ export default function Blueprint() {
                         className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-3 hover:border-cyan-500/30 transition-all group"
                       >
                         <div className="flex items-center gap-2 mb-2">
-                          <Plus className="w-4 h-4 text-cyan-400 group-hover:scale-110 transition-transform" />
-                          <div className="w-6 h-6 rounded" style={{ backgroundColor: comp.color, opacity: 0.5 }} />
+                          <Plus className="w-3 h-3 text-cyan-400 group-hover:scale-110 transition-transform" />
+                          <div className="w-5 h-5 rounded" style={{ backgroundColor: comp.color, opacity: 0.5 }} />
                         </div>
-                        <div className="text-white text-sm font-medium text-left">{comp.label}</div>
-                        <div className="text-white/40 text-xs text-left">{comp.stats}</div>
+                        <div className="text-white text-xs font-medium text-left">{comp.label}</div>
+                        <div className="text-white/40 text-[10px] text-left">{comp.stats}</div>
                       </button>
                     ))}
                   </div>
                   
                   {buildComponents.length > 0 && (
-                    <div className="mt-4 bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-4">
-                      <h4 className="text-white font-medium mb-2 text-sm">Your Build ({buildComponents.length})</h4>
-                      <div className="text-white/60 text-xs">Click components in 3D view to remove them</div>
+                    <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-3">
+                      <h4 className="text-white font-medium mb-1 text-xs">Your Build ({buildComponents.length})</h4>
+                      <div className="text-white/60 text-[10px]">Physics enabled • Click to remove</div>
                     </div>
                   )}
                 </div>
               ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3">
+                <div className="grid grid-cols-1 gap-3">
                   {blueprintLayers.map((layer, index) => {
                     const Icon = layer.icon;
                     return (
-                      <div key={index} className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl p-4 hover:border-cyan-500/30 transition-colors">
+                      <div key={index} className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-4 hover:border-cyan-500/30 transition-colors">
                         <div className="flex items-start gap-3">
-                          <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-cyan-500/20 to-cyan-500/5 flex items-center justify-center flex-shrink-0">
+                          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-500/20 to-cyan-500/5 flex items-center justify-center flex-shrink-0">
                             <Icon className="w-4 h-4 text-cyan-400" />
                           </div>
                           <div className="flex-grow min-w-0">
                             <h3 className="text-white font-semibold mb-1 text-sm">{layer.label}</h3>
-                            <p className="text-white/40 text-xs mb-2">{layer.tech}</p>
-                            <div className="flex items-center gap-2 text-cyan-400/70 text-xs">
+                            <p className="text-white/40 text-xs mb-1">{layer.tech}</p>
+                            <div className="flex items-center gap-1 text-cyan-400/70 text-xs">
                               <ChevronRight className="w-3 h-3 flex-shrink-0" />
                               <span className="truncate">{layer.feature}</span>
                             </div>
@@ -476,6 +664,62 @@ export default function Blueprint() {
           </div>
         </div>
       </section>
+
+      {/* Chat Panel */}
+      <motion.button
+        onClick={() => setShowChat(!showChat)}
+        className="fixed bottom-6 right-6 p-4 rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 text-white shadow-lg z-40"
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+      >
+        <MessageCircle className="w-6 h-6" />
+        {chatMessages.length > 0 && (
+          <div className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-xs">
+            {chatMessages.length}
+          </div>
+        )}
+      </motion.button>
+
+      <AnimatePresence>
+        {showChat && (
+          <motion.div
+            className="fixed bottom-24 right-6 w-80 bg-black/90 backdrop-blur-xl border border-white/20 rounded-2xl p-4 shadow-2xl z-40"
+            initial={{ opacity: 0, y: 20, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.9 }}
+          >
+            <h3 className="text-white font-semibold mb-3">Team Chat</h3>
+            <div className="space-y-2 mb-3 max-h-60 overflow-y-auto">
+              {chatMessages.length === 0 ? (
+                <p className="text-white/40 text-sm">No messages yet</p>
+              ) : (
+                chatMessages.map((msg, i) => (
+                  <div key={i} className="bg-white/5 rounded-lg p-2">
+                    <div className="text-cyan-400 text-xs font-medium">{msg.user}</div>
+                    <div className="text-white text-sm">{msg.text}</div>
+                  </div>
+                ))
+              )}
+            </div>
+            <div className="flex gap-2">
+              <input
+                type="text"
+                value={newMessage}
+                onChange={(e) => setNewMessage(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+                placeholder="Type a message..."
+                className="flex-1 bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white text-sm placeholder-white/40"
+              />
+              <button
+                onClick={handleSendMessage}
+                className="p-2 bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 rounded-lg hover:bg-cyan-500/30"
+              >
+                <Send className="w-4 h-4" />
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Component Detail Panel */}
       <AnimatePresence>
@@ -519,9 +763,22 @@ export default function Blueprint() {
                 </div>
               </div>
 
-              <div className="space-y-4">
+              {selectedComponentData.connections && (
+                <div className="mb-4 bg-white/5 rounded-xl p-4">
+                  <div className="text-cyan-400 text-sm font-medium mb-2">Connected Components</div>
+                  <div className="flex gap-2 flex-wrap">
+                    {selectedComponentData.connections.map(idx => (
+                      <div key={idx} className="px-3 py-1 rounded-full bg-white/10 text-white text-xs">
+                        {componentsData[idx]?.label}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <div className="space-y-3">
                 {Object.entries(selectedComponentData.details).map(([key, value]) => (
-                  <div key={key} className="bg-white/5 rounded-xl p-4">
+                  <div key={key} className="bg-white/5 rounded-xl p-3">
                     <div className="text-cyan-400 text-sm font-medium mb-1 capitalize">{key}</div>
                     <div className="text-white/80 text-sm">{value}</div>
                   </div>
