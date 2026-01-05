@@ -30,27 +30,32 @@ export default function AIAdvancedOptimizer({
     try {
       const result = await base44.integrations.Core.InvokeLLM({
         prompt: `
-          Perform advanced AI-driven blueprint optimization analysis:
+          Perform advanced AI-driven blueprint optimization with feedback loops.
           
           Current Blueprint: ${JSON.stringify(blueprint)}
           Historical Performance Data: ${JSON.stringify(historicalData?.slice(-10))}
           Monitoring Metrics: ${JSON.stringify(monitoringData)}
           Cost Data: ${JSON.stringify(costData)}
           
-          Analyze and provide:
-          1. RESOURCE OPTIMIZATION: Multi-cloud resource reallocation for cost/performance
-          2. HYPERPARAMETER TUNING: Fine-tune configuration based on real-world performance
-          3. ARCHITECTURAL IMPROVEMENTS: Structural changes for efficiency and scalability
-          4. COST REDUCTION: Specific strategies to reduce operational costs
-          5. PERFORMANCE ENHANCEMENT: Actions to improve throughput, latency, and reliability
-          6. PREDICTIVE SCALING: Proactive resource adjustments based on usage patterns
+          FEEDBACK LOOPS - Analyze impact from:
+          1. AI Model Marketplace: Recent model deployments and their performance/cost impact
+          2. CI/CD Pipeline: Deployment success rates, rollback frequency, performance changes
+          3. Multi-Cloud Metrics: Cost and performance differences across AWS, Azure, GCP
+          4. User-Defined Goals: Risk tolerance (low/medium/high), performance targets, budget constraints
           
-          For each optimization, provide:
-          - Specific action to take
-          - Expected impact (performance %, cost %)
-          - Risk level (low/medium/high)
-          - Implementation complexity
-          - Priority score (1-100)
+          Provide comprehensive optimization strategy:
+          1. RESOURCE OPTIMIZATION: Multi-cloud reallocation based on actual deployment results
+          2. ARCHITECTURAL CHANGES: Recommendations from CI/CD feedback and marketplace trends
+          3. MODEL OPTIMIZATION: Fine-tune or replace models based on performance feedback
+          4. COST REDUCTION: Apply learnings from successful deployments
+          5. PERFORMANCE ENHANCEMENT: Based on real-world monitoring data
+          6. AUTOMATED ACTIONS: What can be auto-applied based on risk tolerance
+          
+          For each optimization:
+          - Specific action with evidence from feedback loops
+          - Expected impact with confidence based on historical data
+          - Risk level and user risk tolerance alignment
+          - Auto-apply eligibility based on risk and confidence
         `,
         response_json_schema: {
           type: 'object',
@@ -102,8 +107,17 @@ export default function AIAdvancedOptimizer({
                 confidenceLevel: { type: 'number' }
               }
             },
+            feedbackInsights: {
+              type: 'object',
+              properties: {
+                marketplaceImpact: { type: 'string' },
+                cicdLearnings: { type: 'string' },
+                multiCloudComparison: { type: 'string' }
+              }
+            },
             overallSavings: { type: 'number' },
-            overallPerformanceGain: { type: 'number' }
+            overallPerformanceGain: { type: 'number' },
+            confidenceScore: { type: 'number' }
           }
         }
       });

@@ -60,6 +60,7 @@ import DistributedTracingMonitor from './DistributedTracingMonitor';
 import AIModelMarketplace from './AIModelMarketplace';
 import AIAdvancedOptimizer from './AIAdvancedOptimizer';
 import AIModelLifecycleManager from './AIModelLifecycleManager';
+import AIProactiveMonitor from './AIProactiveMonitor';
 import { Cpu, HardDrive, Wifi, Database, ChevronRight, Mic, MicOff, Brain } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -1419,6 +1420,18 @@ export default function BlueprintSection() {
             onClose={() => setShowLifecycleManager(false)}
           />
         )}
+
+        {/* AI Proactive Monitor */}
+        <AIProactiveMonitor
+          apiGatewayMetrics={{ routingLatency: 45, requestRate: 1200, errorRate: 0.5 }}
+          tracingData={{ activeTraces: 15, avgDuration: 250 }}
+          marketplaceActivity={{ deployments: 3, downloads: 12 }}
+          deployedServices={currentBlueprint ? [currentBlueprint] : []}
+          onPreventativeAction={(action) => {
+            console.log('Preventative action:', action);
+            toast.success('Preventative measures applied');
+          }}
+        />
 
         {/* Anomaly Detection System */}
         <AnomalyDetectionSystem

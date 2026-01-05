@@ -28,25 +28,32 @@ export default function AIModelLifecycleManager({
     try {
       const result = await base44.integrations.Core.InvokeLLM({
         prompt: `
-          Analyze AI model lifecycle and performance drift:
+          Comprehensive AI model lifecycle management with CI/CD integration.
           
           Deployed Models: ${JSON.stringify(deployedModels)}
           Monitoring Data: ${JSON.stringify(monitoringData)}
           
-          For each model, analyze:
-          1. PERFORMANCE DRIFT: Compare current metrics vs baseline (accuracy, latency, throughput)
-          2. DATA DRIFT: Input distribution changes affecting model quality
-          3. RETRAINING NEEDS: When and why retraining is required
-          4. VERSION STRATEGY: A/B testing approach, rollout strategy
-          5. LIFECYCLE STAGE: Development, staging, production, deprecated
-          6. HEALTH SCORE: Overall model health (0-100)
+          INTEGRATED ANALYSIS:
+          1. POST-DEPLOYMENT MONITORING: Track model performance drift in production
+          2. CI/CD PIPELINE INTEGRATION: Coordinate with deployment pipelines for updates
+          3. BLUEPRINT ALIGNMENT: Ensure models match blueprint requirements
+          4. STAGED ROLLOUT MANAGEMENT: A/B testing, canary deployments, blue-green strategies
+          5. AUTOMATED ACTIONS: Trigger retraining, fine-tuning, or rollback based on metrics
+          6. BUSINESS IMPACT: Measure model performance against business KPIs
           
-          Provide recommendations for:
-          - Models requiring immediate retraining
-          - Models suitable for fine-tuning vs full retraining
-          - A/B testing strategies for model updates
-          - Automatic deployment triggers
-          - Versioning and rollback strategies
+          For each model provide:
+          - Performance drift analysis with specific metrics
+          - Automated retraining triggers and conditions
+          - Staged rollout strategy (% traffic, duration, success criteria)
+          - CI/CD integration points (when to trigger pipelines)
+          - Automated versioning and rollback thresholds
+          - Business impact assessment (revenue, user satisfaction)
+          
+          Decision matrix:
+          - When to auto-trigger retraining
+          - When to initiate fine-tuning via training platform
+          - When to automatically rollback to previous version
+          - How to manage A/B test allocation
         `,
         response_json_schema: {
           type: 'object',
@@ -66,6 +73,30 @@ export default function AIModelLifecycleManager({
                   recommendedAction: { type: 'string' },
                   abTestingStrategy: { type: 'string' },
                   lifecycleStage: { type: 'string' },
+                  rolloutStatus: {
+                    type: 'object',
+                    properties: {
+                      strategy: { type: 'string' },
+                      currentTraffic: { type: 'number' },
+                      targetTraffic: { type: 'number' },
+                      successCriteria: { type: 'string' }
+                    }
+                  },
+                  cicdIntegration: {
+                    type: 'object',
+                    properties: {
+                      autoTriggerRetraining: { type: 'boolean' },
+                      retrainingThreshold: { type: 'number' },
+                      rollbackThreshold: { type: 'number' }
+                    }
+                  },
+                  businessImpact: {
+                    type: 'object',
+                    properties: {
+                      revenueImpact: { type: 'string' },
+                      userSatisfaction: { type: 'number' }
+                    }
+                  },
                   metrics: {
                     type: 'object',
                     properties: {
@@ -85,7 +116,8 @@ export default function AIModelLifecycleManager({
                 properties: {
                   modelId: { type: 'string' },
                   action: { type: 'string' },
-                  scheduledTime: { type: 'string' }
+                  scheduledTime: { type: 'string' },
+                  autoExecute: { type: 'boolean' }
                 }
               }
             }
@@ -98,6 +130,22 @@ export default function AIModelLifecycleManager({
       // Check for critical models requiring immediate attention
       if (result.criticalModels?.length > 0) {
         toast.warning(`${result.criticalModels.length} models require immediate attention`);
+      }
+
+      // Execute automated actions
+      const autoActions = result.automatedActions?.filter(a => a.autoExecute) || [];
+      for (const action of autoActions) {
+        if (action.action.includes('retrain')) {
+          const model = result.models.find(m => m.modelId === action.modelId);
+          if (model) {
+            toast.info(`Auto-initiating retraining for ${action.modelId}`);
+            await onInitiateRetraining?.({
+              modelId: action.modelId,
+              retrainingType: 'auto',
+              trigger: 'performance_drift'
+            });
+          }
+        }
       }
 
     } catch (error) {
@@ -240,8 +288,41 @@ export default function AIModelLifecycleManager({
                       </div>
                       
                       {model.abTestingStrategy && (
-                        <div className="text-cyan-400 text-xs">
+                        <div className="text-cyan-400 text-xs mb-2">
                           A/B Strategy: {model.abTestingStrategy}
+                        </div>
+                      )}
+
+                      {/* Rollout Status */}
+                      {model.rolloutStatus && (
+                        <div className="p-2 rounded bg-black/30 mb-2">
+                          <div className="text-white/50 text-xs mb-1">Rollout Status</div>
+                          <div className="flex items-center gap-2 mb-1">
+                            <div className="flex-1 h-2 bg-white/10 rounded-full overflow-hidden">
+                              <div 
+                                className="h-full bg-cyan-500 transition-all duration-300"
+                                style={{ width: `${model.rolloutStatus.currentTraffic}%` }}
+                              />
+                            </div>
+                            <span className="text-white text-xs">
+                              {model.rolloutStatus.currentTraffic}% → {model.rolloutStatus.targetTraffic}%
+                            </span>
+                          </div>
+                          <div className="text-white/60 text-xs">{model.rolloutStatus.strategy}</div>
+                        </div>
+                      )}
+
+                      {/* Business Impact */}
+                      {model.businessImpact && (
+                        <div className="grid grid-cols-2 gap-2 mb-2">
+                          <div className="p-2 rounded bg-green-500/10">
+                            <div className="text-white/50 text-xs">Revenue Impact</div>
+                            <div className="text-green-400 text-xs">{model.businessImpact.revenueImpact}</div>
+                          </div>
+                          <div className="p-2 rounded bg-blue-500/10">
+                            <div className="text-white/50 text-xs">User Satisfaction</div>
+                            <div className="text-blue-400 text-xs">{model.businessImpact.userSatisfaction}/10</div>
+                          </div>
                         </div>
                       )}
                     </div>
