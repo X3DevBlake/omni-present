@@ -15,6 +15,19 @@ export default function AgentCreator({ show, onClose, onAgentCreated }) {
   const [agentBehaviors, setAgentBehaviors] = useState([]);
   const [customBehavior, setCustomBehavior] = useState('');
   const [generate3DModel, setGenerate3DModel] = useState(false);
+  const [personalityTraits, setPersonalityTraits] = useState({
+    aggression: 50,
+    helpfulness: 50,
+    curiosity: 50,
+    caution: 50,
+    sociability: 50
+  });
+  const [behaviorBiases, setBehaviorBiases] = useState({
+    exploration: 50,
+    cooperation: 50,
+    resourceHoarding: 50,
+    riskTaking: 50
+  });
 
   const handleAIGenerate = async () => {
     if (!aiPrompt.trim() || !agentName.trim()) {
@@ -75,7 +88,9 @@ export default function AgentCreator({ show, onClose, onAgentCreated }) {
         id: Date.now().toString(),
         name: agentName,
         color: agentColor,
-        personality: agentPersonality,
+        personality: personalityTraits,
+        behaviorBiases: behaviorBiases,
+        agentPersonality: agentPersonality,
         behaviors: agentBehaviors,
         type: 'ai-generated',
         data: result,
@@ -265,6 +280,47 @@ export default function AgentCreator({ show, onClose, onAgentCreated }) {
                   className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-white/40 h-32"
                 />
               </div>
+
+              <div className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/30 rounded-xl p-4">
+                <h4 className="text-purple-400 font-semibold mb-3">Personality Profile</h4>
+                {Object.entries(personalityTraits).map(([trait, value]) => (
+                  <div key={trait} className="mb-3">
+                    <div className="flex justify-between mb-1">
+                      <span className="text-white/70 text-sm capitalize">{trait}</span>
+                      <span className="text-cyan-400 text-sm">{value}</span>
+                    </div>
+                    <input
+                      type="range"
+                      min="0"
+                      max="100"
+                      value={value}
+                      onChange={(e) => setPersonalityTraits({...personalityTraits, [trait]: Number(e.target.value)})}
+                      className="w-full"
+                    />
+                  </div>
+                ))}
+              </div>
+
+              <div className="bg-gradient-to-r from-blue-500/10 to-cyan-500/10 border border-blue-500/30 rounded-xl p-4">
+                <h4 className="text-blue-400 font-semibold mb-3">Behavior Biases</h4>
+                {Object.entries(behaviorBiases).map(([bias, value]) => (
+                  <div key={bias} className="mb-3">
+                    <div className="flex justify-between mb-1">
+                      <span className="text-white/70 text-sm capitalize">{bias.replace(/([A-Z])/g, ' $1')}</span>
+                      <span className="text-cyan-400 text-sm">{value}</span>
+                    </div>
+                    <input
+                      type="range"
+                      min="0"
+                      max="100"
+                      value={value}
+                      onChange={(e) => setBehaviorBiases({...behaviorBiases, [bias]: Number(e.target.value)})}
+                      className="w-full"
+                    />
+                  </div>
+                ))}
+              </div>
+
               <button
                 onClick={handleAIGenerate}
                 disabled={isGenerating}
