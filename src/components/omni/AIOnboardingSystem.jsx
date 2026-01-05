@@ -27,9 +27,10 @@ export default function AIOnboardingSystem({ userRole, blueprintContext, onCompl
           Blueprint Context: ${JSON.stringify(blueprintContext)}
           
           Generate customized onboarding based on:
-          - User expertise level and role
+          - User expertise level and role (Developer/DevOps/Data Scientist/Executive)
           - Blueprint complexity and requirements
           - Platform features most relevant to their use case
+          - Role-specific workflows and best practices
           
           Create step-by-step flow with:
           1. WELCOME & CONTEXT: Personalized introduction

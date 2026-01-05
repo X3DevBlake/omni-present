@@ -119,8 +119,60 @@ export default function MultiCloudDeployment({ blueprint, onDeploy, onClose }) {
       });
 
       setBudgetForecast(result);
+
+      // Real-time cost optimization
+      await analyzeCostOptimization(result);
     } catch (error) {
       console.error('Budget forecast failed:', error);
+    }
+  };
+
+  const analyzeCostOptimization = async (forecast) => {
+    try {
+      const result = await base44.integrations.Core.InvokeLLM({
+        prompt: `
+          AI-driven real-time cost optimization and automated rightsizing.
+          
+          Budget Forecast: ${JSON.stringify(forecast)}
+          Current Deployment: ${JSON.stringify(blueprint)}
+          
+          Analyze and provide:
+          1. COST OPTIMIZATION: Identify expensive resources, recommend alternatives
+          2. AUTOMATED RIGHTSIZING: Suggest instance type changes to reduce costs
+          3. RESERVED INSTANCES: Recommend commitment discounts
+          4. SPOT INSTANCES: Identify workloads suitable for spot pricing
+          5. IDLE RESOURCES: Detect and recommend cleanup
+          
+          For each optimization:
+          - Current cost vs optimized cost
+          - Auto-apply eligibility
+          - Risk level
+        `,
+        response_json_schema: {
+          type: 'object',
+          properties: {
+            optimizations: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  resource: { type: 'string' },
+                  currentCost: { type: 'number' },
+                  optimizedCost: { type: 'number' },
+                  recommendation: { type: 'string' },
+                  autoApply: { type: 'boolean' }
+                }
+              }
+            },
+            totalSavings: { type: 'number' }
+          }
+        }
+      });
+
+      // Update forecast with optimization data
+      setBudgetForecast(prev => ({ ...prev, optimizations: result }));
+    } catch (error) {
+      console.error('Cost optimization failed:', error);
     }
   };
 
@@ -225,6 +277,36 @@ export default function MultiCloudDeployment({ blueprint, onDeploy, onClose }) {
                     ))}
                   </div>
                 )}
+              </div>
+            )}
+
+            {/* Cost Optimization & Rightsizing */}
+            {budgetForecast?.optimizations && (
+              <div className="mb-6 p-4 rounded-xl bg-gradient-to-r from-yellow-500/10 to-green-500/10 border border-yellow-500/30">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="text-yellow-400 font-semibold">Cost Optimization</div>
+                  <div className="text-green-400 font-bold">
+                    Save ${budgetForecast.optimizations.totalSavings?.toLocaleString()}/mo
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  {budgetForecast.optimizations.optimizations?.slice(0, 3).map((opt, i) => (
+                    <div key={i} className="p-3 rounded bg-black/30">
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="text-white text-sm">{opt.resource}</span>
+                        <span className="text-green-400 text-xs">
+                          ${opt.currentCost} → ${opt.optimizedCost}
+                        </span>
+                      </div>
+                      <div className="text-white/70 text-xs mb-1">{opt.recommendation}</div>
+                      {opt.autoApply && (
+                        <span className="px-2 py-0.5 rounded bg-green-500/20 text-green-400 text-xs">
+                          Auto-apply available
+                        </span>
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
 

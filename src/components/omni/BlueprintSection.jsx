@@ -64,6 +64,8 @@ import AIProactiveMonitor from './AIProactiveMonitor';
 import AIOnboardingSystem from './AIOnboardingSystem';
 import AICollaborationAssistant from './AICollaborationAssistant';
 import AIObservabilityDashboard from './AIObservabilityDashboard';
+import AutonomousAIAgent from './AutonomousAIAgent';
+import RoleBasedDashboard from './RoleBasedDashboard';
 import { Cpu, HardDrive, Wifi, Database, ChevronRight, Mic, MicOff, Brain, Sparkles } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -505,6 +507,8 @@ export default function BlueprintSection() {
   const [showComparison, setShowComparison] = useState(false);
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [showObservability, setShowObservability] = useState(false);
+  const [userRole, setUserRole] = useState('developer');
+  const [riskTolerance, setRiskTolerance] = useState('medium');
   const [showVersionControl, setShowVersionControl] = useState(false);
   const [showHeatmap, setShowHeatmap] = useState(false);
   const [showMediaUploader, setShowMediaUploader] = useState(false);
@@ -602,6 +606,7 @@ export default function BlueprintSection() {
   }, []);
 
   return (
+    <RoleBasedDashboard userRole={userRole}>
     <section ref={sectionRef} className="py-16 sm:py-24 lg:py-32 px-4 sm:px-6">
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
@@ -1460,9 +1465,24 @@ export default function BlueprintSection() {
           blueprintChanges={[]}
           activeTasks={[]}
           monitoringAlerts={[]}
+          userRole={userRole}
           onInviteMember={(role) => {
             console.log('Invite member:', role);
             toast.info(`Inviting ${role} to collaborate`);
+          }}
+        />
+
+        {/* Autonomous AI Agent */}
+        <AutonomousAIAgent
+          deployedBlueprints={currentBlueprint ? [currentBlueprint] : []}
+          riskTolerance={riskTolerance}
+          onOptimizationApplied={(action) => {
+            console.log('Optimization applied:', action);
+            toast.success('Agent applied optimization');
+          }}
+          onRetrainingTriggered={(action) => {
+            console.log('Retraining triggered:', action);
+            toast.info('Agent initiated model retraining');
           }}
         />
 

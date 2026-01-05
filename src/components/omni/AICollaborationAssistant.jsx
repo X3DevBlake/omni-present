@@ -8,7 +8,8 @@ export default function AICollaborationAssistant({
   blueprintChanges, 
   activeTasks,
   monitoringAlerts,
-  onInviteMember 
+  onInviteMember,
+  userRole = 'developer'
 }) {
   const [codeReview, setCodeReview] = useState(null);
   const [teamSuggestions, setTeamSuggestions] = useState(null);
@@ -89,6 +90,7 @@ export default function AICollaborationAssistant({
       const result = await base44.integrations.Core.InvokeLLM({
         prompt: `
           Suggest team members to involve based on blueprint complexity and tasks.
+          Consider current user role: ${userRole}
           
           Active Tasks: ${JSON.stringify(activeTasks)}
           
