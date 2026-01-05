@@ -1307,6 +1307,64 @@ export default function BlueprintSection() {
           />
         )}
 
+        {/* AI Model Training */}
+        {showTraining && currentBlueprint && (
+          <AIModelTrainingPlatform
+            blueprint={currentBlueprint}
+            onModelTrained={(model) => {
+              console.log('Model trained:', model);
+              setShowTraining(false);
+            }}
+            onClose={() => setShowTraining(false)}
+          />
+        )}
+
+        {/* Template Generator */}
+        {showTemplateGen && (
+          <AIBlueprintTemplateGenerator
+            onTemplateGenerated={(template) => {
+              setCurrentBlueprint(template);
+              setShowTemplateGen(false);
+            }}
+            onClose={() => setShowTemplateGen(false)}
+          />
+        )}
+
+        {/* Workflow Orchestrator */}
+        {showOrchestrator && (
+          <AIWorkflowOrchestrator
+            deployedBlueprints={[currentBlueprint]}
+            onClose={() => setShowOrchestrator(false)}
+          />
+        )}
+
+        {/* API Gateway */}
+        {showAPIGateway && (
+          <AIAPIGateway
+            deployedServices={[currentBlueprint]}
+            onClose={() => setShowAPIGateway(false)}
+          />
+        )}
+
+        {/* Distributed Tracing */}
+        {showTracing && (
+          <DistributedTracingMonitor
+            onClose={() => setShowTracing(false)}
+          />
+        )}
+
+        {/* Model Marketplace */}
+        {showModelMarketplace && (
+          <AIModelMarketplace
+            userContext={{ blueprint: currentBlueprint }}
+            onModelSelected={(model) => {
+              console.log('Model selected:', model);
+              setShowModelMarketplace(false);
+            }}
+            onClose={() => setShowModelMarketplace(false)}
+          />
+        )}
+
         {/* Cost Optimization */}
         <CostOptimizationAssistant
           blueprint={currentBlueprint}
