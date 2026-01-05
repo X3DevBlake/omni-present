@@ -1540,5 +1540,6 @@ export default function BlueprintSection() {
         </motion.div>
       </div>
     </section>
+    </RoleBasedDashboard>
   );
 }
