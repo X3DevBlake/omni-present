@@ -95,10 +95,26 @@ function ConnectionLines({ components, showConnections }) {
 }
 
 function CollaboratorCursor({ position, name, color }) {
+  const groupRef = useRef();
+  
+  useFrame((state) => {
+    if (groupRef.current) {
+      groupRef.current.position.lerp(new THREE.Vector3(...position), 0.1);
+    }
+  });
+
   return (
-    <group position={position}>
+    <group ref={groupRef} position={position}>
       <mesh>
-        <sphereGeometry args={[0.05, 16, 16]} />
+        <sphereGeometry args={[0.08, 16, 16]} />
+        <meshBasicMaterial color={color} transparent opacity={0.8} />
+      </mesh>
+      <mesh position={[0, 0.3, 0]}>
+        <planeGeometry args={[0.5, 0.15]} />
+        <meshBasicMaterial color="#000000" transparent opacity={0.7} />
+      </mesh>
+      <mesh position={[0, 0.15, 0]}>
+        <coneGeometry args={[0.05, 0.15, 3]} />
         <meshBasicMaterial color={color} />
       </mesh>
     </group>
@@ -348,7 +364,7 @@ function BlueprintCore({
       {collaborators.map((collab, i) => (
         <CollaboratorCursor 
           key={i}
-          position={[collab.name === 'Alice' ? 1 : -1, 0.5, 0]}
+          position={collab.position || [collab.name === 'Alice' ? 1 : -1, 0.5, 0]}
           name={collab.name}
           color={collab.color}
         />

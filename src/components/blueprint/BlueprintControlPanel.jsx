@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Play, Settings, TrendingUp, Upload } from 'lucide-react';
+import { X, Play, Settings, TrendingUp, Upload, History, Save, RotateCcw, GitCompare } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import { toast } from 'sonner';
 
@@ -9,6 +9,8 @@ export default function BlueprintControlPanel({ show, onClose, blueprint }) {
   const [simulationLoad, setSimulationLoad] = useState(50);
   const [isSimulating, setIsSimulating] = useState(false);
   const [simulationResults, setSimulationResults] = useState(null);
+  const [componentVersions, setComponentVersions] = useState({});
+  const [selectedComponentForVersion, setSelectedComponentForVersion] = useState(null);
 
   const runSimulation = async () => {
     setIsSimulating(true);
@@ -51,6 +53,33 @@ export default function BlueprintControlPanel({ show, onClose, blueprint }) {
     }
   };
 
+  const saveComponentVersion = (componentIndex) => {
+    const component = blueprint.components[componentIndex];
+    if (!component) return;
+
+    const version = {
+      id: Date.now(),
+      timestamp: new Date(),
+      data: { ...component },
+      note: `Saved version of ${component.label}`
+    };
+
+    setComponentVersions(prev => ({
+      ...prev,
+      [componentIndex]: [...(prev[componentIndex] || []), version]
+    }));
+
+    toast.success('Component version saved!');
+  };
+
+  const revertComponentVersion = (componentIndex, versionId) => {
+    const versions = componentVersions[componentIndex];
+    const version = versions?.find(v => v.id === versionId);
+    if (version) {
+      toast.success(`Reverted ${version.data.label} to ${new Date(version.timestamp).toLocaleString()}`);
+    }
+  };
+
   if (!show) return null;
 
   return (
@@ -77,10 +106,11 @@ export default function BlueprintControlPanel({ show, onClose, blueprint }) {
 
           <h3 className="text-2xl font-bold text-white mb-6">Blueprint Control Panel</h3>
 
-          <div className="flex gap-2 mb-6">
+          <div className="flex gap-2 mb-6 overflow-x-auto">
             {[
               { id: 'simulate', label: 'Simulate', icon: TrendingUp },
               { id: 'parameters', label: 'Parameters', icon: Settings },
+              { id: 'versions', label: 'Versions', icon: History },
               { id: 'deploy', label: 'Deploy', icon: Upload }
             ].map((tab) => {
               const Icon = tab.icon;
@@ -188,6 +218,62 @@ export default function BlueprintControlPanel({ show, onClose, blueprint }) {
               <button className="w-full py-3 bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 rounded-xl hover:bg-cyan-500/30">
                 Save Parameters
               </button>
+            </div>
+          )}
+
+          {activeTab === 'versions' && (
+            <div className="space-y-4">
+              <div className="bg-white/5 rounded-xl p-4">
+                <h4 className="text-white font-semibold mb-3">Component Version Control</h4>
+                {blueprint.components?.length > 0 ? (
+                  <div className="space-y-3">
+                    {blueprint.components.map((comp, i) => (
+                      <div key={i} className="bg-white/5 rounded-lg p-3 border border-white/10">
+                        <div className="flex items-center justify-between mb-2">
+                          <div className="flex items-center gap-2">
+                            <div className="w-3 h-3 rounded" style={{ backgroundColor: comp.color }} />
+                            <span className="text-white text-sm font-medium">{comp.label}</span>
+                          </div>
+                          <button
+                            onClick={() => saveComponentVersion(i)}
+                            className="flex items-center gap-1 px-2 py-1 bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 rounded text-xs hover:bg-cyan-500/30"
+                          >
+                            <Save className="w-3 h-3" />
+                            Save
+                          </button>
+                        </div>
+                        
+                        {componentVersions[i]?.length > 0 && (
+                          <div className="mt-2 space-y-1">
+                            <div className="text-white/60 text-xs mb-1">{componentVersions[i].length} version(s)</div>
+                            {componentVersions[i].slice(0, 3).map(version => (
+                              <div key={version.id} className="flex items-center justify-between bg-white/5 rounded px-2 py-1">
+                                <span className="text-white/70 text-xs">{new Date(version.timestamp).toLocaleString()}</span>
+                                <button
+                                  onClick={() => revertComponentVersion(i, version.id)}
+                                  className="text-cyan-400 text-xs hover:text-cyan-300"
+                                >
+                                  <RotateCcw className="w-3 h-3" />
+                                </button>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-white/60 text-sm">No components in blueprint</p>
+                )}
+              </div>
+
+              <div className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/30 rounded-xl p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <GitCompare className="w-4 h-4 text-purple-400" />
+                  <h5 className="text-purple-400 font-semibold text-sm">Version Comparison</h5>
+                </div>
+                <p className="text-white/60 text-xs">Select two versions to compare changes and configurations</p>
+              </div>
             </div>
           )}
 

@@ -144,13 +144,27 @@ export default function Blueprint() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Simulate collaborators
+  // Simulate collaborators with moving cursors
   useEffect(() => {
     const mockCollaborators = [
-      { name: 'Alice', color: '#ff6b6b', email: 'alice@example.com' },
-      { name: 'Bob', color: '#4ecdc4', email: 'bob@example.com' }
+      { name: 'Alice', color: '#ff6b6b', email: 'alice@example.com', position: [1, 0.5, 0] },
+      { name: 'Bob', color: '#4ecdc4', email: 'bob@example.com', position: [-1, 0.5, 0] }
     ];
     setCollaborators(mockCollaborators);
+
+    // Simulate cursor movement
+    const interval = setInterval(() => {
+      setCollaborators(prev => prev.map(c => ({
+        ...c,
+        position: [
+          (Math.random() - 0.5) * 3,
+          Math.random() * 2,
+          (Math.random() - 0.5) * 3
+        ]
+      })));
+    }, 3000);
+
+    return () => clearInterval(interval);
   }, []);
 
   const addComponentToBuild = (componentType) => {
@@ -192,9 +206,11 @@ export default function Blueprint() {
     try {
       const user = await base44.auth.me();
       const template = {
+        id: Date.now().toString(),
         name: blueprintName,
         description: `Custom template with ${buildComponents.length} components`,
-        components: buildComponents,
+        components: buildComponents.map((c, idx) => componentsData.findIndex(comp => comp.label === c.label)),
+        thumbnail: '🎨',
         created_by: user.email,
         created_at: new Date().toISOString()
       };
@@ -203,9 +219,21 @@ export default function Blueprint() {
         blueprint_templates: [...(user.blueprint_templates || []), template]
       });
       
-      toast.success('Template saved!');
+      toast.success('Template saved to your library!');
+      setShowTemplates(true);
     } catch (error) {
       toast.error('Failed to save template');
+    }
+  };
+
+  const deleteTemplate = async (templateId) => {
+    try {
+      const user = await base44.auth.me();
+      const updated = (user.blueprint_templates || []).filter(t => t.id !== templateId);
+      await base44.auth.updateMe({ blueprint_templates: updated });
+      toast.success('Template deleted');
+    } catch (error) {
+      toast.error('Failed to delete template');
     }
   };
 
@@ -227,7 +255,14 @@ export default function Blueprint() {
 
   const handleSendMessage = () => {
     if (newMessage.trim()) {
-      setChatMessages([...chatMessages, { user: 'You', text: newMessage, time: new Date() }]);
+      const message = { 
+        user: 'You', 
+        text: newMessage, 
+        time: new Date(),
+        color: '#00f5ff',
+        component: selectedComponent !== null ? componentsData[selectedComponent]?.label : null
+      };
+      setChatMessages([...chatMessages, message]);
       setNewMessage('');
     }
   };
@@ -696,15 +731,32 @@ export default function Blueprint() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.9 }}
           >
-            <h3 className="text-white font-semibold mb-3">Team Chat</h3>
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-white font-semibold">Team Chat</h3>
+              <div className="flex items-center gap-2">
+                {collaborators.map((c, i) => (
+                  <div key={i} className="w-2 h-2 rounded-full" style={{ backgroundColor: c.color }} />
+                ))}
+                <span className="text-white/60 text-xs">{collaborators.length} online</span>
+              </div>
+            </div>
             <div className="space-y-2 mb-3 max-h-60 overflow-y-auto">
               {chatMessages.length === 0 ? (
-                <p className="text-white/40 text-sm">No messages yet</p>
+                <p className="text-white/40 text-sm">No messages yet. Start collaborating!</p>
               ) : (
                 chatMessages.map((msg, i) => (
-                  <div key={i} className="bg-white/5 rounded-lg p-2">
-                    <div className="text-cyan-400 text-xs font-medium">{msg.user}</div>
+                  <div key={i} className="bg-white/5 rounded-lg p-2 hover:bg-white/10 transition-colors">
+                    <div className="flex items-center gap-2 mb-1">
+                      <div className="w-4 h-4 rounded-full" style={{ backgroundColor: msg.color || '#00f5ff' }} />
+                      <div className="text-cyan-400 text-xs font-medium">{msg.user}</div>
+                      <div className="text-white/40 text-xs ml-auto">{new Date(msg.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
+                    </div>
                     <div className="text-white text-sm">{msg.text}</div>
+                    {msg.component && (
+                      <div className="mt-1 px-2 py-1 bg-purple-500/20 rounded text-purple-300 text-xs">
+                        📍 {msg.component}
+                      </div>
+                    )}
                   </div>
                 ))
               )}
@@ -725,6 +777,12 @@ export default function Blueprint() {
                 <Send className="w-4 h-4" />
               </button>
             </div>
+            {selectedComponent !== null && (
+              <div className="mt-2 text-xs text-white/60 flex items-center gap-1">
+                <div className="w-2 h-2 rounded-full bg-purple-400" />
+                Commenting on: {componentsData[selectedComponent]?.label}
+              </div>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
@@ -858,7 +916,7 @@ export default function Blueprint() {
           >
             <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={() => setShowTemplates(false)} />
             <motion.div
-              className="relative bg-black/90 backdrop-blur-xl border border-white/20 rounded-2xl p-6 max-w-3xl w-full max-h-[80vh] overflow-y-auto"
+              className="relative bg-black/90 backdrop-blur-xl border border-white/20 rounded-2xl p-6 max-w-4xl w-full max-h-[80vh] overflow-y-auto"
               initial={{ scale: 0.9, y: 20 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 20 }}
@@ -871,23 +929,49 @@ export default function Blueprint() {
               </button>
 
               <h3 className="text-2xl font-bold text-white mb-4">Blueprint Templates</h3>
-              
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {defaultTemplates.map((template) => (
-                  <div key={template.id} className="bg-white/5 rounded-xl p-4 hover:bg-white/10 transition-colors border border-white/10">
-                    <h4 className="text-white font-semibold mb-2">{template.name}</h4>
-                    <p className="text-white/60 text-sm mb-3">{template.description}</p>
-                    <div className="flex items-center justify-between">
-                      <div className="text-white/40 text-xs">{template.components.length} components</div>
-                      <button
-                        onClick={() => loadTemplate(template)}
-                        className="px-4 py-2 bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 rounded-lg text-sm hover:bg-cyan-500/30"
-                      >
-                        Load
-                      </button>
+
+              <div className="mb-6">
+                <h4 className="text-cyan-400 font-semibold mb-3 text-sm">📦 Built-in Templates</h4>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {defaultTemplates.map((template) => (
+                    <div key={template.id} className="bg-white/5 rounded-xl p-4 hover:bg-white/10 transition-colors border border-white/10">
+                      <div className="flex items-start justify-between mb-2">
+                        <div className="text-2xl mb-1">🔧</div>
+                        <div className="px-2 py-1 bg-blue-500/20 rounded text-blue-300 text-xs">Built-in</div>
+                      </div>
+                      <h4 className="text-white font-semibold mb-1">{template.name}</h4>
+                      <p className="text-white/60 text-xs mb-3">{template.description}</p>
+                      <div className="flex items-center justify-between">
+                        <div className="text-white/40 text-xs">{template.components.length} components</div>
+                        <button
+                          onClick={() => loadTemplate(template)}
+                          className="px-3 py-1 bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 rounded-lg text-xs hover:bg-cyan-500/30"
+                        >
+                          Load
+                        </button>
+                      </div>
                     </div>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <div className="flex items-center justify-between mb-3">
+                  <h4 className="text-purple-400 font-semibold text-sm">✨ My Templates</h4>
+                  <button
+                    onClick={saveAsTemplate}
+                    disabled={buildComponents.length === 0}
+                    className="px-3 py-1 bg-purple-500/20 border border-purple-500/40 text-purple-300 rounded-lg text-xs hover:bg-purple-500/30 disabled:opacity-50"
+                  >
+                    Save Current as Template
+                  </button>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-500/30 rounded-xl p-4 text-center">
+                    <div className="text-4xl mb-2">➕</div>
+                    <p className="text-white/60 text-xs">Save your custom blueprints as reusable templates</p>
                   </div>
-                ))}
+                </div>
               </div>
             </motion.div>
           </motion.div>
