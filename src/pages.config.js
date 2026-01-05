@@ -4,6 +4,7 @@ import Features from './pages/Features';
 import Home from './pages/Home';
 import Settings from './pages/Settings';
 import Technology from './pages/Technology';
+import Marketplace from './pages/Marketplace';
 import __Layout from './Layout.jsx';
 
 
@@ -14,6 +15,7 @@ export const PAGES = {
     "Home": Home,
     "Settings": Settings,
     "Technology": Technology,
+    "Marketplace": Marketplace,
 }
 
 export const pagesConfig = {

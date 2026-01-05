@@ -269,7 +269,31 @@ export default function AgentSocietySimulator({ show, onClose, agents }) {
   const [stats, setStats] = useState(null);
   const [populationSize, setPopulationSize] = useState(20);
   const [simulationSpeed, setSimulationSpeed] = useState(1);
+  const [activeScenario, setActiveScenario] = useState(null);
+  const [simulationParams, setSimulationParams] = useState({
+    culturalMutationRate: 0.1,
+    conflictResolution: 'negotiation',
+    environmentalStress: 0
+  });
+  const [showAnalytics, setShowAnalytics] = useState(false);
   const simulationRef = useRef(null);
+
+  const scenarios = [
+    { id: 'scarcity', name: 'Resource Scarcity', description: 'Food drops to critical levels', effect: (s) => { s.resources.food = 20; } },
+    { id: 'threat', name: 'External Threat', description: 'Population faces external danger', effect: (s) => { s.resources.shelter -= 5; } },
+    { id: 'abundance', name: 'Resource Abundance', description: 'Resources become plentiful', effect: (s) => { s.resources.food += 100; s.resources.water += 50; } },
+    { id: 'disease', name: 'Disease Outbreak', description: 'Agents become less productive', effect: (s) => { s.agents.forEach(a => a.contribution *= 0.5); } },
+    { id: 'discovery', name: 'Major Discovery', description: 'Knowledge increases dramatically', effect: (s) => { s.resources.knowledge += 50; } }
+  ];
+
+  const applyScenario = (scenario) => {
+    if (society && scenario) {
+      scenario.effect(society);
+      setActiveScenario(scenario.name);
+      toast.success(`Scenario applied: ${scenario.name}`);
+      setTimeout(() => setActiveScenario(null), 3000);
+    }
+  };
 
   const createSociety = async () => {
     const config = {
@@ -279,7 +303,8 @@ export default function AgentSocietySimulator({ show, onClose, agents }) {
         { name: 'Survival', condition: (s) => s.resources.food > 50 },
         { name: 'Growth', condition: (s) => s.agents.length > 30 }
       ],
-      socialStructure: 'egalitarian'
+      socialStructure: 'egalitarian',
+      culturalMutationRate: simulationParams.culturalMutationRate
     };
 
     const newSociety = new AgentSociety('AI Society', config);
@@ -350,6 +375,27 @@ export default function AgentSocietySimulator({ show, onClose, agents }) {
                 <input type="range" min="5" max="100" value={populationSize} onChange={(e) => setPopulationSize(Number(e.target.value))} className="w-full" />
                 <div className="text-cyan-400 text-sm text-center">{populationSize} agents</div>
               </div>
+
+              <div className="bg-white/5 rounded-xl p-4">
+                <h4 className="text-white font-semibold mb-3 text-sm">Simulation Parameters</h4>
+                <div className="space-y-3">
+                  <div>
+                    <label className="text-white/60 text-xs mb-1 block">Cultural Mutation Rate</label>
+                    <input type="range" min="0" max="1" step="0.1" value={simulationParams.culturalMutationRate} onChange={(e) => setSimulationParams({...simulationParams, culturalMutationRate: Number(e.target.value)})} className="w-full" />
+                    <div className="text-cyan-400 text-xs text-center">{simulationParams.culturalMutationRate}</div>
+                  </div>
+                  <div>
+                    <label className="text-white/60 text-xs mb-1 block">Conflict Resolution</label>
+                    <select value={simulationParams.conflictResolution} onChange={(e) => setSimulationParams({...simulationParams, conflictResolution: e.target.value})} className="w-full bg-white/5 border border-white/10 rounded px-2 py-1 text-white text-xs">
+                      <option value="negotiation">Negotiation</option>
+                      <option value="voting">Democratic Voting</option>
+                      <option value="hierarchy">Hierarchical</option>
+                      <option value="random">Random</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
               <button onClick={createSociety} className="w-full py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white font-medium rounded-xl hover:opacity-90">
                 Create Society
               </button>

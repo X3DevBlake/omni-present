@@ -13,17 +13,99 @@ export class AgentMemory {
     this.environmentalKnowledge = new Map();
     this.skills = new Set();
     this.personality = {};
+    this.longTermMemory = [];
+    this.episodicMemory = [];
+    this.semanticMemory = new Map();
+    this.emotionalMemory = [];
+    this.characterArc = { milestones: [], traits: [], evolution: [] };
   }
 
   recordExperience(experience) {
-    this.experiences.push({
+    const exp = {
       ...experience,
       timestamp: Date.now(),
-      id: `exp_${Date.now()}_${Math.random()}`
-    });
+      id: `exp_${Date.now()}_${Math.random()}`,
+      emotionalValue: experience.emotionalValue || 0,
+      importance: experience.importance || 1
+    };
+    
+    this.experiences.push(exp);
+    
+    // Consolidate to long-term if important
+    if (exp.importance > 5 || exp.emotionalValue > 7) {
+      this.consolidateToLongTerm(exp);
+    }
+    
+    // Episodic memory for significant events
+    if (exp.importance > 3) {
+      this.episodicMemory.push({
+        event: exp,
+        context: { location: exp.location, participants: exp.participants || [] },
+        timestamp: exp.timestamp
+      });
+    }
+    
     if (this.experiences.length > 100) {
       this.experiences = this.experiences.slice(-100);
     }
+  }
+
+  consolidateToLongTerm(experience) {
+    // AI-driven memory consolidation
+    const consolidated = {
+      summary: experience.action,
+      details: experience,
+      timestamp: experience.timestamp,
+      retrievalCount: 0,
+      emotionalSignificance: experience.emotionalValue || 0,
+      id: experience.id
+    };
+    
+    this.longTermMemory.push(consolidated);
+    
+    // Update character arc
+    if (experience.importance > 7) {
+      this.characterArc.milestones.push({
+        event: experience.action,
+        timestamp: experience.timestamp,
+        impact: experience.emotionalValue
+      });
+    }
+  }
+
+  recallLongTermMemory(query) {
+    // AI-driven retrieval with relevance scoring
+    return this.longTermMemory
+      .map(mem => ({
+        ...mem,
+        relevance: this.calculateRelevance(mem, query)
+      }))
+      .sort((a, b) => b.relevance - a.relevance)
+      .slice(0, query.limit || 5);
+  }
+
+  calculateRelevance(memory, query) {
+    let score = 0;
+    
+    // Recency
+    const age = (Date.now() - memory.timestamp) / (1000 * 60 * 60 * 24); // days
+    score += Math.max(0, 10 - age);
+    
+    // Retrieval frequency
+    score += memory.retrievalCount * 2;
+    
+    // Emotional significance
+    score += memory.emotionalSignificance;
+    
+    return score;
+  }
+
+  updateCharacterArc(trait, value) {
+    this.characterArc.traits.push({ trait, value, timestamp: Date.now() });
+    this.characterArc.evolution.push({
+      description: `${trait} evolved to ${value}`,
+      timestamp: Date.now()
+    });
   }
 
   learnPattern(patternName, data) {
@@ -78,7 +160,10 @@ export class AgentMemory {
       patternsLearned: this.learnedPatterns.size,
       interactions: this.interactions.length,
       knownLocations: this.environmentalKnowledge.size,
-      skills: this.skills.size
+      skills: this.skills.size,
+      longTermMemories: this.longTermMemory.length,
+      episodicMemories: this.episodicMemory.length,
+      milestones: this.characterArc.milestones.length
     };
   }
 
@@ -174,10 +259,10 @@ export function AgentMemoryViewer({ agent, memorySystem }) {
         ))}
       </div>
 
-      <div className="flex gap-2 mb-3">
-        {['experiences', 'patterns', 'interactions', 'locations'].map(tab => (
-          <button key={tab} onClick={() => setActiveTab(tab)} className={`px-3 py-1 rounded text-xs capitalize ${activeTab === tab ? 'bg-cyan-500/30 border border-cyan-500/50 text-cyan-300' : 'bg-white/5 text-white/60'}`}>
-            {tab}
+      <div className="flex gap-2 mb-3 overflow-x-auto">
+        {['experiences', 'patterns', 'interactions', 'locations', 'longterm', 'arc'].map(tab => (
+          <button key={tab} onClick={() => setActiveTab(tab)} className={`px-3 py-1 rounded text-xs capitalize whitespace-nowrap ${activeTab === tab ? 'bg-cyan-500/30 border border-cyan-500/50 text-cyan-300' : 'bg-white/5 text-white/60'}`}>
+            {tab === 'longterm' ? 'Long-Term' : tab === 'arc' ? 'Character Arc' : tab}
           </button>
         ))}
       </div>
@@ -210,6 +295,26 @@ export function AgentMemoryViewer({ agent, memorySystem }) {
             <div className="text-white/60">Visited {data.visitCount} times</div>
           </div>
         ))}
+
+        {activeTab === 'longterm' && memorySystem.longTermMemory.slice(-10).reverse().map(mem => (
+          <div key={mem.id} className="bg-white/5 rounded p-2 text-xs">
+            <div className="text-purple-400 font-medium">{mem.summary}</div>
+            <div className="text-white/60">Retrieved {mem.retrievalCount} times</div>
+            <div className="text-orange-400 text-xs">Emotional: {mem.emotionalSignificance}/10</div>
+          </div>
+        ))}
+
+        {activeTab === 'arc' && (
+          <div className="space-y-2">
+            <div className="text-white/60 text-xs mb-2">Character Evolution</div>
+            {memorySystem.characterArc.milestones.slice(-5).reverse().map((milestone, i) => (
+              <div key={i} className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/30 rounded p-2 text-xs">
+                <div className="text-purple-300 font-medium">{milestone.event}</div>
+                <div className="text-white/50">Impact: {milestone.impact}/10</div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
