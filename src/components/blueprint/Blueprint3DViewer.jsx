@@ -134,10 +134,10 @@ function BlueprintComponent({ component, index, exploded, scrollProgress, isSele
   const lastPositionRef = useRef([...component.position]);
 
   // Memoize geometry to avoid recreating on every render
-  const geometry = useMemo(() => new THREE.BoxGeometry(...component.size), [component.size]);
+  const geometry = useMemo(() => new THREE.BoxGeometry(...component.size), [component.size[0], component.size[1], component.size[2]]);
   const wireframeGeometry = useMemo(() => 
     new THREE.BoxGeometry(...component.size.map(s => s * 1.02)), 
-    [component.size]
+    [component.size[0], component.size[1], component.size[2]]
   );
 
   useFrame((state, delta) => {
