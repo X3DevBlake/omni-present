@@ -161,7 +161,7 @@ export default function Blueprint() {
   const [showTemplateLibrary, setShowTemplateLibrary] = useState(false);
   const [showProtocolEditor, setShowProtocolEditor] = useState(false);
   const [selectedBehaviorForDebug, setSelectedBehaviorForDebug] = useState(null);
-  const [communicationProtocol, setCommunicationProtocol] = useState(null);
+  const [savedProtocol, setSavedProtocol] = useState(null);
   const [weatherType, setWeatherType] = useState('clear');
   const [timeOfDay, setTimeOfDay] = useState(0.5);
   const [holographicAgents, setHolographicAgents] = useState([]);
@@ -170,7 +170,7 @@ export default function Blueprint() {
   const [agentMovementTargets, setAgentMovementTargets] = useState({});
   const [customModels, setCustomModels] = useState([]);
   const [modelGeneratorType, setModelGeneratorType] = useState('object');
-  const communicationProtocol = useRef(new AgentCommunicationProtocol());
+  const communicationProtocolRef = useRef(new AgentCommunicationProtocol());
   const sectionRef = useRef(null);
 
   useEffect(() => {
@@ -1373,11 +1373,13 @@ export default function Blueprint() {
         show={showProtocolEditor}
         onClose={() => setShowProtocolEditor(false)}
         onSaveProtocol={(protocol) => {
-          setCommunicationProtocol(protocol);
-          communicationProtocol.current.setProtocol(protocol);
+          setSavedProtocol(protocol);
+          if (communicationProtocolRef.current.setProtocol) {
+            communicationProtocolRef.current.setProtocol(protocol);
+          }
           toast.success('Communication protocol updated!');
         }}
-        existingProtocol={communicationProtocol}
+        existingProtocol={savedProtocol}
       />
 
       {/* Holographic Agents Section */}
@@ -1440,7 +1442,7 @@ export default function Blueprint() {
       {holographicAgents.length >= 2 && (
         <MultiAgentCoordinator
           agents={holographicAgents}
-          protocol={communicationProtocol.current}
+          protocol={communicationProtocolRef.current}
           onCoordinationUpdate={(collab) => {
             // Handle coordination updates
           }}
@@ -1466,23 +1468,36 @@ export default function Blueprint() {
               </button>
             </div>
             <Canvas camera={{ position: [0, 5, 10], fov: 60 }} onClick={handleEnvironmentClick}>
-              <Environment3DScene 
-                environmentType={currentEnvironment} 
-                onInteract={handleEnvironmentInteraction}
-                onObjectPickup={handleObjectPickup}
-              />
-
-              {holographicAgents.map((agent, i) => (
-                <HolographicAIAgent
-                  key={agent.id}
-                  agent={agent}
-                  position={[Math.sin(i * 1.5) * 3, 0, Math.cos(i * 1.5) * 3]}
-                  scale={0.6}
-                  targetPosition={agentMovementTargets[agent.id]}
-                  environment={currentEnvironment}
-                  autonomousMode={true}
+              <DynamicEnvironmentSystem weatherType={weatherType} timeOfDay={timeOfDay}>
+                <Environment3DScene 
+                  environmentType={currentEnvironment} 
+                  onInteract={handleEnvironmentInteraction}
+                  onObjectPickup={handleObjectPickup}
                 />
-              ))}
+
+                <InteractiveEnvironmentElement
+                  type="lever"
+                  position={[3, 0, 0]}
+                  onInteract={(type, state) => handleEnvironmentInteraction('lever_1', type, state)}
+                />
+                <InteractiveEnvironmentElement
+                  type="button"
+                  position={[-3, 0, 0]}
+                  onInteract={(type, state) => handleEnvironmentInteraction('button_1', type, state)}
+                />
+
+                {holographicAgents.map((agent, i) => (
+                  <HolographicAIAgent
+                    key={agent.id}
+                    agent={agent}
+                    position={[Math.sin(i * 1.5) * 3, 0, Math.cos(i * 1.5) * 3]}
+                    scale={0.6}
+                    targetPosition={agentMovementTargets[agent.id]}
+                    environment={currentEnvironment}
+                    autonomousMode={true}
+                  />
+                ))}
+              </DynamicEnvironmentSystem>
 
               <OrbitControls enableZoom={true} enablePan={true} maxPolarAngle={Math.PI / 2} />
             </Canvas>
