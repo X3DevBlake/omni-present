@@ -1198,15 +1198,17 @@ export default function Blueprint() {
                   agent={agent}
                   position={[Math.sin(i * 1.5) * 3, 0, Math.cos(i * 1.5) * 3]}
                   scale={0.6}
-                  isMoving={!!agentMovementTargets[agent.id]}
                   targetPosition={agentMovementTargets[agent.id]}
+                  environment={currentEnvironment}
+                  autonomousMode={true}
                 />
               ))}
 
               <OrbitControls enableZoom={true} enablePan={true} maxPolarAngle={Math.PI / 2} />
             </Canvas>
-            <div className="absolute bottom-4 left-4 right-4 bg-black/60 rounded-lg p-2 text-white/70 text-xs">
-              Click environment to move agents
+            <div className="absolute bottom-4 left-4 right-4 bg-black/60 rounded-lg p-2 space-y-1">
+              <div className="text-white/70 text-xs">🟢 Exploring  🟣 Interacting  🟡 Moving  🔵 Observing</div>
+              <div className="text-white/50 text-xs">Agents autonomously explore • Click to set waypoints</div>
             </div>
           </motion.div>
         )}

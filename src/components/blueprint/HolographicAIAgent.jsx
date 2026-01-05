@@ -1,26 +1,56 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
+import { AgentBehaviorController, BehaviorStates } from './AIBehaviorSystem';
 
-export default function HolographicAIAgent({ agent, position = [0, 0, 0], scale = 1, isMoving = false, targetPosition }) {
+export default function HolographicAIAgent({ 
+  agent, 
+  position = [0, 0, 0], 
+  scale = 1, 
+  targetPosition,
+  environment = 'office',
+  autonomousMode = true
+}) {
   const groupRef = useRef();
-  const [isInteracting, setIsInteracting] = useState(false);
+  const behaviorController = useRef(null);
   const [currentPos, setCurrentPos] = useState(position);
+  const [behaviorState, setBehaviorState] = useState(BehaviorStates.IDLE);
+  const [isInteracting, setIsInteracting] = useState(false);
+
+  useEffect(() => {
+    if (autonomousMode && !behaviorController.current) {
+      behaviorController.current = new AgentBehaviorController(
+        { ...agent, position: currentPos },
+        environment
+      );
+    }
+  }, [autonomousMode, environment]);
 
   useFrame((state, delta) => {
-    if (groupRef.current) {
-      // Gentle floating animation
-      const baseY = currentPos[1] + Math.sin(state.clock.elapsedTime * 0.5) * 0.1;
+    if (!groupRef.current) return;
+
+    const baseY = currentPos[1] + Math.sin(state.clock.elapsedTime * 0.5) * 0.1;
+
+    // Update behavior system
+    if (autonomousMode && behaviorController.current) {
+      behaviorController.current.agent.position = currentPos;
+      behaviorController.current.update(delta);
       
-      // Move towards target position if moving
-      if (isMoving && targetPosition) {
-        const targetVec = new THREE.Vector3(...targetPosition);
+      const newState = behaviorController.current.state;
+      setBehaviorState(newState);
+      
+      // Get autonomous target
+      const autoTarget = behaviorController.current.currentTarget;
+      
+      if (autoTarget && newState === BehaviorStates.MOVING) {
+        const targetVec = new THREE.Vector3(...autoTarget);
         const currentVec = new THREE.Vector3(currentPos[0], currentPos[1], currentPos[2]);
         const direction = targetVec.clone().sub(currentVec);
         const distance = direction.length();
         
-        if (distance > 0.1) {
-          direction.normalize().multiplyScalar(delta * 2);
+        if (distance > 0.3) {
+          const speed = behaviorController.current.getMovementSpeed();
+          direction.normalize().multiplyScalar(delta * speed);
           const newPos = [
             currentPos[0] + direction.x,
             currentPos[1] + direction.y,
@@ -31,33 +61,58 @@ export default function HolographicAIAgent({ agent, position = [0, 0, 0], scale 
           
           // Face movement direction
           const angle = Math.atan2(direction.x, direction.z);
-          groupRef.current.rotation.y = angle;
+          groupRef.current.rotation.y = THREE.MathUtils.lerp(
+            groupRef.current.rotation.y,
+            angle,
+            0.1
+          );
         }
+      } else if (newState === BehaviorStates.INTERACTING) {
+        setIsInteracting(true);
+        groupRef.current.rotation.y += delta * 0.5;
       } else {
+        setIsInteracting(false);
         groupRef.current.position.y = baseY;
-        
-        // Rotate slowly if interacting
-        if (isInteracting) {
-          groupRef.current.rotation.y += 0.01;
-        }
       }
+    } else if (targetPosition) {
+      // Manual movement mode
+      const targetVec = new THREE.Vector3(...targetPosition);
+      const currentVec = new THREE.Vector3(currentPos[0], currentPos[1], currentPos[2]);
+      const direction = targetVec.clone().sub(currentVec);
+      const distance = direction.length();
+      
+      if (distance > 0.1) {
+        direction.normalize().multiplyScalar(delta * 2);
+        const newPos = [
+          currentPos[0] + direction.x,
+          currentPos[1] + direction.y,
+          currentPos[2] + direction.z
+        ];
+        setCurrentPos(newPos);
+        groupRef.current.position.set(newPos[0], baseY, newPos[2]);
+        
+        const angle = Math.atan2(direction.x, direction.z);
+        groupRef.current.rotation.y = angle;
+      }
+    } else {
+      groupRef.current.position.y = baseY;
     }
   });
 
   return (
     <group ref={groupRef} position={position} scale={scale}>
-      {/* Holographic body */}
-      <mesh
-        onPointerOver={() => setIsInteracting(true)}
-        onPointerOut={() => setIsInteracting(false)}
-      >
+      {/* Holographic body with state-based effects */}
+      <mesh>
         <cylinderGeometry args={[0.3, 0.4, 1.5, 32]} />
         <meshStandardMaterial
           color={agent.color || '#00f5ff'}
           transparent
-          opacity={0.6}
+          opacity={behaviorState === BehaviorStates.INTERACTING ? 0.8 : 0.6}
           emissive={agent.color || '#00f5ff'}
-          emissiveIntensity={isInteracting ? 0.8 : 0.4}
+          emissiveIntensity={
+            behaviorState === BehaviorStates.INTERACTING ? 1.0 :
+            behaviorState === BehaviorStates.MOVING ? 0.6 : 0.4
+          }
           wireframe={false}
         />
       </mesh>
@@ -105,6 +160,22 @@ export default function HolographicAIAgent({ agent, position = [0, 0, 0], scale 
           </mesh>
         );
       })}
+
+      {/* Behavior state indicator */}
+      {behaviorState !== BehaviorStates.IDLE && (
+        <mesh position={[0, 2, 0]}>
+          <ringGeometry args={[0.3, 0.35, 16]} />
+          <meshBasicMaterial 
+            color={
+              behaviorState === BehaviorStates.EXPLORING ? '#00ff00' :
+              behaviorState === BehaviorStates.INTERACTING ? '#ff00ff' :
+              behaviorState === BehaviorStates.MOVING ? '#ffff00' : '#00ffff'
+            }
+            transparent 
+            opacity={0.6} 
+          />
+        </mesh>
+      )}
 
       {/* Agent name label */}
       {agent.name && (

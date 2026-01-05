@@ -11,6 +11,10 @@ export default function AgentCreator({ show, onClose, onAgentCreated }) {
   const [isGenerating, setIsGenerating] = useState(false);
   const [agentName, setAgentName] = useState('');
   const [agentColor, setAgentColor] = useState('#00f5ff');
+  const [agentPersonality, setAgentPersonality] = useState('CURIOUS');
+  const [agentBehaviors, setAgentBehaviors] = useState([]);
+  const [customBehavior, setCustomBehavior] = useState('');
+  const [generate3DModel, setGenerate3DModel] = useState(false);
 
   const handleAIGenerate = async () => {
     if (!aiPrompt.trim() || !agentName.trim()) {
@@ -20,15 +24,19 @@ export default function AgentCreator({ show, onClose, onAgentCreated }) {
 
     setIsGenerating(true);
     try {
-      const result = await base44.integrations.Core.InvokeLLM({
+      let result = await base44.integrations.Core.InvokeLLM({
         prompt: `Create a holographic AI agent based on: "${aiPrompt}". 
         
+        Personality: ${agentPersonality}
+        Custom Behaviors: ${agentBehaviors.join(', ')}
+        
         Generate:
-        1. Agent personality traits
-        2. Interaction behaviors
-        3. Visual characteristics
-        4. Capabilities and skills
-        5. Communication style`,
+        1. Detailed personality traits matching ${agentPersonality} style
+        2. Specific interaction behaviors
+        3. Visual characteristics and appearance
+        4. Core capabilities and skills
+        5. Communication style and patterns
+        6. Autonomous task preferences`,
         response_json_schema: {
           type: "object",
           properties: {
@@ -36,17 +44,42 @@ export default function AgentCreator({ show, onClose, onAgentCreated }) {
             behaviors: { type: "array", items: { type: "string" } },
             appearance: { type: "string" },
             capabilities: { type: "array", items: { type: "string" } },
-            style: { type: "string" }
+            style: { type: "string" },
+            preferredTasks: { type: "array", items: { type: "string" } }
           }
         }
       });
+
+      // Generate 3D model description if requested
+      let modelData = null;
+      if (generate3DModel) {
+        modelData = await base44.integrations.Core.InvokeLLM({
+          prompt: `Based on this agent description: "${aiPrompt}" and appearance: "${result.appearance}", generate a detailed 3D model specification including:
+          - Body proportions and dimensions
+          - Color scheme and materials
+          - Animation keyframes
+          - Holographic effects`,
+          response_json_schema: {
+            type: "object",
+            properties: {
+              dimensions: { type: "object" },
+              materials: { type: "array", items: { type: "string" } },
+              animations: { type: "array", items: { type: "string" } },
+              effects: { type: "array", items: { type: "string" } }
+            }
+          }
+        });
+      }
 
       const agent = {
         id: Date.now().toString(),
         name: agentName,
         color: agentColor,
+        personality: agentPersonality,
+        behaviors: agentBehaviors,
         type: 'ai-generated',
         data: result,
+        model3D: modelData,
         created_at: new Date().toISOString()
       };
 
