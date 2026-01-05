@@ -1201,14 +1201,12 @@ export default function Blueprint() {
       />
 
       {/* Agent Training Module */}
-      {selectedAgentForTraining && (
-        <AgentTrainingModule
-          show={showTrainingModule}
-          onClose={() => setShowTrainingModule(false)}
-          agent={selectedAgentForTraining}
-          onTrainingComplete={handleTrainingComplete}
-        />
-      )}
+      <AgentTrainingModule
+        show={showTrainingModule && !!selectedAgentForTraining}
+        onClose={() => { setShowTrainingModule(false); setSelectedAgentForTraining(null); }}
+        agent={selectedAgentForTraining}
+        onTrainingComplete={handleTrainingComplete}
+      />
 
       {/* Visual Behavior Editor */}
       <VisualBehaviorEditor

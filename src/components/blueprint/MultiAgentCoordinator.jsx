@@ -174,11 +174,13 @@ export function MultiAgentCoordinator({ agents, protocol, onCoordinationUpdate }
         )}
       </div>
 
-      <div className="mt-3 pt-3 border-t border-white/10">
-        <div className="text-white/60 text-[10px]">
-          {protocol?.messages.length || 0} messages exchanged
+      {protocol && (
+        <div className="mt-3 pt-3 border-t border-white/10">
+          <div className="text-white/60 text-[10px]">
+            {protocol.messages?.length || 0} messages exchanged
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

@@ -4,7 +4,8 @@ import { X, Upload, BookOpen, Brain, Target, Save, Download, TrendingUp } from '
 import { base44 } from '@/api/base44Client';
 import { toast } from 'sonner';
 
-export default function AgentTrainingModule({ show, onClose, agent, onTrainingComplete }) {
+export default function AgentTrainingModule({ show, onClose, agent = {}, onTrainingComplete }) {
+  if (!show || !agent.id) return null;
   const [trainingMode, setTrainingMode] = useState('documents');
   const [documents, setDocuments] = useState([]);
   const [interactionLogs, setInteractionLogs] = useState([]);
@@ -129,8 +130,6 @@ export default function AgentTrainingModule({ show, onClose, agent, onTrainingCo
       toast.error('Failed to save state');
     }
   };
-
-  if (!show) return null;
 
   return (
     <AnimatePresence>
