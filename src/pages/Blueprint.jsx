@@ -1453,6 +1453,7 @@ export default function Blueprint() {
         onClose={() => setShowBehaviorDashboard(false)}
         agents={holographicAgents}
         memorySystem={agentMemories}
+        collectiveKnowledge={activeSociety?.collectiveKnowledge}
       />
 
       {/* AI Collaboration Assistant */}

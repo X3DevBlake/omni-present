@@ -5,6 +5,7 @@ import { base44 } from '@/api/base44Client';
 import { toast } from 'sonner';
 import { EmotionalState, AdvancedLearningSystem } from './AdvancedEmotionalSystem';
 import { EnvironmentalCycle, AgentConstructionSystem } from './DynamicEnvironmentEvents';
+import { CollectiveKnowledge } from './CollectiveKnowledgeSystem';
 
 export class AgentSociety {
   constructor(name, config) {
@@ -34,6 +35,7 @@ export class AgentSociety {
     this.learningSystem = new Map();
     this.environmentCycle = new EnvironmentalCycle();
     this.constructionSystem = new AgentConstructionSystem();
+    this.collectiveKnowledge = new CollectiveKnowledge();
   }
 
   getDefaultInteractionRules() {
@@ -99,6 +101,19 @@ export class AgentSociety {
             { difficulty: this.environmentCycle?.season === 'winter' ? 1.5 : 1.0 }
           );
           agent.learningVelocity = learner.getLearningVelocity();
+          
+          // Contribute to collective knowledge
+          if (agent.contribution > 50) {
+            this.collectiveKnowledge.contributeKnowledge(agent.id, agent.societyRole, agent.contribution);
+          }
+        }
+        
+        // Absorb collective knowledge
+        if (Math.random() > 0.9) {
+          const learned = this.collectiveKnowledge.absorbCollectiveKnowledge(agent.id, learner.skillLevels);
+          if (learned.length > 0) {
+            agent.recentlyLearned = learned;
+          }
         }
       }
     });
