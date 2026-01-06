@@ -9,7 +9,7 @@ function FloatingFeatureSphere({ position, color, label, onClick }) {
   const [hovered, setHovered] = useState(false);
 
   useFrame((state) => {
-    if (meshRef.current) {
+    if (meshRef.current && state?.clock) {
       meshRef.current.rotation.y += 0.005;
       meshRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.5) * 0.1;
       
@@ -58,28 +58,30 @@ function FloatingFeatureSphere({ position, color, label, onClick }) {
 }
 
 function ConnectionLines({ features }) {
+  const geometries = React.useMemo(() => {
+    return features.map((_, i) => {
+      if (i < features.length - 1) {
+        const start = features[i].position;
+        const end = features[i + 1].position;
+        
+        const points = [
+          new THREE.Vector3(...start),
+          new THREE.Vector3(...end)
+        ];
+        
+        return new THREE.BufferGeometry().setFromPoints(points);
+      }
+      return null;
+    }).filter(Boolean);
+  }, [features]);
+
   return (
     <group>
-      {features.map((_, i) => {
-        if (i < features.length - 1) {
-          const start = features[i].position;
-          const end = features[i + 1].position;
-          
-          const points = [
-            new THREE.Vector3(...start),
-            new THREE.Vector3(...end)
-          ];
-          
-          const geometry = new THREE.BufferGeometry().setFromPoints(points);
-          
-          return (
-            <line key={i} geometry={geometry}>
-              <lineBasicMaterial color="#00f5ff" transparent opacity={0.3} />
-            </line>
-          );
-        }
-        return null;
-      })}
+      {geometries.map((geometry, i) => (
+        <line key={i} geometry={geometry}>
+          <lineBasicMaterial color="#00f5ff" transparent opacity={0.3} />
+        </line>
+      ))}
     </group>
   );
 }
