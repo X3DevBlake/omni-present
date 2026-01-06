@@ -11,10 +11,12 @@ export class SocietyPredictor {
   }
 
   recordCurrentState() {
+    if (!this.society) return;
+    
     this.historicalData.push({
       timestamp: Date.now(),
       population: this.society.agents?.length || 0,
-      resources: { ...this.society.resources },
+      resources: this.society.resources ? { ...this.society.resources } : { food: 0, water: 0 },
       conflicts: this.society.conflicts?.length || 0,
       alliances: this.society.alliances?.length || 0,
       avgReputation: this.getAvgReputation(),
@@ -177,11 +179,13 @@ export class SocietyPredictor {
 }
 
 export function PredictiveAnalyticsPanel({ society, agents }) {
-  const [predictor] = useState(() => new SocietyPredictor(society));
+  const [predictor] = useState(() => new SocietyPredictor(society || {}));
   const [analysis, setAnalysis] = useState(null);
   const [emergentProbs, setEmergentProbs] = useState(null);
 
   useEffect(() => {
+    if (!society) return;
+    
     const interval = setInterval(() => {
       predictor.society = society;
       predictor.recordCurrentState();

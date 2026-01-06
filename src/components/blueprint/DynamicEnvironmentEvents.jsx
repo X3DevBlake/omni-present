@@ -91,7 +91,7 @@ export function DynamicSkybox({ environmentCycle }) {
   const skyRef = useRef();
 
   useFrame(() => {
-    if (skyRef.current && environmentCycle) {
+    if (skyRef.current && skyRef.current.material && environmentCycle) {
       const lighting = environmentCycle.getLightingConfig();
       skyRef.current.material.color.set(lighting.color);
     }

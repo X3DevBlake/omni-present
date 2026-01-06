@@ -69,17 +69,19 @@ export class AgentSociety {
     
     this.agents.forEach(agent => {
       // Emotional processing
-      const emotionalState = this.emotionalStates.get(agent.id);
-      if (emotionalState) {
-        const profile = emotionalState.getEmotionalProfile();
-        agent.emotionalProfile = profile;
+      if (agent.id) {
+        const emotionalState = this.emotionalStates.get(agent.id);
+        if (emotionalState) {
+          const profile = emotionalState.getEmotionalProfile();
+          agent.emotionalProfile = profile;
+        }
       }
 
       // Environmental adaptation
-      if (envAdaptations.seekShelter) {
+      if (envAdaptations && envAdaptations.seekShelter) {
         agent.seekingShelter = true;
       }
-      if (envAdaptations.conserveEnergy) {
+      if (envAdaptations && envAdaptations.conserveEnergy) {
         agent.energyConservation = true;
       }
 
@@ -88,21 +90,25 @@ export class AgentSociety {
       this.applyInteractionRules(agent);
 
       // Advanced learning
-      const learner = this.learningSystem.get(agent.id);
-      if (learner && Math.random() > 0.8) {
-        learner.learnFromExperience(
-          agent.societyRole, 
-          agent.contribution > 30,
-          { difficulty: this.environmentCycle.season === 'winter' ? 1.5 : 1.0 }
-        );
-        agent.learningVelocity = learner.getLearningVelocity();
+      if (agent.id) {
+        const learner = this.learningSystem.get(agent.id);
+        if (learner && Math.random() > 0.8) {
+          learner.learnFromExperience(
+            agent.societyRole, 
+            agent.contribution > 30,
+            { difficulty: this.environmentCycle?.season === 'winter' ? 1.5 : 1.0 }
+          );
+          agent.learningVelocity = learner.getLearningVelocity();
+        }
       }
     });
 
     // Update construction projects
-    this.constructionSystem.updateStructures(deltaTime);
-    this.constructionSystem.updateTerraforming(deltaTime);
-    this.constructionSystem.decayFootprints(deltaTime);
+    if (this.constructionSystem) {
+      this.constructionSystem.updateStructures(deltaTime);
+      this.constructionSystem.updateTerraforming(deltaTime);
+      this.constructionSystem.decayFootprints(deltaTime);
+    }
 
     this.manageResources();
     this.handleConflicts();
