@@ -195,62 +195,121 @@ export default function AgentBehaviorDashboard({ show, onClose, agents, memorySy
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
-                  {analytics.agents.map((agent, i) => (
-                    <div key={agent.id} className="bg-white/5 rounded-xl p-4 border border-white/10">
-                      <div className="flex items-center gap-2 mb-3">
-                        <div className="w-4 h-4 rounded-full" style={{ backgroundColor: COLORS[i % COLORS.length] }} />
-                        <span className="text-white font-medium">{agent.name}</span>
-                      </div>
-                      <div className="space-y-2 text-sm">
-                        <div className="flex justify-between">
-                          <span className="text-white/60">Patterns Learned</span>
-                          <span className="text-white">{agent.learningProgress}</span>
+                  {analytics.agents.map((agent, i) => {
+                    const agentData = agents.find(a => a.id === agent.id) || {};
+                    const memory = memorySystem?.get(agent.id);
+                    const patterns = (memory && typeof memory.getLearnedPatterns === 'function') ? memory.getLearnedPatterns().length : 0;
+                    const experiences = (memory && typeof memory.getMemoryStats === 'function') ? memory.getMemoryStats().totalExperiences : 0;
+                    
+                    return (
+                      <div key={agent.id} className="bg-white/5 rounded-xl p-4 border border-white/10">
+                        <div className="flex items-center gap-2 mb-3">
+                          <div className="w-4 h-4 rounded-full" style={{ backgroundColor: COLORS[i % COLORS.length] }} />
+                          <span className="text-white font-medium">{agent.name}</span>
+                          <div className="ml-auto px-2 py-1 bg-purple-500/20 rounded text-purple-300 text-xs">
+                            {typeof agentData.reputation === 'number' ? agentData.reputation.toFixed(0) : 50} REP
+                          </div>
                         </div>
-                        <div className="flex justify-between">
-                          <span className="text-white/60">Decisions Made</span>
-                          <span className="text-white">{agent.decisions}</span>
+                        <div className="grid grid-cols-2 gap-3">
+                          <div>
+                            <div className="flex justify-between text-sm mb-1">
+                              <span className="text-white/60">Learning</span>
+                              <span className="text-white">{agent.learning || 0}%</span>
+                            </div>
+                            <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+                              <div className="h-full bg-gradient-to-r from-purple-500 to-pink-500" style={{ width: `${agent.learning || 0}%` }} />
+                            </div>
+                          </div>
+                          <div>
+                            <div className="flex justify-between text-sm mb-1">
+                              <span className="text-white/60">Patterns</span>
+                              <span className="text-cyan-400">{patterns}</span>
+                            </div>
+                            <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+                              <div className="h-full bg-gradient-to-r from-cyan-500 to-blue-500" style={{ width: `${Math.min(100, patterns * 10)}%` }} />
+                            </div>
+                          </div>
+                          <div>
+                            <div className="text-white/60 text-xs">Experiences</div>
+                            <div className="text-white font-semibold">{experiences}</div>
+                          </div>
+                          <div>
+                            <div className="text-white/60 text-xs">Skills</div>
+                            <div className="text-green-400 font-semibold">{agentData?.skills?.length || 2}</div>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             )}
 
             {activeTab === 'social' && (
-              <div className="grid grid-cols-2 gap-6">
-                <div className="bg-white/5 rounded-xl p-4 border border-white/10">
-                  <h4 className="text-white font-semibold mb-4">Social Interaction Distribution</h4>
-                  <ResponsiveContainer width="100%" height={300}>
-                    <PieChart>
-                      <Pie data={analytics.socialData} cx="50%" cy="50%" outerRadius={100} fill="#8884d8" dataKey="value" label>
-                        {analytics.socialData.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                        ))}
-                      </Pie>
-                      <Tooltip contentStyle={{ backgroundColor: '#1a1a1a', border: '1px solid #ffffff20' }} />
-                    </PieChart>
-                  </ResponsiveContainer>
+              <div className="space-y-4">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  {[
+                    { label: 'Alliances', value: analytics.alliances || 0, color: 'blue', icon: '🤝' },
+                    { label: 'Conflicts', value: analytics.conflicts || 0, color: 'red', icon: '⚔️' },
+                    { label: 'Avg Relations', value: analytics.avgRelationship || 50, color: 'purple', icon: '💭' },
+                    { label: 'Factions', value: agents.filter(a => a.factionId).length || 0, color: 'orange', icon: '🏴' }
+                  ].map(stat => (
+                    <div key={stat.label} className="bg-white/5 rounded-xl p-4 border border-white/10">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="text-xl">{stat.icon}</span>
+                        <div className="text-white/60 text-sm">{stat.label}</div>
+                      </div>
+                      <div className={`text-2xl font-bold text-${stat.color}-400`}>{stat.value}</div>
+                    </div>
+                  ))}
                 </div>
 
-                <div className="bg-white/5 rounded-xl p-4 border border-white/10">
-                  <h4 className="text-white font-semibold mb-4">Agent Relationships</h4>
-                  <div className="space-y-3">
-                    {analytics.agents.map(agent => (
-                      <div key={agent.id} className="bg-white/5 rounded-lg p-3">
-                        <div className="text-white font-medium mb-2">{agent.name}</div>
-                        <div className="grid grid-cols-2 gap-2 text-xs">
-                          <div className="flex justify-between">
-                            <span className="text-green-400">Alliances</span>
-                            <span className="text-white">{agent.alliances}</span>
+                <div className="grid grid-cols-2 gap-6">
+                  <div className="bg-white/5 rounded-xl p-4 border border-white/10">
+                    <h4 className="text-white font-semibold mb-4">Social Interaction Distribution</h4>
+                    <ResponsiveContainer width="100%" height={300}>
+                      <PieChart>
+                        <Pie data={analytics.socialData} cx="50%" cy="50%" outerRadius={100} fill="#8884d8" dataKey="value" label>
+                          {analytics.socialData.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                          ))}
+                        </Pie>
+                        <Tooltip contentStyle={{ backgroundColor: '#1a1a1a', border: '1px solid #ffffff20' }} />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </div>
+
+                  <div className="bg-gradient-to-r from-blue-500/10 to-cyan-500/10 border border-blue-500/30 rounded-xl p-4">
+                    <h4 className="text-blue-400 font-semibold mb-3">Social Network</h4>
+                    <div className="space-y-2 max-h-80 overflow-y-auto">
+                      {agents.slice(0, 5).map((agent, i) => {
+                        const relationships = (agent.relationships instanceof Map) ? agent.relationships.size : 0;
+                        const sentiment = (typeof agent.sentiment === 'object' && agent.sentiment) ? agent.sentiment.overall || 0 : 0;
+                        const reputation = (typeof agent.reputation === 'number') ? agent.reputation : 50;
+                        
+                        return (
+                          <div key={agent.id} className="bg-white/5 rounded-lg p-3">
+                            <div className="flex items-center justify-between mb-2">
+                              <div className="flex items-center gap-2">
+                                <div className="w-3 h-3 rounded-full" style={{ backgroundColor: COLORS[i % COLORS.length] }} />
+                                <span className="text-white text-sm">{agent.name}</span>
+                              </div>
+                              <div className="flex gap-2">
+                                <span className={`text-xs px-2 py-0.5 rounded ${sentiment > 0 ? 'bg-green-500/20 text-green-300' : 'bg-red-500/20 text-red-300'}`}>
+                                  {sentiment > 0 ? '😊' : '😠'} {sentiment.toFixed(0)}
+                                </span>
+                                <span className="text-xs px-2 py-0.5 rounded bg-yellow-500/20 text-yellow-300">
+                                  ⭐ {reputation.toFixed(0)}
+                                </span>
+                              </div>
+                            </div>
+                            <div className="text-white/60 text-xs">
+                              {relationships} relationships • {agent.hierarchyTier || 'omega'} tier
+                            </div>
                           </div>
-                          <div className="flex justify-between">
-                            <span className="text-red-400">Conflicts</span>
-                            <span className="text-white">{agent.conflicts}</span>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
+                        );
+                      })}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -349,7 +408,7 @@ export default function AgentBehaviorDashboard({ show, onClose, agents, memorySy
             onSkillUnlock={(skill) => {
               // Update agent skills
               const updatedAgent = agents.find(a => a.id === selectedAgent.id);
-              if (updatedAgent && !updatedAgent.skills.includes(skill.id)) {
+              if (updatedAgent && updatedAgent.skills && !updatedAgent.skills.includes(skill.id)) {
                 updatedAgent.skills.push(skill.id);
               }
             }}
