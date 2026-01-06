@@ -25,6 +25,9 @@ import AgentBehaviorDashboard from '../components/blueprint/AgentBehaviorDashboa
 import AgentSkillTree from '../components/blueprint/AgentSkillTree';
 import ReputationBadge from '../components/blueprint/ReputationBadge';
 import { ManipulableObject, PhysicsObject, WeatherAwareAgent, PersistentFootprints, TerrainModification } from '../components/blueprint/EnhancedPhysicsSystem';
+import { SynergyIndicator, calculateSynergy } from '../components/blueprint/SkillSynergySystem';
+import AICollaborationAssistant from '../components/blueprint/AICollaborationAssistant';
+import AdvancedScenarioControl from '../components/blueprint/AdvancedScenarioControl';
 import { base44 } from '@/api/base44Client';
 import { toast } from 'sonner';
 import { Canvas } from '@react-three/fiber';
@@ -170,6 +173,9 @@ export default function Blueprint() {
   const [showCoordinationDashboard, setShowCoordinationDashboard] = useState(false);
   const [showBehaviorDashboard, setShowBehaviorDashboard] = useState(false);
   const [showSkillTreeForAgent, setShowSkillTreeForAgent] = useState(null);
+  const [showAICollaboration, setShowAICollaboration] = useState(false);
+  const [showAdvancedScenarios, setShowAdvancedScenarios] = useState(false);
+  const [activeSociety, setActiveSociety] = useState(null);
   const [physicsObjects, setPhysicsObjects] = useState([]);
   const [footprints, setFootprints] = useState([]);
   const [terrainMods, setTerrainMods] = useState([]);
@@ -806,6 +812,20 @@ export default function Blueprint() {
                         <Brain className="w-4 h-4" />
                         Analytics
                         </button>
+                        <button
+                        onClick={() => setShowAICollaboration(true)}
+                        className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-500/40 text-cyan-300 rounded-xl text-sm hover:from-cyan-500/30 hover:to-blue-500/30"
+                        >
+                        <Bot className="w-4 h-4" />
+                        AI Collaboration
+                        </button>
+                        <button
+                        onClick={() => setShowAdvancedScenarios(true)}
+                        className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-500/20 to-red-500/20 border border-orange-500/40 text-orange-300 rounded-xl text-sm hover:from-orange-500/30 hover:to-red-500/30"
+                        >
+                        <Zap className="w-4 h-4" />
+                        Scenarios
+                        </button>
                     </div>
 
                   <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-3">
@@ -1435,6 +1455,27 @@ export default function Blueprint() {
         memorySystem={agentMemories}
       />
 
+      {/* AI Collaboration Assistant */}
+      <AICollaborationAssistant
+        show={showAICollaboration}
+        onClose={() => setShowAICollaboration(false)}
+        agents={holographicAgents}
+        factions={activeSociety?.factions || []}
+        onTaskDelegate={(plan) => toast.success('Task delegated successfully')}
+        onConflictResolve={(resolution) => toast.success('Conflict mediated')}
+        onAllianceSuggest={(suggestions) => toast.success('Alliances suggested')}
+      />
+
+      {/* Advanced Scenario Control */}
+      <AdvancedScenarioControl
+        show={showAdvancedScenarios}
+        onClose={() => setShowAdvancedScenarios(false)}
+        society={activeSociety}
+        onScenarioApply={(scenario) => console.log('Scenario applied:', scenario)}
+        onBehaviorSeed={(behavior) => console.log('Behavior seeded:', behavior)}
+        onWhatIfTest={(results) => console.log('What-if results:', results)}
+      />
+
       {/* Agent Skill Tree */}
       {showSkillTreeForAgent && (
         <AgentSkillTree
@@ -1454,7 +1495,7 @@ export default function Blueprint() {
       {/* Holographic Agents Section */}
       {holographicAgents.length > 0 && (
         <motion.div
-          className="fixed bottom-6 left-6 bg-black/90 backdrop-blur-xl border border-white/20 rounded-2xl p-4 shadow-2xl z-40 max-w-sm"
+          className="fixed bottom-6 left-6 bg-black/90 backdrop-blur-xl border border-white/20 rounded-2xl p-4 shadow-2xl z-40 max-w-sm max-h-[80vh] overflow-y-auto"
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
         >
@@ -1462,6 +1503,13 @@ export default function Blueprint() {
             <Bot className="w-5 h-5 text-cyan-400" />
             Active Agents ({holographicAgents.length})
           </h3>
+
+          {/* Skill Synergy Indicator */}
+          {holographicAgents.length >= 2 && (
+            <div className="mb-4">
+              <SynergyIndicator agents={holographicAgents} />
+            </div>
+          )}
           <div className="space-y-2 max-h-60 overflow-y-auto">
             {holographicAgents.map((agent) => (
               <div key={agent.id} className="bg-white/5 rounded-lg p-3 hover:bg-white/10 transition-colors">
