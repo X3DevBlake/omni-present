@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, Users, Play, Pause, Settings, TrendingUp } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import { toast } from 'sonner';
+import { EmotionalState, AdvancedLearningSystem } from './AdvancedEmotionalSystem';
+import { EnvironmentalCycle, AgentConstructionSystem } from './DynamicEnvironmentEvents';
 
 export class AgentSociety {
   constructor(name, config) {
@@ -28,6 +30,10 @@ export class AgentSociety {
     this.reputationSystem = new Map();
     this.collectiveTasks = [];
     this.mobEvents = [];
+    this.emotionalStates = new Map();
+    this.learningSystem = new Map();
+    this.environmentCycle = new EnvironmentalCycle();
+    this.constructionSystem = new AgentConstructionSystem();
   }
 
   getDefaultInteractionRules() {
@@ -40,12 +46,15 @@ export class AgentSociety {
   }
 
   addAgent(agent) {
-    this.agents.push({
+    const newAgent = {
       ...agent,
       societyRole: this.assignRole(agent),
       relationships: new Map(),
       contribution: 0
-    });
+    };
+    this.agents.push(newAgent);
+    this.emotionalStates.set(agent.id, new EmotionalState(agent.id));
+    this.learningSystem.set(agent.id, new AdvancedLearningSystem(agent.id));
   }
 
   assignRole(agent) {
@@ -54,19 +63,46 @@ export class AgentSociety {
   }
 
   simulate(deltaTime) {
+    // Update environment
+    this.environmentCycle.update(deltaTime);
+    const envAdaptations = this.environmentCycle.shouldAgentsAdapt();
+    
     this.agents.forEach(agent => {
+      // Emotional processing
+      const emotionalState = this.emotionalStates.get(agent.id);
+      if (emotionalState) {
+        const profile = emotionalState.getEmotionalProfile();
+        agent.emotionalProfile = profile;
+      }
+
+      // Environmental adaptation
+      if (envAdaptations.seekShelter) {
+        agent.seekingShelter = true;
+      }
+      if (envAdaptations.conserveEnergy) {
+        agent.energyConservation = true;
+      }
+
       this.updateRelationships(agent);
       this.performRoleActions(agent);
       this.applyInteractionRules(agent);
 
-      // Learning and adaptation
-      if (Math.random() > 0.8) {
-        this.learnFromExperience(agent, {
-          action: agent.societyRole,
-          success: agent.contribution > 30
-        });
+      // Advanced learning
+      const learner = this.learningSystem.get(agent.id);
+      if (learner && Math.random() > 0.8) {
+        learner.learnFromExperience(
+          agent.societyRole, 
+          agent.contribution > 30,
+          { difficulty: this.environmentCycle.season === 'winter' ? 1.5 : 1.0 }
+        );
+        agent.learningVelocity = learner.getLearningVelocity();
       }
     });
+
+    // Update construction projects
+    this.constructionSystem.updateStructures(deltaTime);
+    this.constructionSystem.updateTerraforming(deltaTime);
+    this.constructionSystem.decayFootprints(deltaTime);
 
     this.manageResources();
     this.handleConflicts();
