@@ -133,8 +133,14 @@ export default function Interactive3DFeatures() {
   ];
 
   return (
-    <div className="relative w-full h-[600px] rounded-2xl overflow-hidden">
-      <Canvas camera={{ position: [0, 0, 15], fov: 60 }}>
+    <div className="relative w-full h-[600px] rounded-2xl overflow-hidden bg-black/20">
+      <Canvas 
+        camera={{ position: [0, 0, 15], fov: 60 }}
+        gl={{ preserveDrawingBuffer: true }}
+        onCreated={({ gl }) => {
+          gl.setClearColor('#000000', 0);
+        }}
+      >
         <ambientLight intensity={0.3} />
         <pointLight position={[10, 10, 10]} intensity={1} />
         <pointLight position={[-10, -10, -10]} intensity={0.5} color="#a855f7" />
