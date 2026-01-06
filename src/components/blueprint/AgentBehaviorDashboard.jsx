@@ -4,8 +4,9 @@ import { X, Activity, Brain, Users, Shield, TrendingUp, Filter, Download, Award 
 import AgentSkillTree from './AgentSkillTree';
 import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { toast } from 'sonner';
+import { KnowledgeTransferVisualization } from './KnowledgeTransferVisualization';
 
-export default function AgentBehaviorDashboard({ show, onClose, agents, memorySystem }) {
+export default function AgentBehaviorDashboard({ show, onClose, agents, memorySystem, collectiveKnowledge }) {
   const [activeTab, setActiveTab] = useState('overview');
   const [selectedAgent, setSelectedAgent] = useState(null);
   const [filterType, setFilterType] = useState('all');
@@ -122,7 +123,7 @@ export default function AgentBehaviorDashboard({ show, onClose, agents, memorySy
           </div>
 
           <div className="flex gap-2 p-4 border-b border-white/10 overflow-x-auto">
-            {['overview', 'learning', 'social', 'decisions', 'resources', 'skills'].map(tab => (
+            {['overview', 'learning', 'social', 'decisions', 'resources', 'skills', 'knowledge'].map(tab => (
               <button key={tab} onClick={() => setActiveTab(tab)} className={`px-4 py-2 rounded-lg text-sm font-medium capitalize whitespace-nowrap ${activeTab === tab ? 'bg-purple-500/30 border border-purple-500/50 text-purple-300' : 'bg-white/5 text-white/60 hover:bg-white/10'}`}>
                 {tab}
               </button>
@@ -352,6 +353,13 @@ export default function AgentBehaviorDashboard({ show, onClose, agents, memorySy
                   </div>
                 ))}
               </div>
+            )}
+
+            {activeTab === 'knowledge' && (
+              <KnowledgeTransferVisualization 
+                collectiveKnowledge={collectiveKnowledge}
+                agents={agents}
+              />
             )}
 
             {activeTab === 'skills' && (
