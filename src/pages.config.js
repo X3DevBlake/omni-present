@@ -7,6 +7,7 @@ import Marketplace from './pages/Marketplace';
 import Profile from './pages/Profile';
 import Settings from './pages/Settings';
 import Technology from './pages/Technology';
+import Agent from './pages/Agent';
 import __Layout from './Layout.jsx';
 
 
@@ -20,6 +21,7 @@ export const PAGES = {
     "Profile": Profile,
     "Settings": Settings,
     "Technology": Technology,
+    "Agent": Agent,
 }
 
 export const pagesConfig = {
