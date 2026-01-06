@@ -20,6 +20,9 @@ import AgentSimulationVideo from '../components/blueprint/AgentSimulationVideo';
 import AgentTemplateLibrary from '../components/blueprint/AgentTemplateLibrary';
 import CommunicationProtocolEditor from '../components/blueprint/CommunicationProtocolEditor';
 import { DynamicEnvironmentSystem, InteractiveEnvironmentElement } from '../components/blueprint/DynamicEnvironmentSystem';
+import AgentCoordinationDashboard from '../components/blueprint/AgentCoordinationSystem';
+import AgentBehaviorDashboard from '../components/blueprint/AgentBehaviorDashboard';
+import { ManipulableObject, PhysicsObject, WeatherAwareAgent, PersistentFootprints, TerrainModification } from '../components/blueprint/EnhancedPhysicsSystem';
 import { base44 } from '@/api/base44Client';
 import { toast } from 'sonner';
 import { Canvas } from '@react-three/fiber';
@@ -162,6 +165,11 @@ export default function Blueprint() {
   const [showProtocolEditor, setShowProtocolEditor] = useState(false);
   const [selectedBehaviorForDebug, setSelectedBehaviorForDebug] = useState(null);
   const [savedProtocol, setSavedProtocol] = useState(null);
+  const [showCoordinationDashboard, setShowCoordinationDashboard] = useState(false);
+  const [showBehaviorDashboard, setShowBehaviorDashboard] = useState(false);
+  const [physicsObjects, setPhysicsObjects] = useState([]);
+  const [footprints, setFootprints] = useState([]);
+  const [terrainMods, setTerrainMods] = useState([]);
   const [weatherType, setWeatherType] = useState('clear');
   const [timeOfDay, setTimeOfDay] = useState(0.5);
   const [holographicAgents, setHolographicAgents] = useState([]);
@@ -768,19 +776,33 @@ export default function Blueprint() {
                       Communication
                     </button>
                       <button
-                      onClick={() => setShowSocietySimulator(true)}
-                      className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border border-yellow-500/40 text-yellow-300 rounded-xl text-sm hover:from-yellow-500/30 hover:to-orange-500/30"
-                      >
-                      <Users className="w-4 h-4" />
-                      Society Sim
-                      </button>
-                      <button
-                      onClick={() => setShowSimulationRecorder(true)}
-                      className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-red-500/20 to-pink-500/20 border border-red-500/40 text-red-300 rounded-xl text-sm hover:from-red-500/30 hover:to-pink-500/30"
-                      >
-                      <Video className="w-4 h-4" />
-                      Record
-                      </button>
+                        onClick={() => setShowSocietySimulator(true)}
+                        className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border border-yellow-500/40 text-yellow-300 rounded-xl text-sm hover:from-yellow-500/30 hover:to-orange-500/30"
+                        >
+                        <Users className="w-4 h-4" />
+                        Society Sim
+                        </button>
+                        <button
+                        onClick={() => setShowSimulationRecorder(true)}
+                        className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-red-500/20 to-pink-500/20 border border-red-500/40 text-red-300 rounded-xl text-sm hover:from-red-500/30 hover:to-pink-500/30"
+                        >
+                        <Video className="w-4 h-4" />
+                        Record
+                        </button>
+                        <button
+                        onClick={() => setShowCoordinationDashboard(true)}
+                        className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 border border-blue-500/40 text-blue-300 rounded-xl text-sm hover:from-blue-500/30 hover:to-cyan-500/30"
+                        >
+                        <Users className="w-4 h-4" />
+                        Coordination
+                        </button>
+                        <button
+                        onClick={() => setShowBehaviorDashboard(true)}
+                        className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/40 text-purple-300 rounded-xl text-sm hover:from-purple-500/30 hover:to-pink-500/30"
+                        >
+                        <Brain className="w-4 h-4" />
+                        Analytics
+                        </button>
                     </div>
 
                   <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-3">
@@ -1395,6 +1417,21 @@ export default function Blueprint() {
         existingProtocol={savedProtocol}
       />
 
+      {/* Agent Coordination Dashboard */}
+      <AgentCoordinationDashboard
+        show={showCoordinationDashboard}
+        onClose={() => setShowCoordinationDashboard(false)}
+        agents={holographicAgents}
+      />
+
+      {/* Agent Behavior Dashboard */}
+      <AgentBehaviorDashboard
+        show={showBehaviorDashboard}
+        onClose={() => setShowBehaviorDashboard(false)}
+        agents={holographicAgents}
+        memorySystem={agentMemories}
+      />
+
       {/* Holographic Agents Section */}
       {holographicAgents.length > 0 && (
         <motion.div
@@ -1500,16 +1537,26 @@ export default function Blueprint() {
                 />
 
                 {holographicAgents.map((agent, i) => (
-                  <HolographicAIAgent
+                  <WeatherAwareAgent
                     key={agent.id}
                     agent={agent}
                     position={[Math.sin(i * 1.5) * 3, 0, Math.cos(i * 1.5) * 3]}
-                    scale={0.6}
-                    targetPosition={agentMovementTargets[agent.id]}
-                    environment={currentEnvironment}
-                    autonomousMode={true}
+                    weatherType={weatherType}
+                    onShelter={(a) => toast.info(`${a.name} seeking shelter!`)}
                   />
                 ))}
+
+                {physicsObjects.map(obj => (
+                  <ManipulableObject
+                    key={obj.id}
+                    object={obj}
+                    onGrab={(o) => { o.isGrabbed = true; toast.info('Object grabbed!'); }}
+                    onRelease={(o) => { o.isGrabbed = false; }}
+                  />
+                ))}
+
+                <PersistentFootprints footprints={footprints} />
+                <TerrainModification modifications={terrainMods} />
               </DynamicEnvironmentSystem>
 
               <OrbitControls enableZoom={true} enablePan={true} maxPolarAngle={Math.PI / 2} />
