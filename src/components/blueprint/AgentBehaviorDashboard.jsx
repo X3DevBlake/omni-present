@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Activity, Brain, Users, Shield, TrendingUp, Filter, Download } from 'lucide-react';
+import { X, Activity, Brain, Users, Shield, TrendingUp, Filter, Download, Award } from 'lucide-react';
+import AgentSkillTree from './AgentSkillTree';
 import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { toast } from 'sonner';
 
@@ -9,6 +10,7 @@ export default function AgentBehaviorDashboard({ show, onClose, agents, memorySy
   const [selectedAgent, setSelectedAgent] = useState(null);
   const [filterType, setFilterType] = useState('all');
   const [analytics, setAnalytics] = useState(null);
+  const [showSkillTree, setShowSkillTree] = useState(false);
 
   useEffect(() => {
     if (show && agents) {
@@ -116,7 +118,7 @@ export default function AgentBehaviorDashboard({ show, onClose, agents, memorySy
           </div>
 
           <div className="flex gap-2 p-4 border-b border-white/10 overflow-x-auto">
-            {['overview', 'learning', 'social', 'decisions', 'resources'].map(tab => (
+            {['overview', 'learning', 'social', 'decisions', 'resources', 'skills'].map(tab => (
               <button key={tab} onClick={() => setActiveTab(tab)} className={`px-4 py-2 rounded-lg text-sm font-medium capitalize whitespace-nowrap ${activeTab === tab ? 'bg-purple-500/30 border border-purple-500/50 text-purple-300' : 'bg-white/5 text-white/60 hover:bg-white/10'}`}>
                 {tab}
               </button>
@@ -288,8 +290,67 @@ export default function AgentBehaviorDashboard({ show, onClose, agents, memorySy
                 ))}
               </div>
             )}
+
+            {activeTab === 'skills' && (
+              <div className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {agents.map((agent, i) => (
+                    <div key={agent.id} className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-500/30 rounded-xl p-4">
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center gap-2">
+                          <div className="w-4 h-4 rounded-full" style={{ backgroundColor: COLORS[i % COLORS.length] }} />
+                          <span className="text-white font-medium">{agent.name}</span>
+                        </div>
+                        <button
+                          onClick={() => { setSelectedAgent(agent); setShowSkillTree(true); }}
+                          className="p-1 bg-purple-500/20 rounded hover:bg-purple-500/30"
+                        >
+                          <Award className="w-4 h-4 text-purple-300" />
+                        </button>
+                      </div>
+                      <div className="space-y-2">
+                        <div className="flex justify-between text-xs">
+                          <span className="text-white/60">Skills Unlocked</span>
+                          <span className="text-cyan-400">{agent.skills?.length || 2}</span>
+                        </div>
+                        <div className="flex justify-between text-xs">
+                          <span className="text-white/60">Skill Points</span>
+                          <span className="text-yellow-400">{agent.skillPoints || 5}</span>
+                        </div>
+                        <div className="flex justify-between text-xs">
+                          <span className="text-white/60">Experience</span>
+                          <span className="text-green-400">{agent.experience || 0} XP</span>
+                        </div>
+                      </div>
+                      <div className="mt-3 flex flex-wrap gap-1">
+                        {(agent.skills || ['basic_movement', 'observation']).slice(0, 4).map(skill => (
+                          <div key={skill} className="px-2 py-0.5 bg-purple-500/20 rounded text-purple-300 text-xs">
+                            {skill.replace('_', ' ')}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </motion.div>
+
+        {showSkillTree && selectedAgent && (
+          <AgentSkillTree
+            show={showSkillTree}
+            onClose={() => { setShowSkillTree(false); setSelectedAgent(null); }}
+            agent={selectedAgent}
+            onSkillUnlock={(skill) => {
+              // Update agent skills
+              const updatedAgent = agents.find(a => a.id === selectedAgent.id);
+              if (updatedAgent && !updatedAgent.skills.includes(skill.id)) {
+                updatedAgent.skills.push(skill.id);
+              }
+            }}
+          />
+        )}
       </motion.div>
     </AnimatePresence>
   );
