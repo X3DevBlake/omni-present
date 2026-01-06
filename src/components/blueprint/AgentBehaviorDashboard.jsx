@@ -25,11 +25,12 @@ export default function AgentBehaviorDashboard({ show, onClose, agents, memorySy
       return {
         id: agent.id,
         name: agent.name,
-        decisions: memory?.experiences.length || 0,
-        learningProgress: memory?.learnedPatterns.size || 0,
-        interactions: memory?.interactions.length || 0,
-        alliances: memory?.interactions.filter(i => i.outcome === 'positive').length || 0,
-        conflicts: memory?.interactions.filter(i => i.outcome === 'negative').length || 0,
+        decisions: memory?.experiences?.length || 0,
+        learningProgress: memory?.learnedPatterns?.size || 0,
+        learning: (agent.experience || 0) % 100,
+        interactions: memory?.interactions?.length || 0,
+        alliances: memory?.interactions?.filter(i => i.outcome === 'positive').length || 0,
+        conflicts: memory?.interactions?.filter(i => i.outcome === 'negative').length || 0,
         resources: Math.floor(Math.random() * 100),
         skillLevel: Math.floor(Math.random() * 100)
       };
@@ -63,8 +64,11 @@ export default function AgentBehaviorDashboard({ show, onClose, agents, memorySy
       socialData,
       decisionData,
       totalDecisions: agentAnalytics.reduce((sum, a) => sum + a.decisions, 0),
-      avgSkillLevel: agentAnalytics.reduce((sum, a) => sum + a.skillLevel, 0) / agents.length,
-      totalInteractions: agentAnalytics.reduce((sum, a) => sum + a.interactions, 0)
+      avgSkillLevel: agents.length > 0 ? agentAnalytics.reduce((sum, a) => sum + a.skillLevel, 0) / agents.length : 0,
+      totalInteractions: agentAnalytics.reduce((sum, a) => sum + a.interactions, 0),
+      alliances: agentAnalytics.reduce((sum, a) => sum + a.alliances, 0),
+      conflicts: agentAnalytics.reduce((sum, a) => sum + a.conflicts, 0),
+      avgRelationship: 50
     });
   };
 
