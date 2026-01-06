@@ -1,276 +1,235 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Upload, BookOpen, Brain, Target, Save, Download, TrendingUp } from 'lucide-react';
-import { base44 } from '@/api/base44Client';
+import { X, Target, TrendingUp, Award, Play, Pause } from 'lucide-react';
 import { toast } from 'sonner';
 
-export default function AgentTrainingModule({ show, onClose, agent = {}, onTrainingComplete }) {
-  if (!show || !agent.id) return null;
-  const [trainingMode, setTrainingMode] = useState('documents');
-  const [documents, setDocuments] = useState([]);
-  const [interactionLogs, setInteractionLogs] = useState([]);
-  const [objectives, setObjectives] = useState([]);
-  const [newObjective, setNewObjective] = useState('');
+const TRAINING_SCENARIOS = [
+  { id: 'survival', name: 'Survival Training', skills: ['gathering', 'crafting', 'endurance'], emotionalImpact: { fear: -10, confidence: 15 }, duration: 10 },
+  { id: 'diplomacy', name: 'Diplomacy Training', skills: ['negotiation', 'persuasion', 'empathy'], emotionalImpact: { trust: 20, anger: -15 }, duration: 12 },
+  { id: 'combat', name: 'Combat Training', skills: ['combat', 'tactics', 'awareness'], emotionalImpact: { fear: -15, confidence: 20 }, duration: 15 },
+  { id: 'leadership', name: 'Leadership Training', skills: ['leadership', 'coordination', 'inspiration'], emotionalImpact: { confidence: 25, trust: 10 }, duration: 14 },
+  { id: 'exploration', name: 'Exploration Training', skills: ['exploration', 'navigation', 'observation'], emotionalImpact: { curiosity: 20, fear: -5 }, duration: 10 },
+  { id: 'craftsmanship', name: 'Craftsmanship Training', skills: ['crafting', 'engineering', 'precision'], emotionalImpact: { satisfaction: 15, patience: 10 }, duration: 16 },
+  { id: 'stealth', name: 'Stealth Training', skills: ['stealth', 'patience', 'awareness'], emotionalImpact: { confidence: 10, fear: -10 }, duration: 11 },
+  { id: 'medicine', name: 'Medical Training', skills: ['medicine', 'biology', 'empathy'], emotionalImpact: { compassion: 20, satisfaction: 15 }, duration: 18 }
+];
+
+export default function AgentTrainingModule({ show, onClose, agent, onTrainingComplete }) {
+  const [selectedScenario, setSelectedScenario] = useState(null);
   const [isTraining, setIsTraining] = useState(false);
-  const [trainingProgress, setTrainingProgress] = useState(0);
-  const [trainingMetrics, setTrainingMetrics] = useState(null);
+  const [progress, setProgress] = useState(0);
+  const [trainingHistory, setTrainingHistory] = useState([]);
+  const [skillGains, setSkillGains] = useState({});
 
-  const handleDocumentUpload = async (e) => {
-    const files = Array.from(e.target.files);
-    setIsTraining(true);
-
-    try {
-      const uploadedDocs = [];
-      for (const file of files) {
-        const { file_url } = await base44.integrations.Core.UploadFile({ file });
-        uploadedDocs.push({ name: file.name, url: file_url });
-      }
-      setDocuments([...documents, ...uploadedDocs]);
-      toast.success(`${files.length} documents uploaded`);
-    } catch (error) {
-      toast.error('Upload failed');
-    } finally {
-      setIsTraining(false);
+  useEffect(() => {
+    if (agent && agent.trainingHistory) {
+      setTrainingHistory(agent.trainingHistory);
     }
-  };
+  }, [agent]);
 
-  const startTraining = async () => {
-    if (documents.length === 0 && objectives.length === 0) {
-      toast.error('Add training data or objectives');
-      return;
-    }
+  useEffect(() => {
+    if (!isTraining) return;
 
-    setIsTraining(true);
-    setTrainingProgress(0);
-
-    // Simulate progressive training
-    const progressInterval = setInterval(() => {
-      setTrainingProgress(prev => Math.min(prev + 10, 90));
-    }, 500);
-
-    try {
-      const trainingData = await base44.integrations.Core.InvokeLLM({
-        prompt: `Train AI agent "${agent.name}" using the following:
-        
-        Objectives: ${objectives.join(', ')}
-        Documents: ${documents.length} training documents
-        Agent Personality: ${agent.personality}
-        
-        Generate:
-        1. Learned behaviors and patterns
-        2. Decision-making rules
-        3. Performance improvements
-        4. Skill acquisition
-        5. Adaptive strategies
-        6. Training metrics (success rate, efficiency, adaptability)`,
-        file_urls: documents.map(d => d.url),
-        response_json_schema: {
-          type: "object",
-          properties: {
-            learnedBehaviors: { type: "array", items: { type: "string" } },
-            decisionRules: { type: "array", items: { type: "object" } },
-            improvements: { type: "object" },
-            skills: { type: "array", items: { type: "string" } },
-            strategies: { type: "array", items: { type: "string" } },
-            metrics: {
-              type: "object",
-              properties: {
-                successRate: { type: "number" },
-                efficiency: { type: "number" },
-                adaptability: { type: "number" }
-              }
-            }
-          }
+    const interval = setInterval(() => {
+      setProgress(prev => {
+        const newProgress = prev + (100 / (selectedScenario.duration * 10));
+        if (newProgress >= 100) {
+          completeTraining();
+          return 100;
         }
+        return newProgress;
       });
+    }, 100);
 
-      clearInterval(progressInterval);
-      setTrainingProgress(100);
-      setTrainingMetrics(trainingData.metrics);
+    return () => clearInterval(interval);
+  }, [isTraining, selectedScenario]);
 
-      const trainedAgent = {
-        ...agent,
-        training: {
-          ...trainingData,
-          completedAt: new Date().toISOString(),
-          iterations: 1
-        }
-      };
-
-      onTrainingComplete(trainedAgent);
-      toast.success('Training complete!');
-    } catch (error) {
-      clearInterval(progressInterval);
-      toast.error('Training failed');
-    } finally {
-      setIsTraining(false);
-    }
+  const startTraining = (scenario) => {
+    setSelectedScenario(scenario);
+    setProgress(0);
+    setIsTraining(true);
+    toast.success(`Starting ${scenario.name}`);
   };
 
-  const saveTrainingState = async () => {
-    try {
-      const user = await base44.auth.me();
-      const trainingStates = user.agent_training_states || [];
+  const pauseTraining = () => {
+    setIsTraining(false);
+    toast.info('Training paused');
+  };
+
+  const completeTraining = () => {
+    setIsTraining(false);
+    
+    const gains = {};
+    selectedScenario.skills.forEach(skill => {
+      const gain = Math.floor(Math.random() * 10) + 10;
+      gains[skill] = gain;
       
-      const newState = {
-        agentId: agent.id,
-        agentName: agent.name,
-        documents,
-        objectives,
-        metrics: trainingMetrics,
-        savedAt: new Date().toISOString()
-      };
+      if (!agent.skills.includes(skill)) {
+        agent.skills.push(skill);
+      }
+    });
 
-      await base44.auth.updateMe({
-        agent_training_states: [...trainingStates, newState]
-      });
+    setSkillGains(gains);
+    
+    const trainingRecord = {
+      scenario: selectedScenario.name,
+      completedAt: Date.now(),
+      skillGains: gains,
+      emotionalImpact: selectedScenario.emotionalImpact
+    };
 
-      toast.success('Training state saved!');
-    } catch (error) {
-      toast.error('Failed to save state');
-    }
+    setTrainingHistory([trainingRecord, ...trainingHistory].slice(0, 10));
+    agent.trainingHistory = [trainingRecord, ...(agent.trainingHistory || [])].slice(0, 10);
+    agent.experience = (agent.experience || 0) + 50;
+
+    onTrainingComplete?.(agent);
+    toast.success('Training completed!', { icon: '🎓' });
   };
+
+  if (!show || !agent) return null;
 
   return (
     <AnimatePresence>
-      <motion.div className="fixed inset-0 z-50 flex items-center justify-center p-4" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+      <motion.div className="fixed inset-0 z-50 flex items-center justify-center p-4" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
         <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={onClose} />
-        <motion.div className="relative bg-black/90 backdrop-blur-xl border border-white/20 rounded-2xl p-6 max-w-4xl w-full max-h-[90vh] overflow-y-auto" initial={{ scale: 0.9 }} animate={{ scale: 1 }}>
-          <button onClick={onClose} className="absolute top-4 right-4 p-2 rounded-full bg-white/5 hover:bg-white/10">
-            <X className="w-5 h-5 text-white/70" />
-          </button>
-
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-cyan-500/20 to-blue-500/20 flex items-center justify-center">
-              <Brain className="w-8 h-8 text-cyan-400" />
+        <motion.div className="relative bg-black/90 backdrop-blur-xl border border-white/20 rounded-2xl w-full max-w-5xl max-h-[90vh] overflow-hidden flex flex-col" initial={{ scale: 0.9 }} animate={{ scale: 1 }}>
+          
+          <div className="p-4 border-b border-white/10 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-500/20 to-emerald-500/20 flex items-center justify-center">
+                <Target className="w-6 h-6 text-green-400" />
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-white">Agent Training</h3>
+                <p className="text-white/60 text-sm">{agent.name} - {agent.type}</p>
+              </div>
             </div>
-            <div>
-              <h3 className="text-2xl font-bold text-white">Agent Training Module</h3>
-              <p className="text-white/60">Train {agent.name} with advanced AI learning</p>
-            </div>
+            <button onClick={onClose} className="p-2 rounded-lg bg-white/5 hover:bg-white/10">
+              <X className="w-5 h-5 text-white/70" />
+            </button>
           </div>
 
-          <div className="flex gap-2 mb-6">
-            {['documents', 'objectives', 'reinforcement'].map(mode => (
-              <button key={mode} onClick={() => setTrainingMode(mode)} className={`px-4 py-2 rounded-lg text-sm capitalize ${trainingMode === mode ? 'bg-cyan-500/30 border border-cyan-500/50 text-cyan-300' : 'bg-white/5 border border-white/10 text-white/60'}`}>
-                {mode}
-              </button>
-            ))}
-          </div>
-
-          {trainingMode === 'documents' && (
-            <div className="space-y-4">
-              <div className="bg-purple-500/10 border border-purple-500/30 rounded-xl p-4">
-                <div className="flex items-center gap-2 mb-3">
-                  <BookOpen className="w-5 h-5 text-purple-400" />
-                  <h4 className="text-purple-400 font-semibold">Training Documents</h4>
-                </div>
-                <p className="text-white/60 text-sm mb-3">Upload documents for agent to learn from</p>
-                <label className="block">
-                  <input type="file" multiple accept=".txt,.pdf,.doc,.docx" onChange={handleDocumentUpload} className="hidden" />
-                  <div className="w-full py-3 bg-purple-500/20 border border-purple-500/40 text-purple-300 rounded-xl hover:bg-purple-500/30 cursor-pointer text-center font-medium">
-                    Upload Documents
-                  </div>
-                </label>
-                {documents.length > 0 && (
-                  <div className="mt-3 space-y-1">
-                    {documents.map((doc, i) => (
-                      <div key={i} className="px-3 py-2 bg-white/5 rounded text-white/70 text-sm">{doc.name}</div>
+          <div className="flex-1 overflow-y-auto p-6">
+            {!isTraining ? (
+              <div className="space-y-6">
+                <div>
+                  <h4 className="text-white font-semibold mb-4">Select Training Scenario</h4>
+                  <div className="grid grid-cols-2 gap-4">
+                    {TRAINING_SCENARIOS.map(scenario => (
+                      <motion.div key={scenario.id} whileHover={{ scale: 1.02 }} className="bg-gradient-to-br from-white/5 to-white/10 border border-white/20 rounded-xl p-4 cursor-pointer" onClick={() => startTraining(scenario)}>
+                        <div className="flex items-start justify-between mb-3">
+                          <h5 className="text-white font-semibold">{scenario.name}</h5>
+                          <span className="text-xs px-2 py-1 bg-green-500/20 text-green-300 rounded">{scenario.duration}s</span>
+                        </div>
+                        <div className="mb-3">
+                          <div className="text-white/60 text-xs mb-2">Skills Trained:</div>
+                          <div className="flex flex-wrap gap-1">
+                            {scenario.skills.map(skill => (
+                              <span key={skill} className="text-xs px-2 py-0.5 bg-cyan-500/20 text-cyan-300 rounded">{skill}</span>
+                            ))}
+                          </div>
+                        </div>
+                        <button className="w-full py-2 bg-green-500/20 border border-green-500/40 text-green-300 rounded-lg text-sm hover:bg-green-500/30">
+                          <Play className="w-4 h-4 inline mr-1" />
+                          Start Training
+                        </button>
+                      </motion.div>
                     ))}
+                  </div>
+                </div>
+
+                {trainingHistory.length > 0 && (
+                  <div className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-500/30 rounded-xl p-4">
+                    <div className="flex items-center gap-2 mb-3">
+                      <Award className="w-5 h-5 text-purple-400" />
+                      <h4 className="text-purple-400 font-semibold">Training History</h4>
+                    </div>
+                    <div className="space-y-2">
+                      {trainingHistory.map((record, i) => (
+                        <div key={i} className="bg-white/5 rounded-lg p-3">
+                          <div className="flex justify-between items-start mb-2">
+                            <span className="text-white font-medium">{record.scenario}</span>
+                            <span className="text-white/60 text-xs">{new Date(record.completedAt).toLocaleDateString()}</span>
+                          </div>
+                          <div className="flex flex-wrap gap-1">
+                            {Object.entries(record.skillGains).map(([skill, gain]) => (
+                              <span key={skill} className="text-xs px-2 py-0.5 bg-green-500/20 text-green-300 rounded">
+                                {skill} +{gain}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 )}
               </div>
-            </div>
-          )}
+            ) : (
+              <div className="space-y-6">
+                <div className="bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-500/30 rounded-xl p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <h4 className="text-green-400 font-semibold text-lg">{selectedScenario.name}</h4>
+                    <button onClick={pauseTraining} className="px-4 py-2 bg-orange-500/20 border border-orange-500/40 text-orange-300 rounded-lg text-sm hover:bg-orange-500/30">
+                      <Pause className="w-4 h-4 inline mr-1" />
+                      Pause
+                    </button>
+                  </div>
 
-          {trainingMode === 'objectives' && (
-            <div className="space-y-4">
-              <div className="bg-blue-500/10 border border-blue-500/30 rounded-xl p-4">
-                <div className="flex items-center gap-2 mb-3">
-                  <Target className="w-5 h-5 text-blue-400" />
-                  <h4 className="text-blue-400 font-semibold">Learning Objectives</h4>
-                </div>
-                <div className="flex gap-2 mb-3">
-                  <input type="text" value={newObjective} onChange={(e) => setNewObjective(e.target.value)} placeholder="E.g., Navigate efficiently, Avoid obstacles..." className="flex-1 bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white text-sm" />
-                  <button onClick={() => { if (newObjective.trim()) { setObjectives([...objectives, newObjective]); setNewObjective(''); } }} className="px-4 py-2 bg-blue-500/20 border border-blue-500/40 text-blue-300 rounded-lg">Add</button>
-                </div>
-                {objectives.length > 0 && (
-                  <div className="space-y-1">
-                    {objectives.map((obj, i) => (
-                      <div key={i} className="flex items-center justify-between px-3 py-2 bg-white/5 rounded">
-                        <span className="text-white/70 text-sm">{obj}</span>
-                        <button onClick={() => setObjectives(objectives.filter((_, idx) => idx !== i))} className="text-red-400 text-xs">Remove</button>
+                  <div className="mb-4">
+                    <div className="flex justify-between text-sm mb-2">
+                      <span className="text-white/70">Training Progress</span>
+                      <span className="text-green-400">{progress.toFixed(0)}%</span>
+                    </div>
+                    <div className="w-full h-4 bg-white/10 rounded-full overflow-hidden">
+                      <motion.div 
+                        className="h-full bg-gradient-to-r from-green-500 to-emerald-500"
+                        initial={{ width: 0 }}
+                        animate={{ width: `${progress}%` }}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="bg-white/5 rounded-lg p-3">
+                      <div className="text-white/60 text-xs mb-2">Skills Being Trained</div>
+                      <div className="flex flex-wrap gap-1">
+                        {selectedScenario.skills.map(skill => (
+                          <span key={skill} className="text-xs px-2 py-0.5 bg-cyan-500/20 text-cyan-300 rounded">{skill}</span>
+                        ))}
                       </div>
-                    ))}
+                    </div>
+                    <div className="bg-white/5 rounded-lg p-3">
+                      <div className="text-white/60 text-xs mb-2">Emotional Impact</div>
+                      <div className="space-y-1">
+                        {Object.entries(selectedScenario.emotionalImpact).map(([emotion, value]) => (
+                          <div key={emotion} className="flex justify-between text-xs">
+                            <span className="text-white/80 capitalize">{emotion}</span>
+                            <span className={value > 0 ? 'text-green-400' : 'text-red-400'}>{value > 0 ? '+' : ''}{value}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
                   </div>
+                </div>
+
+                {progress === 100 && Object.keys(skillGains).length > 0 && (
+                  <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="bg-gradient-to-br from-yellow-500/10 to-orange-500/10 border border-yellow-500/30 rounded-xl p-6">
+                    <div className="flex items-center gap-2 mb-4">
+                      <TrendingUp className="w-6 h-6 text-yellow-400" />
+                      <h4 className="text-yellow-400 font-semibold text-lg">Training Complete!</h4>
+                    </div>
+                    <div className="grid grid-cols-2 gap-3">
+                      {Object.entries(skillGains).map(([skill, gain]) => (
+                        <div key={skill} className="bg-white/5 rounded-lg p-3">
+                          <div className="text-white/60 text-xs capitalize">{skill}</div>
+                          <div className="text-yellow-400 text-xl font-bold">+{gain}</div>
+                        </div>
+                      ))}
+                    </div>
+                  </motion.div>
                 )}
               </div>
-            </div>
-          )}
-
-          {trainingMode === 'reinforcement' && (
-            <div className="space-y-4">
-              <div className="bg-green-500/10 border border-green-500/30 rounded-xl p-4">
-                <div className="flex items-center gap-2 mb-3">
-                  <TrendingUp className="w-5 h-5 text-green-400" />
-                  <h4 className="text-green-400 font-semibold">Reinforcement Learning</h4>
-                </div>
-                <p className="text-white/60 text-sm mb-3">Agent will learn from environment interactions</p>
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="bg-white/5 rounded-lg p-3">
-                    <div className="text-xs text-green-400 mb-1">Reward Function</div>
-                    <select className="w-full bg-white/5 border border-white/10 rounded px-2 py-1 text-white text-sm">
-                      <option>Task Completion</option>
-                      <option>Efficiency</option>
-                      <option>Exploration</option>
-                    </select>
-                  </div>
-                  <div className="bg-white/5 rounded-lg p-3">
-                    <div className="text-xs text-green-400 mb-1">Learning Rate</div>
-                    <input type="number" step="0.01" defaultValue="0.1" className="w-full bg-white/5 border border-white/10 rounded px-2 py-1 text-white text-sm" />
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {isTraining && (
-            <div className="mt-4 bg-cyan-500/10 border border-cyan-500/30 rounded-xl p-4">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-cyan-400 font-medium">Training Progress</span>
-                <span className="text-cyan-300">{trainingProgress}%</span>
-              </div>
-              <div className="w-full bg-white/10 rounded-full h-2">
-                <div className="bg-gradient-to-r from-cyan-500 to-blue-500 h-2 rounded-full transition-all" style={{ width: `${trainingProgress}%` }} />
-              </div>
-            </div>
-          )}
-
-          {trainingMetrics && (
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-4 grid grid-cols-3 gap-3">
-              <div className="bg-green-500/10 border border-green-500/30 rounded-xl p-3">
-                <div className="text-xs text-green-400 mb-1">Success Rate</div>
-                <div className="text-2xl font-bold text-white">{(trainingMetrics.successRate * 100).toFixed(0)}%</div>
-              </div>
-              <div className="bg-blue-500/10 border border-blue-500/30 rounded-xl p-3">
-                <div className="text-xs text-blue-400 mb-1">Efficiency</div>
-                <div className="text-2xl font-bold text-white">{(trainingMetrics.efficiency * 100).toFixed(0)}%</div>
-              </div>
-              <div className="bg-purple-500/10 border border-purple-500/30 rounded-xl p-3">
-                <div className="text-xs text-purple-400 mb-1">Adaptability</div>
-                <div className="text-2xl font-bold text-white">{(trainingMetrics.adaptability * 100).toFixed(0)}%</div>
-              </div>
-            </motion.div>
-          )}
-
-          <div className="mt-6 flex gap-3">
-            <button onClick={startTraining} disabled={isTraining} className="flex-1 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-medium rounded-xl hover:opacity-90 disabled:opacity-50 flex items-center justify-center gap-2">
-              <Brain className="w-5 h-5" />
-              {isTraining ? 'Training...' : 'Start Training'}
-            </button>
-            <button onClick={saveTrainingState} className="px-4 py-3 bg-white/5 border border-white/10 text-white rounded-xl hover:bg-white/10 flex items-center gap-2">
-              <Save className="w-4 h-4" />
-            </button>
+            )}
           </div>
         </motion.div>
       </motion.div>
