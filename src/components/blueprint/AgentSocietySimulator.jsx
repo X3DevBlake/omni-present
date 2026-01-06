@@ -23,6 +23,11 @@ export class AgentSociety {
     this.dynamicRules = [];
     this.proposedRules = [];
     this.ruleEffectiveness = new Map();
+    this.factions = [];
+    this.hierarchies = new Map();
+    this.reputationSystem = new Map();
+    this.collectiveTasks = [];
+    this.mobEvents = [];
   }
 
   getDefaultInteractionRules() {
@@ -67,6 +72,11 @@ export class AgentSociety {
     this.handleConflicts();
     this.manageAlliances();
     this.detectRivalries();
+    this.manageFactions();
+    this.updateHierarchies();
+    this.updateReputations();
+    this.processCollectiveBehaviors();
+    this.detectMobMentality();
     this.checkEmergentBehaviors();
     this.evaluateGoals();
     this.evolveCulture();
@@ -171,6 +181,189 @@ export class AgentSociety {
   getAverageSentiment() {
     if (this.agents.length === 0) return 0;
     return this.agents.reduce((sum, a) => sum + (a.sentiment?.overall || 0), 0) / this.agents.length;
+  }
+
+  manageFactions() {
+    // Form factions based on shared interests and relationships
+    const potentialFactions = {};
+
+    this.agents.forEach(agent => {
+      const allies = [];
+      agent.relationships.forEach((value, otherId) => {
+        if (value > 60) allies.push(otherId);
+      });
+
+      if (allies.length >= 2) {
+        const factionKey = [agent.id, ...allies].sort().join('-');
+        if (!potentialFactions[factionKey]) {
+          potentialFactions[factionKey] = {
+            id: `faction_${Date.now()}_${Math.random()}`,
+            members: [agent.id, ...allies],
+            formed: Date.now(),
+            ideology: agent.societyRole,
+            strength: allies.length,
+            territory: null
+          };
+        }
+      }
+    });
+
+    // Merge similar factions
+    Object.values(potentialFactions).forEach(faction => {
+      const existing = this.factions.find(f => 
+        f.members.some(m => faction.members.includes(m))
+      );
+
+      if (existing) {
+        existing.members = [...new Set([...existing.members, ...faction.members])];
+        existing.strength = existing.members.length;
+      } else {
+        this.factions.push(faction);
+      }
+    });
+
+    // Update faction dynamics
+    this.factions.forEach(faction => {
+      const memberAgents = this.agents.filter(a => faction.members.includes(a.id));
+      faction.avgContribution = memberAgents.reduce((sum, a) => sum + a.contribution, 0) / memberAgents.length;
+      faction.cohesion = this.calculateFactionCohesion(faction);
+    });
+  }
+
+  calculateFactionCohesion(faction) {
+    if (faction.members.length < 2) return 0;
+
+    let totalRelationship = 0;
+    let count = 0;
+
+    faction.members.forEach(id1 => {
+      const agent1 = this.agents.find(a => a.id === id1);
+      faction.members.forEach(id2 => {
+        if (id1 !== id2) {
+          totalRelationship += agent1.relationships.get(id2) || 0;
+          count++;
+        }
+      });
+    });
+
+    return count > 0 ? totalRelationship / count : 0;
+  }
+
+  updateHierarchies() {
+    // Establish hierarchies based on contribution, influence, and reputation
+    const rankings = this.agents.map(agent => ({
+      id: agent.id,
+      score: agent.contribution * 0.4 + (this.reputationSystem.get(agent.id) || 50) * 0.6
+    })).sort((a, b) => b.score - a.score);
+
+    rankings.forEach((entry, index) => {
+      const tier = index < 3 ? 'alpha' : index < 8 ? 'beta' : 'omega';
+      this.hierarchies.set(entry.id, { tier, rank: index + 1 });
+
+      const agent = this.agents.find(a => a.id === entry.id);
+      if (agent) agent.hierarchyTier = tier;
+    });
+  }
+
+  updateReputations() {
+    this.agents.forEach(agent => {
+      if (!this.reputationSystem.has(agent.id)) {
+        this.reputationSystem.set(agent.id, 50);
+      }
+
+      let reputation = this.reputationSystem.get(agent.id);
+
+      // Increase for positive actions
+      if (agent.contribution > 30) reputation += 1;
+      if ((agent.relationships.size > 0) && this.getAvgRelationship(agent) > 50) reputation += 0.5;
+
+      // Decrease for negative actions
+      const conflicts = this.conflicts.filter(c => c.participants?.some(p => p.id === agent.id));
+      if (conflicts.length > 0) reputation -= 2;
+
+      // Clamp reputation
+      reputation = Math.max(0, Math.min(100, reputation));
+      this.reputationSystem.set(agent.id, reputation);
+
+      agent.reputation = reputation;
+    });
+  }
+
+  getAvgRelationship(agent) {
+    if (agent.relationships.size === 0) return 0;
+    let sum = 0;
+    agent.relationships.forEach(val => sum += val);
+    return sum / agent.relationships.size;
+  }
+
+  processCollectiveBehaviors() {
+    // Identify groups working on collective problems
+    const groupTasks = this.factions.filter(f => f.members.length >= 3);
+
+    groupTasks.forEach(faction => {
+      if (Math.random() > 0.9) {
+        const task = {
+          id: `task_${Date.now()}`,
+          factionId: faction.id,
+          type: Math.random() > 0.5 ? 'resource_gathering' : 'construction',
+          progress: 0,
+          contributors: []
+        };
+
+        this.collectiveTasks.push(task);
+      }
+    });
+
+    // Update ongoing collective tasks
+    this.collectiveTasks.forEach(task => {
+      const faction = this.factions.find(f => f.id === task.factionId);
+      if (faction) {
+        task.progress += faction.members.length * 0.5;
+        task.contributors = faction.members;
+
+        if (task.progress >= 100) {
+          this.resources.food += 20;
+          this.resources.shelter += 2;
+
+          if (!this.emergentBehaviors.includes('collective_problem_solving')) {
+            this.emergentBehaviors.push('collective_problem_solving');
+          }
+        }
+      }
+    });
+
+    this.collectiveTasks = this.collectiveTasks.filter(t => t.progress < 100);
+  }
+
+  detectMobMentality() {
+    // Detect mob behavior when large groups act with negative sentiment
+    const negativeAgents = this.agents.filter(a => (a.sentiment?.overall || 0) < -30);
+
+    if (negativeAgents.length >= Math.floor(this.agents.length * 0.4)) {
+      const mobEvent = {
+        id: `mob_${Date.now()}`,
+        participants: negativeAgents.map(a => a.id),
+        intensity: negativeAgents.length / this.agents.length,
+        cause: this.resources.food < 30 ? 'resource_scarcity' : 'general_unrest',
+        timestamp: Date.now()
+      };
+
+      this.mobEvents.push(mobEvent);
+
+      // Mob effects
+      this.resources.shelter -= 3;
+      negativeAgents.forEach(agent => {
+        agent.contribution -= 5;
+        if (agent.reputation) agent.reputation -= 3;
+      });
+
+      if (!this.emergentBehaviors.includes('mob_mentality')) {
+        this.emergentBehaviors.push('mob_mentality');
+      }
+    }
+
+    // Decay old mob events
+    this.mobEvents = this.mobEvents.filter(m => Date.now() - m.timestamp < 30000);
   }
 
   applyInteractionRules(agent) {
@@ -459,7 +652,15 @@ export class AgentSociety {
       conflicts: this.conflicts.length,
       alliances: this.alliances.length,
       rivalries: this.rivalries?.length || 0,
-      culturalTraits: this.culturalTraits
+      culturalTraits: this.culturalTraits,
+      factions: this.factions.length,
+      hierarchies: Array.from(this.hierarchies.values()),
+      collectiveTasks: this.collectiveTasks.length,
+      mobEvents: this.mobEvents.length,
+      topReputation: Array.from(this.reputationSystem.entries())
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 3)
+        .map(([id, rep]) => ({ id, reputation: rep.toFixed(1) }))
     };
   }
 }
@@ -649,6 +850,14 @@ export default function AgentSocietySimulator({ show, onClose, agents }) {
                       <div className="text-xs text-white/60">Knowledge</div>
                       <div className="text-lg font-bold text-purple-400">{stats.resources.knowledge?.toFixed(0) || 0}</div>
                     </div>
+                    <div className="bg-white/5 rounded-lg p-2">
+                      <div className="text-xs text-white/60">Factions</div>
+                      <div className="text-lg font-bold text-orange-400">{stats.factions}</div>
+                    </div>
+                    <div className="bg-white/5 rounded-lg p-2">
+                      <div className="text-xs text-white/60">Mob Events</div>
+                      <div className="text-lg font-bold text-red-400">{stats.mobEvents}</div>
+                    </div>
                     </div>
 
                   {stats.emergentBehaviors.length > 0 && (
@@ -677,6 +886,31 @@ export default function AgentSocietySimulator({ show, onClose, agents }) {
                           </div>
                         ))}
                       </div>
+                    </div>
+                  )}
+
+                  {stats.topReputation && stats.topReputation.length > 0 && (
+                    <div className="bg-gradient-to-r from-yellow-500/10 to-orange-500/10 border border-yellow-500/30 rounded-xl p-4">
+                      <h4 className="text-yellow-400 font-semibold mb-2">Top Reputation</h4>
+                      <div className="space-y-2">
+                        {stats.topReputation.map((entry, i) => {
+                          const agent = society?.agents.find(a => a.id === entry.id);
+                          return (
+                            <div key={entry.id} className="flex items-center justify-between bg-white/5 rounded p-2">
+                              <span className="text-white text-sm">{agent?.name || entry.id}</span>
+                              <span className="text-yellow-400 text-sm font-bold">{entry.reputation}</span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+
+                  {stats.collectiveTasks > 0 && (
+                    <div className="bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/30 rounded-xl p-4">
+                      <h4 className="text-green-400 font-semibold mb-2">Collective Tasks Active</h4>
+                      <div className="text-white text-2xl font-bold">{stats.collectiveTasks}</div>
+                      <div className="text-white/60 text-xs mt-1">Agents working together on shared goals</div>
                     </div>
                   )}
 

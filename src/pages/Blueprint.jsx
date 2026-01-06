@@ -23,6 +23,7 @@ import { DynamicEnvironmentSystem, InteractiveEnvironmentElement } from '../comp
 import AgentCoordinationDashboard from '../components/blueprint/AgentCoordinationSystem';
 import AgentBehaviorDashboard from '../components/blueprint/AgentBehaviorDashboard';
 import AgentSkillTree from '../components/blueprint/AgentSkillTree';
+import ReputationBadge from '../components/blueprint/ReputationBadge';
 import { ManipulableObject, PhysicsObject, WeatherAwareAgent, PersistentFootprints, TerrainModification } from '../components/blueprint/EnhancedPhysicsSystem';
 import { base44 } from '@/api/base44Client';
 import { toast } from 'sonner';
@@ -1468,6 +1469,7 @@ export default function Blueprint() {
                   <div className="flex items-center gap-2">
                     <div className="w-3 h-3 rounded-full" style={{ backgroundColor: agent.color }} />
                     <span className="text-white text-sm font-medium">{agent.name}</span>
+                    <ReputationBadge reputation={agent.reputation || 50} size="small" />
                   </div>
                   <div className="flex gap-1">
                     <button
@@ -1478,6 +1480,13 @@ export default function Blueprint() {
                       <Brain className="w-4 h-4" />
                     </button>
                     <button
+                      onClick={() => setShowSkillTreeForAgent(agent)}
+                      className="text-purple-400 hover:text-purple-300"
+                      title="Skill Tree"
+                    >
+                      <Award className="w-4 h-4" />
+                    </button>
+                    <button
                       onClick={() => deleteAgent(agent.id)}
                       className="text-red-400 hover:text-red-300"
                     >
@@ -1485,7 +1494,18 @@ export default function Blueprint() {
                     </button>
                   </div>
                 </div>
-                <div className="text-white/60 text-xs">{agent.type}</div>
+                <div className="flex items-center justify-between text-xs">
+                  <span className="text-white/60">{agent.type}</span>
+                  {agent.hierarchyTier && (
+                    <span className={`px-2 py-0.5 rounded ${
+                      agent.hierarchyTier === 'alpha' ? 'bg-yellow-500/20 text-yellow-300' :
+                      agent.hierarchyTier === 'beta' ? 'bg-blue-500/20 text-blue-300' :
+                      'bg-gray-500/20 text-gray-300'
+                    }`}>
+                      {agent.hierarchyTier}
+                    </span>
+                  )}
+                </div>
                 {agentMemories.get(agent.id) && (
                   <div className="mt-2 text-cyan-400 text-xs">
                     {agentMemories.get(agent.id).getMemoryStats().totalExperiences} memories
