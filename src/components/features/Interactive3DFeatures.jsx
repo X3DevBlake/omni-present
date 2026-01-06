@@ -99,7 +99,7 @@ function ParticleField() {
   }, []);
 
   useFrame((state) => {
-    if (particlesRef.current) {
+    if (particlesRef.current && state) {
       particlesRef.current.rotation.y += 0.0002;
     }
   });

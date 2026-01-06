@@ -8,7 +8,7 @@ function RotatingBlueprint({ type, color }) {
   const [hovered, setHovered] = useState(false);
 
   useFrame((state) => {
-    if (meshRef.current) {
+    if (meshRef.current && state?.clock) {
       meshRef.current.rotation.y += 0.01;
       meshRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.5) * 0.1;
     }

@@ -46,7 +46,7 @@ export function ManipulableObject({ object, onGrab, onRelease }) {
   const [hovered, setHovered] = useState(false);
 
   useFrame((state, delta) => {
-    if (meshRef.current) {
+    if (meshRef.current && object) {
       meshRef.current.position.set(...object.position);
       
       // Visual feedback for grabbable objects
@@ -58,7 +58,9 @@ export function ManipulableObject({ object, onGrab, onRelease }) {
         meshRef.current.scale.setScalar(1);
       }
 
-      object.update(delta);
+      if (object.update) {
+        object.update(delta);
+      }
     }
   });
 
