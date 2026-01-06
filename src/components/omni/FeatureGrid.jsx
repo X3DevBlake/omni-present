@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import GlassCard from './GlassCard';
+import Feature3DBlueprint from '../features/Feature3DBlueprint';
 import { 
   Layers, 
   Zap, 
@@ -19,6 +20,7 @@ const features = [
     description: "Seamlessly traverse digital workspaces, integrating into workflows across every enterprise application.",
     size: "large",
     color: "cyan",
+    blueprintType: "layers"
   },
   {
     icon: Zap,
@@ -26,6 +28,7 @@ const features = [
     description: "Proactive responses with sub-10ms latency via WebSocket streams.",
     size: "small",
     color: "purple",
+    blueprintType: "zap"
   },
   {
     icon: Eye,
@@ -33,6 +36,7 @@ const features = [
     description: "AI that understands intent before you articulate it.",
     size: "small",
     color: "pink",
+    blueprintType: "sparkles"
   },
   {
     icon: Globe,
@@ -40,6 +44,7 @@ const features = [
     description: "Present on every device, in every application, available whenever inspiration strikes—from desktop to wearable.",
     size: "medium",
     color: "blue",
+    blueprintType: "globe"
   },
   {
     icon: Network,
@@ -47,6 +52,7 @@ const features = [
     description: "Distributed processing across edge and cloud for optimal performance.",
     size: "medium",
     color: "cyan",
+    blueprintType: "network"
   },
   {
     icon: Shield,
@@ -54,6 +60,7 @@ const features = [
     description: "Zero-trust architecture with end-to-end encryption protecting your most sensitive workflows.",
     size: "small",
     color: "purple",
+    blueprintType: "shield"
   },
   {
     icon: Sparkles,
@@ -61,6 +68,7 @@ const features = [
     description: "Create, iterate, and refine with cutting-edge AI models.",
     size: "small",
     color: "pink",
+    blueprintType: "sparkles"
   },
   {
     icon: Fingerprint,
@@ -68,6 +76,7 @@ const features = [
     description: "Adapts to your unique working patterns, learning and evolving with every interaction to become your perfect digital companion.",
     size: "large",
     color: "blue",
+    blueprintType: "layers"
   },
 ];
 
@@ -134,7 +143,18 @@ export default function FeatureGrid() {
                 variants={itemVariants}
                 className={sizeClasses[feature.size]}
               >
-                <GlassCard className="h-full p-6 flex flex-col" glowColor={feature.color}>
+                <GlassCard className="h-full p-6 flex flex-col overflow-hidden" glowColor={feature.color}>
+                  {/* 3D Blueprint Visualization */}
+                  {feature.size === 'large' && (
+                    <div className="mb-4 -mx-6 -mt-6">
+                      <Feature3DBlueprint 
+                        type={feature.blueprintType} 
+                        color={colors.icon.replace('text-', '#').replace('cyan-400', '00f5ff').replace('purple-400', 'a855f7').replace('pink-400', 'ec4899').replace('blue-400', '3b82f6')} 
+                        height={180} 
+                      />
+                    </div>
+                  )}
+                  
                   {/* Icon */}
                   <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${colors.bg} flex items-center justify-center mb-4`}>
                     <Icon className={`w-5 h-5 ${colors.icon}`} />
@@ -147,6 +167,17 @@ export default function FeatureGrid() {
                   <p className="text-white/50 text-sm leading-relaxed flex-grow">
                     {feature.description}
                   </p>
+                  
+                  {/* Small 3D preview for medium/small cards */}
+                  {feature.size !== 'large' && (
+                    <div className="mt-3 -mx-3 -mb-3">
+                      <Feature3DBlueprint 
+                        type={feature.blueprintType} 
+                        color={colors.icon.replace('text-', '#').replace('cyan-400', '00f5ff').replace('purple-400', 'a855f7').replace('pink-400', 'ec4899').replace('blue-400', '3b82f6')} 
+                        height={100} 
+                      />
+                    </div>
+                  )}
                 </GlassCard>
               </motion.div>
             );
