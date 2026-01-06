@@ -19,6 +19,9 @@ import BehaviorDebugger from '../components/blueprint/BehaviorDebugger';
 import AgentSimulationVideo from '../components/blueprint/AgentSimulationVideo';
 import AgentTemplateLibrary from '../components/blueprint/AgentTemplateLibrary';
 import CommunicationProtocolEditor from '../components/blueprint/CommunicationProtocolEditor';
+import AgentTrainingModule from '../components/blueprint/AgentTrainingModule';
+import AdvancedEventEditor from '../components/blueprint/AdvancedEventEditor';
+import SocialNetworkGraph from '../components/blueprint/SocialNetworkGraph';
 import { DynamicEnvironmentSystem, InteractiveEnvironmentElement } from '../components/blueprint/DynamicEnvironmentSystem';
 import AgentCoordinationDashboard from '../components/blueprint/AgentCoordinationSystem';
 import AgentBehaviorDashboard from '../components/blueprint/AgentBehaviorDashboard';
@@ -175,6 +178,8 @@ export default function Blueprint() {
   const [showSkillTreeForAgent, setShowSkillTreeForAgent] = useState(null);
   const [showAICollaboration, setShowAICollaboration] = useState(false);
   const [showAdvancedScenarios, setShowAdvancedScenarios] = useState(false);
+  const [showSocialNetwork, setShowSocialNetwork] = useState(false);
+  const [showEventEditor, setShowEventEditor] = useState(false);
   const [activeSociety, setActiveSociety] = useState(null);
   const [physicsObjects, setPhysicsObjects] = useState([]);
   const [footprints, setFootprints] = useState([]);
@@ -826,6 +831,20 @@ export default function Blueprint() {
                         <Zap className="w-4 h-4" />
                         Scenarios
                         </button>
+                        <button
+                        onClick={() => setShowEventEditor(true)}
+                        className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-red-500/20 to-orange-500/20 border border-red-500/40 text-red-300 rounded-xl text-sm hover:from-red-500/30 hover:to-orange-500/30"
+                        >
+                        <Settings className="w-4 h-4" />
+                        Event Editor
+                        </button>
+                        <button
+                        onClick={() => setShowSocialNetwork(true)}
+                        className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-blue-500/40 text-blue-300 rounded-xl text-sm hover:from-blue-500/30 hover:to-purple-500/30"
+                        >
+                        <Users className="w-4 h-4" />
+                        Social Network
+                        </button>
                     </div>
 
                   <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-3">
@@ -1367,14 +1386,6 @@ export default function Blueprint() {
         modelType={modelGeneratorType}
       />
 
-      {/* Agent Training Module */}
-      <AgentTrainingModule
-        show={showTrainingModule && !!selectedAgentForTraining}
-        onClose={() => { setShowTrainingModule(false); setSelectedAgentForTraining(null); }}
-        agent={selectedAgentForTraining}
-        onTrainingComplete={handleTrainingComplete}
-      />
-
       {/* Visual Behavior Editor */}
       <VisualBehaviorEditor
         show={showBehaviorEditor}
@@ -1475,6 +1486,34 @@ export default function Blueprint() {
         onScenarioApply={(scenario) => console.log('Scenario applied:', scenario)}
         onBehaviorSeed={(behavior) => console.log('Behavior seeded:', behavior)}
         onWhatIfTest={(results) => console.log('What-if results:', results)}
+      />
+
+      {/* Advanced Event Editor */}
+      <AdvancedEventEditor
+        show={showEventEditor}
+        onClose={() => setShowEventEditor(false)}
+        onScenarioCreate={(scenario) => {
+          toast.success('Scenario created!');
+          console.log('Custom scenario:', scenario);
+        }}
+      />
+
+      {/* Social Network Graph */}
+      <SocialNetworkGraph
+        show={showSocialNetwork}
+        onClose={() => setShowSocialNetwork(false)}
+        agents={holographicAgents}
+        factions={activeSociety?.factions || []}
+        alliances={activeSociety?.alliances || []}
+        conflicts={activeSociety?.conflicts || []}
+      />
+
+      {/* Agent Training Module */}
+      <AgentTrainingModule
+        show={showTrainingModule && !!selectedAgentForTraining}
+        onClose={() => { setShowTrainingModule(false); setSelectedAgentForTraining(null); }}
+        agent={selectedAgentForTraining}
+        onTrainingComplete={handleTrainingComplete}
       />
 
       {/* Agent Skill Tree */}
