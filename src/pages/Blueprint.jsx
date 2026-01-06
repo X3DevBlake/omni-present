@@ -22,6 +22,7 @@ import CommunicationProtocolEditor from '../components/blueprint/CommunicationPr
 import { DynamicEnvironmentSystem, InteractiveEnvironmentElement } from '../components/blueprint/DynamicEnvironmentSystem';
 import AgentCoordinationDashboard from '../components/blueprint/AgentCoordinationSystem';
 import AgentBehaviorDashboard from '../components/blueprint/AgentBehaviorDashboard';
+import AgentSkillTree from '../components/blueprint/AgentSkillTree';
 import { ManipulableObject, PhysicsObject, WeatherAwareAgent, PersistentFootprints, TerrainModification } from '../components/blueprint/EnhancedPhysicsSystem';
 import { base44 } from '@/api/base44Client';
 import { toast } from 'sonner';
@@ -167,6 +168,7 @@ export default function Blueprint() {
   const [savedProtocol, setSavedProtocol] = useState(null);
   const [showCoordinationDashboard, setShowCoordinationDashboard] = useState(false);
   const [showBehaviorDashboard, setShowBehaviorDashboard] = useState(false);
+  const [showSkillTreeForAgent, setShowSkillTreeForAgent] = useState(null);
   const [physicsObjects, setPhysicsObjects] = useState([]);
   const [footprints, setFootprints] = useState([]);
   const [terrainMods, setTerrainMods] = useState([]);
@@ -1431,6 +1433,22 @@ export default function Blueprint() {
         agents={holographicAgents}
         memorySystem={agentMemories}
       />
+
+      {/* Agent Skill Tree */}
+      {showSkillTreeForAgent && (
+        <AgentSkillTree
+          show={!!showSkillTreeForAgent}
+          onClose={() => setShowSkillTreeForAgent(null)}
+          agent={showSkillTreeForAgent}
+          onSkillUnlock={(skill) => {
+            const agent = holographicAgents.find(a => a.id === showSkillTreeForAgent.id);
+            if (agent && !agent.skills?.includes(skill.id)) {
+              agent.skills = [...(agent.skills || []), skill.id];
+              toast.success(`${agent.name} learned ${skill.name}!`);
+            }
+          }}
+        />
+      )}
 
       {/* Holographic Agents Section */}
       {holographicAgents.length > 0 && (

@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import GlassCard from './GlassCard';
+import Feature3DBlueprint from '../features/Feature3DBlueprint';
 import { Monitor, Cpu, Brain, Box } from 'lucide-react';
 
 const paradigms = [
@@ -96,10 +97,19 @@ export default function TechShowcase() {
             return (
               <motion.div key={index} variants={itemVariants}>
                 <GlassCard 
-                  className={`h-full p-6 ${paradigm.highlight ? `border-2 ${colors.border} shadow-lg ${colors.glow}` : ''}`}
+                  className={`h-full p-6 overflow-hidden ${paradigm.highlight ? `border-2 ${colors.border} shadow-lg ${colors.glow}` : ''}`}
                   glow={paradigm.highlight}
                   glowColor={paradigm.color}
                 >
+                  {/* 3D Blueprint Visualization */}
+                  <div className="-mx-6 -mt-6 mb-4">
+                    <Feature3DBlueprint 
+                      type={paradigm.color === 'cyan' ? 'layers' : paradigm.color === 'blue' ? 'network' : paradigm.color === 'purple' ? 'sparkles' : 'globe'} 
+                      color={paradigm.color === 'cyan' ? '#00f5ff' : paradigm.color === 'blue' ? '#3b82f6' : paradigm.color === 'purple' ? '#a855f7' : '#ec4899'} 
+                      height={150} 
+                    />
+                  </div>
+
                   {/* Icon */}
                   <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${colors.gradient} flex items-center justify-center mb-4`}>
                     <Icon className={`w-6 h-6 ${colors.text}`} />
