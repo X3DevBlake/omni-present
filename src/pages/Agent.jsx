@@ -4,7 +4,7 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import { Bot, Brain, TrendingUp, MapPin, Activity, Award, Users, Zap, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { createPageUrl } from './utils';
+import { createPageUrl } from '../utils';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import HolographicAIAgent from '../components/blueprint/HolographicAIAgent';
 import Environment3DScene from '../components/blueprint/Environment3DScene';
