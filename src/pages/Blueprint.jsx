@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Cpu, Database, HardDrive, Wifi, ChevronRight, X, Info, Layers, Plus, MessageCircle, Send, Users, History, Share2, Save, FolderOpen, Wand2, Gauge, Bot, Map as MapIcon, Box, GitBranch, Brain, Video, Award } from 'lucide-react';
+import { Cpu, Database, HardDrive, Wifi, ChevronRight, X, Info, Layers, Plus, MessageCircle, Send, Users, History, Share2, Save, FolderOpen, Wand2, Gauge, Bot, Map as MapIcon, Box, GitBranch, Brain, Video, Award, Zap, Settings } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import Blueprint3DViewer from '../components/blueprint/Blueprint3DViewer';
 import AutomatedBlueprintGenerator from '../components/blueprint/AutomatedBlueprintGenerator';
@@ -10,7 +10,6 @@ import EnvironmentCreator from '../components/blueprint/EnvironmentCreator';
 import AI3DModelGenerator from '../components/blueprint/AI3DModelGenerator';
 import ProceduralEnvironmentGenerator from '../components/blueprint/ProceduralEnvironmentGenerator';
 import VisualBehaviorEditor from '../components/blueprint/VisualBehaviorEditor';
-import AgentTrainingModule from '../components/blueprint/AgentTrainingModule';
 import { MultiAgentCoordinator, AgentCommunicationProtocol } from '../components/blueprint/MultiAgentCoordinator';
 import { AgentMemory, AgentMemoryViewer } from '../components/blueprint/AgentMemorySystem';
 import AgentSocietySimulator from '../components/blueprint/AgentSocietySimulator';
