@@ -139,6 +139,7 @@ import Wallet from './pages/Wallet';
 import Webhooks from './pages/Webhooks';
 import WithdrawOmni from './pages/WithdrawOmni';
 import AgentSkillMarketplace from './pages/AgentSkillMarketplace';
+import CompetitiveArenas from './pages/CompetitiveArenas';
 import __Layout from './Layout.jsx';
 
 
@@ -284,6 +285,7 @@ export const PAGES = {
     "Webhooks": Webhooks,
     "WithdrawOmni": WithdrawOmni,
     "AgentSkillMarketplace": AgentSkillMarketplace,
+    "CompetitiveArenas": CompetitiveArenas,
 }
 
 export const pagesConfig = {
