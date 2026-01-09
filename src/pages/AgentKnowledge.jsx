@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Brain, Map, Eye } from 'lucide-react';
+import { Brain, Map, Eye, Network } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import AgentKnowledgeViewer from '../components/agents/AgentKnowledgeViewer';
+import AgentKnowledgeGraph from '../components/agents/AgentKnowledgeGraph';
 import AgentLocationTracker from '../components/agents/AgentLocationTracker';
 import { base44 } from '@/api/base44Client';
 
 export default function AgentKnowledge() {
   const [agents, setAgents] = useState([]);
   const [selectedAgent, setSelectedAgent] = useState(null);
+  const [viewMode, setViewMode] = useState('list');
+  const [knowledgeData, setKnowledgeData] = useState([]);
 
   useEffect(() => {
     loadAgents();
@@ -29,8 +32,20 @@ export default function AgentKnowledge() {
     setAgents(agentsWithLocation);
     if (agentsWithLocation.length > 0) {
       setSelectedAgent(agentsWithLocation[0]);
+      loadKnowledge(agentsWithLocation[0].id);
     }
   };
+
+  const loadKnowledge = async (agentId) => {
+    const knowledge = await base44.entities.AgentKnowledge.filter({ agent_id: agentId });
+    setKnowledgeData(knowledge);
+  };
+
+  useEffect(() => {
+    if (selectedAgent) {
+      loadKnowledge(selectedAgent.id);
+    }
+  }, [selectedAgent]);
 
   return (
     <AuroraBackground className="min-h-screen py-16 px-4">
@@ -39,7 +54,32 @@ export default function AgentKnowledge() {
           <h1 className="text-5xl font-bold text-white mb-4">
             Agent <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">Intelligence</span>
           </h1>
-          <p className="text-white/60 text-lg">Real-time tracking and knowledge acquisition</p>
+          <p className="text-white/60 text-lg mb-6">Real-time tracking and knowledge acquisition</p>
+          
+          <div className="flex gap-2 justify-center">
+            <button
+              onClick={() => setViewMode('list')}
+              className={`px-4 py-2 rounded-lg transition-all ${
+                viewMode === 'list'
+                  ? 'bg-cyan-500 text-white'
+                  : 'bg-white/5 text-white/60 hover:bg-white/10'
+              }`}
+            >
+              <Brain className="w-4 h-4 inline mr-2" />
+              List View
+            </button>
+            <button
+              onClick={() => setViewMode('graph')}
+              className={`px-4 py-2 rounded-lg transition-all ${
+                viewMode === 'graph'
+                  ? 'bg-purple-500 text-white'
+                  : 'bg-white/5 text-white/60 hover:bg-white/10'
+              }`}
+            >
+              <Network className="w-4 h-4 inline mr-2" />
+              Graph View
+            </button>
+          </div>
         </motion.div>
 
         {/* Agent Selector */}
@@ -75,7 +115,14 @@ export default function AgentKnowledge() {
           {/* Knowledge Database */}
           <div>
             {selectedAgent ? (
-              <AgentKnowledgeViewer agentId={selectedAgent.id} />
+              viewMode === 'list' ? (
+                <AgentKnowledgeViewer agentId={selectedAgent.id} />
+              ) : (
+                <AgentKnowledgeGraph 
+                  knowledgeData={knowledgeData} 
+                  agentName={selectedAgent.name}
+                />
+              )
             ) : (
               <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl p-6 text-center">
                 <Eye className="w-12 h-12 text-white/40 mx-auto mb-3" />
