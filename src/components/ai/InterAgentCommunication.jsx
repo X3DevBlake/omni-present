@@ -28,28 +28,33 @@ export default function InterAgentCommunication() {
   };
 
   const simulateMessages = () => {
-    if (agents.length === 0) return;
+    if (!agents || agents.length === 0) return;
+
+    const getRandomAgent = () => {
+      const agent = agents[Math.floor(Math.random() * agents.length)];
+      return agent && agent.id ? agent : { name: 'System Agent', id: 'sys', status: 'active' };
+    };
 
     const sampleMessages = [
       {
-        from: agents[Math.floor(Math.random() * agents.length)],
-        to: agents[Math.floor(Math.random() * agents.length)],
+        from: getRandomAgent(),
+        to: getRandomAgent(),
         type: 'research_finding',
         content: 'Discovered novel trading pattern in OMNI/USDT pair correlation',
         timestamp: new Date(),
         status: 'delivered'
       },
       {
-        from: agents[Math.floor(Math.random() * agents.length)],
-        to: agents[Math.floor(Math.random() * agents.length)],
+        from: getRandomAgent(),
+        to: getRandomAgent(),
         type: 'data_request',
         content: 'Requesting 24h market volatility data for simulation accuracy',
         timestamp: new Date(),
         status: 'pending'
       },
       {
-        from: agents[Math.floor(Math.random() * agents.length)],
-        to: agents[Math.floor(Math.random() * agents.length)],
+        from: getRandomAgent(),
+        to: getRandomAgent(),
         type: 'strategy_update',
         content: 'Adjusting trading strategy based on simulation results',
         timestamp: new Date(),
