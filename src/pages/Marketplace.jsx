@@ -465,21 +465,22 @@ export default function Marketplace() {
                 </div>
 
                 <div className="p-4">
-                <h3 className="text-white font-semibold mb-2">{item.name}</h3>
-                <p className="text-white/60 text-sm mb-3 line-clamp-2">{item.description}</p>
-                <div className="flex gap-2 mb-3 flex-wrap">
-                  {item.tags.slice(0, 2).map(tag => (
-                    <span key={tag} className="px-2 py-1 bg-white/5 rounded text-white/60 text-xs">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2 text-white/50 text-xs">
-                    <Download className="w-4 h-4" />
-                    {item.downloads}
+                  <h3 className="text-white font-semibold mb-2">{item.name}</h3>
+                  <p className="text-white/60 text-sm mb-3 line-clamp-2">{item.description}</p>
+                  <div className="flex gap-2 mb-3 flex-wrap">
+                    {item.tags.slice(0, 2).map(tag => (
+                      <span key={tag} className="px-2 py-1 bg-white/5 rounded text-white/60 text-xs">
+                        {tag}
+                      </span>
+                    ))}
                   </div>
-                  <span className="text-cyan-400 font-semibold">{item.price}</span>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2 text-white/50 text-xs">
+                      <Download className="w-4 h-4" />
+                      {item.downloads}
+                    </div>
+                    <span className="text-cyan-400 font-semibold">{item.price}</span>
+                  </div>
                 </div>
               </motion.div>
               ))}
