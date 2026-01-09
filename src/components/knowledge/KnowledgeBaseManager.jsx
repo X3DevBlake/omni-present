@@ -120,26 +120,28 @@ export default function KnowledgeBaseManager() {
       <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
         <h3 className="text-white font-bold text-lg mb-4">Knowledge Sources ({sources.length})</h3>
         <div className="space-y-3">
-          {sources.map((source) => (
-            <motion.div
-              key={source.id}
-              layout
-              className="flex items-center gap-4 bg-white/5 border border-white/10 rounded-lg p-4 hover:bg-white/10 transition-colors"
-            >
-              <span className="text-2xl">
-                {source.type === 'document' ? '📄' : source.type === 'url' ? '🔗' : '📊'}
-              </span>
-              <div className="flex-1">
-                <p className="text-white font-semibold text-sm">{source.name}</p>
-                <div className="flex gap-2 mt-1 text-xs text-white/50">
-                  <span>{source.type}</span>
-                  <span>•</span>
-                  {source.size && <span>{source.size}</span>}
-                  {source.status && <span>Status: {source.status}</span>}
-                  <span>•</span>
-                  <span>{source.uploaded || source.lastSync}</span>
+          {sources.map((source) => {
+            if (!source) return null;
+            return (
+              <motion.div
+                key={source.id}
+                layout
+                className="flex items-center gap-4 bg-white/5 border border-white/10 rounded-lg p-4 hover:bg-white/10 transition-colors"
+              >
+                <span className="text-2xl">
+                  {source.type === 'document' ? '📄' : source.type === 'url' ? '🔗' : '📊'}
+                </span>
+                <div className="flex-1">
+                  <p className="text-white font-semibold text-sm">{source.name || 'Unnamed Source'}</p>
+                  <div className="flex gap-2 mt-1 text-xs text-white/50">
+                    <span>{source.type || 'unknown'}</span>
+                    <span>•</span>
+                    {source.size && <span>{source.size}</span>}
+                    {source.status && <span>Status: {source.status}</span>}
+                    <span>•</span>
+                    <span>{source.uploaded || source.lastSync || 'N/A'}</span>
+                  </div>
                 </div>
-              </div>
               <motion.button
                 whileHover={{ scale: 1.1 }}
                 onClick={() => handleDelete(source.id)}

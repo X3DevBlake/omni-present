@@ -53,6 +53,7 @@ export default function SourceCitations({ citations = [] }) {
 
       <div className="space-y-3">
         {citatesToShow.map((citation) => {
+          if (!citation) return null;
           const isExpanded = expandedCitations.includes(citation.id);
           return (
             <motion.div
@@ -69,8 +70,8 @@ export default function SourceCitations({ citations = [] }) {
                     {citation.type === 'document' ? '📄' : '📊'}
                   </span>
                   <div>
-                    <p className="text-white font-semibold text-sm">{citation.source}</p>
-                    <p className="text-green-400 text-xs">{citation.relevance}</p>
+                    <p className="text-white font-semibold text-sm">{citation.source || 'Unknown Source'}</p>
+                    <p className="text-green-400 text-xs">{citation.relevance || 'N/A'}</p>
                   </div>
                 </div>
                 <motion.div

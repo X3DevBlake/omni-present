@@ -126,17 +126,19 @@ export default function KnowledgeBaseQuery() {
             Found {results.length} result{results.length !== 1 ? 's' : ''}
           </h3>
 
-          {results.map((result) => (
-            <motion.div
-              key={result.id}
-              layout
-              className="bg-white/5 border border-purple-500/20 rounded-lg p-4 space-y-2 hover:bg-white/10 transition-colors cursor-pointer"
-            >
-              <div className="flex items-start justify-between">
-                <div className="flex-1">
-                  <p className="text-white font-semibold text-sm">{result.source}</p>
-                  <p className="text-white/70 text-sm mt-2">{result.excerpt}</p>
-                </div>
+          {results.map((result) => {
+            if (!result) return null;
+            return (
+              <motion.div
+                key={result.id}
+                layout
+                className="bg-white/5 border border-purple-500/20 rounded-lg p-4 space-y-2 hover:bg-white/10 transition-colors cursor-pointer"
+              >
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <p className="text-white font-semibold text-sm">{result.source || 'Unknown Source'}</p>
+                    <p className="text-white/70 text-sm mt-2">{result.excerpt || 'No excerpt available'}</p>
+                  </div>
                 <div className="text-right ml-4">
                   <div className="flex items-center justify-end gap-2">
                     <span className="text-purple-400 font-bold text-sm">{result.relevance}%</span>
