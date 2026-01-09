@@ -53,6 +53,7 @@ import Agent15DetailPanel from '../components/agents/Agent15DetailPanel';
 import ImmersiveWorldSimulation from '../components/simulation/ImmersiveWorldSimulation';
 import AdvancedMarketSimulation from '../components/simulation/AdvancedMarketSimulation';
 import AgentCustomizationStudio from '../components/agents/AgentCustomizationStudio';
+import KnowledgeBaseHub from '../components/knowledge/KnowledgeBaseHub';
 
       function FloatingBrain() {
   return (
@@ -162,7 +163,8 @@ export default function AILab() {
             { id: 'agent-grid', label: '🌌 Agent Grid', icon: 'AgentGrid' },
             { id: 'world-sim', label: '🌍 World Sim', icon: 'WorldSim' },
             { id: 'market-sim', label: '📊 Market Sim', icon: 'MarketSim' },
-            { id: 'agent-studio', label: '✨ Agent Studio', icon: 'Studio' }
+            { id: 'agent-studio', label: '✨ Agent Studio', icon: 'Studio' },
+            { id: 'knowledge-base', label: '📚 Knowledge Base', icon: 'KB' }
           ].map(tab => (
             <button
               key={tab.id}
@@ -547,6 +549,13 @@ export default function AILab() {
           {activeTab === 'agent-studio' && (
           <div className="space-y-6">
            <AgentCustomizationStudio />
+          </div>
+          )}
+
+          {/* Knowledge Base Tab */}
+          {activeTab === 'knowledge-base' && (
+          <div className="space-y-6">
+           <KnowledgeBaseHub />
           </div>
           )}
           </div>
