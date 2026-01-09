@@ -7,7 +7,7 @@ export default function KnowledgeBaseManager() {
     { id: 1, name: 'Market Analysis Q1 2026', type: 'document', size: '2.4 MB', uploaded: '2 days ago' },
     { id: 2, name: 'Trading Strategies Guide', type: 'document', size: '1.8 MB', uploaded: '1 week ago' },
     { id: 3, name: 'https://tradingdata.com/api', type: 'url', status: 'active', lastSync: '2 hours ago' }
-  ]);
+  ].filter(Boolean));
 
   const [newSource, setNewSource] = useState({ type: 'document', content: '' });
   const [uploadProgress, setUploadProgress] = useState(0);

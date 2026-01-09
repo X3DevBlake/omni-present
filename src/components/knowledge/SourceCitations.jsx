@@ -31,7 +31,7 @@ export default function SourceCitations({ citations = [] }) {
     }
   ];
 
-  const citatesToShow = citations.length > 0 ? citations : defaultCitations;
+  const citatesToShow = (Array.isArray(citations) && citations.length > 0 ? citations : defaultCitations).filter(Boolean);
 
   const toggleCitation = (id) => {
     setExpandedCitations(prev =>

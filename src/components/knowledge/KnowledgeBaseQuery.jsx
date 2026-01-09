@@ -42,7 +42,7 @@ export default function KnowledgeBaseQuery() {
       }
     ];
 
-    setResults(mockResults);
+    setResults(mockResults.filter(r => r && r.id && r.source));
     setLoading(false);
   };
 
