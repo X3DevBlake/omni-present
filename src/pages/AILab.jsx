@@ -55,6 +55,8 @@ export default function AILab() {
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('experiment');
+  const [isTraining, setIsTraining] = useState(false);
+  const [trainingConfig, setTrainingConfig] = useState({});
   const [sampleData, setSampleData] = useState([]);
 
   const runExperiment = async () => {
