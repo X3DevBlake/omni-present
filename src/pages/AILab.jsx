@@ -127,7 +127,11 @@ export default function AILab() {
               <div className="bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-500/30 rounded-2xl p-6">
                 <h3 className="text-green-400 font-bold mb-3">Result</h3>
                 <div className="text-white/80 text-sm whitespace-pre-wrap">
-                  {typeof result === 'string' ? result : JSON.stringify(result, null, 2)}
+                  {typeof result === 'string' 
+                    ? result 
+                    : result && typeof result === 'object'
+                    ? JSON.stringify(result, null, 2)
+                    : 'No result'}
                 </div>
               </div>
             )}
