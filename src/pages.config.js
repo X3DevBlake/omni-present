@@ -140,6 +140,7 @@ import Webhooks from './pages/Webhooks';
 import WithdrawOmni from './pages/WithdrawOmni';
 import AgentSkillMarketplace from './pages/AgentSkillMarketplace';
 import CompetitiveArenas from './pages/CompetitiveArenas';
+import GlobalGovernance from './pages/GlobalGovernance';
 import __Layout from './Layout.jsx';
 
 
@@ -286,6 +287,7 @@ export const PAGES = {
     "WithdrawOmni": WithdrawOmni,
     "AgentSkillMarketplace": AgentSkillMarketplace,
     "CompetitiveArenas": CompetitiveArenas,
+    "GlobalGovernance": GlobalGovernance,
 }
 
 export const pagesConfig = {
