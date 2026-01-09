@@ -10,7 +10,7 @@ function FloatingFeatureSphere({ position, color, label, description, stats, onC
   const [hovered, setHovered] = useState(false);
 
   useFrame((state) => {
-    if (meshRef.current && state?.clock) {
+    if (meshRef.current && state && state.clock) {
       meshRef.current.rotation.y += 0.005;
       meshRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.5) * 0.1;
       
@@ -21,6 +21,8 @@ function FloatingFeatureSphere({ position, color, label, description, stats, onC
       }
     }
   });
+  
+  useFrame(() => {}, [hovered]);
 
   return (
     <Float speed={2} rotationIntensity={0.5} floatIntensity={0.5}>
@@ -102,7 +104,7 @@ function ParticleField() {
   }, []);
 
   useFrame((state) => {
-    if (particlesRef.current && state) {
+    if (particlesRef.current) {
       particlesRef.current.rotation.y += 0.0002;
     }
   });

@@ -34,20 +34,28 @@ export default function LiveDataFeed({ onDataUpdate }) {
     { label: 'Environment', value: liveData.environmentalChange.toFixed(0), icon: Activity, color: 'orange' }
   ];
 
+  const colorMap = {
+    cyan: { bg: 'bg-cyan-500/10', border: 'border-cyan-500/30', text: 'text-cyan-400' },
+    green: { bg: 'bg-green-500/10', border: 'border-green-500/30', text: 'text-green-400' },
+    purple: { bg: 'bg-purple-500/10', border: 'border-purple-500/30', text: 'text-purple-400' },
+    orange: { bg: 'bg-orange-500/10', border: 'border-orange-500/30', text: 'text-orange-400' }
+  };
+
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
       {metrics.map(metric => {
         const Icon = metric.icon;
+        const colors = colorMap[metric.color];
         return (
           <motion.div
             key={metric.label}
-            className={`bg-${metric.color}-500/10 border border-${metric.color}-500/30 rounded-xl p-4`}
+            className={`${colors.bg} border ${colors.border} rounded-xl p-4`}
             animate={{ scale: [1, 1.02, 1] }}
             transition={{ duration: 2, repeat: Infinity }}
           >
-            <Icon className={`w-5 h-5 text-${metric.color}-400 mb-2`} />
+            <Icon className={`w-5 h-5 ${colors.text} mb-2`} />
             <div className="text-white/60 text-xs mb-1">{metric.label}</div>
-            <div className={`text-${metric.color}-400 text-2xl font-bold`}>{metric.value}</div>
+            <div className={`${colors.text} text-2xl font-bold`}>{metric.value}</div>
           </motion.div>
         );
       })}
