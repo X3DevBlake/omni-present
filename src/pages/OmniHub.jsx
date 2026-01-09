@@ -34,6 +34,8 @@ export default function OmniHub() {
             </p>
           </motion.div>
 
+          <OmniCoin3DHero />
+
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[
             { title: 'Omni Dashboard', description: 'View your balance, transactions & stats', icon: Wallet, page: 'OmniDashboard', gradient: 'from-cyan-500/20 to-blue-500/20', border: 'border-cyan-500/30' },
