@@ -43,7 +43,8 @@ export default function OmniHub() {
             { title: 'Agent Budget', description: 'Set budgets for your AI agents', icon: Target, page: 'AgentBudget', gradient: 'from-yellow-500/20 to-green-500/20', border: 'border-yellow-500/30' },
             { title: 'Real-World Budget', description: 'Track real-world spending & savings', icon: Target, page: 'RealWorldBudget', gradient: 'from-orange-500/20 to-yellow-500/20', border: 'border-orange-500/30' },
             { title: 'Tokenomics', description: 'Omni token economics & distribution', icon: TrendingUp, page: 'Tokenomics', gradient: 'from-cyan-500/20 to-purple-500/20', border: 'border-cyan-500/30' },
-            { title: 'Exchange Listings', description: 'Where to trade Omni tokens', icon: Repeat, page: 'ExchangeListings', gradient: 'from-indigo-500/20 to-blue-500/20', border: 'border-indigo-500/30' }
+            { title: 'Exchange Listings', description: 'Where to trade Omni tokens', icon: Repeat, page: 'ExchangeListings', gradient: 'from-indigo-500/20 to-blue-500/20', border: 'border-indigo-500/30' },
+            { title: 'DeFi Hub', description: 'Advanced DeFi with DEX aggregation & AI', icon: TrendingUp, page: 'DeFiHub', gradient: 'from-green-500/20 to-emerald-500/20', border: 'border-green-500/30' }
           ].map((item, i) => (
             <Link key={i} to={createPageUrl(item.page)}>
               <motion.div 
