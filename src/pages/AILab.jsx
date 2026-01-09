@@ -54,6 +54,10 @@ import ImmersiveWorldSimulation from '../components/simulation/ImmersiveWorldSim
 import AdvancedMarketSimulation from '../components/simulation/AdvancedMarketSimulation';
 import AgentCustomizationStudio from '../components/agents/AgentCustomizationStudio';
 import KnowledgeBaseHub from '../components/knowledge/KnowledgeBaseHub';
+import AgentLearningManager from '../components/ai/AgentLearningManager';
+import AgentCollaborationManager from '../components/ai/AgentCollaborationManager';
+import AgentAnalyticsDashboard from '../components/ai/AgentAnalyticsDashboard';
+import BackButton from '../components/navigation/BackButton';
 
       function FloatingBrain() {
   return (
@@ -121,6 +125,10 @@ export default function AILab() {
   return (
     <AuroraBackground className="min-h-screen py-16 px-4">
       <div className="max-w-7xl mx-auto">
+        <div className="mb-6">
+          <BackButton />
+        </div>
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -164,7 +172,10 @@ export default function AILab() {
             { id: 'world-sim', label: '🌍 World Sim', icon: 'WorldSim' },
             { id: 'market-sim', label: '📊 Market Sim', icon: 'MarketSim' },
             { id: 'agent-studio', label: '✨ Agent Studio', icon: 'Studio' },
-            { id: 'knowledge-base', label: '📚 Knowledge Base', icon: 'KB' }
+            { id: 'knowledge-base', label: '📚 Knowledge Base', icon: 'KB' },
+            { id: 'learning', label: '🎓 Learning', icon: 'Learning' },
+            { id: 'collaboration', label: '👥 Collaboration', icon: 'Collab' },
+            { id: 'analytics', label: '📈 Analytics', icon: 'Analytics' }
           ].map(tab => (
             <button
               key={tab.id}
@@ -556,6 +567,27 @@ export default function AILab() {
           {activeTab === 'knowledge-base' && (
           <div className="space-y-6">
            <KnowledgeBaseHub />
+          </div>
+          )}
+
+          {/* Learning Manager Tab */}
+          {activeTab === 'learning' && (
+          <div className="space-y-6">
+           <AgentLearningManager />
+          </div>
+          )}
+
+          {/* Collaboration Tab */}
+          {activeTab === 'collaboration' && (
+          <div className="space-y-6">
+           <AgentCollaborationManager />
+          </div>
+          )}
+
+          {/* Analytics Tab */}
+          {activeTab === 'analytics' && (
+          <div className="space-y-6">
+           <AgentAnalyticsDashboard />
           </div>
           )}
           </div>
