@@ -102,6 +102,10 @@ import DepositETH from './pages/DepositETH';
 import DepositUSDT from './pages/DepositUSDT';
 import BridgeOmni from './pages/BridgeOmni';
 import ExchangeListings from './pages/ExchangeListings';
+import BuyOmni from './pages/BuyOmni';
+import SellOmni from './pages/SellOmni';
+import WithdrawOmni from './pages/WithdrawOmni';
+import FiatDeposit from './pages/FiatDeposit';
 import __Layout from './Layout.jsx';
 
 
@@ -210,6 +214,10 @@ export const PAGES = {
     "DepositUSDT": DepositUSDT,
     "BridgeOmni": BridgeOmni,
     "ExchangeListings": ExchangeListings,
+    "BuyOmni": BuyOmni,
+    "SellOmni": SellOmni,
+    "WithdrawOmni": WithdrawOmni,
+    "FiatDeposit": FiatDeposit,
 }
 
 export const pagesConfig = {
