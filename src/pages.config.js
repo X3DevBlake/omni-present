@@ -5,8 +5,10 @@ import Analytics from './pages/Analytics';
 import Blueprint from './pages/Blueprint';
 import Community from './pages/Community';
 import Contact from './pages/Contact';
+import DeviceInteraction from './pages/DeviceInteraction';
 import DeviceShop from './pages/DeviceShop';
 import Features from './pages/Features';
+import FleetManagement from './pages/FleetManagement';
 import Home from './pages/Home';
 import Integrations from './pages/Integrations';
 import Marketplace from './pages/Marketplace';
@@ -14,8 +16,17 @@ import Profile from './pages/Profile';
 import Settings from './pages/Settings';
 import SimulationWorld from './pages/SimulationWorld';
 import Technology from './pages/Technology';
-import DeviceInteraction from './pages/DeviceInteraction';
-import FleetManagement from './pages/FleetManagement';
+import Privacy from './pages/Privacy';
+import Terms from './pages/Terms';
+import Documentation from './pages/Documentation';
+import Billing from './pages/Billing';
+import Team from './pages/Team';
+import Notifications from './pages/Notifications';
+import ActivityLog from './pages/ActivityLog';
+import APIKeys from './pages/APIKeys';
+import Webhooks from './pages/Webhooks';
+import Security from './pages/Security';
+import Compliance from './pages/Compliance';
 import __Layout from './Layout.jsx';
 
 
@@ -27,8 +38,10 @@ export const PAGES = {
     "Blueprint": Blueprint,
     "Community": Community,
     "Contact": Contact,
+    "DeviceInteraction": DeviceInteraction,
     "DeviceShop": DeviceShop,
     "Features": Features,
+    "FleetManagement": FleetManagement,
     "Home": Home,
     "Integrations": Integrations,
     "Marketplace": Marketplace,
@@ -36,8 +49,17 @@ export const PAGES = {
     "Settings": Settings,
     "SimulationWorld": SimulationWorld,
     "Technology": Technology,
-    "DeviceInteraction": DeviceInteraction,
-    "FleetManagement": FleetManagement,
+    "Privacy": Privacy,
+    "Terms": Terms,
+    "Documentation": Documentation,
+    "Billing": Billing,
+    "Team": Team,
+    "Notifications": Notifications,
+    "ActivityLog": ActivityLog,
+    "APIKeys": APIKeys,
+    "Webhooks": Webhooks,
+    "Security": Security,
+    "Compliance": Compliance,
 }
 
 export const pagesConfig = {
