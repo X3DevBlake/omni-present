@@ -6,6 +6,7 @@ import EnhancedHubNav from '../components/navigation/EnhancedHubNav';
 import LiquidityPoolNetwork3D from '../components/defi/LiquidityPoolNetwork3D';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
+import AgentIntegrationHub from '../components/agents/AgentIntegrationHub';
 
 export default function DeFiHub() {
   return (
@@ -63,6 +64,11 @@ export default function DeFiHub() {
               </motion.div>
             </Link>
           ))}
+        </div>
+
+        {/* Agent Integration Section */}
+        <div className="mt-16 mb-12">
+          <AgentIntegrationHub />
         </div>
       </div>
     </AuroraBackground>

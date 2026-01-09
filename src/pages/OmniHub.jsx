@@ -8,6 +8,7 @@ import Enhanced3DCard from '../components/omni/Enhanced3DCard';
 import { usePersonalization } from '../components/personalization/PersonalizationContext';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
+import AgentIntegrationHub from '../components/agents/AgentIntegrationHub';
 
 export default function OmniHub() {
   const { trackPageVisit } = usePersonalization();
@@ -65,6 +66,11 @@ export default function OmniHub() {
           </Link>
           ))}
           </div>
+          </div>
+
+          {/* Agent Integration Section */}
+          <div className="mt-16 mb-12">
+            <AgentIntegrationHub />
           </div>
           </AuroraBackground>
           </>
