@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Cpu, Database, HardDrive, Wifi, ChevronRight, X, Info, Layers, Plus, MessageCircle, Send, Users, History, Share2, Save, FolderOpen, Wand2, Gauge, Bot, Map as MapIcon, Box, GitBranch, Brain, Video, Award, Zap, Settings } from 'lucide-react';
+import { Cpu, Database, HardDrive, Wifi, ChevronRight, X, Info, Layers, Plus, MessageCircle, Send, Users, History, Share2, Save, FolderOpen, Wand2, Gauge, Bot, Map as MapIcon, Box, GitBranch, Brain, Video, Award, Zap, Settings, Target, DollarSign } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import Blueprint3DViewer from '../components/blueprint/Blueprint3DViewer';
 import AutomatedBlueprintGenerator from '../components/blueprint/AutomatedBlueprintGenerator';
@@ -21,6 +21,18 @@ import CommunicationProtocolEditor from '../components/blueprint/CommunicationPr
 import AgentTrainingModule from '../components/blueprint/AgentTrainingModule';
 import AdvancedEventEditor from '../components/blueprint/AdvancedEventEditor';
 import SocialNetworkGraph from '../components/blueprint/SocialNetworkGraph';
+import MentorshipSystem from '../components/blueprint/MentorshipSystem';
+import AgentGoalSystem from '../components/blueprint/AgentGoalSystem';
+import SimulationTimeControl from '../components/blueprint/SimulationTimeControl';
+import AIEthicsModule from '../components/blueprint/AIEthicsModule';
+import AdaptiveEthicsModule from '../components/blueprint/AdaptiveEthicsModule';
+import AgentEvolutionSystem from '../components/blueprint/AgentEvolutionSystem';
+import DynamicWorldEngine from '../components/blueprint/DynamicWorldEngine';
+import AgentCommunicationSystem from '../components/blueprint/AgentCommunicationSystem';
+import AgentSpecializationSystem from '../components/blueprint/AgentSpecializationSystem';
+import ResourceManagementSystem from '../components/blueprint/ResourceManagementSystem';
+import FactionDynamicsSystem from '../components/blueprint/FactionDynamicsSystem';
+import ResourceEconomySystem from '../components/blueprint/ResourceEconomySystem';
 import { DynamicEnvironmentSystem, InteractiveEnvironmentElement } from '../components/blueprint/DynamicEnvironmentSystem';
 import AgentCoordinationDashboard from '../components/blueprint/AgentCoordinationSystem';
 import AgentBehaviorDashboard from '../components/blueprint/AgentBehaviorDashboard';
@@ -179,6 +191,17 @@ export default function Blueprint() {
   const [showAdvancedScenarios, setShowAdvancedScenarios] = useState(false);
   const [showSocialNetwork, setShowSocialNetwork] = useState(false);
   const [showEventEditor, setShowEventEditor] = useState(false);
+  const [showMentorship, setShowMentorship] = useState(false);
+  const [showGoalSystem, setShowGoalSystem] = useState(false);
+  const [showTimeControl, setShowTimeControl] = useState(false);
+  const [showEthicsModule, setShowEthicsModule] = useState(false);
+  const [showEvolutionSystem, setShowEvolutionSystem] = useState(false);
+  const [showWorldEngine, setShowWorldEngine] = useState(false);
+  const [showCommSystem, setShowCommSystem] = useState(false);
+  const [showSpecialization, setShowSpecialization] = useState(false);
+  const [showResourceMgmt, setShowResourceMgmt] = useState(false);
+  const [showFactionDynamics, setShowFactionDynamics] = useState(false);
+  const [showEconomy, setShowEconomy] = useState(false);
   const [activeSociety, setActiveSociety] = useState(null);
   const [physicsObjects, setPhysicsObjects] = useState([]);
   const [footprints, setFootprints] = useState([]);
@@ -843,6 +866,27 @@ export default function Blueprint() {
                         >
                         <Users className="w-4 h-4" />
                         Social Network
+                        </button>
+                        <button
+                        onClick={() => setShowMentorship(true)}
+                        className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-500/40 text-cyan-300 rounded-xl text-sm hover:from-cyan-500/30 hover:to-blue-500/30"
+                        >
+                        <Users className="w-4 h-4" />
+                        Mentorship
+                        </button>
+                        <button
+                        onClick={() => setShowGoalSystem(true)}
+                        className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border border-yellow-500/40 text-yellow-300 rounded-xl text-sm hover:from-yellow-500/30 hover:to-orange-500/30"
+                        >
+                        <Target className="w-4 h-4" />
+                        Goals
+                        </button>
+                        <button
+                        onClick={() => setShowEconomy(true)}
+                        className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-500/40 text-green-300 rounded-xl text-sm hover:from-green-500/30 hover:to-emerald-500/30"
+                        >
+                        <DollarSign className="w-4 h-4" />
+                        Economy
                         </button>
                     </div>
 

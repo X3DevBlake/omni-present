@@ -1,4 +1,5 @@
 import About from './pages/About';
+import Agent from './pages/Agent';
 import Blueprint from './pages/Blueprint';
 import Contact from './pages/Contact';
 import Features from './pages/Features';
@@ -7,12 +8,12 @@ import Marketplace from './pages/Marketplace';
 import Profile from './pages/Profile';
 import Settings from './pages/Settings';
 import Technology from './pages/Technology';
-import Agent from './pages/Agent';
 import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
     "About": About,
+    "Agent": Agent,
     "Blueprint": Blueprint,
     "Contact": Contact,
     "Features": Features,
@@ -21,7 +22,6 @@ export const PAGES = {
     "Profile": Profile,
     "Settings": Settings,
     "Technology": Technology,
-    "Agent": Agent,
 }
 
 export const pagesConfig = {
