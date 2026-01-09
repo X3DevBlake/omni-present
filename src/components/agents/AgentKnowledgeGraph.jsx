@@ -35,11 +35,13 @@ export default function AgentKnowledgeGraph({ knowledgeData = [], agentName = "A
     // Create edges based on related tags or sources
     const graphEdges = [];
     knowledgeData.forEach((item1, i) => {
+      if (!item1 || !item1.id) return;
       knowledgeData.forEach((item2, j) => {
-        if (i < j) {
-          const sharedTags = item1.tags?.filter(tag => item2.tags?.includes(tag)) || [];
-          const sameSource = item1.source_url && item1.source_url === item2.source_url;
+        if (i < j && item2 && item2.id) {
+          const sharedTags = (item1.tags || []).filter(tag => (item2.tags || []).includes(tag)) || [];
+          const sameSource = item1.source_url && item2.source_url && item1.source_url === item2.source_url;
           const sameLocation = item1.learned_at_location && item2.learned_at_location &&
+            item1.learned_at_location.lat && item2.learned_at_location.lat &&
             Math.abs(item1.learned_at_location.lat - item2.learned_at_location.lat) < 0.01;
 
           if (sharedTags.length > 0 || sameSource || sameLocation) {
