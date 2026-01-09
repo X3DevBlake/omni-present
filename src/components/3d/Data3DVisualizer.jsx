@@ -87,8 +87,6 @@ export default function Data3DVisualizer({ data, title = "3D Data Landscape" }) 
           <pointLight position={[-10, -10, -10]} intensity={0.8} color="#a855f7" />
 
           <DataLandscape data={data} />
-
-          <Environment preset="night" />
           <OrbitControls enableZoom autoRotate autoRotateSpeed={0.5} />
         </Canvas>
       </div>
