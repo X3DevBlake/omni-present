@@ -18,27 +18,26 @@ export default function OmniHub() {
   const { trackPageVisit } = usePersonalization();
 
   useEffect(() => {
-    trackPageVisit('OmniHub');
-  }, []);
+    trackPageVisit?.('OmniHub');
+  }, [trackPageVisit]);
 
   return (
     <>
       <EnhancedHubNav currentHub="OmniHub" />
       <AuroraBackground className="min-h-screen">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
-        <motion.div className="text-center mb-12" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-          <div className="inline-block mb-4 px-4 py-2 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-500/30 rounded-full">
-            <span className="text-cyan-400 text-sm font-semibold">💎 Omni Banking Hub</span>
-          </div>
-          <p className="text-white/40 text-sm">Portal to banking services</p>
-          <h1 className="text-5xl font-bold text-white mb-4">
-            Omni
-            <span className="bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent"> Banking</span>
-          </h1>
-          <p className="text-white/60 text-lg max-w-3xl mx-auto">
-            Complete DeFi banking platform with cards, staking, liquidity pools, and AI-powered spending
-          </p>
-        </motion.div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
+          <motion.div className="text-center mb-12" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+            <div className="inline-block mb-4 px-4 py-2 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-500/30 rounded-full">
+              <span className="text-cyan-400 text-sm font-semibold">💎 Omni Banking Hub</span>
+            </div>
+            <h1 className="text-5xl font-bold text-white mb-4">
+              Omni
+              <span className="bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent"> Banking</span>
+            </h1>
+            <p className="text-white/60 text-lg max-w-3xl mx-auto">
+              Complete DeFi banking platform with cards, staking, liquidity pools, and AI-powered spending
+            </p>
+          </motion.div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[
