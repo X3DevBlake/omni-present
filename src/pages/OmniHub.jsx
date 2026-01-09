@@ -31,7 +31,6 @@ export default function OmniHub() {
             <span className="text-cyan-400 text-sm font-semibold">💎 Omni Banking Hub</span>
           </div>
           <p className="text-white/40 text-sm">Portal to banking services</p>
-        </motion.div>
           <h1 className="text-5xl font-bold text-white mb-4">
             Omni
             <span className="bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent"> Banking</span>
