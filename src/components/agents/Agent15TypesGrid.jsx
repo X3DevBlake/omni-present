@@ -62,7 +62,8 @@ function AgentVisualization({ type, color }) {
   );
 }
 
-const agents15 = [
+const agents40 = [
+  // Original 15
   { name: 'Luna - Financial Analyst', type: 'financial', color: '#00f5ff', icon: '💼', description: 'Market analysis & portfolio review' },
   { name: 'Atlas - Research Agent', type: 'research', color: '#a855f7', icon: '🔍', description: 'Data collection & synthesis' },
   { name: 'Nova - Travel Planner', type: 'travel', color: '#ec4899', icon: '✈️', description: 'Route planning & itineraries' },
@@ -78,6 +79,32 @@ const agents15 = [
   { name: 'Codex - Code Review', type: 'code', color: '#06b6d4', icon: '💻', description: 'Quality assurance & optimization' },
   { name: 'Cipher - System Admin', type: 'system', color: '#6366f1', icon: '⚙️', description: 'Infrastructure & security' },
   { name: 'Iris - Learning Coach', type: 'learning', color: '#fbbf24', icon: '🎓', description: 'Skill development & mentorship' },
+  // New 25 agents
+  { name: 'Vex - Legal Advisor', type: 'legal', color: '#dc2626', icon: '⚖️', description: 'Contract review & legal guidance' },
+  { name: 'Pulse - Healthcare Agent', type: 'healthcare', color: '#ef4444', icon: '🏥', description: 'Health monitoring & recommendations' },
+  { name: 'Spectrum - Brand Manager', type: 'branding', color: '#ec4899', icon: '🎨', description: 'Brand strategy & identity' },
+  { name: 'Forge - Manufacturing Agent', type: 'manufacturing', color: '#92400e', icon: '🏭', description: 'Production optimization & quality' },
+  { name: 'Volt - Energy Optimizer', type: 'energy', color: '#fbbf24', icon: '⚡', description: 'Power management & efficiency' },
+  { name: 'Echo Prime - Media Director', type: 'media', color: '#8b5cf6', icon: '📺', description: 'Content distribution & channels' },
+  { name: 'Atlas Prime - Architect', type: 'architecture', color: '#3b82f6', icon: '🏗️', description: 'System design & planning' },
+  { name: 'Summit - Negotiator', type: 'negotiation', color: '#f59e0b', icon: '🤝', description: 'Deal making & contracts' },
+  { name: 'Zephyr - Weather Agent', type: 'environmental', color: '#06b6d4', icon: '🌤️', description: 'Environmental monitoring' },
+  { name: 'Phantom - Cybersecurity', type: 'security', color: '#991b1b', icon: '🔐', description: 'Threat detection & prevention' },
+  { name: 'Vector - Logistics Planner', type: 'logistics', color: '#059669', icon: '🚚', description: 'Route optimization & delivery' },
+  { name: 'Aurora - HR Specialist', type: 'hr', color: '#ec4899', icon: '👥', description: 'Recruiting & talent management' },
+  { name: 'Oracle - Prediction Agent', type: 'prediction', color: '#7c3aed', icon: '🔮', description: 'Forecasting & trends' },
+  { name: 'Mercury - Communication Hub', type: 'communication', color: '#06b6d4', icon: '💫', description: 'Message routing & translation' },
+  { name: 'Tesla - Energy Trader', type: 'energy_trade', color: '#fbbf24', icon: '⚡', description: 'Energy market optimization' },
+  { name: 'Phoenix - Recovery Agent', type: 'recovery', color: '#f97316', icon: '🔥', description: 'Disaster recovery & backup' },
+  { name: 'Sage Prime - Quality Manager', type: 'quality', color: '#10b981', icon: '✅', description: 'QA & process improvement' },
+  { name: 'Nova Prime - Event Planner', type: 'events', color: '#ec4899', icon: '🎉', description: 'Event coordination & logistics' },
+  { name: 'Titan - Infrastructure', type: 'infrastructure', color: '#6366f1', icon: '🌐', description: 'Network & resource management' },
+  { name: 'Lyra - Music Agent', type: 'entertainment', color: '#a855f7', icon: '🎵', description: 'Audio production & mixing' },
+  { name: 'Vortex - Performance Tuner', type: 'optimization', color: '#f59e0b', icon: '⚙️', description: 'System performance optimization' },
+  { name: 'Beacon - Analytics Expert', type: 'analytics', color: '#06b6d4', icon: '📈', description: 'Deep analytics & insights' },
+  { name: 'Quantum - Processor', type: 'computing', color: '#3b82f6', icon: '💾', description: 'Advanced computation & modeling' },
+  { name: 'Drift - Social Manager', type: 'social', color: '#ec4899', icon: '📱', description: 'Social media & community' },
+  { name: 'Vertex - Geometry Specialist', type: 'design', color: '#8b5cf6', icon: '📐', description: 'Design & spatial optimization' },
 ];
 
 export default function Agent15TypesGrid({ onAgentSelect }) {
@@ -89,13 +116,13 @@ export default function Agent15TypesGrid({ onAgentSelect }) {
         animate={{ opacity: 1, y: 0 }}
       >
         <h2 className="text-4xl font-bold text-white mb-4">
-          15 Distinct AI Agent Types
+          40 Distinct AI Agent Types
         </h2>
-        <p className="text-white/60 text-lg">Specialized agents with unique capabilities and personalities</p>
+        <p className="text-white/60 text-lg">Specialized agents with unique capabilities and personalities across all domains</p>
       </motion.div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
-        {agents15.map((agent, idx) => (
+        {agents40.map((agent, idx) => (
           <motion.div
             key={idx}
             initial={{ opacity: 0, y: 20 }}
