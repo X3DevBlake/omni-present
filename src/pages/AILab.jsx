@@ -262,6 +262,53 @@ export default function AILab() {
             <NaturalLanguageQueryInterface />
           </div>
         )}
+
+        {/* Training Tab */}
+        {activeTab === 'training' && (
+          <div className="space-y-6">
+            <div className="grid lg:grid-cols-2 gap-6">
+              <DatasetUploader onDatasetUpload={() => {}} />
+              <TrainingParameterConfig onConfigChange={setTrainingConfig} />
+            </div>
+
+            <div className="flex gap-4">
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                onClick={() => setIsTraining(!isTraining)}
+                className={`px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transition-all ${
+                  isTraining
+                    ? 'bg-red-500/20 hover:bg-red-500/30 border border-red-500/50 text-red-400'
+                    : 'bg-green-500/20 hover:bg-green-500/30 border border-green-500/50 text-green-400'
+                }`}
+              >
+                {isTraining ? '⏸ Stop Training' : '▶ Start Training'}
+              </motion.button>
+            </div>
+
+            <TrainingProgressVisualization isTraining={isTraining} />
+            <ModelSaveLoad />
+          </div>
+        )}
+
+        {/* Collaboration Tab */}
+        {activeTab === 'collaboration' && (
+          <div className="space-y-6">
+            <div className="grid lg:grid-cols-2 gap-6">
+              <SharedWorkspace3D />
+              <AgentRoleManager />
+            </div>
+          </div>
+        )}
+
+        {/* Sandbox Tab */}
+        {activeTab === 'sandbox' && (
+          <div className="space-y-6">
+            <div className="grid lg:grid-cols-2 gap-6">
+              <EnvironmentDesigner />
+              <SimulationRecorderAnalytics />
+            </div>
+          </div>
+        )}
       </div>
     </AuroraBackground>
   );
