@@ -40,6 +40,17 @@ import DeviceSettings from './pages/DeviceSettings';
 import CurriculumCourses from './pages/CurriculumCourses';
 import Certifications from './pages/Certifications';
 import AchievementsAwards from './pages/AchievementsAwards';
+import MarketplaceHome from './pages/MarketplaceHome';
+import NewsUpdates from './pages/NewsUpdates';
+import CareerOpportunities from './pages/CareerOpportunities';
+import EnvironmentDesigner from './pages/EnvironmentDesigner';
+import CodeEditor from './pages/CodeEditor';
+import FirmwareUpdates from './pages/FirmwareUpdates';
+import DeviceHealth from './pages/DeviceHealth';
+import StudentLounge from './pages/StudentLounge';
+import ResourceLibrary from './pages/ResourceLibrary';
+import AssetBrowser from './pages/AssetBrowser';
+import IntegrationStore from './pages/IntegrationStore';
 import __Layout from './Layout.jsx';
 
 
@@ -86,6 +97,17 @@ export const PAGES = {
     "CurriculumCourses": CurriculumCourses,
     "Certifications": Certifications,
     "AchievementsAwards": AchievementsAwards,
+    "MarketplaceHome": MarketplaceHome,
+    "NewsUpdates": NewsUpdates,
+    "CareerOpportunities": CareerOpportunities,
+    "EnvironmentDesigner": EnvironmentDesigner,
+    "CodeEditor": CodeEditor,
+    "FirmwareUpdates": FirmwareUpdates,
+    "DeviceHealth": DeviceHealth,
+    "StudentLounge": StudentLounge,
+    "ResourceLibrary": ResourceLibrary,
+    "AssetBrowser": AssetBrowser,
+    "IntegrationStore": IntegrationStore,
 }
 
 export const pagesConfig = {
