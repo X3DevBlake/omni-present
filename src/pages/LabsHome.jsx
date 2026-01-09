@@ -1,25 +1,35 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Sparkles, Bot, Layers, Users, Zap, BarChart3, Brain, Code, Cpu, TrendingUp } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import EnhancedHubNav from '../components/navigation/EnhancedHubNav';
+import AI3DBrain from '../components/3d/AI3DBrain';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
-import Interactive3DBanner from '../components/3d/Interactive3DBanner';
+import { usePersonalization } from '../components/personalization/PersonalizationContext';
 
 export default function LabsHome() {
+  const { trackPageVisit } = usePersonalization();
+
+  useEffect(() => {
+    trackPageVisit('LabsHome');
+  }, []);
+
   return (
     <>
       <EnhancedHubNav currentHub="LabsHome" />
       <AuroraBackground className="min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
         <motion.div className="mb-12" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-          <Interactive3DBanner
-            title="Labs Hub"
-            subtitle="Create, test, and deploy AI agents"
-            color="#a855f7"
-            height="400px"
-          />
+          <div className="bg-black/40 backdrop-blur-xl border border-purple-500/30 rounded-2xl overflow-hidden h-96">
+            <AI3DBrain />
+          </div>
+          <div className="text-center mt-6">
+            <h1 className="text-4xl font-bold text-white mb-2">
+              Omni <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">Labs</span>
+            </h1>
+            <p className="text-white/60 text-lg">Create, test, and deploy AI agents with advanced neural processing</p>
+          </div>
         </motion.div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">

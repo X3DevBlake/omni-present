@@ -4,6 +4,7 @@ import { X, Menu, ChevronRight } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import Hub3DIcon from './Hub3DIcon';
+import Rotating3DIcon from '../3d/Rotating3DIcon';
 
 const hubs = [
   { id: 1, label: 'Home', page: 'HomeHub', icon: '🏠', color: '#00f5ff' },
@@ -155,7 +156,9 @@ export default function EnhancedMainNav() {
                         background: `linear-gradient(135deg, ${hub.color}20, ${hub.color}05)`
                       }}
                     >
-                      <Hub3DIcon icon={hub.icon} color={hub.color} />
+                      <div className="w-16 h-16 flex items-center justify-center">
+                        <Rotating3DIcon icon={hub.icon} color={hub.color} size={60} />
+                      </div>
                       <div className="text-center">
                         <div className="text-white font-bold text-sm">{hub.label}</div>
                         {location.pathname === createPageUrl(hub.page) && (

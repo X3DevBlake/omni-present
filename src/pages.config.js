@@ -130,12 +130,13 @@ import Team from './pages/Team';
 import Technology from './pages/Technology';
 import Terms from './pages/Terms';
 import Tokenomics from './pages/Tokenomics';
+import UnifiedAnalytics from './pages/UnifiedAnalytics';
 import UserRolesPermissions from './pages/UserRolesPermissions';
 import VirtualClassrooms from './pages/VirtualClassrooms';
 import Wallet from './pages/Wallet';
 import Webhooks from './pages/Webhooks';
 import WithdrawOmni from './pages/WithdrawOmni';
-import UnifiedAnalytics from './pages/UnifiedAnalytics';
+import OmniComm from './pages/OmniComm';
 import __Layout from './Layout.jsx';
 
 
@@ -272,12 +273,13 @@ export const PAGES = {
     "Technology": Technology,
     "Terms": Terms,
     "Tokenomics": Tokenomics,
+    "UnifiedAnalytics": UnifiedAnalytics,
     "UserRolesPermissions": UserRolesPermissions,
     "VirtualClassrooms": VirtualClassrooms,
     "Wallet": Wallet,
     "Webhooks": Webhooks,
     "WithdrawOmni": WithdrawOmni,
-    "UnifiedAnalytics": UnifiedAnalytics,
+    "OmniComm": OmniComm,
 }
 
 export const pagesConfig = {
