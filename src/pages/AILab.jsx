@@ -9,6 +9,14 @@ import { toast } from 'sonner';
 import Data3DVisualizer from '../components/3d/Data3DVisualizer';
 import DataSourceConnector from '../components/database/DataSourceConnector';
 import DataDiscoveryAgent from '../components/database/DataDiscoveryAgent';
+import FinancialMarket3DCityscape from '../components/3d/FinancialMarket3DCityscape';
+import MultiAgentWorld3D from '../components/3d/MultiAgentWorld3D';
+import HolographicAgentProjection from '../components/ai/HolographicAgentProjection';
+import DataFlowVisualizer from '../components/ai/DataFlowVisualizer';
+import AgentMemoryGraph from '../components/ai/AgentMemoryGraph';
+import AgentGoalBuilder from '../components/builder/AgentGoalBuilder';
+import NaturalLanguageQueryInterface from '../components/ai/NaturalLanguageQueryInterface';
+import ResourceUtilization3D from '../components/3d/ResourceUtilization3D';
 
 function FloatingBrain() {
   return (
