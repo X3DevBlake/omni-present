@@ -53,6 +53,57 @@ export default function AgentManagement() {
           </Link>
         </motion.div>
 
+        {/* Stats Overview */}
+        <div className="grid grid-cols-4 gap-4 mb-8">
+          {[
+            { label: 'Total Agents', value: stats.totalAgents, icon: Users, color: '#00f5ff' },
+            { label: 'Active Now', value: stats.activeAgents, icon: Activity, color: '#10b981' },
+            { label: 'Avg Performance', value: `${stats.avgPerformance}%`, icon: TrendingUp, color: '#a855f7' },
+            { label: 'Total Tasks', value: stats.totalTasks, icon: Target, color: '#f59e0b' }
+          ].map((stat, idx) => {
+            const Icon = stat.icon;
+            return (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: idx * 0.1 }}
+                className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-6"
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <Icon size={24} style={{ color: stat.color }} />
+                </div>
+                <p className="text-3xl font-bold text-white mb-1">{stat.value}</p>
+                <p className="text-white/60 text-sm">{stat.label}</p>
+              </motion.div>
+            );
+          })}
+        </div>
+
+        {/* 3D Agent Visualization */}
+        <div className="mb-8 h-64 bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl overflow-hidden">
+          <Canvas camera={{ position: [0, 0, 8], fov: 60 }}>
+            <ambientLight intensity={0.5} />
+            <pointLight position={[5, 5, 5]} intensity={1} />
+            {agents.map((agent, idx) => {
+              const angle = (idx / agents.length) * Math.PI * 2;
+              return (
+                <Float key={agent.id} speed={2 + idx * 0.5} floatIntensity={0.5}>
+                  <mesh position={[Math.cos(angle) * 3, 0, Math.sin(angle) * 3]}>
+                    <octahedronGeometry args={[0.5, 0]} />
+                    <meshStandardMaterial 
+                      color={agent.status === 'active' ? '#10b981' : agent.status === 'training' ? '#3b82f6' : '#6b7280'}
+                      emissive={agent.status === 'active' ? '#10b981' : '#6b7280'}
+                      emissiveIntensity={0.5}
+                    />
+                  </mesh>
+                </Float>
+              );
+            })}
+            <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={1} />
+          </Canvas>
+        </div>
+
         <div className="grid gap-4">
           {agents.map((agent, i) => (
             <motion.div
@@ -79,6 +130,16 @@ export default function AgentManagement() {
                         {agent.status}
                       </span>
                       <span className="text-yellow-400">{agent.experience} XP</span>
+                      <span className="text-cyan-400">{agent.performance}% Performance</span>
+                    </div>
+                    {/* Performance Bar */}
+                    <div className="w-48 h-1 bg-white/10 rounded-full mt-2 overflow-hidden">
+                      <motion.div
+                        className="h-full bg-gradient-to-r from-cyan-400 to-purple-400"
+                        initial={{ width: 0 }}
+                        animate={{ width: `${agent.performance}%` }}
+                        transition={{ duration: 1 }}
+                      />
                     </div>
                   </div>
                 </div>

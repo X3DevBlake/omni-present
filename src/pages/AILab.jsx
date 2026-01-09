@@ -173,8 +173,9 @@ export default function AILab() {
             { id: 'market-sim', label: '📊 Market Sim', icon: 'MarketSim' },
             { id: 'agent-studio', label: '✨ Agent Studio', icon: 'Studio' },
             { id: 'knowledge-base', label: '📚 Knowledge Base', icon: 'KB' },
+            { id: 'enhanced-knowledge', label: '🧠 Enhanced Knowledge', icon: 'EKB' },
             { id: 'learning', label: '🎓 Learning', icon: 'Learning' },
-            { id: 'collaboration', label: '👥 Collaboration', icon: 'Collab' },
+            { id: 'collab-rt', label: '💬 Real-Time Collab', icon: 'RTCollab' },
             { id: 'analytics', label: '📈 Analytics', icon: 'Analytics' }
           ].map(tab => (
             <button
@@ -584,10 +585,24 @@ export default function AILab() {
           </div>
           )}
 
+          {/* Enhanced Knowledge Graph Tab */}
+          {activeTab === 'enhanced-knowledge' && (
+          <div className="space-y-6">
+           <EnhancedKnowledgeGraph3D />
+          </div>
+          )}
+
+          {/* Real-Time Collaboration Tab */}
+          {activeTab === 'collab-rt' && (
+          <div className="space-y-6">
+           <RealTimeAgentCollaboration />
+          </div>
+          )}
+
           {/* Analytics Tab */}
           {activeTab === 'analytics' && (
           <div className="space-y-6">
-           <AgentAnalyticsDashboard />
+           <ComprehensiveAgentAnalytics />
           </div>
           )}
           </div>
