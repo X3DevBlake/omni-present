@@ -34,6 +34,10 @@ import SimulationEventGenerator from '../components/simulation/SimulationEventGe
 import AgentCollaborationHub from '../components/simulation/AgentCollaborationHub';
 import AgentMemoryNetwork from '../components/agents/AgentMemoryNetwork';
 import EnhancedAgentMemory from '../components/agents/EnhancedAgentMemory';
+import AgentKPIDashboard from '../components/agents/AgentKPIDashboard';
+import AgentSkillTrainer from '../components/agents/AgentSkillTrainer';
+import KnowledgeFlowVisualizer from '../components/simulation/KnowledgeFlowVisualizer';
+import SharedKnowledgeRepository from '../components/simulation/SharedKnowledgeRepository';
 
       function FloatingBrain() {
   return (
@@ -125,7 +129,10 @@ export default function AILab() {
             { id: 'query', label: '🔍 Smart Query', icon: 'Query' },
             { id: 'simulation', label: '⚡ Sim Events', icon: 'SimEvents' },
             { id: 'teams', label: '👥 Teams', icon: 'Teams' },
-            { id: 'memory', label: '🧠 Memory Network', icon: 'Memory' }
+            { id: 'memory', label: '🧠 Memory Network', icon: 'Memory' },
+            { id: 'kpi', label: '📊 KPI Dashboard', icon: 'KPI' },
+            { id: 'skills', label: '🎓 Skills', icon: 'Skills' },
+            { id: 'knowledge', label: '📚 Knowledge', icon: 'Knowledge' }
           ].map(tab => (
             <button
               key={tab.id}
@@ -389,6 +396,64 @@ export default function AILab() {
                 <p><strong>• AI Summarization:</strong> Automatic synthesis of memory patterns</p>
                 <p><strong>• Contextual Retrieval:</strong> Query-based memory search & reasoning</p>
                 <p><strong>• Proactive Recall:</strong> Agent autonomously recalls relevant memories</p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* KPI Dashboard Tab */}
+        {activeTab === 'kpi' && (
+          <div className="space-y-6">
+            <AgentKPIDashboard agentId="lab-assistant-01" agentName="LabAssistant-01" />
+            <div className="bg-black/40 border border-white/10 rounded-2xl p-6">
+              <h3 className="text-white font-bold mb-3">📊 Performance Metrics</h3>
+              <div className="space-y-2 text-white/70 text-sm">
+                <p><strong>• Task Completion:</strong> Success rate on assigned objectives</p>
+                <p><strong>• Collaboration Efficiency:</strong> Team interaction effectiveness</p>
+                <p><strong>• Memory Recall Accuracy:</strong> Ability to retrieve and apply memories</p>
+                <p><strong>• Responsiveness:</strong> Speed of reaction to events</p>
+                <p><strong>• Decision Quality:</strong> Outcomes of agent decisions</p>
+                <p><strong>• AI Analysis:</strong> Automatic identification of bottlenecks</p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Skills Training Tab */}
+        {activeTab === 'skills' && (
+          <div className="space-y-6">
+            <div className="grid lg:grid-cols-2 gap-6">
+              <AgentSkillTrainer agentId="lab-assistant-01" agentName="LabAssistant-01" />
+              <div className="bg-black/40 border border-white/10 rounded-2xl p-6">
+                <h3 className="text-white font-bold mb-3">🎓 Skill System</h3>
+                <div className="space-y-2 text-white/70 text-sm">
+                  <p><strong>• Custom Skills:</strong> Define and teach agents new abilities</p>
+                  <p><strong>• AI Suggestions:</strong> Learn skills based on experiences</p>
+                  <p><strong>• Proficiency System:</strong> Track skill mastery progression</p>
+                  <p><strong>• Practice Mechanism:</strong> Agents improve through repetition</p>
+                  <p><strong>• Skill Categories:</strong> Analysis, negotiation, exploration, etc.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Knowledge Sharing Tab */}
+        {activeTab === 'knowledge' && (
+          <div className="space-y-6">
+            <div className="grid lg:grid-cols-2 gap-6">
+              <SharedKnowledgeRepository />
+              <KnowledgeFlowVisualizer />
+            </div>
+            <div className="bg-black/40 border border-white/10 rounded-2xl p-6">
+              <h3 className="text-white font-bold mb-3">📚 Knowledge Ecosystem</h3>
+              <div className="space-y-2 text-white/70 text-sm">
+                <p><strong>• Publish Findings:</strong> Agents share discoveries and insights</p>
+                <p><strong>• Repository:</strong> Centralized knowledge base for all agents</p>
+                <p><strong>• Adoption Tracking:</strong> Monitor knowledge usage across agents</p>
+                <p><strong>• Flow Visualization:</strong> See knowledge transfer networks</p>
+                <p><strong>• Impact Scoring:</strong> Measure effectiveness of shared knowledge</p>
+                <p><strong>• Quality Rating:</strong> Community evaluation of knowledge quality</p>
               </div>
             </div>
           </div>
