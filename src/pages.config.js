@@ -85,6 +85,13 @@ import ExperimentTracking from './pages/ExperimentTracking';
 import AIModelDeployment from './pages/AIModelDeployment';
 import ScenarioTesting from './pages/ScenarioTesting';
 import CommunityGuidelines from './pages/CommunityGuidelines';
+import RepairRequest from './pages/RepairRequest';
+import SensorDataAnalysis from './pages/SensorDataAnalysis';
+import MentorshipProgramsPage from './pages/MentorshipProgramsPage';
+import BlueprintGallery from './pages/BlueprintGallery';
+import AgentMarketplace from './pages/AgentMarketplace';
+import HomeHub from './pages/HomeHub';
+import IntegrationsHub from './pages/IntegrationsHub';
 import __Layout from './Layout.jsx';
 
 
@@ -176,6 +183,13 @@ export const PAGES = {
     "AIModelDeployment": AIModelDeployment,
     "ScenarioTesting": ScenarioTesting,
     "CommunityGuidelines": CommunityGuidelines,
+    "RepairRequest": RepairRequest,
+    "SensorDataAnalysis": SensorDataAnalysis,
+    "MentorshipProgramsPage": MentorshipProgramsPage,
+    "BlueprintGallery": BlueprintGallery,
+    "AgentMarketplace": AgentMarketplace,
+    "HomeHub": HomeHub,
+    "IntegrationsHub": IntegrationsHub,
 }
 
 export const pagesConfig = {
