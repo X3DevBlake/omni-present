@@ -12,6 +12,7 @@ const hubs = [
   { id: 3, label: 'Omni Hub', page: 'DeFiHub', icon: '📈', color: '#10b981' },
   { id: 4, label: 'Omni Simulations', page: 'AdvancedSimulation', icon: '🎮', color: '#f59e0b' },
   { id: 5, label: 'Omni Labs', page: 'LabsHome', icon: '🔬', color: '#ec4899' },
+  { id: 10, label: 'Simulation Hub', page: 'SimulationHub', icon: '🌐', color: '#a855f7' },
   { id: 6, label: 'Omni Devices', page: 'DeviceHome', icon: '⚡', color: '#06b6d4' },
   { id: 7, label: 'Omni Market', page: 'MarketplaceHome', icon: '🛍️', color: '#8b5cf6' },
   { id: 8, label: 'Omni Comm', page: 'OmniComm', icon: '💬', color: '#ec4899' },
