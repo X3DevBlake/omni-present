@@ -14,6 +14,7 @@ import AgentAudio from './pages/AgentAudio';
 import AgentAutonomy from './pages/AgentAutonomy';
 import AgentBudget from './pages/AgentBudget';
 import AgentCardSettings from './pages/AgentCardSettings';
+import AgentCustomization from './pages/AgentCustomization';
 import AgentECommerceSettings from './pages/AgentECommerceSettings';
 import AgentKnowledge from './pages/AgentKnowledge';
 import AgentKnowledgeBase from './pages/AgentKnowledgeBase';
@@ -94,6 +95,7 @@ import Notifications from './pages/Notifications';
 import OmniAchievements from './pages/OmniAchievements';
 import OmniCardManagement from './pages/OmniCardManagement';
 import OmniCardStore from './pages/OmniCardStore';
+import OmniComm from './pages/OmniComm';
 import OmniDashboard from './pages/OmniDashboard';
 import OmniHome from './pages/OmniHome';
 import OmniHub from './pages/OmniHub';
@@ -136,8 +138,7 @@ import VirtualClassrooms from './pages/VirtualClassrooms';
 import Wallet from './pages/Wallet';
 import Webhooks from './pages/Webhooks';
 import WithdrawOmni from './pages/WithdrawOmni';
-import OmniComm from './pages/OmniComm';
-import AgentCustomization from './pages/AgentCustomization';
+import AgentSkillMarketplace from './pages/AgentSkillMarketplace';
 import __Layout from './Layout.jsx';
 
 
@@ -158,6 +159,7 @@ export const PAGES = {
     "AgentAutonomy": AgentAutonomy,
     "AgentBudget": AgentBudget,
     "AgentCardSettings": AgentCardSettings,
+    "AgentCustomization": AgentCustomization,
     "AgentECommerceSettings": AgentECommerceSettings,
     "AgentKnowledge": AgentKnowledge,
     "AgentKnowledgeBase": AgentKnowledgeBase,
@@ -238,6 +240,7 @@ export const PAGES = {
     "OmniAchievements": OmniAchievements,
     "OmniCardManagement": OmniCardManagement,
     "OmniCardStore": OmniCardStore,
+    "OmniComm": OmniComm,
     "OmniDashboard": OmniDashboard,
     "OmniHome": OmniHome,
     "OmniHub": OmniHub,
@@ -280,8 +283,7 @@ export const PAGES = {
     "Wallet": Wallet,
     "Webhooks": Webhooks,
     "WithdrawOmni": WithdrawOmni,
-    "OmniComm": OmniComm,
-    "AgentCustomization": AgentCustomization,
+    "AgentSkillMarketplace": AgentSkillMarketplace,
 }
 
 export const pagesConfig = {
