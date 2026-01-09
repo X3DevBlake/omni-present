@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Sparkles, Zap, Users, Target, Heart, Award, Globe, Rocket } from 'lucide-react';
+import { Sparkles, Zap, Users, Target, Heart, Award, Globe, Rocket, ChevronLeft } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import Immersive3DAbout from '../components/3d/Immersive3DAbout';
 
