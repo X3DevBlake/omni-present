@@ -47,6 +47,9 @@ import NLPCommandProcessor from '../components/ai/NLPCommandProcessor';
 import SelfLearningAgentSystem from '../components/ai/SelfLearningAgentSystem';
 import RealTimeNewsFeed from '../components/news/RealTimeNewsFeed';
 import AgentMetaReasoningSystem from '../components/ai/AgentMetaReasoningSystem';
+import Agent100TypesGrid from '../components/agents/Agent100TypesGrid';
+import AgentIntegrationHub from '../components/agents/AgentIntegrationHub';
+import Agent15DetailPanel from '../components/agents/Agent15DetailPanel';
 
       function FloatingBrain() {
   return (
@@ -80,6 +83,7 @@ export default function AILab() {
   const [isTraining, setIsTraining] = useState(false);
   const [trainingConfig, setTrainingConfig] = useState({});
   const [sampleData, setSampleData] = useState([]);
+  const [selectedAgent, setSelectedAgent] = useState(null);
 
   const runExperiment = async () => {
     if (!prompt.trim()) {
@@ -150,7 +154,9 @@ export default function AILab() {
             { id: 'memory', label: '🧠 Memory', icon: 'Memory' },
             { id: 'kpi', label: '📊 KPI', icon: 'KPI' },
             { id: 'skills', label: '🎓 Skills', icon: 'Skills' },
-            { id: 'knowledge', label: '📚 Knowledge', icon: 'Knowledge' }
+            { id: 'knowledge', label: '📚 Knowledge', icon: 'Knowledge' },
+            { id: 'agent-hub', label: '🤖 Agent Hub', icon: 'AgentHub' },
+            { id: 'agent-grid', label: '🌌 Agent Grid', icon: 'AgentGrid' }
           ].map(tab => (
             <button
               key={tab.id}
@@ -498,8 +504,26 @@ export default function AILab() {
               </div>
             </div>
           </div>
-        )}
-        </div>
-        </AuroraBackground>
-        );
-        }
+          )}
+
+          {/* Agent Hub Tab */}
+          {activeTab === 'agent-hub' && (
+          <div className="space-y-6">
+           <AgentIntegrationHub />
+          </div>
+          )}
+
+          {/* Agent Grid Tab */}
+          {activeTab === 'agent-grid' && (
+          <div className="space-y-6">
+           <Agent100TypesGrid onAgentSelect={setSelectedAgent} />
+           {selectedAgent && (
+             <Agent15DetailPanel agent={selectedAgent} onClose={() => setSelectedAgent(null)} />
+           )}
+          </div>
+          )}
+          </div>
+          </AuroraBackground>
+          {selectedAgent && <Agent15DetailPanel agent={selectedAgent} onClose={() => setSelectedAgent(null)} />}
+          );
+          }
