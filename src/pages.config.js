@@ -38,6 +38,7 @@ import Compliance from './pages/Compliance';
 import ComplianceDashboard from './pages/ComplianceDashboard';
 import Contact from './pages/Contact';
 import CurriculumCourses from './pages/CurriculumCourses';
+import CustomDashboard from './pages/CustomDashboard';
 import CustomIntegrations from './pages/CustomIntegrations';
 import DataAnnotation from './pages/DataAnnotation';
 import DepositETH from './pages/DepositETH';
@@ -80,10 +81,12 @@ import MentorshipProgramsPage from './pages/MentorshipProgramsPage';
 import ModelTraining from './pages/ModelTraining';
 import NewsUpdates from './pages/NewsUpdates';
 import Notifications from './pages/Notifications';
+import OmniAchievements from './pages/OmniAchievements';
 import OmniCardManagement from './pages/OmniCardManagement';
 import OmniCardStore from './pages/OmniCardStore';
 import OmniDashboard from './pages/OmniDashboard';
 import OmniHome from './pages/OmniHome';
+import OmniStaking from './pages/OmniStaking';
 import OrderManagement from './pages/OrderManagement';
 import OrgSettings from './pages/OrgSettings';
 import Partnerships from './pages/Partnerships';
@@ -119,9 +122,8 @@ import VirtualClassrooms from './pages/VirtualClassrooms';
 import Wallet from './pages/Wallet';
 import Webhooks from './pages/Webhooks';
 import WithdrawOmni from './pages/WithdrawOmni';
-import OmniStaking from './pages/OmniStaking';
-import CustomDashboard from './pages/CustomDashboard';
-import OmniAchievements from './pages/OmniAchievements';
+import LiquidityPools from './pages/LiquidityPools';
+import AgentKnowledgeBase from './pages/AgentKnowledgeBase';
 import __Layout from './Layout.jsx';
 
 
@@ -166,6 +168,7 @@ export const PAGES = {
     "ComplianceDashboard": ComplianceDashboard,
     "Contact": Contact,
     "CurriculumCourses": CurriculumCourses,
+    "CustomDashboard": CustomDashboard,
     "CustomIntegrations": CustomIntegrations,
     "DataAnnotation": DataAnnotation,
     "DepositETH": DepositETH,
@@ -208,10 +211,12 @@ export const PAGES = {
     "ModelTraining": ModelTraining,
     "NewsUpdates": NewsUpdates,
     "Notifications": Notifications,
+    "OmniAchievements": OmniAchievements,
     "OmniCardManagement": OmniCardManagement,
     "OmniCardStore": OmniCardStore,
     "OmniDashboard": OmniDashboard,
     "OmniHome": OmniHome,
+    "OmniStaking": OmniStaking,
     "OrderManagement": OrderManagement,
     "OrgSettings": OrgSettings,
     "Partnerships": Partnerships,
@@ -247,9 +252,8 @@ export const PAGES = {
     "Wallet": Wallet,
     "Webhooks": Webhooks,
     "WithdrawOmni": WithdrawOmni,
-    "OmniStaking": OmniStaking,
-    "CustomDashboard": CustomDashboard,
-    "OmniAchievements": OmniAchievements,
+    "LiquidityPools": LiquidityPools,
+    "AgentKnowledgeBase": AgentKnowledgeBase,
 }
 
 export const pagesConfig = {
