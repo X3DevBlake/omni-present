@@ -9,6 +9,8 @@ import { usePersonalization } from '../components/personalization/Personalizatio
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
 import AgentIntegrationHub from '../components/agents/AgentIntegrationHub';
+import BackButton from '../components/navigation/BackButton';
+import OmniCoin3D from '../components/omni/OmniCoin3D';
 
 export default function OmniHub() {
   const { trackPageVisit } = usePersonalization();
@@ -22,6 +24,10 @@ export default function OmniHub() {
       <EnhancedHubNav currentHub="OmniHub" />
       <AuroraBackground className="min-h-screen">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
+          <div className="mb-6">
+            <BackButton />
+          </div>
+
           <motion.div className="text-center mb-12" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
             <div className="inline-block mb-4 px-4 py-2 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-500/30 rounded-full">
               <span className="text-cyan-400 text-sm font-semibold">💎 Omni Banking Hub</span>
@@ -33,6 +39,17 @@ export default function OmniHub() {
             <p className="text-white/60 text-lg max-w-3xl mx-auto">
               Complete DeFi banking platform with cards, staking, liquidity pools, and AI-powered spending
             </p>
+          </motion.div>
+
+          {/* 3D Omni Token Display */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.2 }}
+            className="mb-12 h-96 relative"
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-purple-500/10 rounded-3xl blur-3xl" />
+            <OmniCoin3D />
           </motion.div>
 
           <OmniCoin3DHero />

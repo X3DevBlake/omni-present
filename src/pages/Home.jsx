@@ -66,7 +66,9 @@ export default function Home() {
             viewport={{ once: true }}
           >
             <div className="flex justify-center mb-6">
-              <OmniPresentLogo size="lg" />
+              <div className="w-32 h-32">
+                <OmniPresentLogo />
+              </div>
             </div>
             <h2 className="text-4xl lg:text-5xl font-bold text-white mb-4">
               The <span className="bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">Omni-Present</span> Ecosystem
