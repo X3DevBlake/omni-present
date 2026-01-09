@@ -6,6 +6,7 @@ import EnhancedHubNav from '../components/navigation/EnhancedHubNav';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
 import { usePersonalization } from '../components/personalization/PersonalizationContext';
+import RealTimeAgentChat from '../components/communication/RealTimeAgentChat';
 
 export default function OmniComm() {
   const { trackPageVisit } = usePersonalization();
@@ -36,8 +37,8 @@ export default function OmniComm() {
           </motion.div>
 
           {/* Feature Tabs */}
-          <div className="flex flex-wrap gap-2 mb-8 justify-center">
-            {['overview', 'messaging', 'collaboration', 'security'].map((tab) => (
+           <div className="flex flex-wrap gap-2 mb-8 justify-center">
+             {['overview', 'messaging', 'collaboration', 'agent-chat', 'security'].map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
@@ -147,6 +148,24 @@ export default function OmniComm() {
                     Schedule Meeting
                   </button>
                 </div>
+              </div>
+            </motion.div>
+          )}
+
+          {/* Real-Time Agent Chat */}
+          {activeTab === 'agent-chat' && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="space-y-6"
+            >
+              <div className="grid lg:grid-cols-2 gap-6">
+                <RealTimeAgentChat agentName="Explorer-01" agentColor="#00f5ff" />
+                <RealTimeAgentChat agentName="Trader-05" agentColor="#10b981" />
+              </div>
+              <div className="grid lg:grid-cols-2 gap-6">
+                <RealTimeAgentChat agentName="Analyst-12" agentColor="#a855f7" />
+                <RealTimeAgentChat agentName="Coordinator-08" agentColor="#ec4899" />
               </div>
             </motion.div>
           )}

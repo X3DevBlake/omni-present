@@ -7,6 +7,7 @@ import Asset3DBrowser from '../components/marketplace/Asset3DBrowser';
 import Asset3DPreview from '../components/marketplace/Asset3DPreview';
 import PaymentIntegration from '../components/marketplace/PaymentIntegration';
 import CryptoCheckout from '../components/crypto/CryptoCheckout';
+import Agent3DMarketplaceCard from '../components/marketplace/Agent3DMarketplaceCard';
 import { base44 } from '@/api/base44Client';
 import { toast } from 'sonner';
 
@@ -293,16 +294,41 @@ export default function Marketplace() {
           </div>
         </motion.div>
 
+        {/* AI Agents Grid */}
+         <motion.div
+           className="mb-12"
+           initial={{ opacity: 0, y: 20 }}
+           animate={{ opacity: 1, y: 0 }}
+           transition={{ delay: 0.15 }}
+         >
+           <h2 className="text-2xl font-bold text-white mb-6">🤖 Featured AI Agents</h2>
+           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+             {[
+               { name: 'Explorer-01', category: 'explorer', description: 'Autonomous exploration agent', rating: 4.9, efficiency: '98%', downloads: 2845, skills: ['exploration', 'learning'] },
+               { name: 'Trader-05', category: 'trader', description: 'Advanced trading strategies', rating: 4.8, efficiency: '95%', downloads: 1956, skills: ['analysis', 'execution'] },
+               { name: 'Analyst-12', category: 'analyst', description: 'Data analysis specialist', rating: 4.7, efficiency: '92%', downloads: 1423, skills: ['analysis', 'reporting'] },
+               { name: 'Coordinator-08', category: 'coordinator', description: 'Team coordination master', rating: 4.9, efficiency: '97%', downloads: 2134, skills: ['coordination', 'planning'] }
+             ].map((agent, i) => (
+               <Agent3DMarketplaceCard
+                 key={i}
+                 agent={agent}
+                 onAddToCart={(a) => { addToCart(a); toast.success(`${a.name} added to cart`); }}
+                 onPurchase={(a) => { toast.success(`Processing ${a.name}...`); }}
+               />
+             ))}
+           </div>
+         </motion.div>
+
         {/* Featured Items */}
-        {selectedCategory === 'all' && (
-          <motion.div
-            className="mb-8"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-          >
-            <h2 className="text-2xl font-bold text-white mb-4">✨ Featured</h2>
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+         {selectedCategory === 'all' && (
+           <motion.div
+             className="mb-8"
+             initial={{ opacity: 0, y: 20 }}
+             animate={{ opacity: 1, y: 0 }}
+             transition={{ delay: 0.2 }}
+           >
+             <h2 className="text-2xl font-bold text-white mb-4">✨ Featured</h2>
+             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
               {mockItems.filter(i => i.featured).map(item => (
                 <div
                   key={item.id}
