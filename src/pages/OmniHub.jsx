@@ -25,6 +25,8 @@ export default function OmniHub() {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[
             { title: 'Omni Dashboard', description: 'View your balance, transactions & stats', icon: Wallet, page: 'OmniDashboard', gradient: 'from-cyan-500/20 to-blue-500/20', border: 'border-cyan-500/30' },
+            { title: 'DEX Aggregator', description: 'Best rates across all exchanges', icon: Repeat, page: 'DEXAggregator', gradient: 'from-blue-500/20 to-cyan-500/20', border: 'border-blue-500/30' },
+            { title: 'AI Portfolio Manager', description: 'Automated portfolio rebalancing', icon: Bot, page: 'AIPortfolioManager', gradient: 'from-purple-500/20 to-indigo-500/20', border: 'border-purple-500/30' },
             { title: 'Omni Card', description: 'Virtual & physical cards with cashback', icon: CreditCard, page: 'OmniCardStore', gradient: 'from-purple-500/20 to-pink-500/20', border: 'border-purple-500/30' },
             { title: 'Card Management', description: 'Manage your Omni cards & settings', icon: CreditCard, page: 'OmniCardManagement', gradient: 'from-pink-500/20 to-purple-500/20', border: 'border-pink-500/30' },
             { title: 'Liquidity Pools', description: 'High-yield staking up to 1000% APY', icon: TrendingUp, page: 'LiquidityPools', gradient: 'from-green-500/20 to-emerald-500/20', border: 'border-green-500/30' },

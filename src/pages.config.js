@@ -127,6 +127,10 @@ import AgentKnowledgeBase from './pages/AgentKnowledgeBase';
 import AgentKnowledge from './pages/AgentKnowledge';
 import AgentSimulation3D from './pages/AgentSimulation3D';
 import OmniHub from './pages/OmniHub';
+import SimulationEnvironment from './pages/SimulationEnvironment';
+import DEXAggregator from './pages/DEXAggregator';
+import AIPortfolioManager from './pages/AIPortfolioManager';
+import IoTDeviceControl from './pages/IoTDeviceControl';
 import __Layout from './Layout.jsx';
 
 
@@ -260,6 +264,10 @@ export const PAGES = {
     "AgentKnowledge": AgentKnowledge,
     "AgentSimulation3D": AgentSimulation3D,
     "OmniHub": OmniHub,
+    "SimulationEnvironment": SimulationEnvironment,
+    "DEXAggregator": DEXAggregator,
+    "AIPortfolioManager": AIPortfolioManager,
+    "IoTDeviceControl": IoTDeviceControl,
 }
 
 export const pagesConfig = {

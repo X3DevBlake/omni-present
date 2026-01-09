@@ -7,14 +7,11 @@ import { createPageUrl } from '@/utils';
 const navItems = [
   { label: 'Home', page: 'HomeHub' },
   { label: 'Omni', page: 'OmniHub' },
-  { label: 'Agents', page: 'AgentKnowledge' },
+  { label: 'Simulation', page: 'SimulationEnvironment' },
   { label: 'Labs', page: 'LabsHome' },
   { label: 'Devices', page: 'DeviceHome' },
-  { label: 'Campus', page: 'CampusHome' },
   { label: 'Marketplace', page: 'MarketplaceHome' },
   { label: 'Profile', page: 'ProfileHome' },
-  { label: 'Admin', page: 'AdminHome' },
-  { label: 'Developer', page: 'DeveloperHome' },
 ];
 
 export default function FloatingNav() {
