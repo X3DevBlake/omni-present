@@ -1551,6 +1551,97 @@ export default function Blueprint() {
         conflicts={activeSociety?.conflicts || []}
       />
 
+      {/* Mentorship System */}
+      <MentorshipSystem
+        show={showMentorship}
+        onClose={() => setShowMentorship(false)}
+        agents={holographicAgents}
+        specializations={new Map()}
+        onSkillTransfer={(mentor, mentee, skill) => toast.success('Skill transferred')}
+      />
+
+      {/* Agent Goal System */}
+      <AgentGoalSystem
+        show={showGoalSystem}
+        onClose={() => setShowGoalSystem(false)}
+        agents={holographicAgents}
+        environment={activeSociety}
+        onGoalAssign={(agent, goal) => console.log('Goal assigned:', goal)}
+      />
+
+      {/* Simulation Time Control */}
+      <SimulationTimeControl
+        show={showTimeControl}
+        onClose={() => setShowTimeControl(false)}
+        getCurrentSimulationData={() => ({ agents: holographicAgents, society: activeSociety })}
+        onSimulationUpdate={(state) => console.log('State loaded:', state)}
+        isSimulating={false}
+        onPlayPause={(paused) => console.log('Paused:', paused)}
+      />
+
+      {/* Adaptive Ethics Module */}
+      <AdaptiveEthicsModule
+        show={showEthicsModule}
+        onClose={() => setShowEthicsModule(false)}
+        agents={holographicAgents}
+        society={activeSociety}
+      />
+
+      {/* Agent Evolution System */}
+      <AgentEvolutionSystem
+        show={showEvolutionSystem}
+        onClose={() => setShowEvolutionSystem(false)}
+        agents={holographicAgents}
+        society={activeSociety}
+      />
+
+      {/* Dynamic World Engine */}
+      <DynamicWorldEngine
+        show={showWorldEngine}
+        onClose={() => setShowWorldEngine(false)}
+        agents={holographicAgents}
+        onWorldUpdate={(world) => console.log('World updated:', world)}
+      />
+
+      {/* Agent Communication System */}
+      <AgentCommunicationSystem
+        show={showCommSystem}
+        onClose={() => setShowCommSystem(false)}
+        agents={holographicAgents}
+      />
+
+      {/* Agent Specialization System */}
+      <AgentSpecializationSystem
+        show={showSpecialization}
+        onClose={() => setShowSpecialization(false)}
+        agents={holographicAgents}
+        onSpecializationUpdate={(agent, spec) => toast.success('Specialization updated')}
+      />
+
+      {/* Resource Management System */}
+      <ResourceManagementSystem
+        show={showResourceMgmt}
+        onClose={() => setShowResourceMgmt(false)}
+        agents={holographicAgents}
+        society={activeSociety}
+      />
+
+      {/* Faction Dynamics System */}
+      <FactionDynamicsSystem
+        show={showFactionDynamics}
+        onClose={() => setShowFactionDynamics(false)}
+        agents={holographicAgents}
+        society={activeSociety}
+      />
+
+      {/* Resource Economy System */}
+      <ResourceEconomySystem
+        show={showEconomy}
+        onClose={() => setShowEconomy(false)}
+        agents={holographicAgents}
+        scarcityEvents={[]}
+      />
+
       {/* Agent Training Module */}
       <AgentTrainingModule
         show={showTrainingModule && !!selectedAgentForTraining}
