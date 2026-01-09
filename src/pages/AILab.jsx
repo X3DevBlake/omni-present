@@ -174,6 +174,9 @@ export default function AILab() {
             { id: 'agent-studio', label: '✨ Agent Studio', icon: 'Studio' },
             { id: 'knowledge-base', label: '📚 Knowledge Base', icon: 'KB' },
             { id: 'enhanced-knowledge', label: '🧠 Enhanced Knowledge', icon: 'EKB' },
+            { id: 'ai-kb-tools', label: '✨ AI KB Tools', icon: 'AIKB' },
+            { id: 'adaptive-training', label: '🎯 Adaptive Training', icon: 'AdTrain' },
+            { id: 'workflow-builder', label: '🔄 Workflow Builder', icon: 'Workflow' },
             { id: 'learning', label: '🎓 Learning', icon: 'Learning' },
             { id: 'collab-rt', label: '💬 Real-Time Collab', icon: 'RTCollab' },
             { id: 'analytics', label: '📈 Analytics', icon: 'Analytics' }
@@ -589,6 +592,27 @@ export default function AILab() {
           {activeTab === 'enhanced-knowledge' && (
           <div className="space-y-6">
            <EnhancedKnowledgeGraph3D />
+          </div>
+          )}
+
+          {/* AI Knowledge Base Tools Tab */}
+          {activeTab === 'ai-kb-tools' && (
+          <div className="space-y-6">
+           <AIKnowledgeEnhancements />
+          </div>
+          )}
+
+          {/* Adaptive Training Tab */}
+          {activeTab === 'adaptive-training' && (
+          <div className="space-y-6">
+           <AdaptiveTrainingModule />
+          </div>
+          )}
+
+          {/* Workflow Builder Tab */}
+          {activeTab === 'workflow-builder' && (
+          <div className="space-y-6">
+           <VisualWorkflowBuilder />
           </div>
           )}
 
