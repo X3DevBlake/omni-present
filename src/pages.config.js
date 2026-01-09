@@ -108,6 +108,10 @@ import WithdrawOmni from './pages/WithdrawOmni';
 import FiatDeposit from './pages/FiatDeposit';
 import OmniCardManagement from './pages/OmniCardManagement';
 import OmniCardStore from './pages/OmniCardStore';
+import AgentBudget from './pages/AgentBudget';
+import AgentSpending from './pages/AgentSpending';
+import AgentECommerceSettings from './pages/AgentECommerceSettings';
+import AgentShoppingLog from './pages/AgentShoppingLog';
 import __Layout from './Layout.jsx';
 
 
@@ -222,6 +226,10 @@ export const PAGES = {
     "FiatDeposit": FiatDeposit,
     "OmniCardManagement": OmniCardManagement,
     "OmniCardStore": OmniCardStore,
+    "AgentBudget": AgentBudget,
+    "AgentSpending": AgentSpending,
+    "AgentECommerceSettings": AgentECommerceSettings,
+    "AgentShoppingLog": AgentShoppingLog,
 }
 
 export const pagesConfig = {
