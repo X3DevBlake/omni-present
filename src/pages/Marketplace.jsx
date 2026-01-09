@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Filter, Star, Download, TrendingUp, Users, Clock, ShoppingCart, X, Check, DollarSign, MessageSquare } from 'lucide-react';
+import { Search, Filter, Star, Download, TrendingUp, Users, Clock, ShoppingCart, X, Check, DollarSign, MessageSquare, User, Package, Award, Eye } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import CreatorDashboard from '../components/marketplace/CreatorDashboard';
+import Asset3DBrowser from '../components/marketplace/Asset3DBrowser';
+import PaymentIntegration from '../components/marketplace/PaymentIntegration';
 import { base44 } from '@/api/base44Client';
 import { toast } from 'sonner';
 
@@ -103,6 +105,9 @@ export default function Marketplace() {
   const [showCreatorDashboard, setShowCreatorDashboard] = useState(false);
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [newReview, setNewReview] = useState({ rating: 5, comment: '' });
+  const [view3D, setView3D] = useState(false);
+  const [showPayment, setShowPayment] = useState(false);
+  const [assetRatings, setAssetRatings] = useState(new Map());
 
   const filteredItems = items.filter(item => {
     const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -166,7 +171,6 @@ export default function Marketplace() {
         author: user.full_name || user.email,
         date: new Date().toISOString()
       };
-      // Save review logic here
       toast.success('Review submitted!');
       setShowReviewModal(false);
       setNewReview({ rating: 5, comment: '' });
@@ -174,6 +178,26 @@ export default function Marketplace() {
       toast.error('Failed to submit review');
     }
   };
+
+  const rateAsset = async (assetId, rating) => {
+    try {
+      const user = await base44.auth.me();
+      const ratings = user.asset_ratings || {};
+      ratings[assetId] = rating;
+      await base44.auth.updateMe({ asset_ratings: ratings });
+      setAssetRatings(new Map(Object.entries(ratings)));
+      toast.success('Rating submitted!');
+    } catch (err) {
+      toast.error('Failed to submit rating');
+    }
+  };
+
+  const enhancedItems = items.map(item => ({
+    ...item,
+    color: ['#ef4444', '#a855f7', '#10b981', '#fbbf24', '#00f5ff', '#ec4899'][item.id % 6],
+    creator: item.author,
+    creatorReputation: 85 + (item.id % 15)
+  }));
 
   return (
     <AuroraBackground className="min-h-screen">
@@ -222,6 +246,16 @@ export default function Marketplace() {
               <option value="rating">Highest Rated</option>
               <option value="newest">Newest</option>
             </select>
+            <button 
+              onClick={() => setView3D(!view3D)}
+              className={`px-4 py-3 rounded-xl font-medium flex items-center gap-2 ${
+                view3D
+                  ? 'bg-purple-500/20 border border-purple-500/40 text-purple-300'
+                  : 'bg-white/5 border border-white/10 text-white/60 hover:bg-white/10'
+              }`}
+            >
+              {view3D ? '3D View' : 'List View'}
+            </button>
             <button onClick={() => setShowCreatorDashboard(!showCreatorDashboard)} className="px-4 py-3 bg-purple-500/20 border border-purple-500/40 text-purple-300 rounded-xl hover:bg-purple-500/30 flex items-center gap-2">
               <DollarSign className="w-5 h-5" />
               Creator
@@ -327,8 +361,88 @@ export default function Marketplace() {
             <h2 className="text-2xl font-bold text-white mb-4">
               {selectedCategory === 'all' ? 'All Items' : categories.find(c => c.id === selectedCategory)?.label}
             </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {filteredItems.map(item => (
+
+          {view3D ? (
+            <>
+              <Asset3DBrowser 
+                assets={enhancedItems.filter(item => {
+                  const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase());
+                  const matchesCategory = selectedCategory === 'all' || item.category === selectedCategory;
+                  return matchesSearch && matchesCategory;
+                })}
+                onAssetSelect={setSelectedItem}
+                selectedAsset={selectedItem}
+              />
+              
+              <AnimatePresence>
+                {selectedItem && (
+                  <motion.div
+                    className="mt-6 bg-black/60 backdrop-blur-xl border border-white/20 rounded-2xl p-6"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 20 }}
+                  >
+                    <div className="flex items-start justify-between mb-4">
+                      <div>
+                        <h3 className="text-white font-bold text-2xl mb-2">{selectedItem.name}</h3>
+                        <p className="text-white/60">{selectedItem.description}</p>
+                      </div>
+                      <div className="text-right">
+                        <div className="text-green-400 text-3xl font-bold mb-1">{selectedItem.price}</div>
+                        <div className="flex items-center gap-1 text-yellow-400">
+                          <Star className="w-4 h-4 fill-current" />
+                          <span>{selectedItem.rating}</span>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="flex items-center gap-2">
+                        <User className="w-4 h-4 text-white/60" />
+                        <span className="text-white/70 text-sm">{selectedItem.creator}</span>
+                        <div className="px-2 py-0.5 bg-purple-500/20 border border-purple-500/40 text-purple-300 rounded text-xs">
+                          {selectedItem.creatorReputation} REP
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-1 text-white/60 text-sm">
+                        <Download className="w-4 h-4" />
+                        {selectedItem.downloads} downloads
+                      </div>
+                    </div>
+
+                    <div className="flex gap-2 mb-4">
+                      {[1, 2, 3, 4, 5].map(star => (
+                        <button
+                          key={star}
+                          onClick={() => rateAsset(selectedItem.id, star)}
+                          className="hover:scale-110 transition-transform"
+                        >
+                          <Star className={`w-5 h-5 ${(assetRatings.get(selectedItem.id) || 0) >= star ? 'fill-yellow-400 text-yellow-400' : 'text-white/20'}`} />
+                        </button>
+                      ))}
+                    </div>
+
+                    <div className="flex gap-3">
+                      {selectedItem.price === 'Free' ? (
+                        <button onClick={() => handleDownload(selectedItem)} className="flex-1 py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-medium rounded-xl hover:opacity-90">
+                          Download Free
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => setShowPayment(true)}
+                          className="flex-1 py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-medium rounded-xl hover:opacity-90"
+                        >
+                          Purchase Now
+                        </button>
+                      )}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {filteredItems.map(item => (
               <motion.div
                 key={item.id}
                 onClick={() => setSelectedItem(item)}
@@ -359,11 +473,23 @@ export default function Marketplace() {
                   <span className="text-cyan-400 font-semibold">{item.price}</span>
                 </div>
               </motion.div>
-            ))}
-          </div>
-        </motion.div>
+              ))}
+            </div>
+          )}
+          </motion.div>
         )}
       </div>
+
+      <PaymentIntegration
+        show={showPayment}
+        onClose={() => setShowPayment(false)}
+        item={selectedItem}
+        onPurchaseComplete={(item) => {
+          toast.success(`Successfully purchased ${item.name}!`);
+          setShowPayment(false);
+          setSelectedItem(null);
+        }}
+      />
 
       {/* Item Detail Modal */}
       <AnimatePresence>

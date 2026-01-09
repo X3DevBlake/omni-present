@@ -11,6 +11,8 @@ import Technology from './pages/Technology';
 import SimulationWorld from './pages/SimulationWorld';
 import Community from './pages/Community';
 import Integrations from './pages/Integrations';
+import Analytics from './pages/Analytics';
+import AILab from './pages/AILab';
 import __Layout from './Layout.jsx';
 
 
@@ -28,6 +30,8 @@ export const PAGES = {
     "SimulationWorld": SimulationWorld,
     "Community": Community,
     "Integrations": Integrations,
+    "Analytics": Analytics,
+    "AILab": AILab,
 }
 
 export const pagesConfig = {

@@ -9,7 +9,10 @@ const navItems = [
   { label: 'Technology', page: 'Technology' },
   { label: 'Features', page: 'Features' },
   { label: 'Blueprint', page: 'Blueprint' },
+  { label: 'Simulation', page: 'SimulationWorld' },
   { label: 'Marketplace', page: 'Marketplace' },
+  { label: 'Community', page: 'Community' },
+  { label: 'Integrations', page: 'Integrations' },
   { label: 'Contact', page: 'Contact' },
   { label: 'Settings', page: 'Settings' },
 ];
