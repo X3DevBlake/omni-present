@@ -145,6 +145,7 @@ import VirtualClassrooms from './pages/VirtualClassrooms';
 import Wallet from './pages/Wallet';
 import Webhooks from './pages/Webhooks';
 import WithdrawOmni from './pages/WithdrawOmni';
+import EmergentBehavior from './pages/EmergentBehavior';
 import __Layout from './Layout.jsx';
 
 
@@ -296,6 +297,7 @@ export const PAGES = {
     "Wallet": Wallet,
     "Webhooks": Webhooks,
     "WithdrawOmni": WithdrawOmni,
+    "EmergentBehavior": EmergentBehavior,
 }
 
 export const pagesConfig = {
