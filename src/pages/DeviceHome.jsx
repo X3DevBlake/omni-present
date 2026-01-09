@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Cpu, ShoppingCart, Settings, Zap, Activity, Wrench, Shield, BarChart3, Wifi } from 'lucide-react';
+import { Cpu, ShoppingCart, Settings, Zap, Activity, Wrench, Shield, BarChart3, ShoppingBag } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
@@ -56,6 +56,14 @@ export default function DeviceHome() {
               page: 'DeviceShop',
               gradient: 'from-cyan-500/20 to-blue-500/20',
               border: 'border-cyan-500/30'
+            },
+            {
+              title: 'Device Marketplace',
+              description: 'IoT device marketplace with AI integration',
+              icon: ShoppingBag,
+              page: 'DeviceMarketplace',
+              gradient: 'from-purple-500/20 to-pink-500/20',
+              border: 'border-purple-500/30'
             },
             {
               title: 'My Devices',
@@ -120,14 +128,6 @@ export default function DeviceHome() {
               page: 'DeviceTelemetry',
               gradient: 'from-teal-500/20 to-cyan-500/20',
               border: 'border-teal-500/30'
-            },
-            {
-              title: 'IoT Device Control',
-              description: 'AI-powered IoT device management',
-              icon: Wifi,
-              page: 'IoTDeviceControl',
-              gradient: 'from-purple-500/20 to-indigo-500/20',
-              border: 'border-purple-500/30'
             }
           ].map((item, i) => (
             <Link key={i} to={createPageUrl(item.page)}>

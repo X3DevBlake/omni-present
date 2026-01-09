@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Sparkles, Bot, Layers, Users, Zap, BarChart3, Brain, Code } from 'lucide-react';
+import { Sparkles, Bot, Layers, Users, Zap, BarChart3, Brain, Code, Cpu, TrendingUp } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
@@ -29,7 +29,8 @@ export default function LabsHome() {
             { title: 'Behavior Analytics', description: 'Deep insights into agent performance', icon: BarChart3, page: 'Analytics', gradient: 'from-indigo-500/20 to-purple-500/20', border: 'border-indigo-500/30' },
             { title: 'Environment Designer', description: 'Build immersive 3D test worlds', icon: Sparkles, page: 'EnvironmentDesigner', gradient: 'from-pink-500/20 to-red-500/20', border: 'border-pink-500/30' },
             { title: 'Code Editor', description: 'Write custom behavior scripts', icon: Code, page: 'CodeEditor', gradient: 'from-yellow-500/20 to-orange-500/20', border: 'border-yellow-500/30' },
-            { title: 'Scenario Testing', description: 'Validate agents in controlled environments', icon: Brain, page: 'ScenarioTesting', gradient: 'from-teal-500/20 to-cyan-500/20', border: 'border-teal-500/30' }
+            { title: 'Scenario Testing', description: 'Validate agents in controlled environments', icon: Brain, page: 'ScenarioTesting', gradient: 'from-teal-500/20 to-cyan-500/20', border: 'border-teal-500/30' },
+            { title: 'Advanced Simulation', description: 'Multi-agent real-time physics', icon: Cpu, page: 'AdvancedSimulation', gradient: 'from-cyan-500/20 to-blue-500/20', border: 'border-cyan-500/30' }
           ].map((item, i) => (
             <Link key={i} to={createPageUrl(item.page)}>
               <motion.div className={`bg-gradient-to-br ${item.gradient} border ${item.border} rounded-2xl p-6 hover:scale-105 transition-all cursor-pointer group`} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}>

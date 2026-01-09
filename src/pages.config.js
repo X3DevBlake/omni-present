@@ -131,6 +131,10 @@ import SimulationEnvironment from './pages/SimulationEnvironment';
 import DEXAggregator from './pages/DEXAggregator';
 import AIPortfolioManager from './pages/AIPortfolioManager';
 import IoTDeviceControl from './pages/IoTDeviceControl';
+import AdvancedSimulation from './pages/AdvancedSimulation';
+import DeFiHub from './pages/DeFiHub';
+import PortfolioRebalancer from './pages/PortfolioRebalancer';
+import DeviceMarketplace from './pages/DeviceMarketplace';
 import __Layout from './Layout.jsx';
 
 
@@ -268,6 +272,10 @@ export const PAGES = {
     "DEXAggregator": DEXAggregator,
     "AIPortfolioManager": AIPortfolioManager,
     "IoTDeviceControl": IoTDeviceControl,
+    "AdvancedSimulation": AdvancedSimulation,
+    "DeFiHub": DeFiHub,
+    "PortfolioRebalancer": PortfolioRebalancer,
+    "DeviceMarketplace": DeviceMarketplace,
 }
 
 export const pagesConfig = {
