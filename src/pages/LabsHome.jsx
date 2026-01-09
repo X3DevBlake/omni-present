@@ -2,13 +2,16 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Sparkles, Bot, Layers, Users, Zap, BarChart3, Brain, Code, Cpu, TrendingUp } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
+import EnhancedHubNav from '../components/navigation/EnhancedHubNav';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
 import Interactive3DBanner from '../components/3d/Interactive3DBanner';
 
 export default function LabsHome() {
   return (
-    <AuroraBackground className="min-h-screen">
+    <>
+      <EnhancedHubNav currentHub="LabsHome" />
+      <AuroraBackground className="min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
         <motion.div className="mb-12" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
           <Interactive3DBanner
@@ -47,5 +50,6 @@ export default function LabsHome() {
         </div>
       </div>
     </AuroraBackground>
+    </>
   );
 }

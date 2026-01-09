@@ -2,12 +2,15 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Cpu, ShoppingCart, Settings, Zap, Activity, Wrench, Shield, BarChart3, ShoppingBag } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
+import EnhancedHubNav from '../components/navigation/EnhancedHubNav';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
 
 export default function DeviceHome() {
   return (
-    <AuroraBackground className="min-h-screen">
+    <>
+      <EnhancedHubNav currentHub="DeviceHome" />
+      <AuroraBackground className="min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
         <motion.div
           className="text-center mb-12"
@@ -150,5 +153,6 @@ export default function DeviceHome() {
         </div>
       </div>
     </AuroraBackground>
+    </>
   );
 }

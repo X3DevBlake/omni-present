@@ -1,12 +1,12 @@
 import React from 'react';
-import FloatingNav from './components/omni/FloatingNav';
+import EnhancedMainNav from './components/navigation/EnhancedMainNav';
 import OmniAssistant from './components/ai/OmniAssistant';
 import { GamificationProvider } from './components/gamification/GamificationContext';
 
 export default function Layout({ children }) {
   return (
     <GamificationProvider>
-      <FloatingNav />
+      <EnhancedMainNav />
       {children}
       <OmniAssistant />
     </GamificationProvider>

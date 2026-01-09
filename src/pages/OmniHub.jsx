@@ -8,7 +8,7 @@ import { createPageUrl } from '../utils';
 export default function OmniHub() {
   return (
     <>
-      <HubNav currentHub="OmniHub" />
+      <EnhancedHubNav currentHub="OmniHub" />
       <AuroraBackground className="min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
         <motion.div className="text-center mb-12" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>

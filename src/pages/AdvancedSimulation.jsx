@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Play, Pause, RefreshCw, Settings, Network, Cpu, Zap } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
-import HubNav from '../components/navigation/HubNav';
+import EnhancedHubNav from '../components/navigation/EnhancedHubNav';
 import AgentKnowledgeGraph from '../components/agents/AgentKnowledgeGraph';
 import SimulationPhysicsEngine from '../components/simulation/SimulationPhysicsEngine';
 import MultiAgentInteraction from '../components/simulation/MultiAgentInteraction';
@@ -70,7 +70,7 @@ export default function AdvancedSimulation() {
 
   return (
     <>
-      <HubNav currentHub="SimulationEnvironment" />
+      <EnhancedHubNav currentHub="AdvancedSimulation" />
       <AuroraBackground className="min-h-screen py-16 px-4">
         <div className="max-w-7xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-8">
