@@ -5,14 +5,15 @@ import { Link, useLocation } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 
 const navItems = [
-  { label: 'Home', page: 'HomeHub' },
-  { label: 'Omni', page: 'OmniHub' },
-  { label: 'Simulation', page: 'SimulationEnvironment' },
-  { label: 'Labs', page: 'LabsHome' },
-  { label: 'Devices', page: 'DeviceHome' },
-  { label: 'Marketplace', page: 'MarketplaceHome' },
-  { label: 'Profile', page: 'ProfileHome' },
-];
+        { label: 'Home', page: 'HomeHub' },
+        { label: 'Omni Banking', page: 'OmniHub' },
+        { label: 'DeFi Hub', page: 'DeFiHub' },
+        { label: 'Simulation', page: 'AdvancedSimulation' },
+        { label: 'Labs', page: 'LabsHome' },
+        { label: 'Devices', page: 'DeviceHome' },
+        { label: 'Marketplace', page: 'MarketplaceHome' },
+        { label: 'Profile', page: 'ProfileHome' },
+      ];
 
 export default function FloatingNav() {
   const [isScrolled, setIsScrolled] = useState(true);

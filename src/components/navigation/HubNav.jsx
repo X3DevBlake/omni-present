@@ -6,44 +6,89 @@ import { ChevronRight } from 'lucide-react';
 
 const hubRoutes = {
   OmniHub: [
-    { label: 'Banking', page: 'OmniHub' },
+    { label: 'Hub', page: 'OmniHub' },
     { label: 'Cards', page: 'OmniCardStore' },
     { label: 'Staking', page: 'OmniStaking' },
     { label: 'Achievements', page: 'OmniAchievements' },
-    { label: 'DeFi', page: 'DeFiHub' }
+    { label: 'Wallet', page: 'Wallet' },
+    { label: 'Transactions', page: 'OmniDashboard' }
   ],
   DeFiHub: [
     { label: 'Hub', page: 'DeFiHub' },
-    { label: 'DEX', page: 'DEXAggregator' },
+    { label: 'DEX Aggregator', page: 'DEXAggregator' },
     { label: 'Portfolio', page: 'PortfolioRebalancer' },
-    { label: 'Pools', page: 'LiquidityPools' },
-    { label: 'AI Trading', page: 'AITradingAgents' }
+    { label: 'Liquidity', page: 'LiquidityPools' },
+    { label: 'Yield Farming', page: 'AdvancedYieldFarming' },
+    { label: 'Risk Tools', page: 'RiskAssessment' }
   ],
   LabsHome: [
-    { label: 'Labs', page: 'LabsHome' },
+    { label: 'Hub', page: 'LabsHome' },
     { label: 'Blueprint', page: 'Blueprint' },
     { label: 'Simulation', page: 'AdvancedSimulation' },
     { label: 'Agents', page: 'AgentManagement' },
-    { label: 'Analytics', page: 'Analytics' }
+    { label: 'Analytics', page: 'Analytics' },
+    { label: 'Gallery', page: 'BlueprintGallery' }
   ],
   DeviceHome: [
-    { label: 'Devices', page: 'DeviceHome' },
+    { label: 'Hub', page: 'DeviceHome' },
     { label: 'Shop', page: 'DeviceShop' },
     { label: 'Marketplace', page: 'DeviceMarketplace' },
     { label: 'IoT Control', page: 'IoTDeviceControl' },
-    { label: 'Fleet', page: 'FleetManagement' }
+    { label: 'Fleet', page: 'FleetManagement' },
+    { label: 'Health', page: 'DeviceHealth' }
   ],
-  SimulationEnvironment: [
-    { label: 'Environment', page: 'SimulationEnvironment' },
-    { label: 'Advanced', page: 'AdvancedSimulation' },
+  AdvancedSimulation: [
+    { label: 'Simulation', page: 'AdvancedSimulation' },
     { label: 'Knowledge', page: 'AgentKnowledge' },
-    { label: 'World', page: 'SimulationWorld' }
+    { label: 'Environment', page: 'SimulationEnvironment' },
+    { label: 'World', page: 'SimulationWorld' },
+    { label: 'Recording', page: 'AdvancedSimulation' }
   ]
 };
 
 export default function HubNav({ currentHub }) {
   const location = useLocation();
-  const routes = hubRoutes[currentHub] || [];
+  
+  // Map page names to hub names
+  const pageToHub = {
+    'OmniHub': 'OmniHub',
+    'OmniCardStore': 'OmniHub',
+    'OmniStaking': 'OmniHub',
+    'OmniAchievements': 'OmniHub',
+    'Wallet': 'OmniHub',
+    'OmniDashboard': 'OmniHub',
+    'DeFiHub': 'DeFiHub',
+    'DEXAggregator': 'DeFiHub',
+    'PortfolioRebalancer': 'DeFiHub',
+    'LiquidityPools': 'DeFiHub',
+    'AdvancedYieldFarming': 'DeFiHub',
+    'RiskAssessment': 'DeFiHub',
+    'LabsHome': 'LabsHome',
+    'Blueprint': 'LabsHome',
+    'AdvancedSimulation': 'AdvancedSimulation',
+    'AgentManagement': 'LabsHome',
+    'Analytics': 'LabsHome',
+    'BlueprintGallery': 'LabsHome',
+    'DeviceHome': 'DeviceHome',
+    'DeviceShop': 'DeviceHome',
+    'DeviceMarketplace': 'DeviceHome',
+    'IoTDeviceControl': 'DeviceHome',
+    'FleetManagement': 'DeviceHome',
+    'DeviceHealth': 'DeviceHome',
+    'AgentKnowledge': 'AdvancedSimulation',
+    'SimulationEnvironment': 'AdvancedSimulation',
+    'SimulationWorld': 'AdvancedSimulation'
+  };
+  
+  // Detect hub from pathname
+  let detectedHub = currentHub;
+  const pathParts = location.pathname.split('/').filter(Boolean);
+  if (pathParts.length > 0) {
+    const pageFromPath = pathParts[0].charAt(0).toUpperCase() + pathParts[0].slice(1);
+    detectedHub = pageToHub[pageFromPath] || currentHub;
+  }
+  
+  const routes = hubRoutes[detectedHub] || [];
 
   if (routes.length === 0) return null;
 
