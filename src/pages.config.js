@@ -112,6 +112,10 @@ import AgentBudget from './pages/AgentBudget';
 import AgentSpending from './pages/AgentSpending';
 import AgentECommerceSettings from './pages/AgentECommerceSettings';
 import AgentShoppingLog from './pages/AgentShoppingLog';
+import OmniDashboard from './pages/OmniDashboard';
+import Tokenomics from './pages/Tokenomics';
+import AgentCardSettings from './pages/AgentCardSettings';
+import LinkBankAccount from './pages/LinkBankAccount';
 import __Layout from './Layout.jsx';
 
 
@@ -230,6 +234,10 @@ export const PAGES = {
     "AgentSpending": AgentSpending,
     "AgentECommerceSettings": AgentECommerceSettings,
     "AgentShoppingLog": AgentShoppingLog,
+    "OmniDashboard": OmniDashboard,
+    "Tokenomics": Tokenomics,
+    "AgentCardSettings": AgentCardSettings,
+    "LinkBankAccount": LinkBankAccount,
 }
 
 export const pagesConfig = {
