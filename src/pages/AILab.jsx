@@ -92,11 +92,15 @@ export default function AILab() {
           <p className="text-white/60 text-lg">Experiment with cutting-edge AI models and algorithms</p>
         </motion.div>
 
-        <div className="flex gap-4 mb-8 border-b border-white/10">
+        <div className="flex gap-4 mb-8 border-b border-white/10 overflow-x-auto pb-2">
           {[
             { id: 'experiment', label: '🧪 Experiment', icon: 'Experiment' },
             { id: 'visualize', label: '📊 3D Visualization', icon: 'Visualization' },
-            { id: 'database', label: '🗄️ Data Sources', icon: 'Database' }
+            { id: 'agents', label: '🤖 Agents', icon: 'Agents' },
+            { id: 'data', label: '📡 Data & Flow', icon: 'Data' },
+            { id: 'database', label: '🗄️ Data Sources', icon: 'Database' },
+            { id: 'goals', label: '🎯 Goals', icon: 'Goals' },
+            { id: 'query', label: '🔍 Smart Query', icon: 'Query' }
           ].map(tab => (
             <button
               key={tab.id}
