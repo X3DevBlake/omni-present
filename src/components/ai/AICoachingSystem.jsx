@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Lightbulb, TrendingUp, Zap, BookOpen, Award, ChevronRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { createPageUrl } from '@/utils';
 import { usePersonalization } from '../personalization/PersonalizationContext';
 
 export default function AICoachingSystem() {
@@ -177,15 +179,16 @@ export default function AICoachingSystem() {
                           >
                             Got it
                           </button>
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              // Navigate to relevant hub
-                            }}
-                            className="flex-1 px-3 py-2 bg-yellow-500/20 hover:bg-yellow-500/30 border border-yellow-500/50 rounded-lg text-yellow-400 text-xs font-semibold transition-colors"
-                          >
-                            Learn More
-                          </button>
+                          <Link to={createPageUrl('AgentCustomization')}>
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                              }}
+                              className="w-full px-3 py-2 bg-yellow-500/20 hover:bg-yellow-500/30 border border-yellow-500/50 rounded-lg text-yellow-400 text-xs font-semibold transition-colors"
+                            >
+                              Learn More
+                            </button>
+                          </Link>
                         </div>
                       </motion.div>
                     )}
