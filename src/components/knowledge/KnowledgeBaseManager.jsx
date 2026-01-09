@@ -142,15 +142,16 @@ export default function KnowledgeBaseManager() {
                     <span>{source.uploaded || source.lastSync || 'N/A'}</span>
                   </div>
                 </div>
-              <motion.button
-                whileHover={{ scale: 1.1 }}
-                onClick={() => handleDelete(source.id)}
-                className="p-2 hover:bg-red-500/20 rounded-lg transition-colors"
-              >
-                <Trash2 className="w-4 h-4 text-red-400" />
-              </motion.button>
-            </motion.div>
-          ))}
+                <motion.button
+                  whileHover={{ scale: 1.1 }}
+                  onClick={() => handleDelete(source.id)}
+                  className="p-2 hover:bg-red-500/20 rounded-lg transition-colors"
+                >
+                  <Trash2 className="w-4 h-4 text-red-400" />
+                </motion.button>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </motion.div>

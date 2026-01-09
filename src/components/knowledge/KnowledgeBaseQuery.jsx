@@ -139,23 +139,24 @@ export default function KnowledgeBaseQuery() {
                     <p className="text-white font-semibold text-sm">{result.source || 'Unknown Source'}</p>
                     <p className="text-white/70 text-sm mt-2">{result.excerpt || 'No excerpt available'}</p>
                   </div>
-                <div className="text-right ml-4">
-                  <div className="flex items-center justify-end gap-2">
-                    <span className="text-purple-400 font-bold text-sm">{result.relevance}%</span>
-                    <div className="w-12 h-2 bg-black/40 rounded-full overflow-hidden">
-                      <motion.div
-                        className="bg-gradient-to-r from-purple-500 to-pink-500 h-full"
-                        initial={{ width: 0 }}
-                        animate={{ width: `${result.relevance}%` }}
-                        transition={{ delay: 0.2, duration: 0.5 }}
-                      />
+                  <div className="text-right ml-4">
+                    <div className="flex items-center justify-end gap-2">
+                      <span className="text-purple-400 font-bold text-sm">{result.relevance}%</span>
+                      <div className="w-12 h-2 bg-black/40 rounded-full overflow-hidden">
+                        <motion.div
+                          className="bg-gradient-to-r from-purple-500 to-pink-500 h-full"
+                          initial={{ width: 0 }}
+                          animate={{ width: `${result.relevance}%` }}
+                          transition={{ delay: 0.2, duration: 0.5 }}
+                        />
+                      </div>
                     </div>
+                    <p className="text-white/50 text-xs mt-2">{result.citations} citations</p>
                   </div>
-                  <p className="text-white/50 text-xs mt-2">{result.citations} citations</p>
                 </div>
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            );
+          })}
         </div>
       )}
 
