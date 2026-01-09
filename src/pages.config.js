@@ -39,6 +39,7 @@ import CareerOpportunities from './pages/CareerOpportunities';
 import Certifications from './pages/Certifications';
 import Challenges from './pages/Challenges';
 import CodeEditor from './pages/CodeEditor';
+import Communications from './pages/Communications';
 import Community from './pages/Community';
 import CommunityGuidelines from './pages/CommunityGuidelines';
 import CompetitiveArenas from './pages/CompetitiveArenas';
@@ -141,7 +142,6 @@ import VirtualClassrooms from './pages/VirtualClassrooms';
 import Wallet from './pages/Wallet';
 import Webhooks from './pages/Webhooks';
 import WithdrawOmni from './pages/WithdrawOmni';
-import Communications from './pages/Communications';
 import __Layout from './Layout.jsx';
 
 
@@ -187,6 +187,7 @@ export const PAGES = {
     "Certifications": Certifications,
     "Challenges": Challenges,
     "CodeEditor": CodeEditor,
+    "Communications": Communications,
     "Community": Community,
     "CommunityGuidelines": CommunityGuidelines,
     "CompetitiveArenas": CompetitiveArenas,
@@ -289,7 +290,6 @@ export const PAGES = {
     "Wallet": Wallet,
     "Webhooks": Webhooks,
     "WithdrawOmni": WithdrawOmni,
-    "Communications": Communications,
 }
 
 export const pagesConfig = {
