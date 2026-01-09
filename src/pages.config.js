@@ -143,6 +143,7 @@ import Wallet from './pages/Wallet';
 import Webhooks from './pages/Webhooks';
 import WithdrawOmni from './pages/WithdrawOmni';
 import Roadmap from './pages/Roadmap';
+import CareerPortal from './pages/CareerPortal';
 import __Layout from './Layout.jsx';
 
 
@@ -292,6 +293,7 @@ export const PAGES = {
     "Webhooks": Webhooks,
     "WithdrawOmni": WithdrawOmni,
     "Roadmap": Roadmap,
+    "CareerPortal": CareerPortal,
 }
 
 export const pagesConfig = {
