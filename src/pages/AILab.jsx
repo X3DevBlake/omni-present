@@ -208,11 +208,45 @@ export default function AILab() {
           </div>
         )}
 
+        {/* Agents Tab */}
+        {activeTab === 'agents' && (
+          <div className="space-y-6">
+            <HolographicAgentProjection agentName="LabAssistant-01" />
+            <MultiAgentWorld3D />
+            <AgentMemoryGraph />
+          </div>
+        )}
+
+        {/* Data & Flow Tab */}
+        {activeTab === 'data' && (
+          <div className="space-y-6">
+            <DataFlowVisualizer />
+            <div className="grid lg:grid-cols-2 gap-6">
+              <FinancialMarket3DCityscape />
+              <ResourceUtilization3D />
+            </div>
+          </div>
+        )}
+
         {/* Database Tab */}
         {activeTab === 'database' && (
           <div className="grid lg:grid-cols-2 gap-6">
             <DataSourceConnector />
             <DataDiscoveryAgent />
+          </div>
+        )}
+
+        {/* Goals Tab */}
+        {activeTab === 'goals' && (
+          <div>
+            <AgentGoalBuilder />
+          </div>
+        )}
+
+        {/* Smart Query Tab */}
+        {activeTab === 'query' && (
+          <div>
+            <NaturalLanguageQueryInterface />
           </div>
         )}
       </div>
