@@ -1,6 +1,6 @@
 import React from 'react';
 import FloatingNav from './components/omni/FloatingNav';
-import AIChatbot from './components/ai/AIChatbot';
+import OmniAssistant from './components/ai/OmniAssistant';
 import { GamificationProvider } from './components/gamification/GamificationContext';
 
 export default function Layout({ children }) {
@@ -8,7 +8,7 @@ export default function Layout({ children }) {
     <GamificationProvider>
       <FloatingNav />
       {children}
-      <AIChatbot />
+      <OmniAssistant />
     </GamificationProvider>
   );
 }
