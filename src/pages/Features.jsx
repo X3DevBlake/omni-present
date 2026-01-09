@@ -58,6 +58,7 @@ const Feature3DCard = ({ feature, index }) => {
 };
 
 export default function Features() {
+  const navigate = useNavigate();
   const [selectedFeature, setSelectedFeature] = useState(null);
 
   const features = [
