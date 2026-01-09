@@ -30,6 +30,8 @@ export default function OmniHub() {
           <div className="inline-block mb-4 px-4 py-2 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-500/30 rounded-full">
             <span className="text-cyan-400 text-sm font-semibold">💎 Omni Banking Hub</span>
           </div>
+          <p className="text-white/40 text-sm">Portal to banking services</p>
+        </motion.div>
           <h1 className="text-5xl font-bold text-white mb-4">
             Omni
             <span className="bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent"> Banking</span>
@@ -63,26 +65,27 @@ export default function OmniHub() {
             { title: 'Exchange Listings', description: 'Where to trade Omni tokens', icon: Repeat, page: 'ExchangeListings', gradient: 'from-indigo-500/20 to-blue-500/20', border: 'border-indigo-500/30' },
             { title: 'DeFi Hub', description: 'Advanced DeFi with DEX aggregation & AI', icon: TrendingUp, page: 'DeFiHub', gradient: 'from-green-500/20 to-emerald-500/20', border: 'border-green-500/30' }
           ].map((item, i) => (
-            <Link key={i} to={createPageUrl(item.page)}>
-              <motion.div 
-                className={`bg-gradient-to-br ${item.gradient} border ${item.border} rounded-2xl p-6 hover:scale-105 transition-all cursor-pointer group`} 
-                initial={{ opacity: 0, y: 20 }} 
-                animate={{ opacity: 1, y: 0 }} 
-                transition={{ delay: i * 0.05 }}
-              >
-                <div className="flex items-start justify-between mb-4">
-                  <div className="w-12 h-12 rounded-xl bg-black/40 flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <item.icon className="w-6 h-6 text-white" />
-                  </div>
-                </div>
-                <h3 className="text-white font-bold text-lg mb-2">{item.title}</h3>
-                <p className="text-white/60 text-sm">{item.description}</p>
-              </motion.div>
-            </Link>
+           <Link key={i} to={createPageUrl(item.page)}>
+             <motion.div 
+               className={`bg-gradient-to-br ${item.gradient} border ${item.border} rounded-2xl p-6 hover:scale-105 transition-all cursor-pointer group min-h-40`} 
+               initial={{ opacity: 0, y: 20 }} 
+               animate={{ opacity: 1, y: 0 }} 
+               transition={{ delay: i * 0.05 }}
+               whileHover={{ y: -5 }}
+             >
+               <div className="flex items-start justify-between mb-4">
+                 <div className="w-12 h-12 rounded-xl bg-black/40 flex items-center justify-center group-hover:scale-110 transition-transform">
+                   <item.icon className="w-6 h-6 text-white" />
+                 </div>
+               </div>
+               <h3 className="text-white font-bold text-lg mb-2">{item.title}</h3>
+               <p className="text-white/60 text-sm leading-relaxed">{item.description}</p>
+             </motion.div>
+           </Link>
           ))}
-        </div>
-      </div>
-    </AuroraBackground>
-    </>
-  );
-}
+          </div>
+          </div>
+          </AuroraBackground>
+          </>
+          );
+          }
