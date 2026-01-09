@@ -96,6 +96,12 @@ import Challenges from './pages/Challenges';
 import Leaderboards from './pages/Leaderboards';
 import LabsHome from './pages/LabsHome';
 import Wallet from './pages/Wallet';
+import OmniHome from './pages/OmniHome';
+import DepositOmni from './pages/DepositOmni';
+import DepositETH from './pages/DepositETH';
+import DepositUSDT from './pages/DepositUSDT';
+import BridgeOmni from './pages/BridgeOmni';
+import ExchangeListings from './pages/ExchangeListings';
 import __Layout from './Layout.jsx';
 
 
@@ -198,6 +204,12 @@ export const PAGES = {
     "Leaderboards": Leaderboards,
     "LabsHome": LabsHome,
     "Wallet": Wallet,
+    "OmniHome": OmniHome,
+    "DepositOmni": DepositOmni,
+    "DepositETH": DepositETH,
+    "DepositUSDT": DepositUSDT,
+    "BridgeOmni": BridgeOmni,
+    "ExchangeListings": ExchangeListings,
 }
 
 export const pagesConfig = {
