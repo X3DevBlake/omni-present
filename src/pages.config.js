@@ -142,6 +142,7 @@ import VirtualClassrooms from './pages/VirtualClassrooms';
 import Wallet from './pages/Wallet';
 import Webhooks from './pages/Webhooks';
 import WithdrawOmni from './pages/WithdrawOmni';
+import Roadmap from './pages/Roadmap';
 import __Layout from './Layout.jsx';
 
 
@@ -290,6 +291,7 @@ export const PAGES = {
     "Wallet": Wallet,
     "Webhooks": Webhooks,
     "WithdrawOmni": WithdrawOmni,
+    "Roadmap": Roadmap,
 }
 
 export const pagesConfig = {
