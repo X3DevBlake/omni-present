@@ -17,6 +17,14 @@ import AgentMemoryGraph from '../components/ai/AgentMemoryGraph';
 import AgentGoalBuilder from '../components/builder/AgentGoalBuilder';
 import NaturalLanguageQueryInterface from '../components/ai/NaturalLanguageQueryInterface';
 import ResourceUtilization3D from '../components/3d/ResourceUtilization3D';
+import DatasetUploader from '../components/training/DatasetUploader';
+import TrainingParameterConfig from '../components/training/TrainingParameterConfig';
+import TrainingProgressVisualization from '../components/training/TrainingProgressVisualization';
+import ModelSaveLoad from '../components/training/ModelSaveLoad';
+import SharedWorkspace3D from '../components/collaboration/SharedWorkspace3D';
+import AgentRoleManager from '../components/collaboration/AgentRoleManager';
+import EnvironmentDesigner from '../components/sandbox/EnvironmentDesigner';
+import SimulationRecorderAnalytics from '../components/sandbox/SimulationRecorderAnalytics';
 
 function FloatingBrain() {
   return (
