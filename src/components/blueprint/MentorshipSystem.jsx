@@ -176,13 +176,42 @@ export default function MentorshipSystem({ show, onClose, agents, specialization
 
   useEffect(() => {
     const interval = setInterval(() => {
+      // Autonomous mentor identification
+      agents.forEach(agent => {
+        if (!agent.experience || agent.experience < 200) {
+          const potentialMentors = agents.filter(a => 
+            a.experience > 300 && 
+            a.id !== agent.id &&
+            !Array.from(network.relationships.values()).some(r => r.mentorId === a.id && r.menteeId === agent.id)
+          );
+
+          if (potentialMentors.length > 0 && Math.random() > 0.9) {
+            const mentor = potentialMentors[Math.floor(Math.random() * potentialMentors.length)];
+            network.createMentorship(mentor, agent);
+            toast.success(`${agent.name} found mentor: ${mentor.name}`);
+          }
+        }
+      });
+
       // Process active mentorships
       network.relationships.forEach((relationship) => {
-        const mentorSpec = specializations?.get(relationship.mentorId);
-        const menteeSpec = specializations?.get(relationship.menteeId);
+        const mentor = agents.find(a => a.id === relationship.mentorId);
+        const mentee = agents.find(a => a.id === relationship.menteeId);
         
-        if (mentorSpec && menteeSpec) {
-          network.processMentorship(mentorSpec, menteeSpec);
+        if (mentor && mentee && Math.random() > 0.7) {
+          // Autonomous skill transfer
+          if (!mentee.skills) mentee.skills = [];
+          if (mentor.skills && mentor.skills.length > mentee.skills.length) {
+            const newSkill = mentor.skills.find(s => !mentee.skills.includes(s));
+            if (newSkill) {
+              mentee.skills.push(newSkill);
+              relationship.skillsTransferred.push({
+                skill: newSkill,
+                amount: 10,
+                timestamp: Date.now()
+              });
+            }
+          }
         }
       });
 

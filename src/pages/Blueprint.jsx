@@ -33,6 +33,7 @@ import AgentSpecializationSystem from '../components/blueprint/AgentSpecializati
 import ResourceManagementSystem from '../components/blueprint/ResourceManagementSystem';
 import FactionDynamicsSystem from '../components/blueprint/FactionDynamicsSystem';
 import ResourceEconomySystem from '../components/blueprint/ResourceEconomySystem';
+import ScenarioEditor from '../components/blueprint/ScenarioEditor';
 import { DynamicEnvironmentSystem, InteractiveEnvironmentElement } from '../components/blueprint/DynamicEnvironmentSystem';
 import AgentCoordinationDashboard from '../components/blueprint/AgentCoordinationSystem';
 import AgentBehaviorDashboard from '../components/blueprint/AgentBehaviorDashboard';
@@ -202,6 +203,7 @@ export default function Blueprint() {
   const [showResourceMgmt, setShowResourceMgmt] = useState(false);
   const [showFactionDynamics, setShowFactionDynamics] = useState(false);
   const [showEconomy, setShowEconomy] = useState(false);
+  const [showScenarioEditor, setShowScenarioEditor] = useState(false);
   const [activeSociety, setActiveSociety] = useState(null);
   const [physicsObjects, setPhysicsObjects] = useState([]);
   const [footprints, setFootprints] = useState([]);
@@ -887,6 +889,13 @@ export default function Blueprint() {
                         >
                         <DollarSign className="w-4 h-4" />
                         Economy
+                        </button>
+                        <button
+                        onClick={() => setShowScenarioEditor(true)}
+                        className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-500/20 to-red-500/20 border border-orange-500/40 text-orange-300 rounded-xl text-sm hover:from-orange-500/30 hover:to-red-500/30"
+                        >
+                        <Settings className="w-4 h-4" />
+                        Scenarios
                         </button>
                     </div>
 
@@ -1640,6 +1649,16 @@ export default function Blueprint() {
         onClose={() => setShowEconomy(false)}
         agents={holographicAgents}
         scarcityEvents={[]}
+      />
+
+      {/* Scenario Editor */}
+      <ScenarioEditor
+        show={showScenarioEditor}
+        onClose={() => setShowScenarioEditor(false)}
+        onScenarioApply={(scenario) => {
+          toast.success(`Scenario "${scenario.name}" applied!`);
+          console.log('Applied scenario:', scenario);
+        }}
       />
 
       {/* Agent Training Module */}

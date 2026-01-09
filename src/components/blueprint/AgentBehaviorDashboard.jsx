@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Activity, Brain, Users, Shield, TrendingUp, Filter, Download, Award } from 'lucide-react';
 import AgentSkillTree from './AgentSkillTree';
-import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar } from 'recharts';
 import { toast } from 'sonner';
+import { base44 } from '@/api/base44Client';
 import { KnowledgeTransferVisualization } from './KnowledgeTransferVisualization';
 
 export default function AgentBehaviorDashboard({ show, onClose, agents, memorySystem, collectiveKnowledge }) {
@@ -12,6 +13,8 @@ export default function AgentBehaviorDashboard({ show, onClose, agents, memorySy
   const [filterType, setFilterType] = useState('all');
   const [analytics, setAnalytics] = useState(null);
   const [showSkillTree, setShowSkillTree] = useState(false);
+  const [mentorshipData, setMentorshipData] = useState([]);
+  const [showPredictions, setShowPredictions] = useState(false);
 
   useEffect(() => {
     if (show && agents) {
@@ -19,7 +22,7 @@ export default function AgentBehaviorDashboard({ show, onClose, agents, memorySy
     }
   }, [show, agents]);
 
-  const generateAnalytics = () => {
+  const generateAnalytics = async () => {
     const agentAnalytics = agents.map(agent => {
       const memory = memorySystem?.get(agent.id);
       
@@ -33,7 +36,11 @@ export default function AgentBehaviorDashboard({ show, onClose, agents, memorySy
         alliances: memory?.interactions?.filter(i => i.outcome === 'positive').length || 0,
         conflicts: memory?.interactions?.filter(i => i.outcome === 'negative').length || 0,
         resources: Math.floor(Math.random() * 100),
-        skillLevel: Math.floor(Math.random() * 100)
+        skillLevel: Math.floor(Math.random() * 100),
+        efficiency: Math.random() * 100,
+        goalAchievement: Math.random() * 100,
+        ethicalAdherence: Math.random() * 100,
+        resourceUtilization: Math.random() * 100
       };
     });
 
@@ -41,8 +48,57 @@ export default function AgentBehaviorDashboard({ show, onClose, agents, memorySy
     const learningData = Array.from({ length: 10 }, (_, i) => ({
       time: `T${i}`,
       learning: Math.floor(Math.random() * 100),
-      performance: Math.floor(Math.random() * 100)
+      performance: Math.floor(Math.random() * 100),
+      efficiency: Math.floor(Math.random() * 100)
     }));
+
+    // Communication patterns
+    const commPatterns = Array.from({ length: 8 }, (_, i) => ({
+      time: `T${i}`,
+      messages: Math.floor(Math.random() * 50) + 10,
+      collaboration: Math.floor(Math.random() * 30) + 5
+    }));
+
+    // Ethical trends
+    const ethicalTrends = Array.from({ length: 10 }, (_, i) => ({
+      time: `T${i}`,
+      adherence: 70 + Math.random() * 30,
+      drift: Math.random() * 20
+    }));
+
+    // Resource utilization
+    const resourceData = Array.from({ length: 8 }, (_, i) => ({
+      time: `T${i}`,
+      food: Math.floor(Math.random() * 100),
+      water: Math.floor(Math.random() * 100),
+      materials: Math.floor(Math.random() * 100)
+    }));
+
+    // AI Predictive insights
+    let predictions = null;
+    try {
+      const result = await base44.integrations.Core.InvokeLLM({
+        prompt: `Analyze agent behavior data and predict future trends:
+        - ${agents.length} agents
+        - Avg efficiency: ${(agentAnalytics.reduce((s, a) => s + a.efficiency, 0) / agents.length).toFixed(1)}%
+        - Avg goal achievement: ${(agentAnalytics.reduce((s, a) => s + a.goalAchievement, 0) / agents.length).toFixed(1)}%
+        - Total conflicts: ${agentAnalytics.reduce((s, a) => s + a.conflicts, 0)}
+        
+        Predict: 1) Potential bottlenecks, 2) Resource shortages, 3) Social conflicts, 4) Improvement opportunities`,
+        response_json_schema: {
+          type: "object",
+          properties: {
+            bottlenecks: { type: "array", items: { type: "string" } },
+            resourceRisks: { type: "array", items: { type: "string" } },
+            socialPredictions: { type: "array", items: { type: "string" } },
+            opportunities: { type: "array", items: { type: "string" } }
+          }
+        }
+      });
+      predictions = result;
+    } catch (err) {
+      console.error('Prediction failed:', err);
+    }
 
     // Social network data
     const socialData = [
@@ -64,12 +120,18 @@ export default function AgentBehaviorDashboard({ show, onClose, agents, memorySy
       learningData,
       socialData,
       decisionData,
+      commPatterns,
+      ethicalTrends,
+      resourceData,
+      predictions,
       totalDecisions: agentAnalytics.reduce((sum, a) => sum + a.decisions, 0),
       avgSkillLevel: agents.length > 0 ? agentAnalytics.reduce((sum, a) => sum + a.skillLevel, 0) / agents.length : 0,
       totalInteractions: agentAnalytics.reduce((sum, a) => sum + a.interactions, 0),
       alliances: agentAnalytics.reduce((sum, a) => sum + a.alliances, 0),
       conflicts: agentAnalytics.reduce((sum, a) => sum + a.conflicts, 0),
-      avgRelationship: 50
+      avgRelationship: 50,
+      avgEfficiency: agentAnalytics.reduce((s, a) => s + a.efficiency, 0) / agents.length,
+      avgGoalAchievement: agentAnalytics.reduce((s, a) => s + a.goalAchievement, 0) / agents.length
     });
   };
 
@@ -123,7 +185,7 @@ export default function AgentBehaviorDashboard({ show, onClose, agents, memorySy
           </div>
 
           <div className="flex gap-2 p-4 border-b border-white/10 overflow-x-auto">
-            {['overview', 'learning', 'social', 'decisions', 'resources', 'skills', 'knowledge'].map(tab => (
+            {['overview', 'learning', 'social', 'decisions', 'resources', 'skills', 'knowledge', 'efficiency', 'communication', 'ethics', 'predictions', 'mentorship'].map(tab => (
               <button key={tab} onClick={() => setActiveTab(tab)} className={`px-4 py-2 rounded-lg text-sm font-medium capitalize whitespace-nowrap ${activeTab === tab ? 'bg-purple-500/30 border border-purple-500/50 text-purple-300' : 'bg-white/5 text-white/60 hover:bg-white/10'}`}>
                 {tab}
               </button>
@@ -360,6 +422,166 @@ export default function AgentBehaviorDashboard({ show, onClose, agents, memorySy
                 collectiveKnowledge={collectiveKnowledge}
                 agents={agents}
               />
+            )}
+
+            {activeTab === 'efficiency' && analytics && (
+              <div className="space-y-6">
+                <div className="bg-white/5 rounded-xl p-4 border border-white/10">
+                  <h4 className="text-white font-semibold mb-4">Agent Efficiency Trends</h4>
+                  <ResponsiveContainer width="100%" height={300}>
+                    <AreaChart data={analytics.learningData}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="#ffffff20" />
+                      <XAxis dataKey="time" stroke="#ffffff60" />
+                      <YAxis stroke="#ffffff60" />
+                      <Tooltip contentStyle={{ backgroundColor: '#1a1a1a', border: '1px solid #ffffff20' }} />
+                      <Legend />
+                      <Area type="monotone" dataKey="efficiency" stroke="#10b981" fill="#10b981" fillOpacity={0.3} />
+                      <Area type="monotone" dataKey="performance" stroke="#3b82f6" fill="#3b82f6" fillOpacity={0.3} />
+                    </AreaChart>
+                  </ResponsiveContainer>
+                </div>
+
+                <div className="grid grid-cols-3 gap-4">
+                  {analytics.agents.slice(0, 6).map((agent, i) => (
+                    <div key={agent.id} className="bg-white/5 rounded-xl p-4 border border-white/10">
+                      <div className="text-white font-medium mb-3">{agent.name}</div>
+                      <div className="space-y-2">
+                        <div>
+                          <div className="flex justify-between text-xs mb-1">
+                            <span className="text-white/60">Efficiency</span>
+                            <span className="text-green-400">{agent.efficiency.toFixed(0)}%</span>
+                          </div>
+                          <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                            <div className="h-full bg-green-500" style={{ width: `${agent.efficiency}%` }} />
+                          </div>
+                        </div>
+                        <div>
+                          <div className="flex justify-between text-xs mb-1">
+                            <span className="text-white/60">Goals</span>
+                            <span className="text-blue-400">{agent.goalAchievement.toFixed(0)}%</span>
+                          </div>
+                          <div className="h-2 bg-white/10 rounded-full overflow-hidden">
+                            <div className="h-full bg-blue-500" style={{ width: `${agent.goalAchievement}%` }} />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'communication' && analytics?.commPatterns && (
+              <div className="bg-white/5 rounded-xl p-4 border border-white/10">
+                <h4 className="text-white font-semibold mb-4">Communication Patterns</h4>
+                <ResponsiveContainer width="100%" height={300}>
+                  <LineChart data={analytics.commPatterns}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#ffffff20" />
+                    <XAxis dataKey="time" stroke="#ffffff60" />
+                    <YAxis stroke="#ffffff60" />
+                    <Tooltip contentStyle={{ backgroundColor: '#1a1a1a', border: '1px solid #ffffff20' }} />
+                    <Legend />
+                    <Line type="monotone" dataKey="messages" stroke="#00f5ff" strokeWidth={2} />
+                    <Line type="monotone" dataKey="collaboration" stroke="#a855f7" strokeWidth={2} />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+            )}
+
+            {activeTab === 'ethics' && analytics?.ethicalTrends && (
+              <div className="space-y-4">
+                <div className="bg-white/5 rounded-xl p-4 border border-white/10">
+                  <h4 className="text-white font-semibold mb-4">Ethical Adherence Trends</h4>
+                  <ResponsiveContainer width="100%" height={250}>
+                    <AreaChart data={analytics.ethicalTrends}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="#ffffff20" />
+                      <XAxis dataKey="time" stroke="#ffffff60" />
+                      <YAxis stroke="#ffffff60" />
+                      <Tooltip contentStyle={{ backgroundColor: '#1a1a1a', border: '1px solid #ffffff20' }} />
+                      <Legend />
+                      <Area type="monotone" dataKey="adherence" stroke="#10b981" fill="#10b981" fillOpacity={0.3} />
+                      <Area type="monotone" dataKey="drift" stroke="#ef4444" fill="#ef4444" fillOpacity={0.3} />
+                    </AreaChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'predictions' && analytics?.predictions && (
+              <div className="space-y-4">
+                <div className="bg-gradient-to-br from-cyan-500/10 to-blue-500/10 border border-cyan-500/30 rounded-xl p-6">
+                  <h4 className="text-cyan-400 font-semibold mb-4">AI Predictive Insights</h4>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-4">
+                      <h5 className="text-red-400 font-medium mb-2 text-sm">⚠️ Potential Bottlenecks</h5>
+                      <ul className="space-y-1">
+                        {analytics.predictions.bottlenecks?.map((item, i) => (
+                          <li key={i} className="text-white/70 text-xs">• {item}</li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div className="bg-orange-500/10 border border-orange-500/30 rounded-lg p-4">
+                      <h5 className="text-orange-400 font-medium mb-2 text-sm">📉 Resource Risks</h5>
+                      <ul className="space-y-1">
+                        {analytics.predictions.resourceRisks?.map((item, i) => (
+                          <li key={i} className="text-white/70 text-xs">• {item}</li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-4">
+                      <h5 className="text-yellow-400 font-medium mb-2 text-sm">👥 Social Predictions</h5>
+                      <ul className="space-y-1">
+                        {analytics.predictions.socialPredictions?.map((item, i) => (
+                          <li key={i} className="text-white/70 text-xs">• {item}</li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div className="bg-green-500/10 border border-green-500/30 rounded-lg p-4">
+                      <h5 className="text-green-400 font-medium mb-2 text-sm">✨ Opportunities</h5>
+                      <ul className="space-y-1">
+                        {analytics.predictions.opportunities?.map((item, i) => (
+                          <li key={i} className="text-white/70 text-xs">• {item}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'mentorship' && (
+              <div className="space-y-4">
+                <div className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-500/30 rounded-xl p-4">
+                  <h4 className="text-purple-400 font-semibold mb-3">Mentorship Network</h4>
+                  <p className="text-white/60 text-sm mb-4">Agents autonomously identify and learn from experienced peers</p>
+
+                  <div className="grid grid-cols-2 gap-3">
+                    {agents.filter(a => a.experience > 300).map(mentor => {
+                      const mentees = agents.filter(m => m.experience < 200 && m.id !== mentor.id).slice(0, 2);
+                      return (
+                        <div key={mentor.id} className="bg-white/5 rounded-lg p-3">
+                          <div className="flex items-center gap-2 mb-2">
+                            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: mentor.color }} />
+                            <span className="text-white text-sm font-medium">{mentor.name}</span>
+                            <span className="text-yellow-400 text-xs">Mentor</span>
+                          </div>
+                          {mentees.length > 0 && (
+                            <div className="ml-4 space-y-1">
+                              {mentees.map(mentee => (
+                                <div key={mentee.id} className="text-xs text-white/60">→ {mentee.name}</div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
             )}
 
             {activeTab === 'skills' && (
