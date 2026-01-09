@@ -50,6 +50,7 @@ import AgentMetaReasoningSystem from '../components/ai/AgentMetaReasoningSystem'
 import Agent100TypesGrid from '../components/agents/Agent100TypesGrid';
 import AgentIntegrationHub from '../components/agents/AgentIntegrationHub';
 import Agent15DetailPanel from '../components/agents/Agent15DetailPanel';
+import ImmersiveWorldSimulation from '../components/simulation/ImmersiveWorldSimulation';
 
       function FloatingBrain() {
   return (
@@ -156,7 +157,8 @@ export default function AILab() {
             { id: 'skills', label: '🎓 Skills', icon: 'Skills' },
             { id: 'knowledge', label: '📚 Knowledge', icon: 'Knowledge' },
             { id: 'agent-hub', label: '🤖 Agent Hub', icon: 'AgentHub' },
-            { id: 'agent-grid', label: '🌌 Agent Grid', icon: 'AgentGrid' }
+            { id: 'agent-grid', label: '🌌 Agent Grid', icon: 'AgentGrid' },
+            { id: 'world-sim', label: '🌍 World Sim', icon: 'WorldSim' }
           ].map(tab => (
             <button
               key={tab.id}
@@ -520,6 +522,13 @@ export default function AILab() {
            {selectedAgent && (
              <Agent15DetailPanel agent={selectedAgent} onClose={() => setSelectedAgent(null)} />
            )}
+          </div>
+          )}
+
+          {/* World Simulation Tab */}
+          {activeTab === 'world-sim' && (
+          <div className="space-y-6">
+           <ImmersiveWorldSimulation />
           </div>
           )}
         </div>

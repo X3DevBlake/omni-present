@@ -8,6 +8,7 @@ import Asset3DPreview from '../components/marketplace/Asset3DPreview';
 import PaymentIntegration from '../components/marketplace/PaymentIntegration';
 import CryptoCheckout from '../components/crypto/CryptoCheckout';
 import Agent3DMarketplaceCard from '../components/marketplace/Agent3DMarketplaceCard';
+import Agent3DTradeInterface from '../components/marketplace/Agent3DTradeInterface';
 import { base44 } from '@/api/base44Client';
 import { toast } from 'sonner';
 
@@ -292,6 +293,17 @@ export default function Marketplace() {
               </button>
             ))}
           </div>
+        </motion.div>
+
+        {/* Advanced Trading Interface */}
+        <motion.div
+          className="mb-12"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+        >
+          <h2 className="text-2xl font-bold text-white mb-6">📈 Real-Time Agent Trading</h2>
+          <Agent3DTradeInterface />
         </motion.div>
 
         {/* AI Agents Grid */}
