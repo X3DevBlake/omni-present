@@ -62,19 +62,21 @@ function FloatingFeatureSphere({ position, color, label, description, stats, onC
 
 function ConnectionLines({ features }) {
   const geometries = React.useMemo(() => {
-    return features.map((_, i) => {
-      if (i < features.length - 1) {
-        const start = features[i].position;
-        const end = features[i + 1].position;
-        
-        const points = [
-          new THREE.Vector3(...start),
-          new THREE.Vector3(...end)
-        ];
-        
-        return new THREE.BufferGeometry().setFromPoints(points);
-      }
-      return null;
+    if (!features || features.length === 0) return [];
+    return features.map((feature, i) => {
+      if (!feature || !feature.position || i >= features.length - 1) return null;
+      const next = features[i + 1];
+      if (!next || !next.position) return null;
+      
+      const start = feature.position;
+      const end = next.position;
+      
+      const points = [
+        new THREE.Vector3(...start),
+        new THREE.Vector3(...end)
+      ];
+      
+      return new THREE.BufferGeometry().setFromPoints(points);
     }).filter(Boolean);
   }, [features]);
 

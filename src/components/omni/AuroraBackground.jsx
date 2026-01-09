@@ -6,6 +6,8 @@ export default function AuroraBackground({ children, className = "" }) {
   const [mousePosition, setMousePosition] = React.useState({ x: 0.5, y: 0.5 });
 
   useEffect(() => {
+    if (typeof window === 'undefined' || !containerRef.current) return;
+
     const handleMouseMove = (e) => {
       if (containerRef.current) {
         const rect = containerRef.current.getBoundingClientRect();
@@ -16,10 +18,8 @@ export default function AuroraBackground({ children, className = "" }) {
       }
     };
 
-    if (typeof window !== 'undefined') {
-      window.addEventListener('mousemove', handleMouseMove);
-      return () => window.removeEventListener('mousemove', handleMouseMove);
-    }
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
   return (
