@@ -15,6 +15,7 @@ import Settings from './pages/Settings';
 import SimulationWorld from './pages/SimulationWorld';
 import Technology from './pages/Technology';
 import DeviceInteraction from './pages/DeviceInteraction';
+import FleetManagement from './pages/FleetManagement';
 import __Layout from './Layout.jsx';
 
 
@@ -36,6 +37,7 @@ export const PAGES = {
     "SimulationWorld": SimulationWorld,
     "Technology": Technology,
     "DeviceInteraction": DeviceInteraction,
+    "FleetManagement": FleetManagement,
 }
 
 export const pagesConfig = {

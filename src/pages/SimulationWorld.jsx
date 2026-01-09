@@ -2,8 +2,11 @@ import React, { useState, useEffect, useRef, Suspense } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, PerspectiveCamera, Environment, Stars, Text } from '@react-three/drei';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Maximize2, Minimize2, Filter, Play, Pause, ZoomIn, ZoomOut, Users, DollarSign, Cloud, AlertTriangle } from 'lucide-react';
+import { Maximize2, Minimize2, Filter, Play, Pause, ZoomIn, ZoomOut, Users, DollarSign, Cloud, AlertTriangle, Save, Wind } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
+import PersistentWorldEngine from '../components/world/PersistentWorldEngine';
+import { WeatherSystemRenderer, WeatherEngine, ResourceRegenerationSystem } from '../components/world/WeatherSystem';
+import { DynamicPhysicsEngine } from '../components/world/DynamicPhysicsEngine';
 import { toast } from 'sonner';
 import * as THREE from 'three';
 
@@ -154,6 +157,16 @@ export default function SimulationWorld() {
   const [viewMode, setViewMode] = useState('overview');
   const [filters, setFilters] = useState({ agents: true, factions: true, resources: true, trades: true });
   const [stats, setStats] = useState({});
+  const weatherEngineRef = useRef(new WeatherEngine());
+  const [worldData, setWorldData] = useState({
+    environment: {},
+    resources: [],
+    weather: {},
+    physics: {},
+    timeCycle: 0,
+    agentPositions: [],
+    terrainMods: []
+  });
 
   useEffect(() => {
     // Initialize simulation data
@@ -262,11 +275,16 @@ export default function SimulationWorld() {
             
             <Stars radius={100} depth={50} count={5000} factor={4} fade speed={1} />
             
-            {/* Ground */}
-            <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.1, 0]} receiveShadow>
-              <planeGeometry args={[50, 50, 20, 20]} />
-              <meshStandardMaterial color="#0a0a0f" wireframe opacity={0.2} transparent />
-            </mesh>
+            <DynamicPhysicsEngine onPhysicsUpdate={(objects) => {
+              setWorldData(prev => ({ ...prev, physics: { objects } }));
+            }}>
+              <WeatherSystemRenderer weatherEngine={weatherEngineRef.current} />
+              
+              {/* Ground */}
+              <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.1, 0]} receiveShadow>
+                <planeGeometry args={[50, 50, 20, 20]} />
+                <meshStandardMaterial color="#0a0a0f" wireframe opacity={0.2} transparent />
+              </mesh>
 
             {/* Agents */}
             {filters.agents && agents.map(agent => (
@@ -298,11 +316,37 @@ export default function SimulationWorld() {
               <EnvironmentalEffect key={event.id} event={event} />
             ))}
 
+            <ResourceRegenerationSystem
+              resources={resources}
+              onResourceUpdate={(updated) => {
+                setResources(updated);
+                setWorldData(prev => ({ ...prev, resources: updated }));
+              }}
+            />
+
             <Environment preset="night" />
+            </DynamicPhysicsEngine>
           </Canvas>
 
+          {/* World Persistence */}
+          <div className="absolute top-4 left-4 w-80">
+            <PersistentWorldEngine
+              worldData={worldData}
+              onWorldUpdate={(data) => {
+                setWorldData(data);
+                if (data.agentPositions) {
+                  setAgents(prev => prev.map((agent, i) => ({
+                    ...agent,
+                    position: data.agentPositions[i]?.position || agent.position
+                  })));
+                }
+                toast.success('World state restored!');
+              }}
+            />
+          </div>
+
           {/* Stats Overlay */}
-          <div className="absolute top-4 left-4 bg-black/80 backdrop-blur-xl border border-white/20 rounded-2xl p-4 min-w-64">
+          <div className="absolute top-4 right-4 bg-black/80 backdrop-blur-xl border border-white/20 rounded-2xl p-4 min-w-64">
             <h3 className="text-white font-bold mb-3">Live Statistics</h3>
             <div className="space-y-2">
               {[
@@ -325,8 +369,30 @@ export default function SimulationWorld() {
             </div>
           </div>
 
+          {/* Weather Info */}
+          <div className="absolute bottom-24 left-4 bg-black/80 backdrop-blur-xl border border-white/20 rounded-2xl p-4">
+            <h3 className="text-white font-bold mb-3 flex items-center gap-2">
+              <Wind className="w-5 h-5 text-cyan-400" />
+              Environment
+            </h3>
+            <div className="space-y-2 text-sm">
+              <div className="flex justify-between">
+                <span className="text-white/60">Weather:</span>
+                <span className="text-cyan-400 capitalize">{weatherEngineRef.current.currentWeather}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-white/60">Temperature:</span>
+                <span className="text-green-400">{weatherEngineRef.current.temperature.toFixed(1)}°C</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-white/60">Wind:</span>
+                <span className="text-purple-400">{weatherEngineRef.current.windSpeed.toFixed(1)} m/s</span>
+              </div>
+            </div>
+          </div>
+
           {/* Filters */}
-          <div className="absolute top-4 right-4 bg-black/80 backdrop-blur-xl border border-white/20 rounded-2xl p-4">
+          <div className="absolute top-96 right-4 bg-black/80 backdrop-blur-xl border border-white/20 rounded-2xl p-4">
             <h3 className="text-white font-bold mb-3 flex items-center gap-2">
               <Filter className="w-4 h-4" />
               Filters
