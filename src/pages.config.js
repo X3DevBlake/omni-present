@@ -62,6 +62,19 @@ import CustomIntegrations from './pages/CustomIntegrations';
 import SandboxEnvironment from './pages/SandboxEnvironment';
 import ServiceProviders from './pages/ServiceProviders';
 import DiscountsRebates from './pages/DiscountsRebates';
+import StudyGroups from './pages/StudyGroups';
+import VirtualClassrooms from './pages/VirtualClassrooms';
+import AssetUpload from './pages/AssetUpload';
+import OrderManagement from './pages/OrderManagement';
+import PaymentHistory from './pages/PaymentHistory';
+import MaintenanceSchedule from './pages/MaintenanceSchedule';
+import DeviceTelemetry from './pages/DeviceTelemetry';
+import InstructorDirectory from './pages/InstructorDirectory';
+import ReportingAnalytics from './pages/ReportingAnalytics';
+import LicenseManagement from './pages/LicenseManagement';
+import APIExplorer from './pages/APIExplorer';
+import SubscriptionManagement from './pages/SubscriptionManagement';
+import ReferralProgram from './pages/ReferralProgram';
 import __Layout from './Layout.jsx';
 
 
@@ -130,6 +143,19 @@ export const PAGES = {
     "SandboxEnvironment": SandboxEnvironment,
     "ServiceProviders": ServiceProviders,
     "DiscountsRebates": DiscountsRebates,
+    "StudyGroups": StudyGroups,
+    "VirtualClassrooms": VirtualClassrooms,
+    "AssetUpload": AssetUpload,
+    "OrderManagement": OrderManagement,
+    "PaymentHistory": PaymentHistory,
+    "MaintenanceSchedule": MaintenanceSchedule,
+    "DeviceTelemetry": DeviceTelemetry,
+    "InstructorDirectory": InstructorDirectory,
+    "ReportingAnalytics": ReportingAnalytics,
+    "LicenseManagement": LicenseManagement,
+    "APIExplorer": APIExplorer,
+    "SubscriptionManagement": SubscriptionManagement,
+    "ReferralProgram": ReferralProgram,
 }
 
 export const pagesConfig = {
