@@ -106,6 +106,8 @@ import BuyOmni from './pages/BuyOmni';
 import SellOmni from './pages/SellOmni';
 import WithdrawOmni from './pages/WithdrawOmni';
 import FiatDeposit from './pages/FiatDeposit';
+import OmniCardManagement from './pages/OmniCardManagement';
+import OmniCardStore from './pages/OmniCardStore';
 import __Layout from './Layout.jsx';
 
 
@@ -218,6 +220,8 @@ export const PAGES = {
     "SellOmni": SellOmni,
     "WithdrawOmni": WithdrawOmni,
     "FiatDeposit": FiatDeposit,
+    "OmniCardManagement": OmniCardManagement,
+    "OmniCardStore": OmniCardStore,
 }
 
 export const pagesConfig = {
