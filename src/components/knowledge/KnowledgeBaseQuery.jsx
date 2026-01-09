@@ -126,8 +126,7 @@ export default function KnowledgeBaseQuery() {
             Found {results.length} result{results.length !== 1 ? 's' : ''}
           </h3>
 
-          {results.map((result) => {
-            if (!result) return null;
+          {results.filter(result => result && result.id && result.source).map((result) => {
             return (
               <motion.div
                 key={result.id}

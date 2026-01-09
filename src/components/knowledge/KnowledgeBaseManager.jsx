@@ -120,8 +120,7 @@ export default function KnowledgeBaseManager() {
       <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
         <h3 className="text-white font-bold text-lg mb-4">Knowledge Sources ({sources.length})</h3>
         <div className="space-y-3">
-          {sources.map((source) => {
-            if (!source) return null;
+          {sources.filter(source => source && source.id && source.name).map((source) => {
             return (
               <motion.div
                 key={source.id}
