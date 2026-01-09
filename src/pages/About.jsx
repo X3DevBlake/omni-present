@@ -1,7 +1,40 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { motion } from 'framer-motion';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { OrbitControls, Sphere, MeshDistortMaterial, Text3D, Center } from '@react-three/drei';
 import { Sparkles, Zap, Users, Target, Heart, Award, Globe, Rocket } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
+
+function RotatingOmniLogo() {
+  const meshRef = useRef();
+  
+  useFrame((state) => {
+    if (meshRef.current) {
+      meshRef.current.rotation.y += 0.01;
+      meshRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.5) * 0.2;
+    }
+  });
+
+  return (
+    <group ref={meshRef}>
+      <Sphere args={[1.5, 64, 64]}>
+        <MeshDistortMaterial
+          color="#00f5ff"
+          attach="material"
+          distort={0.5}
+          speed={2}
+          roughness={0.2}
+        />
+      </Sphere>
+      <Center position={[0, 0, 1.6]}>
+        <Text3D font="/fonts/helvetiker_bold.typeface.json" size={0.3} height={0.1}>
+          OMNI
+          <meshStandardMaterial color="#ffffff" />
+        </Text3D>
+      </Center>
+    </group>
+  );
+}
 
 export default function About() {
   const values = [
@@ -29,6 +62,18 @@ export default function About() {
     <AuroraBackground className="min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
         
+        {/* 3D Hero Section */}
+        <div className="mb-12">
+          <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-3xl overflow-hidden h-[400px]">
+            <Canvas camera={{ position: [0, 0, 5] }}>
+              <ambientLight intensity={0.5} />
+              <pointLight position={[10, 10, 10]} />
+              <RotatingOmniLogo />
+              <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={0.5} />
+            </Canvas>
+          </div>
+        </div>
+
         {/* Hero Section */}
         <motion.div 
           className="text-center mb-20"
