@@ -75,6 +75,16 @@ import LicenseManagement from './pages/LicenseManagement';
 import APIExplorer from './pages/APIExplorer';
 import SubscriptionManagement from './pages/SubscriptionManagement';
 import ReferralProgram from './pages/ReferralProgram';
+import EventsCalendar from './pages/EventsCalendar';
+import FAQ from './pages/FAQ';
+import PressReleases from './pages/PressReleases';
+import Partnerships from './pages/Partnerships';
+import DataAnnotation from './pages/DataAnnotation';
+import ModelTraining from './pages/ModelTraining';
+import ExperimentTracking from './pages/ExperimentTracking';
+import AIModelDeployment from './pages/AIModelDeployment';
+import ScenarioTesting from './pages/ScenarioTesting';
+import CommunityGuidelines from './pages/CommunityGuidelines';
 import __Layout from './Layout.jsx';
 
 
@@ -156,6 +166,16 @@ export const PAGES = {
     "APIExplorer": APIExplorer,
     "SubscriptionManagement": SubscriptionManagement,
     "ReferralProgram": ReferralProgram,
+    "EventsCalendar": EventsCalendar,
+    "FAQ": FAQ,
+    "PressReleases": PressReleases,
+    "Partnerships": Partnerships,
+    "DataAnnotation": DataAnnotation,
+    "ModelTraining": ModelTraining,
+    "ExperimentTracking": ExperimentTracking,
+    "AIModelDeployment": AIModelDeployment,
+    "ScenarioTesting": ScenarioTesting,
+    "CommunityGuidelines": CommunityGuidelines,
 }
 
 export const pagesConfig = {
