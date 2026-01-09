@@ -51,6 +51,17 @@ import StudentLounge from './pages/StudentLounge';
 import ResourceLibrary from './pages/ResourceLibrary';
 import AssetBrowser from './pages/AssetBrowser';
 import IntegrationStore from './pages/IntegrationStore';
+import UserRolesPermissions from './pages/UserRolesPermissions';
+import OrgSettings from './pages/OrgSettings';
+import AuditLogs from './pages/AuditLogs';
+import ComplianceDashboard from './pages/ComplianceDashboard';
+import BillingInvoicing from './pages/BillingInvoicing';
+import APIDocumentation from './pages/APIDocumentation';
+import SDKsLibraries from './pages/SDKsLibraries';
+import CustomIntegrations from './pages/CustomIntegrations';
+import SandboxEnvironment from './pages/SandboxEnvironment';
+import ServiceProviders from './pages/ServiceProviders';
+import DiscountsRebates from './pages/DiscountsRebates';
 import __Layout from './Layout.jsx';
 
 
@@ -108,6 +119,17 @@ export const PAGES = {
     "ResourceLibrary": ResourceLibrary,
     "AssetBrowser": AssetBrowser,
     "IntegrationStore": IntegrationStore,
+    "UserRolesPermissions": UserRolesPermissions,
+    "OrgSettings": OrgSettings,
+    "AuditLogs": AuditLogs,
+    "ComplianceDashboard": ComplianceDashboard,
+    "BillingInvoicing": BillingInvoicing,
+    "APIDocumentation": APIDocumentation,
+    "SDKsLibraries": SDKsLibraries,
+    "CustomIntegrations": CustomIntegrations,
+    "SandboxEnvironment": SandboxEnvironment,
+    "ServiceProviders": ServiceProviders,
+    "DiscountsRebates": DiscountsRebates,
 }
 
 export const pagesConfig = {
