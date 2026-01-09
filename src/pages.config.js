@@ -93,6 +93,9 @@ import UserRolesPermissions from './pages/UserRolesPermissions';
 import VirtualClassrooms from './pages/VirtualClassrooms';
 import Webhooks from './pages/Webhooks';
 import Challenges from './pages/Challenges';
+import Leaderboards from './pages/Leaderboards';
+import LabsHome from './pages/LabsHome';
+import Wallet from './pages/Wallet';
 import __Layout from './Layout.jsx';
 
 
@@ -192,6 +195,9 @@ export const PAGES = {
     "VirtualClassrooms": VirtualClassrooms,
     "Webhooks": Webhooks,
     "Challenges": Challenges,
+    "Leaderboards": Leaderboards,
+    "LabsHome": LabsHome,
+    "Wallet": Wallet,
 }
 
 export const pagesConfig = {

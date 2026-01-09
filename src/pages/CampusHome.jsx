@@ -160,7 +160,7 @@ export default function CampusHome() {
               title: 'Mentorship Programs',
               description: 'Learn from industry experts',
               icon: Users,
-              page: 'MentorshipPrograms',
+              page: 'MentorshipProgramsPage',
               gradient: 'from-pink-500/20 to-red-500/20',
               border: 'border-pink-500/30'
             },

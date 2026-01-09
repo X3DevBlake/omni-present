@@ -5,11 +5,11 @@ import { Link, useLocation } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 
 const navItems = [
-  { label: 'Home', page: 'Home' },
-  { label: 'Labs', page: 'Labs' },
+  { label: 'Home', page: 'HomeHub' },
+  { label: 'Labs', page: 'LabsHome' },
   { label: 'Devices', page: 'DeviceHome' },
   { label: 'Campus', page: 'CampusHome' },
-  { label: 'Marketplace', page: 'Marketplace' },
+  { label: 'Marketplace', page: 'MarketplaceHome' },
   { label: 'Profile', page: 'ProfileHome' },
   { label: 'Admin', page: 'AdminHome' },
   { label: 'Developer', page: 'DeveloperHome' },
@@ -43,7 +43,7 @@ export default function FloatingNav() {
       >
         {/* Desktop Navigation */}
         <div className="hidden lg:flex items-center gap-1">
-          <Link to={createPageUrl('Home')} className="px-4 py-2">
+          <Link to={createPageUrl('HomeHub')} className="px-4 py-2">
             <span className="text-xl font-bold bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
               Omni-Present
             </span>
@@ -85,7 +85,7 @@ export default function FloatingNav() {
 
         {/* Tablet/Desktop Dropdown Navigation */}
         <div className="hidden md:flex lg:hidden items-center justify-between px-4 py-1 min-w-[280px]">
-          <Link to={createPageUrl('Home')}>
+          <Link to={createPageUrl('HomeHub')}>
             <span className="text-lg font-bold bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
               Omni-Present
             </span>
@@ -100,7 +100,7 @@ export default function FloatingNav() {
 
         {/* Mobile Navigation Toggle */}
         <div className="flex md:hidden items-center justify-between px-4 py-1 min-w-[240px]">
-          <Link to={createPageUrl('Home')}>
+          <Link to={createPageUrl('HomeHub')}>
             <span className="text-base font-bold bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
               Omni-Present
             </span>

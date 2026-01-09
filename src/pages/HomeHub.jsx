@@ -24,7 +24,7 @@ export default function HomeHub() {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[
-            { title: 'Home', description: 'Platform overview and features', icon: Home, page: 'Home', gradient: 'from-cyan-500/20 to-blue-500/20', border: 'border-cyan-500/30' },
+            { title: 'Platform Overview', description: 'Discover features and capabilities', icon: Sparkles, page: 'Home', gradient: 'from-cyan-500/20 to-blue-500/20', border: 'border-cyan-500/30' },
             { title: 'About Us', description: 'Our mission and vision', icon: Info, page: 'About', gradient: 'from-purple-500/20 to-pink-500/20', border: 'border-purple-500/30' },
             { title: 'Technology', description: 'Our AI technology stack', icon: Sparkles, page: 'Technology', gradient: 'from-blue-500/20 to-indigo-500/20', border: 'border-blue-500/30' },
             { title: 'Features', description: 'Explore platform capabilities', icon: Sparkles, page: 'Features', gradient: 'from-green-500/20 to-emerald-500/20', border: 'border-green-500/30' },
