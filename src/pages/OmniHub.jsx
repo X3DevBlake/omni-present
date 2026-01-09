@@ -2,6 +2,8 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Wallet, CreditCard, TrendingUp, Repeat, DollarSign, PiggyBank, Award, ShoppingCart, Receipt, Target } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
+import EnhancedHubNav from '../components/navigation/EnhancedHubNav';
+import PortfolioAdvisor from '../components/omni/PortfolioAdvisor';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
 
@@ -11,6 +13,10 @@ export default function OmniHub() {
       <EnhancedHubNav currentHub="OmniHub" />
       <AuroraBackground className="min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
+        {/* Portfolio Advisor */}
+        <div className="mb-12">
+          <PortfolioAdvisor />
+        </div>
         <motion.div className="text-center mb-12" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
           <div className="inline-block mb-4 px-4 py-2 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-500/30 rounded-full">
             <span className="text-cyan-400 text-sm font-semibold">💎 Omni Banking Hub</span>

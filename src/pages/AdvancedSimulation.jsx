@@ -7,6 +7,7 @@ import AgentKnowledgeGraph from '../components/agents/AgentKnowledgeGraph';
 import SimulationPhysicsEngine from '../components/simulation/SimulationPhysicsEngine';
 import MultiAgentInteraction from '../components/simulation/MultiAgentInteraction';
 import AIFeedbackSystem from '../components/simulation/AIFeedbackSystem';
+import DynamicScenarioGenerator from '../components/simulation/DynamicScenarioGenerator';
 import { base44 } from '@/api/base44Client';
 
 export default function AdvancedSimulation() {
@@ -188,6 +189,16 @@ export default function AdvancedSimulation() {
           <MultiAgentInteraction 
             agents={agents}
             isRunning={isRunning}
+          />
+        </div>
+
+        {/* Dynamic Scenario Generator */}
+        <div className="mt-6">
+          <DynamicScenarioGenerator
+            agents={agents}
+            isRunning={isRunning}
+            scenario={selectedScenario}
+            onScenarioUpdate={() => loadSimulationData()}
           />
         </div>
 

@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Cpu, ShoppingCart, Settings, Zap, Activity, Wrench, Shield, BarChart3, ShoppingBag } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import EnhancedHubNav from '../components/navigation/EnhancedHubNav';
+import PersonalizedDeviceDashboard from '../components/devices/PersonalizedDeviceDashboard';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
 
@@ -28,6 +29,11 @@ export default function DeviceHome() {
             Control, monitor, and optimize your Omni-Present hardware fleet
           </p>
         </motion.div>
+
+        {/* Personalized Device Dashboard */}
+        <div className="mb-12">
+          <PersonalizedDeviceDashboard />
+        </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           {[
