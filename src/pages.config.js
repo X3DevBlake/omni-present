@@ -34,6 +34,12 @@ import ProfileHome from './pages/ProfileHome';
 import DeviceHome from './pages/DeviceHome';
 import AdminHome from './pages/AdminHome';
 import DeveloperHome from './pages/DeveloperHome';
+import AgentManagement from './pages/AgentManagement';
+import EvolutionDashboardPage from './pages/EvolutionDashboardPage';
+import DeviceSettings from './pages/DeviceSettings';
+import CurriculumCourses from './pages/CurriculumCourses';
+import Certifications from './pages/Certifications';
+import AchievementsAwards from './pages/AchievementsAwards';
 import __Layout from './Layout.jsx';
 
 
@@ -74,6 +80,12 @@ export const PAGES = {
     "DeviceHome": DeviceHome,
     "AdminHome": AdminHome,
     "DeveloperHome": DeveloperHome,
+    "AgentManagement": AgentManagement,
+    "EvolutionDashboardPage": EvolutionDashboardPage,
+    "DeviceSettings": DeviceSettings,
+    "CurriculumCourses": CurriculumCourses,
+    "Certifications": Certifications,
+    "AchievementsAwards": AchievementsAwards,
 }
 
 export const pagesConfig = {
