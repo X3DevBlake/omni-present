@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Wifi, Camera, Thermometer, Activity, Zap, AlertCircle } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
-import HubNav from '../components/navigation/HubNav';
+import EnhancedHubNav from '../components/navigation/EnhancedHubNav';
 import IoTDataStream from '../components/devices/IoTDataStream';
 import AgentPermissionsManager from '../components/devices/AgentPermissionsManager';
 import { base44 } from '@/api/base44Client';
