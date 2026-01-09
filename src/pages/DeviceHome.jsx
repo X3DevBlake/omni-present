@@ -7,6 +7,7 @@ import PersonalizedDeviceDashboard from '../components/devices/PersonalizedDevic
 import PersonalizedRecommendationWidget from '../components/personalization/PersonalizedRecommendationWidget';
 import HubSpecificAgents from '../components/ai/HubSpecificAgents';
 import AICoachingSystem from '../components/ai/AICoachingSystem';
+import DigitalTwin3D from '../components/devices/DigitalTwin3D';
 import { usePersonalization } from '../components/personalization/PersonalizationContext';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
@@ -52,6 +53,17 @@ export default function DeviceHome() {
         <div className="mb-12">
           <AICoachingSystem />
         </div>
+
+        {/* 3D Digital Twins */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="mb-12 grid md:grid-cols-2 gap-6"
+        >
+          <DigitalTwin3D device={{ type: 'drone', status: 'active', health: 92 }} />
+          <DigitalTwin3D device={{ type: 'sensor', status: 'active', health: 87 }} />
+        </motion.div>
 
         {/* Personalized Device Dashboard */}
         <div className="mb-12">
