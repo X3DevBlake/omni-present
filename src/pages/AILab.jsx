@@ -58,6 +58,12 @@ import AgentLearningManager from '../components/ai/AgentLearningManager';
 import AgentCollaborationManager from '../components/ai/AgentCollaborationManager';
 import AgentAnalyticsDashboard from '../components/ai/AgentAnalyticsDashboard';
 import BackButton from '../components/navigation/BackButton';
+import EnhancedKnowledgeGraph3D from '../components/knowledge/EnhancedKnowledgeGraph3D';
+import RealTimeAgentCollaboration from '../components/collaboration/RealTimeAgentCollaboration';
+import ComprehensiveAgentAnalytics from '../components/analytics/ComprehensiveAgentAnalytics';
+import AdaptiveTrainingModule from '../components/training/AdaptiveTrainingModule';
+import AIKnowledgeEnhancements from '../components/knowledge/AIKnowledgeEnhancements';
+import VisualWorkflowBuilder from '../components/workflow/VisualWorkflowBuilder';
 
       function FloatingBrain() {
   return (
