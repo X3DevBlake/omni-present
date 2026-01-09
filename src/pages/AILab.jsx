@@ -522,7 +522,7 @@ export default function AILab() {
            )}
           </div>
           )}
-          </div>
-          </AuroraBackground>
-          </>;
-          }
+        </div>
+      </AuroraBackground>
+    );
+  }
