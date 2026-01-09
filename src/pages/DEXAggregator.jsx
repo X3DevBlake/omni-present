@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Repeat, TrendingUp, ArrowRight } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
+import HubNav from '../components/navigation/HubNav';
 import { toast } from 'sonner';
 
 export default function DEXAggregator() {
@@ -55,7 +56,9 @@ export default function DEXAggregator() {
   };
 
   return (
-    <AuroraBackground className="min-h-screen py-16 px-4">
+    <>
+      <HubNav currentHub="DeFiHub" />
+      <AuroraBackground className="min-h-screen py-16 px-4">
       <div className="max-w-4xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-8">
           <h1 className="text-5xl font-bold text-white mb-4">
@@ -182,5 +185,6 @@ export default function DEXAggregator() {
         </div>
       </div>
     </AuroraBackground>
+    </>
   );
 }

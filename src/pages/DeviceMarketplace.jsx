@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Cpu, Camera, Wifi, Zap, ShoppingCart, Star } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
+import HubNav from '../components/navigation/HubNav';
 import { base44 } from '@/api/base44Client';
 import { toast } from 'sonner';
 
@@ -40,7 +41,9 @@ export default function DeviceMarketplace() {
   };
 
   return (
-    <AuroraBackground className="min-h-screen py-16 px-4">
+    <>
+      <HubNav currentHub="DeviceHome" />
+      <AuroraBackground className="min-h-screen py-16 px-4">
       <div className="max-w-7xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-8">
           <h1 className="text-5xl font-bold text-white mb-4">
@@ -150,5 +153,6 @@ export default function DeviceMarketplace() {
         )}
       </div>
     </AuroraBackground>
+    </>
   );
 }
