@@ -67,6 +67,7 @@ import DeviceShop from './pages/DeviceShop';
 import DeviceTelemetry from './pages/DeviceTelemetry';
 import DiscountsRebates from './pages/DiscountsRebates';
 import Documentation from './pages/Documentation';
+import EmergentBehavior from './pages/EmergentBehavior';
 import EnvironmentDesigner from './pages/EnvironmentDesigner';
 import EventsCalendar from './pages/EventsCalendar';
 import EvolutionDashboardPage from './pages/EvolutionDashboardPage';
@@ -145,7 +146,6 @@ import VirtualClassrooms from './pages/VirtualClassrooms';
 import Wallet from './pages/Wallet';
 import Webhooks from './pages/Webhooks';
 import WithdrawOmni from './pages/WithdrawOmni';
-import EmergentBehavior from './pages/EmergentBehavior';
 import __Layout from './Layout.jsx';
 
 
@@ -219,6 +219,7 @@ export const PAGES = {
     "DeviceTelemetry": DeviceTelemetry,
     "DiscountsRebates": DiscountsRebates,
     "Documentation": Documentation,
+    "EmergentBehavior": EmergentBehavior,
     "EnvironmentDesigner": EnvironmentDesigner,
     "EventsCalendar": EventsCalendar,
     "EvolutionDashboardPage": EvolutionDashboardPage,
@@ -297,7 +298,6 @@ export const PAGES = {
     "Wallet": Wallet,
     "Webhooks": Webhooks,
     "WithdrawOmni": WithdrawOmni,
-    "EmergentBehavior": EmergentBehavior,
 }
 
 export const pagesConfig = {

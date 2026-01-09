@@ -64,6 +64,8 @@ import ComprehensiveAgentAnalytics from '../components/analytics/ComprehensiveAg
 import AdaptiveTrainingModule from '../components/training/AdaptiveTrainingModule';
 import AIKnowledgeEnhancements from '../components/knowledge/AIKnowledgeEnhancements';
 import VisualWorkflowBuilder from '../components/workflow/VisualWorkflowBuilder';
+import AgentMonitoringDashboard from '../components/monitoring/AgentMonitoringDashboard';
+import SimulatedEnvironments from '../components/training/SimulatedEnvironments';
 
       function FloatingBrain() {
   return (
@@ -182,6 +184,8 @@ export default function AILab() {
             { id: 'enhanced-knowledge', label: '🧠 Enhanced Knowledge', icon: 'EKB' },
             { id: 'ai-kb-tools', label: '✨ AI KB Tools', icon: 'AIKB' },
             { id: 'adaptive-training', label: '🎯 Adaptive Training', icon: 'AdTrain' },
+            { id: 'sim-environments', label: '🌐 Sim Environments', icon: 'SimEnv' },
+            { id: 'monitoring', label: '📡 Monitoring', icon: 'Monitor' },
             { id: 'workflow-builder', label: '🔄 Workflow Builder', icon: 'Workflow' },
             { id: 'learning', label: '🎓 Learning', icon: 'Learning' },
             { id: 'collab-rt', label: '💬 Real-Time Collab', icon: 'RTCollab' },
@@ -612,6 +616,20 @@ export default function AILab() {
           {activeTab === 'adaptive-training' && (
           <div className="space-y-6">
            <AdaptiveTrainingModule />
+          </div>
+          )}
+
+          {/* Simulated Environments Tab */}
+          {activeTab === 'sim-environments' && (
+          <div className="space-y-6">
+           <SimulatedEnvironments />
+          </div>
+          )}
+
+          {/* Monitoring Dashboard Tab */}
+          {activeTab === 'monitoring' && (
+          <div className="space-y-6">
+           <AgentMonitoringDashboard />
           </div>
           )}
 
