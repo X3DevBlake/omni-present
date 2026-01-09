@@ -69,6 +69,8 @@ import SimulatedEnvironments from '../components/training/SimulatedEnvironments'
 import AgentOrchestrationLayer from '../components/orchestration/AgentOrchestrationLayer';
 import AgentCustomizationDeep from '../components/customization/AgentCustomizationDeep';
 import ProactiveInsightsEngine from '../components/insights/ProactiveInsightsEngine';
+import AIWorkflowOptimizer from '../components/workflow/AIWorkflowOptimizer';
+import ContextAwareKnowledgeHub from '../components/knowledge/ContextAwareKnowledgeHub';
 
       function FloatingBrain() {
   return (
@@ -192,6 +194,8 @@ export default function AILab() {
             { id: 'deep-custom', label: '🎨 Deep Customization', icon: 'DeepCustom' },
             { id: 'insights-engine', label: '💡 Insights Engine', icon: 'Insights' },
             { id: 'monitoring', label: '📡 Monitoring', icon: 'Monitor' },
+            { id: 'workflow-optimizer', label: '⚡ Workflow Optimizer', icon: 'WFOptim' },
+            { id: 'context-knowledge', label: '🧠 Context Knowledge', icon: 'CtxKB' },
             { id: 'workflow-builder', label: '🔄 Workflow Builder', icon: 'Workflow' },
             { id: 'learning', label: '🎓 Learning', icon: 'Learning' },
             { id: 'collab-rt', label: '💬 Real-Time Collab', icon: 'RTCollab' },
@@ -657,6 +661,20 @@ export default function AILab() {
           {activeTab === 'monitoring' && (
           <div className="space-y-6">
            <AgentMonitoringDashboard />
+          </div>
+          )}
+
+          {/* Workflow Optimizer Tab */}
+          {activeTab === 'workflow-optimizer' && (
+          <div className="space-y-6">
+           <AIWorkflowOptimizer />
+          </div>
+          )}
+
+          {/* Context-Aware Knowledge Tab */}
+          {activeTab === 'context-knowledge' && (
+          <div className="space-y-6">
+           <ContextAwareKnowledgeHub />
           </div>
           )}
 
