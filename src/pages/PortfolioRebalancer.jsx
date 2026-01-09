@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { PieChart, RefreshCw, TrendingUp, AlertTriangle } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
-import HubNav from '../components/navigation/HubNav';
+import EnhancedHubNav from '../components/navigation/EnhancedHubNav';
 import AIPortfolioAssistant from '../components/defi/AIPortfolioAssistant';
 import { Pie } from 'recharts';
 import { toast } from 'sonner';
@@ -41,7 +41,7 @@ export default function PortfolioRebalancer() {
 
   return (
     <>
-      <HubNav currentHub="DeFiHub" />
+      <EnhancedHubNav currentHub="DeFiHub" />
       <AuroraBackground className="min-h-screen py-16 px-4">
       <div className="max-w-6xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-8">

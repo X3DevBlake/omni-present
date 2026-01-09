@@ -82,7 +82,7 @@ export default function IoTDeviceControl() {
 
   return (
     <>
-      <HubNav currentHub="DeviceHome" />
+      <EnhancedHubNav currentHub="DeviceHome" />
       <AuroraBackground className="min-h-screen py-8 px-4">
       <div className="max-w-7xl mx-auto">
         <motion.div
