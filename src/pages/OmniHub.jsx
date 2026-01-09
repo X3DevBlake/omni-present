@@ -26,46 +26,6 @@ export default function OmniHub() {
       <EnhancedHubNav currentHub="OmniHub" />
       <AuroraBackground className="min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
-        {/* Personalized Recommendations */}
-        <PersonalizedRecommendationWidget hubName="omni" maxItems={2} />
-
-        {/* Portfolio Advisor */}
-        <div className="mb-12">
-          <PortfolioAdvisor />
-        </div>
-
-        {/* 3D Ecosystem Visualization */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="mb-12 h-96"
-        >
-          <OmniEcosystem3D />
-        </motion.div>
-
-        {/* Market Data Feed */}
-        <div className="mb-12">
-          <div className="bg-black/40 backdrop-blur-xl border border-cyan-500/30 rounded-2xl p-6">
-            <h3 className="text-white font-bold text-xl mb-4">Live Market Data</h3>
-            <MarketDataFeed />
-          </div>
-        </div>
-
-        {/* Hub-Specific Agents */}
-        <div className="mb-12">
-          <HubSpecificAgents hubType="omni" />
-        </div>
-
-        {/* Inter-Agent Communication */}
-        <div className="mb-12">
-          <InterAgentCommunication />
-        </div>
-
-        {/* AI Agent Manager */}
-        <div className="mb-12">
-          <AIAgentManager />
-        </div>
         <motion.div className="text-center mb-12" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
           <div className="inline-block mb-4 px-4 py-2 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-500/30 rounded-full">
             <span className="text-cyan-400 text-sm font-semibold">💎 Omni Banking Hub</span>
