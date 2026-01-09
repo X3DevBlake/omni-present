@@ -6,12 +6,17 @@ import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
 import { base44 } from '@/api/base44Client';
 import { toast } from 'sonner';
+import XPProgressBar from '../components/gamification/XPProgressBar';
+import StreakTracker from '../components/gamification/StreakTracker';
+import { useGamification } from '../components/gamification/GamificationContext';
+import RecommendationEngine from '../components/recommendations/RecommendationEngine';
 
 export default function ProfileHome() {
   const [profileImage, setProfileImage] = useState(null);
   const [bannerImage, setBannerImage] = useState(null);
   const [isUploadingProfile, setIsUploadingProfile] = useState(false);
   const [isUploadingBanner, setIsUploadingBanner] = useState(false);
+  const { userStats } = useGamification();
   
   const profileInputRef = useRef(null);
   const bannerInputRef = useRef(null);
@@ -122,13 +127,21 @@ export default function ProfileHome() {
           </div>
         </motion.div>
 
+        {/* Gamification Stats */}
+        <div className="grid lg:grid-cols-3 gap-6 mb-8">
+          <div className="lg:col-span-2">
+            <XPProgressBar currentXP={userStats.xp} level={userStats.level} />
+          </div>
+          <StreakTracker streak={userStats.streak} maxStreak={userStats.streak + 5} />
+        </div>
+
         {/* Quick Actions */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           {[
             { label: 'Notifications', value: '12', icon: Bell, color: 'blue' },
             { label: 'Activity', value: '156', icon: Activity, color: 'purple' },
             { label: 'API Keys', value: '3', icon: Key, color: 'cyan' },
-            { label: 'Achievements', value: '24', icon: Award, color: 'yellow' }
+            { label: 'Achievements', value: userStats.achievements.length || '24', icon: Award, color: 'yellow' }
           ].map((stat, i) => (
             <motion.div
               key={i}
@@ -142,6 +155,11 @@ export default function ProfileHome() {
               <div className="text-white/60 text-sm">{stat.label}</div>
             </motion.div>
           ))}
+        </div>
+
+        {/* AI Recommendations */}
+        <div className="mb-8">
+          <RecommendationEngine userProfile={userStats} context="profile" />
         </div>
 
         {/* Main Navigation Grid */}

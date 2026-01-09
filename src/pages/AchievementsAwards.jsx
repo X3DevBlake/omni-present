@@ -1,16 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Trophy, Award, Star, Zap, Target, Medal } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
+import Achievement3DCard from '../components/gamification/Achievement3DCard';
+import BadgeShowcase3D from '../components/gamification/BadgeShowcase3D';
+import Leaderboard from '../components/gamification/Leaderboard';
+import { useGamification } from '../components/gamification/GamificationContext';
 
 export default function AchievementsAwards() {
+  const { userStats } = useGamification();
+  const [selectedAchievement, setSelectedAchievement] = useState(null);
+  
   const achievements = [
-    { id: 1, title: 'First Agent Created', description: 'Created your first AI agent', icon: Star, unlocked: true, rarity: 'common' },
-    { id: 2, title: 'Blueprint Master', description: 'Designed 10 blueprints', icon: Trophy, unlocked: true, rarity: 'rare' },
-    { id: 3, title: 'Community Leader', description: 'Helped 50 students', icon: Award, unlocked: false, rarity: 'epic', progress: 32 },
-    { id: 4, title: 'Speed Learner', description: 'Completed 5 courses in 1 month', icon: Zap, unlocked: true, rarity: 'rare' },
-    { id: 5, title: 'Perfect Score', description: 'Achieved 100% in any exam', icon: Target, unlocked: false, rarity: 'legendary', progress: 0 },
-    { id: 6, title: 'Marathon Learner', description: '100 hours of learning', icon: Medal, unlocked: false, rarity: 'epic', progress: 67 }
+    { id: 'first_agent', name: 'First Agent Created', description: 'Created your first AI agent', color: '#3b82f6', unlocked: true, rarity: 'common', xpReward: 100 },
+    { id: 'blueprint_master', name: 'Blueprint Master', description: 'Designed 10 blueprints', color: '#a855f7', unlocked: true, rarity: 'rare', xpReward: 500 },
+    { id: 'community_leader', name: 'Community Leader', description: 'Helped 50 students', color: '#ec4899', unlocked: false, rarity: 'epic', progress: 32, xpReward: 1000 },
+    { id: 'speed_learner', name: 'Speed Learner', description: 'Completed 5 courses in 1 month', color: '#eab308', unlocked: true, rarity: 'rare', xpReward: 500 },
+    { id: 'perfect_score', name: 'Perfect Score', description: 'Achieved 100% in any exam', color: '#f59e0b', unlocked: false, rarity: 'legendary', progress: 0, xpReward: 2000 },
+    { id: 'marathon_learner', name: 'Marathon Learner', description: '100 hours of learning', color: '#10b981', unlocked: false, rarity: 'epic', progress: 67, xpReward: 1000 }
+  ];
+
+  const badges = userStats.badges.length > 0 ? userStats.badges : [
+    { id: 'early_adopter', name: 'Early Adopter', description: 'Joined during beta', color: '#00f5ff', accentColor: '#a855f7', rarity: 'rare', unlockedAt: '2025-12-01' },
+    { id: 'community_helper', name: 'Community Helper', description: 'Answered 10 questions', color: '#10b981', accentColor: '#3b82f6', rarity: 'common', unlockedAt: '2026-01-05' }
   ];
 
   return (
@@ -42,65 +54,39 @@ export default function AchievementsAwards() {
           ))}
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {achievements.map((achievement, i) => (
-            <motion.div
-              key={achievement.id}
-              className={`bg-black/40 backdrop-blur-xl border rounded-2xl p-6 ${
-                achievement.unlocked ? 'border-yellow-500/30' : 'border-white/10 opacity-60'
-              }`}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: i * 0.1 }}
-            >
-              <div className="flex items-start justify-between mb-4">
-                <div className={`w-16 h-16 rounded-xl flex items-center justify-center ${
-                  achievement.rarity === 'legendary' ? 'bg-gradient-to-br from-yellow-500/20 to-orange-500/20' :
-                  achievement.rarity === 'epic' ? 'bg-gradient-to-br from-purple-500/20 to-pink-500/20' :
-                  achievement.rarity === 'rare' ? 'bg-gradient-to-br from-blue-500/20 to-cyan-500/20' :
-                  'bg-gray-500/20'
-                }`}>
-                  <achievement.icon className={`w-8 h-8 ${
-                    achievement.rarity === 'legendary' ? 'text-yellow-400' :
-                    achievement.rarity === 'epic' ? 'text-purple-400' :
-                    achievement.rarity === 'rare' ? 'text-blue-400' :
-                    'text-gray-400'
-                  }`} />
-                </div>
-                <div className={`px-2 py-1 rounded-full text-xs ${
-                  achievement.rarity === 'legendary' ? 'bg-yellow-500/20 text-yellow-400' :
-                  achievement.rarity === 'epic' ? 'bg-purple-500/20 text-purple-400' :
-                  achievement.rarity === 'rare' ? 'bg-blue-500/20 text-blue-400' :
-                  'bg-gray-500/20 text-gray-400'
-                }`}>
-                  {achievement.rarity}
-                </div>
+        {/* 3D Achievement Showcase */}
+        <div className="mb-8">
+          <h2 className="text-2xl font-bold text-white mb-4">🏆 3D Achievement Gallery</h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {achievements.map((achievement, i) => (
+              <div key={achievement.id} onClick={() => setSelectedAchievement(achievement)}>
+                <Achievement3DCard
+                  achievement={achievement}
+                  isUnlocked={achievement.unlocked}
+                />
               </div>
-              <h3 className="text-white font-bold text-lg mb-2">{achievement.title}</h3>
-              <p className="text-white/60 text-sm mb-4">{achievement.description}</p>
-              {!achievement.unlocked && achievement.progress !== undefined && (
-                <div>
-                  <div className="flex justify-between text-xs mb-1">
-                    <span className="text-white/60">Progress</span>
-                    <span className="text-white">{achievement.progress}%</span>
-                  </div>
-                  <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
-                    <div 
-                      className="h-full bg-gradient-to-r from-purple-500 to-pink-500"
-                      style={{ width: `${achievement.progress}%` }}
-                    />
-                  </div>
-                </div>
-              )}
-              {achievement.unlocked && (
-                <div className="text-green-400 text-sm font-semibold flex items-center gap-2">
-                  <Trophy className="w-4 h-4" />
-                  Unlocked!
-                </div>
-              )}
-            </motion.div>
-          ))}
+            ))}
+          </div>
         </div>
+
+        {/* 3D Badge Collection */}
+        <div className="mb-8">
+          <h2 className="text-2xl font-bold text-white mb-4">🎖️ Badge Collection</h2>
+          <BadgeShowcase3D badges={badges} />
+        </div>
+
+        {/* Leaderboard */}
+        <Leaderboard category="xp" timeframe="all-time" />
+
+        {/* Achievement Detail Modal */}
+        {selectedAchievement && (
+          <Achievement3DCard
+            achievement={selectedAchievement}
+            isUnlocked={selectedAchievement.unlocked}
+            showModal={true}
+            onClose={() => setSelectedAchievement(null)}
+          />
+        )}
       </div>
     </AuroraBackground>
   );

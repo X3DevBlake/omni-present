@@ -4,6 +4,9 @@ import { GraduationCap, BookOpen, Award, Users, TrendingUp, Video, MessageCircle
 import AuroraBackground from '../components/omni/AuroraBackground';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
+import DailyChallenges from '../components/challenges/DailyChallenges';
+import Leaderboard from '../components/gamification/Leaderboard';
+import Interactive3DBanner from '../components/3d/Interactive3DBanner';
 
 export default function CampusHome() {
   const [userStats] = useState({
@@ -19,22 +22,14 @@ export default function CampusHome() {
   return (
     <AuroraBackground className="min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
-        {/* Hero Section */}
-        <motion.div
-          className="text-center mb-12"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-        >
-          <div className="inline-block mb-4 px-4 py-2 bg-gradient-to-r from-blue-500/20 to-purple-500/20 border border-blue-500/30 rounded-full">
-            <span className="text-blue-400 text-sm font-semibold">🎓 Campus Hub</span>
-          </div>
-          <h1 className="text-5xl font-bold text-white mb-4">
-            Omni-Present
-            <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent"> Learning Campus</span>
-          </h1>
-          <p className="text-white/60 text-lg max-w-3xl mx-auto">
-            Master the future of AI technology. Learn, earn certifications, and join a global community of innovators.
-          </p>
+        {/* 3D Hero Banner */}
+        <motion.div className="mb-12" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+          <Interactive3DBanner
+            title="Learning Campus"
+            subtitle="Master the future of AI technology"
+            color="#3b82f6"
+            height="400px"
+          />
         </motion.div>
 
         {/* User Progress Card */}
@@ -95,6 +90,27 @@ export default function CampusHome() {
               <div className="text-white/60 text-sm">{stat.label}</div>
             </motion.div>
           ))}
+        </div>
+
+        {/* Daily Challenges */}
+        <div className="grid lg:grid-cols-3 gap-6 mb-8">
+          <div className="lg:col-span-2">
+            <DailyChallenges />
+          </div>
+          <div className="space-y-4">
+            <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-4">
+              <h3 className="text-white font-bold mb-2">Your Rank</h3>
+              <div className="text-4xl font-bold text-transparent bg-gradient-to-r from-yellow-400 to-orange-400 bg-clip-text">
+                #{Math.floor(Math.random() * 100) + 1}
+              </div>
+              <div className="text-white/60 text-sm">Global Leaderboard</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Leaderboard */}
+        <div className="mb-8">
+          <Leaderboard category="xp" timeframe="all-time" />
         </div>
 
         {/* Main Navigation Grid */}
