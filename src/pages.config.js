@@ -27,6 +27,9 @@ import APIKeys from './pages/APIKeys';
 import Webhooks from './pages/Webhooks';
 import Security from './pages/Security';
 import Compliance from './pages/Compliance';
+import Labs from './pages/Labs';
+import AgentAudio from './pages/AgentAudio';
+import CampusHome from './pages/CampusHome';
 import __Layout from './Layout.jsx';
 
 
@@ -60,6 +63,9 @@ export const PAGES = {
     "Webhooks": Webhooks,
     "Security": Security,
     "Compliance": Compliance,
+    "Labs": Labs,
+    "AgentAudio": AgentAudio,
+    "CampusHome": CampusHome,
 }
 
 export const pagesConfig = {
