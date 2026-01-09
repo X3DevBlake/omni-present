@@ -59,41 +59,18 @@ function DataLandscape({ data = [] }) {
         ))}
 
         {/* Connection lines between nearby points */}
-        {useMemo(() => {
-          const lines = [];
-          for (let i = 0; i < dataPoints.length; i++) {
-            for (let j = i + 1; j < dataPoints.length; j++) {
-              const dx = (dataPoints[j].x || 0) - (dataPoints[i].x || 0);
-              const dy = (dataPoints[j].y || 0) - (dataPoints[i].y || 0);
-              const dz = (dataPoints[j].z || 0) - (dataPoints[i].z || 0);
-              const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
-
-              if (dist < 5) {
-                lines.push(
-                  <line key={`line-${i}-${j}`}>
-                    <bufferGeometry>
-                      <bufferAttribute
-                        attach="attributes-position"
-                        count={2}
-                        array={new Float32Array([
-                          dataPoints[i].x || 0, dataPoints[i].y || 0, dataPoints[i].z || 0,
-                          dataPoints[j].x || 0, dataPoints[j].y || 0, dataPoints[j].z || 0
-                        ])}
-                        itemSize={3}
-                      />
-                    </bufferGeometry>
-                    <lineBasicMaterial
-                      color="#a855f7"
-                      transparent={true}
-                      opacity={0.3}
-                    />
-                  </line>
-                );
-              }
-            }
-          }
-          return lines;
-        }, [dataPoints])}
+        {dataPoints.slice(0, 10).map((point, idx) => (
+          <mesh key={`connection-${idx}`} position={[point.x || 0, point.y || 0, point.z || 0]}>
+            <sphereGeometry args={[0.15, 8, 8]} />
+            <meshStandardMaterial
+              color="#a855f7"
+              emissive="#a855f7"
+              emissiveIntensity={0.3}
+              transparent={true}
+              opacity={0.2}
+            />
+          </mesh>
+        ))}
       </group>
     </Float>
   );
