@@ -4,6 +4,7 @@ import { TrendingUp, TrendingDown, Activity, Wallet } from 'lucide-react';
 import { LineChart, Line, AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import TransactionList from '../components/omni/TransactionList';
+import OmniLeaderboard from '../components/omni/OmniLeaderboard';
 import { base44 } from '@/api/base44Client';
 import { toast } from 'sonner';
 
@@ -185,15 +186,26 @@ export default function OmniDashboard() {
           </motion.div>
         </div>
 
-        {/* Recent Transactions */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
-        >
-          <h2 className="text-white font-bold text-2xl mb-4">All Transactions</h2>
-          <TransactionList transactions={transactions} isLoading={loading} />
-        </motion.div>
+        {/* Recent Transactions & Leaderboard */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6 }}
+            className="lg:col-span-2"
+          >
+            <h2 className="text-white font-bold text-2xl mb-4">All Transactions</h2>
+            <TransactionList transactions={transactions} isLoading={loading} />
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7 }}
+          >
+            <OmniLeaderboard />
+          </motion.div>
+        </div>
       </div>
     </AuroraBackground>
   );

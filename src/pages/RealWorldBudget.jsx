@@ -1,9 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Wallet, TrendingUp } from 'lucide-react';
+import { Wallet, TrendingUp, Lightbulb } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import RealWorldBudgetTracker from '../components/omni/RealWorldBudgetTracker';
 import AgentAutonomyDashboard from '../components/omni/AgentAutonomyDashboard';
+import SmartSpendingAnalyzer from '../components/omni/SmartSpendingAnalyzer';
 
 export default function RealWorldBudget() {
   return (
@@ -20,12 +21,22 @@ export default function RealWorldBudget() {
           <p className="text-white/60 text-lg">AI-powered budgeting with autonomous agent optimization</p>
         </motion.div>
 
-        <div className="mb-12">
-          <div className="flex items-center gap-3 mb-6">
-            <Wallet className="w-6 h-6 text-green-400" />
-            <h2 className="text-white font-bold text-2xl">Personal Budget Tracking</h2>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+          <div className="lg:col-span-2">
+            <div className="flex items-center gap-3 mb-6">
+              <Wallet className="w-6 h-6 text-green-400" />
+              <h2 className="text-white font-bold text-2xl">Personal Budget Tracking</h2>
+            </div>
+            <RealWorldBudgetTracker />
           </div>
-          <RealWorldBudgetTracker />
+
+          <div>
+            <div className="flex items-center gap-3 mb-6">
+              <Lightbulb className="w-6 h-6 text-cyan-400" />
+              <h2 className="text-white font-bold text-2xl">Smart Insights</h2>
+            </div>
+            <SmartSpendingAnalyzer />
+          </div>
         </div>
 
         <div>

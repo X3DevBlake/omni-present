@@ -9,8 +9,14 @@ import ActivityLog from './pages/ActivityLog';
 import AdminHome from './pages/AdminHome';
 import Agent from './pages/Agent';
 import AgentAudio from './pages/AgentAudio';
+import AgentAutonomy from './pages/AgentAutonomy';
+import AgentBudget from './pages/AgentBudget';
+import AgentCardSettings from './pages/AgentCardSettings';
+import AgentECommerceSettings from './pages/AgentECommerceSettings';
 import AgentManagement from './pages/AgentManagement';
 import AgentMarketplace from './pages/AgentMarketplace';
+import AgentShoppingLog from './pages/AgentShoppingLog';
+import AgentSpending from './pages/AgentSpending';
 import Analytics from './pages/Analytics';
 import AssetBrowser from './pages/AssetBrowser';
 import AssetUpload from './pages/AssetUpload';
@@ -20,6 +26,7 @@ import BillingInvoicing from './pages/BillingInvoicing';
 import Blueprint from './pages/Blueprint';
 import BlueprintGallery from './pages/BlueprintGallery';
 import BridgeOmni from './pages/BridgeOmni';
+import BuyOmni from './pages/BuyOmni';
 import CampusHome from './pages/CampusHome';
 import CareerOpportunities from './pages/CareerOpportunities';
 import Certifications from './pages/Certifications';
@@ -52,6 +59,7 @@ import ExchangeListings from './pages/ExchangeListings';
 import ExperimentTracking from './pages/ExperimentTracking';
 import FAQ from './pages/FAQ';
 import Features from './pages/Features';
+import FiatDeposit from './pages/FiatDeposit';
 import FirmwareUpdates from './pages/FirmwareUpdates';
 import FleetManagement from './pages/FleetManagement';
 import Home from './pages/Home';
@@ -64,6 +72,7 @@ import Labs from './pages/Labs';
 import LabsHome from './pages/LabsHome';
 import Leaderboards from './pages/Leaderboards';
 import LicenseManagement from './pages/LicenseManagement';
+import LinkBankAccount from './pages/LinkBankAccount';
 import MaintenanceSchedule from './pages/MaintenanceSchedule';
 import Marketplace from './pages/Marketplace';
 import MarketplaceHome from './pages/MarketplaceHome';
@@ -71,15 +80,20 @@ import MentorshipProgramsPage from './pages/MentorshipProgramsPage';
 import ModelTraining from './pages/ModelTraining';
 import NewsUpdates from './pages/NewsUpdates';
 import Notifications from './pages/Notifications';
+import OmniCardManagement from './pages/OmniCardManagement';
+import OmniCardStore from './pages/OmniCardStore';
+import OmniDashboard from './pages/OmniDashboard';
 import OmniHome from './pages/OmniHome';
 import OrderManagement from './pages/OrderManagement';
 import OrgSettings from './pages/OrgSettings';
 import Partnerships from './pages/Partnerships';
 import PaymentHistory from './pages/PaymentHistory';
+import PhysicalWorldIntegration from './pages/PhysicalWorldIntegration';
 import PressReleases from './pages/PressReleases';
 import Privacy from './pages/Privacy';
 import Profile from './pages/Profile';
 import ProfileHome from './pages/ProfileHome';
+import RealWorldBudget from './pages/RealWorldBudget';
 import ReferralProgram from './pages/ReferralProgram';
 import RepairRequest from './pages/RepairRequest';
 import ReportingAnalytics from './pages/ReportingAnalytics';
@@ -88,6 +102,7 @@ import SDKsLibraries from './pages/SDKsLibraries';
 import SandboxEnvironment from './pages/SandboxEnvironment';
 import ScenarioTesting from './pages/ScenarioTesting';
 import Security from './pages/Security';
+import SellOmni from './pages/SellOmni';
 import SensorDataAnalysis from './pages/SensorDataAnalysis';
 import ServiceProviders from './pages/ServiceProviders';
 import Settings from './pages/Settings';
@@ -98,25 +113,15 @@ import SubscriptionManagement from './pages/SubscriptionManagement';
 import Team from './pages/Team';
 import Technology from './pages/Technology';
 import Terms from './pages/Terms';
+import Tokenomics from './pages/Tokenomics';
 import UserRolesPermissions from './pages/UserRolesPermissions';
 import VirtualClassrooms from './pages/VirtualClassrooms';
 import Wallet from './pages/Wallet';
 import Webhooks from './pages/Webhooks';
-import BuyOmni from './pages/BuyOmni';
-import SellOmni from './pages/SellOmni';
 import WithdrawOmni from './pages/WithdrawOmni';
-import FiatDeposit from './pages/FiatDeposit';
-import OmniCardManagement from './pages/OmniCardManagement';
-import OmniCardStore from './pages/OmniCardStore';
-import AgentBudget from './pages/AgentBudget';
-import AgentSpending from './pages/AgentSpending';
-import AgentECommerceSettings from './pages/AgentECommerceSettings';
-import AgentShoppingLog from './pages/AgentShoppingLog';
-import OmniDashboard from './pages/OmniDashboard';
-import Tokenomics from './pages/Tokenomics';
-import AgentCardSettings from './pages/AgentCardSettings';
-import LinkBankAccount from './pages/LinkBankAccount';
-import RealWorldBudget from './pages/RealWorldBudget';
+import OmniStaking from './pages/OmniStaking';
+import CustomDashboard from './pages/CustomDashboard';
+import OmniAchievements from './pages/OmniAchievements';
 import __Layout from './Layout.jsx';
 
 
@@ -132,8 +137,14 @@ export const PAGES = {
     "AdminHome": AdminHome,
     "Agent": Agent,
     "AgentAudio": AgentAudio,
+    "AgentAutonomy": AgentAutonomy,
+    "AgentBudget": AgentBudget,
+    "AgentCardSettings": AgentCardSettings,
+    "AgentECommerceSettings": AgentECommerceSettings,
     "AgentManagement": AgentManagement,
     "AgentMarketplace": AgentMarketplace,
+    "AgentShoppingLog": AgentShoppingLog,
+    "AgentSpending": AgentSpending,
     "Analytics": Analytics,
     "AssetBrowser": AssetBrowser,
     "AssetUpload": AssetUpload,
@@ -143,6 +154,7 @@ export const PAGES = {
     "Blueprint": Blueprint,
     "BlueprintGallery": BlueprintGallery,
     "BridgeOmni": BridgeOmni,
+    "BuyOmni": BuyOmni,
     "CampusHome": CampusHome,
     "CareerOpportunities": CareerOpportunities,
     "Certifications": Certifications,
@@ -175,6 +187,7 @@ export const PAGES = {
     "ExperimentTracking": ExperimentTracking,
     "FAQ": FAQ,
     "Features": Features,
+    "FiatDeposit": FiatDeposit,
     "FirmwareUpdates": FirmwareUpdates,
     "FleetManagement": FleetManagement,
     "Home": Home,
@@ -187,6 +200,7 @@ export const PAGES = {
     "LabsHome": LabsHome,
     "Leaderboards": Leaderboards,
     "LicenseManagement": LicenseManagement,
+    "LinkBankAccount": LinkBankAccount,
     "MaintenanceSchedule": MaintenanceSchedule,
     "Marketplace": Marketplace,
     "MarketplaceHome": MarketplaceHome,
@@ -194,15 +208,20 @@ export const PAGES = {
     "ModelTraining": ModelTraining,
     "NewsUpdates": NewsUpdates,
     "Notifications": Notifications,
+    "OmniCardManagement": OmniCardManagement,
+    "OmniCardStore": OmniCardStore,
+    "OmniDashboard": OmniDashboard,
     "OmniHome": OmniHome,
     "OrderManagement": OrderManagement,
     "OrgSettings": OrgSettings,
     "Partnerships": Partnerships,
     "PaymentHistory": PaymentHistory,
+    "PhysicalWorldIntegration": PhysicalWorldIntegration,
     "PressReleases": PressReleases,
     "Privacy": Privacy,
     "Profile": Profile,
     "ProfileHome": ProfileHome,
+    "RealWorldBudget": RealWorldBudget,
     "ReferralProgram": ReferralProgram,
     "RepairRequest": RepairRequest,
     "ReportingAnalytics": ReportingAnalytics,
@@ -211,6 +230,7 @@ export const PAGES = {
     "SandboxEnvironment": SandboxEnvironment,
     "ScenarioTesting": ScenarioTesting,
     "Security": Security,
+    "SellOmni": SellOmni,
     "SensorDataAnalysis": SensorDataAnalysis,
     "ServiceProviders": ServiceProviders,
     "Settings": Settings,
@@ -221,25 +241,15 @@ export const PAGES = {
     "Team": Team,
     "Technology": Technology,
     "Terms": Terms,
+    "Tokenomics": Tokenomics,
     "UserRolesPermissions": UserRolesPermissions,
     "VirtualClassrooms": VirtualClassrooms,
     "Wallet": Wallet,
     "Webhooks": Webhooks,
-    "BuyOmni": BuyOmni,
-    "SellOmni": SellOmni,
     "WithdrawOmni": WithdrawOmni,
-    "FiatDeposit": FiatDeposit,
-    "OmniCardManagement": OmniCardManagement,
-    "OmniCardStore": OmniCardStore,
-    "AgentBudget": AgentBudget,
-    "AgentSpending": AgentSpending,
-    "AgentECommerceSettings": AgentECommerceSettings,
-    "AgentShoppingLog": AgentShoppingLog,
-    "OmniDashboard": OmniDashboard,
-    "Tokenomics": Tokenomics,
-    "AgentCardSettings": AgentCardSettings,
-    "LinkBankAccount": LinkBankAccount,
-    "RealWorldBudget": RealWorldBudget,
+    "OmniStaking": OmniStaking,
+    "CustomDashboard": CustomDashboard,
+    "OmniAchievements": OmniAchievements,
 }
 
 export const pagesConfig = {
