@@ -6,7 +6,7 @@ import { createPageUrl } from '@/utils';
 
 const navItems = [
   { label: 'Home', page: 'HomeHub' },
-  { label: 'DeFi', page: 'LiquidityPools' },
+  { label: 'Omni', page: 'OmniHub' },
   { label: 'Agents', page: 'AgentKnowledge' },
   { label: 'Labs', page: 'LabsHome' },
   { label: 'Devices', page: 'DeviceHome' },

@@ -126,6 +126,7 @@ import LiquidityPools from './pages/LiquidityPools';
 import AgentKnowledgeBase from './pages/AgentKnowledgeBase';
 import AgentKnowledge from './pages/AgentKnowledge';
 import AgentSimulation3D from './pages/AgentSimulation3D';
+import OmniHub from './pages/OmniHub';
 import __Layout from './Layout.jsx';
 
 
@@ -258,6 +259,7 @@ export const PAGES = {
     "AgentKnowledgeBase": AgentKnowledgeBase,
     "AgentKnowledge": AgentKnowledge,
     "AgentSimulation3D": AgentSimulation3D,
+    "OmniHub": OmniHub,
 }
 
 export const pagesConfig = {
