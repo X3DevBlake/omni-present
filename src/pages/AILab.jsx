@@ -30,8 +30,12 @@ import AgentMemorySystem from '../components/agents/AgentMemorySystem';
 import AgentEmoteSystem from '../components/agents/AgentEmoteSystem';
 import AgentActionController from '../components/agents/AgentActionController';
 import AgentPersonalityCustomizer from '../components/agents/AgentPersonalityCustomizer';
+import SimulationEventGenerator from '../components/simulation/SimulationEventGenerator';
+import AgentCollaborationHub from '../components/simulation/AgentCollaborationHub';
+import AgentMemoryNetwork from '../components/agents/AgentMemoryNetwork';
+import EnhancedAgentMemory from '../components/agents/EnhancedAgentMemory';
 
-function FloatingBrain() {
+      function FloatingBrain() {
   return (
     <Float speed={2} rotationIntensity={1} floatIntensity={0.5}>
       <mesh>
@@ -118,7 +122,10 @@ export default function AILab() {
             { id: 'data', label: '📡 Data & Flow', icon: 'Data' },
             { id: 'database', label: '🗄️ Data Sources', icon: 'Database' },
             { id: 'goals', label: '🎯 Goals', icon: 'Goals' },
-            { id: 'query', label: '🔍 Smart Query', icon: 'Query' }
+            { id: 'query', label: '🔍 Smart Query', icon: 'Query' },
+            { id: 'simulation', label: '⚡ Sim Events', icon: 'SimEvents' },
+            { id: 'teams', label: '👥 Teams', icon: 'Teams' },
+            { id: 'memory', label: '🧠 Memory Network', icon: 'Memory' }
           ].map(tab => (
             <button
               key={tab.id}
@@ -331,7 +338,62 @@ export default function AILab() {
             </div>
           </div>
         )}
-      </div>
-    </AuroraBackground>
-  );
-}
+
+        {/* Simulation Events Tab */}
+        {activeTab === 'simulation' && (
+          <div className="space-y-6">
+            <SimulationEventGenerator agentStates={[{ id: 'lab-assistant-01', name: 'LabAssistant-01', status: 'active' }]} />
+            <div className="bg-black/40 border border-white/10 rounded-2xl p-6">
+              <h3 className="text-white font-bold mb-3">📋 Dynamic Event System</h3>
+              <div className="space-y-2 text-white/70 text-sm">
+                <p><strong>• Adaptive Challenges:</strong> Events scale with agent capability</p>
+                <p><strong>• Opportunity Generation:</strong> AI creates scenarios matching agent personality</p>
+                <p><strong>• Real-time Feedback:</strong> Events trigger memory updates automatically</p>
+                <p><strong>• Consequence Tracking:</strong> Agent decisions logged and analyzed</p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Teams Collaboration Tab */}
+        {activeTab === 'teams' && (
+          <div className="space-y-6">
+            <AgentCollaborationHub agents={[
+              { id: 'lab-assistant-01', name: 'LabAssistant-01' },
+              { id: 'agent-explorer', name: 'Explorer Agent' },
+              { id: 'agent-analyst', name: 'Analyst Agent' }
+            ]} />
+            <div className="bg-black/40 border border-white/10 rounded-2xl p-6">
+              <h3 className="text-white font-bold mb-3">🤝 Collaboration Features</h3>
+              <div className="space-y-2 text-white/70 text-sm">
+                <p><strong>• Team Formation:</strong> Group agents for complex tasks</p>
+                <p><strong>• Knowledge Sharing:</strong> Agents synthesize memories across the team</p>
+                <p><strong>• Task Coordination:</strong> AI generates collaboration plans</p>
+                <p><strong>• Progress Tracking:</strong> Monitor team objectives in real-time</p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Memory Network Tab */}
+        {activeTab === 'memory' && (
+          <div className="space-y-6">
+            <div className="grid lg:grid-cols-2 gap-6">
+              <AgentMemoryNetwork agentId="lab-assistant-01" />
+              <EnhancedAgentMemory agentId="lab-assistant-01" />
+            </div>
+            <div className="bg-black/40 border border-white/10 rounded-2xl p-6">
+              <h3 className="text-white font-bold mb-3">🧠 Memory Intelligence</h3>
+              <div className="space-y-2 text-white/70 text-sm">
+                <p><strong>• Visual Network:</strong> See memory connections and relationships</p>
+                <p><strong>• AI Summarization:</strong> Automatic synthesis of memory patterns</p>
+                <p><strong>• Contextual Retrieval:</strong> Query-based memory search & reasoning</p>
+                <p><strong>• Proactive Recall:</strong> Agent autonomously recalls relevant memories</p>
+              </div>
+            </div>
+          </div>
+        )}
+        </div>
+        </AuroraBackground>
+        );
+        }
