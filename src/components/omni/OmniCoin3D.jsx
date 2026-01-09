@@ -102,7 +102,7 @@ function GlowEffect() {
 export default function OmniCoin3D() {
   return (
     <div className="w-full h-full rounded-2xl overflow-hidden bg-black/40">
-      <Canvas camera={{ position: [0, 0, 5], fov: 60 }}>
+      <Canvas camera={{ position: [0, 0, 5], fov: 60 }} gl={{ antialias: true }}>
         <color attach="background" args={['#0a0a0f']} />
         
         {/* Lighting */}
@@ -115,8 +115,7 @@ export default function OmniCoin3D() {
         <CoinMesh />
         <GlowEffect />
         
-        {/* Environment and Controls */}
-        <Environment preset="night" />
+        {/* Controls only - removed Environment to avoid texture issues */}
         <OrbitControls 
           enableZoom={false} 
           enableRotate={false}
