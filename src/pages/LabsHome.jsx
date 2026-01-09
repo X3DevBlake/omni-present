@@ -5,6 +5,8 @@ import AuroraBackground from '../components/omni/AuroraBackground';
 import EnhancedHubNav from '../components/navigation/EnhancedHubNav';
 import AI3DBrain from '../components/3d/AI3DBrain';
 import HubSpecificAgents from '../components/ai/HubSpecificAgents';
+import InterAgentCommunication from '../components/ai/InterAgentCommunication';
+import AICoachingSystem from '../components/ai/AICoachingSystem';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
 import { usePersonalization } from '../components/personalization/PersonalizationContext';
@@ -36,6 +38,16 @@ export default function LabsHome() {
         {/* Hub-Specific Agents */}
         <div className="mb-12">
           <HubSpecificAgents hubType="labs" />
+        </div>
+
+        {/* Inter-Agent Communication */}
+        <div className="mb-12">
+          <InterAgentCommunication />
+        </div>
+
+        {/* AI Coaching */}
+        <div className="mb-12">
+          <AICoachingSystem />
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">

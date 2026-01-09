@@ -6,6 +6,7 @@ import EnhancedHubNav from '../components/navigation/EnhancedHubNav';
 import PersonalizedDeviceDashboard from '../components/devices/PersonalizedDeviceDashboard';
 import PersonalizedRecommendationWidget from '../components/personalization/PersonalizedRecommendationWidget';
 import HubSpecificAgents from '../components/ai/HubSpecificAgents';
+import AICoachingSystem from '../components/ai/AICoachingSystem';
 import { usePersonalization } from '../components/personalization/PersonalizationContext';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
@@ -45,6 +46,11 @@ export default function DeviceHome() {
         {/* Hub-Specific Agents */}
         <div className="mb-12">
           <HubSpecificAgents hubType="devices" />
+        </div>
+
+        {/* AI Coaching */}
+        <div className="mb-12">
+          <AICoachingSystem />
         </div>
 
         {/* Personalized Device Dashboard */}

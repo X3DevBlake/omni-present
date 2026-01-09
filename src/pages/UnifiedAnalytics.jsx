@@ -4,6 +4,8 @@ import AuroraBackground from '../components/omni/AuroraBackground';
 import EnhancedHubNav from '../components/navigation/EnhancedHubNav';
 import UnifiedAnalyticsDashboard from '../components/analytics/UnifiedAnalyticsDashboard';
 import CrossHubCorrelationMap from '../components/analytics/CrossHubCorrelationMap';
+import MarketDataFeed from '../components/analytics/MarketDataFeed';
+import AICoachingSystem from '../components/ai/AICoachingSystem';
 import AIAgentManager from '../components/ai/AIAgentManager';
 import { usePersonalization } from '../components/personalization/PersonalizationContext';
 
@@ -42,6 +44,19 @@ export default function UnifiedAnalytics() {
           {/* Cross-Hub Correlations */}
           <div className="mb-12">
             <CrossHubCorrelationMap />
+          </div>
+
+          {/* Market Data Feed */}
+          <div className="mb-12">
+            <div className="bg-black/40 backdrop-blur-xl border border-cyan-500/30 rounded-2xl p-6">
+              <h3 className="text-white font-bold text-xl mb-4">Real-Time Market Intelligence</h3>
+              <MarketDataFeed />
+            </div>
+          </div>
+
+          {/* AI Coaching System */}
+          <div className="mb-12">
+            <AICoachingSystem />
           </div>
 
           {/* AI Agent Management */}

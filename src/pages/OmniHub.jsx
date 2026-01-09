@@ -7,6 +7,8 @@ import PortfolioAdvisor from '../components/omni/PortfolioAdvisor';
 import PersonalizedRecommendationWidget from '../components/personalization/PersonalizedRecommendationWidget';
 import AIAgentManager from '../components/ai/AIAgentManager';
 import HubSpecificAgents from '../components/ai/HubSpecificAgents';
+import InterAgentCommunication from '../components/ai/InterAgentCommunication';
+import MarketDataFeed from '../components/analytics/MarketDataFeed';
 import { usePersonalization } from '../components/personalization/PersonalizationContext';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
@@ -31,9 +33,22 @@ export default function OmniHub() {
           <PortfolioAdvisor />
         </div>
 
+        {/* Market Data Feed */}
+        <div className="mb-12">
+          <div className="bg-black/40 backdrop-blur-xl border border-cyan-500/30 rounded-2xl p-6">
+            <h3 className="text-white font-bold text-xl mb-4">Live Market Data</h3>
+            <MarketDataFeed />
+          </div>
+        </div>
+
         {/* Hub-Specific Agents */}
         <div className="mb-12">
           <HubSpecificAgents hubType="omni" />
+        </div>
+
+        {/* Inter-Agent Communication */}
+        <div className="mb-12">
+          <InterAgentCommunication />
         </div>
 
         {/* AI Agent Manager */}
