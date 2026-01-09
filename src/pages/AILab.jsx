@@ -43,6 +43,10 @@ import AdvancedCollaborationHub from '../components/collaboration/AdvancedCollab
 import AdvancedTrainingModule from '../components/training/AdvancedTrainingModule';
 import FinancialAPIIntegrator from '../components/finance/FinancialAPIIntegrator';
 import InterAgentCommunicationSystem from '../components/agents/InterAgentCommunicationSystem';
+import NLPCommandProcessor from '../components/ai/NLPCommandProcessor';
+import SelfLearningAgentSystem from '../components/ai/SelfLearningAgentSystem';
+import RealTimeNewsFeed from '../components/news/RealTimeNewsFeed';
+import AgentMetaReasoningSystem from '../components/ai/AgentMetaReasoningSystem';
 
       function FloatingBrain() {
   return (
@@ -132,6 +136,10 @@ export default function AILab() {
             { id: 'finance-api', label: '💰 Finance APIs', icon: 'FinAPI' },
             { id: 'agent-comm', label: '📢 Agent Comm', icon: 'AgentComm' },
             { id: 'fin-sim', label: '📈 Fin Simulation', icon: 'FinSim' },
+            { id: 'nlp', label: '💬 NLP Commands', icon: 'NLP' },
+            { id: 'self-learn', label: '🧬 Self-Learning', icon: 'Learn' },
+            { id: 'news', label: '📰 News Feed', icon: 'News' },
+            { id: 'meta-reason', label: '🤔 Meta-Reasoning', icon: 'Reason' },
             { id: 'sandbox', label: '🎮 Sandbox', icon: 'Sandbox' },
             { id: 'data', label: '📡 Data & Flow', icon: 'Data' },
             { id: 'database', label: '🗄️ Data Sources', icon: 'Database' },
@@ -346,6 +354,18 @@ export default function AILab() {
 
         {/* Financial Simulation Tab */}
         {activeTab === 'fin-sim' && <FinancialSimulationModule />}
+
+        {/* NLP Command Processor Tab */}
+        {activeTab === 'nlp' && <NLPCommandProcessor />}
+
+        {/* Self-Learning Agent System Tab */}
+        {activeTab === 'self-learn' && <SelfLearningAgentSystem />}
+
+        {/* Real-Time News Feed Tab */}
+        {activeTab === 'news' && <RealTimeNewsFeed />}
+
+        {/* Agent Meta-Reasoning System Tab */}
+        {activeTab === 'meta-reason' && <AgentMetaReasoningSystem />}
 
         {/* Collaboration Tab */}
         {activeTab === 'collaboration' && (
