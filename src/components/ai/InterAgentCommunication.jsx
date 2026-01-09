@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Send, MessageSquare, Zap, Check, AlertCircle } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
+import AdvancedMessageRouter from './AdvancedMessageRouter';
+import CommunicationProtocolEditor from '../agents/CommunicationProtocolEditor';
 
 export default function InterAgentCommunication() {
   const [messages, setMessages] = useState([]);
@@ -9,6 +11,7 @@ export default function InterAgentCommunication() {
   const [selectedAgent, setSelectedAgent] = useState(null);
   const [newMessage, setNewMessage] = useState('');
   const [loading, setLoading] = useState(true);
+  const [showProtocolEditor, setShowProtocolEditor] = useState(false);
 
   useEffect(() => {
     loadAgents();
@@ -123,11 +126,12 @@ export default function InterAgentCommunication() {
   return (
     <div className="grid lg:grid-cols-3 gap-6">
       {/* Agent Selection */}
-      <div className="bg-black/40 backdrop-blur-xl border border-cyan-500/30 rounded-2xl p-4 h-96 overflow-hidden flex flex-col">
-        <h3 className="text-white font-bold mb-3 flex items-center gap-2">
-          <MessageSquare className="w-5 h-5 text-cyan-400" />
-          Available Agents
-        </h3>
+      <div className="flex flex-col gap-6">
+        <div className="bg-black/40 backdrop-blur-xl border border-cyan-500/30 rounded-2xl p-4 h-96 overflow-hidden flex flex-col">
+          <h3 className="text-white font-bold mb-3 flex items-center gap-2">
+            <MessageSquare className="w-5 h-5 text-cyan-400" />
+            Available Agents
+          </h3>
         <div className="space-y-2 flex-1 overflow-y-auto">
           {agents.map(agent => (
             <motion.button
@@ -145,6 +149,10 @@ export default function InterAgentCommunication() {
             </motion.button>
           ))}
         </div>
+        </div>
+        {selectedAgent && (
+          <CommunicationProtocolEditor agentId={selectedAgent.id} />
+        )}
       </div>
 
       {/* Message Feed */}
@@ -159,31 +167,12 @@ export default function InterAgentCommunication() {
               </div>
             ) : (
               messages.map((msg, idx) => (
-                <motion.div
+                <AdvancedMessageRouter
                   key={idx}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  className={`bg-gradient-to-r ${getMessageColor(msg.type)} border rounded-lg p-3`}
-                >
-                  <div className="flex items-start justify-between gap-2">
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2">
-                        <span className="text-white font-semibold text-sm truncate">
-                          {typeof msg.from === 'string' ? msg.from : msg.from?.name || 'Agent'}
-                        </span>
-                        <span className="text-white/40 text-xs">→</span>
-                        <span className="text-white/70 text-sm truncate">
-                          {typeof msg.to === 'string' ? msg.to : msg.to?.name || 'System'}
-                        </span>
-                      </div>
-                      <p className="text-white/70 text-xs mt-1 break-words">{msg.content}</p>
-                    </div>
-                    <div className="flex-shrink-0">
-                      {getStatusIcon(msg.status)}
-                    </div>
-                  </div>
-                </motion.div>
+                  from={typeof msg.from === 'string' ? { name: msg.from } : msg.from}
+                  to={typeof msg.to === 'string' ? { name: msg.to } : msg.to}
+                  message={msg}
+                />
               ))
             )}
           </AnimatePresence>
