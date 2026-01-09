@@ -1,21 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
+import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Stars, Environment, Float } from '@react-three/drei';
 import { motion } from 'framer-motion';
 import { Play, Pause, Zap, Eye } from 'lucide-react';
-import { useRef } from 'react';
 
 function SimulationEnvironment() {
-  const groupRef = useRef();
-
-  useFrame(() => {
-    if (groupRef.current) {
-      groupRef.current.rotation.y += 0.0002;
-    }
-  });
-
   return (
-    <group ref={groupRef}>
+    <group>
       {/* Terrain */}
       <mesh position={[0, -2, 0]}>
         <planeGeometry args={[30, 30, 50, 50]} />

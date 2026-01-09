@@ -10,7 +10,7 @@ function TradeVisualization({ agentColor, trend }) {
   return (
     <Float speed={2} rotationIntensity={0.6} floatIntensity={0.3}>
       <mesh rotation={[rotation, 0, 0]}>
-        <pyramidGeometry args={[1, 2, 4]} />
+        <coneGeometry args={[1, 2, 8]} />
         <meshStandardMaterial
           color={agentColor}
           emissive={agentColor}
