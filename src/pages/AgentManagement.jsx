@@ -1,21 +1,45 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Bot, Plus, Zap, Brain, Settings, Trash2, Play, Pause } from 'lucide-react';
+import { Bot, Plus, Zap, Brain, Settings, Trash2, Play, Pause, Activity, TrendingUp } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
+import BackButton from '../components/navigation/BackButton';
+import { Canvas } from '@react-three/fiber';
+import { OrbitControls, Float } from '@react-three/drei';
+
+function Agent3DIcon() {
+  return (
+    <Float speed={2} floatIntensity={0.5}>
+      <mesh>
+        <octahedronGeometry args={[1, 0]} />
+        <meshStandardMaterial color="#a855f7" emissive="#a855f7" emissiveIntensity={0.5} />
+      </mesh>
+    </Float>
+  );
+}
 
 export default function AgentManagement() {
-  const [agents] = useState([
-    { id: 1, name: 'Explorer-Alpha', type: 'Scout', status: 'active', experience: 450 },
-    { id: 2, name: 'Guardian-Beta', type: 'Defense', status: 'training', experience: 320 },
-    { id: 3, name: 'Strategist-Gamma', type: 'Planning', status: 'active', experience: 580 },
-    { id: 4, name: 'Innovator-Delta', type: 'Creative', status: 'idle', experience: 210 }
+  const [agents, setAgents] = useState([
+    { id: 1, name: 'Explorer-Alpha', type: 'Scout', status: 'active', experience: 450, performance: 92 },
+    { id: 2, name: 'Guardian-Beta', type: 'Defense', status: 'training', experience: 320, performance: 78 },
+    { id: 3, name: 'Strategist-Gamma', type: 'Planning', status: 'active', experience: 580, performance: 95 },
+    { id: 4, name: 'Innovator-Delta', type: 'Creative', status: 'idle', experience: 210, performance: 65 }
   ]);
+
+  const [stats, setStats] = useState({
+    totalAgents: 4,
+    activeAgents: 2,
+    avgPerformance: 82.5,
+    totalTasks: 1247
+  });
 
   return (
     <AuroraBackground className="min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
+        <div className="mb-6">
+          <BackButton />
+        </div>
         <motion.div className="flex justify-between items-center mb-8" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
           <div>
             <h1 className="text-4xl font-bold text-white mb-2">Agent Management</h1>
