@@ -27,9 +27,19 @@ export default function About() {
     { name: 'Emma Davis', role: 'Lead Designer', avatar: '👩‍🎨' }
   ];
 
+  const navigate = useNavigate();
+
   return (
     <AuroraBackground className="min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
+        {/* Back Button */}
+        <motion.button
+          onClick={() => navigate(-1)}
+          whileHover={{ scale: 1.05 }}
+          className="mb-8 p-3 bg-white/10 hover:bg-white/20 border border-white/20 text-white rounded-xl transition-all flex items-center gap-2"
+        >
+          <ChevronLeft className="w-5 h-5" /> Back
+        </motion.button>
         
         {/* 3D Hero */}
         <Immersive3DAbout />
