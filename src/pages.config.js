@@ -13,6 +13,7 @@ import Community from './pages/Community';
 import Integrations from './pages/Integrations';
 import Analytics from './pages/Analytics';
 import AILab from './pages/AILab';
+import DeviceShop from './pages/DeviceShop';
 import __Layout from './Layout.jsx';
 
 
@@ -32,6 +33,7 @@ export const PAGES = {
     "Integrations": Integrations,
     "Analytics": Analytics,
     "AILab": AILab,
+    "DeviceShop": DeviceShop,
 }
 
 export const pagesConfig = {

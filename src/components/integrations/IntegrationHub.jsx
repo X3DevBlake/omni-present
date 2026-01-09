@@ -7,27 +7,158 @@ const integrationCategories = {
     { name: 'OpenAI GPT-4', icon: '🧠', connected: true, color: '#10b981' },
     { name: 'Google Gemini', icon: '✨', connected: true, color: '#3b82f6' },
     { name: 'Anthropic Claude', icon: '🤖', connected: false, color: '#a855f7' },
-    { name: 'Hugging Face', icon: '🤗', connected: false, color: '#fbbf24' }
+    { name: 'Hugging Face', icon: '🤗', connected: false, color: '#fbbf24' },
+    { name: 'Cohere', icon: '💫', connected: false, color: '#ec4899' },
+    { name: 'Stability AI', icon: '🎨', connected: false, color: '#8b5cf6' },
+    { name: 'Replicate', icon: '🔄', connected: false, color: '#06b6d4' },
+    { name: 'AWS SageMaker', icon: '☁️', connected: false, color: '#f97316' },
+    { name: 'Azure ML', icon: '🔷', connected: false, color: '#0ea5e9' },
+    { name: 'Vertex AI', icon: '🔺', connected: false, color: '#84cc16' }
   ],
   'Data & Analytics': [
     { name: 'Google Analytics', icon: '📊', connected: true, color: '#ef4444' },
     { name: 'MongoDB Atlas', icon: '🍃', connected: false, color: '#10b981' },
-    { name: 'BigQuery', icon: '📈', connected: false, color: '#3b82f6' }
+    { name: 'BigQuery', icon: '📈', connected: false, color: '#3b82f6' },
+    { name: 'Snowflake', icon: '❄️', connected: false, color: '#06b6d4' },
+    { name: 'Databricks', icon: '🔶', connected: false, color: '#f97316' },
+    { name: 'Tableau', icon: '📉', connected: false, color: '#3b82f6' },
+    { name: 'PowerBI', icon: '📊', connected: false, color: '#fbbf24' },
+    { name: 'Amplitude', icon: '📈', connected: false, color: '#8b5cf6' },
+    { name: 'Mixpanel', icon: '🎯', connected: false, color: '#ec4899' },
+    { name: 'Segment', icon: '🔀', connected: false, color: '#10b981' },
+    { name: 'Elasticsearch', icon: '🔍', connected: false, color: '#06b6d4' },
+    { name: 'Redis', icon: '🔴', connected: false, color: '#ef4444' },
+    { name: 'PostgreSQL', icon: '🐘', connected: false, color: '#3b82f6' },
+    { name: 'MySQL', icon: '🐬', connected: false, color: '#f97316' },
+    { name: 'Supabase', icon: '⚡', connected: false, color: '#22c55e' }
   ],
   'Communication': [
     { name: 'Slack', icon: '💬', connected: true, color: '#a855f7' },
     { name: 'Discord', icon: '🎮', connected: false, color: '#6366f1' },
-    { name: 'SendGrid', icon: '📧', connected: false, color: '#3b82f6' }
+    { name: 'SendGrid', icon: '📧', connected: false, color: '#3b82f6' },
+    { name: 'Twilio', icon: '📱', connected: false, color: '#ef4444' },
+    { name: 'Microsoft Teams', icon: '👥', connected: false, color: '#8b5cf6' },
+    { name: 'Zoom', icon: '📹', connected: false, color: '#06b6d4' },
+    { name: 'Telegram', icon: '✈️', connected: false, color: '#0ea5e9' },
+    { name: 'WhatsApp', icon: '💚', connected: false, color: '#22c55e' },
+    { name: 'Mailchimp', icon: '🐵', connected: false, color: '#fbbf24' },
+    { name: 'Intercom', icon: '💙', connected: false, color: '#3b82f6' },
+    { name: 'Zendesk', icon: '🎫', connected: false, color: '#10b981' },
+    { name: 'Front', icon: '📮', connected: false, color: '#ec4899' }
   ],
   'Financial': [
     { name: 'Stripe', icon: '💳', connected: false, color: '#6366f1' },
     { name: 'PayPal', icon: '💰', connected: false, color: '#0ea5e9' },
-    { name: 'Coinbase', icon: '₿', connected: false, color: '#fbbf24' }
+    { name: 'Coinbase', icon: '₿', connected: false, color: '#fbbf24' },
+    { name: 'Square', icon: '⬛', connected: false, color: '#000000' },
+    { name: 'Plaid', icon: '🏦', connected: false, color: '#06b6d4' },
+    { name: 'Braintree', icon: '🌳', connected: false, color: '#22c55e' },
+    { name: 'Adyen', icon: '💵', connected: false, color: '#10b981' },
+    { name: 'Wise', icon: '🌍', connected: false, color: '#3b82f6' },
+    { name: 'QuickBooks', icon: '📗', connected: false, color: '#22c55e' },
+    { name: 'Xero', icon: '📘', connected: false, color: '#06b6d4' }
   ],
   'Productivity': [
     { name: 'Notion', icon: '📝', connected: false, color: '#ffffff' },
     { name: 'Google Workspace', icon: '📁', connected: true, color: '#3b82f6' },
-    { name: 'GitHub', icon: '🐙', connected: false, color: '#ffffff' }
+    { name: 'GitHub', icon: '🐙', connected: false, color: '#ffffff' },
+    { name: 'GitLab', icon: '🦊', connected: false, color: '#f97316' },
+    { name: 'Jira', icon: '📋', connected: false, color: '#0ea5e9' },
+    { name: 'Asana', icon: '✓', connected: false, color: '#ec4899' },
+    { name: 'Trello', icon: '📌', connected: false, color: '#3b82f6' },
+    { name: 'Monday.com', icon: '📅', connected: false, color: '#ef4444' },
+    { name: 'ClickUp', icon: '🎯', connected: false, color: '#8b5cf6' },
+    { name: 'Linear', icon: '↗️', connected: false, color: '#6366f1' },
+    { name: 'Airtable', icon: '🔷', connected: false, color: '#fbbf24' },
+    { name: 'Coda', icon: '📄', connected: false, color: '#f97316' },
+    { name: 'Miro', icon: '🎨', connected: false, color: '#fbbf24' },
+    { name: 'Figma', icon: '🎨', connected: false, color: '#a855f7' },
+    { name: 'Canva', icon: '🎨', connected: false, color: '#06b6d4' }
+  ],
+  'Developer Tools': [
+    { name: 'Docker', icon: '🐳', connected: false, color: '#06b6d4' },
+    { name: 'Kubernetes', icon: '☸️', connected: false, color: '#3b82f6' },
+    { name: 'Jenkins', icon: '🔨', connected: false, color: '#ef4444' },
+    { name: 'CircleCI', icon: '⭕', connected: false, color: '#22c55e' },
+    { name: 'Vercel', icon: '▲', connected: false, color: '#000000' },
+    { name: 'Netlify', icon: '🌐', connected: false, color: '#06b6d4' },
+    { name: 'AWS', icon: '☁️', connected: false, color: '#f97316' },
+    { name: 'GCP', icon: '☁️', connected: false, color: '#3b82f6' },
+    { name: 'Azure', icon: '☁️', connected: false, color: '#0ea5e9' },
+    { name: 'Heroku', icon: '🟣', connected: false, color: '#8b5cf6' },
+    { name: 'Terraform', icon: '🏗️', connected: false, color: '#8b5cf6' },
+    { name: 'Ansible', icon: '🔧', connected: false, color: '#ef4444' }
+  ],
+  'Marketing': [
+    { name: 'HubSpot', icon: '🟠', connected: false, color: '#f97316' },
+    { name: 'Salesforce', icon: '☁️', connected: false, color: '#0ea5e9' },
+    { name: 'Marketo', icon: '💜', connected: false, color: '#8b5cf6' },
+    { name: 'Pardot', icon: '🔵', connected: false, color: '#3b82f6' },
+    { name: 'ActiveCampaign', icon: '⚡', connected: false, color: '#22c55e' },
+    { name: 'ConvertKit', icon: '📧', connected: false, color: '#ec4899' },
+    { name: 'SEMrush', icon: '📊', connected: false, color: '#f97316' },
+    { name: 'Ahrefs', icon: '🔍', connected: false, color: '#0ea5e9' },
+    { name: 'Google Ads', icon: '📢', connected: false, color: '#fbbf24' },
+    { name: 'Facebook Ads', icon: '📘', connected: false, color: '#3b82f6' }
+  ],
+  'CRM & Sales': [
+    { name: 'Pipedrive', icon: '🔵', connected: false, color: '#22c55e' },
+    { name: 'Copper', icon: '🟠', connected: false, color: '#f97316' },
+    { name: 'Close', icon: '📞', connected: false, color: '#3b82f6' },
+    { name: 'Freshsales', icon: '🌱', connected: false, color: '#22c55e' },
+    { name: 'Zoho CRM', icon: '📊', connected: false, color: '#ef4444' },
+    { name: 'Insightly', icon: '👁️', connected: false, color: '#8b5cf6' }
+  ],
+  'E-commerce': [
+    { name: 'Shopify', icon: '🛍️', connected: false, color: '#22c55e' },
+    { name: 'WooCommerce', icon: '🛒', connected: false, color: '#8b5cf6' },
+    { name: 'BigCommerce', icon: '🏪', connected: false, color: '#3b82f6' },
+    { name: 'Magento', icon: '🟠', connected: false, color: '#f97316' },
+    { name: 'Amazon Seller', icon: '📦', connected: false, color: '#fbbf24' },
+    { name: 'eBay', icon: '🔵', connected: false, color: '#ef4444' }
+  ],
+  'IoT & Hardware': [
+    { name: 'Arduino Cloud', icon: '🔧', connected: false, color: '#06b6d4' },
+    { name: 'Raspberry Pi', icon: '🥧', connected: false, color: '#ef4444' },
+    { name: 'AWS IoT', icon: '📡', connected: false, color: '#f97316' },
+    { name: 'Azure IoT', icon: '🌐', connected: false, color: '#0ea5e9' },
+    { name: 'Google IoT Core', icon: '🔷', connected: false, color: '#3b82f6' },
+    { name: 'ThingSpeak', icon: '📊', connected: false, color: '#22c55e' },
+    { name: 'Particle', icon: '⚡', connected: false, color: '#06b6d4' }
+  ],
+  'Security': [
+    { name: 'Auth0', icon: '🔐', connected: false, color: '#ef4444' },
+    { name: 'Okta', icon: '🔒', connected: false, color: '#0ea5e9' },
+    { name: 'OneLogin', icon: '1️⃣', connected: false, color: '#22c55e' },
+    { name: 'Cloudflare', icon: '☁️', connected: false, color: '#f97316' },
+    { name: 'Snyk', icon: '🛡️', connected: false, color: '#8b5cf6' },
+    { name: '1Password', icon: '🔑', connected: false, color: '#3b82f6' }
+  ],
+  'Monitoring': [
+    { name: 'Datadog', icon: '🐕', connected: false, color: '#8b5cf6' },
+    { name: 'New Relic', icon: '📊', connected: false, color: '#06b6d4' },
+    { name: 'Sentry', icon: '🔔', connected: false, color: '#ec4899' },
+    { name: 'PagerDuty', icon: '📟', connected: false, color: '#22c55e' },
+    { name: 'Grafana', icon: '📈', connected: false, color: '#f97316' },
+    { name: 'Prometheus', icon: '🔥', connected: false, color: '#ef4444' }
+  ],
+  'Storage': [
+    { name: 'Dropbox', icon: '📦', connected: false, color: '#0ea5e9' },
+    { name: 'Box', icon: '📦', connected: false, color: '#3b82f6' },
+    { name: 'OneDrive', icon: '☁️', connected: false, color: '#0ea5e9' },
+    { name: 'Google Drive', icon: '📁', connected: false, color: '#fbbf24' },
+    { name: 'AWS S3', icon: '🪣', connected: false, color: '#f97316' },
+    { name: 'Backblaze', icon: '💾', connected: false, color: '#ef4444' }
+  ],
+  'Social Media': [
+    { name: 'Twitter', icon: '🐦', connected: false, color: '#0ea5e9' },
+    { name: 'Facebook', icon: '📘', connected: false, color: '#3b82f6' },
+    { name: 'Instagram', icon: '📸', connected: false, color: '#ec4899' },
+    { name: 'LinkedIn', icon: '💼', connected: false, color: '#0ea5e9' },
+    { name: 'YouTube', icon: '📹', connected: false, color: '#ef4444' },
+    { name: 'TikTok', icon: '🎵', connected: false, color: '#000000' },
+    { name: 'Pinterest', icon: '📌', connected: false, color: '#ef4444' },
+    { name: 'Reddit', icon: '🔴', connected: false, color: '#f97316' }
   ]
 };
 

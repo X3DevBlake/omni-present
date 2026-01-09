@@ -1,23 +1,70 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, CreditCard, DollarSign, CheckCircle } from 'lucide-react';
+import { X, CreditCard, DollarSign, CheckCircle, MapPin, Truck } from 'lucide-react';
 import { toast } from 'sonner';
+import { base44 } from '@/api/base44Client';
 
-export default function PaymentIntegration({ show, onClose, item, onPurchaseComplete }) {
+export default function PaymentIntegration({ show, onClose, item, isPhysicalDevice = false, onPurchaseComplete }) {
   const [paymentMethod, setPaymentMethod] = useState('card');
   const [processing, setProcessing] = useState(false);
   const [cardDetails, setCardDetails] = useState({ number: '', expiry: '', cvv: '' });
+  const [shippingAddress, setShippingAddress] = useState({
+    fullName: '',
+    address: '',
+    city: '',
+    state: '',
+    zipCode: '',
+    country: 'USA',
+    phone: ''
+  });
 
   const processPayment = async () => {
+    if (isPhysicalDevice) {
+      if (!shippingAddress.fullName || !shippingAddress.address || !shippingAddress.city) {
+        toast.error('Please complete shipping address');
+        return;
+      }
+    }
+
     setProcessing(true);
     
-    // Simulate payment processing
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    setProcessing(false);
-    toast.success('Payment successful!');
-    onPurchaseComplete?.(item);
-    onClose();
+    try {
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      if (isPhysicalDevice) {
+        // Create order and update stock
+        const orderNumber = `ORD-${Date.now()}`;
+        const estimatedDelivery = new Date();
+        estimatedDelivery.setDate(estimatedDelivery.getDate() + 7);
+
+        const order = await base44.entities.Order.create({
+          order_number: orderNumber,
+          device_id: item.id,
+          device_name: item.name,
+          quantity: 1,
+          total_price: item.price,
+          status: 'processing',
+          shipping_address: shippingAddress,
+          payment_method: 'card',
+          estimated_delivery: estimatedDelivery.toISOString().split('T')[0]
+        });
+
+        // Update device stock
+        await base44.entities.PhysicalDevice.update(item.id, {
+          stock_quantity: item.stock_quantity - 1
+        });
+
+        toast.success('Payment successful!');
+        onPurchaseComplete?.(order);
+      } else {
+        toast.success('Payment successful!');
+        onPurchaseComplete?.(item);
+      }
+    } catch (error) {
+      toast.error('Payment failed');
+    } finally {
+      setProcessing(false);
+    }
   };
 
   if (!show) return null;
@@ -58,6 +105,63 @@ export default function PaymentIntegration({ show, onClose, item, onPurchaseComp
               </div>
             </div>
           </div>
+
+          {isPhysicalDevice && (
+            <div className="bg-blue-500/10 border border-blue-500/30 rounded-xl p-4 mb-6">
+              <h4 className="text-blue-400 font-semibold mb-3 flex items-center gap-2">
+                <Truck className="w-5 h-5" />
+                Shipping Address
+              </h4>
+              <div className="space-y-3">
+                <input
+                  type="text"
+                  placeholder="Full Name"
+                  value={shippingAddress.fullName}
+                  onChange={(e) => setShippingAddress({ ...shippingAddress, fullName: e.target.value })}
+                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder-white/40 text-sm"
+                />
+                <input
+                  type="text"
+                  placeholder="Street Address"
+                  value={shippingAddress.address}
+                  onChange={(e) => setShippingAddress({ ...shippingAddress, address: e.target.value })}
+                  className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder-white/40 text-sm"
+                />
+                <div className="grid grid-cols-2 gap-2">
+                  <input
+                    type="text"
+                    placeholder="City"
+                    value={shippingAddress.city}
+                    onChange={(e) => setShippingAddress({ ...shippingAddress, city: e.target.value })}
+                    className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder-white/40 text-sm"
+                  />
+                  <input
+                    type="text"
+                    placeholder="State"
+                    value={shippingAddress.state}
+                    onChange={(e) => setShippingAddress({ ...shippingAddress, state: e.target.value })}
+                    className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder-white/40 text-sm"
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  <input
+                    type="text"
+                    placeholder="ZIP Code"
+                    value={shippingAddress.zipCode}
+                    onChange={(e) => setShippingAddress({ ...shippingAddress, zipCode: e.target.value })}
+                    className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder-white/40 text-sm"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Phone"
+                    value={shippingAddress.phone}
+                    onChange={(e) => setShippingAddress({ ...shippingAddress, phone: e.target.value })}
+                    className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-2 text-white placeholder-white/40 text-sm"
+                  />
+                </div>
+              </div>
+            </div>
+          )}
 
           <div className="space-y-4 mb-6">
             <div>
