@@ -19,9 +19,11 @@ import Billing from './pages/Billing';
 import BillingInvoicing from './pages/BillingInvoicing';
 import Blueprint from './pages/Blueprint';
 import BlueprintGallery from './pages/BlueprintGallery';
+import BridgeOmni from './pages/BridgeOmni';
 import CampusHome from './pages/CampusHome';
 import CareerOpportunities from './pages/CareerOpportunities';
 import Certifications from './pages/Certifications';
+import Challenges from './pages/Challenges';
 import CodeEditor from './pages/CodeEditor';
 import Community from './pages/Community';
 import CommunityGuidelines from './pages/CommunityGuidelines';
@@ -31,6 +33,9 @@ import Contact from './pages/Contact';
 import CurriculumCourses from './pages/CurriculumCourses';
 import CustomIntegrations from './pages/CustomIntegrations';
 import DataAnnotation from './pages/DataAnnotation';
+import DepositETH from './pages/DepositETH';
+import DepositOmni from './pages/DepositOmni';
+import DepositUSDT from './pages/DepositUSDT';
 import DeveloperHome from './pages/DeveloperHome';
 import DeviceHealth from './pages/DeviceHealth';
 import DeviceHome from './pages/DeviceHome';
@@ -43,6 +48,7 @@ import Documentation from './pages/Documentation';
 import EnvironmentDesigner from './pages/EnvironmentDesigner';
 import EventsCalendar from './pages/EventsCalendar';
 import EvolutionDashboardPage from './pages/EvolutionDashboardPage';
+import ExchangeListings from './pages/ExchangeListings';
 import ExperimentTracking from './pages/ExperimentTracking';
 import FAQ from './pages/FAQ';
 import Features from './pages/Features';
@@ -55,6 +61,8 @@ import IntegrationStore from './pages/IntegrationStore';
 import Integrations from './pages/Integrations';
 import IntegrationsHub from './pages/IntegrationsHub';
 import Labs from './pages/Labs';
+import LabsHome from './pages/LabsHome';
+import Leaderboards from './pages/Leaderboards';
 import LicenseManagement from './pages/LicenseManagement';
 import MaintenanceSchedule from './pages/MaintenanceSchedule';
 import Marketplace from './pages/Marketplace';
@@ -63,6 +71,7 @@ import MentorshipProgramsPage from './pages/MentorshipProgramsPage';
 import ModelTraining from './pages/ModelTraining';
 import NewsUpdates from './pages/NewsUpdates';
 import Notifications from './pages/Notifications';
+import OmniHome from './pages/OmniHome';
 import OrderManagement from './pages/OrderManagement';
 import OrgSettings from './pages/OrgSettings';
 import Partnerships from './pages/Partnerships';
@@ -91,17 +100,8 @@ import Technology from './pages/Technology';
 import Terms from './pages/Terms';
 import UserRolesPermissions from './pages/UserRolesPermissions';
 import VirtualClassrooms from './pages/VirtualClassrooms';
-import Webhooks from './pages/Webhooks';
-import Challenges from './pages/Challenges';
-import Leaderboards from './pages/Leaderboards';
-import LabsHome from './pages/LabsHome';
 import Wallet from './pages/Wallet';
-import OmniHome from './pages/OmniHome';
-import DepositOmni from './pages/DepositOmni';
-import DepositETH from './pages/DepositETH';
-import DepositUSDT from './pages/DepositUSDT';
-import BridgeOmni from './pages/BridgeOmni';
-import ExchangeListings from './pages/ExchangeListings';
+import Webhooks from './pages/Webhooks';
 import BuyOmni from './pages/BuyOmni';
 import SellOmni from './pages/SellOmni';
 import WithdrawOmni from './pages/WithdrawOmni';
@@ -116,6 +116,8 @@ import OmniDashboard from './pages/OmniDashboard';
 import Tokenomics from './pages/Tokenomics';
 import AgentCardSettings from './pages/AgentCardSettings';
 import LinkBankAccount from './pages/LinkBankAccount';
+import AgentAutonomy from './pages/AgentAutonomy';
+import PhysicalWorldIntegration from './pages/PhysicalWorldIntegration';
 import __Layout from './Layout.jsx';
 
 
@@ -141,9 +143,11 @@ export const PAGES = {
     "BillingInvoicing": BillingInvoicing,
     "Blueprint": Blueprint,
     "BlueprintGallery": BlueprintGallery,
+    "BridgeOmni": BridgeOmni,
     "CampusHome": CampusHome,
     "CareerOpportunities": CareerOpportunities,
     "Certifications": Certifications,
+    "Challenges": Challenges,
     "CodeEditor": CodeEditor,
     "Community": Community,
     "CommunityGuidelines": CommunityGuidelines,
@@ -153,6 +157,9 @@ export const PAGES = {
     "CurriculumCourses": CurriculumCourses,
     "CustomIntegrations": CustomIntegrations,
     "DataAnnotation": DataAnnotation,
+    "DepositETH": DepositETH,
+    "DepositOmni": DepositOmni,
+    "DepositUSDT": DepositUSDT,
     "DeveloperHome": DeveloperHome,
     "DeviceHealth": DeviceHealth,
     "DeviceHome": DeviceHome,
@@ -165,6 +172,7 @@ export const PAGES = {
     "EnvironmentDesigner": EnvironmentDesigner,
     "EventsCalendar": EventsCalendar,
     "EvolutionDashboardPage": EvolutionDashboardPage,
+    "ExchangeListings": ExchangeListings,
     "ExperimentTracking": ExperimentTracking,
     "FAQ": FAQ,
     "Features": Features,
@@ -177,6 +185,8 @@ export const PAGES = {
     "Integrations": Integrations,
     "IntegrationsHub": IntegrationsHub,
     "Labs": Labs,
+    "LabsHome": LabsHome,
+    "Leaderboards": Leaderboards,
     "LicenseManagement": LicenseManagement,
     "MaintenanceSchedule": MaintenanceSchedule,
     "Marketplace": Marketplace,
@@ -185,6 +195,7 @@ export const PAGES = {
     "ModelTraining": ModelTraining,
     "NewsUpdates": NewsUpdates,
     "Notifications": Notifications,
+    "OmniHome": OmniHome,
     "OrderManagement": OrderManagement,
     "OrgSettings": OrgSettings,
     "Partnerships": Partnerships,
@@ -213,17 +224,8 @@ export const PAGES = {
     "Terms": Terms,
     "UserRolesPermissions": UserRolesPermissions,
     "VirtualClassrooms": VirtualClassrooms,
-    "Webhooks": Webhooks,
-    "Challenges": Challenges,
-    "Leaderboards": Leaderboards,
-    "LabsHome": LabsHome,
     "Wallet": Wallet,
-    "OmniHome": OmniHome,
-    "DepositOmni": DepositOmni,
-    "DepositETH": DepositETH,
-    "DepositUSDT": DepositUSDT,
-    "BridgeOmni": BridgeOmni,
-    "ExchangeListings": ExchangeListings,
+    "Webhooks": Webhooks,
     "BuyOmni": BuyOmni,
     "SellOmni": SellOmni,
     "WithdrawOmni": WithdrawOmni,
@@ -238,6 +240,8 @@ export const PAGES = {
     "Tokenomics": Tokenomics,
     "AgentCardSettings": AgentCardSettings,
     "LinkBankAccount": LinkBankAccount,
+    "AgentAutonomy": AgentAutonomy,
+    "PhysicalWorldIntegration": PhysicalWorldIntegration,
 }
 
 export const pagesConfig = {
