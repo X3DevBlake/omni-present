@@ -30,6 +30,10 @@ import Compliance from './pages/Compliance';
 import Labs from './pages/Labs';
 import AgentAudio from './pages/AgentAudio';
 import CampusHome from './pages/CampusHome';
+import ProfileHome from './pages/ProfileHome';
+import DeviceHome from './pages/DeviceHome';
+import AdminHome from './pages/AdminHome';
+import DeveloperHome from './pages/DeveloperHome';
 import __Layout from './Layout.jsx';
 
 
@@ -66,6 +70,10 @@ export const PAGES = {
     "Labs": Labs,
     "AgentAudio": AgentAudio,
     "CampusHome": CampusHome,
+    "ProfileHome": ProfileHome,
+    "DeviceHome": DeviceHome,
+    "AdminHome": AdminHome,
+    "DeveloperHome": DeveloperHome,
 }
 
 export const pagesConfig = {
