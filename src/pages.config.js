@@ -1,39 +1,41 @@
+import AILab from './pages/AILab';
 import About from './pages/About';
 import Agent from './pages/Agent';
+import Analytics from './pages/Analytics';
 import Blueprint from './pages/Blueprint';
+import Community from './pages/Community';
 import Contact from './pages/Contact';
+import DeviceShop from './pages/DeviceShop';
 import Features from './pages/Features';
 import Home from './pages/Home';
+import Integrations from './pages/Integrations';
 import Marketplace from './pages/Marketplace';
 import Profile from './pages/Profile';
 import Settings from './pages/Settings';
-import Technology from './pages/Technology';
 import SimulationWorld from './pages/SimulationWorld';
-import Community from './pages/Community';
-import Integrations from './pages/Integrations';
-import Analytics from './pages/Analytics';
-import AILab from './pages/AILab';
-import DeviceShop from './pages/DeviceShop';
+import Technology from './pages/Technology';
+import DeviceInteraction from './pages/DeviceInteraction';
 import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
+    "AILab": AILab,
     "About": About,
     "Agent": Agent,
+    "Analytics": Analytics,
     "Blueprint": Blueprint,
+    "Community": Community,
     "Contact": Contact,
+    "DeviceShop": DeviceShop,
     "Features": Features,
     "Home": Home,
+    "Integrations": Integrations,
     "Marketplace": Marketplace,
     "Profile": Profile,
     "Settings": Settings,
-    "Technology": Technology,
     "SimulationWorld": SimulationWorld,
-    "Community": Community,
-    "Integrations": Integrations,
-    "Analytics": Analytics,
-    "AILab": AILab,
-    "DeviceShop": DeviceShop,
+    "Technology": Technology,
+    "DeviceInteraction": DeviceInteraction,
 }
 
 export const pagesConfig = {
