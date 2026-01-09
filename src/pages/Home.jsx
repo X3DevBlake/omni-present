@@ -15,34 +15,6 @@ import Interactive3DFeatures from '../components/features/Interactive3DFeatures'
 export default function Home() {
   return (
     <AuroraBackground className="min-h-screen">
-      {/* Quick Navigation Bar */}
-      <div className="fixed top-0 right-4 z-40 pt-4 flex flex-col gap-2">
-        <Link to={createPageUrl('Roadmap')}>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            className="px-4 py-2 bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 rounded-lg text-sm hover:bg-cyan-500/30 transition-all"
-          >
-            📊 Roadmap
-          </motion.button>
-        </Link>
-        <Link to={createPageUrl('CareerPortal')}>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            className="px-4 py-2 bg-purple-500/20 border border-purple-500/40 text-purple-300 rounded-lg text-sm hover:bg-purple-500/30 transition-all"
-          >
-            💼 Careers
-          </motion.button>
-        </Link>
-        <Link to={createPageUrl('CommunityGuidelinesEnhanced')}>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            className="px-4 py-2 bg-pink-500/20 border border-pink-500/40 text-pink-300 rounded-lg text-sm hover:bg-pink-500/30 transition-all"
-          >
-            ❤️ Community
-          </motion.button>
-        </Link>
-      </div>
-
       <HeroSection />
       
       {/* Live Data Section */}
