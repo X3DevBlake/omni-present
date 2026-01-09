@@ -21,6 +21,7 @@ import DatasetUploader from '../components/training/DatasetUploader';
 import TrainingParameterConfig from '../components/training/TrainingParameterConfig';
 import TrainingProgressVisualization from '../components/training/TrainingProgressVisualization';
 import ModelSaveLoad from '../components/training/ModelSaveLoad';
+import NeuralNetworkVisualizer3D from '../components/training/NeuralNetworkVisualizer3D';
 import SharedWorkspace3D from '../components/collaboration/SharedWorkspace3D';
 import AgentRoleManager from '../components/collaboration/AgentRoleManager';
 import EnvironmentDesigner from '../components/sandbox/EnvironmentDesigner';
@@ -270,6 +271,15 @@ export default function AILab() {
               <DatasetUploader onDatasetUpload={() => {}} />
               <TrainingParameterConfig onConfigChange={setTrainingConfig} />
             </div>
+
+            {/* Neural Network Visualizer */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="h-96"
+            >
+              <NeuralNetworkVisualizer3D />
+            </motion.div>
 
             <div className="flex gap-4">
               <motion.button
