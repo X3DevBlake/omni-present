@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Wifi, Camera, Thermometer, Activity, Zap, AlertCircle } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
+import HubNav from '../components/navigation/HubNav';
+import IoTDataStream from '../components/devices/IoTDataStream';
+import AgentPermissionsManager from '../components/devices/AgentPermissionsManager';
 import { base44 } from '@/api/base44Client';
 import { toast } from 'sonner';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
@@ -78,7 +81,9 @@ export default function IoTDeviceControl() {
   };
 
   return (
-    <AuroraBackground className="min-h-screen py-8 px-4">
+    <>
+      <HubNav currentHub="DeviceHome" />
+      <AuroraBackground className="min-h-screen py-8 px-4">
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -249,7 +254,20 @@ export default function IoTDeviceControl() {
             )}
           </div>
         </div>
+
+        {/* IoT Data Stream */}
+        {selectedDevice && (
+          <div className="mt-6">
+            <IoTDataStream deviceId={selectedDevice.id} deviceType={selectedDevice.type} />
+          </div>
+        )}
+
+        {/* Agent Permissions Manager */}
+        <div className="mt-6">
+          <AgentPermissionsManager deviceId={selectedDevice?.id} />
+        </div>
       </div>
     </AuroraBackground>
+    </>
   );
 }
