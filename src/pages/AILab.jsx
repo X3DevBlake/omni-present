@@ -73,6 +73,8 @@ import AIWorkflowOptimizer from '../components/workflow/AIWorkflowOptimizer';
 import ContextAwareKnowledgeHub from '../components/knowledge/ContextAwareKnowledgeHub';
 import AgentBehaviorProfiler from '../components/agents/AgentBehaviorProfiler';
 import ContextKnowledgeRetrieval from '../components/knowledge/ContextKnowledgeRetrieval';
+import AIAgentDebugger from '../components/debugging/AIAgentDebugger';
+import AgentEthicsModule from '../components/ethics/AgentEthicsModule';
 
       function FloatingBrain() {
   return (
@@ -199,6 +201,8 @@ export default function AILab() {
             { id: 'workflow-optimizer', label: '⚡ Workflow Optimizer', icon: 'WFOptim' },
             { id: 'context-knowledge', label: '🧠 Context Knowledge', icon: 'CtxKB' },
             { id: 'behavior-profiler', label: '📊 Behavior Profiler', icon: 'BehProfile' },
+            { id: 'debugger', label: '🐛 AI Debugger', icon: 'Debugger' },
+            { id: 'ethics', label: '🛡️ Ethics & Safety', icon: 'Ethics' },
             { id: 'workflow-builder', label: '🔄 Workflow Builder', icon: 'Workflow' },
             { id: 'learning', label: '🎓 Learning', icon: 'Learning' },
             { id: 'collab-rt', label: '💬 Real-Time Collab', icon: 'RTCollab' },
@@ -687,6 +691,20 @@ export default function AILab() {
           {activeTab === 'behavior-profiler' && (
           <div className="space-y-6">
            <AgentBehaviorProfiler />
+          </div>
+          )}
+
+          {/* AI Debugger Tab */}
+          {activeTab === 'debugger' && (
+          <div className="space-y-6">
+           <AIAgentDebugger />
+          </div>
+          )}
+
+          {/* Ethics & Safety Tab */}
+          {activeTab === 'ethics' && (
+          <div className="space-y-6">
+           <AgentEthicsModule />
           </div>
           )}
 
