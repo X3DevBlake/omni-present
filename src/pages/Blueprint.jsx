@@ -897,6 +897,27 @@ export default function Blueprint() {
                         <Settings className="w-4 h-4" />
                         Scenarios
                         </button>
+                        <button
+                        onClick={() => setShowEvolutionSystem(true)}
+                        className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/40 text-purple-300 rounded-xl text-sm hover:from-purple-500/30 hover:to-pink-500/30"
+                        >
+                        <Zap className="w-4 h-4" />
+                        Evolution
+                        </button>
+                        <button
+                        onClick={() => setShowWorldEngine(true)}
+                        className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 border border-blue-500/40 text-blue-300 rounded-xl text-sm hover:from-blue-500/30 hover:to-cyan-500/30"
+                        >
+                        <MapIcon className="w-4 h-4" />
+                        World Engine
+                        </button>
+                        <button
+                        onClick={() => setShowFactionDynamics(true)}
+                        className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-red-500/20 to-orange-500/20 border border-red-500/40 text-red-300 rounded-xl text-sm hover:from-red-500/30 hover:to-orange-500/30"
+                        >
+                        <Users className="w-4 h-4" />
+                        Factions
+                        </button>
                     </div>
 
                   <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-3">

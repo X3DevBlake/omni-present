@@ -8,6 +8,9 @@ import Marketplace from './pages/Marketplace';
 import Profile from './pages/Profile';
 import Settings from './pages/Settings';
 import Technology from './pages/Technology';
+import SimulationWorld from './pages/SimulationWorld';
+import Community from './pages/Community';
+import Integrations from './pages/Integrations';
 import __Layout from './Layout.jsx';
 
 
@@ -22,6 +25,9 @@ export const PAGES = {
     "Profile": Profile,
     "Settings": Settings,
     "Technology": Technology,
+    "SimulationWorld": SimulationWorld,
+    "Community": Community,
+    "Integrations": Integrations,
 }
 
 export const pagesConfig = {
