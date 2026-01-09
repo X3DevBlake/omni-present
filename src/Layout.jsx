@@ -12,6 +12,14 @@ export default function Layout({ children }) {
         <EnhancedMainNav />
         {children}
         <OmniAssistant />
+        {/* OmniPresent Logo - Available as app logo */}
+        <style>{`
+          .omni-logo-component {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+        `}</style>
       </GamificationProvider>
     </PersonalizationProvider>
   );
