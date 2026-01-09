@@ -9,6 +9,7 @@ import AIAgentManager from '../components/ai/AIAgentManager';
 import HubSpecificAgents from '../components/ai/HubSpecificAgents';
 import InterAgentCommunication from '../components/ai/InterAgentCommunication';
 import MarketDataFeed from '../components/analytics/MarketDataFeed';
+import OmniEcosystem3D from '../components/omni/OmniEcosystem3D';
 import { usePersonalization } from '../components/personalization/PersonalizationContext';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
@@ -32,6 +33,16 @@ export default function OmniHub() {
         <div className="mb-12">
           <PortfolioAdvisor />
         </div>
+
+        {/* 3D Ecosystem Visualization */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="mb-12 h-96"
+        >
+          <OmniEcosystem3D />
+        </motion.div>
 
         {/* Market Data Feed */}
         <div className="mb-12">
