@@ -175,9 +175,9 @@ export default function Features() {
               </div>
               <button
                 onClick={() => setSelectedFeature(null)}
-                className="text-white/40 hover:text-white text-2xl"
+                className="p-2 hover:bg-white/10 rounded-lg transition-all"
               >
-                ✕
+                <X className="w-6 h-6 text-white" />
               </button>
             </div>
 
