@@ -1,164 +1,137 @@
 import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, Polyline } from 'react-leaflet';
 import { motion } from 'framer-motion';
-import { Navigation, Activity, MapPin } from 'lucide-react';
+import { Navigation, Zap, Brain } from 'lucide-react';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 
-// Fix for default marker icons in react-leaflet
+// Fix leaflet icon issue
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
-  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
-  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
-  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+  iconRetinaUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon-2x.png',
+  iconUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png',
+  shadowUrl: 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png',
 });
 
 export default function AgentLocationTracker({ agents = [] }) {
-  const [agentPositions, setAgentPositions] = useState({});
-  const [trails, setTrails] = useState({});
+  const [selectedAgent, setSelectedAgent] = useState(null);
+  const [paths, setPaths] = useState({});
 
-  useEffect(() => {
-    // Initialize positions for agents
-    const initialPositions = {};
-    const initialTrails = {};
+  const center = agents.length > 0 && agents[0].latitude 
+    ? [agents[0].latitude, agents[0].longitude] 
+    : [37.7749, -122.4194]; // Default to SF
+
+  const getAgentIcon = (agent) => {
+    const color = agent.status === 'working' ? '#00f5ff' : 
+                  agent.status === 'learning' ? '#a855f7' : 
+                  agent.status === 'shopping' ? '#22c55e' : '#6b7280';
     
-    agents.forEach(agent => {
-      // Random starting positions (you can customize this)
-      initialPositions[agent.id] = {
-        lat: 40.7128 + (Math.random() - 0.5) * 0.1,
-        lng: -74.0060 + (Math.random() - 0.5) * 0.1,
-        speed: Math.random() * 5 + 2,
-        heading: Math.random() * 360
-      };
-      initialTrails[agent.id] = [initialPositions[agent.id]];
+    return L.divIcon({
+      className: 'custom-agent-marker',
+      html: `
+        <div style="
+          background: ${color};
+          width: 24px;
+          height: 24px;
+          border-radius: 50%;
+          border: 3px solid white;
+          box-shadow: 0 0 10px ${color};
+          animation: pulse 2s infinite;
+        "></div>
+      `,
+      iconSize: [24, 24],
+      iconAnchor: [12, 12]
     });
-
-    setAgentPositions(initialPositions);
-    setTrails(initialTrails);
-
-    // Simulate agent movement
-    const interval = setInterval(() => {
-      setAgentPositions(prev => {
-        const updated = { ...prev };
-        Object.keys(updated).forEach(agentId => {
-          const pos = updated[agentId];
-          // Move agent in current heading
-          const distance = pos.speed * 0.00001; // Small movement
-          pos.lat += Math.cos(pos.heading * Math.PI / 180) * distance;
-          pos.lng += Math.sin(pos.heading * Math.PI / 180) * distance;
-          
-          // Randomly adjust heading
-          pos.heading += (Math.random() - 0.5) * 30;
-        });
-        return updated;
-      });
-
-      setTrails(prev => {
-        const updated = { ...prev };
-        Object.keys(agentPositions).forEach(agentId => {
-          if (updated[agentId] && agentPositions[agentId]) {
-            updated[agentId] = [
-              ...updated[agentId].slice(-50), // Keep last 50 positions
-              agentPositions[agentId]
-            ];
-          }
-        });
-        return updated;
-      });
-    }, 2000);
-
-    return () => clearInterval(interval);
-  }, [agents]);
-
-  if (agents.length === 0) {
-    return (
-      <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl p-8 text-center">
-        <MapPin className="w-12 h-12 text-white/40 mx-auto mb-4" />
-        <p className="text-white/60">No agents to track</p>
-      </div>
-    );
-  }
+  };
 
   return (
-    <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden">
-      <div className="p-4 border-b border-white/10">
-        <div className="flex items-center gap-3">
-          <Navigation className="w-5 h-5 text-cyan-400" />
-          <h3 className="text-white font-bold">Real-Time Agent Locations</h3>
-        </div>
-      </div>
+    <div className="relative h-full w-full rounded-2xl overflow-hidden">
+      <style>{`
+        @keyframes pulse {
+          0%, 100% { transform: scale(1); opacity: 1; }
+          50% { transform: scale(1.2); opacity: 0.8; }
+        }
+      `}</style>
 
-      <div className="h-[600px] relative">
-        <MapContainer
-          center={[40.7128, -74.0060]}
-          zoom={13}
-          style={{ height: '100%', width: '100%' }}
+      <MapContainer 
+        center={center} 
+        zoom={13} 
+        style={{ height: '100%', width: '100%' }}
+        className="z-0"
+      >
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        
+        {agents.filter(a => a.latitude && a.longitude).map((agent) => (
+          <Marker 
+            key={agent.id} 
+            position={[agent.latitude, agent.longitude]}
+            icon={getAgentIcon(agent)}
+            eventHandlers={{
+              click: () => setSelectedAgent(agent)
+            }}
+          >
+            <Popup>
+              <div className="text-center">
+                <div className="font-bold text-lg mb-1">{agent.name}</div>
+                <div className="text-sm text-gray-600 mb-2">{agent.location_name || 'Unknown Location'}</div>
+                <div className="flex items-center justify-center gap-2 text-xs">
+                  <span className={`px-2 py-1 rounded-full ${
+                    agent.status === 'working' ? 'bg-cyan-100 text-cyan-700' :
+                    agent.status === 'learning' ? 'bg-purple-100 text-purple-700' :
+                    agent.status === 'shopping' ? 'bg-green-100 text-green-700' :
+                    'bg-gray-100 text-gray-700'
+                  }`}>
+                    {agent.status}
+                  </span>
+                </div>
+              </div>
+            </Popup>
+          </Marker>
+        ))}
+      </MapContainer>
+
+      {/* Agent Info Overlay */}
+      {selectedAgent && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="absolute bottom-4 left-4 right-4 bg-black/90 backdrop-blur-xl border border-white/20 rounded-xl p-4 z-10"
         >
-          <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-          />
+          <div className="flex items-start justify-between mb-3">
+            <div>
+              <h3 className="text-white font-bold text-lg">{selectedAgent.name}</h3>
+              <div className="text-cyan-400 text-sm">{selectedAgent.location_name}</div>
+            </div>
+            <button
+              onClick={() => setSelectedAgent(null)}
+              className="text-white/60 hover:text-white"
+            >
+              ✕
+            </button>
+          </div>
 
-          {Object.entries(agentPositions).map(([agentId, pos]) => {
-            const agent = agents.find(a => a.id === agentId);
-            if (!agent) return null;
-
-            return (
-              <React.Fragment key={agentId}>
-                {/* Agent trail */}
-                {trails[agentId] && trails[agentId].length > 1 && (
-                  <Polyline
-                    positions={trails[agentId].map(p => [p.lat, p.lng])}
-                    color="#00f5ff"
-                    opacity={0.5}
-                    weight={2}
-                  />
-                )}
-
-                {/* Agent marker */}
-                <Marker position={[pos.lat, pos.lng]}>
-                  <Popup>
-                    <div className="text-center">
-                      <div className="font-bold text-lg mb-2">{agent.name}</div>
-                      <div className="text-sm text-gray-600 space-y-1">
-                        <div>Speed: {pos.speed.toFixed(1)} units/s</div>
-                        <div>Heading: {pos.heading.toFixed(0)}°</div>
-                        <div>Lat: {pos.lat.toFixed(4)}</div>
-                        <div>Lng: {pos.lng.toFixed(4)}</div>
-                      </div>
-                    </div>
-                  </Popup>
-                </Marker>
-              </React.Fragment>
-            );
-          })}
-        </MapContainer>
-
-        {/* Agent status overlay */}
-        <div className="absolute top-4 right-4 space-y-2 max-h-[200px] overflow-y-auto">
-          {agents.map(agent => {
-            const pos = agentPositions[agent.id];
-            if (!pos) return null;
-
-            return (
-              <motion.div
-                key={agent.id}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                className="bg-black/80 backdrop-blur-xl border border-white/10 rounded-lg p-3 min-w-[200px]"
-              >
-                <div className="flex items-center gap-2 mb-1">
-                  <Activity className="w-4 h-4 text-cyan-400 animate-pulse" />
-                  <span className="text-white font-bold text-sm">{agent.name}</span>
-                </div>
-                <div className="text-white/60 text-xs">
-                  {pos.speed.toFixed(1)} units/s • {pos.heading.toFixed(0)}°
-                </div>
-              </motion.div>
-            );
-          })}
-        </div>
-      </div>
+          <div className="grid grid-cols-3 gap-3 text-center">
+            <div className="bg-white/5 rounded-lg p-2">
+              <Navigation className="w-4 h-4 text-cyan-400 mx-auto mb-1" />
+              <div className="text-white/60 text-xs">Status</div>
+              <div className="text-white text-sm font-bold capitalize">{selectedAgent.status}</div>
+            </div>
+            <div className="bg-white/5 rounded-lg p-2">
+              <Brain className="w-4 h-4 text-purple-400 mx-auto mb-1" />
+              <div className="text-white/60 text-xs">Knowledge</div>
+              <div className="text-white text-sm font-bold">{selectedAgent.knowledge_count || 0}</div>
+            </div>
+            <div className="bg-white/5 rounded-lg p-2">
+              <Zap className="w-4 h-4 text-yellow-400 mx-auto mb-1" />
+              <div className="text-white/60 text-xs">Perception</div>
+              <div className="text-white text-sm font-bold">24/7</div>
+            </div>
+          </div>
+        </motion.div>
+      )}
     </div>
   );
 }
