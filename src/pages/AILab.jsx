@@ -26,6 +26,10 @@ import SharedWorkspace3D from '../components/collaboration/SharedWorkspace3D';
 import AgentRoleManager from '../components/collaboration/AgentRoleManager';
 import EnvironmentDesigner from '../components/sandbox/EnvironmentDesigner';
 import SimulationRecorderAnalytics from '../components/sandbox/SimulationRecorderAnalytics';
+import AgentMemorySystem from '../components/agents/AgentMemorySystem';
+import AgentEmoteSystem from '../components/agents/AgentEmoteSystem';
+import AgentActionController from '../components/agents/AgentActionController';
+import AgentPersonalityCustomizer from '../components/agents/AgentPersonalityCustomizer';
 
 function FloatingBrain() {
   return (
@@ -226,6 +230,14 @@ export default function AILab() {
         {activeTab === 'agents' && (
           <div className="space-y-6">
             <HolographicAgentProjection agentName="LabAssistant-01" />
+            <div className="grid lg:grid-cols-2 gap-6">
+              <AgentEmoteSystem agentName="LabAssistant-01" />
+              <AgentMemorySystem agentId="lab-assistant-01" />
+            </div>
+            <div className="grid lg:grid-cols-2 gap-6">
+              <AgentActionController agentId="lab-assistant-01" agentName="LabAssistant-01" />
+              <AgentPersonalityCustomizer agentId="lab-assistant-01" />
+            </div>
             <MultiAgentWorld3D />
             <AgentMemoryGraph />
           </div>
