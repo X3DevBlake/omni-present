@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Bug, Zap, FileText, TestTube, AlertCircle } from 'lucide-react';
+import { Bug, Zap, FileText, TestTube, AlertCircle, Code, Play } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 
 export default function AIAgentDebugger() {
@@ -14,6 +14,8 @@ export default function AIAgentDebugger() {
   const [analyzing, setAnalyzing] = useState(false);
   const [analysis, setAnalysis] = useState(null);
   const [testCases, setTestCases] = useState([]);
+  const [codeFixes, setCodeFixes] = useState([]);
+  const [applyingFix, setApplyingFix] = useState(false);
   const [agentState, setAgentState] = useState({
     Alpha: { status: 'running', cpu: 45, memory: 67, tasks: 12 },
     Beta: { status: 'running', cpu: 32, memory: 87, tasks: 8 },
@@ -74,6 +76,40 @@ export default function AIAgentDebugger() {
     });
 
     setTestCases(response.test_cases);
+  };
+
+  const generateCodeFixes = async () => {
+    const response = await base44.integrations.Core.InvokeLLM({
+      prompt: `Generate code snippets to fix these issues: ${JSON.stringify(analysis?.suggested_fixes || [])}. Provide working code solutions.`,
+      response_json_schema: {
+        type: 'object',
+        properties: {
+          fixes: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                issue: { type: 'string' },
+                code_snippet: { type: 'string' },
+                explanation: { type: 'string' },
+                test_code: { type: 'string' },
+                complexity: { type: 'string' }
+              }
+            }
+          }
+        }
+      }
+    });
+
+    setCodeFixes(response.fixes);
+  };
+
+  const applyFix = async (fix) => {
+    setApplyingFix(true);
+    // Simulate applying the fix
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    setApplyingFix(false);
+    alert(`Applied fix for: ${fix.issue}`);
   };
 
   return (
@@ -210,14 +246,71 @@ export default function AIAgentDebugger() {
               </div>
             </div>
 
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              onClick={generateTestCases}
-              className="mt-4 px-4 py-2 bg-green-500/20 border border-green-500/50 rounded-lg text-green-400 font-semibold flex items-center gap-2"
-            >
-              <TestTube className="w-4 h-4" />
-              Generate Test Cases
-            </motion.button>
+            <div className="flex gap-3 mt-4">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                onClick={generateTestCases}
+                className="px-4 py-2 bg-green-500/20 border border-green-500/50 rounded-lg text-green-400 font-semibold flex items-center gap-2"
+              >
+                <TestTube className="w-4 h-4" />
+                Generate Test Cases
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                onClick={generateCodeFixes}
+                className="px-4 py-2 bg-cyan-500/20 border border-cyan-500/50 rounded-lg text-cyan-400 font-semibold flex items-center gap-2"
+              >
+                <Code className="w-4 h-4" />
+                Generate Code Fixes
+              </motion.button>
+            </div>
+          </motion.div>
+        )}
+
+        {/* Code Fixes */}
+        {codeFixes.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="p-5 bg-gradient-to-br from-cyan-500/10 to-blue-500/5 border border-cyan-500/30 rounded-xl mb-6"
+          >
+            <h4 className="text-cyan-400 font-bold mb-3 flex items-center gap-2">
+              <Code className="w-5 h-5" />
+              AI-Generated Code Fixes
+            </h4>
+            <div className="space-y-3">
+              {codeFixes.map((fix, idx) => (
+                <div key={idx} className="p-4 bg-black/30 rounded-lg">
+                  <div className="flex items-center justify-between mb-2">
+                    <h5 className="text-white font-bold text-sm">{fix.issue}</h5>
+                    <span className={`px-2 py-1 rounded text-xs ${
+                      fix.complexity === 'simple' ? 'bg-green-500/20 text-green-400' :
+                      fix.complexity === 'moderate' ? 'bg-yellow-500/20 text-yellow-400' :
+                      'bg-red-500/20 text-red-400'
+                    }`}>
+                      {fix.complexity}
+                    </span>
+                  </div>
+                  <p className="text-white/70 text-xs mb-3">{fix.explanation}</p>
+                  <div className="bg-black/50 rounded p-3 mb-2 font-mono text-xs text-green-400 overflow-x-auto">
+                    <pre>{fix.code_snippet}</pre>
+                  </div>
+                  <div className="bg-purple-500/10 border border-purple-500/30 rounded p-3 mb-3">
+                    <p className="text-purple-400 text-xs font-semibold mb-1">Unit Test:</p>
+                    <pre className="font-mono text-xs text-white/70">{fix.test_code}</pre>
+                  </div>
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    onClick={() => applyFix(fix)}
+                    disabled={applyingFix}
+                    className="w-full px-3 py-2 bg-green-500/20 border border-green-500/50 rounded text-green-400 font-semibold text-sm flex items-center justify-center gap-2 disabled:opacity-50"
+                  >
+                    <Play className="w-4 h-4" />
+                    {applyingFix ? 'Applying...' : 'Apply Fix & Run Tests'}
+                  </motion.button>
+                </div>
+              ))}
+            </div>
           </motion.div>
         )}
 

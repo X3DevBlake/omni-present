@@ -75,6 +75,9 @@ import AgentBehaviorProfiler from '../components/agents/AgentBehaviorProfiler';
 import ContextKnowledgeRetrieval from '../components/knowledge/ContextKnowledgeRetrieval';
 import AIAgentDebugger from '../components/debugging/AIAgentDebugger';
 import AgentEthicsModule from '../components/ethics/AgentEthicsModule';
+import AICollaborationVisualizer from '../components/collaboration/AICollaborationVisualizer';
+import AIScenarioGenerator from '../components/simulation/AIScenarioGenerator';
+import AICommunicationHub from '../components/communication/AICommunicationHub';
 
       function FloatingBrain() {
   return (
@@ -206,6 +209,9 @@ export default function AILab() {
             { id: 'workflow-builder', label: '🔄 Workflow Builder', icon: 'Workflow' },
             { id: 'learning', label: '🎓 Learning', icon: 'Learning' },
             { id: 'collab-rt', label: '💬 Real-Time Collab', icon: 'RTCollab' },
+            { id: 'ai-collab-viz', label: '🤝 AI Collaboration', icon: 'AICollab' },
+            { id: 'ai-scenarios', label: '✨ AI Scenarios', icon: 'AIScenarios' },
+            { id: 'ai-comm-hub', label: '📡 AI Comm Hub', icon: 'AIComm' },
             { id: 'analytics', label: '📈 Analytics', icon: 'Analytics' }
           ].map(tab => (
             <button
@@ -719,6 +725,27 @@ export default function AILab() {
           {activeTab === 'collab-rt' && (
           <div className="space-y-6">
            <RealTimeAgentCollaboration />
+          </div>
+          )}
+
+          {/* AI Collaboration Visualizer Tab */}
+          {activeTab === 'ai-collab-viz' && (
+          <div className="space-y-6">
+           <AICollaborationVisualizer />
+          </div>
+          )}
+
+          {/* AI Scenario Generator Tab */}
+          {activeTab === 'ai-scenarios' && (
+          <div className="space-y-6">
+           <AIScenarioGenerator />
+          </div>
+          )}
+
+          {/* AI Communication Hub Tab */}
+          {activeTab === 'ai-comm-hub' && (
+          <div className="space-y-6">
+           <AICommunicationHub />
           </div>
           )}
 
