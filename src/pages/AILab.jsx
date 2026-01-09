@@ -38,6 +38,11 @@ import AgentKPIDashboard from '../components/agents/AgentKPIDashboard';
 import AgentSkillTrainer from '../components/agents/AgentSkillTrainer';
 import KnowledgeFlowVisualizer from '../components/simulation/KnowledgeFlowVisualizer';
 import SharedKnowledgeRepository from '../components/simulation/SharedKnowledgeRepository';
+import FinancialSimulationModule from '../components/simulation/FinancialSimulationModule';
+import AdvancedCollaborationHub from '../components/collaboration/AdvancedCollaborationHub';
+import AdvancedTrainingModule from '../components/training/AdvancedTrainingModule';
+import FinancialAPIIntegrator from '../components/finance/FinancialAPIIntegrator';
+import InterAgentCommunicationSystem from '../components/agents/InterAgentCommunicationSystem';
 
       function FloatingBrain() {
   return (
@@ -120,8 +125,13 @@ export default function AILab() {
             { id: 'experiment', label: '🧪 Experiment', icon: 'Experiment' },
             { id: 'visualize', label: '📊 3D Visualization', icon: 'Visualization' },
             { id: 'training', label: '🎓 Training', icon: 'Training' },
+            { id: 'advanced-training', label: '🚀 Advanced Training', icon: 'AdvTraining' },
             { id: 'agents', label: '🤖 Agents', icon: 'Agents' },
             { id: 'collaboration', label: '🤝 Collaboration', icon: 'Collab' },
+            { id: 'advanced-collab', label: '💼 Advanced Collab', icon: 'AdvCollab' },
+            { id: 'finance-api', label: '💰 Finance APIs', icon: 'FinAPI' },
+            { id: 'agent-comm', label: '📢 Agent Comm', icon: 'AgentComm' },
+            { id: 'fin-sim', label: '📈 Fin Simulation', icon: 'FinSim' },
             { id: 'sandbox', label: '🎮 Sandbox', icon: 'Sandbox' },
             { id: 'data', label: '📡 Data & Flow', icon: 'Data' },
             { id: 'database', label: '🗄️ Data Sources', icon: 'Database' },
@@ -129,8 +139,8 @@ export default function AILab() {
             { id: 'query', label: '🔍 Smart Query', icon: 'Query' },
             { id: 'simulation', label: '⚡ Sim Events', icon: 'SimEvents' },
             { id: 'teams', label: '👥 Teams', icon: 'Teams' },
-            { id: 'memory', label: '🧠 Memory Network', icon: 'Memory' },
-            { id: 'kpi', label: '📊 KPI Dashboard', icon: 'KPI' },
+            { id: 'memory', label: '🧠 Memory', icon: 'Memory' },
+            { id: 'kpi', label: '📊 KPI', icon: 'KPI' },
             { id: 'skills', label: '🎓 Skills', icon: 'Skills' },
             { id: 'knowledge', label: '📚 Knowledge', icon: 'Knowledge' }
           ].map(tab => (
@@ -297,8 +307,6 @@ export default function AILab() {
               <DatasetUploader onDatasetUpload={() => {}} />
               <TrainingParameterConfig onConfigChange={setTrainingConfig} />
             </div>
-
-            {/* Neural Network Visualizer */}
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -306,7 +314,6 @@ export default function AILab() {
             >
               <NeuralNetworkVisualizer3D />
             </motion.div>
-
             <div className="flex gap-4">
               <motion.button
                 whileHover={{ scale: 1.02 }}
@@ -320,11 +327,25 @@ export default function AILab() {
                 {isTraining ? '⏸ Stop Training' : '▶ Start Training'}
               </motion.button>
             </div>
-
             <TrainingProgressVisualization isTraining={isTraining} />
             <ModelSaveLoad />
           </div>
         )}
+
+        {/* Advanced Training Tab */}
+        {activeTab === 'advanced-training' && <AdvancedTrainingModule />}
+
+        {/* Advanced Collaboration Tab */}
+        {activeTab === 'advanced-collab' && <AdvancedCollaborationHub />}
+
+        {/* Finance API Integration Tab */}
+        {activeTab === 'finance-api' && <FinancialAPIIntegrator />}
+
+        {/* Inter-Agent Communication Tab */}
+        {activeTab === 'agent-comm' && <InterAgentCommunicationSystem />}
+
+        {/* Financial Simulation Tab */}
+        {activeTab === 'fin-sim' && <FinancialSimulationModule />}
 
         {/* Collaboration Tab */}
         {activeTab === 'collaboration' && (
