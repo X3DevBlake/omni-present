@@ -65,10 +65,12 @@ export default function AgentBehaviorProfiler() {
   };
 
   const getRadarData = (profile) => {
-    if (!profile?.metrics) return [];
+    if (!profile?.metrics) return [
+      { metric: 'loading', value: 0 }
+    ];
     return Object.entries(profile.metrics).map(([key, value]) => ({
       metric: key.replace(/_/g, ' '),
-      value: value * 100
+      value: (value || 0) * 100
     }));
   };
 
@@ -137,11 +139,11 @@ export default function AgentBehaviorProfiler() {
                   <div className="space-y-3 text-sm">
                     <div>
                       <p className="text-white/60 text-xs mb-1">Strengths:</p>
-                      {profile.strengths.map((s, idx) => (
+                      {(profile.strengths || []).map((s, idx) => (
                         <p key={idx} className="text-green-400">✓ {s}</p>
                       ))}
                     </div>
-                    {profile.anomalies.length > 0 && (
+                    {(profile.anomalies || []).length > 0 && (
                       <div>
                         <p className="text-white/60 text-xs mb-1">Anomalies:</p>
                         {profile.anomalies.map((a, idx) => (
@@ -192,7 +194,7 @@ export default function AgentBehaviorProfiler() {
                   <div className="space-y-4">
                     <div>
                       <p className="text-white/60 text-xs mb-2">Decision Patterns:</p>
-                      {profile.patterns.map((pattern, idx) => (
+                      {(profile.patterns || []).map((pattern, idx) => (
                         <p key={idx} className="text-white text-sm mb-1">• {pattern}</p>
                       ))}
                     </div>
@@ -202,13 +204,13 @@ export default function AgentBehaviorProfiler() {
                 <div className="grid md:grid-cols-2 gap-4">
                   <div className="p-3 bg-green-500/10 border border-green-500/30 rounded-lg">
                     <p className="text-green-400 font-semibold text-xs mb-2">Strengths</p>
-                    {profile.strengths.map((s, idx) => (
+                    {(profile.strengths || []).map((s, idx) => (
                       <p key={idx} className="text-white/80 text-xs mb-1">✓ {s}</p>
                     ))}
                   </div>
                   <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-lg">
                     <p className="text-red-400 font-semibold text-xs mb-2">Areas for Growth</p>
-                    {profile.weaknesses.map((w, idx) => (
+                    {(profile.weaknesses || []).map((w, idx) => (
                       <p key={idx} className="text-white/80 text-xs mb-1">→ {w}</p>
                     ))}
                   </div>
