@@ -52,8 +52,7 @@ export default function SourceCitations({ citations = [] }) {
       </div>
 
       <div className="space-y-3">
-        {citatesToShow.map((citation) => {
-          if (!citation) return null;
+        {citatesToShow.filter(citation => citation && citation.id).map((citation) => {
           const isExpanded = expandedCitations.includes(citation.id);
           return (
             <motion.div
