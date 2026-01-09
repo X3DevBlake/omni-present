@@ -7,6 +7,9 @@ import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
 import { usePersonalization } from '../components/personalization/PersonalizationContext';
 import RealTimeAgentChat from '../components/communication/RealTimeAgentChat';
+import AgentChannelAssignment from '../components/communication/AgentChannelAssignment';
+import AgentResponseGenerator from '../components/communication/AgentResponseGenerator';
+import AgentCommunicationCalls from '../components/communication/AgentCommunicationCalls';
 
 export default function OmniComm() {
   const { trackPageVisit } = usePersonalization();
@@ -38,7 +41,7 @@ export default function OmniComm() {
 
           {/* Feature Tabs */}
            <div className="flex flex-wrap gap-2 mb-8 justify-center">
-             {['overview', 'messaging', 'collaboration', 'agent-chat', 'security'].map((tab) => (
+             {['overview', 'messaging', 'collaboration', 'agent-chat', 'agent-assignment', 'agent-responses', 'agent-calls', 'security'].map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
@@ -167,6 +170,39 @@ export default function OmniComm() {
                 <RealTimeAgentChat agentName="Analyst-12" agentColor="#a855f7" />
                 <RealTimeAgentChat agentName="Coordinator-08" agentColor="#ec4899" />
               </div>
+            </motion.div>
+          )}
+
+          {/* Agent Channel Assignment */}
+          {activeTab === 'agent-assignment' && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="space-y-6"
+            >
+              <AgentChannelAssignment />
+            </motion.div>
+          )}
+
+          {/* Agent Response Generation */}
+          {activeTab === 'agent-responses' && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="space-y-6"
+            >
+              <AgentResponseGenerator />
+            </motion.div>
+          )}
+
+          {/* Agent Communication Calls */}
+          {activeTab === 'agent-calls' && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="space-y-6"
+            >
+              <AgentCommunicationCalls />
             </motion.div>
           )}
 
