@@ -66,6 +66,9 @@ import AIKnowledgeEnhancements from '../components/knowledge/AIKnowledgeEnhancem
 import VisualWorkflowBuilder from '../components/workflow/VisualWorkflowBuilder';
 import AgentMonitoringDashboard from '../components/monitoring/AgentMonitoringDashboard';
 import SimulatedEnvironments from '../components/training/SimulatedEnvironments';
+import AgentOrchestrationLayer from '../components/orchestration/AgentOrchestrationLayer';
+import AgentCustomizationDeep from '../components/customization/AgentCustomizationDeep';
+import ProactiveInsightsEngine from '../components/insights/ProactiveInsightsEngine';
 
       function FloatingBrain() {
   return (
@@ -185,6 +188,9 @@ export default function AILab() {
             { id: 'ai-kb-tools', label: '✨ AI KB Tools', icon: 'AIKB' },
             { id: 'adaptive-training', label: '🎯 Adaptive Training', icon: 'AdTrain' },
             { id: 'sim-environments', label: '🌐 Sim Environments', icon: 'SimEnv' },
+            { id: 'orchestration', label: '🎭 Orchestration', icon: 'Orch' },
+            { id: 'deep-custom', label: '🎨 Deep Customization', icon: 'DeepCustom' },
+            { id: 'insights-engine', label: '💡 Insights Engine', icon: 'Insights' },
             { id: 'monitoring', label: '📡 Monitoring', icon: 'Monitor' },
             { id: 'workflow-builder', label: '🔄 Workflow Builder', icon: 'Workflow' },
             { id: 'learning', label: '🎓 Learning', icon: 'Learning' },
@@ -623,6 +629,27 @@ export default function AILab() {
           {activeTab === 'sim-environments' && (
           <div className="space-y-6">
            <SimulatedEnvironments />
+          </div>
+          )}
+
+          {/* Orchestration Tab */}
+          {activeTab === 'orchestration' && (
+          <div className="space-y-6">
+           <AgentOrchestrationLayer />
+          </div>
+          )}
+
+          {/* Deep Customization Tab */}
+          {activeTab === 'deep-custom' && (
+          <div className="space-y-6">
+           <AgentCustomizationDeep />
+          </div>
+          )}
+
+          {/* Insights Engine Tab */}
+          {activeTab === 'insights-engine' && (
+          <div className="space-y-6">
+           <ProactiveInsightsEngine />
           </div>
           )}
 
