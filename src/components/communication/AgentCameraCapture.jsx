@@ -29,12 +29,14 @@ export default function AgentCameraCapture({ onObjectDetected }) {
   };
 
   const capturePhoto = () => {
-    if (videoRef.current) {
+    if (videoRef.current && canvasRef.current) {
       const context = canvasRef.current.getContext('2d');
-      context.drawImage(videoRef.current, 0, 0, 1280, 720);
-      canvasRef.current.toBlob(blob => {
-        setCapturedMedia({ type: 'photo', blob });
-      });
+      if (context) {
+        context.drawImage(videoRef.current, 0, 0, 1280, 720);
+        canvasRef.current.toBlob(blob => {
+          if (blob) setCapturedMedia({ type: 'photo', blob });
+        });
+      }
     }
   };
 
