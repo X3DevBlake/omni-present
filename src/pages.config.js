@@ -137,6 +137,7 @@ import Wallet from './pages/Wallet';
 import Webhooks from './pages/Webhooks';
 import WithdrawOmni from './pages/WithdrawOmni';
 import OmniComm from './pages/OmniComm';
+import AgentCustomization from './pages/AgentCustomization';
 import __Layout from './Layout.jsx';
 
 
@@ -280,6 +281,7 @@ export const PAGES = {
     "Webhooks": Webhooks,
     "WithdrawOmni": WithdrawOmni,
     "OmniComm": OmniComm,
+    "AgentCustomization": AgentCustomization,
 }
 
 export const pagesConfig = {
