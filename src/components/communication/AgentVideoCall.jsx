@@ -51,8 +51,11 @@ export default function AgentVideoCall() {
   };
 
   const endCall = () => {
-    if (userVideoRef.current?.srcObject) {
-      userVideoRef.current.srcObject.getTracks().forEach(track => track.stop());
+    if (userVideoRef.current && userVideoRef.current.srcObject) {
+      const tracks = userVideoRef.current.srcObject.getTracks?.();
+      if (tracks) {
+        tracks.forEach(track => track.stop());
+      }
     }
     setIsCalling(false);
   };
