@@ -9,14 +9,32 @@ export default function AIScenarioGenerator() {
     ethical_challenges: 'resource allocation under scarcity',
     resource_constraints: 'limited budget and time',
     complexity_level: 'high',
-    agent_count: 4
+    agent_count: 4,
+    test_ethics_guardrails: true,
+    multi_stage_dynamics: true,
+    use_historical_data: false,
+    failure_conditions: []
   });
+  
+  const [failureCondition, setFailureCondition] = useState('');
 
   const [generatedScenario, setGeneratedScenario] = useState(null);
   const [generating, setGenerating] = useState(false);
 
   const generateScenario = async () => {
     setGenerating(true);
+
+    const ethicsNote = parameters.test_ethics_guardrails 
+      ? 'Include specific scenarios to test ethical guardrails and safety protocols. Create dilemmas that challenge fairness, transparency, privacy, and harm prevention.' 
+      : '';
+    
+    const multiStageNote = parameters.multi_stage_dynamics
+      ? 'Design multi-stage emergent social dynamics requiring long-term agent adaptation over 3-5 stages with evolving challenges.'
+      : '';
+    
+    const failureNote = parameters.failure_conditions.length > 0
+      ? `Define these failure conditions: ${parameters.failure_conditions.join(', ')}`
+      : '';
 
     const response = await base44.integrations.Core.InvokeLLM({
       prompt: `Generate a complex simulation scenario with these parameters:
@@ -25,6 +43,9 @@ export default function AIScenarioGenerator() {
       - Resource Constraints: ${parameters.resource_constraints}
       - Complexity: ${parameters.complexity_level}
       - Agents: ${parameters.agent_count}
+      ${ethicsNote}
+      ${multiStageNote}
+      ${failureNote}
       
       Create a novel scenario with emergent social dynamics, unexpected challenges, and tests for agent adaptability and collaboration under pressure.`,
       response_json_schema: {
@@ -55,7 +76,33 @@ export default function AIScenarioGenerator() {
           emergent_dynamics: { type: 'array', items: { type: 'string' } },
           unexpected_challenges: { type: 'array', items: { type: 'string' } },
           success_criteria: { type: 'array', items: { type: 'string' } },
-          difficulty_rating: { type: 'number' }
+          difficulty_rating: { type: 'number' },
+          ethics_tests: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                test_name: { type: 'string' },
+                guardrail_tested: { type: 'string' },
+                scenario: { type: 'string' },
+                expected_behavior: { type: 'string' }
+              }
+            }
+          },
+          multi_stage_progression: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                stage: { type: 'number' },
+                description: { type: 'string' },
+                emerging_dynamics: { type: 'string' },
+                adaptation_required: { type: 'string' }
+              }
+            }
+          },
+          failure_conditions: { type: 'array', items: { type: 'string' } },
+          environmental_data_points: { type: 'array', items: { type: 'string' } }
         }
       }
     });
@@ -128,6 +175,72 @@ export default function AIScenarioGenerator() {
               onChange={(e) => setParameters({ ...parameters, agent_count: parseInt(e.target.value) })}
               className="w-full"
             />
+          </div>
+        </div>
+
+        {/* Advanced Options */}
+        <div className="grid md:grid-cols-2 gap-4 p-4 bg-white/5 border border-white/10 rounded-xl mb-4">
+          <div className="flex items-center gap-3">
+            <input
+              type="checkbox"
+              checked={parameters.test_ethics_guardrails}
+              onChange={(e) => setParameters({ ...parameters, test_ethics_guardrails: e.target.checked })}
+              className="w-4 h-4"
+            />
+            <label className="text-white text-sm">Test Ethics & Safety Protocols</label>
+          </div>
+          <div className="flex items-center gap-3">
+            <input
+              type="checkbox"
+              checked={parameters.multi_stage_dynamics}
+              onChange={(e) => setParameters({ ...parameters, multi_stage_dynamics: e.target.checked })}
+              className="w-4 h-4"
+            />
+            <label className="text-white text-sm">Multi-Stage Emergent Dynamics</label>
+          </div>
+        </div>
+
+        {/* Failure Conditions */}
+        <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-xl mb-4">
+          <h5 className="text-red-400 font-semibold text-sm mb-3">Define Failure Conditions</h5>
+          <div className="flex gap-2 mb-3">
+            <input
+              type="text"
+              value={failureCondition}
+              onChange={(e) => setFailureCondition(e.target.value)}
+              placeholder="e.g., Agent exceeds budget by 20%"
+              className="flex-1 bg-white/10 border border-white/20 rounded px-3 py-2 text-white text-sm"
+            />
+            <button
+              onClick={() => {
+                if (failureCondition) {
+                  setParameters({ 
+                    ...parameters, 
+                    failure_conditions: [...parameters.failure_conditions, failureCondition] 
+                  });
+                  setFailureCondition('');
+                }
+              }}
+              className="px-4 py-2 bg-red-500/20 border border-red-500/50 rounded text-red-400 font-semibold text-sm"
+            >
+              Add
+            </button>
+          </div>
+          <div className="space-y-1">
+            {parameters.failure_conditions.map((cond, idx) => (
+              <div key={idx} className="flex items-center justify-between p-2 bg-black/20 rounded">
+                <span className="text-white/80 text-xs">{cond}</span>
+                <button
+                  onClick={() => setParameters({
+                    ...parameters,
+                    failure_conditions: parameters.failure_conditions.filter((_, i) => i !== idx)
+                  })}
+                  className="text-red-400 text-xs"
+                >
+                  Remove
+                </button>
+              </div>
+            ))}
           </div>
         </div>
 
@@ -248,6 +361,63 @@ export default function AIScenarioGenerator() {
                 <p key={idx} className="text-white/80 text-sm mb-1">✓ {criterion}</p>
               ))}
             </div>
+
+            {/* Ethics Tests */}
+            {generatedScenario.ethics_tests && generatedScenario.ethics_tests.length > 0 && (
+              <div className="p-4 bg-purple-500/10 border border-purple-500/30 rounded-xl">
+                <h5 className="text-purple-400 font-bold mb-3 flex items-center gap-2">
+                  <Shield className="w-4 h-4" />
+                  Ethics & Safety Protocol Tests
+                </h5>
+                <div className="space-y-3">
+                  {generatedScenario.ethics_tests.map((test, idx) => (
+                    <div key={idx} className="p-3 bg-black/20 rounded-lg">
+                      <p className="text-white font-semibold text-sm mb-1">{test.test_name}</p>
+                      <p className="text-purple-400 text-xs mb-2">Testing: {test.guardrail_tested}</p>
+                      <p className="text-white/70 text-xs mb-2">{test.scenario}</p>
+                      <p className="text-green-400 text-xs">Expected: {test.expected_behavior}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Multi-Stage Progression */}
+            {generatedScenario.multi_stage_progression && generatedScenario.multi_stage_progression.length > 0 && (
+              <div className="p-4 bg-gradient-to-br from-cyan-500/10 to-blue-500/5 border border-cyan-500/30 rounded-xl">
+                <h5 className="text-cyan-400 font-bold mb-3">Multi-Stage Progression</h5>
+                <div className="space-y-3">
+                  {generatedScenario.multi_stage_progression.map((stage, idx) => (
+                    <div key={idx} className="p-3 bg-black/20 rounded-lg border-l-4 border-cyan-400">
+                      <p className="text-white font-bold text-sm mb-2">Stage {stage.stage}</p>
+                      <p className="text-white/80 text-sm mb-2">{stage.description}</p>
+                      <p className="text-yellow-400 text-xs mb-1">Emerging: {stage.emerging_dynamics}</p>
+                      <p className="text-green-400 text-xs">Adaptation: {stage.adaptation_required}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Failure Conditions */}
+            {generatedScenario.failure_conditions && generatedScenario.failure_conditions.length > 0 && (
+              <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-xl">
+                <h5 className="text-red-400 font-bold mb-3">Scenario Failure Conditions</h5>
+                {generatedScenario.failure_conditions.map((condition, idx) => (
+                  <p key={idx} className="text-white/80 text-sm mb-2">❌ {condition}</p>
+                ))}
+              </div>
+            )}
+
+            {/* Environmental Data Points */}
+            {generatedScenario.environmental_data_points && generatedScenario.environmental_data_points.length > 0 && (
+              <div className="p-4 bg-green-500/10 border border-green-500/30 rounded-xl">
+                <h5 className="text-green-400 font-bold mb-3">Data-Driven Environmental Factors</h5>
+                {generatedScenario.environmental_data_points.map((point, idx) => (
+                  <p key={idx} className="text-white/80 text-sm mb-1">📊 {point}</p>
+                ))}
+              </div>
+            )}
           </motion.div>
         )}
       </div>
