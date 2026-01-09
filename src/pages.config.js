@@ -22,6 +22,7 @@ import AgentManagement from './pages/AgentManagement';
 import AgentMarketplace from './pages/AgentMarketplace';
 import AgentShoppingLog from './pages/AgentShoppingLog';
 import AgentSimulation3D from './pages/AgentSimulation3D';
+import AgentSkillMarketplace from './pages/AgentSkillMarketplace';
 import AgentSpending from './pages/AgentSpending';
 import Analytics from './pages/Analytics';
 import AssetBrowser from './pages/AssetBrowser';
@@ -40,6 +41,7 @@ import Challenges from './pages/Challenges';
 import CodeEditor from './pages/CodeEditor';
 import Community from './pages/Community';
 import CommunityGuidelines from './pages/CommunityGuidelines';
+import CompetitiveArenas from './pages/CompetitiveArenas';
 import Compliance from './pages/Compliance';
 import ComplianceDashboard from './pages/ComplianceDashboard';
 import Contact from './pages/Contact';
@@ -72,6 +74,7 @@ import Features from './pages/Features';
 import FiatDeposit from './pages/FiatDeposit';
 import FirmwareUpdates from './pages/FirmwareUpdates';
 import FleetManagement from './pages/FleetManagement';
+import GlobalGovernance from './pages/GlobalGovernance';
 import Home from './pages/Home';
 import HomeHub from './pages/HomeHub';
 import InstructorDirectory from './pages/InstructorDirectory';
@@ -138,9 +141,7 @@ import VirtualClassrooms from './pages/VirtualClassrooms';
 import Wallet from './pages/Wallet';
 import Webhooks from './pages/Webhooks';
 import WithdrawOmni from './pages/WithdrawOmni';
-import AgentSkillMarketplace from './pages/AgentSkillMarketplace';
-import CompetitiveArenas from './pages/CompetitiveArenas';
-import GlobalGovernance from './pages/GlobalGovernance';
+import Communications from './pages/Communications';
 import __Layout from './Layout.jsx';
 
 
@@ -169,6 +170,7 @@ export const PAGES = {
     "AgentMarketplace": AgentMarketplace,
     "AgentShoppingLog": AgentShoppingLog,
     "AgentSimulation3D": AgentSimulation3D,
+    "AgentSkillMarketplace": AgentSkillMarketplace,
     "AgentSpending": AgentSpending,
     "Analytics": Analytics,
     "AssetBrowser": AssetBrowser,
@@ -187,6 +189,7 @@ export const PAGES = {
     "CodeEditor": CodeEditor,
     "Community": Community,
     "CommunityGuidelines": CommunityGuidelines,
+    "CompetitiveArenas": CompetitiveArenas,
     "Compliance": Compliance,
     "ComplianceDashboard": ComplianceDashboard,
     "Contact": Contact,
@@ -219,6 +222,7 @@ export const PAGES = {
     "FiatDeposit": FiatDeposit,
     "FirmwareUpdates": FirmwareUpdates,
     "FleetManagement": FleetManagement,
+    "GlobalGovernance": GlobalGovernance,
     "Home": Home,
     "HomeHub": HomeHub,
     "InstructorDirectory": InstructorDirectory,
@@ -285,9 +289,7 @@ export const PAGES = {
     "Wallet": Wallet,
     "Webhooks": Webhooks,
     "WithdrawOmni": WithdrawOmni,
-    "AgentSkillMarketplace": AgentSkillMarketplace,
-    "CompetitiveArenas": CompetitiveArenas,
-    "GlobalGovernance": GlobalGovernance,
+    "Communications": Communications,
 }
 
 export const pagesConfig = {
