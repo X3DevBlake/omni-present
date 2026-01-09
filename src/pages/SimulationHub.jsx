@@ -5,6 +5,8 @@ import { OrbitControls, Box, Sphere, Text } from '@react-three/drei';
 import { Play, Square, BarChart3, Download, Settings } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import BackButton from '../components/navigation/BackButton';
+import DynamicEventControls from '../components/simulation/DynamicEventControls';
+import ContextKnowledgeRetrieval from '../components/knowledge/ContextKnowledgeRetrieval';
 import { createPageUrl } from '../utils';
 import { Link } from 'react-router-dom';
 
@@ -80,11 +82,13 @@ export default function SimulationHub() {
   });
 
   const [agents, setAgents] = useState([
-    { id: 1, name: 'Explorer', personality: { curiosity: 85, energy: 0.7 }, color: '#00f5ff' },
-    { id: 2, name: 'Analyst', personality: { curiosity: 60, energy: 0.4 }, color: '#a855f7' },
-    { id: 3, name: 'Builder', personality: { curiosity: 50, energy: 0.8 }, color: '#10b981' },
-    { id: 4, name: 'Mediator', personality: { curiosity: 70, energy: 0.5 }, color: '#f59e0b' }
+    { id: 1, name: 'Explorer', personality: { curiosity: 85, energy: 0.7 }, mood: 80, stress: 20, color: '#00f5ff' },
+    { id: 2, name: 'Analyst', personality: { curiosity: 60, energy: 0.4 }, mood: 70, stress: 30, color: '#a855f7' },
+    { id: 3, name: 'Builder', personality: { curiosity: 50, energy: 0.8 }, mood: 90, stress: 10, color: '#10b981' },
+    { id: 4, name: 'Mediator', personality: { curiosity: 70, energy: 0.5 }, mood: 75, stress: 25, color: '#f59e0b' }
   ]);
+  
+  const [savedStates, setSavedStates] = useState([]);
 
   const [isRunning, setIsRunning] = useState(false);
   const [simResults, setSimResults] = useState(null);
@@ -110,6 +114,33 @@ export default function SimulationHub() {
 
   const stopSimulation = () => {
     setIsRunning(false);
+  };
+
+  const saveSimulationState = () => {
+    const state = {
+      id: Date.now(),
+      timestamp: new Date().toISOString(),
+      config: simConfig,
+      agents: agents,
+      results: simResults
+    };
+    setSavedStates([...savedStates, state]);
+    alert('Simulation state saved!');
+  };
+
+  const loadSimulationState = (state) => {
+    setSimConfig(state.config);
+    setAgents(state.agents);
+    setSimResults(state.results);
+    alert('Simulation state loaded!');
+  };
+
+  const handleEventTrigger = (event) => {
+    setAgents(prev => prev.map(agent => ({
+      ...agent,
+      stress: Math.min(100, agent.stress + event.severity * 0.3),
+      mood: Math.max(0, agent.mood - event.severity * 0.2)
+    })));
   };
 
   return (
@@ -204,20 +235,51 @@ export default function SimulationHub() {
 
             <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-6">
               <h3 className="text-white font-bold mb-4">Deployed Agents</h3>
-              <div className="space-y-2">
+              <div className="space-y-2 mb-4">
                 {agents.map(agent => (
                   <div key={agent.id} className="p-3 bg-white/5 border border-white/10 rounded-lg">
                     <div className="flex items-center gap-2 mb-2">
                       <div className="w-3 h-3 rounded-full" style={{ backgroundColor: agent.color }} />
                       <span className="text-white font-semibold text-sm">{agent.name}</span>
                     </div>
-                    <div className="text-white/60 text-xs">
-                      Curiosity: {agent.personality.curiosity} | Energy: {(agent.personality.energy * 100).toFixed(0)}%
+                    <div className="space-y-1 text-xs">
+                      <div className="flex justify-between">
+                        <span className="text-white/60">Mood</span>
+                        <span className={agent.mood > 60 ? 'text-green-400' : 'text-yellow-400'}>{agent.mood}%</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-white/60">Stress</span>
+                        <span className={agent.stress > 60 ? 'text-red-400' : 'text-cyan-400'}>{agent.stress}%</span>
+                      </div>
                     </div>
                   </div>
                 ))}
               </div>
+              <DynamicEventControls onEventTrigger={handleEventTrigger} />
             </div>
+            
+            <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-6">
+              <h3 className="text-white font-bold mb-3 text-sm">Saved States</h3>
+              {savedStates.length === 0 ? (
+                <p className="text-white/60 text-xs">No saved states</p>
+              ) : (
+                <div className="space-y-2">
+                  {savedStates.map(state => (
+                    <div key={state.id} className="p-2 bg-white/5 border border-white/10 rounded flex items-center justify-between">
+                      <span className="text-white text-xs">{new Date(state.timestamp).toLocaleString()}</span>
+                      <button
+                        onClick={() => loadSimulationState(state)}
+                        className="px-2 py-1 bg-cyan-500/20 text-cyan-400 rounded text-xs hover:bg-cyan-500/30"
+                      >
+                        Load
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+            
+            <ContextKnowledgeRetrieval context="AI agent simulation with multi-agent interactions and emergent behaviors" />
           </div>
 
           {/* 3D Simulation View */}
@@ -251,6 +313,15 @@ export default function SimulationHub() {
                 >
                   <Square className="w-5 h-5" />
                   Stop Simulation
+                </motion.button>
+              )}
+              {simResults && (
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  onClick={saveSimulationState}
+                  className="px-6 py-3 bg-purple-500/20 border border-purple-500/50 rounded-lg text-purple-400 font-bold flex items-center gap-2"
+                >
+                  Save State
                 </motion.button>
               )}
             </div>

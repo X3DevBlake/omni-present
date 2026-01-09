@@ -71,6 +71,8 @@ import AgentCustomizationDeep from '../components/customization/AgentCustomizati
 import ProactiveInsightsEngine from '../components/insights/ProactiveInsightsEngine';
 import AIWorkflowOptimizer from '../components/workflow/AIWorkflowOptimizer';
 import ContextAwareKnowledgeHub from '../components/knowledge/ContextAwareKnowledgeHub';
+import AgentBehaviorProfiler from '../components/agents/AgentBehaviorProfiler';
+import ContextKnowledgeRetrieval from '../components/knowledge/ContextKnowledgeRetrieval';
 
       function FloatingBrain() {
   return (
@@ -196,6 +198,7 @@ export default function AILab() {
             { id: 'monitoring', label: '📡 Monitoring', icon: 'Monitor' },
             { id: 'workflow-optimizer', label: '⚡ Workflow Optimizer', icon: 'WFOptim' },
             { id: 'context-knowledge', label: '🧠 Context Knowledge', icon: 'CtxKB' },
+            { id: 'behavior-profiler', label: '📊 Behavior Profiler', icon: 'BehProfile' },
             { id: 'workflow-builder', label: '🔄 Workflow Builder', icon: 'Workflow' },
             { id: 'learning', label: '🎓 Learning', icon: 'Learning' },
             { id: 'collab-rt', label: '💬 Real-Time Collab', icon: 'RTCollab' },
@@ -633,6 +636,7 @@ export default function AILab() {
           {activeTab === 'sim-environments' && (
           <div className="space-y-6">
            <SimulatedEnvironments />
+           <ContextKnowledgeRetrieval context="AI agent training scenarios and simulated environments" />
           </div>
           )}
 
@@ -661,6 +665,7 @@ export default function AILab() {
           {activeTab === 'monitoring' && (
           <div className="space-y-6">
            <AgentMonitoringDashboard />
+           <ContextKnowledgeRetrieval context="Agent performance monitoring and KPI analysis" />
           </div>
           )}
 
@@ -675,6 +680,13 @@ export default function AILab() {
           {activeTab === 'context-knowledge' && (
           <div className="space-y-6">
            <ContextAwareKnowledgeHub />
+          </div>
+          )}
+
+          {/* Behavior Profiler Tab */}
+          {activeTab === 'behavior-profiler' && (
+          <div className="space-y-6">
+           <AgentBehaviorProfiler />
           </div>
           )}
 
