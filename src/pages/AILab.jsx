@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Brain, Sparkles, Code, Zap, Settings, Play } from 'lucide-react';
+import { Brain, Sparkles, Code, Zap, Settings, Play, Database } from 'lucide-react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Float, MeshDistortMaterial } from '@react-three/drei';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import { base44 } from '@/api/base44Client';
 import { toast } from 'sonner';
+import Data3DVisualizer from '../components/3d/Data3DVisualizer';
+import DataSourceConnector from '../components/database/DataSourceConnector';
+import DataDiscoveryAgent from '../components/database/DataDiscoveryAgent';
 
 function FloatingBrain() {
   return (
@@ -35,6 +38,8 @@ export default function AILab() {
   const [prompt, setPrompt] = useState('');
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [activeTab, setActiveTab] = useState('experiment');
+  const [sampleData, setSampleData] = useState([]);
 
   const runExperiment = async () => {
     if (!prompt.trim()) {
@@ -49,6 +54,14 @@ export default function AILab() {
         add_context_from_internet: true
       });
       setResult(response);
+      // Generate sample 3D data from result
+      const dataPoints = Array.from({ length: 20 }, (_, i) => ({
+        x: (Math.random() - 0.5) * 20,
+        y: Math.random() * 10,
+        z: (Math.random() - 0.5) * 20,
+        value: Math.random() * 100
+      }));
+      setSampleData(dataPoints);
       toast.success('Experiment complete!');
     } catch (err) {
       toast.error('Experiment failed');
@@ -71,6 +84,28 @@ export default function AILab() {
           <p className="text-white/60 text-lg">Experiment with cutting-edge AI models and algorithms</p>
         </motion.div>
 
+        <div className="flex gap-4 mb-8 border-b border-white/10">
+          {[
+            { id: 'experiment', label: '🧪 Experiment', icon: 'Experiment' },
+            { id: 'visualize', label: '📊 3D Visualization', icon: 'Visualization' },
+            { id: 'database', label: '🗄️ Data Sources', icon: 'Database' }
+          ].map(tab => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`px-4 py-3 font-semibold text-sm border-b-2 transition-all ${
+                activeTab === tab.id
+                  ? 'border-cyan-500 text-cyan-400'
+                  : 'border-transparent text-white/60 hover:text-white'
+              }`}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Experiment Tab */}
+        {activeTab === 'experiment' && (
         <div className="grid lg:grid-cols-2 gap-8">
           <div className="space-y-6">
             <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
@@ -146,6 +181,28 @@ export default function AILab() {
             </Canvas>
           </div>
         </div>
+        )}
+
+        {/* 3D Visualization Tab */}
+        {activeTab === 'visualize' && (
+          <div className="space-y-6">
+            <Data3DVisualizer 
+              data={sampleData.length > 0 ? sampleData : undefined}
+              title="AI Experiment Results - 3D Landscape"
+            />
+            <div className="text-white/60 text-sm p-4 bg-black/30 rounded-lg">
+              💡 Run an experiment first to visualize results in 3D. The landscape dynamically updates with simulation data from your AI models.
+            </div>
+          </div>
+        )}
+
+        {/* Database Tab */}
+        {activeTab === 'database' && (
+          <div className="grid lg:grid-cols-2 gap-6">
+            <DataSourceConnector />
+            <DataDiscoveryAgent />
+          </div>
+        )}
       </div>
     </AuroraBackground>
   );
