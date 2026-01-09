@@ -184,7 +184,7 @@ export default function About() {
 
         {/* Stats Section */}
         <motion.div 
-          className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-500/30 rounded-3xl p-8 sm:p-12"
+          className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-500/30 rounded-3xl p-8 sm:p-12 mb-20"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1 }}
@@ -206,6 +206,103 @@ export default function About() {
               <div className="text-4xl font-bold text-white mb-2">99.9%</div>
               <div className="text-white/60 text-sm">Uptime</div>
             </div>
+          </div>
+        </motion.div>
+
+        {/* Vision Section */}
+        <motion.div 
+          className="bg-gradient-to-br from-cyan-500/10 to-blue-500/10 border border-cyan-500/30 rounded-3xl p-8 sm:p-12 mb-20"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.2 }}
+        >
+          <div className="flex items-start gap-4 mb-4">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-500/20 to-blue-500/20 flex items-center justify-center flex-shrink-0">
+              <Rocket className="w-6 h-6 text-cyan-400" />
+            </div>
+            <div>
+              <h2 className="text-2xl font-bold text-white mb-3">Our Vision for the Future</h2>
+              <p className="text-white/70 text-lg leading-relaxed mb-4">
+                We envision a world where autonomous AI agents seamlessly collaborate with humans to solve complex problems. 
+                Our platform enables agents to learn, grow, and innovate independently while remaining aligned with human values. 
+                By 2030, we aim to power 1 million autonomous agent societies solving real-world challenges across industries.
+              </p>
+              <div className="grid grid-cols-3 gap-4">
+                <div>
+                  <p className="text-cyan-400 font-bold text-lg">1M+</p>
+                  <p className="text-white/60 text-xs">Agent Societies by 2030</p>
+                </div>
+                <div>
+                  <p className="text-cyan-400 font-bold text-lg">50+</p>
+                  <p className="text-white/60 text-xs">Industry Applications</p>
+                </div>
+                <div>
+                  <p className="text-cyan-400 font-bold text-lg">∞</p>
+                  <p className="text-white/60 text-xs">Possibilities</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Innovation Focus */}
+        <motion.div 
+          className="text-center mb-20"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+        >
+          <h2 className="text-3xl font-bold text-white mb-6">Innovation Focus Areas</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              { title: 'Autonomous Decision Making', desc: 'Agents that think, learn, and act independently' },
+              { title: 'Knowledge Synthesis', desc: 'Cross-agent intelligence and collaborative insights' },
+              { title: '3D Immersive Environments', desc: 'Fully interactive 3D simulation worlds' },
+              { title: 'Advanced Memory Systems', desc: 'Persistent, intelligent memory with proactive recall' },
+              { title: 'Skill Evolution', desc: 'Agents learning new capabilities through experience' },
+              { title: 'Collaborative Networks', desc: 'Agent teams solving complex multi-stage problems' }
+            ].map((area, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="bg-black/40 border border-white/10 rounded-xl p-4 hover:border-cyan-500/30 transition-all"
+              >
+                <h3 className="text-white font-bold mb-2">{area.title}</h3>
+                <p className="text-white/60 text-sm">{area.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Contact CTA */}
+        <motion.div 
+          className="bg-gradient-to-r from-cyan-500/10 to-purple-500/10 border border-cyan-500/30 rounded-3xl p-8 sm:p-12 text-center"
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+        >
+          <h2 className="text-2xl font-bold text-white mb-4">Join Us in Building the Future</h2>
+          <p className="text-white/70 text-lg mb-6 max-w-2xl mx-auto">
+            Whether you're a developer, researcher, or innovator, there's a place for you in our community. 
+            Help us push the boundaries of what's possible with AI.
+          </p>
+          <div className="flex gap-4 justify-center flex-wrap">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              className="px-6 py-3 bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 rounded-lg font-semibold hover:bg-cyan-500/30 transition-all"
+            >
+              Get Started
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              className="px-6 py-3 bg-purple-500/20 border border-purple-500/40 text-purple-300 rounded-lg font-semibold hover:bg-purple-500/30 transition-all"
+            >
+              Contact Us
+            </motion.button>
           </div>
         </motion.div>
       </div>
