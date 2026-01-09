@@ -51,7 +51,7 @@ export default function AgentBehaviorDefinition({ selectedAgent, onSelectAgent }
   };
 
   const handleSaveBehavior = async () => {
-    if (!formData.name.trim() || !formData.action.trim()) return;
+    if (!formData.name.trim() || !formData.action.trim() || !selectedAgent) return;
 
     const behaviorData = {
       ...formData,
