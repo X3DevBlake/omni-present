@@ -104,7 +104,10 @@ export default function AILab() {
           {[
             { id: 'experiment', label: '🧪 Experiment', icon: 'Experiment' },
             { id: 'visualize', label: '📊 3D Visualization', icon: 'Visualization' },
+            { id: 'training', label: '🎓 Training', icon: 'Training' },
             { id: 'agents', label: '🤖 Agents', icon: 'Agents' },
+            { id: 'collaboration', label: '🤝 Collaboration', icon: 'Collab' },
+            { id: 'sandbox', label: '🎮 Sandbox', icon: 'Sandbox' },
             { id: 'data', label: '📡 Data & Flow', icon: 'Data' },
             { id: 'database', label: '🗄️ Data Sources', icon: 'Database' },
             { id: 'goals', label: '🎯 Goals', icon: 'Goals' },
