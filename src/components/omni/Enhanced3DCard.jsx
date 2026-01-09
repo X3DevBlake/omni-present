@@ -20,11 +20,13 @@ function Interactive3DObject({ color, shape = 'sphere' }) {
     }
   });
 
-  const shapes = {
+  const shapeMap = {
     sphere: <Sphere args={[1.2, 32, 32]} />,
     torusknot: <TorusKnot args={[1, 0.4, 128, 16]} />,
     tetrahedron: <Tetrahedron args={[1.2, 0]} />
   };
+
+  const selectedShape = shapeMap[shape] || shapeMap.sphere;
 
   return (
     <Float speed={2} rotationIntensity={0.5} floatIntensity={0.4}>
@@ -33,7 +35,7 @@ function Interactive3DObject({ color, shape = 'sphere' }) {
         onPointerEnter={() => setHovered(true)}
         onPointerLeave={() => setHovered(false)}
       >
-        {shapes[shape]}
+        {selectedShape}
         <meshStandardMaterial
           color={color}
           emissive={color}
@@ -44,7 +46,7 @@ function Interactive3DObject({ color, shape = 'sphere' }) {
       </mesh>
       {hovered && (
         <mesh>
-          {shapes[shape]}
+          {selectedShape}
           <meshBasicMaterial color={color} transparent opacity={0.15} wireframe />
         </mesh>
       )}
