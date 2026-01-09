@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Filter, Star, Download, TrendingUp, Users, Clock, ShoppingCart, X, Check, DollarSign, MessageSquare, User, Package, Award, Eye } from 'lucide-react';
+import { Search, Filter, Star, Download, TrendingUp, Users, Clock, ShoppingCart, X, Check, DollarSign, MessageSquare, User, Package, Award, Eye, Bitcoin } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import CreatorDashboard from '../components/marketplace/CreatorDashboard';
 import Asset3DBrowser from '../components/marketplace/Asset3DBrowser';
+import Asset3DPreview from '../components/marketplace/Asset3DPreview';
 import PaymentIntegration from '../components/marketplace/PaymentIntegration';
+import CryptoCheckout from '../components/crypto/CryptoCheckout';
 import { base44 } from '@/api/base44Client';
 import { toast } from 'sonner';
 
@@ -107,6 +109,7 @@ export default function Marketplace() {
   const [newReview, setNewReview] = useState({ rating: 5, comment: '' });
   const [view3D, setView3D] = useState(false);
   const [showPayment, setShowPayment] = useState(false);
+  const [showCryptoCheckout, setShowCryptoCheckout] = useState(false);
   const [assetRatings, setAssetRatings] = useState(new Map());
 
   const filteredItems = items.filter(item => {
@@ -446,16 +449,22 @@ export default function Marketplace() {
               <motion.div
                 key={item.id}
                 onClick={() => setSelectedItem(item)}
-                className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-6 hover:border-cyan-500/30 transition-all cursor-pointer"
+                className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl overflow-hidden hover:border-cyan-500/30 transition-all cursor-pointer"
                 whileHover={{ scale: 1.02 }}
               >
-                <div className="flex items-start justify-between mb-4">
-                  <div className="text-4xl">{item.image}</div>
-                  <div className="flex items-center gap-1 text-yellow-400">
-                    <Star className="w-4 h-4 fill-current" />
-                    <span className="text-sm">{item.rating}</span>
+                {/* 3D Preview */}
+                <div className="h-48 relative">
+                  <Asset3DPreview
+                    assetType={item.category === 'agents' ? 'agent' : 'blueprint'}
+                    color={['#ef4444', '#a855f7', '#10b981', '#fbbf24', '#00f5ff'][item.id % 5]}
+                  />
+                  <div className="absolute top-2 right-2 flex items-center gap-1 bg-black/80 backdrop-blur-sm px-2 py-1 rounded-full text-yellow-400 text-xs">
+                    <Star className="w-3 h-3 fill-current" />
+                    {item.rating}
                   </div>
                 </div>
+
+                <div className="p-4">
                 <h3 className="text-white font-semibold mb-2">{item.name}</h3>
                 <p className="text-white/60 text-sm mb-3 line-clamp-2">{item.description}</p>
                 <div className="flex gap-2 mb-3 flex-wrap">
@@ -490,6 +499,19 @@ export default function Marketplace() {
           setSelectedItem(null);
         }}
       />
+
+      {selectedItem && (
+        <CryptoCheckout
+          show={showCryptoCheckout}
+          item={selectedItem}
+          onClose={() => setShowCryptoCheckout(false)}
+          onSuccess={() => {
+            toast.success('Purchase successful with crypto!');
+            setShowCryptoCheckout(false);
+            setSelectedItem(null);
+          }}
+        />
+      )}
 
       {/* Item Detail Modal */}
       <AnimatePresence>
@@ -572,21 +594,27 @@ export default function Marketplace() {
                   </div>
                 </div>
 
-                <div className="flex gap-3">
+                <div className="space-y-3">
                   {selectedItem.price === 'Free' ? (
-                    <button onClick={() => handleDownload(selectedItem)} className="flex-1 py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-medium rounded-xl hover:opacity-90 flex items-center justify-center gap-2">
+                    <button onClick={() => handleDownload(selectedItem)} className="w-full py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-medium rounded-xl hover:opacity-90 flex items-center justify-center gap-2">
                       <Download className="w-5 h-5" />
                       Download Free
                     </button>
                   ) : (
                     <>
-                      <button onClick={() => addToCart(selectedItem)} className="flex-1 py-3 bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 font-medium rounded-xl hover:bg-cyan-500/30 flex items-center justify-center gap-2">
+                      <button onClick={() => addToCart(selectedItem)} className="w-full py-3 bg-cyan-500/20 border border-cyan-500/40 text-cyan-300 font-medium rounded-xl hover:bg-cyan-500/30 flex items-center justify-center gap-2">
                         <ShoppingCart className="w-5 h-5" />
                         Add to Cart
                       </button>
-                      <button onClick={() => handlePurchase(selectedItem)} className="flex-1 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-medium rounded-xl hover:opacity-90">
-                        Buy Now {selectedItem.price}
-                      </button>
+                      <div className="grid grid-cols-2 gap-3">
+                        <button onClick={() => setShowPayment(true)} className="py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-medium rounded-xl hover:opacity-90">
+                          Card {selectedItem.price}
+                        </button>
+                        <button onClick={() => setShowCryptoCheckout(true)} className="py-3 bg-gradient-to-r from-orange-500 to-yellow-500 text-white font-medium rounded-xl hover:opacity-90 flex items-center justify-center gap-2">
+                          <Bitcoin className="w-5 h-5" />
+                          Crypto
+                        </button>
+                      </div>
                     </>
                   )}
                 </div>

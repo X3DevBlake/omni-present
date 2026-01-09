@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Activity, Battery, Cpu, HardDrive, Thermometer } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
+import DeviceHealth3D from '../components/3d/DeviceHealth3D';
 
 export default function DeviceHealth() {
   const devices = [
@@ -20,9 +21,22 @@ export default function DeviceHealth() {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {devices.map((device, i) => (
-            <motion.div key={device.id} className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl p-6" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: i * 0.1 }}>
-              <div className="flex items-start justify-between mb-4">
-                <h3 className="text-white font-bold text-lg">{device.name}</h3>
+            <motion.div key={device.id} className="space-y-4" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: i * 0.1 }}>
+              {/* 3D Device Visualization */}
+              <DeviceHealth3D
+                deviceName={device.name}
+                health={(device.battery + (100 - device.cpu) + (100 - device.temp)) / 3}
+                metrics={{
+                  Battery: `${device.battery}%`,
+                  CPU: `${device.cpu}%`,
+                  Temp: `${device.temp}°C`
+                }}
+              />
+
+              {/* Detailed Metrics */}
+              <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-4">
+              <div className="flex items-center justify-between mb-3">
+                <h4 className="text-white font-semibold">{device.name}</h4>
                 <span className={`px-2 py-1 rounded-full text-xs ${
                   device.status === 'excellent' ? 'bg-green-500/20 text-green-400' :
                   device.status === 'good' ? 'bg-blue-500/20 text-blue-400' :
@@ -68,6 +82,7 @@ export default function DeviceHealth() {
                     <div className="h-full bg-purple-500" style={{ width: `${device.storage}%` }} />
                   </div>
                 </div>
+              </div>
               </div>
             </motion.div>
           ))}

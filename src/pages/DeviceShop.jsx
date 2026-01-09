@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShoppingCart, Package, Zap, Eye, Check, AlertCircle } from 'lucide-react';
+import { ShoppingCart, Package, Zap, Eye, Check, AlertCircle, Bitcoin } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import Device3DViewer from '../components/devices/Device3DViewer';
 import PaymentIntegration from '../components/marketplace/PaymentIntegration';
+import CryptoCheckout from '../components/crypto/CryptoCheckout';
 import { base44 } from '@/api/base44Client';
 import { toast } from 'sonner';
 
@@ -11,6 +12,7 @@ export default function DeviceShop() {
   const [devices, setDevices] = useState([]);
   const [selectedDevice, setSelectedDevice] = useState(null);
   const [showPayment, setShowPayment] = useState(false);
+  const [showCryptoCheckout, setShowCryptoCheckout] = useState(false);
   const [filter, setFilter] = useState('all');
 
   useEffect(() => {
@@ -184,13 +186,23 @@ export default function DeviceShop() {
                   </div>
                 </div>
 
-                <button
-                  onClick={() => handlePurchase(selectedDevice)}
-                  disabled={selectedDevice.stock_quantity <= 0}
-                  className="w-full py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-medium rounded-xl hover:opacity-90 disabled:opacity-50"
-                >
-                  Purchase for ${selectedDevice.price}
-                </button>
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => setShowPayment(true)}
+                    disabled={selectedDevice.stock_quantity <= 0}
+                    className="flex-1 py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-medium rounded-xl hover:opacity-90 disabled:opacity-50"
+                  >
+                    Buy - ${selectedDevice.price}
+                  </button>
+                  <button
+                    onClick={() => setShowCryptoCheckout(true)}
+                    disabled={selectedDevice.stock_quantity <= 0}
+                    className="flex-1 py-3 bg-gradient-to-r from-orange-500 to-yellow-500 text-white font-medium rounded-xl hover:opacity-90 disabled:opacity-50 flex items-center justify-center gap-2"
+                  >
+                    <Bitcoin className="w-5 h-5" />
+                    Crypto
+                  </button>
+                </div>
               </div>
             </motion.div>
           </motion.div>
@@ -212,6 +224,20 @@ export default function DeviceShop() {
           setSelectedDevice(null);
         }}
       />
+
+      {selectedDevice && (
+        <CryptoCheckout
+          show={showCryptoCheckout}
+          item={selectedDevice}
+          onClose={() => setShowCryptoCheckout(false)}
+          onSuccess={async () => {
+            toast.success('Purchase successful with crypto!');
+            await loadDevices();
+            setShowCryptoCheckout(false);
+            setSelectedDevice(null);
+          }}
+        />
+      )}
     </AuroraBackground>
   );
 }

@@ -92,6 +92,7 @@ import Terms from './pages/Terms';
 import UserRolesPermissions from './pages/UserRolesPermissions';
 import VirtualClassrooms from './pages/VirtualClassrooms';
 import Webhooks from './pages/Webhooks';
+import Challenges from './pages/Challenges';
 import __Layout from './Layout.jsx';
 
 
@@ -190,6 +191,7 @@ export const PAGES = {
     "UserRolesPermissions": UserRolesPermissions,
     "VirtualClassrooms": VirtualClassrooms,
     "Webhooks": Webhooks,
+    "Challenges": Challenges,
 }
 
 export const pagesConfig = {
