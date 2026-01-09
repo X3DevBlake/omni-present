@@ -78,6 +78,7 @@ import AgentEthicsModule from '../components/ethics/AgentEthicsModule';
 import AICollaborationVisualizer from '../components/collaboration/AICollaborationVisualizer';
 import AIScenarioGenerator from '../components/simulation/AIScenarioGenerator';
 import AICommunicationHub from '../components/communication/AICommunicationHub';
+import EnhancedAgentOrchestration from '../components/orchestration/EnhancedAgentOrchestration';
 
       function FloatingBrain() {
   return (
@@ -198,6 +199,7 @@ export default function AILab() {
             { id: 'adaptive-training', label: '🎯 Adaptive Training', icon: 'AdTrain' },
             { id: 'sim-environments', label: '🌐 Sim Environments', icon: 'SimEnv' },
             { id: 'orchestration', label: '🎭 Orchestration', icon: 'Orch' },
+            { id: 'enhanced-orch', label: '⚡ Enhanced Orch', icon: 'EnhOrch' },
             { id: 'deep-custom', label: '🎨 Deep Customization', icon: 'DeepCustom' },
             { id: 'insights-engine', label: '💡 Insights Engine', icon: 'Insights' },
             { id: 'monitoring', label: '📡 Monitoring', icon: 'Monitor' },
@@ -654,6 +656,13 @@ export default function AILab() {
           {activeTab === 'orchestration' && (
           <div className="space-y-6">
            <AgentOrchestrationLayer />
+          </div>
+          )}
+
+          {/* Enhanced Orchestration Tab */}
+          {activeTab === 'enhanced-orch' && (
+          <div className="space-y-6">
+           <EnhancedAgentOrchestration />
           </div>
           )}
 
