@@ -1,98 +1,106 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowUpRight, ArrowDownLeft, Clock, CheckCircle, XCircle, Loader } from 'lucide-react';
+import { ArrowUpRight, ArrowDownLeft, ArrowRightLeft, CheckCircle, Clock, XCircle } from 'lucide-react';
 import moment from 'moment';
 
-export default function TransactionList({ transactions, isLoading }) {
+export default function TransactionList({ transactions = [], isLoading = false }) {
+  const getTypeIcon = (type) => {
+    switch (type) {
+      case 'deposit': return <ArrowDownLeft className="w-5 h-5 text-green-400" />;
+      case 'withdraw': return <ArrowUpRight className="w-5 h-5 text-red-400" />;
+      case 'swap': case 'bridge': return <ArrowRightLeft className="w-5 h-5 text-purple-400" />;
+      default: return <ArrowRightLeft className="w-5 h-5 text-blue-400" />;
+    }
+  };
+
   const getStatusIcon = (status) => {
     switch (status) {
       case 'confirmed': return <CheckCircle className="w-4 h-4 text-green-400" />;
-      case 'failed': return <XCircle className="w-4 h-4 text-red-400" />;
-      case 'pending': return <Loader className="w-4 h-4 text-yellow-400 animate-spin" />;
+      case 'pending': return <Clock className="w-4 h-4 text-yellow-400" />;
+      case 'failed': case 'cancelled': return <XCircle className="w-4 h-4 text-red-400" />;
       default: return <Clock className="w-4 h-4 text-white/40" />;
     }
   };
 
-  const getTypeIcon = (type) => {
-    const isIncoming = ['deposit', 'cashback', 'bonus'].includes(type);
-    return isIncoming ? (
-      <ArrowDownLeft className="w-4 h-4 text-green-400" />
-    ) : (
-      <ArrowUpRight className="w-4 h-4 text-red-400" />
-    );
-  };
-
-  const getTypeLabel = (type) => {
-    return type.charAt(0).toUpperCase() + type.slice(1);
-  };
-
-  const getAmountColor = (type) => {
-    const isIncoming = ['deposit', 'cashback', 'bonus'].includes(type);
-    return isIncoming ? 'text-green-400' : 'text-red-400';
-  };
-
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center py-12">
-        <Loader className="w-8 h-8 text-cyan-400 animate-spin" />
+      <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl p-8 text-center">
+        <div className="text-white/60">Loading transactions...</div>
       </div>
     );
   }
 
-  if (!transactions || transactions.length === 0) {
+  if (transactions.length === 0) {
     return (
       <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl p-8 text-center">
-        <p className="text-white/60">No transactions yet</p>
+        <div className="text-white/60">No transactions yet</div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-3">
-      {transactions.map((tx, index) => (
-        <motion.div
-          key={tx.id || index}
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: index * 0.05 }}
-          className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-4 hover:border-cyan-500/30 transition-all"
-        >
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center">
-                {getTypeIcon(tx.type)}
-              </div>
-              <div>
-                <div className="flex items-center gap-2">
-                  <span className="text-white font-medium">{getTypeLabel(tx.type)}</span>
-                  {getStatusIcon(tx.status)}
-                </div>
-                <div className="text-white/40 text-xs">
-                  {tx.created_date ? moment(tx.created_date).format('MMM D, YYYY HH:mm') : 'Just now'}
-                </div>
-              </div>
-            </div>
-
-            <div className="text-right">
-              <div className={`font-bold text-lg ${getAmountColor(tx.type)}`}>
-                {['deposit', 'cashback', 'bonus'].includes(tx.type) ? '+' : '-'}
-                {tx.amount} {tx.currency?.toUpperCase()}
-              </div>
-              {tx.transaction_hash && (
-                <div className="text-white/40 text-xs font-mono">
-                  {tx.transaction_hash.slice(0, 6)}...{tx.transaction_hash.slice(-4)}
-                </div>
-              )}
-            </div>
-          </div>
-
-          {tx.metadata?.note && (
-            <div className="mt-2 pt-2 border-t border-white/5">
-              <p className="text-white/60 text-sm">{tx.metadata.note}</p>
-            </div>
-          )}
-        </motion.div>
-      ))}
+    <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden">
+      <div className="overflow-x-auto">
+        <table className="w-full">
+          <thead>
+            <tr className="border-b border-white/10">
+              <th className="text-left text-white/60 text-sm font-medium p-4">Type</th>
+              <th className="text-left text-white/60 text-sm font-medium p-4">Amount</th>
+              <th className="text-left text-white/60 text-sm font-medium p-4">Status</th>
+              <th className="text-left text-white/60 text-sm font-medium p-4">Date</th>
+              <th className="text-left text-white/60 text-sm font-medium p-4">Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            {transactions.map((tx, index) => (
+              <motion.tr
+                key={tx.id || index}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.05 }}
+                className="border-b border-white/5 hover:bg-white/5 transition-colors"
+              >
+                <td className="p-4">
+                  <div className="flex items-center gap-3">
+                    {getTypeIcon(tx.type)}
+                    <span className="text-white capitalize">{tx.type}</span>
+                  </div>
+                </td>
+                <td className="p-4">
+                  <div className={`font-bold ${
+                    ['deposit', 'cashback', 'bonus'].includes(tx.type) ? 'text-green-400' : 'text-red-400'
+                  }`}>
+                    {['deposit', 'cashback', 'bonus'].includes(tx.type) ? '+' : '-'}
+                    {tx.amount} {tx.currency?.toUpperCase()}
+                  </div>
+                </td>
+                <td className="p-4">
+                  <div className="flex items-center gap-2">
+                    {getStatusIcon(tx.status)}
+                    <span className="text-white/80 capitalize text-sm">{tx.status}</span>
+                  </div>
+                </td>
+                <td className="p-4">
+                  <div className="text-white/60 text-sm">
+                    {moment(tx.created_date).format('MMM D, YYYY h:mm A')}
+                  </div>
+                </td>
+                <td className="p-4">
+                  {tx.transaction_hash ? (
+                    <code className="text-cyan-400 text-xs">
+                      {tx.transaction_hash.substring(0, 10)}...
+                    </code>
+                  ) : tx.metadata?.agent_name ? (
+                    <span className="text-purple-400 text-xs">{tx.metadata.agent_name}</span>
+                  ) : (
+                    <span className="text-white/40 text-xs">-</span>
+                  )}
+                </td>
+              </motion.tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

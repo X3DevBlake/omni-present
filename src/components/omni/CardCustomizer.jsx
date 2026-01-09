@@ -1,173 +1,107 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Palette, Sparkles, Layers } from 'lucide-react';
+import { Palette, Sparkles } from 'lucide-react';
 
-export default function CardCustomizer({ currentDesign, onDesignChange, unlockedSlots = 25 }) {
-  const [activeTab, setActiveTab] = useState('color');
+export default function CardCustomizer({ currentDesign, onDesignChange, unlockedSlots = 10 }) {
+  const [design, setDesign] = useState(currentDesign || { color: '#00f5ff', material: 'standard' });
 
-  const colorOptions = [
-    { name: 'Cyan', value: '#00f5ff' },
-    { name: 'Purple', value: '#a855f7' },
-    { name: 'Pink', value: '#ec4899' },
-    { name: 'Gold', value: '#fbbf24' },
-    { name: 'Silver', value: '#c0c0c0' },
-    { name: 'Black', value: '#0a0a0f' },
-    { name: 'White', value: '#ffffff' },
-    { name: 'Green', value: '#10b981' },
-    { name: 'Blue', value: '#3b82f6' },
-    { name: 'Red', value: '#ef4444' },
+  const colors = [
+    { name: 'Cyan', value: '#00f5ff', unlocked: true },
+    { name: 'Purple', value: '#a855f7', unlocked: true },
+    { name: 'Pink', value: '#ec4899', unlocked: true },
+    { name: 'Green', value: '#10b981', unlocked: true },
+    { name: 'Orange', value: '#f59e0b', unlocked: true },
+    { name: 'Red', value: '#ef4444', unlocked: unlockedSlots >= 10 },
+    { name: 'Blue', value: '#3b82f6', unlocked: unlockedSlots >= 10 },
+    { name: 'Indigo', value: '#6366f1', unlocked: unlockedSlots >= 15 },
+    { name: 'Teal', value: '#14b8a6', unlocked: unlockedSlots >= 15 },
+    { name: 'Rose', value: '#f43f5e', unlocked: unlockedSlots >= 25 },
+    { name: 'Gold', value: '#FFD700', unlocked: unlockedSlots >= 50 },
+    { name: 'Silver', value: '#C0C0C0', unlocked: unlockedSlots >= 50 },
+    { name: 'Black', value: '#000000', unlocked: unlockedSlots >= 100 },
+    { name: 'White', value: '#FFFFFF', unlocked: unlockedSlots >= 100 },
   ];
 
-  const materialOptions = [
-    { name: 'Standard', value: 'standard', unlockLevel: 0 },
-    { name: 'Metallic', value: 'metallic', unlockLevel: 25 },
-    { name: 'Holographic', value: 'holographic', unlockLevel: 50 },
-    { name: 'Matte', value: 'matte', unlockLevel: 25 },
+  const materials = [
+    { name: 'Standard', value: 'standard', unlocked: true },
+    { name: 'Metal', value: 'metal', unlocked: unlockedSlots >= 25 },
+    { name: 'Matte', value: 'matte', unlocked: unlockedSlots >= 25 },
+    { name: 'Glossy', value: 'glossy', unlocked: unlockedSlots >= 50 },
   ];
 
-  const effectOptions = [
-    { name: 'None', value: null, unlockLevel: 0 },
-    { name: 'Glow', value: 'glow', unlockLevel: 25 },
-    { name: 'Shimmer', value: 'shimmer', unlockLevel: 50 },
-    { name: 'Gradient', value: 'gradient', unlockLevel: 75 },
-    { name: 'Animated', value: 'animated', unlockLevel: 100 },
-  ];
+  const handleColorChange = (color) => {
+    if (color.unlocked) {
+      const newDesign = { ...design, color: color.value };
+      setDesign(newDesign);
+      onDesignChange(newDesign);
+    }
+  };
 
-  const isUnlocked = (unlockLevel) => unlockedSlots >= unlockLevel;
+  const handleMaterialChange = (material) => {
+    if (material.unlocked) {
+      const newDesign = { ...design, material: material.value };
+      setDesign(newDesign);
+      onDesignChange(newDesign);
+    }
+  };
 
   return (
     <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
-      <h3 className="text-white font-bold text-xl mb-4">Customize Your Card</h3>
-      
-      <div className="flex gap-2 mb-6 border-b border-white/10">
-        <button
-          onClick={() => setActiveTab('color')}
-          className={`px-4 py-2 flex items-center gap-2 ${
-            activeTab === 'color'
-              ? 'text-cyan-400 border-b-2 border-cyan-400'
-              : 'text-white/60 hover:text-white'
-          }`}
-        >
-          <Palette className="w-4 h-4" />
-          Colors
-        </button>
-        <button
-          onClick={() => setActiveTab('material')}
-          className={`px-4 py-2 flex items-center gap-2 ${
-            activeTab === 'material'
-              ? 'text-cyan-400 border-b-2 border-cyan-400'
-              : 'text-white/60 hover:text-white'
-          }`}
-        >
-          <Layers className="w-4 h-4" />
-          Materials
-        </button>
-        <button
-          onClick={() => setActiveTab('effects')}
-          className={`px-4 py-2 flex items-center gap-2 ${
-            activeTab === 'effects'
-              ? 'text-cyan-400 border-b-2 border-cyan-400'
-              : 'text-white/60 hover:text-white'
-          }`}
-        >
-          <Sparkles className="w-4 h-4" />
-          Effects
-        </button>
-      </div>
-
-      <div className="space-y-4">
-        {activeTab === 'color' && (
-          <div className="grid grid-cols-5 gap-3">
-            {colorOptions.map(color => (
-              <motion.button
-                key={color.value}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => onDesignChange({ ...currentDesign, color: color.value })}
-                className={`w-full aspect-square rounded-xl border-2 ${
-                  currentDesign?.color === color.value
-                    ? 'border-cyan-400 ring-2 ring-cyan-400/50'
-                    : 'border-white/20 hover:border-white/40'
-                }`}
-                style={{ backgroundColor: color.value }}
-                title={color.name}
-              />
-            ))}
-          </div>
-        )}
-
-        {activeTab === 'material' && (
-          <div className="grid grid-cols-2 gap-3">
-            {materialOptions.map(material => {
-              const locked = !isUnlocked(material.unlockLevel);
-              return (
-                <motion.button
-                  key={material.value}
-                  whileHover={!locked ? { scale: 1.02 } : {}}
-                  whileTap={!locked ? { scale: 0.98 } : {}}
-                  onClick={() => !locked && onDesignChange({ ...currentDesign, material: material.value })}
-                  disabled={locked}
-                  className={`p-4 rounded-xl border ${
-                    currentDesign?.material === material.value
-                      ? 'border-cyan-400 bg-cyan-500/10'
-                      : locked
-                      ? 'border-white/10 bg-white/5 opacity-50 cursor-not-allowed'
-                      : 'border-white/20 hover:border-white/40 bg-white/5'
-                  }`}
-                >
-                  <div className="text-white font-medium">{material.name}</div>
-                  {locked && (
-                    <div className="text-yellow-400 text-xs mt-1">
-                      🔒 Unlock at {material.unlockLevel} slots
-                    </div>
-                  )}
-                </motion.button>
-              );
-            })}
-          </div>
-        )}
-
-        {activeTab === 'effects' && (
-          <div className="grid grid-cols-2 gap-3">
-            {effectOptions.map(effect => {
-              const locked = !isUnlocked(effect.unlockLevel);
-              return (
-                <motion.button
-                  key={effect.value || 'none'}
-                  whileHover={!locked ? { scale: 1.02 } : {}}
-                  whileTap={!locked ? { scale: 0.98 } : {}}
-                  onClick={() => !locked && onDesignChange({ ...currentDesign, effect: effect.value })}
-                  disabled={locked}
-                  className={`p-4 rounded-xl border ${
-                    currentDesign?.effect === effect.value
-                      ? 'border-cyan-400 bg-cyan-500/10'
-                      : locked
-                      ? 'border-white/10 bg-white/5 opacity-50 cursor-not-allowed'
-                      : 'border-white/20 hover:border-white/40 bg-white/5'
-                  }`}
-                >
-                  <div className="text-white font-medium">{effect.name}</div>
-                  {locked && (
-                    <div className="text-yellow-400 text-xs mt-1">
-                      🔒 Unlock at {effect.unlockLevel} slots
-                    </div>
-                  )}
-                </motion.button>
-              );
-            })}
-          </div>
-        )}
-      </div>
-
-      <div className="mt-6 bg-cyan-500/10 border border-cyan-500/30 rounded-xl p-3">
-        <div className="text-cyan-400 text-sm font-medium">
-          Unlocked Customizations: {unlockedSlots}/100+
+      <div className="flex items-center gap-3 mb-6">
+        <Palette className="w-6 h-6 text-cyan-400" />
+        <h3 className="text-white font-bold text-xl">Customize Your Card</h3>
+        <div className="ml-auto text-white/60 text-sm">
+          {unlockedSlots} options unlocked
         </div>
-        <div className="mt-2 bg-black/40 rounded-full h-2 overflow-hidden">
-          <div
-            className="h-full bg-gradient-to-r from-cyan-500 to-purple-500 transition-all duration-500"
-            style={{ width: `${Math.min((unlockedSlots / 100) * 100, 100)}%` }}
-          />
+      </div>
+
+      {/* Colors */}
+      <div className="mb-6">
+        <label className="text-white/60 text-sm mb-3 block">Card Color</label>
+        <div className="grid grid-cols-7 gap-3">
+          {colors.map((color) => (
+            <button
+              key={color.value}
+              onClick={() => handleColorChange(color)}
+              disabled={!color.unlocked}
+              className={`relative w-12 h-12 rounded-xl transition-all ${
+                design.color === color.value
+                  ? 'ring-2 ring-cyan-500 ring-offset-2 ring-offset-black'
+                  : ''
+              } ${!color.unlocked ? 'opacity-30 cursor-not-allowed' : 'hover:scale-110'}`}
+              style={{ backgroundColor: color.value }}
+            >
+              {!color.unlocked && (
+                <div className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-xl">
+                  <Sparkles className="w-4 h-4 text-white" />
+                </div>
+              )}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Materials */}
+      <div>
+        <label className="text-white/60 text-sm mb-3 block">Card Material</label>
+        <div className="grid grid-cols-4 gap-3">
+          {materials.map((material) => (
+            <button
+              key={material.value}
+              onClick={() => handleMaterialChange(material)}
+              disabled={!material.unlocked}
+              className={`relative px-4 py-3 rounded-xl border transition-all ${
+                design.material === material.value
+                  ? 'border-cyan-500 bg-cyan-500/10'
+                  : 'border-white/10 bg-white/5'
+              } ${!material.unlocked ? 'opacity-30 cursor-not-allowed' : 'hover:border-white/20'}`}
+            >
+              <div className="text-white text-sm font-medium">{material.name}</div>
+              {!material.unlocked && (
+                <Sparkles className="absolute top-2 right-2 w-4 h-4 text-yellow-400" />
+              )}
+            </button>
+          ))}
         </div>
       </div>
     </div>

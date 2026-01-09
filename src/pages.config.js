@@ -116,8 +116,7 @@ import OmniDashboard from './pages/OmniDashboard';
 import Tokenomics from './pages/Tokenomics';
 import AgentCardSettings from './pages/AgentCardSettings';
 import LinkBankAccount from './pages/LinkBankAccount';
-import AgentAutonomy from './pages/AgentAutonomy';
-import PhysicalWorldIntegration from './pages/PhysicalWorldIntegration';
+import RealWorldBudget from './pages/RealWorldBudget';
 import __Layout from './Layout.jsx';
 
 
@@ -240,8 +239,7 @@ export const PAGES = {
     "Tokenomics": Tokenomics,
     "AgentCardSettings": AgentCardSettings,
     "LinkBankAccount": LinkBankAccount,
-    "AgentAutonomy": AgentAutonomy,
-    "PhysicalWorldIntegration": PhysicalWorldIntegration,
+    "RealWorldBudget": RealWorldBudget,
 }
 
 export const pagesConfig = {
