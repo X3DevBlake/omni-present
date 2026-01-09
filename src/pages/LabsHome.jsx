@@ -4,6 +4,7 @@ import { Sparkles, Bot, Layers, Users, Zap, BarChart3, Brain, Code, Cpu, Trendin
 import AuroraBackground from '../components/omni/AuroraBackground';
 import EnhancedHubNav from '../components/navigation/EnhancedHubNav';
 import AI3DBrain from '../components/3d/AI3DBrain';
+import HubSpecificAgents from '../components/ai/HubSpecificAgents';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
 import { usePersonalization } from '../components/personalization/PersonalizationContext';
@@ -31,6 +32,11 @@ export default function LabsHome() {
             <p className="text-white/60 text-lg">Create, test, and deploy AI agents with advanced neural processing</p>
           </div>
         </motion.div>
+
+        {/* Hub-Specific Agents */}
+        <div className="mb-12">
+          <HubSpecificAgents hubType="labs" />
+        </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[

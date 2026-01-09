@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import EnhancedHubNav from '../components/navigation/EnhancedHubNav';
 import UnifiedAnalyticsDashboard from '../components/analytics/UnifiedAnalyticsDashboard';
+import CrossHubCorrelationMap from '../components/analytics/CrossHubCorrelationMap';
 import AIAgentManager from '../components/ai/AIAgentManager';
 import { usePersonalization } from '../components/personalization/PersonalizationContext';
 
@@ -36,6 +37,11 @@ export default function UnifiedAnalytics() {
           {/* Main Analytics */}
           <div className="mb-12">
             <UnifiedAnalyticsDashboard />
+          </div>
+
+          {/* Cross-Hub Correlations */}
+          <div className="mb-12">
+            <CrossHubCorrelationMap />
           </div>
 
           {/* AI Agent Management */}

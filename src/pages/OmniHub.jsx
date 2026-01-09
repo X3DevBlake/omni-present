@@ -6,6 +6,7 @@ import EnhancedHubNav from '../components/navigation/EnhancedHubNav';
 import PortfolioAdvisor from '../components/omni/PortfolioAdvisor';
 import PersonalizedRecommendationWidget from '../components/personalization/PersonalizedRecommendationWidget';
 import AIAgentManager from '../components/ai/AIAgentManager';
+import HubSpecificAgents from '../components/ai/HubSpecificAgents';
 import { usePersonalization } from '../components/personalization/PersonalizationContext';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
@@ -28,6 +29,11 @@ export default function OmniHub() {
         {/* Portfolio Advisor */}
         <div className="mb-12">
           <PortfolioAdvisor />
+        </div>
+
+        {/* Hub-Specific Agents */}
+        <div className="mb-12">
+          <HubSpecificAgents hubType="omni" />
         </div>
 
         {/* AI Agent Manager */}

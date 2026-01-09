@@ -8,14 +8,21 @@ import SimulationPhysicsEngine from '../components/simulation/SimulationPhysicsE
 import MultiAgentInteraction from '../components/simulation/MultiAgentInteraction';
 import AIFeedbackSystem from '../components/simulation/AIFeedbackSystem';
 import DynamicScenarioGenerator from '../components/simulation/DynamicScenarioGenerator';
+import HubSpecificAgents from '../components/ai/HubSpecificAgents';
 import { base44 } from '@/api/base44Client';
+import { usePersonalization } from '../components/personalization/PersonalizationContext';
 
 export default function AdvancedSimulation() {
+  const { trackPageVisit } = usePersonalization();
   const [isRunning, setIsRunning] = useState(false);
   const [agents, setAgents] = useState([]);
   const [knowledgeData, setKnowledgeData] = useState([]);
   const [simulationSpeed, setSimulationSpeed] = useState(1);
   const [selectedScenario, setSelectedScenario] = useState('open_world');
+
+  useEffect(() => {
+    trackPageVisit('AdvancedSimulation');
+  }, []);
 
   useEffect(() => {
     loadSimulationData();
@@ -190,6 +197,11 @@ export default function AdvancedSimulation() {
             agents={agents}
             isRunning={isRunning}
           />
+        </div>
+
+        {/* Hub-Specific Agents */}
+        <div className="mt-6">
+          <HubSpecificAgents hubType="simulation" />
         </div>
 
         {/* Dynamic Scenario Generator */}

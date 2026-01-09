@@ -5,6 +5,7 @@ import AuroraBackground from '../components/omni/AuroraBackground';
 import EnhancedHubNav from '../components/navigation/EnhancedHubNav';
 import PersonalizedDeviceDashboard from '../components/devices/PersonalizedDeviceDashboard';
 import PersonalizedRecommendationWidget from '../components/personalization/PersonalizedRecommendationWidget';
+import HubSpecificAgents from '../components/ai/HubSpecificAgents';
 import { usePersonalization } from '../components/personalization/PersonalizationContext';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
@@ -40,6 +41,11 @@ export default function DeviceHome() {
             Control, monitor, and optimize your Omni-Present hardware fleet
           </p>
         </motion.div>
+
+        {/* Hub-Specific Agents */}
+        <div className="mb-12">
+          <HubSpecificAgents hubType="devices" />
+        </div>
 
         {/* Personalized Device Dashboard */}
         <div className="mb-12">

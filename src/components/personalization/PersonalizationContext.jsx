@@ -76,60 +76,79 @@ export function PersonalizationProvider({ children }) {
 
   const generateRecommendations = (prefs, behavior) => {
     const recs = [];
-
-    // Analyze behavior to generate contextual recommendations
     const topPages = Object.entries(behavior.visitCounts || {})
       .sort(([, a], [, b]) => b - a)
       .slice(0, 3);
 
-    // DeFi recommendations
-    if (topPages.some(([page]) => page.includes('Omni'))) {
+    // DeFi/Trading recommendations
+    if (topPages.some(([page]) => page.includes('OmniHub') || page.includes('DeFiHub'))) {
       recs.push({
         id: 'defi_opportunity',
         type: 'opportunity',
         hub: 'omni',
-        title: 'New Liquidity Pool Available',
-        description: 'High-yield OMNI/USDT pool with 12.5% APY',
-        action: 'Explore',
-        weight: 0.9
+        title: 'Arbitrage Detected by Trading Agent',
+        description: 'ETH/USDT spread opportunity - 0.8% gain expected',
+        action: 'Execute',
+        weight: 0.92
+      }, {
+        id: 'risk_alert',
+        type: 'risk',
+        hub: 'omni',
+        title: 'Portfolio Concentration Risk',
+        description: 'OMNI allocation above 40% - diversification recommended',
+        action: 'Rebalance',
+        weight: 0.85
+      });
+    }
+
+    // Research/Labs recommendations
+    if (topPages.some(([page]) => page.includes('LabsHome') || page.includes('AdvancedSimulation'))) {
+      recs.push({
+        id: 'research_discovery',
+        type: 'discovery',
+        hub: 'labs',
+        title: 'Novel Agent Behavior Pattern Found',
+        description: 'Research agents uncovered emergent coalition behavior',
+        action: 'Investigate',
+        weight: 0.88
       });
     }
 
     // Simulation recommendations
     if (topPages.some(([page]) => page.includes('Simulation'))) {
       recs.push({
-        id: 'simulation_insight',
+        id: 'sim_advancement',
         type: 'insight',
         hub: 'simulation',
-        title: 'Agent Learning Plateau Detected',
-        description: 'Consider increasing simulation difficulty',
-        action: 'Adjust',
-        weight: 0.75
+        title: 'Adversarial Agents at 94% Capability Match',
+        description: 'Increase difficulty for continued learning',
+        action: 'Escalate',
+        weight: 0.80
       });
     }
 
     // Device recommendations
     if (topPages.some(([page]) => page.includes('Device'))) {
       recs.push({
-        id: 'device_upgrade',
-        type: 'upgrade',
+        id: 'device_health',
+        type: 'maintenance',
         hub: 'devices',
-        title: 'Recommended Hardware Upgrade',
-        description: 'Your usage patterns suggest upgrading to Voyager tier',
-        action: 'Review',
-        weight: 0.6
+        title: 'Predictive Maintenance Alert',
+        description: 'Sensor-7 showing degradation patterns - preventive maintenance recommended',
+        action: 'Schedule',
+        weight: 0.87
       });
     }
 
-    // Universal recommendation
+    // Cross-hub synthesis
     recs.push({
-      id: 'cross_hub_insight',
+      id: 'cross_hub_synergy',
       type: 'insight',
       hub: 'analytics',
-      title: 'Portfolio Aligned with Simulation Results',
-      description: 'Your DeFi portfolio matches top-performing agents',
-      action: 'Learn',
-      weight: 0.85
+      title: 'Cross-Hub Optimization Opportunity',
+      description: 'Simulation results correlate with 78% of device optimization gains',
+      action: 'Analyze',
+      weight: 0.91
     });
 
     setRecommendations(recs.sort((a, b) => b.weight - a.weight));
