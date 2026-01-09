@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { TrendingUp, Repeat, PieChart, Shield, Zap, Target } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import EnhancedHubNav from '../components/navigation/EnhancedHubNav';
+import LiquidityPoolNetwork3D from '../components/defi/LiquidityPoolNetwork3D';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
 
@@ -23,6 +24,16 @@ export default function DeFiHub() {
           <p className="text-white/60 text-lg max-w-3xl mx-auto">
             AI-powered decentralized finance with optimal swaps, automated rebalancing, and intelligent yield farming
           </p>
+        </motion.div>
+
+        {/* 3D Liquidity Pool Network */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="mb-12 h-96"
+        >
+          <LiquidityPoolNetwork3D />
         </motion.div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
