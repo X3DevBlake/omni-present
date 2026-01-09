@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Float, Sphere } from '@react-three/drei';
+import { useNavigate } from 'react-router-dom';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import EnhancedHubNav from '../components/navigation/EnhancedHubNav';
-import { Brain, Zap, Users, Target, BookOpen, Settings, TrendingUp, Share2 } from 'lucide-react';
+import { Brain, Zap, Users, Target, BookOpen, Settings, TrendingUp, Share2, ChevronLeft, X } from 'lucide-react';
 
 const Feature3DCard = ({ feature, index }) => {
   const colors = [
