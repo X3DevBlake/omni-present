@@ -524,6 +524,5 @@ export default function AILab() {
           )}
           </div>
           </AuroraBackground>
-          {selectedAgent && <Agent15DetailPanel agent={selectedAgent} onClose={() => setSelectedAgent(null)} />}
-          );
+          </>;
           }
