@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Play, Pause, RefreshCw, Settings, Network, Cpu, Zap } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
+import HubNav from '../components/navigation/HubNav';
 import AgentKnowledgeGraph from '../components/agents/AgentKnowledgeGraph';
 import SimulationPhysicsEngine from '../components/simulation/SimulationPhysicsEngine';
 import MultiAgentInteraction from '../components/simulation/MultiAgentInteraction';
+import AIFeedbackSystem from '../components/simulation/AIFeedbackSystem';
 import { base44 } from '@/api/base44Client';
 
 export default function AdvancedSimulation() {
@@ -67,8 +69,10 @@ export default function AdvancedSimulation() {
   ];
 
   return (
-    <AuroraBackground className="min-h-screen py-16 px-4">
-      <div className="max-w-7xl mx-auto">
+    <>
+      <HubNav currentHub="SimulationEnvironment" />
+      <AuroraBackground className="min-h-screen py-16 px-4">
+        <div className="max-w-7xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-8">
           <h1 className="text-5xl font-bold text-white mb-4">
             Advanced <span className="bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">Simulation</span>
@@ -186,7 +190,17 @@ export default function AdvancedSimulation() {
             isRunning={isRunning}
           />
         </div>
+
+        {/* AI Feedback System */}
+        <div className="mt-6">
+          <AIFeedbackSystem
+            agents={agents}
+            scenario={selectedScenario}
+            onAgentUpdate={loadSimulationData}
+          />
+        </div>
       </div>
     </AuroraBackground>
+    </>
   );
 }

@@ -67,42 +67,104 @@ export default function Home() {
             <p className="text-white/60 text-lg">A living, breathing network of AI intelligence</p>
           </motion.div>
           
-          <div className="h-[600px] bg-black/20 rounded-2xl overflow-hidden border border-white/10">
-            <Canvas camera={{ position: [0, 5, 15], fov: 60 }}>
-              <ambientLight intensity={0.3} />
-              <pointLight position={[10, 10, 10]} intensity={1} />
-              <Stars radius={100} depth={50} count={3000} factor={4} fade speed={1} />
+          <div className="h-[700px] bg-black/20 rounded-2xl overflow-hidden border border-cyan-500/30 relative">
+            <Canvas camera={{ position: [0, 8, 20], fov: 75 }}>
+              <color attach="background" args={['#000000']} />
+              <fog attach="fog" args={['#000000', 10, 50]} />
               
-              <Float speed={2} rotationIntensity={0.5} floatIntensity={0.3}>
-                <mesh>
-                  <icosahedronGeometry args={[2, 1]} />
+              <ambientLight intensity={0.4} />
+              <pointLight position={[15, 15, 15]} intensity={2} color="#00f5ff" />
+              <pointLight position={[-15, -10, -15]} intensity={1.5} color="#a855f7" />
+              <spotLight position={[0, 20, 0]} angle={0.3} intensity={1} color="#ec4899" castShadow />
+              
+              <Stars radius={150} depth={60} count={5000} factor={6} fade speed={2} />
+              
+              {/* Central Core */}
+              <Float speed={1.5} rotationIntensity={1} floatIntensity={0.5}>
+                <mesh castShadow>
+                  <dodecahedronGeometry args={[2.5, 0]} />
                   <meshStandardMaterial
                     color="#00f5ff"
                     emissive="#00f5ff"
-                    emissiveIntensity={0.5}
+                    emissiveIntensity={0.8}
                     wireframe
+                    transparent
+                    opacity={0.9}
+                  />
+                </mesh>
+                <mesh>
+                  <torusGeometry args={[3, 0.1, 16, 100]} />
+                  <meshStandardMaterial
+                    color="#a855f7"
+                    emissive="#a855f7"
+                    emissiveIntensity={0.6}
                   />
                 </mesh>
               </Float>
 
-              {Array.from({ length: 8 }).map((_, i) => {
-                const angle = (i / 8) * Math.PI * 2;
+              {/* Orbiting Nodes */}
+              {Array.from({ length: 12 }).map((_, i) => {
+                const angle = (i / 12) * Math.PI * 2;
+                const radius = 8;
+                const colors = ['#00f5ff', '#a855f7', '#ec4899', '#10b981', '#f59e0b'];
+                const color = colors[i % colors.length];
+                
                 return (
-                  <Float key={i} speed={3} rotationIntensity={0.2}>
-                    <mesh position={[Math.cos(angle) * 6, Math.sin(i) * 2, Math.sin(angle) * 6]}>
-                      <sphereGeometry args={[0.5, 16, 16]} />
+                  <Float key={i} speed={2 + Math.random()} rotationIntensity={0.4} floatIntensity={0.8}>
+                    <mesh 
+                      position={[
+                        Math.cos(angle) * radius, 
+                        Math.sin(i * 0.5) * 3, 
+                        Math.sin(angle) * radius
+                      ]}
+                      castShadow
+                    >
+                      <octahedronGeometry args={[0.6, 0]} />
                       <meshStandardMaterial
-                        color={['#a855f7', '#ec4899', '#10b981'][i % 3]}
-                        emissive={['#a855f7', '#ec4899', '#10b981'][i % 3]}
-                        emissiveIntensity={0.4}
+                        color={color}
+                        emissive={color}
+                        emissiveIntensity={0.7}
+                        metalness={0.8}
+                        roughness={0.2}
                       />
+                    </mesh>
+                    {/* Connection lines */}
+                    <mesh position={[Math.cos(angle) * radius / 2, 0, Math.sin(angle) * radius / 2]}>
+                      <cylinderGeometry args={[0.02, 0.02, radius, 8]} />
+                      <meshBasicMaterial color={color} transparent opacity={0.3} />
                     </mesh>
                   </Float>
                 );
               })}
 
-              <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={0.5} />
+              {/* Particle Ring */}
+              {Array.from({ length: 50 }).map((_, i) => {
+                const angle = (i / 50) * Math.PI * 2;
+                const radius = 5;
+                return (
+                  <mesh key={`particle-${i}`} position={[Math.cos(angle) * radius, 0, Math.sin(angle) * radius]}>
+                    <sphereGeometry args={[0.1, 8, 8]} />
+                    <meshBasicMaterial color="#00f5ff" transparent opacity={0.6} />
+                  </mesh>
+                );
+              })}
+
+              <OrbitControls 
+                enableZoom={true} 
+                autoRotate 
+                autoRotateSpeed={1}
+                minDistance={10}
+                maxDistance={30}
+              />
             </Canvas>
+            
+            {/* Overlay Text */}
+            <div className="absolute inset-0 pointer-events-none flex items-end p-8">
+              <div className="bg-black/60 backdrop-blur-md border border-white/10 rounded-xl p-6">
+                <div className="text-white font-bold text-xl mb-2">12 Active Nodes</div>
+                <div className="text-cyan-400 text-sm">Processing 247 zeptoseconds per frame</div>
+              </div>
+            </div>
           </div>
         </div>
       </section>

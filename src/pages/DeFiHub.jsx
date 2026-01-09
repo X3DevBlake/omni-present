@@ -2,12 +2,15 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { TrendingUp, Repeat, PieChart, Shield, Zap, Target } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
+import HubNav from '../components/navigation/HubNav';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
 
 export default function DeFiHub() {
   return (
-    <AuroraBackground className="min-h-screen">
+    <>
+      <HubNav currentHub="DeFiHub" />
+      <AuroraBackground className="min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
         <motion.div className="text-center mb-12" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
           <div className="inline-block mb-4 px-4 py-2 bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-500/30 rounded-full">
@@ -52,5 +55,6 @@ export default function DeFiHub() {
         </div>
       </div>
     </AuroraBackground>
+    </>
   );
 }
