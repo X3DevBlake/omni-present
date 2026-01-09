@@ -36,12 +36,14 @@ import BridgeOmni from './pages/BridgeOmni';
 import BuyOmni from './pages/BuyOmni';
 import CampusHome from './pages/CampusHome';
 import CareerOpportunities from './pages/CareerOpportunities';
+import CareerPortal from './pages/CareerPortal';
 import Certifications from './pages/Certifications';
 import Challenges from './pages/Challenges';
 import CodeEditor from './pages/CodeEditor';
 import Communications from './pages/Communications';
 import Community from './pages/Community';
 import CommunityGuidelines from './pages/CommunityGuidelines';
+import CommunityGuidelinesEnhanced from './pages/CommunityGuidelinesEnhanced';
 import CompetitiveArenas from './pages/CompetitiveArenas';
 import Compliance from './pages/Compliance';
 import ComplianceDashboard from './pages/ComplianceDashboard';
@@ -119,6 +121,7 @@ import ReferralProgram from './pages/ReferralProgram';
 import RepairRequest from './pages/RepairRequest';
 import ReportingAnalytics from './pages/ReportingAnalytics';
 import ResourceLibrary from './pages/ResourceLibrary';
+import Roadmap from './pages/Roadmap';
 import SDKsLibraries from './pages/SDKsLibraries';
 import SandboxEnvironment from './pages/SandboxEnvironment';
 import ScenarioTesting from './pages/ScenarioTesting';
@@ -142,9 +145,6 @@ import VirtualClassrooms from './pages/VirtualClassrooms';
 import Wallet from './pages/Wallet';
 import Webhooks from './pages/Webhooks';
 import WithdrawOmni from './pages/WithdrawOmni';
-import Roadmap from './pages/Roadmap';
-import CareerPortal from './pages/CareerPortal';
-import CommunityGuidelinesEnhanced from './pages/CommunityGuidelinesEnhanced';
 import __Layout from './Layout.jsx';
 
 
@@ -187,12 +187,14 @@ export const PAGES = {
     "BuyOmni": BuyOmni,
     "CampusHome": CampusHome,
     "CareerOpportunities": CareerOpportunities,
+    "CareerPortal": CareerPortal,
     "Certifications": Certifications,
     "Challenges": Challenges,
     "CodeEditor": CodeEditor,
     "Communications": Communications,
     "Community": Community,
     "CommunityGuidelines": CommunityGuidelines,
+    "CommunityGuidelinesEnhanced": CommunityGuidelinesEnhanced,
     "CompetitiveArenas": CompetitiveArenas,
     "Compliance": Compliance,
     "ComplianceDashboard": ComplianceDashboard,
@@ -270,6 +272,7 @@ export const PAGES = {
     "RepairRequest": RepairRequest,
     "ReportingAnalytics": ReportingAnalytics,
     "ResourceLibrary": ResourceLibrary,
+    "Roadmap": Roadmap,
     "SDKsLibraries": SDKsLibraries,
     "SandboxEnvironment": SandboxEnvironment,
     "ScenarioTesting": ScenarioTesting,
@@ -293,9 +296,6 @@ export const PAGES = {
     "Wallet": Wallet,
     "Webhooks": Webhooks,
     "WithdrawOmni": WithdrawOmni,
-    "Roadmap": Roadmap,
-    "CareerPortal": CareerPortal,
-    "CommunityGuidelinesEnhanced": CommunityGuidelinesEnhanced,
 }
 
 export const pagesConfig = {

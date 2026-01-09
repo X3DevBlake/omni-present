@@ -11,6 +11,7 @@ import FeatureGrid from '../components/omni/FeatureGrid';
 import CTASection from '../components/omni/CTASection';
 import LiveDataFeed from '../components/world/LiveDataFeed';
 import Interactive3DFeatures from '../components/features/Interactive3DFeatures';
+import OmniPresentLogo from '../components/omni/OmniPresentLogo';
 
 export default function Home() {
   return (
