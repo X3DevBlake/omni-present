@@ -124,7 +124,7 @@ import Webhooks from './pages/Webhooks';
 import WithdrawOmni from './pages/WithdrawOmni';
 import LiquidityPools from './pages/LiquidityPools';
 import AgentKnowledgeBase from './pages/AgentKnowledgeBase';
-import AgentSimulation3D from './pages/AgentSimulation3D';
+import AgentKnowledge from './pages/AgentKnowledge';
 import __Layout from './Layout.jsx';
 
 
@@ -255,7 +255,7 @@ export const PAGES = {
     "WithdrawOmni": WithdrawOmni,
     "LiquidityPools": LiquidityPools,
     "AgentKnowledgeBase": AgentKnowledgeBase,
-    "AgentSimulation3D": AgentSimulation3D,
+    "AgentKnowledge": AgentKnowledge,
 }
 
 export const pagesConfig = {
