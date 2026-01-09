@@ -144,6 +144,7 @@ import Webhooks from './pages/Webhooks';
 import WithdrawOmni from './pages/WithdrawOmni';
 import Roadmap from './pages/Roadmap';
 import CareerPortal from './pages/CareerPortal';
+import CommunityGuidelinesEnhanced from './pages/CommunityGuidelinesEnhanced';
 import __Layout from './Layout.jsx';
 
 
@@ -294,6 +295,7 @@ export const PAGES = {
     "WithdrawOmni": WithdrawOmni,
     "Roadmap": Roadmap,
     "CareerPortal": CareerPortal,
+    "CommunityGuidelinesEnhanced": CommunityGuidelinesEnhanced,
 }
 
 export const pagesConfig = {
