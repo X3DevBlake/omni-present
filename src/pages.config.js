@@ -135,6 +135,7 @@ import VirtualClassrooms from './pages/VirtualClassrooms';
 import Wallet from './pages/Wallet';
 import Webhooks from './pages/Webhooks';
 import WithdrawOmni from './pages/WithdrawOmni';
+import UnifiedAnalytics from './pages/UnifiedAnalytics';
 import __Layout from './Layout.jsx';
 
 
@@ -276,6 +277,7 @@ export const PAGES = {
     "Wallet": Wallet,
     "Webhooks": Webhooks,
     "WithdrawOmni": WithdrawOmni,
+    "UnifiedAnalytics": UnifiedAnalytics,
 }
 
 export const pagesConfig = {

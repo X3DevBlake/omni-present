@@ -1,18 +1,29 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Cpu, ShoppingCart, Settings, Zap, Activity, Wrench, Shield, BarChart3, ShoppingBag } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import EnhancedHubNav from '../components/navigation/EnhancedHubNav';
 import PersonalizedDeviceDashboard from '../components/devices/PersonalizedDeviceDashboard';
+import PersonalizedRecommendationWidget from '../components/personalization/PersonalizedRecommendationWidget';
+import { usePersonalization } from '../components/personalization/PersonalizationContext';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
 
 export default function DeviceHome() {
+  const { trackPageVisit } = usePersonalization();
+
+  useEffect(() => {
+    trackPageVisit('DeviceHome');
+  }, []);
+
   return (
     <>
       <EnhancedHubNav currentHub="DeviceHome" />
       <AuroraBackground className="min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
+        {/* Personalized Recommendations */}
+        <PersonalizedRecommendationWidget hubName="devices" maxItems={2} />
+
         <motion.div
           className="text-center mb-12"
           initial={{ opacity: 0, y: 20 }}

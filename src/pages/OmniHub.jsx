@@ -1,21 +1,38 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Wallet, CreditCard, TrendingUp, Repeat, DollarSign, PiggyBank, Award, ShoppingCart, Receipt, Target } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import EnhancedHubNav from '../components/navigation/EnhancedHubNav';
 import PortfolioAdvisor from '../components/omni/PortfolioAdvisor';
+import PersonalizedRecommendationWidget from '../components/personalization/PersonalizedRecommendationWidget';
+import AIAgentManager from '../components/ai/AIAgentManager';
+import { usePersonalization } from '../components/personalization/PersonalizationContext';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
 
 export default function OmniHub() {
+  const { trackPageVisit } = usePersonalization();
+
+  useEffect(() => {
+    trackPageVisit('OmniHub');
+  }, []);
+
   return (
     <>
       <EnhancedHubNav currentHub="OmniHub" />
       <AuroraBackground className="min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
+        {/* Personalized Recommendations */}
+        <PersonalizedRecommendationWidget hubName="omni" maxItems={2} />
+
         {/* Portfolio Advisor */}
         <div className="mb-12">
           <PortfolioAdvisor />
+        </div>
+
+        {/* AI Agent Manager */}
+        <div className="mb-12">
+          <AIAgentManager />
         </div>
         <motion.div className="text-center mb-12" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
           <div className="inline-block mb-4 px-4 py-2 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-500/30 rounded-full">
