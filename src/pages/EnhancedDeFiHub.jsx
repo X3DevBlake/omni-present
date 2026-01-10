@@ -15,6 +15,11 @@ import DecentralizedIdentityHub from '../components/did/DecentralizedIdentityHub
 import DIDAvatar3D from '../components/3d/DIDAvatar3D';
 import VerifiableCredentialManager from '../components/did/VerifiableCredentialManager';
 import DIDReputationTree3D from '../components/3d/DIDReputationTree3D';
+import AutonomousYieldOptimizer from '../components/ai/AutonomousYieldOptimizer';
+import DAOGovernanceArena3D from '../components/3d/DAOGovernanceArena3D';
+import DecentralizedReputationSystem from '../components/did/DecentralizedReputationSystem';
+import CredentialExchangeArena3D from '../components/3d/CredentialExchangeArena3D';
+import DIDPermissionsControlPanel3D from '../components/3d/DIDPermissionsControlPanel3D';
 
 export default function EnhancedDeFiHub() {
   const [activeTab, setActiveTab] = useState('overview');
@@ -26,6 +31,7 @@ export default function EnhancedDeFiHub() {
     { id: 'nft', label: '🖼️ NFT Portfolio', icon: Zap },
     { id: 'did', label: '🆔 Decentralized ID', icon: Users },
     { id: 'security', label: '🛡️ Risk & Security', icon: Shield },
+    { id: 'governance', label: '🏛️ DAO Governance', icon: Users },
   ];
 
   return (
@@ -76,6 +82,7 @@ export default function EnhancedDeFiHub() {
 
           {activeTab === 'yield' && (
             <div className="space-y-6">
+              <AutonomousYieldOptimizer />
               <AIYieldFarmingOptimizer />
               <AutomatedDeFiStrategyBuilder />
             </div>
@@ -99,14 +106,25 @@ export default function EnhancedDeFiHub() {
                 <DIDAvatar3D />
                 <DIDReputationTree3D />
               </div>
+              <DecentralizedReputationSystem />
               <DecentralizedIdentityHub />
               <VerifiableCredentialManager />
+              <div className="grid lg:grid-cols-2 gap-6">
+                <CredentialExchangeArena3D />
+                <DIDPermissionsControlPanel3D />
+              </div>
             </div>
           )}
 
           {activeTab === 'security' && (
             <div className="space-y-6">
               <DeFiRiskAssessmentAI />
+            </div>
+          )}
+
+          {activeTab === 'governance' && (
+            <div className="space-y-6">
+              <DAOGovernanceArena3D />
             </div>
           )}
         </div>

@@ -70,6 +70,8 @@ import DeviceTelemetry from './pages/DeviceTelemetry';
 import DiscountsRebates from './pages/DiscountsRebates';
 import Documentation from './pages/Documentation';
 import EmergentBehavior from './pages/EmergentBehavior';
+import EnhancedDeFiHub from './pages/EnhancedDeFiHub';
+import EnhancedOmniBank from './pages/EnhancedOmniBank';
 import EnvironmentDesigner from './pages/EnvironmentDesigner';
 import EventsCalendar from './pages/EventsCalendar';
 import EvolutionDashboardPage from './pages/EvolutionDashboardPage';
@@ -152,8 +154,6 @@ import Wallet from './pages/Wallet';
 import Webhooks from './pages/Webhooks';
 import WithdrawOmni from './pages/WithdrawOmni';
 import World from './pages/World';
-import EnhancedOmniBank from './pages/EnhancedOmniBank';
-import EnhancedDeFiHub from './pages/EnhancedDeFiHub';
 import __Layout from './Layout.jsx';
 
 
@@ -230,6 +230,8 @@ export const PAGES = {
     "DiscountsRebates": DiscountsRebates,
     "Documentation": Documentation,
     "EmergentBehavior": EmergentBehavior,
+    "EnhancedDeFiHub": EnhancedDeFiHub,
+    "EnhancedOmniBank": EnhancedOmniBank,
     "EnvironmentDesigner": EnvironmentDesigner,
     "EventsCalendar": EventsCalendar,
     "EvolutionDashboardPage": EvolutionDashboardPage,
@@ -312,8 +314,6 @@ export const PAGES = {
     "Webhooks": Webhooks,
     "WithdrawOmni": WithdrawOmni,
     "World": World,
-    "EnhancedOmniBank": EnhancedOmniBank,
-    "EnhancedDeFiHub": EnhancedDeFiHub,
 }
 
 export const pagesConfig = {

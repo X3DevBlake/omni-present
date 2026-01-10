@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Wallet, TrendingUp, Shield, Brain, Target, Zap } from 'lucide-react';
+import { Wallet, TrendingUp, Shield, Brain, Target, Zap, Users } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import BackButton from '../components/navigation/BackButton';
 import FinancialGalaxy3D from '../components/3d/FinancialGalaxy3D';
@@ -14,6 +14,8 @@ import FraudDetectionAlerting from '../components/banking/FraudDetectionAlerting
 import GoalBasedSavingsPortfolio from '../components/banking/GoalBasedSavingsPortfolio';
 import EthicalSpendingTracker from '../components/banking/EthicalSpendingTracker';
 import DebtRepaymentVisualizer3D from '../components/3d/DebtRepaymentVisualizer3D';
+import AdvancedPortfolioManagerAI from '../components/ai/AdvancedPortfolioManagerAI';
+import SocialFinanceFeed from '../components/social/SocialFinanceFeed';
 
 export default function EnhancedOmniBank() {
   const [activeTab, setActiveTab] = useState('overview');
@@ -25,6 +27,7 @@ export default function EnhancedOmniBank() {
     { id: 'savings', label: '🎯 Savings Goals', icon: Target },
     { id: 'security', label: '🛡️ Security', icon: Shield },
     { id: 'insights', label: '⚡ Insights', icon: Zap },
+    { id: 'social', label: '👥 Social Finance', icon: Users },
   ];
 
   return (
@@ -75,6 +78,7 @@ export default function EnhancedOmniBank() {
 
           {activeTab === 'ai-advisor' && (
             <div className="space-y-6">
+              <AdvancedPortfolioManagerAI />
               <PersonalizedFinancialAdvisorAI />
               <SubscriptionManagementAI />
             </div>
@@ -119,6 +123,12 @@ export default function EnhancedOmniBank() {
             <div className="grid lg:grid-cols-2 gap-6">
               <RealTimeSpendingInsights3D />
               <EthicalSpendingTracker />
+            </div>
+          )}
+
+          {activeTab === 'social' && (
+            <div className="space-y-6">
+              <SocialFinanceFeed />
             </div>
           )}
         </div>
