@@ -64,6 +64,10 @@ import ComprehensiveAgentAnalytics from '../components/analytics/ComprehensiveAg
 import AdaptiveTrainingModule from '../components/training/AdaptiveTrainingModule';
 import AgentFineTuner from '../components/training/AgentFineTuner';
 import AgentFeedbackSystem from '../components/training/AgentFeedbackSystem';
+import BehaviorTreeEditor from '../components/agents/BehaviorTreeEditor';
+import CustomMemoryDesigner from '../components/agents/CustomMemoryDesigner';
+import DynamicSkillLearner from '../components/agents/DynamicSkillLearner';
+import RealTimeSimulationMonitor from '../components/simulation/RealTimeSimulationMonitor';
 import AIKnowledgeEnhancements from '../components/knowledge/AIKnowledgeEnhancements';
 import VisualWorkflowBuilder from '../components/workflow/VisualWorkflowBuilder';
 import AgentMonitoringDashboard from '../components/monitoring/AgentMonitoringDashboard';
@@ -217,7 +221,11 @@ export default function AILab() {
             { id: 'ai-collab-viz', label: '🤝 AI Collaboration', icon: 'AICollab' },
             { id: 'ai-scenarios', label: '✨ AI Scenarios', icon: 'AIScenarios' },
             { id: 'ai-comm-hub', label: '📡 AI Comm Hub', icon: 'AIComm' },
-            { id: 'analytics', label: '📈 Analytics', icon: 'Analytics' }
+            { id: 'analytics', label: '📈 Analytics', icon: 'Analytics' },
+            { id: 'behavior-tree', label: '🌳 Behavior Tree', icon: 'BehaviorTree' },
+            { id: 'memory-designer', label: '🧠 Memory Designer', icon: 'MemDesigner' },
+            { id: 'skill-learner', label: '⚡ Skill Learner', icon: 'SkillLearn' },
+            { id: 'sim-monitor', label: '📊 Sim Monitor', icon: 'SimMon' }
           ].map(tab => (
             <button
               key={tab.id}
@@ -776,6 +784,40 @@ export default function AILab() {
           {activeTab === 'analytics' && (
           <div className="space-y-6">
            <ComprehensiveAgentAnalytics />
+          </div>
+          )}
+
+          {/* Behavior Tree Editor Tab */}
+          {activeTab === 'behavior-tree' && (
+          <div className="space-y-6">
+           <BehaviorTreeEditor agent={mockAgent} onSave={(tree) => console.log('Tree saved:', tree)} />
+          </div>
+          )}
+
+          {/* Memory Designer Tab */}
+          {activeTab === 'memory-designer' && (
+          <div className="space-y-6">
+           <CustomMemoryDesigner agent={mockAgent} onSave={(config) => console.log('Memory config:', config)} />
+          </div>
+          )}
+
+          {/* Skill Learner Tab */}
+          {activeTab === 'skill-learner' && (
+          <div className="space-y-6">
+           <DynamicSkillLearner 
+             agent={mockAgent}
+             taskRequirements={[
+               { name: 'Complex Analysis', requiredSkills: ['data_analysis', 'pattern_recognition'] },
+               { name: 'Team Coordination', requiredSkills: ['communication', 'leadership'] },
+             ]}
+           />
+          </div>
+          )}
+
+          {/* Simulation Monitor Tab */}
+          {activeTab === 'sim-monitor' && (
+          <div className="space-y-6">
+           <RealTimeSimulationMonitor simulation={{}} />
           </div>
           )}
           </div>

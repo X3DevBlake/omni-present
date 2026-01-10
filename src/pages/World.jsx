@@ -10,6 +10,7 @@ import GlobalHeatmap from '../components/world/GlobalHeatmap';
 import RegionalDrilldown from '../components/world/RegionalDrilldown';
 import DataFlowPathways from '../components/world/DataFlowPathways';
 import RegionalInterdependencies from '../components/world/RegionalInterdependencies';
+import PredictiveAnalyticsDashboard from '../components/world/PredictiveAnalyticsDashboard';
 import { base44 } from '@/api/base44Client';
 
 function WorldGlobe({ markers }) {
@@ -59,6 +60,7 @@ export default function World() {
   const [heatmapType, setHeatmapType] = useState('activity');
   const [showDataFlow, setShowDataFlow] = useState(false);
   const [showInterdependencies, setShowInterdependencies] = useState(false);
+  const [showPredictive, setShowPredictive] = useState(false);
   
   const markers = [
     { lat: 40.7128, lng: -74.0060, color: '#00f5ff', label: 'New York' },
@@ -143,6 +145,12 @@ export default function World() {
             className={showInterdependencies ? 'bg-purple-500/30' : 'bg-white/10'}
           >
             Interdependencies
+          </Button>
+          <Button
+            onClick={() => setShowPredictive(!showPredictive)}
+            className={showPredictive ? 'bg-orange-500/30' : 'bg-white/10'}
+          >
+            Predictive Analytics
           </Button>
         </div>
 
@@ -259,6 +267,16 @@ export default function World() {
               className="mt-12"
             >
               <RegionalInterdependencies show={true} onClose={() => setShowInterdependencies(false)} />
+            </motion.div>
+          )}
+
+          {showPredictive && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mt-12"
+            >
+              <PredictiveAnalyticsDashboard />
             </motion.div>
           )}
         </div>
