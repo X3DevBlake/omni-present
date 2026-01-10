@@ -54,7 +54,8 @@ export default function RealTimeNewsFeed() {
     fetchNewsFeed();
   }, []);
 
-  const filteredNews = newsFeed.filter(item => {
+  const filteredNews = (newsFeed || []).filter(item => {
+    if (!item) return false;
     if (filters.sentiment !== 'all' && item.sentiment !== filters.sentiment) return false;
     if (filters.asset !== 'all' && item.asset !== filters.asset) return false;
     return true;
@@ -123,14 +124,14 @@ export default function RealTimeNewsFeed() {
               <div className="flex items-start gap-3">
                 <AlertCircle className="w-4 h-4 text-white/60 mt-1 flex-shrink-0" />
                 <div className="flex-1">
-                  <p className="text-white font-bold text-sm">{item.headline}</p>
-                  <p className="text-white/60 text-xs mt-1">Source: {item.source}</p>
+                  <p className="text-white font-bold text-sm">{item?.headline || 'No headline'}</p>
+                  <p className="text-white/60 text-xs mt-1">Source: {item?.source || 'Unknown'}</p>
                   <div className="flex gap-2 mt-2">
-                    <span className={`px-2 py-1 rounded text-xs border font-medium ${getSentimentColor(item.sentiment)}`}>
-                      {item.sentiment}
+                    <span className={`px-2 py-1 rounded text-xs border font-medium ${getSentimentColor(item?.sentiment || 'neutral')}`}>
+                      {item?.sentiment || 'neutral'}
                     </span>
                     <span className="px-2 py-1 bg-white/5 border border-white/10 rounded text-xs text-white/60">
-                      Impact: {item.impact}/10
+                      Impact: {item?.impact || 0}/10
                     </span>
                   </div>
                 </div>
