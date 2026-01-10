@@ -1,89 +1,136 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useEffect, useRef } from 'react';
+import { Canvas } from '@react-three/fiber';
+import { Sphere, Torus, OrbitControls, Float } from '@react-three/drei';
+import * as THREE from 'three';
+
+function SpaceIcon({ color }) {
+  const groupRef = useRef(null);
+  const particlesRef = useRef(null);
+
+  useEffect(() => {
+    if (!particlesRef.current) return;
+    
+    const rotation = setInterval(() => {
+      if (groupRef.current) {
+        groupRef.current.rotation.x += 0.005;
+        groupRef.current.rotation.y += 0.008;
+      }
+      if (particlesRef.current) {
+        particlesRef.current.rotation.z += 0.001;
+      }
+    }, 30);
+    return () => clearInterval(rotation);
+  }, []);
+
+  return (
+    <group ref={groupRef}>
+      {/* Core sphere with glow */}
+      <Float speed={3} rotationIntensity={0.5} floatIntensity={0.3}>
+        <Sphere args={[0.8, 64, 64]} scale={1}>
+          <meshPhongMaterial
+            color={color}
+            emissive={color}
+            emissiveIntensity={0.7}
+            shininess={100}
+            wireframe={false}
+          />
+        </Sphere>
+        
+        {/* Inner pulsing core */}
+        <Sphere args={[0.5, 32, 32]} scale={0.6}>
+          <meshBasicMaterial color={color} transparent opacity={0.8} />
+        </Sphere>
+      </Float>
+
+      {/* Orbital rings */}
+      <group>
+        {[0, Math.PI / 3, (2 * Math.PI) / 3].map((angle, i) => (
+          <Torus
+            key={i}
+            args={[1.2, 0.06, 32, 16]}
+            rotation={[angle, i * Math.PI / 3, angle]}
+            scale={0.8}
+          >
+            <meshBasicMaterial color={color} transparent opacity={0.6} />
+          </Torus>
+        ))}
+      </group>
+
+      {/* Data stream particles */}
+      <group ref={particlesRef}>
+        {[...Array(12)].map((_, i) => {
+          const angle = (i / 12) * Math.PI * 2;
+          const radius = 1.5;
+          const x = Math.cos(angle) * radius;
+          const z = Math.sin(angle) * radius;
+          const y = Math.cos(i / 6) * 0.5;
+          
+          return (
+            <Sphere key={i} args={[0.08, 16, 16]} position={[x, y, z]}>
+              <meshPhongMaterial
+                color={color}
+                emissive={color}
+                emissiveIntensity={0.8}
+              />
+            </Sphere>
+          );
+        })}
+      </group>
+
+      {/* Connecting energy lines */}
+      {[...Array(6)].map((_, i) => {
+        const points = [];
+        for (let j = 0; j <= 20; j++) {
+          const t = j / 20;
+          const angle = (i / 6) * Math.PI * 2 + t * Math.PI * 2;
+          points.push(
+            new THREE.Vector3(
+              Math.cos(angle) * 1.5,
+              Math.sin(t * Math.PI) * 0.8 - 0.2,
+              Math.sin(angle) * 1.5
+            )
+          );
+        }
+        
+        const geometry = new THREE.BufferGeometry();
+        geometry.setFromPoints(points);
+        
+        return (
+          <line key={`line-${i}`}>
+            <bufferGeometry attach="geometry" {...geometry} />
+            <lineBasicMaterial color={color} linewidth={1.5} transparent opacity={0.5} />
+          </line>
+        );
+      })}
+    </group>
+  );
+}
 
 export default function Rotating3DIcon({ icon, color = '#00f5ff', size = 120 }) {
   return (
-    <div style={{ width: size, height: size, position: 'relative' }} className="flex items-center justify-center">
-      {/* Pulsing background glow */}
-      <motion.div
-        className="absolute inset-0 rounded-full"
-        style={{
-          background: `radial-gradient(circle, ${color}40, transparent 70%)`,
-        }}
-        animate={{
-          scale: [1, 1.3, 1],
-          opacity: [0.3, 0.6, 0.3],
-        }}
-        transition={{
-          duration: 2,
-          repeat: Infinity,
-        }}
-      />
-      
-      {/* Orbital rings */}
-      {[0, 1, 2].map((i) => (
-        <motion.div
-          key={i}
-          className="absolute rounded-full border-2"
-          style={{
-            width: size * 0.8,
-            height: size * 0.8,
-            borderColor: `${color}40`,
-          }}
-          animate={{
-            rotate: [0, 360],
-          }}
-          transition={{
-            duration: 3 + i,
-            repeat: Infinity,
-            ease: "linear",
-          }}
-        />
-      ))}
-      
-      {/* Particles */}
-      {[...Array(8)].map((_, i) => {
-        const angle = (i / 8) * Math.PI * 2;
-        const radius = size * 0.35;
-        return (
-          <motion.div
-            key={i}
-            className="absolute w-2 h-2 rounded-full"
-            style={{
-              background: color,
-              boxShadow: `0 0 8px ${color}`,
-            }}
-            animate={{
-              x: [Math.cos(angle) * radius, Math.cos(angle + Math.PI * 2) * radius],
-              y: [Math.sin(angle) * radius, Math.sin(angle + Math.PI * 2) * radius],
-            }}
-            transition={{
-              duration: 4,
-              repeat: Infinity,
-              ease: "linear",
-              delay: i * 0.1,
-            }}
-          />
-        );
-      })}
+    <div style={{ width: size, height: size, position: 'relative', background: 'radial-gradient(circle at 30% 30%, rgba(0,245,255,0.1), transparent)' }}>
+      <Canvas camera={{ position: [0, 0, 3], fov: 50 }} style={{ borderRadius: '8px' }}>
+        <ambientLight intensity={0.8} color="#ffffff" />
+        <pointLight position={[10, 10, 10]} intensity={2} color={color} />
+        <pointLight position={[-10, -10, -10]} intensity={1} color={color} distance={50} />
+        <SpaceIcon color={color} />
+      </Canvas>
       
       {/* Icon overlay */}
-      <motion.div
-        className="relative z-10"
+      <div
         style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
           fontSize: size * 0.35,
-          filter: `drop-shadow(0 0 ${size * 0.1}px ${color})`,
-        }}
-        animate={{
-          scale: [1, 1.1, 1],
-        }}
-        transition={{
-          duration: 2,
-          repeat: Infinity,
+          zIndex: 10,
+          pointerEvents: 'none',
+          textShadow: `0 0 ${size * 0.2}px ${color}80`
         }}
       >
         {icon}
-      </motion.div>
+      </div>
     </div>
   );
 }

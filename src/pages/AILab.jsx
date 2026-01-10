@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Brain, Sparkles, Code, Zap, Settings, Play, Database } from 'lucide-react';
+import { Canvas } from '@react-three/fiber';
+import { OrbitControls, Float, MeshDistortMaterial } from '@react-three/drei';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import { base44 } from '@/api/base44Client';
 import { toast } from 'sonner';
@@ -80,24 +82,20 @@ import EnhancedAgentOrchestration from '../components/orchestration/EnhancedAgen
 
 function FloatingBrain() {
   return (
-    <div className="relative w-full h-full flex items-center justify-center">
-      <motion.div
-        className="absolute w-64 h-64 rounded-full"
-        style={{
-          background: 'radial-gradient(circle, #a855f7, #ec4899)',
-          filter: 'blur(40px)',
-        }}
-        animate={{
-          scale: [1, 1.2, 1],
-          opacity: [0.4, 0.6, 0.4],
-        }}
-        transition={{
-          duration: 3,
-          repeat: Infinity,
-        }}
-      />
-      <Brain className="w-32 h-32 text-purple-400 relative z-10" />
-    </div>
+    <Float speed={2} rotationIntensity={1} floatIntensity={0.5}>
+      <mesh>
+        <icosahedronGeometry args={[3, 4]} />
+        <MeshDistortMaterial
+          color="#a855f7"
+          emissive="#a855f7"
+          emissiveIntensity={0.6}
+          distort={0.4}
+          speed={2}
+          roughness={0.2}
+          metalness={0.8}
+        />
+      </mesh>
+    </Float>
   );
 }
 
@@ -301,7 +299,12 @@ export default function AILab() {
           </div>
 
           <div className="h-[600px] bg-black/20 rounded-2xl overflow-hidden border border-white/10">
-            <FloatingBrain />
+            <Canvas camera={{ position: [0, 0, 8], fov: 60 }}>
+              <ambientLight intensity={0.3} />
+              <pointLight position={[10, 10, 10]} intensity={1} />
+              <FloatingBrain />
+              <OrbitControls enableZoom autoRotate autoRotateSpeed={1} />
+            </Canvas>
           </div>
         </div>
         )}
