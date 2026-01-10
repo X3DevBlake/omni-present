@@ -5,15 +5,21 @@ import { Sparkles, Image as ImageIcon, FileUp, Zap } from 'lucide-react';
 import TextGenerator from '../components/ai/TextGenerator';
 import ImageGenerator from '../components/ai/ImageGenerator';
 import DataExtractor from '../components/ai/DataExtractor';
+import AgentPersonalizationHub from '../components/ai/AgentPersonalizationHub';
 import GlassCard from '../components/omni/GlassCard';
 
 export default function AIPlayground() {
   const [activeTab, setActiveTab] = useState('text');
 
+  const [mockAgent, setMockAgent] = useState({ name: 'Demo Agent', interactionHistory: [] });
+
   const tabs = [
     { id: 'text', label: 'Text Generation', icon: Sparkles, component: TextGenerator },
     { id: 'image', label: 'Image Generation', icon: ImageIcon, component: ImageGenerator },
     { id: 'extract', label: 'Data Extraction', icon: FileUp, component: DataExtractor },
+    { id: 'personalize', label: 'Agent Personalization', icon: Zap, component: () => (
+      <AgentPersonalizationHub agent={mockAgent} onAgentUpdate={setMockAgent} />
+    )},
   ];
 
   const ActiveComponent = tabs.find(t => t.id === activeTab)?.component;

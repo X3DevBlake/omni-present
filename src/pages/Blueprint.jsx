@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Cpu, Database, HardDrive, Wifi, ChevronRight, X, Info, Layers, Plus, MessageCircle, Send, Users, History, Share2, Save, FolderOpen, Wand2, Gauge, Bot, Map as MapIcon, Box, GitBranch, Brain, Video, Award, Zap, Settings, Target, DollarSign } from 'lucide-react';
+import { Cpu, Database, HardDrive, Wifi, ChevronRight, X, Info, Layers, Plus, MessageCircle, Send, Users, History, Share2, Save, FolderOpen, Wand2, Gauge, Bot, Map as MapIcon, Box, GitBranch, Brain, Video, Award, Zap, Settings, Target, DollarSign, BarChart3 } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import Blueprint3DViewer from '../components/blueprint/Blueprint3DViewer';
 import AutomatedBlueprintGenerator from '../components/blueprint/AutomatedBlueprintGenerator';
@@ -20,6 +20,10 @@ import AgentTemplateLibrary from '../components/blueprint/AgentTemplateLibrary';
 import CommunicationProtocolEditor from '../components/blueprint/CommunicationProtocolEditor';
 import AgentTrainingModule from '../components/blueprint/AgentTrainingModule';
 import AdvancedEventEditor from '../components/blueprint/AdvancedEventEditor';
+import MultiStageScenarioBuilder from '../components/simulation/MultiStageScenarioBuilder';
+import RealTimeDataIntegrator from '../components/simulation/RealTimeDataIntegrator';
+import CollaborativeSimulation from '../components/simulation/CollaborativeSimulation';
+import ABTestingModule from '../components/simulation/ABTestingModule';
 import SocialNetworkGraph from '../components/blueprint/SocialNetworkGraph';
 import MentorshipSystem from '../components/blueprint/MentorshipSystem';
 import AgentGoalSystem from '../components/blueprint/AgentGoalSystem';
@@ -204,6 +208,11 @@ export default function Blueprint() {
   const [showFactionDynamics, setShowFactionDynamics] = useState(false);
   const [showEconomy, setShowEconomy] = useState(false);
   const [showScenarioEditor, setShowScenarioEditor] = useState(false);
+  const [showMultiStageBuilder, setShowMultiStageBuilder] = useState(false);
+  const [showDataIntegrator, setShowDataIntegrator] = useState(false);
+  const [showCollabSim, setShowCollabSim] = useState(false);
+  const [showABTesting, setShowABTesting] = useState(false);
+  const [currentScenario, setCurrentScenario] = useState(null);
   const [activeSociety, setActiveSociety] = useState(null);
   const [physicsObjects, setPhysicsObjects] = useState([]);
   const [footprints, setFootprints] = useState([]);
@@ -889,6 +898,34 @@ export default function Blueprint() {
                         >
                         <DollarSign className="w-4 h-4" />
                         Economy
+                        </button>
+                        <button
+                        onClick={() => setShowMultiStageBuilder(true)}
+                        className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-pink-500/20 to-red-500/20 border border-pink-500/40 text-pink-300 rounded-xl text-sm hover:from-pink-500/30 hover:to-red-500/30"
+                        >
+                        <GitBranch className="w-4 h-4" />
+                        Multi-Stage
+                        </button>
+                        <button
+                        onClick={() => setShowDataIntegrator(true)}
+                        className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 border border-blue-500/40 text-blue-300 rounded-xl text-sm hover:from-blue-500/30 hover:to-cyan-500/30"
+                        >
+                        <Database className="w-4 h-4" />
+                        Data Feeds
+                        </button>
+                        <button
+                        onClick={() => setShowCollabSim(true)}
+                        className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-500/40 text-green-300 rounded-xl text-sm hover:from-green-500/30 hover:to-emerald-500/30"
+                        >
+                        <Users className="w-4 h-4" />
+                        Collaborative
+                        </button>
+                        <button
+                        onClick={() => setShowABTesting(true)}
+                        className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-500/20 to-yellow-500/20 border border-orange-500/40 text-orange-300 rounded-xl text-sm hover:from-orange-500/30 hover:to-yellow-500/30"
+                        >
+                        <BarChart3 className="w-4 h-4" />
+                        A/B Testing
                         </button>
                         <button
                         onClick={() => setShowScenarioEditor(true)}
@@ -1679,6 +1716,44 @@ export default function Blueprint() {
         onScenarioApply={(scenario) => {
           toast.success(`Scenario "${scenario.name}" applied!`);
           console.log('Applied scenario:', scenario);
+        }}
+      />
+
+      {/* Multi-Stage Scenario Builder */}
+      <MultiStageScenarioBuilder
+        show={showMultiStageBuilder}
+        onClose={() => setShowMultiStageBuilder(false)}
+        onScenarioCreate={(scenario) => {
+          setCurrentScenario(scenario);
+          setShowMultiStageBuilder(false);
+          toast.success('Multi-stage scenario created!');
+        }}
+      />
+
+      {/* Real-Time Data Integrator */}
+      <RealTimeDataIntegrator
+        show={showDataIntegrator}
+        onClose={() => setShowDataIntegrator(false)}
+        onDataFeed={(type, data) => {
+          console.log(`${type} data:`, data);
+        }}
+      />
+
+      {/* Collaborative Simulation */}
+      <CollaborativeSimulation
+        show={showCollabSim}
+        onClose={() => setShowCollabSim(false)}
+        scenario={currentScenario}
+      />
+
+      {/* A/B Testing Module */}
+      <ABTestingModule
+        show={showABTesting}
+        onClose={() => setShowABTesting(false)}
+        agents={holographicAgents}
+        onTestRun={(results) => {
+          toast.success('A/B test completed!');
+          console.log('Test results:', results);
         }}
       />
 
