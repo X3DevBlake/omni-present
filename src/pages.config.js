@@ -152,6 +152,8 @@ import Wallet from './pages/Wallet';
 import Webhooks from './pages/Webhooks';
 import WithdrawOmni from './pages/WithdrawOmni';
 import World from './pages/World';
+import EnhancedOmniBank from './pages/EnhancedOmniBank';
+import EnhancedDeFiHub from './pages/EnhancedDeFiHub';
 import __Layout from './Layout.jsx';
 
 
@@ -310,6 +312,8 @@ export const PAGES = {
     "Webhooks": Webhooks,
     "WithdrawOmni": WithdrawOmni,
     "World": World,
+    "EnhancedOmniBank": EnhancedOmniBank,
+    "EnhancedDeFiHub": EnhancedDeFiHub,
 }
 
 export const pagesConfig = {
