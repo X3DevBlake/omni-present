@@ -155,6 +155,7 @@ import Webhooks from './pages/Webhooks';
 import WithdrawOmni from './pages/WithdrawOmni';
 import World from './pages/World';
 import GlobalMap from './pages/GlobalMap';
+import SimulationLabs from './pages/SimulationLabs';
 import __Layout from './Layout.jsx';
 
 
@@ -316,6 +317,7 @@ export const PAGES = {
     "WithdrawOmni": WithdrawOmni,
     "World": World,
     "GlobalMap": GlobalMap,
+    "SimulationLabs": SimulationLabs,
 }
 
 export const pagesConfig = {

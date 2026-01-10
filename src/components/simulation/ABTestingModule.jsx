@@ -1,146 +1,139 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { X, Play, BarChart3 } from 'lucide-react';
+import { Plus, Trash2, TrendingUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
-export default function ABTestingModule({ show, onClose, agents, onTestRun }) {
-  const [testName, setTestName] = useState('');
-  const [variantA, setVariantA] = useState({ name: 'Variant A', config: {} });
-  const [variantB, setVariantB] = useState({ name: 'Variant B', config: {} });
-  const [results, setResults] = useState(null);
-  const [testing, setTesting] = useState(false);
+export default function ABTestingModule() {
+  const [tests, setTests] = useState([]);
+  const [newTest, setNewTest] = useState({ nameA: '', nameB: '', metric: 'success_rate' });
 
-  const runTest = async () => {
-    setTesting(true);
-    
-    // Simulate A/B test
-    setTimeout(() => {
-      const resultsData = {
-        variantA: {
-          successRate: 65 + Math.random() * 20,
-          avgTime: 45 + Math.random() * 20,
-          efficiency: 70 + Math.random() * 15,
-        },
-        variantB: {
-          successRate: 70 + Math.random() * 20,
-          avgTime: 40 + Math.random() * 20,
-          efficiency: 75 + Math.random() * 15,
-        },
+  const createTest = () => {
+    if (newTest.nameA && newTest.nameB) {
+      const test = {
+        id: Date.now(),
+        ...newTest,
+        resultA: Math.random() * 100,
+        resultB: Math.random() * 100,
+        runs: 1000,
+        confidence: 95,
       };
-      setResults(resultsData);
-      setTesting(false);
-      onTestRun?.(resultsData);
-    }, 3000);
+      setTests([...tests, test]);
+      setNewTest({ nameA: '', nameB: '', metric: 'success_rate' });
+    }
   };
 
-  if (!show) return null;
+  const deleteTest = (id) => {
+    setTests(tests.filter(t => t.id !== id));
+  };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={onClose} />
+    <div className="space-y-6">
       <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        className="relative bg-black/90 backdrop-blur-xl border border-cyan-500/30 rounded-2xl p-6 max-w-4xl w-full max-h-[90vh] overflow-y-auto"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="bg-gradient-to-br from-green-900/30 to-emerald-900/30 border border-green-500/30 rounded-xl p-6"
       >
-        <button onClick={onClose} className="absolute top-4 right-4 p-2 hover:bg-white/10 rounded-lg">
-          <X className="w-5 h-5 text-white" />
-        </button>
+        <h3 className="text-xl font-bold text-white mb-4">A/B Testing</h3>
 
-        <h2 className="text-2xl font-bold text-white mb-6">A/B Testing Module</h2>
-
-        <div className="mb-6">
-          <Input
-            value={testName}
-            onChange={(e) => setTestName(e.target.value)}
-            placeholder="Test Name"
-            className="bg-white/5 border-white/10 text-white"
-          />
-        </div>
-
-        <div className="grid grid-cols-2 gap-6 mb-6">
-          <div className="bg-white/5 border border-cyan-500/30 rounded-xl p-4">
-            <h3 className="text-cyan-400 font-semibold mb-4">Variant A</h3>
-            <Input
-              value={variantA.name}
-              onChange={(e) => setVariantA({...variantA, name: e.target.value})}
-              placeholder="Variant Name"
-              className="bg-white/5 border-white/10 text-white mb-3"
+        <div className="space-y-4">
+          <div className="grid grid-cols-2 gap-4">
+            <input
+              placeholder="Strategy A"
+              value={newTest.nameA}
+              onChange={(e) => setNewTest({ ...newTest, nameA: e.target.value })}
+              className="bg-white/5 border border-white/10 rounded px-3 py-2 text-white placeholder:text-white/50"
             />
-            <Textarea
-              placeholder="Configuration (JSON)"
-              className="bg-white/5 border-white/10 text-white min-h-[120px]"
+            <input
+              placeholder="Strategy B"
+              value={newTest.nameB}
+              onChange={(e) => setNewTest({ ...newTest, nameB: e.target.value })}
+              className="bg-white/5 border border-white/10 rounded px-3 py-2 text-white placeholder:text-white/50"
             />
           </div>
 
-          <div className="bg-white/5 border border-purple-500/30 rounded-xl p-4">
-            <h3 className="text-purple-400 font-semibold mb-4">Variant B</h3>
-            <Input
-              value={variantB.name}
-              onChange={(e) => setVariantB({...variantB, name: e.target.value})}
-              placeholder="Variant Name"
-              className="bg-white/5 border-white/10 text-white mb-3"
-            />
-            <Textarea
-              placeholder="Configuration (JSON)"
-              className="bg-white/5 border-white/10 text-white min-h-[120px]"
-            />
-          </div>
-        </div>
-
-        {results && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-white/5 border border-white/10 rounded-xl p-6 mb-6"
+          <select
+            value={newTest.metric}
+            onChange={(e) => setNewTest({ ...newTest, metric: e.target.value })}
+            className="w-full bg-white/5 border border-white/10 rounded px-3 py-2 text-white"
           >
-            <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
-              <BarChart3 className="w-5 h-5" />
-              Test Results
-            </h3>
-            <div className="grid grid-cols-3 gap-4">
-              <div>
-                <div className="text-white/60 text-sm mb-2">Success Rate</div>
-                <div className="flex gap-4">
-                  <div className="text-cyan-400 font-bold">{results.variantA.successRate.toFixed(1)}%</div>
-                  <div className="text-purple-400 font-bold">{results.variantB.successRate.toFixed(1)}%</div>
-                </div>
-              </div>
-              <div>
-                <div className="text-white/60 text-sm mb-2">Avg Time (s)</div>
-                <div className="flex gap-4">
-                  <div className="text-cyan-400 font-bold">{results.variantA.avgTime.toFixed(1)}</div>
-                  <div className="text-purple-400 font-bold">{results.variantB.avgTime.toFixed(1)}</div>
-                </div>
-              </div>
-              <div>
-                <div className="text-white/60 text-sm mb-2">Efficiency</div>
-                <div className="flex gap-4">
-                  <div className="text-cyan-400 font-bold">{results.variantA.efficiency.toFixed(1)}%</div>
-                  <div className="text-purple-400 font-bold">{results.variantB.efficiency.toFixed(1)}%</div>
-                </div>
-              </div>
-            </div>
-            <div className="mt-4 p-3 bg-green-500/10 border border-green-500/30 rounded-lg">
-              <div className="text-green-400 font-semibold">
-                Winner: {results.variantB.successRate > results.variantA.successRate ? 'Variant B' : 'Variant A'}
-              </div>
-            </div>
-          </motion.div>
-        )}
+            <option value="success_rate">Success Rate</option>
+            <option value="profit">Profit</option>
+            <option value="risk">Risk</option>
+            <option value="efficiency">Efficiency</option>
+          </select>
 
-        <div className="flex justify-end gap-3">
-          <Button onClick={onClose} variant="outline" className="border-white/20 text-white">
-            Cancel
-          </Button>
-          <Button onClick={runTest} disabled={testing} className="bg-gradient-to-r from-cyan-500 to-purple-500">
-            <Play className="w-4 h-4 mr-2" />
-            {testing ? 'Testing...' : 'Run A/B Test'}
+          <Button
+            onClick={createTest}
+            disabled={!newTest.nameA || !newTest.nameB}
+            className="w-full bg-green-500 hover:bg-green-600 text-white"
+          >
+            <Plus className="w-4 h-4 mr-2" />
+            Run Test
           </Button>
         </div>
       </motion.div>
+
+      {/* Test Results */}
+      <div className="space-y-4">
+        {tests.length === 0 ? (
+          <div className="text-center py-8 text-white/40">No tests created</div>
+        ) : (
+          tests.map((test, idx) => {
+            const data = [
+              { name: test.nameA, value: test.resultA },
+              { name: test.nameB, value: test.resultB },
+            ];
+            const winner = test.resultA > test.resultB ? test.nameA : test.nameB;
+
+            return (
+              <motion.div
+                key={test.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: idx * 0.1 }}
+                className="bg-white/5 border border-white/10 rounded-lg p-6"
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <div>
+                    <h4 className="text-white font-bold">{test.nameA} vs {test.nameB}</h4>
+                    <p className="text-white/60 text-sm">Metric: {test.metric}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-green-400 font-bold flex items-center gap-1">
+                      <TrendingUp className="w-4 h-4" />
+                      {winner} wins
+                    </p>
+                    <p className="text-white/60 text-xs">{test.confidence}% confidence</p>
+                  </div>
+                </div>
+
+                <ResponsiveContainer width="100%" height={200}>
+                  <BarChart data={data}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#333" />
+                    <XAxis dataKey="name" stroke="#666" />
+                    <YAxis stroke="#666" />
+                    <Tooltip
+                      contentStyle={{ backgroundColor: '#1a1a1a', border: '1px solid #333' }}
+                      labelStyle={{ color: '#fff' }}
+                    />
+                    <Bar dataKey="value" fill="#06b6d4" radius={[8, 8, 0, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+
+                <p className="text-white/60 text-xs mt-4">{test.runs} simulations run</p>
+
+                <button
+                  onClick={() => deleteTest(test.id)}
+                  className="mt-4 w-full py-2 text-red-400 hover:bg-red-500/10 rounded transition"
+                >
+                  Delete Test
+                </button>
+              </motion.div>
+            );
+          })
+        )}
+      </div>
     </div>
   );
 }
