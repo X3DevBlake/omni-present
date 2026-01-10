@@ -68,6 +68,21 @@ import BehaviorTreeEditor from '../components/agents/BehaviorTreeEditor';
 import CustomMemoryDesigner from '../components/agents/CustomMemoryDesigner';
 import DynamicSkillLearner from '../components/agents/DynamicSkillLearner';
 import RealTimeSimulationMonitor from '../components/simulation/RealTimeSimulationMonitor';
+import AgentNegotiationSimulator from '../components/agents/AgentNegotiationSimulator';
+import ProceduralEnvironmentGenerator from '../components/simulation/ProceduralEnvironmentGenerator';
+import AIScenarioIdeator from '../components/ai/AIScenarioIdeator';
+import KnowledgeGraphEditor from '../components/knowledge/KnowledgeGraphEditor';
+import EthicalDilemmaSimulator from '../components/simulation/EthicalDilemmaSimulator';
+import RewardFunctionDesigner from '../components/training/RewardFunctionDesigner';
+import SyntheticDatasetGenerator from '../components/training/SyntheticDatasetGenerator';
+import Interactive3DAgentBehaviorTree from '../components/3d/Interactive3DAgentBehaviorTree';
+import Memory3DNetwork from '../components/3d/Memory3DNetwork';
+import SkillProgression3DTree from '../components/3d/SkillProgression3DTree';
+import NeuralNetwork3DWalkthrough from '../components/3d/NeuralNetwork3DWalkthrough';
+import KnowledgeGraph3DNebula from '../components/3d/KnowledgeGraph3DNebula';
+import LiveSimulationDashboard from '../components/analytics/LiveSimulationDashboard';
+import VoiceCommandInterface from '../components/ai/VoiceCommandInterface';
+import GamifiedTrainingChallenges from '../components/gamification/GamifiedTrainingChallenges';
 import AIKnowledgeEnhancements from '../components/knowledge/AIKnowledgeEnhancements';
 import VisualWorkflowBuilder from '../components/workflow/VisualWorkflowBuilder';
 import AgentMonitoringDashboard from '../components/monitoring/AgentMonitoringDashboard';
@@ -225,7 +240,22 @@ export default function AILab() {
             { id: 'behavior-tree', label: '🌳 Behavior Tree', icon: 'BehaviorTree' },
             { id: 'memory-designer', label: '🧠 Memory Designer', icon: 'MemDesigner' },
             { id: 'skill-learner', label: '⚡ Skill Learner', icon: 'SkillLearn' },
-            { id: 'sim-monitor', label: '📊 Sim Monitor', icon: 'SimMon' }
+            { id: 'sim-monitor', label: '📊 Sim Monitor', icon: 'SimMon' },
+            { id: 'negotiation', label: '🤝 Negotiation', icon: 'Negotiation' },
+            { id: 'proc-env', label: '🗺️ Proc Env', icon: 'ProcEnv' },
+            { id: 'scenario-ai', label: '💡 Scenario AI', icon: 'ScenarioAI' },
+            { id: 'kg-editor', label: '🕸️ KG Editor', icon: 'KGEditor' },
+            { id: 'ethics', label: '⚖️ Ethics Sim', icon: 'Ethics' },
+            { id: 'reward-fn', label: '🎯 Reward Fn', icon: 'RewardFn' },
+            { id: 'syn-data', label: '📊 Syn Data', icon: 'SynData' },
+            { id: '3d-behavior', label: '🎨 3D Behavior', icon: '3DBehavior' },
+            { id: '3d-memory', label: '🧠 3D Memory', icon: '3DMemory' },
+            { id: '3d-skills', label: '🌲 3D Skills', icon: '3DSkills' },
+            { id: '3d-neural', label: '🔬 3D Neural', icon: '3DNeural' },
+            { id: '3d-knowledge', label: '🌌 3D Knowledge', icon: '3DKnowledge' },
+            { id: 'live-dash', label: '📡 Live Dash', icon: 'LiveDash' },
+            { id: 'voice', label: '🎤 Voice', icon: 'Voice' },
+            { id: 'gamified', label: '🏆 Gamified', icon: 'Gamified' }
           ].map(tab => (
             <button
               key={tab.id}
@@ -818,6 +848,116 @@ export default function AILab() {
           {activeTab === 'sim-monitor' && (
           <div className="space-y-6">
            <RealTimeSimulationMonitor simulation={{}} />
+          </div>
+          )}
+
+          {/* Negotiation Tab */}
+          {activeTab === 'negotiation' && (
+          <div className="space-y-6">
+           <AgentNegotiationSimulator />
+          </div>
+          )}
+
+          {/* Procedural Environment Tab */}
+          {activeTab === 'proc-env' && (
+          <div className="space-y-6">
+           <ProceduralEnvironmentGenerator />
+          </div>
+          )}
+
+          {/* AI Scenario Ideator Tab */}
+          {activeTab === 'scenario-ai' && (
+          <div className="space-y-6">
+           <AIScenarioIdeator />
+          </div>
+          )}
+
+          {/* Knowledge Graph Editor Tab */}
+          {activeTab === 'kg-editor' && (
+          <div className="space-y-6">
+           <KnowledgeGraphEditor />
+          </div>
+          )}
+
+          {/* Ethical Dilemma Simulator Tab */}
+          {activeTab === 'ethics' && (
+          <div className="space-y-6">
+           <EthicalDilemmaSimulator />
+          </div>
+          )}
+
+          {/* Reward Function Designer Tab */}
+          {activeTab === 'reward-fn' && (
+          <div className="space-y-6">
+           <RewardFunctionDesigner />
+          </div>
+          )}
+
+          {/* Synthetic Dataset Generator Tab */}
+          {activeTab === 'syn-data' && (
+          <div className="space-y-6">
+           <SyntheticDatasetGenerator />
+          </div>
+          )}
+
+          {/* 3D Behavior Tree Tab */}
+          {activeTab === '3d-behavior' && (
+          <div className="space-y-6">
+           <h3 className="text-white text-xl font-bold">Interactive 3D Behavior Tree</h3>
+           <Interactive3DAgentBehaviorTree />
+          </div>
+          )}
+
+          {/* 3D Memory Network Tab */}
+          {activeTab === '3d-memory' && (
+          <div className="space-y-6">
+           <h3 className="text-white text-xl font-bold">3D Memory Network</h3>
+           <Memory3DNetwork />
+          </div>
+          )}
+
+          {/* 3D Skills Tab */}
+          {activeTab === '3d-skills' && (
+          <div className="space-y-6">
+           <h3 className="text-white text-xl font-bold">Skill Progression 3D Tree</h3>
+           <SkillProgression3DTree />
+          </div>
+          )}
+
+          {/* 3D Neural Network Tab */}
+          {activeTab === '3d-neural' && (
+          <div className="space-y-6">
+           <h3 className="text-white text-xl font-bold">Neural Network 3D Walkthrough</h3>
+           <NeuralNetwork3DWalkthrough />
+          </div>
+          )}
+
+          {/* 3D Knowledge Graph Tab */}
+          {activeTab === '3d-knowledge' && (
+          <div className="space-y-6">
+           <h3 className="text-white text-xl font-bold">Knowledge Graph 3D Nebula</h3>
+           <KnowledgeGraph3DNebula />
+          </div>
+          )}
+
+          {/* Live Dashboard Tab */}
+          {activeTab === 'live-dash' && (
+          <div className="space-y-6">
+           <LiveSimulationDashboard />
+          </div>
+          )}
+
+          {/* Voice Interface Tab */}
+          {activeTab === 'voice' && (
+          <div className="space-y-6">
+           <VoiceCommandInterface onCommand={(cmd) => console.log('Voice command:', cmd)} />
+          </div>
+          )}
+
+          {/* Gamified Challenges Tab */}
+          {activeTab === 'gamified' && (
+          <div className="space-y-6">
+           <GamifiedTrainingChallenges />
           </div>
           )}
           </div>
