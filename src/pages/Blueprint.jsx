@@ -224,7 +224,7 @@ export default function Blueprint() {
   const [weatherType, setWeatherType] = useState('clear');
   const [timeOfDay, setTimeOfDay] = useState(0.5);
   const [holographicAgents, setHolographicAgents] = useState([]);
-  const [agentMemories, setAgentMemories] = useState(new Map());
+  const [agentMemories, setAgentMemories] = useState(new window.Map());
   const [currentEnvironment, setCurrentEnvironment] = useState('office');
   const [agentMovementTargets, setAgentMovementTargets] = useState({});
   const [customModels, setCustomModels] = useState([]);
@@ -505,7 +505,7 @@ export default function Blueprint() {
     
     const memory = new AgentMemory(newAgent.id);
     memory.recordExperience({ action: 'created', location: currentEnvironment });
-    setAgentMemories(new Map(agentMemories.set(newAgent.id, memory)));
+    setAgentMemories(new window.Map(agentMemories.set(newAgent.id, memory)));
     
     toast.success(`Agent "${agent.name}" created!`);
   };
@@ -1649,7 +1649,7 @@ export default function Blueprint() {
         show={showMentorship}
         onClose={() => setShowMentorship(false)}
         agents={holographicAgents}
-        specializations={new Map()}
+        specializations={new window.Map()}
         onSkillTransfer={(mentor, mentee, skill) => toast.success('Skill transferred')}
       />
 
