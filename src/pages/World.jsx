@@ -5,6 +5,9 @@ import { OrbitControls, Sphere, Float } from '@react-three/drei';
 import { Globe, Cloud, Droplets, Wind, Sun, MapPin, Users, TrendingUp } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import LiveDataFeed from '../components/world/LiveDataFeed';
+import AnimatedNetworkFlow from '../components/world/AnimatedNetworkFlow';
+import GlobalHeatmap from '../components/world/GlobalHeatmap';
+import RegionalDrilldown from '../components/world/RegionalDrilldown';
 import { base44 } from '@/api/base44Client';
 
 function WorldGlobe({ markers }) {
@@ -49,6 +52,9 @@ export default function World() {
   const [worldState, setWorldState] = useState(null);
   const [loading, setLoading] = useState(true);
   const [agents, setAgents] = useState([]);
+  const [selectedRegion, setSelectedRegion] = useState(null);
+  const [showHeatmap, setShowHeatmap] = useState(false);
+  const [heatmapType, setHeatmapType] = useState('activity');
   
   const markers = [
     { lat: 40.7128, lng: -74.0060, color: '#00f5ff', label: 'New York' },
@@ -109,6 +115,21 @@ export default function World() {
 
         <LiveDataFeed onDataUpdate={(data) => console.log('World data:', data)} />
 
+        <div className="flex gap-4 mb-8 justify-center">
+          <Button
+            onClick={() => { setShowHeatmap(!showHeatmap); setHeatmapType('activity'); }}
+            className={showHeatmap && heatmapType === 'activity' ? 'bg-cyan-500/30' : 'bg-white/10'}
+          >
+            Activity Heatmap
+          </Button>
+          <Button
+            onClick={() => { setShowHeatmap(!showHeatmap); setHeatmapType('issues'); }}
+            className={showHeatmap && heatmapType === 'issues' ? 'bg-red-500/30' : 'bg-white/10'}
+          >
+            Issue Heatmap
+          </Button>
+        </div>
+
         <div className="grid lg:grid-cols-2 gap-8 mt-12">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
@@ -117,20 +138,42 @@ export default function World() {
           >
             <h3 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
               <Globe className="w-6 h-6 text-cyan-400" />
-              Global Network
+              {showHeatmap ? `${heatmapType} Heatmap` : 'Global Network'}
             </h3>
-            <Canvas camera={{ position: [0, 0, 5], fov: 60 }}>
-              <ambientLight intensity={0.4} />
-              <pointLight position={[10, 10, 10]} intensity={1} color="#00f5ff" />
-              <WorldGlobe markers={markers} />
-              <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={0.5} />
-            </Canvas>
+            {showHeatmap ? (
+              <GlobalHeatmap type={heatmapType} />
+            ) : (
+              <AnimatedNetworkFlow
+                nodes={markers.map(m => ({
+                  id: m.label,
+                  position: [
+                    Math.random() * 4 - 2,
+                    Math.random() * 4 - 2,
+                    Math.random() * 4 - 2
+                  ],
+                  color: m.color,
+                  label: m.label
+                }))}
+                connections={[
+                  { from: 'New York', to: 'London', color: '#00f5ff' },
+                  { from: 'London', to: 'Tokyo', color: '#a855f7' },
+                  { from: 'Tokyo', to: 'Sydney', color: '#ec4899' },
+                  { from: 'Sydney', to: 'Paris', color: '#10b981' },
+                  { from: 'Paris', to: 'New York', color: '#f59e0b' },
+                ]}
+                activityData={{}}
+              />
+            )}
             <div className="mt-4 flex justify-center gap-4 flex-wrap">
               {markers.map((marker, i) => (
-                <div key={i} className="flex items-center gap-2 text-sm">
+                <button
+                  key={i}
+                  onClick={() => setSelectedRegion(marker)}
+                  className="flex items-center gap-2 text-sm px-3 py-2 bg-white/5 hover:bg-white/10 rounded-lg transition-colors"
+                >
                   <div className="w-3 h-3 rounded-full" style={{ backgroundColor: marker.color }} />
                   <span className="text-white/70">{marker.label}</span>
-                </div>
+                </button>
               ))}
             </div>
           </motion.div>
@@ -191,7 +234,24 @@ export default function World() {
             </div>
           </motion.div>
         </div>
+
+        <RegionalDrilldown
+          show={!!selectedRegion}
+          region={selectedRegion}
+          onClose={() => setSelectedRegion(null)}
+        />
       </div>
     </AuroraBackground>
+  );
+}
+
+function Button({ children, onClick, className }) {
+  return (
+    <button
+      onClick={onClick}
+      className={`px-4 py-2 rounded-lg text-white transition-all hover:opacity-90 ${className}`}
+    >
+      {children}
+    </button>
   );
 }
