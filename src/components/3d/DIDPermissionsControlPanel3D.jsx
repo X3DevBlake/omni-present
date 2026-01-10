@@ -1,9 +1,9 @@
 import React, { useRef, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, Float, Text, RoundedBox } from '@react-three/drei';
+import { OrbitControls, Float, Text } from '@react-three/drei';
 import { Button } from '@/components/ui/button';
 
-function PermissionSwitch({ position, label, enabled, onClick }) {
+function PermissionSwitch({ position, label, enabled }) {
   const meshRef = useRef();
   
   useFrame(() => {
@@ -14,15 +14,14 @@ function PermissionSwitch({ position, label, enabled, onClick }) {
 
   return (
     <Float speed={1} rotationIntensity={0.3} floatIntensity={0.3}>
-      <group position={position} onClick={onClick}>
+      <group position={position}>
         <mesh ref={meshRef}>
-          <RoundedBox args={[1, 0.5, 0.3]} radius={0.1}>
-            <meshStandardMaterial
-              color={enabled ? '#00ff88' : '#ff4444'}
-              emissive={enabled ? '#00ff88' : '#ff4444'}
-              emissiveIntensity={0.5}
-            />
-          </RoundedBox>
+          <boxGeometry args={[1, 0.5, 0.3]} />
+          <meshStandardMaterial
+            color={enabled ? '#00ff88' : '#ff4444'}
+            emissive={enabled ? '#00ff88' : '#ff4444'}
+            emissiveIntensity={0.5}
+          />
         </mesh>
         <Text position={[0, -0.6, 0]} fontSize={0.15} color="white" anchorX="center">
           {label}
@@ -96,25 +95,21 @@ export default function DIDPermissionsControlPanel3D() {
           position={[-2, 1, 0]}
           label="Email"
           enabled={permissions.shareEmail}
-          onClick={() => togglePermission('shareEmail')}
         />
         <PermissionSwitch
           position={[2, 1, 0]}
           label="Location"
           enabled={permissions.shareLocation}
-          onClick={() => togglePermission('shareLocation')}
         />
         <PermissionSwitch
           position={[-2, -0.5, 0]}
           label="Transactions"
           enabled={permissions.shareTransactions}
-          onClick={() => togglePermission('shareTransactions')}
         />
         <PermissionSwitch
           position={[2, -0.5, 0]}
           label="Social"
           enabled={permissions.shareSocial}
-          onClick={() => togglePermission('shareSocial')}
         />
 
         {/* Apps with Access */}
