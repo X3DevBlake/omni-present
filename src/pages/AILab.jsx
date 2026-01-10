@@ -115,6 +115,7 @@ export default function AILab() {
   const [trainingConfig, setTrainingConfig] = useState({});
   const [sampleData, setSampleData] = useState([]);
   const [selectedAgent, setSelectedAgent] = useState(null);
+  const [mockAgent, setMockAgent] = useState({ id: 1, name: 'Test Agent' });
 
   const runExperiment = async () => {
     if (!prompt.trim()) {
@@ -377,6 +378,17 @@ export default function AILab() {
         {/* Training Tab */}
         {activeTab === 'training' && (
           <div className="space-y-6">
+            <div className="grid md:grid-cols-2 gap-6">
+              <AgentFineTuner
+                agent={mockAgent}
+                simulationData={[]}
+                onFineTune={(updated) => setMockAgent(updated)}
+              />
+              <AgentFeedbackSystem
+                agent={mockAgent}
+                onFeedback={(feedback) => console.log('Feedback:', feedback)}
+              />
+            </div>
             <div className="grid lg:grid-cols-2 gap-6">
               <DatasetUploader onDatasetUpload={() => {}} />
               <TrainingParameterConfig onConfigChange={setTrainingConfig} />
