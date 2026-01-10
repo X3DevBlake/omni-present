@@ -24,38 +24,54 @@ export function VoiceCommandInterface({ onCommand }) {
   const recognitionRef = useRef(null);
 
   const startListening = () => {
-    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-      alert('Speech Recognition not supported');
-      return;
-    }
-
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    recognitionRef.current = new SpeechRecognition();
-
-    recognitionRef.current.onstart = () => {
-      setIsListening(true);
-      setTranscript('Listening...');
-    };
-
-    recognitionRef.current.onresult = (event) => {
-      let interim = '';
-      for (let i = event.resultIndex; i < event.results.length; i++) {
-        interim += event.results[i][0].transcript;
+    try {
+      if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+        setTranscript('Speech Recognition not supported');
+        return;
       }
-      setTranscript(interim);
 
-      if (event.results[event.results.length - 1].isFinal) {
-        onCommand?.(interim);
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) return;
+
+      recognitionRef.current = new SpeechRecognition();
+
+      recognitionRef.current.onstart = () => {
+        setIsListening(true);
+        setTranscript('Listening...');
+      };
+
+      recognitionRef.current.onresult = (event) => {
+        try {
+          let interim = '';
+          if (event?.results) {
+            for (let i = event.resultIndex; i < event.results.length; i++) {
+              if (event.results[i]?.[0]?.transcript) {
+                interim += event.results[i][0].transcript;
+              }
+            }
+          }
+          setTranscript(interim);
+
+          if (event?.results?.[event.results.length - 1]?.isFinal) {
+            onCommand?.(interim);
+            setIsListening(false);
+          }
+        } catch (err) {
+          console.error('Speech result error:', err);
+        }
+      };
+
+      recognitionRef.current.onerror = (err) => {
+        console.error('Speech error:', err);
         setIsListening(false);
-      }
-    };
+        setTranscript('Error listening');
+      };
 
-    recognitionRef.current.onerror = () => {
-      setIsListening(false);
-      setTranscript('Error listening');
-    };
-
-    recognitionRef.current.start();
+      recognitionRef.current.start();
+    } catch (err) {
+      console.error('Speech recognition error:', err);
+      setTranscript('Could not start voice command');
+    }
   };
 
   const stopListening = () => {

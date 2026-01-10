@@ -32,27 +32,38 @@ export function ImmersiveProvider({ children }) {
   }, []);
 
   const playAudio = useCallback((type = 'notification') => {
-    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    const oscillator = audioContext.createOscillator();
-    const gain = audioContext.createGain();
+    try {
+      if (!window.AudioContext && !window.webkitAudioContext) return;
+      
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      const audioContext = new AudioContext();
+      const oscillator = audioContext.createOscillator();
+      const gain = audioContext.createGain();
 
-    oscillator.connect(gain);
-    gain.connect(audioContext.destination);
+      oscillator.connect(gain);
+      gain.connect(audioContext.destination);
 
-    const sounds = {
-      notification: { freq: 800, duration: 0.1 },
-      success: { freq: 1000, duration: 0.2 },
-      error: { freq: 400, duration: 0.3 },
-      click: { freq: 600, duration: 0.05 }
-    };
+      const sounds = {
+        notification: { freq: 800, duration: 0.1 },
+        success: { freq: 1000, duration: 0.2 },
+        error: { freq: 400, duration: 0.3 },
+        click: { freq: 600, duration: 0.05 }
+      };
 
-    const sound = sounds[type] || sounds.notification;
-    oscillator.frequency.value = sound.freq;
-    gain.gain.setValueAtTime(0.1, audioContext.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + sound.duration);
+      const sound = sounds[type] || sounds.notification;
+      if (oscillator?.frequency) {
+        oscillator.frequency.value = sound.freq;
+      }
+      if (gain?.gain) {
+        gain.gain.setValueAtTime(0.1, audioContext.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + sound.duration);
+      }
 
-    oscillator.start(audioContext.currentTime);
-    oscillator.stop(audioContext.currentTime + sound.duration);
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + sound.duration);
+    } catch (err) {
+      console.error('Audio playback error:', err);
+    }
   }, []);
 
   const startLoading = useCallback((context = 'default') => {
