@@ -8,13 +8,17 @@ function DataPacket({ path, speed, color }) {
   const progress = useRef(0);
 
   useFrame((state, delta) => {
-    if (meshRef.current) {
+    if (meshRef.current && path) {
       progress.current += delta * speed;
       if (progress.current > 1) progress.current = 0;
       
-      const point = new THREE.Vector3();
-      path.getPointAt(progress.current, point);
-      meshRef.current.position.copy(point);
+      try {
+        const point = new THREE.Vector3();
+        path.getPointAt(progress.current, point);
+        meshRef.current.position.copy(point);
+      } catch (e) {
+        // Handle potential errors silently
+      }
     }
   });
 
