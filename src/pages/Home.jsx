@@ -107,7 +107,7 @@ export default function Home() {
                 </motion.g>
 
                 {/* Orbiting nodes */}
-                {Array.from({ length: 12 }).map((_, i) => {
+                {[...Array(12)].map((_, i) => {
                   const angle = (i / 12) * Math.PI * 2;
                   const radius = 200;
                   const x = 500 + Math.cos(angle) * radius;
@@ -156,7 +156,7 @@ export default function Home() {
                 })}
 
                 {/* Particle ring */}
-                {Array.from({ length: 50 }).map((_, i) => {
+                {[...Array(50)].map((_, i) => {
                   const angle = (i / 50) * Math.PI * 2;
                   const radius = 140;
                   const x = 500 + Math.cos(angle) * radius;
