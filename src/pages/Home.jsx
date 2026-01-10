@@ -13,6 +13,10 @@ import FinancialGoalsShowcase from '../components/home/FinancialGoalsShowcase';
 import AIAgentActivityFeed from '../components/home/AIAgentActivityFeed';
 import RealWorldMapSection from '../components/home/RealWorldMapSection';
 import MediaShowcase from '../components/home/MediaShowcase';
+import GamificationSection from '../components/home/GamificationSection';
+import OnboardingSection from '../components/home/OnboardingSection';
+import TestimonialsSection from '../components/home/TestimonialsSection';
+import DashboardMetricsWidget from '../components/home/DashboardMetricsWidget';
 
 export default function Home() {
   const [userEmail, setUserEmail] = React.useState(null);
@@ -37,17 +41,29 @@ export default function Home() {
       {/* Real-Time Market News */}
       <MarketNewsSection />
 
+      {/* Dashboard Metrics */}
+      {userEmail && <DashboardMetricsWidget userEmail={userEmail} />}
+
       {/* Financial Goals Showcase */}
       {userEmail && <FinancialGoalsShowcase userEmail={userEmail} />}
 
       {/* AI Agents Activity */}
       {userEmail && <AIAgentActivityFeed userEmail={userEmail} />}
 
+      {/* Gamification */}
+      {userEmail && <GamificationSection userEmail={userEmail} />}
+
       {/* Global Map Visualization */}
       <RealWorldMapSection />
 
       {/* Media Showcase */}
       <MediaShowcase limit={6} />
+
+      {/* Testimonials */}
+      <TestimonialsSection />
+
+      {/* Onboarding */}
+      {!userEmail && <OnboardingSection userEmail={userEmail} />}
 
       {/* Original Sections */}
       <FeatureGrid />
