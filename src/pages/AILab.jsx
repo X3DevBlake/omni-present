@@ -94,6 +94,16 @@ import HyperparameterOptimization3D from '../components/3d/HyperparameterOptimiz
 import AIWorldEvolution3D from '../components/simulation/AIWorldEvolution3D';
 import PromptEngineeringStudio from '../components/ai/PromptEngineeringStudio';
 import AnomalyDetectionVisualizer from '../components/analytics/AnomalyDetectionVisualizer';
+import AIResearchAssistant from '../components/ai/AIResearchAssistant';
+import OneClickDeployment from '../components/deployment/OneClickDeployment';
+import SimulationEventStream3D from '../components/3d/SimulationEventStream3D';
+import AgentDecisionTree3D from '../components/3d/AgentDecisionTree3D';
+import CodeGenerationMatrix3D from '../components/3d/CodeGenerationMatrix3D';
+import EthicsViolationAlarm3D from '../components/3d/EthicsViolationAlarm3D';
+import TrainingProgressTunnel3D from '../components/3d/TrainingProgressTunnel3D';
+import InterAgentRelationship3DWeb from '../components/3d/InterAgentRelationship3DWeb';
+import ModelMarketplace from '../components/marketplace/ModelMarketplace';
+import RealtimeCollaborationPanel from '../components/collaboration/RealtimeCollaborationPanel';
 import AIKnowledgeEnhancements from '../components/knowledge/AIKnowledgeEnhancements';
 import VisualWorkflowBuilder from '../components/workflow/VisualWorkflowBuilder';
 import AgentMonitoringDashboard from '../components/monitoring/AgentMonitoringDashboard';
@@ -277,7 +287,17 @@ export default function AILab() {
             { id: 'hyperparameter', label: '🎯 Hyperparameter', icon: 'Hyperparameter' },
             { id: 'world-evolution', label: '🌍 World Evolution', icon: 'WorldEvolution' },
             { id: 'prompt-studio', label: '✍️ Prompt Studio', icon: 'PromptStudio' },
-            { id: 'anomaly-viz', label: '⚠️ Anomaly Viz', icon: 'AnomalyViz' }
+            { id: 'anomaly-viz', label: '⚠️ Anomaly Viz', icon: 'AnomalyViz' },
+            { id: 'research', label: '📚 Research', icon: 'Research' },
+            { id: 'deploy', label: '🚀 Deploy', icon: 'Deploy' },
+            { id: 'event-stream', label: '🌊 Event Stream', icon: 'EventStream' },
+            { id: 'decision-tree-3d', label: '🌳 Decision 3D', icon: 'Decision3D' },
+            { id: 'code-matrix', label: '💻 Code Matrix', icon: 'CodeMatrix' },
+            { id: 'ethics-alarm', label: '🚨 Ethics Alarm', icon: 'EthicsAlarm' },
+            { id: 'training-tunnel', label: '🛤️ Training Tunnel', icon: 'TrainTunnel' },
+            { id: 'relationship-web', label: '🕸️ Relationship Web', icon: 'RelWeb' },
+            { id: 'marketplace', label: '🛒 Marketplace', icon: 'Marketplace' },
+            { id: 'collab-rt', label: '👥 RT Collab', icon: 'RTCollab' }
           ].map(tab => (
             <button
               key={tab.id}
@@ -1063,6 +1083,82 @@ export default function AILab() {
           {activeTab === 'anomaly-viz' && (
           <div className="space-y-6">
            <AnomalyDetectionVisualizer />
+          </div>
+          )}
+
+          {/* Research Assistant Tab */}
+          {activeTab === 'research' && (
+          <div className="space-y-6">
+           <AIResearchAssistant />
+          </div>
+          )}
+
+          {/* Deployment Tab */}
+          {activeTab === 'deploy' && (
+          <div className="space-y-6">
+           <OneClickDeployment />
+          </div>
+          )}
+
+          {/* Event Stream 3D Tab */}
+          {activeTab === 'event-stream' && (
+          <div className="space-y-6">
+           <h3 className="text-white text-xl font-bold">Simulation Event Stream 3D</h3>
+           <SimulationEventStream3D />
+          </div>
+          )}
+
+          {/* Decision Tree 3D Tab */}
+          {activeTab === 'decision-tree-3d' && (
+          <div className="space-y-6">
+           <h3 className="text-white text-xl font-bold">Agent Decision Tree 3D</h3>
+           <AgentDecisionTree3D />
+          </div>
+          )}
+
+          {/* Code Matrix Tab */}
+          {activeTab === 'code-matrix' && (
+          <div className="space-y-6">
+           <h3 className="text-white text-xl font-bold">Code Generation Matrix</h3>
+           <CodeGenerationMatrix3D />
+          </div>
+          )}
+
+          {/* Ethics Alarm Tab */}
+          {activeTab === 'ethics-alarm' && (
+          <div className="space-y-6">
+           <h3 className="text-white text-xl font-bold">Ethics Violation Alarm 3D</h3>
+           <EthicsViolationAlarm3D />
+          </div>
+          )}
+
+          {/* Training Tunnel Tab */}
+          {activeTab === 'training-tunnel' && (
+          <div className="space-y-6">
+           <h3 className="text-white text-xl font-bold">Training Progress Tunnel</h3>
+           <TrainingProgressTunnel3D />
+          </div>
+          )}
+
+          {/* Relationship Web Tab */}
+          {activeTab === 'relationship-web' && (
+          <div className="space-y-6">
+           <h3 className="text-white text-xl font-bold">Inter-Agent Relationship Web</h3>
+           <InterAgentRelationship3DWeb />
+          </div>
+          )}
+
+          {/* Marketplace Tab */}
+          {activeTab === 'marketplace' && (
+          <div className="space-y-6">
+           <ModelMarketplace />
+          </div>
+          )}
+
+          {/* RT Collaboration Tab */}
+          {activeTab === 'collab-rt' && (
+          <div className="space-y-6">
+           <RealtimeCollaborationPanel />
           </div>
           )}
           </div>
