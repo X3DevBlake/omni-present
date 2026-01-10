@@ -6,7 +6,7 @@ import { base44 } from '@/api/base44Client';
 
 export default function FinancialGoalsShowcase({ userEmail }) {
   const { data: goalData } = useGoalProgress(userEmail);
-  const goals = goalData?.goals?.slice(0, 4) || [];
+  const goals = (goalData?.goals || []).filter(g => g).slice(0, 4);
 
   if (!userEmail) return null;
 
@@ -43,13 +43,13 @@ export default function FinancialGoalsShowcase({ userEmail }) {
               >
                 <div className="flex items-start justify-between mb-4">
                   <div>
-                    <h3 className="text-white font-bold text-lg">{goal.goalName}</h3>
-                    <p className="text-white/60 text-sm capitalize">{goal.category}</p>
+                    <h3 className="text-white font-bold text-lg">{goal?.goalName || 'Unnamed Goal'}</h3>
+                    <p className="text-white/60 text-sm capitalize">{goal?.category || 'uncategorized'}</p>
                   </div>
                   <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                    goal.status === 'active' ? 'bg-green-500/20 text-green-400' : 'bg-gray-500/20 text-gray-400'
+                  (goal?.status || 'inactive') === 'active' ? 'bg-green-500/20 text-green-400' : 'bg-gray-500/20 text-gray-400'
                   }`}>
-                    {goal.status}
+                  {goal?.status || 'inactive'}
                   </span>
                 </div>
 
@@ -57,7 +57,7 @@ export default function FinancialGoalsShowcase({ userEmail }) {
                 <div className="mb-4">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-sm text-white/60">Progress</span>
-                    <span className="text-sm font-bold text-white">{goal.progressPercentage.toFixed(0)}%</span>
+                    <span className="text-sm font-bold text-white">{(goal?.progressPercentage || 0).toFixed(0)}%</span>
                   </div>
                   <div className="w-full h-2 bg-black/40 rounded-full overflow-hidden">
                     <motion.div

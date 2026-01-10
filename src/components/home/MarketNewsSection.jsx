@@ -10,8 +10,9 @@ export default function MarketNewsSection() {
     queryFn: () => base44.entities.MarketAsset.list().catch(() => [])
   });
 
-  const topMovers = markets
-    .sort((a, b) => Math.abs(b.price_change_24h) - Math.abs(a.price_change_24h))
+  const topMovers = (markets || [])
+    .filter(m => m && m.price_change_24h !== undefined)
+    .sort((a, b) => Math.abs(b.price_change_24h || 0) - Math.abs(a.price_change_24h || 0))
     .slice(0, 6);
 
   return (
