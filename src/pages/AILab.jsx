@@ -83,6 +83,17 @@ import KnowledgeGraph3DNebula from '../components/3d/KnowledgeGraph3DNebula';
 import LiveSimulationDashboard from '../components/analytics/LiveSimulationDashboard';
 import VoiceCommandInterface from '../components/ai/VoiceCommandInterface';
 import GamifiedTrainingChallenges from '../components/gamification/GamifiedTrainingChallenges';
+import CompetitiveArenaManager from '../components/training/CompetitiveArenaManager';
+import ModelArchitectureDesigner from '../components/ai/ModelArchitectureDesigner';
+import AgentSentimentAnalyzer from '../components/analytics/AgentSentimentAnalyzer';
+import DataFlowCyberspace3D from '../components/3d/DataFlowCyberspace3D';
+import ResourceAllocation3DHeatmap from '../components/3d/ResourceAllocation3DHeatmap';
+import AILearningCurve3DTerrain from '../components/3d/AILearningCurve3DTerrain';
+import AgentEmotionalAura3D from '../components/3d/AgentEmotionalAura3D';
+import HyperparameterOptimization3D from '../components/3d/HyperparameterOptimization3D';
+import AIWorldEvolution3D from '../components/simulation/AIWorldEvolution3D';
+import PromptEngineeringStudio from '../components/ai/PromptEngineeringStudio';
+import AnomalyDetectionVisualizer from '../components/analytics/AnomalyDetectionVisualizer';
 import AIKnowledgeEnhancements from '../components/knowledge/AIKnowledgeEnhancements';
 import VisualWorkflowBuilder from '../components/workflow/VisualWorkflowBuilder';
 import AgentMonitoringDashboard from '../components/monitoring/AgentMonitoringDashboard';
@@ -255,7 +266,18 @@ export default function AILab() {
             { id: '3d-knowledge', label: '🌌 3D Knowledge', icon: '3DKnowledge' },
             { id: 'live-dash', label: '📡 Live Dash', icon: 'LiveDash' },
             { id: 'voice', label: '🎤 Voice', icon: 'Voice' },
-            { id: 'gamified', label: '🏆 Gamified', icon: 'Gamified' }
+            { id: 'gamified', label: '🏆 Gamified', icon: 'Gamified' },
+            { id: 'arena', label: '⚔️ Arena', icon: 'Arena' },
+            { id: 'architecture', label: '🏗️ Architecture', icon: 'Architecture' },
+            { id: 'sentiment', label: '💭 Sentiment', icon: 'Sentiment' },
+            { id: 'cyberspace', label: '🌐 Cyberspace', icon: 'Cyberspace' },
+            { id: 'resource-heat', label: '🔥 Resource Heat', icon: 'ResourceHeat' },
+            { id: 'learning-terrain', label: '⛰️ Learning Terrain', icon: 'LearnTerrain' },
+            { id: 'emotional-aura', label: '✨ Emotional Aura', icon: 'EmotionalAura' },
+            { id: 'hyperparameter', label: '🎯 Hyperparameter', icon: 'Hyperparameter' },
+            { id: 'world-evolution', label: '🌍 World Evolution', icon: 'WorldEvolution' },
+            { id: 'prompt-studio', label: '✍️ Prompt Studio', icon: 'PromptStudio' },
+            { id: 'anomaly-viz', label: '⚠️ Anomaly Viz', icon: 'AnomalyViz' }
           ].map(tab => (
             <button
               key={tab.id}
@@ -958,6 +980,89 @@ export default function AILab() {
           {activeTab === 'gamified' && (
           <div className="space-y-6">
            <GamifiedTrainingChallenges />
+          </div>
+          )}
+
+          {/* Competitive Arena Tab */}
+          {activeTab === 'arena' && (
+          <div className="space-y-6">
+           <CompetitiveArenaManager />
+          </div>
+          )}
+
+          {/* Model Architecture Tab */}
+          {activeTab === 'architecture' && (
+          <div className="space-y-6">
+           <ModelArchitectureDesigner />
+          </div>
+          )}
+
+          {/* Sentiment Analysis Tab */}
+          {activeTab === 'sentiment' && (
+          <div className="space-y-6">
+           <AgentSentimentAnalyzer />
+          </div>
+          )}
+
+          {/* Data Flow Cyberspace Tab */}
+          {activeTab === 'cyberspace' && (
+          <div className="space-y-6">
+           <h3 className="text-white text-xl font-bold">Data Flow Cyberspace</h3>
+           <DataFlowCyberspace3D />
+          </div>
+          )}
+
+          {/* Resource Heat Tab */}
+          {activeTab === 'resource-heat' && (
+          <div className="space-y-6">
+           <h3 className="text-white text-xl font-bold">Resource Allocation Heatmap</h3>
+           <ResourceAllocation3DHeatmap />
+          </div>
+          )}
+
+          {/* Learning Terrain Tab */}
+          {activeTab === 'learning-terrain' && (
+          <div className="space-y-6">
+           <h3 className="text-white text-xl font-bold">AI Learning Curve Terrain</h3>
+           <AILearningCurve3DTerrain />
+          </div>
+          )}
+
+          {/* Emotional Aura Tab */}
+          {activeTab === 'emotional-aura' && (
+          <div className="space-y-6">
+           <h3 className="text-white text-xl font-bold">Agent Emotional Aura</h3>
+           <AgentEmotionalAura3D emotion="happy" />
+          </div>
+          )}
+
+          {/* Hyperparameter Tab */}
+          {activeTab === 'hyperparameter' && (
+          <div className="space-y-6">
+           <h3 className="text-white text-xl font-bold">Hyperparameter Optimization Space</h3>
+           <HyperparameterOptimization3D />
+          </div>
+          )}
+
+          {/* World Evolution Tab */}
+          {activeTab === 'world-evolution' && (
+          <div className="space-y-6">
+           <h3 className="text-white text-xl font-bold">AI-Generated World Evolution</h3>
+           <AIWorldEvolution3D />
+          </div>
+          )}
+
+          {/* Prompt Studio Tab */}
+          {activeTab === 'prompt-studio' && (
+          <div className="space-y-6">
+           <PromptEngineeringStudio />
+          </div>
+          )}
+
+          {/* Anomaly Visualizer Tab */}
+          {activeTab === 'anomaly-viz' && (
+          <div className="space-y-6">
+           <AnomalyDetectionVisualizer />
           </div>
           )}
           </div>
