@@ -157,6 +157,7 @@ import World from './pages/World';
 import GlobalMap from './pages/GlobalMap';
 import SimulationLabs from './pages/SimulationLabs';
 import EthicsHub from './pages/EthicsHub';
+import OmniBankingHub from './pages/OmniBankingHub';
 import __Layout from './Layout.jsx';
 
 
@@ -320,6 +321,7 @@ export const PAGES = {
     "GlobalMap": GlobalMap,
     "SimulationLabs": SimulationLabs,
     "EthicsHub": EthicsHub,
+    "OmniBankingHub": OmniBankingHub,
 }
 
 export const pagesConfig = {
