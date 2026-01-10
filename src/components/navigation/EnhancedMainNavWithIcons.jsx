@@ -42,23 +42,32 @@ export default function EnhancedMainNavWithIcons() {
     });
   };
 
-  const handleMouseMove = (e) => {
+  const handleMouseMove = React.useCallback((e) => {
     if (!isDragging) return;
     setPosition({
       x: e.clientX - dragOffset.x,
       y: e.clientY - dragOffset.y
     });
-  };
+  }, [isDragging, dragOffset]);
+
+  const handleMouseUp = React.useCallback(() => {
+    setIsDragging(false);
+  }, []);
 
   useEffect(() => {
     if (!isDragging) return;
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mouseup', () => setIsDragging(false));
+    
+    const moveFn = handleMouseMove;
+    const upFn = handleMouseUp;
+    
+    window.addEventListener('mousemove', moveFn);
+    window.addEventListener('mouseup', upFn);
+    
     return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseup', () => {});
+      window.removeEventListener('mousemove', moveFn);
+      window.removeEventListener('mouseup', upFn);
     };
-  }, [isDragging, dragOffset, position]);
+  }, [isDragging, handleMouseMove, handleMouseUp]);
 
   const handleLogout = async () => {
     await base44.auth.logout();

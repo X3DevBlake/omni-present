@@ -10,11 +10,11 @@ export default function MediaShowcase({ limit = 6 }) {
     queryFn: () => base44.entities.MediaAsset.list().catch(() => [])
   });
 
-  const displayMedia = media
-    .filter(m => m.source === 'unsplash' || m.source === 'pexels')
+  const displayMedia = (media || [])
+    .filter(m => m && (m.source === 'unsplash' || m.source === 'pexels'))
     .slice(0, limit);
 
-  if (displayMedia.length === 0) return null;
+  if (!displayMedia || displayMedia.length === 0) return null;
 
   return (
     <section className="py-16 px-4">
