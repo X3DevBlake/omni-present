@@ -147,6 +147,9 @@ import VirtualClassrooms from './pages/VirtualClassrooms';
 import Wallet from './pages/Wallet';
 import Webhooks from './pages/Webhooks';
 import WithdrawOmni from './pages/WithdrawOmni';
+import AIPlayground from './pages/AIPlayground';
+import Architecture from './pages/Architecture';
+import FeatureDetail from './pages/FeatureDetail';
 import __Layout from './Layout.jsx';
 
 
@@ -300,6 +303,9 @@ export const PAGES = {
     "Wallet": Wallet,
     "Webhooks": Webhooks,
     "WithdrawOmni": WithdrawOmni,
+    "AIPlayground": AIPlayground,
+    "Architecture": Architecture,
+    "FeatureDetail": FeatureDetail,
 }
 
 export const pagesConfig = {

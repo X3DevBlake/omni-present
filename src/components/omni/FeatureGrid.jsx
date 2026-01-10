@@ -1,5 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
+import { createPageUrl } from '@/utils';
 import GlassCard from './GlassCard';
 import Feature3DBlueprint from '../features/Feature3DBlueprint';
 import { 
@@ -10,7 +12,8 @@ import {
   Sparkles, 
   Network,
   Eye,
-  Fingerprint
+  Fingerprint,
+  ArrowRight
 } from 'lucide-react';
 
 const features = [
@@ -143,7 +146,8 @@ export default function FeatureGrid() {
                 variants={itemVariants}
                 className={sizeClasses[feature.size]}
               >
-                <GlassCard className="h-full p-6 flex flex-col overflow-hidden" glowColor={feature.color}>
+                <Link to={`${createPageUrl('FeatureDetail')}?feature=${encodeURIComponent(feature.title)}`}>
+                  <GlassCard className="h-full p-6 flex flex-col overflow-hidden cursor-pointer hover:scale-[1.02] transition-transform" glowColor={feature.color}>
                   {/* 3D Blueprint Visualization */}
                   {feature.size === 'large' && (
                     <div className="mb-4 -mx-6 -mt-6">
@@ -168,6 +172,11 @@ export default function FeatureGrid() {
                     {feature.description}
                   </p>
                   
+                  {/* Learn More Link */}
+                  <div className="mt-4 flex items-center gap-2 text-sm font-medium" style={{ color: colors.icon.replace('text-', '') }}>
+                    Learn More <ArrowRight className="w-4 h-4" />
+                  </div>
+                  
                   {/* Small 3D preview for medium/small cards */}
                   {feature.size !== 'large' && (
                     <div className="mt-3 -mx-3 -mb-3">
@@ -178,7 +187,8 @@ export default function FeatureGrid() {
                       />
                     </div>
                   )}
-                </GlassCard>
+                  </GlassCard>
+                </Link>
               </motion.div>
             );
           })}
