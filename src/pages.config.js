@@ -162,6 +162,9 @@ import LoansAndCredit from './pages/LoansAndCredit';
 import CryptoTradingHub from './pages/CryptoTradingHub';
 import BudgetingForecast from './pages/BudgetingForecast';
 import RealtimeDashboard from './pages/RealtimeDashboard';
+import AgentManagementHub from './pages/AgentManagementHub';
+import AutomatedFinanceHub from './pages/AutomatedFinanceHub';
+import AdvancedSimulationStudio from './pages/AdvancedSimulationStudio';
 import __Layout from './Layout.jsx';
 
 
@@ -330,6 +333,9 @@ export const PAGES = {
     "CryptoTradingHub": CryptoTradingHub,
     "BudgetingForecast": BudgetingForecast,
     "RealtimeDashboard": RealtimeDashboard,
+    "AgentManagementHub": AgentManagementHub,
+    "AutomatedFinanceHub": AutomatedFinanceHub,
+    "AdvancedSimulationStudio": AdvancedSimulationStudio,
 }
 
 export const pagesConfig = {
