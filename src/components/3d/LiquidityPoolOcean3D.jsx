@@ -87,7 +87,7 @@ function OceanSurface() {
   const meshRef = useRef();
 
   useFrame((state) => {
-    if (meshRef.current) {
+    if (meshRef.current && meshRef.current.geometry && meshRef.current.geometry.attributes.position) {
       const positions = meshRef.current.geometry.attributes.position.array;
       for (let i = 0; i < positions.length; i += 3) {
         const x = positions[i];
