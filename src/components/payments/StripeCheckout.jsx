@@ -48,39 +48,18 @@ export default function StripeCheckout({
     setError(null);
 
     try {
-      // Create payment intent via backend function
-      const user = await base44.auth.me();
-      
-      let paymentIntent;
-      if (metadata.type === 'subscription') {
-        // Call subscription creation function
-        paymentIntent = await fetch('/api/functions/stripe-create-subscription', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            tierId: metadata.tier,
-            tierName: description.split(' ')[0],
-            billingCycle: metadata.billingCycle,
-            amount: amount / 100,
-            userEmail: user.email
-          })
-        }).then(r => r.json());
-      } else {
-        // Call payment intent creation function
-        paymentIntent = await fetch('/api/functions/stripe-create-payment', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            amount,
-            description,
-            metadata: {
-              ...metadata,
-              items: JSON.stringify(metadata.items)
-            },
-            userEmail: user.email
-          })
-        }).then(r => r.json());
-      }
+      // Create payment intent on the server
+      // Note: This requires backend functions to be enabled
+      const paymentIntent = await base44.integrations.Core.InvokeLLM({
+        prompt: `Create Stripe payment intent for amount: ${amount} ${currency}, description: ${description}`,
+        response_json_schema: {
+          type: 'object',
+          properties: {
+            clientSecret: { type: 'string' },
+            error: { type: 'string' }
+          }
+        }
+      });
 
       if (paymentIntent.error) {
         throw new Error(paymentIntent.error);

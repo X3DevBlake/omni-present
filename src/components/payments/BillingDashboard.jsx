@@ -8,43 +8,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 export default function BillingDashboard() {
-  // Fetch real subscription data
-  const { data: subscriptions = [], refetch } = useQuery({
-    queryKey: ['subscriptions'],
-    queryFn: () => base44.entities.Subscription.list(),
-    initialData: []
-  });
-
-  // Fetch real purchase data
-  const { data: purchases = [] } = useQuery({
-    queryKey: ['purchases'],
-    queryFn: () => base44.entities.Purchase.list(),
-    initialData: []
-  });
-
-  // Calculate real metrics
-  const calculateMetrics = () => {
-    const activeSubscriptions = subscriptions.filter(s => s.status === 'active');
-    const mrr = activeSubscriptions
-      .filter(s => s.billing_cycle === 'monthly')
-      .reduce((sum, s) => sum + s.amount, 0);
-    const arr = activeSubscriptions
-      .filter(s => s.billing_cycle === 'yearly')
-      .reduce((sum, s) => sum + s.amount, 0) + (mrr * 12);
-    
-    const totalPurchases = purchases
-      .filter(p => p.status === 'completed')
-      .reduce((sum, p) => sum + p.total_amount, 0);
-    
-    return {
-      mrr: mrr.toFixed(2),
-      arr: arr.toFixed(2),
-      activeSubscribers: activeSubscriptions.length,
-      totalRevenue: (mrr + totalPurchases).toFixed(2)
-    };
-  };
-
-  const metrics = calculateMetrics();
   const [metrics, setMetrics] = useState({
     mrr: 45800,
     arr: 549600,
