@@ -156,6 +156,7 @@ import WithdrawOmni from './pages/WithdrawOmni';
 import World from './pages/World';
 import GlobalMap from './pages/GlobalMap';
 import SimulationLabs from './pages/SimulationLabs';
+import EthicsHub from './pages/EthicsHub';
 import __Layout from './Layout.jsx';
 
 
@@ -318,6 +319,7 @@ export const PAGES = {
     "World": World,
     "GlobalMap": GlobalMap,
     "SimulationLabs": SimulationLabs,
+    "EthicsHub": EthicsHub,
 }
 
 export const pagesConfig = {
