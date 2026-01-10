@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import { Droplets, TrendingUp, Lock, AlertTriangle, Info, Zap } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import EnhancedPoolCalculator from '../components/omni/EnhancedPoolCalculator';
+import Enhanced3DLiquidityPools from '../components/defi/Enhanced3DLiquidityPools';
+import BackButton from '../components/navigation/BackButton';
 import { base44 } from '@/api/base44Client';
 import { toast } from 'sonner';
 import moment from 'moment';
@@ -53,40 +55,44 @@ export default function LiquidityPools() {
         pool_type: 'staking',
         risk_level: 'high',
         minimum_deposit: 50,
-        lock_period_days: 90
+        lock_period_days: 90,
+        active: true
       },
       {
-        pool_name: 'OMNI/USDT LP',
-        token_pair: 'OMNI/USDT',
-        base_apy: 650,
-        max_apy: 1000,
-        total_value_locked: 12000,
+        pool_name: 'USDT/ETH LP',
+        token_pair: 'USDT/ETH',
+        base_apy: 450,
+        max_apy: 800,
+        total_value_locked: 25000,
+        pool_type: 'liquidity',
+        risk_level: 'low',
+        minimum_deposit: 50,
+        lock_period_days: 14,
+        active: true
+      },
+      {
+        pool_name: 'USDT/OMNI LP',
+        token_pair: 'USDT/OMNI',
+        base_apy: 720,
+        max_apy: 950,
+        total_value_locked: 15000,
         pool_type: 'liquidity',
         risk_level: 'medium',
-        minimum_deposit: 100,
-        lock_period_days: 30
+        minimum_deposit: 75,
+        lock_period_days: 30,
+        active: true
       },
       {
-        pool_name: 'OMNI/ETH Yield Farm',
-        token_pair: 'OMNI/ETH',
-        base_apy: 920,
+        pool_name: 'ETH/OMNI LP',
+        token_pair: 'ETH/OMNI',
+        base_apy: 890,
         max_apy: 1000,
-        total_value_locked: 8000,
-        pool_type: 'farming',
-        risk_level: 'extreme',
-        minimum_deposit: 200,
-        lock_period_days: 180
-      },
-      {
-        pool_name: 'Stable OMNI Pool',
-        token_pair: 'OMNI',
-        base_apy: 250,
-        max_apy: 500,
-        total_value_locked: 50000,
-        pool_type: 'staking',
-        risk_level: 'low',
-        minimum_deposit: 10,
-        lock_period_days: 0
+        total_value_locked: 10000,
+        pool_type: 'liquidity',
+        risk_level: 'high',
+        minimum_deposit: 150,
+        lock_period_days: 60,
+        active: true
       }
     ];
 
@@ -166,12 +172,29 @@ export default function LiquidityPools() {
   return (
     <AuroraBackground className="min-h-screen py-16 px-4">
       <div className="max-w-7xl mx-auto">
+        <div className="mb-6">
+          <BackButton />
+        </div>
+
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
           <h1 className="text-5xl font-bold text-white mb-4">
             <span className="bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">DeFi</span> Liquidity Pools
           </h1>
           <p className="text-white/60 text-lg">Earn up to 1000% APY with dynamic yield optimization</p>
         </motion.div>
+
+        {/* 3D Pool Visualization */}
+        {pools.length > 0 && (
+          <div className="mb-8">
+            <Enhanced3DLiquidityPools
+              pools={pools.map(p => ({ id: p.id, name: p.pool_name, apy: p.current_apy }))}
+              onPoolSelect={(pool) => {
+                const fullPool = pools.find(p => p.id === pool.id);
+                setSelectedPool(fullPool);
+              }}
+            />
+          </div>
+        )}
 
         {/* Pool Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">

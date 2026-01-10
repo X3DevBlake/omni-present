@@ -132,6 +132,7 @@ import SensorDataAnalysis from './pages/SensorDataAnalysis';
 import ServiceProviders from './pages/ServiceProviders';
 import Settings from './pages/Settings';
 import SimulationEnvironment from './pages/SimulationEnvironment';
+import SimulationHub from './pages/SimulationHub';
 import SimulationWorld from './pages/SimulationWorld';
 import StudentLounge from './pages/StudentLounge';
 import StudyGroups from './pages/StudyGroups';
@@ -146,7 +147,6 @@ import VirtualClassrooms from './pages/VirtualClassrooms';
 import Wallet from './pages/Wallet';
 import Webhooks from './pages/Webhooks';
 import WithdrawOmni from './pages/WithdrawOmni';
-import SimulationHub from './pages/SimulationHub';
 import __Layout from './Layout.jsx';
 
 
@@ -285,6 +285,7 @@ export const PAGES = {
     "ServiceProviders": ServiceProviders,
     "Settings": Settings,
     "SimulationEnvironment": SimulationEnvironment,
+    "SimulationHub": SimulationHub,
     "SimulationWorld": SimulationWorld,
     "StudentLounge": StudentLounge,
     "StudyGroups": StudyGroups,
@@ -299,7 +300,6 @@ export const PAGES = {
     "Wallet": Wallet,
     "Webhooks": Webhooks,
     "WithdrawOmni": WithdrawOmni,
-    "SimulationHub": SimulationHub,
 }
 
 export const pagesConfig = {
