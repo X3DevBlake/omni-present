@@ -158,6 +158,9 @@ import GlobalMap from './pages/GlobalMap';
 import SimulationLabs from './pages/SimulationLabs';
 import EthicsHub from './pages/EthicsHub';
 import OmniBankingHub from './pages/OmniBankingHub';
+import LoansAndCredit from './pages/LoansAndCredit';
+import CryptoTradingHub from './pages/CryptoTradingHub';
+import BudgetingForecast from './pages/BudgetingForecast';
 import __Layout from './Layout.jsx';
 
 
@@ -322,6 +325,9 @@ export const PAGES = {
     "SimulationLabs": SimulationLabs,
     "EthicsHub": EthicsHub,
     "OmniBankingHub": OmniBankingHub,
+    "LoansAndCredit": LoansAndCredit,
+    "CryptoTradingHub": CryptoTradingHub,
+    "BudgetingForecast": BudgetingForecast,
 }
 
 export const pagesConfig = {

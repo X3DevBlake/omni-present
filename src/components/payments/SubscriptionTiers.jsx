@@ -1,205 +1,173 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-import { Check, Sparkles, Crown, Rocket, ArrowRight } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Check, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Switch } from '@/components/ui/switch';
 
-export default function SubscriptionTiers({ onSubscribe }) {
-  const [billingCycle, setBillingCycle] = useState('monthly');
+const TIERS = [
+  {
+    name: 'Free',
+    id: 'free',
+    price: 0,
+    billing: 'month',
+    description: 'Get started with basic features',
+    features: [
+      'Basic dashboard',
+      'View transactions (30 days)',
+      'Standard support',
+      'Limited AI forecasts'
+    ],
+    cta: 'Current Plan',
+    highlighted: false
+  },
+  {
+    name: 'Starter',
+    id: 'starter',
+    price: 29,
+    billing: 'month',
+    annual: 290,
+    description: 'Perfect for individuals',
+    features: [
+      'All Free features',
+      'Advanced budgeting',
+      'Transaction history (1 year)',
+      'AI-powered forecasting',
+      'Crypto portfolio tracking',
+      'Priority support'
+    ],
+    cta: 'Upgrade to Starter',
+    highlighted: false
+  },
+  {
+    name: 'Pro',
+    id: 'pro',
+    price: 99,
+    billing: 'month',
+    annual: 990,
+    description: 'For active traders & investors',
+    features: [
+      'All Starter features',
+      'Crypto trading bot',
+      'Real-time market alerts',
+      'Advanced analytics',
+      'Exchange API integration',
+      'Unlimited simulations',
+      'Dedicated account manager'
+    ],
+    cta: 'Upgrade to Pro',
+    highlighted: true
+  },
+  {
+    name: 'Enterprise',
+    id: 'enterprise',
+    price: 299,
+    billing: 'month',
+    annual: 2990,
+    description: 'For enterprises & teams',
+    features: [
+      'All Pro features',
+      'Loan & credit services',
+      'Team collaboration',
+      'Custom integrations',
+      'Advanced security',
+      'White-label options',
+      '24/7 support',
+      'Custom AI models'
+    ],
+    cta: 'Contact Sales',
+    highlighted: false
+  }
+];
 
-  const tiers = [
-    {
-      id: 'free',
-      name: 'Free',
-      icon: Sparkles,
-      color: 'from-gray-500 to-gray-600',
-      price: { monthly: 0, yearly: 0 },
-      description: 'Get started with basic features',
-      features: [
-        'Basic AI Budgeting',
-        '3 Portfolio Insights/month',
-        'Standard 3D Visualizations',
-        'Community Support',
-        'Single Wallet Connection'
-      ],
-      limits: [
-        'Limited AI queries (10/day)',
-        'Basic analytics only'
-      ]
-    },
-    {
-      id: 'pro',
-      name: 'Pro',
-      icon: Rocket,
-      color: 'from-cyan-500 to-blue-500',
-      price: { monthly: 29, yearly: 290 },
-      description: 'Perfect for serious investors',
-      popular: true,
-      features: [
-        'Advanced AI Financial Planning',
-        'Unlimited Portfolio Insights',
-        'All 3D Visualizations',
-        'AI Risk Mitigation',
-        'Priority Support',
-        'Multiple Wallet Connections',
-        'Personalized Education Content',
-        'Real-time Market Alerts',
-        'Advanced Analytics Dashboard'
-      ],
-      limits: []
-    },
-    {
-      id: 'enterprise',
-      name: 'Enterprise',
-      icon: Crown,
-      color: 'from-purple-500 to-pink-500',
-      price: { monthly: 99, yearly: 990 },
-      description: 'For teams and institutions',
-      features: [
-        'Everything in Pro',
-        'Autonomous Yield Optimizer',
-        'Multi-Agent Coordination',
-        'Custom AI Training',
-        'White-label Solutions',
-        'Dedicated Account Manager',
-        'API Access',
-        'Advanced Security Features',
-        'Team Collaboration Tools',
-        'Custom Integrations',
-        'SLA Guarantee'
-      ],
-      limits: []
-    }
-  ];
-
-  const getSavings = (tier) => {
-    if (billingCycle === 'yearly') {
-      const monthlyCost = tier.price.monthly * 12;
-      const yearlyCost = tier.price.yearly;
-      return monthlyCost - yearlyCost;
-    }
-    return 0;
-  };
+export default function SubscriptionTiers({ onSelectTier }) {
+  const [billingCycle, setBillingCycle] = React.useState('monthly');
 
   return (
     <div className="space-y-8">
       {/* Billing Toggle */}
       <div className="flex items-center justify-center gap-4">
-        <span className={`text-sm ${billingCycle === 'monthly' ? 'text-white' : 'text-gray-500'}`}>
+        <span className={billingCycle === 'monthly' ? 'text-white font-bold' : 'text-white/60'}>
           Monthly
         </span>
-        <Switch
-          checked={billingCycle === 'yearly'}
-          onCheckedChange={(checked) => setBillingCycle(checked ? 'yearly' : 'monthly')}
-        />
-        <span className={`text-sm ${billingCycle === 'yearly' ? 'text-white' : 'text-gray-500'}`}>
-          Yearly
+        <button
+          onClick={() => setBillingCycle(billingCycle === 'monthly' ? 'annual' : 'monthly')}
+          className="relative inline-flex h-8 w-14 items-center rounded-full bg-white/10 border border-white/20"
+        >
+          <motion.div
+            initial={false}
+            animate={{ x: billingCycle === 'annual' ? 28 : 2 }}
+            className="h-6 w-6 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500"
+          />
+        </button>
+        <span className={billingCycle === 'annual' ? 'text-white font-bold' : 'text-white/60'}>
+          Annual <span className="text-green-400 text-sm">(Save 17%)</span>
         </span>
-        {billingCycle === 'yearly' && (
-          <Badge className="bg-green-500/20 text-green-400 border-green-500/30">
-            Save up to 17%
-          </Badge>
-        )}
       </div>
 
       {/* Tiers Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {tiers.map((tier) => {
-          const Icon = tier.icon;
-          const savings = getSavings(tier);
-          const price = billingCycle === 'monthly' ? tier.price.monthly : tier.price.yearly;
-          const period = billingCycle === 'monthly' ? '/month' : '/year';
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {TIERS.map((tier, idx) => (
+          <motion.div
+            key={tier.id}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: idx * 0.1 }}
+            whileHover={{ y: -10 }}
+            className={`relative rounded-2xl p-6 transition-all ${
+              tier.highlighted
+                ? 'bg-gradient-to-br from-cyan-600/30 to-blue-600/30 border-2 border-cyan-400 shadow-lg shadow-cyan-500/20'
+                : 'bg-white/5 border border-white/10 hover:border-white/20'
+            }`}
+          >
+            {tier.highlighted && (
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                <div className="flex items-center gap-1 bg-gradient-to-r from-cyan-400 to-blue-500 px-3 py-1 rounded-full">
+                  <Zap className="w-4 h-4" />
+                  <span className="text-xs font-bold text-white">Most Popular</span>
+                </div>
+              </div>
+            )}
 
-          return (
-            <motion.div
-              key={tier.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              whileHover={{ scale: 1.02 }}
-              className="relative"
-            >
-              {tier.popular && (
-                <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-cyan-500 to-blue-500 z-10">
-                  Most Popular
-                </Badge>
+            <h3 className="text-2xl font-bold text-white mb-2">{tier.name}</h3>
+            <p className="text-white/60 text-sm mb-4">{tier.description}</p>
+
+            <div className="mb-6">
+              {tier.price === 0 ? (
+                <p className="text-3xl font-bold text-white">Free</p>
+              ) : (
+                <>
+                  <p className="text-4xl font-bold text-white">
+                    ${billingCycle === 'monthly' ? tier.price : Math.round(tier.annual / 12)}/mo
+                  </p>
+                  <p className="text-xs text-white/50 mt-1">
+                    {billingCycle === 'annual' ? `Billed $${tier.annual}/year` : 'Billed monthly'}
+                  </p>
+                </>
               )}
-              <Card className={`h-full ${tier.popular ? 'border-cyan-400 border-2' : 'border-white/10'} bg-black/40`}>
-                <CardHeader>
-                  <div className={`w-12 h-12 rounded-lg bg-gradient-to-br ${tier.color} flex items-center justify-center mb-4`}>
-                    <Icon className="w-6 h-6 text-white" />
-                  </div>
-                  <CardTitle className="text-white">{tier.name}</CardTitle>
-                  <p className="text-sm text-gray-400">{tier.description}</p>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  {/* Pricing */}
-                  <div>
-                    <div className="flex items-baseline gap-1">
-                      <span className="text-4xl font-bold text-white">
-                        ${price}
-                      </span>
-                      <span className="text-gray-400">{period}</span>
-                    </div>
-                    {savings > 0 && (
-                      <p className="text-sm text-green-400 mt-1">
-                        Save ${savings}/year
-                      </p>
-                    )}
-                  </div>
-
-                  {/* Features */}
-                  <div className="space-y-3">
-                    {tier.features.map((feature, idx) => (
-                      <div key={idx} className="flex items-start gap-2">
-                        <Check className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
-                        <span className="text-sm text-gray-300">{feature}</span>
-                      </div>
-                    ))}
-                    {tier.limits.map((limit, idx) => (
-                      <div key={idx} className="flex items-start gap-2">
-                        <div className="w-5 h-5 flex-shrink-0 mt-0.5 text-gray-600">—</div>
-                        <span className="text-sm text-gray-500">{limit}</span>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* CTA */}
-                  <Button
-                    className={`w-full ${
-                      tier.id === 'free'
-                        ? 'bg-gray-600 hover:bg-gray-700'
-                        : `bg-gradient-to-r ${tier.color} hover:opacity-90`
-                    }`}
-                    onClick={() => onSubscribe?.(tier, billingCycle)}
-                  >
-                    {tier.id === 'free' ? 'Current Plan' : 'Subscribe Now'}
-                    <ArrowRight className="w-4 h-4 ml-2" />
-                  </Button>
-                </CardContent>
-              </Card>
-            </motion.div>
-          );
-        })}
-      </div>
-
-      {/* Enterprise Contact */}
-      <Card className="bg-gradient-to-r from-purple-900/20 to-pink-900/20 border-purple-500/30">
-        <CardContent className="p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <h3 className="text-xl font-semibold text-white mb-2">Need a Custom Plan?</h3>
-              <p className="text-gray-400">
-                Contact our sales team for volume discounts and custom enterprise solutions
-              </p>
             </div>
-            <Button variant="outline" className="border-purple-400 text-purple-400 hover:bg-purple-500/20">
-              Contact Sales
+
+            <Button
+              onClick={() => onSelectTier?.(tier.id, billingCycle)}
+              disabled={tier.id === 'free'}
+              className={`w-full mb-6 ${
+                tier.highlighted
+                  ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white hover:shadow-lg hover:shadow-cyan-500/30'
+                  : 'bg-white/10 text-white hover:bg-white/20'
+              }`}
+            >
+              {tier.cta}
             </Button>
-          </div>
-        </CardContent>
-      </Card>
+
+            <div className="space-y-3">
+              {tier.features.map((feature, fidx) => (
+                <div key={fidx} className="flex items-start gap-3">
+                  <Check className="w-4 h-4 text-cyan-400 mt-0.5 flex-shrink-0" />
+                  <span className="text-sm text-white/70">{feature}</span>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        ))}
+      </div>
     </div>
   );
 }

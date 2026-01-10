@@ -1,163 +1,106 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { motion } from 'framer-motion';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import SubscriptionTiers from '../components/payments/SubscriptionTiers';
-import VisualizerMarketplace from '../components/payments/VisualizerMarketplace';
-import EnterprisePaymentPlans from '../components/payments/EnterprisePaymentPlans';
-import EnterpriseManagement from '../components/payments/EnterpriseManagement';
-import BillingDashboard from '../components/payments/BillingDashboard';
-import StripeWebhookHandler from '../components/payments/StripeWebhookHandler';
-import AuroraBackground from '../components/omni/AuroraBackground';
-import StripeProvider from '../components/payments/StripeProvider';
-import StripeCheckout from '../components/payments/StripeCheckout';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { CreditCard, AlertCircle } from 'lucide-react';
-import { toast } from 'sonner';
 import { base44 } from '@/api/base44Client';
+import AuroraBackground from '../components/omni/AuroraBackground';
+import SubscriptionTiers from '../components/payments/SubscriptionTiers';
+import StripeCheckout from '../components/payments/StripeCheckout';
+import PlaidConnect from '../components/banking/PlaidConnect';
+import { CreditCard, DollarSign, Settings } from 'lucide-react';
 
 export default function Billing() {
-  const [checkoutOpen, setCheckoutOpen] = useState(false);
-  const [checkoutData, setCheckoutData] = useState(null);
+  const [userEmail, setUserEmail] = React.useState(null);
+  const [selectedTier, setSelectedTier] = React.useState(null);
+  const [billingCycle, setBillingCycle] = React.useState('monthly');
 
-  const handleSubscribe = (tier, billingCycle) => {
-    const amount = billingCycle === 'monthly' ? tier.price.monthly : tier.price.yearly;
-    
-    setCheckoutData({
-      amount: amount * 100, // Convert to cents
-      description: `${tier.name} Subscription (${billingCycle})`,
-      metadata: {
-        type: 'subscription',
-        tier: tier.id,
-        billingCycle
-      }
-    });
-    setCheckoutOpen(true);
-  };
-
-  const handlePurchase = (items, total) => {
-    setCheckoutData({
-      amount: total * 100, // Convert to cents
-      description: `Purchase: ${items.length} item(s)`,
-      metadata: {
-        type: 'one-time',
-        items: items.map(i => ({ id: i.id, name: i.name, price: i.price }))
-      }
-    });
-    setCheckoutOpen(true);
-  };
-
-  const handleContactSales = async (data) => {
-    try {
-      await base44.integrations.Core.SendEmail({
-        to: 'sales@yourcompany.com',
-        subject: 'Enterprise Plan Request',
-        body: `New enterprise inquiry:\n\n${JSON.stringify(data, null, 2)}`
-      });
-      toast.success('Your request has been sent to our sales team!');
-    } catch (err) {
-      toast.error('Failed to send request');
-    }
-  };
-
-  const handlePaymentSuccess = async (paymentIntent) => {
-    // Save subscription/purchase to database
-    try {
-      // Create appropriate entity record based on type
-      if (checkoutData.metadata.type === 'subscription') {
-        // Store subscription info
-        toast.success('Subscription activated!');
-      } else {
-        // Store purchase info
-        toast.success('Purchase complete!');
-      }
-      setCheckoutOpen(false);
-      setCheckoutData(null);
-    } catch (err) {
-      toast.error('Payment succeeded but failed to activate. Please contact support.');
-    }
-  };
+  React.useEffect(() => {
+    base44.auth.me()
+      .then(user => setUserEmail(user?.email))
+      .catch(() => setUserEmail(null));
+  }, []);
 
   return (
-    <StripeProvider>
-      <AuroraBackground>
-        <div className="min-h-screen p-6">
-          <div className="max-w-7xl mx-auto">
-            <div className="mb-8">
-              <h1 className="text-4xl font-bold text-white mb-2 flex items-center gap-3">
-                <CreditCard className="w-10 h-10 text-cyan-400" />
-                Billing & Subscriptions
-              </h1>
-              <p className="text-gray-400">
-                Manage your subscriptions, purchases, and billing information
-              </p>
-            </div>
+    <AuroraBackground className="min-h-screen py-8">
+      <div className="max-w-6xl mx-auto px-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-8"
+        >
+          <h1 className="text-4xl font-bold text-white mb-2 flex items-center gap-3">
+            <CreditCard className="w-10 h-10 text-cyan-400" />
+            Billing & Subscription
+          </h1>
+          <p className="text-white/60">Manage your subscription, payments, and billing preferences</p>
+        </motion.div>
 
-            {/* Backend Functions Required Notice */}
-            <div className="mb-6 bg-orange-500/10 border border-orange-500/30 rounded-lg p-4 flex items-start gap-3">
-              <AlertCircle className="w-5 h-5 text-orange-400 flex-shrink-0 mt-0.5" />
-              <div>
-                <p className="text-orange-400 font-semibold">Backend Functions Required</p>
-                <p className="text-orange-400/80 text-sm mt-1">
-                  Stripe payment processing requires backend functions to be enabled in your app settings 
-                  for secure handling of payment secrets and webhooks.
-                </p>
-              </div>
-            </div>
+        <Tabs defaultValue="plans" className="w-full">
+          <TabsList className="grid w-full grid-cols-3 bg-white/5 border border-white/10">
+            <TabsTrigger value="plans" className="data-[state=active]:bg-cyan-500/20">
+              <DollarSign className="w-4 h-4 mr-2" />
+              Plans
+            </TabsTrigger>
+            <TabsTrigger value="payment" className="data-[state=active]:bg-cyan-500/20">
+              <CreditCard className="w-4 h-4 mr-2" />
+              Payment
+            </TabsTrigger>
+            <TabsTrigger value="settings" className="data-[state=active]:bg-cyan-500/20">
+              <Settings className="w-4 h-4 mr-2" />
+              Settings
+            </TabsTrigger>
+          </TabsList>
 
-            <Tabs defaultValue="subscriptions" className="w-full">
-              <TabsList className="bg-black/40 border border-white/10 mb-8">
-                <TabsTrigger value="subscriptions">Subscriptions</TabsTrigger>
-                <TabsTrigger value="marketplace">Visualizer Marketplace</TabsTrigger>
-                <TabsTrigger value="enterprise">Enterprise Plans</TabsTrigger>
-                <TabsTrigger value="enterprise-mgmt">Enterprise Management</TabsTrigger>
-                <TabsTrigger value="dashboard">Revenue Dashboard</TabsTrigger>
-                <TabsTrigger value="webhooks">Webhooks</TabsTrigger>
-              </TabsList>
-
-              <TabsContent value="subscriptions">
-                <SubscriptionTiers onSubscribe={handleSubscribe} />
-              </TabsContent>
-
-              <TabsContent value="marketplace">
-                <VisualizerMarketplace onPurchase={handlePurchase} />
-              </TabsContent>
-
-              <TabsContent value="enterprise">
-                <EnterprisePaymentPlans onContactSales={handleContactSales} />
-              </TabsContent>
-
-              <TabsContent value="enterprise-mgmt">
-                <EnterpriseManagement />
-              </TabsContent>
-
-              <TabsContent value="dashboard">
-                <BillingDashboard />
-              </TabsContent>
-
-              <TabsContent value="webhooks">
-                <StripeWebhookHandler />
-              </TabsContent>
-            </Tabs>
-          </div>
-        </div>
-
-        {/* Stripe Checkout Dialog */}
-        <Dialog open={checkoutOpen} onOpenChange={setCheckoutOpen}>
-          <DialogContent className="bg-black/90 border-white/10 max-w-lg">
-            <DialogHeader>
-              <DialogTitle className="text-white">Complete Payment</DialogTitle>
-            </DialogHeader>
-            {checkoutData && (
-              <StripeCheckout
-                amount={checkoutData.amount}
-                description={checkoutData.description}
-                metadata={checkoutData.metadata}
-                onSuccess={handlePaymentSuccess}
-                onCancel={() => setCheckoutOpen(false)}
+          <TabsContent value="plans" className="mt-6">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-gradient-to-br from-black/20 to-black/40 border border-white/10 rounded-xl p-6"
+            >
+              <SubscriptionTiers
+                onSelectTier={(tier, cycle) => {
+                  setSelectedTier(tier);
+                  setBillingCycle(cycle);
+                }}
               />
-            )}
-          </DialogContent>
-        </Dialog>
-      </AuroraBackground>
-    </StripeProvider>
+
+              {selectedTier && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mt-8 pt-8 border-t border-white/10"
+                >
+                  <StripeCheckout
+                    tier={selectedTier}
+                    billingCycle={billingCycle}
+                  />
+                </motion.div>
+              )}
+            </motion.div>
+          </TabsContent>
+
+          <TabsContent value="payment" className="mt-6">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-gradient-to-br from-black/20 to-black/40 border border-white/10 rounded-xl p-6 space-y-6"
+            >
+              {userEmail && <PlaidConnect userEmail={userEmail} onSuccess={() => {}} />}
+            </motion.div>
+          </TabsContent>
+
+          <TabsContent value="settings" className="mt-6">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-gradient-to-br from-black/20 to-black/40 border border-white/10 rounded-xl p-6"
+            >
+              <div className="text-center py-12 text-white/40">
+                <p>Billing settings and management features coming soon</p>
+              </div>
+            </motion.div>
+          </TabsContent>
+        </Tabs>
+      </div>
+    </AuroraBackground>
   );
 }
