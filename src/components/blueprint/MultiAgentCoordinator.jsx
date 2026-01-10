@@ -5,9 +5,9 @@ import { Users, MessageSquare, Share2, Target } from 'lucide-react';
 export class AgentCommunicationProtocol {
   constructor() {
     this.messages = [];
-    this.agents = new Map();
+    this.agents = new window.Map();
     this.taskDelegations = [];
-    this.sharedKnowledge = new Map();
+    this.sharedKnowledge = new window.Map();
   }
 
   registerAgent(agent) {

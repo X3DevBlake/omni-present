@@ -8,18 +8,18 @@ export class AgentMemory {
   constructor(agentId) {
     this.agentId = agentId;
     this.experiences = [];
-    this.learnedPatterns = new Map();
+    this.learnedPatterns = new window.Map();
     this.interactions = [];
-    this.environmentalKnowledge = new Map();
+    this.environmentalKnowledge = new window.Map();
     this.skills = new Set();
     this.personality = {};
     this.longTermMemory = [];
     this.episodicMemory = [];
-    this.semanticMemory = new Map();
+    this.semanticMemory = new window.Map();
     this.emotionalMemory = [];
     this.characterArc = { milestones: [], traits: [], evolution: [] };
-    this.associativeLinks = new Map(); // Links between memories
-    this.decayRates = new Map(); // Forgetting curves for memories
+    this.associativeLinks = new window.Map(); // Links between memories
+    this.decayRates = new window.Map(); // Forgetting curves for memories
     this.reinforcementHistory = []; // Track successful behaviors
   }
 
@@ -259,9 +259,9 @@ export class AgentMemory {
 
   import(data) {
     this.experiences = data.experiences || [];
-    this.learnedPatterns = new Map(data.learnedPatterns || []);
+    this.learnedPatterns = new window.Map(data.learnedPatterns || []);
     this.interactions = data.interactions || [];
-    this.environmentalKnowledge = new Map(data.environmentalKnowledge || []);
+    this.environmentalKnowledge = new window.Map(data.environmentalKnowledge || []);
     this.skills = new Set(data.skills || []);
     this.personality = data.personality || {};
   }
