@@ -3,7 +3,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import SubscriptionTiers from '../components/payments/SubscriptionTiers';
 import VisualizerMarketplace from '../components/payments/VisualizerMarketplace';
 import EnterprisePaymentPlans from '../components/payments/EnterprisePaymentPlans';
+import EnterpriseManagement from '../components/payments/EnterpriseManagement';
 import BillingDashboard from '../components/payments/BillingDashboard';
+import StripeWebhookHandler from '../components/payments/StripeWebhookHandler';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import StripeProvider from '../components/payments/StripeProvider';
 import StripeCheckout from '../components/payments/StripeCheckout';
@@ -106,7 +108,9 @@ export default function Billing() {
                 <TabsTrigger value="subscriptions">Subscriptions</TabsTrigger>
                 <TabsTrigger value="marketplace">Visualizer Marketplace</TabsTrigger>
                 <TabsTrigger value="enterprise">Enterprise Plans</TabsTrigger>
+                <TabsTrigger value="enterprise-mgmt">Enterprise Management</TabsTrigger>
                 <TabsTrigger value="dashboard">Revenue Dashboard</TabsTrigger>
+                <TabsTrigger value="webhooks">Webhooks</TabsTrigger>
               </TabsList>
 
               <TabsContent value="subscriptions">
@@ -121,8 +125,16 @@ export default function Billing() {
                 <EnterprisePaymentPlans onContactSales={handleContactSales} />
               </TabsContent>
 
+              <TabsContent value="enterprise-mgmt">
+                <EnterpriseManagement />
+              </TabsContent>
+
               <TabsContent value="dashboard">
                 <BillingDashboard />
+              </TabsContent>
+
+              <TabsContent value="webhooks">
+                <StripeWebhookHandler />
               </TabsContent>
             </Tabs>
           </div>
