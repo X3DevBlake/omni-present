@@ -24,6 +24,7 @@ import MultiStageScenarioBuilder from '../components/simulation/MultiStageScenar
 import RealTimeDataIntegrator from '../components/simulation/RealTimeDataIntegrator';
 import CollaborativeSimulation from '../components/simulation/CollaborativeSimulation';
 import ABTestingModule from '../components/simulation/ABTestingModule';
+import AgentCollaborationHub from '../components/collaboration/AgentCollaborationHub';
 import SocialNetworkGraph from '../components/blueprint/SocialNetworkGraph';
 import MentorshipSystem from '../components/blueprint/MentorshipSystem';
 import AgentGoalSystem from '../components/blueprint/AgentGoalSystem';
@@ -212,6 +213,7 @@ export default function Blueprint() {
   const [showDataIntegrator, setShowDataIntegrator] = useState(false);
   const [showCollabSim, setShowCollabSim] = useState(false);
   const [showABTesting, setShowABTesting] = useState(false);
+  const [showCollaborationHub, setShowCollaborationHub] = useState(false);
   const [currentScenario, setCurrentScenario] = useState(null);
   const [activeSociety, setActiveSociety] = useState(null);
   const [physicsObjects, setPhysicsObjects] = useState([]);
@@ -928,6 +930,13 @@ export default function Blueprint() {
                         A/B Testing
                         </button>
                         <button
+                        onClick={() => setShowCollaborationHub(!showCollaborationHub)}
+                        className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/40 text-purple-300 rounded-xl text-sm hover:from-purple-500/30 hover:to-pink-500/30"
+                        >
+                        <Users className="w-4 h-4" />
+                        Collaboration
+                        </button>
+                        <button
                         onClick={() => setShowScenarioEditor(true)}
                         className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-orange-500/20 to-red-500/20 border border-orange-500/40 text-orange-300 rounded-xl text-sm hover:from-orange-500/30 hover:to-red-500/30"
                         >
@@ -1467,6 +1476,12 @@ export default function Blueprint() {
       />
 
       {/* Control Panel */}
+      {showCollaborationHub && (
+        <div className="mb-6">
+          <AgentCollaborationHub agents={holographicAgents} />
+        </div>
+      )}
+
       <BlueprintControlPanel
         show={showControlPanel}
         onClose={() => setShowControlPanel(false)}

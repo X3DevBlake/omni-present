@@ -1,5 +1,6 @@
 import AILab from './pages/AILab';
 import AIModelDeployment from './pages/AIModelDeployment';
+import AIPlayground from './pages/AIPlayground';
 import AIPortfolioManager from './pages/AIPortfolioManager';
 import APIDocumentation from './pages/APIDocumentation';
 import APIExplorer from './pages/APIExplorer';
@@ -25,6 +26,7 @@ import AgentSimulation3D from './pages/AgentSimulation3D';
 import AgentSkillMarketplace from './pages/AgentSkillMarketplace';
 import AgentSpending from './pages/AgentSpending';
 import Analytics from './pages/Analytics';
+import Architecture from './pages/Architecture';
 import AssetBrowser from './pages/AssetBrowser';
 import AssetUpload from './pages/AssetUpload';
 import AuditLogs from './pages/AuditLogs';
@@ -74,7 +76,9 @@ import EvolutionDashboardPage from './pages/EvolutionDashboardPage';
 import ExchangeListings from './pages/ExchangeListings';
 import ExperimentTracking from './pages/ExperimentTracking';
 import FAQ from './pages/FAQ';
+import FeatureDetail from './pages/FeatureDetail';
 import Features from './pages/Features';
+import FeedbackDashboard from './pages/FeedbackDashboard';
 import FiatDeposit from './pages/FiatDeposit';
 import FirmwareUpdates from './pages/FirmwareUpdates';
 import FleetManagement from './pages/FleetManagement';
@@ -147,17 +151,14 @@ import VirtualClassrooms from './pages/VirtualClassrooms';
 import Wallet from './pages/Wallet';
 import Webhooks from './pages/Webhooks';
 import WithdrawOmni from './pages/WithdrawOmni';
-import AIPlayground from './pages/AIPlayground';
-import Architecture from './pages/Architecture';
-import FeatureDetail from './pages/FeatureDetail';
 import World from './pages/World';
-import FeedbackDashboard from './pages/FeedbackDashboard';
 import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
     "AILab": AILab,
     "AIModelDeployment": AIModelDeployment,
+    "AIPlayground": AIPlayground,
     "AIPortfolioManager": AIPortfolioManager,
     "APIDocumentation": APIDocumentation,
     "APIExplorer": APIExplorer,
@@ -183,6 +184,7 @@ export const PAGES = {
     "AgentSkillMarketplace": AgentSkillMarketplace,
     "AgentSpending": AgentSpending,
     "Analytics": Analytics,
+    "Architecture": Architecture,
     "AssetBrowser": AssetBrowser,
     "AssetUpload": AssetUpload,
     "AuditLogs": AuditLogs,
@@ -232,7 +234,9 @@ export const PAGES = {
     "ExchangeListings": ExchangeListings,
     "ExperimentTracking": ExperimentTracking,
     "FAQ": FAQ,
+    "FeatureDetail": FeatureDetail,
     "Features": Features,
+    "FeedbackDashboard": FeedbackDashboard,
     "FiatDeposit": FiatDeposit,
     "FirmwareUpdates": FirmwareUpdates,
     "FleetManagement": FleetManagement,
@@ -305,11 +309,7 @@ export const PAGES = {
     "Wallet": Wallet,
     "Webhooks": Webhooks,
     "WithdrawOmni": WithdrawOmni,
-    "AIPlayground": AIPlayground,
-    "Architecture": Architecture,
-    "FeatureDetail": FeatureDetail,
     "World": World,
-    "FeedbackDashboard": FeedbackDashboard,
 }
 
 export const pagesConfig = {
