@@ -6,7 +6,10 @@ export default function AuroraBackground({ children, className = "" }) {
   const [mousePosition, setMousePosition] = React.useState({ x: 0.5, y: 0.5 });
 
   useEffect(() => {
-    if (typeof window === 'undefined' || !containerRef.current) return;
+    if (typeof window === 'undefined') return;
+    
+    const container = containerRef.current;
+    if (!container) return;
 
     const handleMouseMove = (e) => {
       if (containerRef.current) {
@@ -20,7 +23,7 @@ export default function AuroraBackground({ children, className = "" }) {
 
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
+  }, [containerRef]);
 
   return (
     <div ref={containerRef} className={`relative overflow-hidden ${className}`}>
