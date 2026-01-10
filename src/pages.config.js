@@ -150,6 +150,8 @@ import WithdrawOmni from './pages/WithdrawOmni';
 import AIPlayground from './pages/AIPlayground';
 import Architecture from './pages/Architecture';
 import FeatureDetail from './pages/FeatureDetail';
+import World from './pages/World';
+import FeedbackDashboard from './pages/FeedbackDashboard';
 import __Layout from './Layout.jsx';
 
 
@@ -306,6 +308,8 @@ export const PAGES = {
     "AIPlayground": AIPlayground,
     "Architecture": Architecture,
     "FeatureDetail": FeatureDetail,
+    "World": World,
+    "FeedbackDashboard": FeedbackDashboard,
 }
 
 export const pagesConfig = {

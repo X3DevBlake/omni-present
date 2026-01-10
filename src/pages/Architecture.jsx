@@ -119,6 +119,13 @@ export default function Architecture() {
 
   const getNodeById = (id) => nodes.find(n => n.id === id);
 
+  const performanceMetrics = [
+    { label: 'Throughput', value: '2.5 PetaFLOPS', color: '#00f5ff' },
+    { label: 'Latency', value: '< 1ms', color: '#a855f7' },
+    { label: 'Uptime', value: '99.99%', color: '#10b981' },
+    { label: 'Efficiency', value: '94%', color: '#f59e0b' },
+  ];
+
   return (
     <AuroraBackground className="min-h-screen py-16 px-4">
       <div className="max-w-7xl mx-auto">
@@ -272,6 +279,24 @@ export default function Architecture() {
             })}
           </div>
         </GlassCard>
+
+        {/* Performance Metrics */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+          {performanceMetrics.map((metric, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.1 }}
+              className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-4"
+            >
+              <div className="text-white/60 text-sm mb-1">{metric.label}</div>
+              <div className="text-2xl font-bold" style={{ color: metric.color }}>
+                {metric.value}
+              </div>
+            </motion.div>
+          ))}
+        </div>
 
         {/* Selected Node Details */}
         <AnimatePresence>
