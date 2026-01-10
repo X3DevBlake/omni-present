@@ -266,7 +266,7 @@ export default function AILab() {
             { id: 'proc-env', label: '🗺️ Proc Env', icon: 'ProcEnv' },
             { id: 'scenario-ai', label: '💡 Scenario AI', icon: 'ScenarioAI' },
             { id: 'kg-editor', label: '🕸️ KG Editor', icon: 'KGEditor' },
-            { id: 'ethics', label: '⚖️ Ethics Sim', icon: 'Ethics' },
+            { id: 'ethics-sim', label: '⚖️ Ethics Sim', icon: 'EthicsSim' },
             { id: 'reward-fn', label: '🎯 Reward Fn', icon: 'RewardFn' },
             { id: 'syn-data', label: '📊 Syn Data', icon: 'SynData' },
             { id: '3d-behavior', label: '🎨 3D Behavior', icon: '3DBehavior' },
@@ -297,7 +297,7 @@ export default function AILab() {
             { id: 'training-tunnel', label: '🛤️ Training Tunnel', icon: 'TrainTunnel' },
             { id: 'relationship-web', label: '🕸️ Relationship Web', icon: 'RelWeb' },
             { id: 'marketplace', label: '🛒 Marketplace', icon: 'Marketplace' },
-            { id: 'collab-rt', label: '👥 RT Collab', icon: 'RTCollab' }
+            { id: 'collab-panel', label: '👥 RT Collab', icon: 'RTCollab' }
           ].map(tab => (
             <button
               key={tab.id}
@@ -922,7 +922,7 @@ export default function AILab() {
           )}
 
           {/* Ethical Dilemma Simulator Tab */}
-          {activeTab === 'ethics' && (
+          {activeTab === 'ethics-sim' && (
           <div className="space-y-6">
            <EthicalDilemmaSimulator />
           </div>
@@ -1155,8 +1155,8 @@ export default function AILab() {
           </div>
           )}
 
-          {/* RT Collaboration Tab */}
-          {activeTab === 'collab-rt' && (
+          {/* RT Collaboration Panel Tab */}
+          {activeTab === 'collab-panel' && (
           <div className="space-y-6">
            <RealtimeCollaborationPanel />
           </div>
