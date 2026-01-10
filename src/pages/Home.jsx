@@ -1,7 +1,5 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Canvas } from '@react-three/fiber';
-import { OrbitControls, Stars, Float } from '@react-three/drei';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
 import { ChevronDown } from 'lucide-react';
@@ -10,7 +8,7 @@ import HeroSection from '../components/omni/HeroSection';
 import FeatureGrid from '../components/omni/FeatureGrid';
 import CTASection from '../components/omni/CTASection';
 import LiveDataFeed from '../components/world/LiveDataFeed';
-import Interactive3DFeatures from '../components/features/Interactive3DFeatures';
+import Interactive3DVisual from '../components/features/Interactive3DVisual';
 import OmniPresentLogo from '../components/omni/OmniPresentLogo';
 
 export default function Home() {
@@ -52,7 +50,7 @@ export default function Home() {
             <p className="text-white/60 text-lg">Explore our platform's capabilities in an immersive 3D environment</p>
           </motion.div>
           
-          <Interactive3DFeatures />
+          <Interactive3DVisual />
         </div>
       </section>
 
@@ -77,95 +75,113 @@ export default function Home() {
           </motion.div>
           
           <div className="h-[700px] bg-black/20 rounded-2xl overflow-hidden border border-cyan-500/30 relative">
-            <Canvas camera={{ position: [0, 8, 20], fov: 75 }}>
-              <color attach="background" args={['#000000']} />
-              <fog attach="fog" args={['#000000', 10, 50]} />
-              
-              <ambientLight intensity={0.4} />
-              <pointLight position={[15, 15, 15]} intensity={2} color="#00f5ff" />
-              <pointLight position={[-15, -10, -15]} intensity={1.5} color="#a855f7" />
-              <spotLight position={[0, 20, 0]} angle={0.3} intensity={1} color="#ec4899" castShadow />
-              
-              <Stars radius={150} depth={60} count={5000} factor={6} fade speed={2} />
-              
-              {/* Central Core */}
-              <Float speed={1.5} rotationIntensity={1} floatIntensity={0.5}>
-                <mesh castShadow>
-                  <dodecahedronGeometry args={[2.5, 0]} />
-                  <meshStandardMaterial
-                    color="#00f5ff"
-                    emissive="#00f5ff"
-                    emissiveIntensity={0.8}
-                    wireframe
-                    transparent
-                    opacity={0.9}
-                  />
-                </mesh>
-                <mesh>
-                  <torusGeometry args={[3, 0.1, 16, 100]} />
-                  <meshStandardMaterial
-                    color="#a855f7"
-                    emissive="#a855f7"
-                    emissiveIntensity={0.6}
-                  />
-                </mesh>
-              </Float>
-
-              {/* Orbiting Nodes */}
-              {Array.from({ length: 12 }).map((_, i) => {
-                const angle = (i / 12) * Math.PI * 2;
-                const radius = 8;
-                const colors = ['#00f5ff', '#a855f7', '#ec4899', '#10b981', '#f59e0b'];
-                const color = colors[i % colors.length];
+            <div className="w-full h-full flex items-center justify-center relative">
+              {/* Animated network visualization */}
+              <svg className="absolute inset-0 w-full h-full" viewBox="0 0 1000 700">
+                <defs>
+                  <radialGradient id="nodeGlow" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stopColor="#00f5ff" stopOpacity="0.8" />
+                    <stop offset="100%" stopColor="#00f5ff" stopOpacity="0" />
+                  </radialGradient>
+                  <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#a855f7" />
+                    <stop offset="100%" stopColor="#00f5ff" />
+                  </linearGradient>
+                </defs>
                 
-                return (
-                  <Float key={i} speed={2 + Math.random()} rotationIntensity={0.4} floatIntensity={0.8}>
-                    <mesh 
-                      position={[
-                        Math.cos(angle) * radius, 
-                        Math.sin(i * 0.5) * 3, 
-                        Math.sin(angle) * radius
-                      ]}
-                      castShadow
-                    >
-                      <octahedronGeometry args={[0.6, 0]} />
-                      <meshStandardMaterial
-                        color={color}
-                        emissive={color}
-                        emissiveIntensity={0.7}
-                        metalness={0.8}
-                        roughness={0.2}
+                {/* Central core */}
+                <motion.g
+                  animate={{
+                    rotate: 360,
+                  }}
+                  transition={{
+                    duration: 20,
+                    repeat: Infinity,
+                    ease: "linear"
+                  }}
+                  style={{ transformOrigin: '500px 350px' }}
+                >
+                  <circle cx="500" cy="350" r="80" fill="none" stroke="#00f5ff" strokeWidth="2" opacity="0.6" />
+                  <circle cx="500" cy="350" r="60" fill="none" stroke="#a855f7" strokeWidth="2" opacity="0.6" />
+                  <circle cx="500" cy="350" r="40" fill="url(#nodeGlow)" />
+                </motion.g>
+
+                {/* Orbiting nodes */}
+                {Array.from({ length: 12 }).map((_, i) => {
+                  const angle = (i / 12) * Math.PI * 2;
+                  const radius = 200;
+                  const x = 500 + Math.cos(angle) * radius;
+                  const y = 350 + Math.sin(angle) * radius;
+                  const colors = ['#00f5ff', '#a855f7', '#ec4899', '#10b981', '#f59e0b'];
+                  const color = colors[i % colors.length];
+                  
+                  return (
+                    <g key={i}>
+                      <motion.line
+                        x1="500"
+                        y1="350"
+                        x2={x}
+                        y2={y}
+                        stroke="url(#lineGradient)"
+                        strokeWidth="1"
+                        opacity="0.3"
+                        animate={{
+                          opacity: [0.2, 0.5, 0.2],
+                        }}
+                        transition={{
+                          duration: 3,
+                          repeat: Infinity,
+                          delay: i * 0.25,
+                        }}
                       />
-                    </mesh>
-                    {/* Connection lines */}
-                    <mesh position={[Math.cos(angle) * radius / 2, 0, Math.sin(angle) * radius / 2]}>
-                      <cylinderGeometry args={[0.02, 0.02, radius, 8]} />
-                      <meshBasicMaterial color={color} transparent opacity={0.3} />
-                    </mesh>
-                  </Float>
-                );
-              })}
+                      <motion.circle
+                        cx={x}
+                        cy={y}
+                        r="12"
+                        fill={color}
+                        animate={{
+                          scale: [1, 1.2, 1],
+                          opacity: [0.6, 1, 0.6],
+                        }}
+                        transition={{
+                          duration: 2,
+                          repeat: Infinity,
+                          delay: i * 0.16,
+                        }}
+                        style={{ transformOrigin: `${x}px ${y}px` }}
+                      />
+                      <circle cx={x} cy={y} r="20" fill="none" stroke={color} strokeWidth="1" opacity="0.3" />
+                    </g>
+                  );
+                })}
 
-              {/* Particle Ring */}
-              {Array.from({ length: 50 }).map((_, i) => {
-                const angle = (i / 50) * Math.PI * 2;
-                const radius = 5;
-                return (
-                  <mesh key={`particle-${i}`} position={[Math.cos(angle) * radius, 0, Math.sin(angle) * radius]}>
-                    <sphereGeometry args={[0.1, 8, 8]} />
-                    <meshBasicMaterial color="#00f5ff" transparent opacity={0.6} />
-                  </mesh>
-                );
-              })}
-
-              <OrbitControls 
-                enableZoom={true} 
-                autoRotate 
-                autoRotateSpeed={1}
-                minDistance={10}
-                maxDistance={30}
-              />
-            </Canvas>
+                {/* Particle ring */}
+                {Array.from({ length: 50 }).map((_, i) => {
+                  const angle = (i / 50) * Math.PI * 2;
+                  const radius = 140;
+                  const x = 500 + Math.cos(angle) * radius;
+                  const y = 350 + Math.sin(angle) * radius;
+                  
+                  return (
+                    <motion.circle
+                      key={`particle-${i}`}
+                      cx={x}
+                      cy={y}
+                      r="3"
+                      fill="#00f5ff"
+                      animate={{
+                        opacity: [0.3, 0.8, 0.3],
+                      }}
+                      transition={{
+                        duration: 2,
+                        repeat: Infinity,
+                        delay: i * 0.04,
+                      }}
+                    />
+                  );
+                })}
+              </svg>
+            </div>
             
             {/* Overlay Text */}
             <div className="absolute inset-0 pointer-events-none flex items-end p-8">
