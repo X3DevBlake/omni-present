@@ -26,17 +26,19 @@ export default function SocialNetworkGraph({ show, onClose, agents, factions, al
     
     // Add relationship edges
     agents.forEach(agent1 => {
-      agent1.relationships?.forEach((strength, agent2Id) => {
-        const agent2 = agents.find(a => a.id === agent2Id);
-        if (agent2) {
-          edgeData.push({
-            source: agent1.id,
-            target: agent2Id,
-            type: strength > 50 ? 'alliance' : strength < -20 ? 'conflict' : 'neutral',
-            strength: Math.abs(strength)
-          });
-        }
-      });
+      if (agent1.relationships && agent1.relationships instanceof window.Map) {
+        agent1.relationships.forEach((strength, agent2Id) => {
+          const agent2 = agents.find(a => a.id === agent2Id);
+          if (agent2) {
+            edgeData.push({
+              source: agent1.id,
+              target: agent2Id,
+              type: strength > 50 ? 'alliance' : strength < -20 ? 'conflict' : 'neutral',
+              strength: Math.abs(strength)
+            });
+          }
+        });
+      }
     });
 
     setNodes(nodeData);
@@ -89,7 +91,7 @@ export default function SocialNetworkGraph({ show, onClose, agents, factions, al
 
       // Draw edges
       edges.forEach(edge => {
-        if (filter !== 'all' && filter !== edge.type) return;
+        if (!edge || filter !== 'all' && filter !== edge.type) return;
 
         const source = nodes.find(n => n.id === edge.source);
         const target = nodes.find(n => n.id === edge.target);
