@@ -62,6 +62,8 @@ import EnhancedKnowledgeGraph3D from '../components/knowledge/EnhancedKnowledgeG
 import RealTimeAgentCollaboration from '../components/collaboration/RealTimeAgentCollaboration';
 import ComprehensiveAgentAnalytics from '../components/analytics/ComprehensiveAgentAnalytics';
 import AdaptiveTrainingModule from '../components/training/AdaptiveTrainingModule';
+import AgentFineTuner from '../components/training/AgentFineTuner';
+import AgentFeedbackSystem from '../components/training/AgentFeedbackSystem';
 import AIKnowledgeEnhancements from '../components/knowledge/AIKnowledgeEnhancements';
 import VisualWorkflowBuilder from '../components/workflow/VisualWorkflowBuilder';
 import AgentMonitoringDashboard from '../components/monitoring/AgentMonitoringDashboard';

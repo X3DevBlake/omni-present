@@ -25,6 +25,8 @@ import RealTimeDataIntegrator from '../components/simulation/RealTimeDataIntegra
 import CollaborativeSimulation from '../components/simulation/CollaborativeSimulation';
 import ABTestingModule from '../components/simulation/ABTestingModule';
 import AgentCollaborationHub from '../components/collaboration/AgentCollaborationHub';
+import DynamicScenarioAdapter from '../components/simulation/DynamicScenarioAdapter';
+import SimulationAnalyzer from '../components/simulation/SimulationAnalyzer';
 import SocialNetworkGraph from '../components/blueprint/SocialNetworkGraph';
 import MentorshipSystem from '../components/blueprint/MentorshipSystem';
 import AgentGoalSystem from '../components/blueprint/AgentGoalSystem';
@@ -1481,6 +1483,15 @@ export default function Blueprint() {
           <AgentCollaborationHub agents={holographicAgents} />
         </div>
       )}
+
+      <div className="grid md:grid-cols-2 gap-6 mb-6">
+        <DynamicScenarioAdapter
+          scenario={currentScenario}
+          realTimeData={{}}
+          onAdaptation={(adapt) => console.log('Adaptation:', adapt)}
+        />
+        <SimulationAnalyzer simulationResults={[]} />
+      </div>
 
       <BlueprintControlPanel
         show={showControlPanel}

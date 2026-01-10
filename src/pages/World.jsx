@@ -8,6 +8,8 @@ import LiveDataFeed from '../components/world/LiveDataFeed';
 import AnimatedNetworkFlow from '../components/world/AnimatedNetworkFlow';
 import GlobalHeatmap from '../components/world/GlobalHeatmap';
 import RegionalDrilldown from '../components/world/RegionalDrilldown';
+import DataFlowPathways from '../components/world/DataFlowPathways';
+import RegionalInterdependencies from '../components/world/RegionalInterdependencies';
 import { base44 } from '@/api/base44Client';
 
 function WorldGlobe({ markers }) {
@@ -55,6 +57,8 @@ export default function World() {
   const [selectedRegion, setSelectedRegion] = useState(null);
   const [showHeatmap, setShowHeatmap] = useState(false);
   const [heatmapType, setHeatmapType] = useState('activity');
+  const [showDataFlow, setShowDataFlow] = useState(false);
+  const [showInterdependencies, setShowInterdependencies] = useState(false);
   
   const markers = [
     { lat: 40.7128, lng: -74.0060, color: '#00f5ff', label: 'New York' },
@@ -115,18 +119,30 @@ export default function World() {
 
         <LiveDataFeed onDataUpdate={(data) => console.log('World data:', data)} />
 
-        <div className="flex gap-4 mb-8 justify-center">
+        <div className="flex gap-4 mb-8 justify-center flex-wrap">
           <Button
-            onClick={() => { setShowHeatmap(!showHeatmap); setHeatmapType('activity'); }}
+            onClick={() => { setShowHeatmap(!showHeatmap); setShowDataFlow(false); setHeatmapType('activity'); }}
             className={showHeatmap && heatmapType === 'activity' ? 'bg-cyan-500/30' : 'bg-white/10'}
           >
             Activity Heatmap
           </Button>
           <Button
-            onClick={() => { setShowHeatmap(!showHeatmap); setHeatmapType('issues'); }}
+            onClick={() => { setShowHeatmap(!showHeatmap); setShowDataFlow(false); setHeatmapType('issues'); }}
             className={showHeatmap && heatmapType === 'issues' ? 'bg-red-500/30' : 'bg-white/10'}
           >
             Issue Heatmap
+          </Button>
+          <Button
+            onClick={() => { setShowDataFlow(!showDataFlow); setShowHeatmap(false); }}
+            className={showDataFlow ? 'bg-green-500/30' : 'bg-white/10'}
+          >
+            Data Flow
+          </Button>
+          <Button
+            onClick={() => setShowInterdependencies(!showInterdependencies)}
+            className={showInterdependencies ? 'bg-purple-500/30' : 'bg-white/10'}
+          >
+            Interdependencies
           </Button>
         </div>
 
@@ -138,10 +154,12 @@ export default function World() {
           >
             <h3 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
               <Globe className="w-6 h-6 text-cyan-400" />
-              {showHeatmap ? `${heatmapType} Heatmap` : 'Global Network'}
+              {showHeatmap ? `${heatmapType} Heatmap` : showDataFlow ? 'Data Flow Pathways' : 'Global Network'}
             </h3>
             {showHeatmap ? (
               <GlobalHeatmap type={heatmapType} />
+            ) : showDataFlow ? (
+              <DataFlowPathways networkData={{}} />
             ) : (
               <AnimatedNetworkFlow
                 nodes={markers.map(m => ({
@@ -233,6 +251,16 @@ export default function World() {
               </div>
             </div>
           </motion.div>
+
+          {showInterdependencies && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mt-12"
+            >
+              <RegionalInterdependencies show={true} onClose={() => setShowInterdependencies(false)} />
+            </motion.div>
+          )}
         </div>
 
         <RegionalDrilldown
