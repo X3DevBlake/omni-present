@@ -5,7 +5,7 @@ import { base44 } from '@/api/base44Client';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import SubscriptionTiers from '../components/payments/SubscriptionTiers';
 import StripeCheckout from '../components/payments/StripeCheckout';
-import PlaidConnect from '../components/banking/PlaidConnect';
+import PlaidConnectButton from '../components/banking/PlaidConnectButton';
 import { CreditCard, DollarSign, Settings } from 'lucide-react';
 
 export default function Billing() {
@@ -84,7 +84,7 @@ export default function Billing() {
               animate={{ opacity: 1, y: 0 }}
               className="bg-gradient-to-br from-black/20 to-black/40 border border-white/10 rounded-xl p-6 space-y-6"
             >
-              {userEmail && <PlaidConnect userEmail={userEmail} onSuccess={() => {}} />}
+              {userEmail && <PlaidConnectButton userEmail={userEmail} onSuccess={() => {}} />}
             </motion.div>
           </TabsContent>
 

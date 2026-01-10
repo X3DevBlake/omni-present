@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import LoanApplicationForm from '../components/loans/LoanApplicationForm';
-import PlaidConnect from '../components/banking/PlaidConnect';
+import PlaidConnectButton from '../components/banking/PlaidConnectButton';
 import { Landmark, TrendingUp } from 'lucide-react';
 
 export default function LoansAndCredit() {
@@ -48,7 +48,7 @@ export default function LoansAndCredit() {
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-6">
             {!plaidConnected ? (
-              <PlaidConnect userEmail={userEmail} onSuccess={() => setPlaidConnected(true)} />
+              <PlaidConnectButton userEmail={userEmail} onSuccess={() => setPlaidConnected(true)} />
             ) : null}
 
             {plaidConnected && (
