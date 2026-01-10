@@ -161,6 +161,7 @@ import OmniBankingHub from './pages/OmniBankingHub';
 import LoansAndCredit from './pages/LoansAndCredit';
 import CryptoTradingHub from './pages/CryptoTradingHub';
 import BudgetingForecast from './pages/BudgetingForecast';
+import RealtimeDashboard from './pages/RealtimeDashboard';
 import __Layout from './Layout.jsx';
 
 
@@ -328,6 +329,7 @@ export const PAGES = {
     "LoansAndCredit": LoansAndCredit,
     "CryptoTradingHub": CryptoTradingHub,
     "BudgetingForecast": BudgetingForecast,
+    "RealtimeDashboard": RealtimeDashboard,
 }
 
 export const pagesConfig = {
