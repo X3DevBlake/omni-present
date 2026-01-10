@@ -66,7 +66,7 @@ export class AgentSpecialization {
   constructor(agentId) {
     this.agentId = agentId;
     this.profession = null;
-    this.skills = new Map();
+    this.skills = new window.Map();
     this.experience = 0;
     this.level = 1;
     this.specializations = [];
@@ -152,7 +152,7 @@ export class AgentSpecialization {
 }
 
 export default function AgentSpecializationSystem({ show, onClose, agents, onSpecializationUpdate }) {
-  const [specializations] = useState(new Map());
+  const [specializations] = useState(new window.Map());
   const [selectedAgent, setSelectedAgent] = useState(null);
   const [professionStats, setProfessionStats] = useState({});
   const [societyImpact, setSocietyImpact] = useState(null);

@@ -70,8 +70,8 @@ export class MentorshipRelationship {
 
 export class MentorshipNetwork {
   constructor() {
-    this.relationships = new Map();
-    this.mentorPool = new Map();
+    this.relationships = new window.Map();
+    this.mentorPool = new window.Map();
     this.feedback = [];
   }
 
