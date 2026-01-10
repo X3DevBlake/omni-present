@@ -154,6 +154,7 @@ import Wallet from './pages/Wallet';
 import Webhooks from './pages/Webhooks';
 import WithdrawOmni from './pages/WithdrawOmni';
 import World from './pages/World';
+import GlobalMap from './pages/GlobalMap';
 import __Layout from './Layout.jsx';
 
 
@@ -314,6 +315,7 @@ export const PAGES = {
     "Webhooks": Webhooks,
     "WithdrawOmni": WithdrawOmni,
     "World": World,
+    "GlobalMap": GlobalMap,
 }
 
 export const pagesConfig = {
