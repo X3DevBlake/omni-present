@@ -1,83 +1,73 @@
-import React, { useRef } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { Float, Environment } from '@react-three/drei';
+import React from 'react';
+import { motion } from 'framer-motion';
 
-function FloatingLogo() {
-  const logoRef = useRef();
-
-  useFrame((state) => {
-    if (logoRef.current) {
-      logoRef.current.rotation.y = state.clock.elapsedTime * 0.5;
-    }
-  });
-
+export default function OmniPresentLogo({ size = 200 }) {
   return (
-    <Float speed={2} rotationIntensity={0.5} floatIntensity={0.3}>
-      <mesh ref={logoRef}>
-        <torusKnotGeometry args={[1, 0.3, 128, 16]} />
-        <meshStandardMaterial
-          color="#00f5ff"
-          emissive="#00f5ff"
-          emissiveIntensity={0.6}
-          metalness={0.8}
-          roughness={0.2}
-        />
-      </mesh>
-    </Float>
-  );
-}
+    <div style={{ width: size, height: size }} className="relative flex items-center justify-center">
+      {/* Central rotating orb */}
+      <motion.div
+        className="absolute w-20 h-20 rounded-full"
+        style={{
+          background: 'radial-gradient(circle, #00f5ff, #a855f7)',
+          boxShadow: '0 0 40px #00f5ff, 0 0 80px #a855f7',
+        }}
+        animate={{
+          rotate: [0, 360],
+          scale: [1, 1.1, 1],
+        }}
+        transition={{
+          rotate: { duration: 10, repeat: Infinity, ease: "linear" },
+          scale: { duration: 2, repeat: Infinity },
+        }}
+      />
 
-function DataStream() {
-  const particlesRef = useRef();
-
-  useFrame((state) => {
-    if (particlesRef.current) {
-      particlesRef.current.rotation.y = state.clock.elapsedTime * 0.2;
-    }
-  });
-
-  return (
-    <group ref={particlesRef}>
-      {[...Array(30)].map((_, i) => (
-        <mesh
+      {/* Orbital rings */}
+      {[0, 1, 2].map((i) => (
+        <motion.div
           key={i}
-          position={[
-            Math.cos((i / 30) * Math.PI * 2) * 2,
-            (i / 30) * 2.5 - 1.25,
-            Math.sin((i / 30) * Math.PI * 2) * 2
-          ]}
-        >
-          <sphereGeometry args={[0.04, 8, 8]} />
-          <meshStandardMaterial color="#00f5ff" emissive="#00f5ff" emissiveIntensity={1} />
-        </mesh>
+          className="absolute rounded-full border-2"
+          style={{
+            width: size * (0.4 + i * 0.15),
+            height: size * (0.4 + i * 0.15),
+            borderColor: i % 2 === 0 ? '#00f5ff40' : '#a855f740',
+          }}
+          animate={{
+            rotate: [0, i % 2 === 0 ? 360 : -360],
+          }}
+          transition={{
+            duration: 8 + i * 2,
+            repeat: Infinity,
+            ease: "linear",
+          }}
+        />
       ))}
-    </group>
-  );
-}
 
-export default function OmniPresentLogo({ size = 'sm' }) {
-  const sizeMap = {
-    xs: { height: 'h-12', width: 'w-12' },
-    sm: { height: 'h-16', width: 'w-16' },
-    md: { height: 'h-24', width: 'w-24' },
-    lg: { height: 'h-32', width: 'w-32' },
-  };
-
-  const dimensions = sizeMap[size] || sizeMap.sm;
-
-  return (
-    <div className={`${dimensions.height} ${dimensions.width} rounded-full overflow-hidden flex-shrink-0`}>
-      <Canvas camera={{ position: [0, 0, 4], fov: 50 }}>
-        <color attach="background" args={['#0a0a0f']} />
-        <ambientLight intensity={0.4} />
-        <pointLight position={[5, 5, 5]} intensity={1} color="#00f5ff" />
-        <pointLight position={[-5, -5, -5]} intensity={0.5} color="#a855f7" />
-
-        <FloatingLogo />
-        <DataStream />
-
-        <Environment preset="night" />
-      </Canvas>
+      {/* Floating particles */}
+      {[...Array(12)].map((_, i) => {
+        const angle = (i / 12) * Math.PI * 2;
+        const radius = size * 0.35;
+        return (
+          <motion.div
+            key={i}
+            className="absolute w-2 h-2 rounded-full"
+            style={{
+              background: i % 2 === 0 ? '#00f5ff' : '#a855f7',
+              boxShadow: `0 0 10px ${i % 2 === 0 ? '#00f5ff' : '#a855f7'}`,
+            }}
+            animate={{
+              x: [Math.cos(angle) * radius, Math.cos(angle + Math.PI * 2) * radius],
+              y: [Math.sin(angle) * radius, Math.sin(angle + Math.PI * 2) * radius],
+              opacity: [0.4, 1, 0.4],
+            }}
+            transition={{
+              duration: 6,
+              repeat: Infinity,
+              ease: "linear",
+              delay: i * 0.2,
+            }}
+          />
+        );
+      })}
     </div>
   );
 }
