@@ -212,6 +212,7 @@ import Webhooks from './pages/Webhooks';
 import WithdrawOmni from './pages/WithdrawOmni';
 import World from './pages/World';
 import EnhancedCommunityHub from './pages/EnhancedCommunityHub';
+import AdvancedFinancialEcosystem from './pages/AdvancedFinancialEcosystem';
 import __Layout from './Layout.jsx';
 
 
@@ -430,6 +431,7 @@ export const PAGES = {
     "WithdrawOmni": WithdrawOmni,
     "World": World,
     "EnhancedCommunityHub": EnhancedCommunityHub,
+    "AdvancedFinancialEcosystem": AdvancedFinancialEcosystem,
 }
 
 export const pagesConfig = {
