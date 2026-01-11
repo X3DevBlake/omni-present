@@ -1,5 +1,5 @@
 import React from 'react';
-import EnhancedMainNav from './components/navigation/EnhancedMainNav';
+import EnhancedMainNavRevamped from './components/navigation/EnhancedMainNavRevamped';
 import BackButton from './components/navigation/BackButton';
 import GlobalSearch from './components/navigation/GlobalSearch';
 import NotificationCenter from './components/navigation/NotificationCenter';
@@ -21,7 +21,7 @@ export default function Layout({ children }) {
   return (
     <PersonalizationProvider>
       <GamificationProvider>
-        <EnhancedMainNav />
+        <EnhancedMainNavRevamped />
         <BackButton />
         <GlobalSearch />
         {userEmail && <NotificationCenter userEmail={userEmail} />}

@@ -171,6 +171,8 @@ import Webhooks from './pages/Webhooks';
 import WithdrawOmni from './pages/WithdrawOmni';
 import World from './pages/World';
 import SandboxHub from './pages/SandboxHub';
+import MistralHub from './pages/MistralHub';
+import AgentTrainingCenter from './pages/AgentTrainingCenter';
 import __Layout from './Layout.jsx';
 
 
@@ -348,6 +350,8 @@ export const PAGES = {
     "WithdrawOmni": WithdrawOmni,
     "World": World,
     "SandboxHub": SandboxHub,
+    "MistralHub": MistralHub,
+    "AgentTrainingCenter": AgentTrainingCenter,
 }
 
 export const pagesConfig = {
