@@ -1,78 +1,210 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { Mic, MicOff, Volume2 } from 'lucide-react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Mic, MicOff, Volume2, Loader2, Brain, Sparkles } from 'lucide-react';
 
-export default function VoiceCommandInterface({ onCommand }) {
-  const [listening, setListening] = useState(false);
+export default function VoiceCommandInterface({ agentId, deviceId, userEmail }) {
+  const [isListening, setIsListening] = useState(false);
   const [transcript, setTranscript] = useState('');
-  const [commands, setCommands] = useState([]);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const recognitionRef = useRef(null);
+  const queryClient = useQueryClient();
 
-  const toggleListening = () => {
-    if (!listening) {
-      setListening(true);
-      // Simulate voice recognition
-      setTimeout(() => {
-        const mockCommands = [
-          'Start training agent Alpha',
-          'Generate new scenario',
-          'Show performance metrics',
-          'Export simulation data'
-        ];
-        const command = mockCommands[Math.floor(Math.random() * mockCommands.length)];
-        setTranscript(command);
-        setCommands([{ text: command, timestamp: new Date() }, ...commands].slice(0, 10));
-        onCommand?.(command);
-        setListening(false);
-      }, 2000);
-    } else {
-      setListening(false);
+  const processCommand = useMutation({
+    mutationFn: async (voiceInput) => {
+      const response = await fetch('/api/functions/unified-orchestrator', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          input: voiceInput,
+          inputType: 'voice',
+          agentId,
+          deviceId
+        })
+      });
+
+      if (!response.ok) throw new Error('Failed to process command');
+      return response.json();
+    },
+    onSuccess: (data) => {
+      if (data.audio) {
+        const audio = new Audio(data.audio);
+        audio.play();
+      }
+      queryClient.invalidateQueries();
     }
+  });
+
+  const startListening = () => {
+    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+      alert('Speech recognition not supported in this browser');
+      return;
+    }
+
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+    
+    recognition.continuous = false;
+    recognition.interimResults = true;
+    recognition.lang = 'en-US';
+
+    recognition.onstart = () => {
+      setIsListening(true);
+      setTranscript('');
+    };
+
+    recognition.onresult = (event) => {
+      let interimTranscript = '';
+      let finalTranscript = '';
+
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        const transcript = event.results[i][0].transcript;
+        if (event.results[i].isFinal) {
+          finalTranscript += transcript;
+        } else {
+          interimTranscript += transcript;
+        }
+      }
+
+      setTranscript(finalTranscript || interimTranscript);
+
+      if (finalTranscript) {
+        setIsProcessing(true);
+        processCommand.mutate(finalTranscript);
+      }
+    };
+
+    recognition.onerror = (event) => {
+      console.error('Speech recognition error:', event.error);
+      setIsListening(false);
+    };
+
+    recognition.onend = () => {
+      setIsListening(false);
+      setIsProcessing(false);
+    };
+
+    recognitionRef.current = recognition;
+    recognition.start();
+  };
+
+  const stopListening = () => {
+    if (recognitionRef.current) {
+      recognitionRef.current.stop();
+    }
+    setIsListening(false);
   };
 
   return (
-    <div className="bg-gradient-to-br from-blue-500/10 to-purple-500/10 border border-blue-500/30 rounded-xl p-6">
-      <h3 className="text-white font-bold text-xl mb-4 flex items-center gap-2">
-        <Volume2 className="w-6 h-6 text-blue-400" />
-        Voice Command Interface
-      </h3>
+    <Card className="bg-gradient-to-br from-black/40 to-black/20 border-white/10 p-6">
+      <div className="flex items-center gap-3 mb-4">
+        <div className="p-2 bg-blue-500/20 rounded-lg">
+          <Mic className="w-5 h-5 text-blue-400" />
+        </div>
+        <div>
+          <h3 className="text-white font-bold">Voice Command Interface</h3>
+          <p className="text-white/60 text-sm">Speak naturally to control everything</p>
+        </div>
+      </div>
 
-      <div className="flex flex-col items-center mb-6">
-        <motion.button
-          onClick={toggleListening}
-          className={`w-24 h-24 rounded-full flex items-center justify-center ${
-            listening ? 'bg-red-500/30 border-red-500' : 'bg-blue-500/30 border-blue-500'
-          } border-4 cursor-pointer`}
-          animate={listening ? { scale: [1, 1.1, 1] } : {}}
-          transition={{ duration: 0.5, repeat: Infinity }}
-        >
-          {listening ? (
-            <Mic className="w-12 h-12 text-red-400" />
-          ) : (
-            <MicOff className="w-12 h-12 text-blue-400" />
+      <div className="space-y-4">
+        <div className="bg-black/20 rounded-lg p-6 min-h-[120px] flex items-center justify-center">
+          {isListening && (
+            <motion.div
+              animate={{ scale: [1, 1.2, 1] }}
+              transition={{ duration: 1, repeat: Infinity }}
+              className="p-4 bg-blue-500/20 rounded-full"
+            >
+              <Mic className="w-8 h-8 text-blue-400" />
+            </motion.div>
           )}
-        </motion.button>
-        <div className="text-white/60 text-sm mt-3">
-          {listening ? 'Listening...' : 'Click to speak'}
-        </div>
-      </div>
+          
+          {!isListening && !isProcessing && (
+            <div className="text-center">
+              <MicOff className="w-8 h-8 text-white/40 mx-auto mb-2" />
+              <p className="text-white/60 text-sm">Click to start speaking</p>
+            </div>
+          )}
 
-      {transcript && (
-        <div className="bg-black/20 rounded-lg p-4 mb-4">
-          <div className="text-white/60 text-xs mb-1">Last Command</div>
-          <div className="text-white font-medium">{transcript}</div>
+          {isProcessing && (
+            <div className="flex items-center gap-3">
+              <Loader2 className="w-6 h-6 text-purple-400 animate-spin" />
+              <Brain className="w-6 h-6 text-cyan-400 animate-pulse" />
+              <Sparkles className="w-6 h-6 text-yellow-400 animate-pulse" />
+            </div>
+          )}
         </div>
-      )}
 
-      <div className="space-y-2 max-h-48 overflow-y-auto">
-        <h4 className="text-white/60 text-sm mb-2">Command History</h4>
-        {commands.map((cmd, i) => (
-          <div key={i} className="bg-black/20 rounded-lg p-2 text-sm">
-            <div className="text-white">{cmd.text}</div>
-            <div className="text-white/40 text-xs">{new Date(cmd.timestamp).toLocaleTimeString()}</div>
-          </div>
-        ))}
+        {transcript && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-white/5 rounded-lg p-4"
+          >
+            <p className="text-white/60 text-xs mb-1">Transcript:</p>
+            <p className="text-white">{transcript}</p>
+          </motion.div>
+        )}
+
+        {processCommand.data && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-purple-500/10 border border-purple-500/30 rounded-lg p-4"
+          >
+            <div className="flex items-center gap-2 mb-2">
+              <Volume2 className="w-4 h-4 text-purple-400" />
+              <p className="text-white/60 text-xs">AI Response:</p>
+            </div>
+            <p className="text-white text-sm mb-2">{processCommand.data.response}</p>
+            
+            {processCommand.data.orchestration && (
+              <div className="flex gap-2 mt-3">
+                <span className="px-2 py-1 bg-cyan-500/20 text-cyan-400 text-xs rounded">
+                  {processCommand.data.orchestration.gemini}
+                </span>
+                {processCommand.data.orchestration.mistral !== 'not used' && (
+                  <span className="px-2 py-1 bg-orange-500/20 text-orange-400 text-xs rounded">
+                    Mistral: {processCommand.data.orchestration.mistral}
+                  </span>
+                )}
+                <span className="px-2 py-1 bg-blue-500/20 text-blue-400 text-xs rounded">
+                  {processCommand.data.orchestration.elevenlabs}
+                </span>
+              </div>
+            )}
+          </motion.div>
+        )}
+
+        <Button
+          onClick={isListening ? stopListening : startListening}
+          disabled={isProcessing}
+          className={`w-full ${
+            isListening 
+              ? 'bg-gradient-to-r from-red-500 to-pink-500' 
+              : 'bg-gradient-to-r from-blue-500 to-cyan-500'
+          }`}
+        >
+          {isListening ? (
+            <>
+              <MicOff className="w-4 h-4 mr-2" />
+              Stop Listening
+            </>
+          ) : isProcessing ? (
+            <>
+              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+              Processing...
+            </>
+          ) : (
+            <>
+              <Mic className="w-4 h-4 mr-2" />
+              Start Voice Command
+            </>
+          )}
+        </Button>
       </div>
-    </div>
+    </Card>
   );
 }

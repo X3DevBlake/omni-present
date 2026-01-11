@@ -7,10 +7,13 @@ import AIEnhancedChat from '../components/communication/AIEnhancedChat';
 import VoiceMessagePlayer from '../components/communication/VoiceMessagePlayer';
 import DeviceConnector from '../components/communication/DeviceConnector';
 import AutonomousVoiceAgent from '../components/communication/AutonomousVoiceAgent';
+import VoiceCommandInterface from '../components/ai/VoiceCommandInterface';
+import ProactiveMonitorDashboard from '../components/ai/ProactiveMonitorDashboard';
+import UnifiedAIOrchestrator from '../components/ai/UnifiedAIOrchestrator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { MessageSquare, Volume2, Users, Plus, Sparkles } from 'lucide-react';
+import { MessageSquare, Volume2, Users, Plus, Sparkles, Mic, Eye } from 'lucide-react';
 
 export default function EnhancedCommunications() {
   const [userEmail, setUserEmail] = useState(null);
@@ -104,6 +107,10 @@ export default function EnhancedCommunications() {
           </div>
         </motion.div>
 
+        <div className="mb-6">
+          <UnifiedAIOrchestrator userEmail={userEmail} />
+        </div>
+
         <div className="grid grid-cols-3 gap-6">
           <Card className="bg-gradient-to-br from-black/40 to-black/20 border-white/10 p-4">
             <h3 className="text-white font-bold mb-4">Conversations</h3>
@@ -139,9 +146,9 @@ export default function EnhancedCommunications() {
             </div>
           </Card>
 
-          <div className="col-span-2">
+          <div className="col-span-2 space-y-6">
             <Tabs defaultValue="chat" className="w-full">
-              <TabsList className="grid w-full grid-cols-4 bg-white/5 border border-white/10">
+              <TabsList className="grid w-full grid-cols-6 bg-white/5 border border-white/10">
                 <TabsTrigger value="chat">
                   <MessageSquare className="w-4 h-4 mr-2" />
                   Chat
@@ -150,6 +157,10 @@ export default function EnhancedCommunications() {
                   <Volume2 className="w-4 h-4 mr-2" />
                   Voice
                 </TabsTrigger>
+                <TabsTrigger value="voicecmd">
+                  <Mic className="w-4 h-4 mr-2" />
+                  Commands
+                </TabsTrigger>
                 <TabsTrigger value="devices">
                   <Users className="w-4 h-4 mr-2" />
                   Devices
@@ -157,6 +168,10 @@ export default function EnhancedCommunications() {
                 <TabsTrigger value="autonomous">
                   <Sparkles className="w-4 h-4 mr-2" />
                   Autonomous
+                </TabsTrigger>
+                <TabsTrigger value="monitor">
+                  <Eye className="w-4 h-4 mr-2" />
+                  Monitor
                 </TabsTrigger>
               </TabsList>
 
@@ -171,12 +186,24 @@ export default function EnhancedCommunications() {
                 <VoiceMessagePlayer />
               </TabsContent>
 
+              <TabsContent value="voicecmd" className="mt-4">
+                <VoiceCommandInterface 
+                  userEmail={userEmail}
+                  agentId={null}
+                  deviceId={null}
+                />
+              </TabsContent>
+
               <TabsContent value="devices" className="mt-4">
                 <DeviceConnector userEmail={userEmail} />
               </TabsContent>
 
               <TabsContent value="autonomous" className="mt-4">
                 <AutonomousVoiceAgent userEmail={userEmail} />
+              </TabsContent>
+
+              <TabsContent value="monitor" className="mt-4">
+                <ProactiveMonitorDashboard userEmail={userEmail} />
               </TabsContent>
             </Tabs>
           </div>
