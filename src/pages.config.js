@@ -185,6 +185,7 @@ import World from './pages/World';
 import AgentModularBuilder from './pages/AgentModularBuilder';
 import EthicsSafetyHub from './pages/EthicsSafetyHub';
 import CollaborativeWorkspace from './pages/CollaborativeWorkspace';
+import PredictiveAnalyticsHub from './pages/PredictiveAnalyticsHub';
 import __Layout from './Layout.jsx';
 
 
@@ -376,6 +377,7 @@ export const PAGES = {
     "AgentModularBuilder": AgentModularBuilder,
     "EthicsSafetyHub": EthicsSafetyHub,
     "CollaborativeWorkspace": CollaborativeWorkspace,
+    "PredictiveAnalyticsHub": PredictiveAnalyticsHub,
 }
 
 export const pagesConfig = {
