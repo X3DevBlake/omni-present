@@ -8,8 +8,10 @@ import AgentDataFlowVisualizer3D from '../components/collaboration/AgentDataFlow
 import DocumentWorkspace from '../components/collaboration/DocumentWorkspace';
 import PredictiveInsights from '../components/collaboration/PredictiveInsights';
 import DocumentAutomation from '../components/collaboration/DocumentAutomation';
+import Enhanced3DAgentCollaboration from '../components/3d/Enhanced3DAgentCollaboration';
+import ComprehensiveDocsGenerator from '../components/documentation/ComprehensiveDocsGenerator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Users, Share2, FileText } from 'lucide-react';
+import { Users, Share2, FileText, Eye } from 'lucide-react';
 
 export default function EnhancedCollaborationHub() {
   const [userEmail, setUserEmail] = React.useState(null);
@@ -100,9 +102,38 @@ export default function EnhancedCollaborationHub() {
                 )}
               </div>
               {activeWorkspace && userEmail && (
-                <div>
+                <div className="space-y-4">
                   <DocumentAutomation collaborationId={activeWorkspace.workspace_id} userEmail={userEmail} />
+                  <div className="bg-gradient-to-br from-black/20 to-black/40 border border-white/10 rounded-xl p-6">
+                    <ComprehensiveDocsGenerator userEmail={userEmail} />
+                  </div>
                 </div>
+              )}
+            </div>
+          </TabsContent>
+
+          <TabsContent value="3d">
+            <div className="bg-gradient-to-br from-black/20 to-black/40 border border-white/10 rounded-xl p-6">
+              {activeWorkspace ? (
+                <Enhanced3DAgentCollaboration 
+                  agents={activeWorkspace.participating_agents?.map((agentId, idx) => ({
+                    id: agentId,
+                    name: `Agent ${idx + 1}`,
+                    position: [
+                      Math.cos((idx / (activeWorkspace.participating_agents?.length || 1)) * Math.PI * 2) * 5,
+                      0,
+                      Math.sin((idx / (activeWorkspace.participating_agents?.length || 1)) * Math.PI * 2) * 5
+                    ],
+                    isActive: true,
+                    recentDecisions: [{}, {}]
+                  })) || []}
+                  communications={[
+                    { from_position: [0, 0, 0], to_position: [5, 0, 0], active: true }
+                  ]}
+                  pathfinding={[]}
+                />
+              ) : (
+                <div className="text-center py-12 text-white/40">Select a workspace to view 3D visualization</div>
               )}
             </div>
           </TabsContent>

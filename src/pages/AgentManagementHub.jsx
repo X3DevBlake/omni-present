@@ -9,8 +9,11 @@ import AgentTrainingStudio from '../components/training/AgentTrainingStudio';
 import RealWorldTaskManager from '../components/tasks/RealWorldTaskManager';
 import CustomDatasetUploader from '../components/training/CustomDatasetUploader';
 import RewardFunctionDesigner from '../components/training/RewardFunctionDesigner';
+import PredictiveNeedsPanel from '../components/predictions/PredictiveNeedsPanel';
+import Enhanced3DAgentCollaboration from '../components/3d/Enhanced3DAgentCollaboration';
+import DecisionMaking3DFlow from '../components/3d/DecisionMaking3DFlow';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Brain, GitBranch, Zap, GraduationCap, Briefcase } from 'lucide-react';
+import { Brain, GitBranch, Zap, GraduationCap, Briefcase, Eye } from 'lucide-react';
 
 export default function AgentManagementHub() {
   const [userEmail, setUserEmail] = React.useState(null);
