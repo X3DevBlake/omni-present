@@ -9,6 +9,7 @@ import About from './pages/About';
 import AchievementsAwards from './pages/AchievementsAwards';
 import ActivityLog from './pages/ActivityLog';
 import AdminHome from './pages/AdminHome';
+import AdvancedPredictionCenter from './pages/AdvancedPredictionCenter';
 import AdvancedSimulation from './pages/AdvancedSimulation';
 import AdvancedSimulationStudio from './pages/AdvancedSimulationStudio';
 import Agent from './pages/Agent';
@@ -27,6 +28,7 @@ import AgentShoppingLog from './pages/AgentShoppingLog';
 import AgentSimulation3D from './pages/AgentSimulation3D';
 import AgentSkillMarketplace from './pages/AgentSkillMarketplace';
 import AgentSpending from './pages/AgentSpending';
+import AgentVideoInterface from './pages/AgentVideoInterface';
 import Analytics from './pages/Analytics';
 import Architecture from './pages/Architecture';
 import AssetBrowser from './pages/AssetBrowser';
@@ -46,6 +48,7 @@ import CareerPortal from './pages/CareerPortal';
 import Certifications from './pages/Certifications';
 import Challenges from './pages/Challenges';
 import CodeEditor from './pages/CodeEditor';
+import CollaborativeAgentHub from './pages/CollaborativeAgentHub';
 import Communications from './pages/Communications';
 import Community from './pages/Community';
 import CommunityGuidelines from './pages/CommunityGuidelines';
@@ -75,6 +78,8 @@ import DeviceTelemetry from './pages/DeviceTelemetry';
 import DiscountsRebates from './pages/DiscountsRebates';
 import Documentation from './pages/Documentation';
 import EmergentBehavior from './pages/EmergentBehavior';
+import EnhancedCollaborationHub from './pages/EnhancedCollaborationHub';
+import EnhancedDashboard from './pages/EnhancedDashboard';
 import EnhancedDeFiHub from './pages/EnhancedDeFiHub';
 import EnhancedOmniBank from './pages/EnhancedOmniBank';
 import EnvironmentDesigner from './pages/EnvironmentDesigner';
@@ -165,11 +170,7 @@ import Wallet from './pages/Wallet';
 import Webhooks from './pages/Webhooks';
 import WithdrawOmni from './pages/WithdrawOmni';
 import World from './pages/World';
-import CollaborativeAgentHub from './pages/CollaborativeAgentHub';
-import AdvancedPredictionCenter from './pages/AdvancedPredictionCenter';
-import AgentVideoInterface from './pages/AgentVideoInterface';
-import EnhancedDashboard from './pages/EnhancedDashboard';
-import EnhancedCollaborationHub from './pages/EnhancedCollaborationHub';
+import SandboxHub from './pages/SandboxHub';
 import __Layout from './Layout.jsx';
 
 
@@ -185,6 +186,7 @@ export const PAGES = {
     "AchievementsAwards": AchievementsAwards,
     "ActivityLog": ActivityLog,
     "AdminHome": AdminHome,
+    "AdvancedPredictionCenter": AdvancedPredictionCenter,
     "AdvancedSimulation": AdvancedSimulation,
     "AdvancedSimulationStudio": AdvancedSimulationStudio,
     "Agent": Agent,
@@ -203,6 +205,7 @@ export const PAGES = {
     "AgentSimulation3D": AgentSimulation3D,
     "AgentSkillMarketplace": AgentSkillMarketplace,
     "AgentSpending": AgentSpending,
+    "AgentVideoInterface": AgentVideoInterface,
     "Analytics": Analytics,
     "Architecture": Architecture,
     "AssetBrowser": AssetBrowser,
@@ -222,6 +225,7 @@ export const PAGES = {
     "Certifications": Certifications,
     "Challenges": Challenges,
     "CodeEditor": CodeEditor,
+    "CollaborativeAgentHub": CollaborativeAgentHub,
     "Communications": Communications,
     "Community": Community,
     "CommunityGuidelines": CommunityGuidelines,
@@ -251,6 +255,8 @@ export const PAGES = {
     "DiscountsRebates": DiscountsRebates,
     "Documentation": Documentation,
     "EmergentBehavior": EmergentBehavior,
+    "EnhancedCollaborationHub": EnhancedCollaborationHub,
+    "EnhancedDashboard": EnhancedDashboard,
     "EnhancedDeFiHub": EnhancedDeFiHub,
     "EnhancedOmniBank": EnhancedOmniBank,
     "EnvironmentDesigner": EnvironmentDesigner,
@@ -341,11 +347,7 @@ export const PAGES = {
     "Webhooks": Webhooks,
     "WithdrawOmni": WithdrawOmni,
     "World": World,
-    "CollaborativeAgentHub": CollaborativeAgentHub,
-    "AdvancedPredictionCenter": AdvancedPredictionCenter,
-    "AgentVideoInterface": AgentVideoInterface,
-    "EnhancedDashboard": EnhancedDashboard,
-    "EnhancedCollaborationHub": EnhancedCollaborationHub,
+    "SandboxHub": SandboxHub,
 }
 
 export const pagesConfig = {

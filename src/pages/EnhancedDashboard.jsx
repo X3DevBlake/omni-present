@@ -7,8 +7,10 @@ import FinancialPlanningModule from '../components/dashboard/FinancialPlanningMo
 import PredictionDashboard from '../components/predictions/PredictionDashboard';
 import AutomatedTradingDashboard from '../components/trading/AutomatedTradingDashboard';
 import GoogleSheetsSync from '../components/integrations/GoogleSheetsSync';
+import RealtimeDataFeed from '../components/market/RealtimeDataFeed';
+import GoogleDriveSync from '../components/integrations/GoogleDriveSync';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { LayoutDashboard, Target, TrendingUp, Zap, Sheet } from 'lucide-react';
+import { LayoutDashboard, Target, TrendingUp, Zap, Sheet, Activity, HardDrive } from 'lucide-react';
 
 export default function EnhancedDashboard() {
   const [userEmail, setUserEmail] = React.useState(null);
@@ -36,7 +38,7 @@ export default function EnhancedDashboard() {
 
         {userEmail ? (
           <Tabs defaultValue="overview" className="w-full space-y-6">
-            <TabsList className="grid w-full grid-cols-5 bg-white/5 border border-white/10">
+            <TabsList className="grid w-full grid-cols-7 bg-white/5 border border-white/10">
               <TabsTrigger value="overview">
                 <LayoutDashboard className="w-4 h-4 mr-2" />
                 Overview
@@ -53,9 +55,17 @@ export default function EnhancedDashboard() {
                 <Zap className="w-4 h-4 mr-2" />
                 Trading
               </TabsTrigger>
+              <TabsTrigger value="live">
+                <Activity className="w-4 h-4 mr-2" />
+                Live
+              </TabsTrigger>
               <TabsTrigger value="sheets">
                 <Sheet className="w-4 h-4 mr-2" />
                 Sheets
+              </TabsTrigger>
+              <TabsTrigger value="drive">
+                <HardDrive className="w-4 h-4 mr-2" />
+                Drive
               </TabsTrigger>
             </TabsList>
 
@@ -81,9 +91,21 @@ export default function EnhancedDashboard() {
               </div>
             </TabsContent>
 
+            <TabsContent value="live">
+              <div className="bg-gradient-to-br from-black/20 to-black/40 border border-white/10 rounded-xl p-6">
+                <RealtimeDataFeed userEmail={userEmail} />
+              </div>
+            </TabsContent>
+
             <TabsContent value="sheets">
               <div className="bg-gradient-to-br from-black/20 to-black/40 border border-white/10 rounded-xl p-6">
                 <GoogleSheetsSync userEmail={userEmail} agentId="agent-1" />
+              </div>
+            </TabsContent>
+
+            <TabsContent value="drive">
+              <div className="bg-gradient-to-br from-black/20 to-black/40 border border-white/10 rounded-xl p-6">
+                <GoogleDriveSync userEmail={userEmail} agentId="agent-1" />
               </div>
             </TabsContent>
           </Tabs>
