@@ -168,6 +168,8 @@ import World from './pages/World';
 import CollaborativeAgentHub from './pages/CollaborativeAgentHub';
 import AdvancedPredictionCenter from './pages/AdvancedPredictionCenter';
 import AgentVideoInterface from './pages/AgentVideoInterface';
+import EnhancedDashboard from './pages/EnhancedDashboard';
+import EnhancedCollaborationHub from './pages/EnhancedCollaborationHub';
 import __Layout from './Layout.jsx';
 
 
@@ -342,6 +344,8 @@ export const PAGES = {
     "CollaborativeAgentHub": CollaborativeAgentHub,
     "AdvancedPredictionCenter": AdvancedPredictionCenter,
     "AgentVideoInterface": AgentVideoInterface,
+    "EnhancedDashboard": EnhancedDashboard,
+    "EnhancedCollaborationHub": EnhancedCollaborationHub,
 }
 
 export const pagesConfig = {
