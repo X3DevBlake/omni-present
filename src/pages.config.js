@@ -218,6 +218,7 @@ import Webhooks from './pages/Webhooks';
 import WithdrawOmni from './pages/WithdrawOmni';
 import World from './pages/World';
 import NotificationsAndVisualizations from './pages/NotificationsAndVisualizations';
+import EnhancedVideoIntegrationHub from './pages/EnhancedVideoIntegrationHub';
 import __Layout from './Layout.jsx';
 
 
@@ -442,6 +443,7 @@ export const PAGES = {
     "WithdrawOmni": WithdrawOmni,
     "World": World,
     "NotificationsAndVisualizations": NotificationsAndVisualizations,
+    "EnhancedVideoIntegrationHub": EnhancedVideoIntegrationHub,
 }
 
 export const pagesConfig = {
