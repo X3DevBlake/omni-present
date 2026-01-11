@@ -67,7 +67,7 @@ export default function AgentManagementHub() {
             </div>
 
             <Tabs defaultValue="memory" className="w-full">
-              <TabsList className="grid w-full grid-cols-5 bg-white/5 border border-white/10">
+              <TabsList className="grid w-full grid-cols-6 bg-white/5 border border-white/10">
                 <TabsTrigger value="memory" className="data-[state=active]:bg-cyan-500/20">
                   <Brain className="w-4 h-4 mr-2" />
                   Memory
@@ -87,6 +87,10 @@ export default function AgentManagementHub() {
                 <TabsTrigger value="tasks" className="data-[state=active]:bg-cyan-500/20">
                   <Briefcase className="w-4 h-4 mr-2" />
                   Tasks
+                </TabsTrigger>
+                <TabsTrigger value="visualize" className="data-[state=active]:bg-cyan-500/20">
+                  <Eye className="w-4 h-4 mr-2" />
+                  3D
                 </TabsTrigger>
               </TabsList>
 
@@ -137,13 +141,41 @@ export default function AgentManagementHub() {
               </TabsContent>
 
               <TabsContent value="tasks" className="space-y-6 mt-6">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="bg-gradient-to-br from-black/20 to-black/40 border border-white/10 rounded-xl p-6"
-                >
-                  {userEmail && <RealWorldTaskManager agentId={selectedAgent} userEmail={userEmail} />}
-                </motion.div>
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                  <div className="lg:col-span-2 bg-gradient-to-br from-black/20 to-black/40 border border-white/10 rounded-xl p-6">
+                    {userEmail && <RealWorldTaskManager agentId={selectedAgent} userEmail={userEmail} />}
+                  </div>
+                  <div className="bg-gradient-to-br from-black/20 to-black/40 border border-white/10 rounded-xl p-6">
+                    {userEmail && <PredictiveNeedsPanel agentId={selectedAgent} userEmail={userEmail} />}
+                  </div>
+                </div>
+              </TabsContent>
+
+              <TabsContent value="visualize" className="space-y-6 mt-6">
+                <Enhanced3DAgentCollaboration 
+                  agents={[
+                    { id: selectedAgent, name: 'Agent Alpha', position: [0, 0, 0], isActive: true, recentDecisions: [{}, {}] },
+                    { id: 'agent-2', name: 'Agent Beta', position: [3, 1, 2], isActive: false, recentDecisions: [{}] }
+                  ]}
+                  communications={[
+                    { from_position: [0, 0, 0], to_position: [3, 1, 2], active: true }
+                  ]}
+                  pathfinding={[
+                    { waypoints: [[0, 0, 0], [1, 0.5, 1], [2, 0.8, 1.5], [3, 1, 2]] }
+                  ]}
+                />
+                
+                <DecisionMaking3DFlow 
+                  decisions={[
+                    { label: 'Analyze', confidence: 0.9, isActive: true },
+                    { label: 'Execute', confidence: 0.75, isActive: false },
+                    { label: 'Monitor', confidence: 0.6, isActive: false }
+                  ]}
+                  flows={[
+                    { from: [-3, -2, 0], to: [0, 0, 0] },
+                    { from: [0, 0, 0], to: [3, 0, 0] }
+                  ]}
+                />
               </TabsContent>
             </Tabs>
           </div>

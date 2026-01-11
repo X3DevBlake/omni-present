@@ -58,7 +58,7 @@ export default function EnhancedCollaborationHub() {
         </motion.div>
 
         <Tabs defaultValue="agents" className="w-full space-y-6">
-          <TabsList className="grid w-full grid-cols-3 bg-white/5 border border-white/10">
+          <TabsList className="grid w-full grid-cols-4 bg-white/5 border border-white/10">
             <TabsTrigger value="agents">
               <Users className="w-4 h-4 mr-2" />
               Agents
@@ -70,6 +70,10 @@ export default function EnhancedCollaborationHub() {
             <TabsTrigger value="documents">
               <FileText className="w-4 h-4 mr-2" />
               Documents
+            </TabsTrigger>
+            <TabsTrigger value="3d">
+              <Eye className="w-4 h-4 mr-2" />
+              3D View
             </TabsTrigger>
           </TabsList>
 
