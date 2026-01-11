@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, CheckCircle2, AlertCircle, Clock, RefreshCw, Shield, Zap } from 'lucide-react';
+import ZapierWorkflowManager from './ZapierWorkflowManager';
 
 export default function IntegrationManagementHub() {
   const [selectedTab, setSelectedTab] = useState('active');
@@ -144,7 +145,7 @@ export default function IntegrationManagementHub() {
 
       {/* Tabs */}
       <div className="flex gap-3 border-b border-white/10">
-        {['active', 'recommended'].map(tab => (
+        {['active', 'recommended', 'zapier'].map(tab => (
           <motion.button
             key={tab}
             whileHover={{ scale: 1.05 }}
@@ -155,7 +156,9 @@ export default function IntegrationManagementHub() {
                 : 'border-transparent text-white/60 hover:text-white'
             }`}
           >
-            {tab === 'active' ? 'Active Integrations' : 'Recommended'}
+            {tab === 'active' && 'Active Integrations'}
+            {tab === 'recommended' && 'Recommended'}
+            {tab === 'zapier' && '⚡ Zapier Workflows'}
             {tab === 'active' && (
               <span className="ml-2 px-2 py-0.5 bg-cyan-500/20 border border-cyan-400/30 rounded text-xs text-cyan-300">
                 {integrations.active.length}
@@ -286,6 +289,9 @@ export default function IntegrationManagementHub() {
           ))}
         </motion.div>
       )}
+
+      {/* Zapier Workflows */}
+      {selectedTab === 'zapier' && <ZapierWorkflowManager />}
     </div>
   );
 }
