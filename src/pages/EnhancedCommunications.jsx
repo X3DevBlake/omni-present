@@ -10,6 +10,7 @@ import AutonomousVoiceAgent from '../components/communication/AutonomousVoiceAge
 import VoiceCommandInterface from '../components/ai/VoiceCommandInterface';
 import ProactiveMonitorDashboard from '../components/ai/ProactiveMonitorDashboard';
 import UnifiedAIOrchestrator from '../components/ai/UnifiedAIOrchestrator';
+import TwilioSMSPanel from '../components/communication/TwilioSMSPanel';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -35,6 +36,13 @@ export default function EnhancedCommunications() {
   const { data: voiceMessages } = useQuery({
     queryKey: ['voiceMessages', userEmail],
     queryFn: () => base44.entities.VoiceMessage.filter({ user_email: userEmail }),
+    enabled: !!userEmail,
+    initialData: []
+  });
+
+  const { data: twilioMessages } = useQuery({
+    queryKey: ['twilioMessages', userEmail],
+    queryFn: () => base44.entities.TwilioMessage.filter({ user_email: userEmail }),
     enabled: !!userEmail,
     initialData: []
   });
@@ -71,7 +79,7 @@ export default function EnhancedCommunications() {
             </Button>
           </div>
 
-          <div className="grid grid-cols-4 gap-4 mb-6">
+          <div className="grid grid-cols-5 gap-4 mb-6">
             <Card className="bg-gradient-to-br from-black/40 to-black/20 border-white/10 p-4">
               <div className="flex items-center gap-2 mb-2">
                 <MessageSquare className="w-4 h-4 text-purple-400" />
@@ -88,6 +96,13 @@ export default function EnhancedCommunications() {
             </Card>
             <Card className="bg-gradient-to-br from-black/40 to-black/20 border-white/10 p-4">
               <div className="flex items-center gap-2 mb-2">
+                <MessageSquare className="w-4 h-4 text-green-400" />
+                <p className="text-white/60 text-xs">SMS Sent</p>
+              </div>
+              <p className="text-white text-2xl font-bold">{twilioMessages.length}</p>
+            </Card>
+            <Card className="bg-gradient-to-br from-black/40 to-black/20 border-white/10 p-4">
+              <div className="flex items-center gap-2 mb-2">
                 <Sparkles className="w-4 h-4 text-yellow-400" />
                 <p className="text-white/60 text-xs">AI Enhanced</p>
               </div>
@@ -97,11 +112,11 @@ export default function EnhancedCommunications() {
             </Card>
             <Card className="bg-gradient-to-br from-black/40 to-black/20 border-white/10 p-4">
               <div className="flex items-center gap-2 mb-2">
-                <Users className="w-4 h-4 text-green-400" />
-                <p className="text-white/60 text-xs">Active Chats</p>
+                <Users className="w-4 h-4 text-purple-400" />
+                <p className="text-white/60 text-xs">Autonomous</p>
               </div>
               <p className="text-white text-2xl font-bold">
-                {conversations.filter(c => c.status === 'active').length}
+                {twilioMessages.filter(m => m.autonomous).length}
               </p>
             </Card>
           </div>
@@ -148,7 +163,7 @@ export default function EnhancedCommunications() {
 
           <div className="col-span-2 space-y-6">
             <Tabs defaultValue="chat" className="w-full">
-              <TabsList className="grid w-full grid-cols-6 bg-white/5 border border-white/10">
+              <TabsList className="grid w-full grid-cols-7 bg-white/5 border border-white/10">
                 <TabsTrigger value="chat">
                   <MessageSquare className="w-4 h-4 mr-2" />
                   Chat
@@ -156,6 +171,10 @@ export default function EnhancedCommunications() {
                 <TabsTrigger value="voice">
                   <Volume2 className="w-4 h-4 mr-2" />
                   Voice
+                </TabsTrigger>
+                <TabsTrigger value="sms">
+                  <MessageSquare className="w-4 h-4 mr-2" />
+                  SMS
                 </TabsTrigger>
                 <TabsTrigger value="voicecmd">
                   <Mic className="w-4 h-4 mr-2" />
@@ -184,6 +203,10 @@ export default function EnhancedCommunications() {
 
               <TabsContent value="voice" className="mt-4">
                 <VoiceMessagePlayer />
+              </TabsContent>
+
+              <TabsContent value="sms" className="mt-4">
+                <TwilioSMSPanel userEmail={userEmail} />
               </TabsContent>
 
               <TabsContent value="voicecmd" className="mt-4">
