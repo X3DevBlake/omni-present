@@ -5,8 +5,10 @@ import AuroraBackground from '../components/omni/AuroraBackground';
 import AgentMemoryManager from '../components/agents/AgentMemoryManager';
 import BehaviorTreeVisualizer from '../components/agents/BehaviorTreeVisualizer';
 import SkillAcquisitionHub from '../components/agents/SkillAcquisitionHub';
+import AgentTrainingStudio from '../components/training/AgentTrainingStudio';
+import RealWorldTaskManager from '../components/tasks/RealWorldTaskManager';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Brain, GitBranch, Zap } from 'lucide-react';
+import { Brain, GitBranch, Zap, GraduationCap, Briefcase } from 'lucide-react';
 
 export default function AgentManagementHub() {
   const [userEmail, setUserEmail] = React.useState(null);
@@ -60,7 +62,7 @@ export default function AgentManagementHub() {
             </div>
 
             <Tabs defaultValue="memory" className="w-full">
-              <TabsList className="grid w-full grid-cols-3 bg-white/5 border border-white/10">
+              <TabsList className="grid w-full grid-cols-5 bg-white/5 border border-white/10">
                 <TabsTrigger value="memory" className="data-[state=active]:bg-cyan-500/20">
                   <Brain className="w-4 h-4 mr-2" />
                   Memory
@@ -72,6 +74,14 @@ export default function AgentManagementHub() {
                 <TabsTrigger value="skills" className="data-[state=active]:bg-cyan-500/20">
                   <Zap className="w-4 h-4 mr-2" />
                   Skills
+                </TabsTrigger>
+                <TabsTrigger value="training" className="data-[state=active]:bg-cyan-500/20">
+                  <GraduationCap className="w-4 h-4 mr-2" />
+                  Training
+                </TabsTrigger>
+                <TabsTrigger value="tasks" className="data-[state=active]:bg-cyan-500/20">
+                  <Briefcase className="w-4 h-4 mr-2" />
+                  Tasks
                 </TabsTrigger>
               </TabsList>
 
@@ -102,6 +112,26 @@ export default function AgentManagementHub() {
                   className="bg-gradient-to-br from-black/20 to-black/40 border border-white/10 rounded-xl p-6"
                 >
                   <SkillAcquisitionHub agentId={selectedAgent} />
+                </motion.div>
+              </TabsContent>
+
+              <TabsContent value="training" className="space-y-6 mt-6">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="bg-gradient-to-br from-black/20 to-black/40 border border-white/10 rounded-xl p-6"
+                >
+                  {userEmail && <AgentTrainingStudio agentId={selectedAgent} userEmail={userEmail} />}
+                </motion.div>
+              </TabsContent>
+
+              <TabsContent value="tasks" className="space-y-6 mt-6">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="bg-gradient-to-br from-black/20 to-black/40 border border-white/10 rounded-xl p-6"
+                >
+                  {userEmail && <RealWorldTaskManager agentId={selectedAgent} userEmail={userEmail} />}
                 </motion.div>
               </TabsContent>
             </Tabs>
