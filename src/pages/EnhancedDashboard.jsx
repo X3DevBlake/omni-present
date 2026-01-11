@@ -6,8 +6,9 @@ import ImmersiveFinancialDashboard from '../components/dashboard/ImmersiveFinanc
 import FinancialPlanningModule from '../components/dashboard/FinancialPlanningModule';
 import PredictionDashboard from '../components/predictions/PredictionDashboard';
 import AutomatedTradingDashboard from '../components/trading/AutomatedTradingDashboard';
+import GoogleSheetsSync from '../components/integrations/GoogleSheetsSync';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { LayoutDashboard, Target, TrendingUp, Zap } from 'lucide-react';
+import { LayoutDashboard, Target, TrendingUp, Zap, Sheet } from 'lucide-react';
 
 export default function EnhancedDashboard() {
   const [userEmail, setUserEmail] = React.useState(null);
@@ -35,7 +36,7 @@ export default function EnhancedDashboard() {
 
         {userEmail ? (
           <Tabs defaultValue="overview" className="w-full space-y-6">
-            <TabsList className="grid w-full grid-cols-4 bg-white/5 border border-white/10">
+            <TabsList className="grid w-full grid-cols-5 bg-white/5 border border-white/10">
               <TabsTrigger value="overview">
                 <LayoutDashboard className="w-4 h-4 mr-2" />
                 Overview
@@ -51,6 +52,10 @@ export default function EnhancedDashboard() {
               <TabsTrigger value="trading">
                 <Zap className="w-4 h-4 mr-2" />
                 Trading
+              </TabsTrigger>
+              <TabsTrigger value="sheets">
+                <Sheet className="w-4 h-4 mr-2" />
+                Sheets
               </TabsTrigger>
             </TabsList>
 
@@ -73,6 +78,12 @@ export default function EnhancedDashboard() {
             <TabsContent value="trading">
               <div className="bg-gradient-to-br from-black/20 to-black/40 border border-white/10 rounded-xl p-6">
                 <AutomatedTradingDashboard userEmail={userEmail} />
+              </div>
+            </TabsContent>
+
+            <TabsContent value="sheets">
+              <div className="bg-gradient-to-br from-black/20 to-black/40 border border-white/10 rounded-xl p-6">
+                <GoogleSheetsSync userEmail={userEmail} agentId="agent-1" />
               </div>
             </TabsContent>
           </Tabs>
