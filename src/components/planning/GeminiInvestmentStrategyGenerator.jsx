@@ -9,7 +9,6 @@ export default function GeminiInvestmentStrategyGenerator() {
   const [selectedStrategy, setSelectedStrategy] = useState(null);
   const [loading, setLoading] = useState(false);
   const [customizing, setCustomizing] = useState(false);
-  const [userEmail, setUserEmail] = useState(null);
 
   useEffect(() => {
     base44.auth.me()
