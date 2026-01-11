@@ -92,6 +92,15 @@ export default function EnhancedCollaborationHub() {
                 </div>
               )}
             </div>
+
+            <div className="grid lg:grid-cols-2 gap-6 mt-6">
+              <RealTimeDocEditor agents={['Agent-Alpha', 'Agent-Beta']} userEmail={userEmail} />
+              <AgentMoodSystem agentId="agent-1" userEmail={userEmail} />
+            </div>
+
+            <DynamicTeamFormation userEmail={userEmail} />
+
+            <SimulationConfigurator userEmail={userEmail} />
           </TabsContent>
 
           <TabsContent value="dataflow">
