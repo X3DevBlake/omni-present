@@ -174,23 +174,28 @@ export default function FinancialAdvisorChatbot({ userEmail, userContext }) {
               } rounded-lg px-4 py-3`}>
                 <p className="text-white text-sm">{msg.text}</p>
                 {msg.details && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    className="mt-3 space-y-2 text-xs text-white/70 border-t border-white/20 pt-2"
-                  >
-                    {msg.details.recommendations && msg.details.recommendations.length > 0 && (
-                      <div>
-                        <p className="font-semibold text-white/90 mb-1">Recommendations:</p>
-                        {msg.details.recommendations.slice(0, 3).map((rec, i) => (
-                          <p key={i} className="ml-2">• {rec.action || rec}</p>
-                        ))}
-                      </div>
-                    )}
-                    {msg.details.timeline && (
-                      <p><span className="font-semibold text-white/90">Timeline:</span> {msg.details.timeline}</p>
-                    )}
-                  </motion.div>
+                   <motion.div
+                     initial={{ opacity: 0, height: 0 }}
+                     animate={{ opacity: 1, height: 'auto' }}
+                     className="mt-3 space-y-2 text-xs text-white/70 border-t border-white/20 pt-2"
+                   >
+                     {msg.details.recommendations && msg.details.recommendations.length > 0 && (
+                       <div>
+                         <p className="font-semibold text-white/90 mb-1">Recommendations:</p>
+                         {msg.details.recommendations.slice(0, 3).map((rec, i) => (
+                           <p key={i} className="ml-2">• {rec.action || rec}</p>
+                         ))}
+                       </div>
+                     )}
+                     {msg.details.coachingReinforcement && (
+                       <p className="italic bg-white/5 p-2 rounded text-cyan-300">
+                         💡 {msg.details.coachingReinforcement}
+                       </p>
+                     )}
+                     {msg.details.timeline && (
+                       <p><span className="font-semibold text-white/90">Timeline:</span> {msg.details.timeline}</p>
+                     )}
+                   </motion.div>
                 )}
                 <p className="text-white/40 text-xs mt-2">{msg.timestamp.toLocaleTimeString()}</p>
               </div>
