@@ -125,6 +125,8 @@ import AIScenarioGenerator from '../components/simulation/AIScenarioGenerator';
 import AICommunicationHub from '../components/communication/AICommunicationHub';
 import EnhancedAgentOrchestration from '../components/orchestration/EnhancedAgentOrchestration';
 import AutonomousAgentCreator from '../components/ai/AutonomousAgentCreator';
+import SnowflakeQueryPanel from '../components/integrations/SnowflakeQueryPanel';
+import AutonomousSnowflakeAgent from '../components/integrations/AutonomousSnowflakeAgent';
 
 function FloatingBrain() {
   return (
@@ -1184,6 +1186,16 @@ export default function AILab() {
                Please log in to create agents
              </div>
            )}
+          </div>
+          )}
+
+          {/* Snowflake Integration Tab */}
+          {activeTab === 'snowflake' && (
+          <div className="space-y-6">
+            <div className="grid lg:grid-cols-2 gap-6">
+              <SnowflakeQueryPanel />
+              {userEmail && <AutonomousSnowflakeAgent userEmail={userEmail} />}
+            </div>
           </div>
           )}
           </div>
