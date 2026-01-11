@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { MessageSquare, Volume2, Smartphone, Bot, Monitor, Brain, TrendingUp, FileText, Sparkles } from 'lucide-react';
 import ConversationDocumenter from '../components/conversations/ConversationDocumenter';
 import VisualGenerator from '../components/conversations/VisualGenerator';
+import PredictiveAnalyticsDashboard from '../components/analytics/PredictiveAnalyticsDashboard';
 
 export default function UnifiedConversationHub() {
   const [userEmail, setUserEmail] = useState(null);
@@ -175,6 +176,8 @@ export default function UnifiedConversationHub() {
             </Button>
           ))}
         </div>
+
+        <PredictiveAnalyticsDashboard userEmail={userEmail} />
 
         <div className="grid grid-cols-3 gap-4 mb-6">
           <ConversationDocumenter />
