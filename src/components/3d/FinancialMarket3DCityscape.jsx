@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, Float, Text3D, Environment } from '@react-three/drei';
+import { OrbitControls, Float } from '@react-three/drei';
 import * as THREE from 'three';
 import { motion } from 'framer-motion';
 
@@ -111,7 +111,6 @@ export default function FinancialMarket3DCityscape() {
 
         <CityScene assets={assets} />
 
-        <Environment preset="night" />
         <OrbitControls enableZoom autoRotate autoRotateSpeed={0.3} />
       </Canvas>
 

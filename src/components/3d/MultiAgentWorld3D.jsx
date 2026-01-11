@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, Float, Environment, PointMaterial, Points } from '@react-three/drei';
+import { OrbitControls, Float } from '@react-three/drei';
 import * as THREE from 'three';
 
 function Agent3D({ position, color, name }) {
@@ -135,7 +135,6 @@ export default function MultiAgentWorld3D() {
           </group>
         </Float>
 
-        <Environment preset="night" />
         <OrbitControls enableZoom autoRotate autoRotateSpeed={0.2} />
       </Canvas>
 
