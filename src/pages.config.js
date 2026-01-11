@@ -188,6 +188,7 @@ import Webhooks from './pages/Webhooks';
 import WithdrawOmni from './pages/WithdrawOmni';
 import World from './pages/World';
 import BankingCorePhase1 from './pages/BankingCorePhase1';
+import DeFiCorePhase2 from './pages/DeFiCorePhase2';
 import __Layout from './Layout.jsx';
 
 
@@ -382,6 +383,7 @@ export const PAGES = {
     "WithdrawOmni": WithdrawOmni,
     "World": World,
     "BankingCorePhase1": BankingCorePhase1,
+    "DeFiCorePhase2": DeFiCorePhase2,
 }
 
 export const pagesConfig = {
