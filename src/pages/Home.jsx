@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls, Stars, Sphere, MeshDistortMaterial } from '@react-three/drei';
+import { OrbitControls, Stars } from '@react-three/drei';
 import { 
   Sparkles, Brain, Zap, TrendingUp, Users, MessageSquare, 
   Activity, Award, Bell, ArrowRight, Mic, Search, Star,
@@ -18,18 +18,16 @@ import AuroraBackground from '../components/omni/AuroraBackground';
 
 function AnimatedOrb() {
   return (
-    <Sphere args={[1, 64, 64]}>
-      <MeshDistortMaterial
+    <mesh>
+      <sphereGeometry args={[1, 64, 64]} />
+      <meshStandardMaterial
         color="#a855f7"
-        attach="material"
-        distort={0.5}
-        speed={2}
         roughness={0.2}
         metalness={0.8}
         emissive="#a855f7"
         emissiveIntensity={0.4}
       />
-    </Sphere>
+    </mesh>
   );
 }
 
