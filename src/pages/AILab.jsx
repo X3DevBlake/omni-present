@@ -128,6 +128,9 @@ import AutonomousAgentCreator from '../components/ai/AutonomousAgentCreator';
 import SnowflakeQueryPanel from '../components/integrations/SnowflakeQueryPanel';
 import AutonomousSnowflakeAgent from '../components/integrations/AutonomousSnowflakeAgent';
 import ZapierConfigPanel from '../components/integrations/ZapierConfigPanel';
+import ComprehensiveAgentMonitoring from '../components/monitoring/ComprehensiveAgentMonitoring';
+import EnhancedAgentMarketplace from '../components/marketplace/EnhancedAgentMarketplace';
+import ComprehensiveAgentDebugger from '../components/debugging/ComprehensiveAgentDebugger';
 
 function FloatingBrain() {
   return (
@@ -312,7 +315,10 @@ export default function AILab() {
             { id: 'training-tunnel', label: '🛤️ Training Tunnel', icon: 'TrainTunnel' },
             { id: 'relationship-web', label: '🕸️ Relationship Web', icon: 'RelWeb' },
             { id: 'marketplace', label: '🛒 Marketplace', icon: 'Marketplace' },
-            { id: 'collab-panel', label: '👥 RT Collab', icon: 'RTCollab' }
+            { id: 'collab-panel', label: '👥 RT Collab', icon: 'RTCollab' },
+            { id: 'monitoring-dash', label: '📊 Monitoring', icon: 'Monitor' },
+            { id: 'marketplace-enhanced', label: '🛍️ Marketplace', icon: 'Market' },
+            { id: 'debugger-tool', label: '🐛 Debugger', icon: 'Debug' }
           ].map(tab => (
             <button
               key={tab.id}
@@ -1174,6 +1180,27 @@ export default function AILab() {
           {activeTab === 'collab-panel' && (
           <div className="space-y-6">
            <RealtimeCollaborationPanel />
+          </div>
+          )}
+
+          {/* Comprehensive Monitoring Tab */}
+          {activeTab === 'monitoring-dash' && userEmail && (
+          <div className="space-y-6">
+           <ComprehensiveAgentMonitoring userEmail={userEmail} />
+          </div>
+          )}
+
+          {/* Enhanced Marketplace Tab */}
+          {activeTab === 'marketplace-enhanced' && userEmail && (
+          <div className="space-y-6">
+           <EnhancedAgentMarketplace userEmail={userEmail} />
+          </div>
+          )}
+
+          {/* Comprehensive Debugger Tab */}
+          {activeTab === 'debugger-tool' && userEmail && (
+          <div className="space-y-6">
+           <ComprehensiveAgentDebugger userEmail={userEmail} />
           </div>
           )}
 

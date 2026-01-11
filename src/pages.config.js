@@ -178,8 +178,6 @@ import Wallet from './pages/Wallet';
 import Webhooks from './pages/Webhooks';
 import WithdrawOmni from './pages/WithdrawOmni';
 import World from './pages/World';
-import AgentMonitoringDashboard from './pages/AgentMonitoringDashboard';
-import AgentDebugger from './pages/AgentDebugger';
 import __Layout from './Layout.jsx';
 
 
@@ -364,8 +362,6 @@ export const PAGES = {
     "Webhooks": Webhooks,
     "WithdrawOmni": WithdrawOmni,
     "World": World,
-    "AgentMonitoringDashboard": AgentMonitoringDashboard,
-    "AgentDebugger": AgentDebugger,
 }
 
 export const pagesConfig = {
