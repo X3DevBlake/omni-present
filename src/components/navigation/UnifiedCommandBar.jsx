@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { Command, Search, Zap, ArrowRight, Mic } from 'lucide-react';
-import { createPageUrl } from '../../pages/utils';
+import { createPageUrl } from '../../utils';
 import { base44 } from '@/api/base44Client';
 import { HubRegistry } from './HubRegistry';
 

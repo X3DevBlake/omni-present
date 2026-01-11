@@ -10,7 +10,7 @@ import {
   PlayCircle, Shield, Rocket, Target, ChevronRight
 } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
-import { createPageUrl } from './utils';
+import { createPageUrl } from '../utils';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
