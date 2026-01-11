@@ -15,65 +15,17 @@ export default function AutonomousAgentCreator({ userEmail }) {
 
   const createAgent = useMutation({
     mutationFn: async () => {
-      const agentSpec = await base44.integrations.Core.InvokeLLM({
-        prompt: `You are an AI agent architect. Create a comprehensive agent specification based on:
-
-Goal: ${agentGoal}
-Context: ${agentContext}
-
-Generate a complete agent configuration including:
-1. Agent name and type (trader, analyst, explorer, strategist, etc.)
-2. Personality traits (risk tolerance, decision style, communication approach)
-3. Initial skills (3-5 relevant skills with categories)
-4. Behavior tree structure (goals, decision nodes)
-5. Memory configuration (what to remember, importance weights)
-6. Training recommendations
-7. Recommended integrations and tools
-
-Return ONLY valid JSON matching this schema.`,
-        response_json_schema: {
-          type: 'object',
-          properties: {
-            name: { type: 'string' },
-            agent_type: { type: 'string' },
-            personality: {
-              type: 'object',
-              properties: {
-                risk_tolerance: { type: 'string' },
-                decision_style: { type: 'string' },
-                communication_style: { type: 'string' }
-              }
-            },
-            skills: {
-              type: 'array',
-              items: {
-                type: 'object',
-                properties: {
-                  skill_name: { type: 'string' },
-                  category: { type: 'string' },
-                  proficiency: { type: 'number' }
-                }
-              }
-            },
-            behavior_tree: {
-              type: 'object',
-              properties: {
-                goals: { type: 'array', items: { type: 'string' } },
-                decision_nodes: { type: 'array', items: { type: 'object' } }
-              }
-            },
-            memory_config: {
-              type: 'object',
-              properties: {
-                focus_areas: { type: 'array', items: { type: 'string' } },
-                importance_weights: { type: 'object' }
-              }
-            },
-            training_plan: { type: 'array', items: { type: 'string' } },
-            recommended_tools: { type: 'array', items: { type: 'string' } }
-          }
-        }
+      const response = await fetch('/api/functions/mistral-agent-generator', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ agentGoal, agentContext })
       });
+
+      if (!response.ok) {
+        throw new Error('Failed to generate agent with Mistral AI');
+      }
+
+      const agentSpec = await response.json();
 
       // Create the agent entity
       const agent = await base44.entities.Agent.create({
@@ -142,6 +94,9 @@ Return ONLY valid JSON matching this schema.`,
       <div className="flex items-center gap-3 mb-4">
         <Sparkles className="w-6 h-6 text-purple-400" />
         <h3 className="text-2xl font-bold text-white">Autonomous Agent Creator</h3>
+        <span className="px-2 py-1 bg-purple-500/20 text-purple-400 text-xs rounded">
+          Powered by Mistral AI
+        </span>
       </div>
 
       <div className="bg-gradient-to-br from-purple-900/20 to-pink-900/20 border border-purple-500/30 rounded-xl p-6 space-y-4">
