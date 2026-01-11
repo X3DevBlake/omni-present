@@ -17,6 +17,7 @@ import GamificationSection from '../components/home/GamificationSection';
 import OnboardingSection from '../components/home/OnboardingSection';
 import TestimonialsSection from '../components/home/TestimonialsSection';
 import DashboardMetricsWidget from '../components/home/DashboardMetricsWidget';
+import ImmersiveFinancialDashboard from '../components/dashboard/ImmersiveFinancialDashboard';
 
 export default function Home() {
   const [userEmail, setUserEmail] = React.useState(null);
@@ -41,8 +42,14 @@ export default function Home() {
       {/* Real-Time Market News */}
       <MarketNewsSection />
 
-      {/* Dashboard Metrics */}
-      {userEmail && <DashboardMetricsWidget userEmail={userEmail} />}
+      {/* Immersive Dashboard */}
+      {userEmail && (
+        <section className="py-8 px-4">
+          <div className="max-w-7xl mx-auto">
+            <ImmersiveFinancialDashboard userEmail={userEmail} />
+          </div>
+        </section>
+      )}
 
       {/* Financial Goals Showcase */}
       {userEmail && <FinancialGoalsShowcase userEmail={userEmail} />}
