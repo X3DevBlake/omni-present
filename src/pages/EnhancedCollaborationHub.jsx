@@ -6,6 +6,7 @@ import AuroraBackground from '../components/omni/AuroraBackground';
 import AgentCollaborationSpace3D from '../components/collaboration/AgentCollaborationSpace3D';
 import AgentDataFlowVisualizer3D from '../components/collaboration/AgentDataFlowVisualizer3D';
 import DocumentWorkspace from '../components/collaboration/DocumentWorkspace';
+import PredictiveInsights from '../components/collaboration/PredictiveInsights';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Users, Share2, FileText } from 'lucide-react';
 
@@ -70,8 +71,15 @@ export default function EnhancedCollaborationHub() {
           </TabsList>
 
           <TabsContent value="agents">
-            <div className="bg-gradient-to-br from-black/20 to-black/40 border border-white/10 rounded-xl p-6">
-              <AgentCollaborationSpace3D agents={agents} communications={communications} />
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+              <div className="lg:col-span-2 bg-gradient-to-br from-black/20 to-black/40 border border-white/10 rounded-xl p-6">
+                <AgentCollaborationSpace3D agents={agents} communications={communications} />
+              </div>
+              {activeWorkspace && (
+                <div>
+                  <PredictiveInsights collaborationId={activeWorkspace.workspace_id} />
+                </div>
+              )}
             </div>
           </TabsContent>
 
