@@ -198,6 +198,8 @@ import Phase7IntegrationHub from './pages/Phase7IntegrationHub';
 import Phase8PredictiveIntelligence from './pages/Phase8PredictiveIntelligence';
 import Phase9ImmersiveUX from './pages/Phase9ImmersiveUX';
 import Phase10AdvancedAutonomy from './pages/Phase10AdvancedAutonomy';
+import MarketIntelligenceHub from './pages/MarketIntelligenceHub';
+import MultiAgentCollaborationHub from './pages/MultiAgentCollaborationHub';
 import __Layout from './Layout.jsx';
 
 
@@ -402,6 +404,8 @@ export const PAGES = {
     "Phase8PredictiveIntelligence": Phase8PredictiveIntelligence,
     "Phase9ImmersiveUX": Phase9ImmersiveUX,
     "Phase10AdvancedAutonomy": Phase10AdvancedAutonomy,
+    "MarketIntelligenceHub": MarketIntelligenceHub,
+    "MultiAgentCollaborationHub": MultiAgentCollaborationHub,
 }
 
 export const pagesConfig = {
