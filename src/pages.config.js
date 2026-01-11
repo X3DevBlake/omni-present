@@ -71,7 +71,10 @@ import CustomDashboard from './pages/CustomDashboard';
 import CustomIntegrations from './pages/CustomIntegrations';
 import DEXAggregator from './pages/DEXAggregator';
 import DataAnnotation from './pages/DataAnnotation';
+import DeFiAnalyticsPhase4 from './pages/DeFiAnalyticsPhase4';
+import DeFiAutonomousPhase3 from './pages/DeFiAutonomousPhase3';
 import DeFiCorePhase2 from './pages/DeFiCorePhase2';
+import DeFiGovernancePhase5 from './pages/DeFiGovernancePhase5';
 import DeFiHub from './pages/DeFiHub';
 import DepositETH from './pages/DepositETH';
 import DepositOmni from './pages/DepositOmni';
@@ -189,9 +192,7 @@ import Wallet from './pages/Wallet';
 import Webhooks from './pages/Webhooks';
 import WithdrawOmni from './pages/WithdrawOmni';
 import World from './pages/World';
-import DeFiAutonomousPhase3 from './pages/DeFiAutonomousPhase3';
-import DeFiAnalyticsPhase4 from './pages/DeFiAnalyticsPhase4';
-import DeFiGovernancePhase5 from './pages/DeFiGovernancePhase5';
+import Phase4ImmersiveUI from './pages/Phase4ImmersiveUI';
 import __Layout from './Layout.jsx';
 
 
@@ -269,7 +270,10 @@ export const PAGES = {
     "CustomIntegrations": CustomIntegrations,
     "DEXAggregator": DEXAggregator,
     "DataAnnotation": DataAnnotation,
+    "DeFiAnalyticsPhase4": DeFiAnalyticsPhase4,
+    "DeFiAutonomousPhase3": DeFiAutonomousPhase3,
     "DeFiCorePhase2": DeFiCorePhase2,
+    "DeFiGovernancePhase5": DeFiGovernancePhase5,
     "DeFiHub": DeFiHub,
     "DepositETH": DepositETH,
     "DepositOmni": DepositOmni,
@@ -387,9 +391,7 @@ export const PAGES = {
     "Webhooks": Webhooks,
     "WithdrawOmni": WithdrawOmni,
     "World": World,
-    "DeFiAutonomousPhase3": DeFiAutonomousPhase3,
-    "DeFiAnalyticsPhase4": DeFiAnalyticsPhase4,
-    "DeFiGovernancePhase5": DeFiGovernancePhase5,
+    "Phase4ImmersiveUI": Phase4ImmersiveUI,
 }
 
 export const pagesConfig = {
