@@ -1,3 +1,4 @@
+import AIAnalyticsHub from './pages/AIAnalyticsHub';
 import AILab from './pages/AILab';
 import AIModelDeployment from './pages/AIModelDeployment';
 import AIPlayground from './pages/AIPlayground';
@@ -18,12 +19,14 @@ import AgentAutonomy from './pages/AgentAutonomy';
 import AgentBudget from './pages/AgentBudget';
 import AgentCardSettings from './pages/AgentCardSettings';
 import AgentCustomization from './pages/AgentCustomization';
+import AgentDebugger from './pages/AgentDebugger';
 import AgentECommerceSettings from './pages/AgentECommerceSettings';
 import AgentKnowledge from './pages/AgentKnowledge';
 import AgentKnowledgeBase from './pages/AgentKnowledgeBase';
 import AgentManagement from './pages/AgentManagement';
 import AgentManagementHub from './pages/AgentManagementHub';
 import AgentMarketplace from './pages/AgentMarketplace';
+import AgentMonitoringDashboard from './pages/AgentMonitoringDashboard';
 import AgentShoppingLog from './pages/AgentShoppingLog';
 import AgentSimulation3D from './pages/AgentSimulation3D';
 import AgentSkillMarketplace from './pages/AgentSkillMarketplace';
@@ -153,6 +156,7 @@ import Roadmap from './pages/Roadmap';
 import SDKsLibraries from './pages/SDKsLibraries';
 import SandboxEnvironment from './pages/SandboxEnvironment';
 import SandboxHub from './pages/SandboxHub';
+import SandboxSimulationHub from './pages/SandboxSimulationHub';
 import ScenarioTesting from './pages/ScenarioTesting';
 import Security from './pages/Security';
 import SellOmni from './pages/SellOmni';
@@ -178,14 +182,14 @@ import Wallet from './pages/Wallet';
 import Webhooks from './pages/Webhooks';
 import WithdrawOmni from './pages/WithdrawOmni';
 import World from './pages/World';
-import AgentMonitoringDashboard from './pages/AgentMonitoringDashboard';
-import AgentDebugger from './pages/AgentDebugger';
-import SandboxSimulationHub from './pages/SandboxSimulationHub';
-import AIAnalyticsHub from './pages/AIAnalyticsHub';
+import AgentModularBuilder from './pages/AgentModularBuilder';
+import EthicsSafetyHub from './pages/EthicsSafetyHub';
+import CollaborativeWorkspace from './pages/CollaborativeWorkspace';
 import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
+    "AIAnalyticsHub": AIAnalyticsHub,
     "AILab": AILab,
     "AIModelDeployment": AIModelDeployment,
     "AIPlayground": AIPlayground,
@@ -206,12 +210,14 @@ export const PAGES = {
     "AgentBudget": AgentBudget,
     "AgentCardSettings": AgentCardSettings,
     "AgentCustomization": AgentCustomization,
+    "AgentDebugger": AgentDebugger,
     "AgentECommerceSettings": AgentECommerceSettings,
     "AgentKnowledge": AgentKnowledge,
     "AgentKnowledgeBase": AgentKnowledgeBase,
     "AgentManagement": AgentManagement,
     "AgentManagementHub": AgentManagementHub,
     "AgentMarketplace": AgentMarketplace,
+    "AgentMonitoringDashboard": AgentMonitoringDashboard,
     "AgentShoppingLog": AgentShoppingLog,
     "AgentSimulation3D": AgentSimulation3D,
     "AgentSkillMarketplace": AgentSkillMarketplace,
@@ -341,6 +347,7 @@ export const PAGES = {
     "SDKsLibraries": SDKsLibraries,
     "SandboxEnvironment": SandboxEnvironment,
     "SandboxHub": SandboxHub,
+    "SandboxSimulationHub": SandboxSimulationHub,
     "ScenarioTesting": ScenarioTesting,
     "Security": Security,
     "SellOmni": SellOmni,
@@ -366,10 +373,9 @@ export const PAGES = {
     "Webhooks": Webhooks,
     "WithdrawOmni": WithdrawOmni,
     "World": World,
-    "AgentMonitoringDashboard": AgentMonitoringDashboard,
-    "AgentDebugger": AgentDebugger,
-    "SandboxSimulationHub": SandboxSimulationHub,
-    "AIAnalyticsHub": AIAnalyticsHub,
+    "AgentModularBuilder": AgentModularBuilder,
+    "EthicsSafetyHub": EthicsSafetyHub,
+    "CollaborativeWorkspace": CollaborativeWorkspace,
 }
 
 export const pagesConfig = {
