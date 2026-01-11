@@ -214,6 +214,7 @@ import World from './pages/World';
 import EnhancedCommunityHub from './pages/EnhancedCommunityHub';
 import AdvancedFinancialEcosystem from './pages/AdvancedFinancialEcosystem';
 import EnhancedBankingHub from './pages/EnhancedBankingHub';
+import DeepLearningPlatform from './pages/DeepLearningPlatform';
 import __Layout from './Layout.jsx';
 
 
@@ -434,6 +435,7 @@ export const PAGES = {
     "EnhancedCommunityHub": EnhancedCommunityHub,
     "AdvancedFinancialEcosystem": AdvancedFinancialEcosystem,
     "EnhancedBankingHub": EnhancedBankingHub,
+    "DeepLearningPlatform": DeepLearningPlatform,
 }
 
 export const pagesConfig = {
