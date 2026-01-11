@@ -194,6 +194,7 @@ import Webhooks from './pages/Webhooks';
 import WithdrawOmni from './pages/WithdrawOmni';
 import World from './pages/World';
 import Phase6AgentCognition from './pages/Phase6AgentCognition';
+import Phase7IntegrationHub from './pages/Phase7IntegrationHub';
 import __Layout from './Layout.jsx';
 
 
@@ -394,6 +395,7 @@ export const PAGES = {
     "WithdrawOmni": WithdrawOmni,
     "World": World,
     "Phase6AgentCognition": Phase6AgentCognition,
+    "Phase7IntegrationHub": Phase7IntegrationHub,
 }
 
 export const pagesConfig = {
