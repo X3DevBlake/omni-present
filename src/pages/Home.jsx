@@ -15,6 +15,9 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import AuroraBackground from '../components/omni/AuroraBackground';
+import EcosystemMap3D from '../components/home/EcosystemMap3D';
+import ProactiveAIFeed from '../components/home/ProactiveAIFeed';
+import EnhancedGeminiHome from '../components/home/EnhancedGeminiHome';
 
 function AnimatedOrb() {
   return (
