@@ -180,6 +180,8 @@ import WithdrawOmni from './pages/WithdrawOmni';
 import World from './pages/World';
 import AgentMonitoringDashboard from './pages/AgentMonitoringDashboard';
 import AgentDebugger from './pages/AgentDebugger';
+import SandboxSimulationHub from './pages/SandboxSimulationHub';
+import AIAnalyticsHub from './pages/AIAnalyticsHub';
 import __Layout from './Layout.jsx';
 
 
@@ -366,6 +368,8 @@ export const PAGES = {
     "World": World,
     "AgentMonitoringDashboard": AgentMonitoringDashboard,
     "AgentDebugger": AgentDebugger,
+    "SandboxSimulationHub": SandboxSimulationHub,
+    "AIAnalyticsHub": AIAnalyticsHub,
 }
 
 export const pagesConfig = {

@@ -13,6 +13,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 export default function AgentMarketplace() {
   const [userEmail, setUserEmail] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [sortBy, setSortBy] = useState('rating');
+  const [priceRange, setPriceRange] = useState([0, 1000]);
+  const [minRating, setMinRating] = useState(0);
   const queryClient = useQueryClient();
 
   React.useEffect(() => {
