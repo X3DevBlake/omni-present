@@ -196,6 +196,7 @@ import World from './pages/World';
 import Phase6AgentCognition from './pages/Phase6AgentCognition';
 import Phase7IntegrationHub from './pages/Phase7IntegrationHub';
 import Phase8PredictiveIntelligence from './pages/Phase8PredictiveIntelligence';
+import Phase9ImmersiveUX from './pages/Phase9ImmersiveUX';
 import __Layout from './Layout.jsx';
 
 
@@ -398,6 +399,7 @@ export const PAGES = {
     "Phase6AgentCognition": Phase6AgentCognition,
     "Phase7IntegrationHub": Phase7IntegrationHub,
     "Phase8PredictiveIntelligence": Phase8PredictiveIntelligence,
+    "Phase9ImmersiveUX": Phase9ImmersiveUX,
 }
 
 export const pagesConfig = {
