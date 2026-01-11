@@ -46,7 +46,8 @@ export const HubRegistry = [
   // New Enhanced Hubs
   { id: 'media', name: 'Media Hub', path: 'EnhancedMediaHub', category: 'core', icon3d: 'galaxy', color: '#ec4899' },
   { id: 'cloudinary', name: 'Cloudinary Hub', path: 'CloudinaryHub', category: 'core', icon3d: 'cube', color: '#3b82f6' },
-  { id: 'gemini', name: 'Gemini Hub', path: 'GeminiHub', category: 'core', icon3d: 'brain', color: '#a855f7' }
+  { id: 'gemini', name: 'Gemini Hub', path: 'GeminiHub', category: 'core', icon3d: 'brain', color: '#a855f7' },
+  { id: 'enhanced-comms', name: 'Enhanced Comms', path: 'EnhancedCommunications', category: 'core', icon3d: 'chat', color: '#ec4899' }
 ];
 
 export const HubCategories = {

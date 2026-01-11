@@ -176,6 +176,7 @@ import Webhooks from './pages/Webhooks';
 import WithdrawOmni from './pages/WithdrawOmni';
 import World from './pages/World';
 import GeminiHub from './pages/GeminiHub';
+import EnhancedCommunications from './pages/EnhancedCommunications';
 import __Layout from './Layout.jsx';
 
 
@@ -358,6 +359,7 @@ export const PAGES = {
     "WithdrawOmni": WithdrawOmni,
     "World": World,
     "GeminiHub": GeminiHub,
+    "EnhancedCommunications": EnhancedCommunications,
 }
 
 export const pagesConfig = {
