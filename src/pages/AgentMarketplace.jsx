@@ -1,256 +1,277 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ShoppingBag, Star, TrendingUp, Search } from 'lucide-react';
-import AuroraBackground from '../components/omni/AuroraBackground';
-import Agent3DViewer from '../components/agents/Agent3DViewer';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
-import { toast } from 'sonner';
+import AuroraBackground from '../components/omni/AuroraBackground';
+import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Store, Star, Download, DollarSign, Package, Search } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export default function AgentMarketplace() {
-  const [listings, setListings] = useState([]);
-  const [selectedListing, setSelectedListing] = useState(null);
+  const [userEmail, setUserEmail] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const [categoryFilter, setCategoryFilter] = useState('all');
+  const queryClient = useQueryClient();
 
-  useEffect(() => {
-    loadListings();
+  React.useEffect(() => {
+    base44.auth.me()
+      .then(user => setUserEmail(user?.email))
+      .catch(() => setUserEmail(null));
   }, []);
 
-  const loadListings = async () => {
-    const mockListings = [
-      {
-        id: '1',
-        title: 'Elite Financial Advisor',
-        description: 'AI agent specialized in portfolio optimization and market analysis',
-        price: 50,
-        category: 'financial',
-        rating: 4.8,
-        sales_count: 234,
-        featured: true,
-        agent: {
-          name: 'FinBot Pro',
-          personality: { curiosity: 90, risk_aversion: 60, frugality: 70, ambition: 85 },
-          skills: ['portfolio_management', 'risk_analysis', 'market_forecasting'],
-          omni_budget: 0,
-          omni_spent: 0,
-          status: 'idle'
-        }
-      },
-      {
-        id: '2',
-        title: 'Smart Shopping Assistant',
-        description: 'Negotiates prices and finds the best deals automatically',
-        price: 25,
-        category: 'shopping',
-        rating: 4.9,
-        sales_count: 456,
-        featured: true,
-        agent: {
-          name: 'DealHunter',
-          personality: { curiosity: 70, risk_aversion: 40, frugality: 95, ambition: 60 },
-          skills: ['price_comparison', 'negotiation', 'coupon_finding'],
-          omni_budget: 0,
-          omni_spent: 0,
-          status: 'idle'
-        }
-      },
-      {
-        id: '3',
-        title: 'Research Specialist',
-        description: 'Deep research capabilities with comprehensive data analysis',
-        price: 40,
-        category: 'research',
-        rating: 4.7,
-        sales_count: 189,
-        featured: false,
-        agent: {
-          name: 'ResearchBot',
-          personality: { curiosity: 95, risk_aversion: 30, frugality: 50, ambition: 90 },
-          skills: ['data_analysis', 'research', 'summarization'],
-          omni_budget: 0,
-          omni_spent: 0,
-          status: 'idle'
-        }
-      }
-    ];
-    setListings(mockListings);
-  };
+  const { data: listings = [] } = useQuery({
+    queryKey: ['agentListings'],
+    queryFn: () => base44.entities.AgentListing.list(),
+    initialData: []
+  });
 
-  const handlePurchase = async (listing) => {
-    const user = await base44.auth.me();
-    if (listing.price > (user?.omni_balance || 0)) {
-      toast.error('Insufficient Omni balance');
-      return;
+  const { data: purchases = [] } = useQuery({
+    queryKey: ['agentPurchases', userEmail],
+    queryFn: () => userEmail ? base44.entities.AgentPurchase.filter({ buyer_email: userEmail }) : [],
+    enabled: !!userEmail,
+    initialData: []
+  });
+
+  const deployAgent = useMutation({
+    mutationFn: async (listingId) => {
+      const listing = listings.find(l => l.id === listingId);
+      if (!listing) throw new Error('Listing not found');
+
+      // Create agent purchase
+      await base44.entities.AgentPurchase.create({
+        buyer_email: userEmail,
+        listing_id: listingId,
+        agent_blueprint: listing.agent_blueprint,
+        price_paid: listing.price || 0,
+        status: 'active'
+      });
+
+      return listing;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['agentPurchases'] });
     }
+  });
 
-    await base44.auth.updateMe({
-      omni_balance: (user.omni_balance || 0) - listing.price
-    });
+  const filteredListings = listings.filter(listing =>
+    listing.agent_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    listing.description?.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
-    toast.success(`Purchased ${listing.title} for ${listing.price} OMNI!`);
-    setSelectedListing(null);
-  };
+  return (
+    <AuroraBackground className="min-h-screen py-8">
+      <div className="max-w-7xl mx-auto px-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-8"
+        >
+          <h1 className="text-4xl font-bold text-white mb-2 flex items-center gap-3">
+            <Store className="w-10 h-10 text-purple-400" />
+            Agent Marketplace
+          </h1>
+          <p className="text-white/60">Discover, deploy, and share specialized AI agents</p>
+        </motion.div>
 
-  const categories = [
-    { id: 'all', label: 'All', icon: '🌐' },
-    { id: 'financial', label: 'Financial', icon: '💰' },
-    { id: 'shopping', label: 'Shopping', icon: '🛒' },
-    { id: 'research', label: 'Research', icon: '📚' },
-    { id: 'travel', label: 'Travel', icon: '✈️' },
-    { id: 'productivity', label: 'Productivity', icon: '⚡' },
-  ];
+        <div className="mb-6">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40" />
+            <Input
+              placeholder="Search agents by name or skills..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="bg-white/5 border-white/10 pl-10"
+            />
+          </div>
+        </div>
 
-  const filteredListings = listings.filter(l => {
-    const matchesCategory = categoryFilter === 'all' || l.category === categoryFilter;
-    const matchesSearch = l.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         l.description.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
+        <Tabs defaultValue="browse" className="space-y-6">
+          <TabsList className="grid w-full grid-cols-3 bg-white/5 border border-white/10">
+            <TabsTrigger value="browse">Browse Agents</TabsTrigger>
+            <TabsTrigger value="my-agents">My Agents</TabsTrigger>
+            <TabsTrigger value="list">List Agent</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="browse">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filteredListings.map((listing, idx) => (
+                <motion.div
+                  key={listing.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: idx * 0.1 }}
+                >
+                  <Card className="bg-gradient-to-br from-black/40 to-black/20 border-white/10 p-6 h-full flex flex-col">
+                    <div className="flex items-start justify-between mb-3">
+                      <div>
+                        <h3 className="text-white font-bold text-lg">{listing.agent_name}</h3>
+                        <p className="text-white/60 text-xs">v{listing.version || '1.0.0'}</p>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
+                        <span className="text-white text-sm">{listing.rating?.toFixed(1) || '5.0'}</span>
+                      </div>
+                    </div>
+
+                    <p className="text-white/80 text-sm mb-4 flex-1">{listing.description}</p>
+
+                    {listing.skills && (
+                      <div className="flex flex-wrap gap-2 mb-4">
+                        {listing.skills.slice(0, 3).map((skill, i) => (
+                          <span key={i} className="px-2 py-1 bg-purple-500/20 text-purple-400 text-xs rounded">
+                            {skill}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+
+                    <div className="flex items-center justify-between pt-4 border-t border-white/10">
+                      <div className="flex items-center gap-2">
+                        <Download className="w-4 h-4 text-white/60" />
+                        <span className="text-white/60 text-sm">{listing.downloads || 0}</span>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        {listing.price > 0 ? (
+                          <span className="text-green-400 font-bold">${listing.price}</span>
+                        ) : (
+                          <span className="text-cyan-400 font-bold">Free</span>
+                        )}
+                        <Button
+                          onClick={() => deployAgent.mutate(listing.id)}
+                          disabled={deployAgent.isPending}
+                          size="sm"
+                          className="bg-gradient-to-r from-purple-500 to-pink-500"
+                        >
+                          Deploy
+                        </Button>
+                      </div>
+                    </div>
+                  </Card>
+                </motion.div>
+              ))}
+            </div>
+          </TabsContent>
+
+          <TabsContent value="my-agents">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {purchases.length === 0 && (
+                <div className="col-span-full text-center py-12 text-white/40">
+                  You haven't deployed any agents yet
+                </div>
+              )}
+              {purchases.map((purchase) => {
+                const listing = listings.find(l => l.id === purchase.listing_id);
+                return (
+                  <Card key={purchase.id} className="bg-gradient-to-br from-black/40 to-black/20 border-white/10 p-6">
+                    <div className="flex items-center justify-between mb-3">
+                      <h3 className="text-white font-bold">{listing?.agent_name || 'Agent'}</h3>
+                      <span className="px-2 py-1 bg-green-500/20 text-green-400 text-xs rounded">
+                        {purchase.status}
+                      </span>
+                    </div>
+                    <p className="text-white/60 text-sm mb-2">
+                      Deployed: {new Date(purchase.created_date).toLocaleDateString()}
+                    </p>
+                    {purchase.price_paid > 0 && (
+                      <p className="text-white/60 text-sm">Paid: ${purchase.price_paid}</p>
+                    )}
+                  </Card>
+                );
+              })}
+            </div>
+          </TabsContent>
+
+          <TabsContent value="list">
+            <ListAgentForm userEmail={userEmail} />
+          </TabsContent>
+        </Tabs>
+      </div>
+    </AuroraBackground>
+  );
+}
+
+function ListAgentForm({ userEmail }) {
+  const [formData, setFormData] = useState({
+    agent_name: '',
+    description: '',
+    skills: '',
+    price: 0,
+    version: '1.0.0'
+  });
+  const queryClient = useQueryClient();
+
+  const createListing = useMutation({
+    mutationFn: async () => {
+      return await base44.entities.AgentListing.create({
+        seller_email: userEmail,
+        agent_name: formData.agent_name,
+        description: formData.description,
+        skills: formData.skills.split(',').map(s => s.trim()),
+        price: parseFloat(formData.price) || 0,
+        version: formData.version,
+        agent_blueprint: { type: 'custom', config: {} },
+        status: 'active',
+        downloads: 0,
+        rating: 5.0
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['agentListings'] });
+      setFormData({ agent_name: '', description: '', skills: '', price: 0, version: '1.0.0' });
+    }
   });
 
   return (
-    <AuroraBackground className="min-h-screen py-16 px-4">
-      <div className="max-w-7xl mx-auto">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
-          <h1 className="text-5xl font-bold text-white mb-4">
-            Agent <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">Marketplace</span>
-          </h1>
-          <p className="text-white/60 text-lg">Buy and sell custom AI agents</p>
-        </motion.div>
-
-        {/* Search & Filters */}
-        <div className="mb-8 space-y-4">
-          <div className="relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search agents..."
-              className="w-full bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl pl-12 pr-4 py-3 text-white focus:border-cyan-500 outline-none"
-            />
-          </div>
-
-          <div className="flex gap-3 overflow-x-auto pb-2">
-            {categories.map(cat => (
-              <button
-                key={cat.id}
-                onClick={() => setCategoryFilter(cat.id)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl whitespace-nowrap ${
-                  categoryFilter === cat.id
-                    ? 'bg-purple-500/30 border border-purple-500/50 text-purple-300'
-                    : 'bg-white/5 border border-white/10 text-white/60 hover:bg-white/10'
-                }`}
-              >
-                <span>{cat.icon}</span>
-                {cat.label}
-              </button>
-            ))}
-          </div>
+    <Card className="bg-gradient-to-br from-black/40 to-black/20 border-white/10 p-6 max-w-2xl mx-auto">
+      <h3 className="text-white font-bold mb-4 flex items-center gap-2">
+        <Package className="w-5 h-5 text-purple-400" />
+        List Your Agent
+      </h3>
+      <div className="space-y-4">
+        <Input
+          placeholder="Agent Name"
+          value={formData.agent_name}
+          onChange={(e) => setFormData({...formData, agent_name: e.target.value})}
+          className="bg-white/5 border-white/10"
+        />
+        <Textarea
+          placeholder="Description"
+          value={formData.description}
+          onChange={(e) => setFormData({...formData, description: e.target.value})}
+          className="bg-white/5 border-white/10 min-h-[100px]"
+        />
+        <Input
+          placeholder="Skills (comma-separated)"
+          value={formData.skills}
+          onChange={(e) => setFormData({...formData, skills: e.target.value})}
+          className="bg-white/5 border-white/10"
+        />
+        <div className="grid grid-cols-2 gap-4">
+          <Input
+            placeholder="Version"
+            value={formData.version}
+            onChange={(e) => setFormData({...formData, version: e.target.value})}
+            className="bg-white/5 border-white/10"
+          />
+          <Input
+            type="number"
+            placeholder="Price (0 for free)"
+            value={formData.price}
+            onChange={(e) => setFormData({...formData, price: e.target.value})}
+            className="bg-white/5 border-white/10"
+          />
         </div>
-
-        {/* Listings Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredListings.map((listing, i) => (
-            <motion.div
-              key={listing.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.1 }}
-              onClick={() => setSelectedListing(listing)}
-              className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl p-6 hover:border-purple-500/30 transition-all cursor-pointer"
-            >
-              {listing.featured && (
-                <div className="mb-3">
-                  <span className="px-3 py-1 bg-yellow-500/20 border border-yellow-500/50 text-yellow-400 rounded-full text-xs font-bold">
-                    ⭐ FEATURED
-                  </span>
-                </div>
-              )}
-
-              <h3 className="text-white font-bold text-xl mb-2">{listing.title}</h3>
-              <p className="text-white/60 text-sm mb-4 line-clamp-2">{listing.description}</p>
-
-              <div className="flex items-center gap-4 mb-4">
-                <div className="flex items-center gap-1">
-                  <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                  <span className="text-white text-sm font-bold">{listing.rating}</span>
-                </div>
-                <div className="flex items-center gap-1 text-white/60 text-sm">
-                  <ShoppingBag className="w-4 h-4" />
-                  {listing.sales_count} sales
-                </div>
-              </div>
-
-              <div className="flex items-center justify-between">
-                <div className="text-green-400 text-2xl font-bold">{listing.price} OMNI</div>
-                <button className="px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-medium rounded-xl hover:opacity-90">
-                  View
-                </button>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Detail Modal */}
-        {selectedListing && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="bg-black/90 backdrop-blur-xl border border-white/20 rounded-2xl p-8 max-w-4xl w-full max-h-[90vh] overflow-y-auto"
-            >
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <Agent3DViewer agent={selectedListing.agent} showBudget={false} />
-
-                <div>
-                  <h2 className="text-white font-bold text-3xl mb-4">{selectedListing.title}</h2>
-                  <p className="text-white/70 mb-6">{selectedListing.description}</p>
-
-                  <div className="bg-white/5 rounded-xl p-4 mb-6">
-                    <h4 className="text-cyan-400 font-semibold mb-3">Agent Capabilities</h4>
-                    <div className="space-y-2">
-                      {selectedListing.agent.skills.map((skill, i) => (
-                        <div key={i} className="flex items-center gap-2 text-white/80">
-                          <div className="w-2 h-2 rounded-full bg-purple-400" />
-                          {skill.replace(/_/g, ' ').toUpperCase()}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-4 mb-6">
-                    <div className="flex items-center gap-2">
-                      <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
-                      <span className="text-white font-bold">{selectedListing.rating}</span>
-                    </div>
-                    <div className="text-white/60">{selectedListing.sales_count} sales</div>
-                  </div>
-
-                  <div className="bg-green-500/10 border border-green-500/30 rounded-xl p-4 mb-6">
-                    <div className="text-white/60 text-sm mb-1">Price</div>
-                    <div className="text-green-400 text-4xl font-bold">{selectedListing.price} OMNI</div>
-                  </div>
-
-                  <div className="flex gap-3">
-                    <button
-                      onClick={() => setSelectedListing(null)}
-                      className="flex-1 py-3 bg-white/5 border border-white/10 text-white rounded-xl hover:bg-white/10"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      onClick={() => handlePurchase(selectedListing)}
-                      className="flex-1 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold rounded-xl hover:opacity-90"
-                    >
-                      Purchase Agent
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        )}
+        <Button
+          onClick={() => createListing.mutate()}
+          disabled={!formData.agent_name || createListing.isPending}
+          className="w-full bg-gradient-to-r from-purple-500 to-pink-500"
+        >
+          <DollarSign className="w-4 h-4 mr-2" />
+          List Agent
+        </Button>
       </div>
-    </AuroraBackground>
+    </Card>
   );
 }
