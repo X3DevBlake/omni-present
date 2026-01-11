@@ -1,200 +1,237 @@
 import { base44 } from '@/api/base44Client';
 
 /**
- * AI-Powered Financial Coaching
- * Personalized advice on budgeting, saving, debt, planning with interactive Q&A
+ * Gemini-Powered Financial Coaching Module
+ * Behavioral analysis, anomaly detection, adaptive coaching plans
  */
 
 /**
- * Generate personalized financial coaching plan
+ * Analyze user financial behavior and generate coaching insights
  */
-export async function generateCoachingPlan(userEmail, userData) {
+export async function analyzeBehaviorAndGenerateCoaching(userEmail, financialData, goalProgress) {
   try {
     const response = await base44.integrations.Core.InvokeLLM({
-      prompt: `Create a personalized financial coaching plan:
+      prompt: `Analyze financial behavior and generate coaching plan:
       
       User: ${userEmail}
-      Data: ${JSON.stringify(userData)}
+      Financial Data: ${JSON.stringify(financialData)}
+      Goal Progress: ${JSON.stringify(goalProgress)}
       
-      Develop:
-      1. Budget optimization plan
-      2. Saving strategy with targets
-      3. Debt payoff roadmap (if applicable)
-      4. Emergency fund recommendations
-      5. Retirement planning milestones
-      6. Investment readiness assessment
-      7. 90-day quick wins
-      8. 1-year goals
-      9. 5-year vision
-      10. Motivational framework`,
+      Analyze:
+      1. Spending patterns and trends
+      2. Savings discipline and consistency
+      3. Investment decision quality
+      4. Risk management behavior
+      5. Goal alignment of actions
+      6. Emotional spending triggers
+      7. Knowledge gaps and learning opportunities
+      
+      Generate:
+      1. Personalized coaching objectives (30-day focus)
+      2. Specific behavioral nudges (daily/weekly)
+      3. Educational content recommendations
+      4. Motivational insights
+      5. Celebration milestones
+      6. Key metrics to track`,
       response_json_schema: {
         type: 'object',
         properties: {
-          budgetPlan: { type: 'object' },
-          savingStrategy: { type: 'object' },
-          debtPayoff: { type: 'object' },
-          emergencyFund: { type: 'string' },
-          retirementPlan: { type: 'object' },
-          investmentReadiness: { type: 'string' },
-          quickWins: { type: 'array', items: { type: 'string' } },
-          oneYearGoals: { type: 'array', items: { type: 'string' } },
-          fiveYearVision: { type: 'string' },
+          behaviorAnalysis: { type: 'object' },
+          coachingObjectives: { type: 'array', items: { type: 'string' } },
+          nudges: { type: 'array', items: { type: 'object' } },
+          educationalContent: { type: 'array', items: { type: 'object' } },
+          motivationalInsights: { type: 'array', items: { type: 'string' } },
+          trackingMetrics: { type: 'array', items: { type: 'string' } },
         },
       },
     });
 
     return response;
   } catch (error) {
-    console.error('Error generating coaching plan:', error);
+    console.error('Error analyzing behavior:', error);
     throw error;
   }
 }
 
 /**
- * Interactive financial Q&A
+ * Detect anomalies in financial behavior
  */
-export async function answerFinancialQuestion(userEmail, question, userContext) {
+export async function detectFinancialAnomalies(userEmail, transactions, patterns, planData) {
   try {
     const response = await base44.integrations.Core.InvokeLLM({
-      prompt: `Answer this financial question with personalized advice:
+      prompt: `Detect financial behavior anomalies:
       
       User: ${userEmail}
-      Question: "${question}"
-      Context: ${JSON.stringify(userContext)}
+      Recent Transactions: ${JSON.stringify(transactions.slice(-20))}
+      Historical Patterns: ${JSON.stringify(patterns)}
+      Financial Plan: ${JSON.stringify(planData)}
       
-      Provide:
-      1. Direct answer
-      2. Personalized explanation
-      3. Action steps
-      4. Common mistakes to avoid
-      5. Follow-up resources
+      Identify:
+      1. Unusual spending spikes
+      2. Category deviations
+      3. Savings shortfalls
+      4. Investment behavior changes
+      5. Risk-taking increases
+      6. Goal-misaligned spending
+      7. Emotional or stress-driven decisions
       
-      Be empathetic and encouraging`,
+      For each: severity, likely cause, recommended intervention`,
       response_json_schema: {
         type: 'object',
         properties: {
-          answer: { type: 'string' },
-          explanation: { type: 'string' },
-          actionSteps: { type: 'array', items: { type: 'string' } },
-          mistakesToAvoid: { type: 'array', items: { type: 'string' } },
-          resources: { type: 'array', items: { type: 'string' } },
+          anomalies: { type: 'array', items: { type: 'object' } },
+          anomalyScore: { type: 'number' },
+          behaviorChangeDetected: { type: 'boolean' },
+          likelyCauses: { type: 'array', items: { type: 'string' } },
+          recommendedInterventions: { type: 'array', items: { type: 'object' } },
         },
       },
     });
 
     return response;
   } catch (error) {
-    console.error('Error answering question:', error);
+    console.error('Error detecting anomalies:', error);
     throw error;
   }
 }
 
 /**
- * Track progress toward financial goals
+ * Generate proactive nudges based on behavior and goals
  */
-export async function trackFinancialProgress(userEmail, goal, currentData) {
-  try {
-    const progress = {
-      goalId: goal.id,
-      userId: userEmail,
-      targetAmount: goal.target_amount,
-      currentAmount: currentData.currentAmount,
-      progressPercent: (currentData.currentAmount / goal.target_amount) * 100,
-      deadline: goal.deadline,
-      daysRemaining: Math.ceil((new Date(goal.deadline) - new Date()) / (1000 * 60 * 60 * 24)),
-      monthlyRequirement: (goal.target_amount - currentData.currentAmount) / Math.ceil((new Date(goal.deadline) - new Date()) / (1000 * 60 * 60 * 24 * 30)),
-      onTrack: true,
-      lastUpdated: new Date().toISOString(),
-    };
-
-    return progress;
-  } catch (error) {
-    console.error('Error tracking progress:', error);
-    throw error;
-  }
-}
-
-/**
- * Generate motivational nudges
- */
-export async function generateMotivationalNudge(userEmail, progress, goals) {
+export async function generateProactiveNudges(userEmail, behaviorProfile, upcomingGoals) {
   try {
     const response = await base44.integrations.Core.InvokeLLM({
-      prompt: `Generate a motivational financial nudge:
+      prompt: `Generate proactive financial nudges:
       
       User: ${userEmail}
-      Progress: ${JSON.stringify(progress)}
-      Goals: ${JSON.stringify(goals)}
+      Behavior Profile: ${JSON.stringify(behaviorProfile)}
+      Upcoming Goals/Deadlines: ${JSON.stringify(upcomingGoals)}
+      
+      Create nudges for:
+      1. Today's spending triggers (if any)
+      2. Weekly savings reminder
+      3. Goal progress celebration/warning
+      4. Opportunity alerts (market conditions, investment chances)
+      5. Learning moment (relevant financial education)
+      6. Motivational message (personalized to user style)
+      
+      Each nudge: timing, channel (email/in-app), tone, call-to-action`,
+      response_json_schema: {
+        type: 'object',
+        properties: {
+          nudges: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                type: { type: 'string' },
+                message: { type: 'string' },
+                timing: { type: 'string' },
+                channel: { type: 'string' },
+                callToAction: { type: 'string' },
+                priority: { type: 'string' },
+              },
+            },
+          },
+          nextNudgeTime: { type: 'string' },
+        },
+      },
+    });
+
+    return response;
+  } catch (error) {
+    console.error('Error generating nudges:', error);
+    throw error;
+  }
+}
+
+/**
+ * Create adaptive coaching plan based on progress
+ */
+export async function createAdaptiveCoachingPlan(userEmail, currentProgress, goalData, coachingHistory) {
+  try {
+    const response = await base44.integrations.Core.InvokeLLM({
+      prompt: `Create adaptive coaching plan:
+      
+      User: ${userEmail}
+      Current Progress: ${JSON.stringify(currentProgress)}
+      Goals: ${JSON.stringify(goalData)}
+      Previous Coaching: ${JSON.stringify(coachingHistory)}
+      
+      Design plan that:
+      1. Adapts to user's learning pace
+      2. Increases difficulty/complexity as skills improve
+      3. Addresses repeated failure points
+      4. Celebrates wins and builds momentum
+      5. Introduces new concepts progressively
+      6. Adjusts tone based on emotional state
+      7. Personalizes examples to user context
+      
+      Return: daily actions, weekly reviews, monthly assessments`,
+      response_json_schema: {
+        type: 'object',
+        properties: {
+          coachingPlan: { type: 'object' },
+          dailyActions: { type: 'array', items: { type: 'string' } },
+          weeklyReviews: { type: 'array', items: { type: 'object' } },
+          monthlyAssessments: { type: 'array', items: { type: 'object' } },
+          adaptationTriggers: { type: 'array', items: { type: 'string' } },
+        },
+      },
+    });
+
+    return response;
+  } catch (error) {
+    console.error('Error creating coaching plan:', error);
+    throw error;
+  }
+}
+
+/**
+ * Generate motivational messages based on user profile
+ */
+export async function generateMotivationalContent(userEmail, userPersonality, progress, challenges) {
+  try {
+    const response = await base44.integrations.Core.InvokeLLM({
+      prompt: `Generate motivational financial coaching content:
+      
+      User: ${userEmail}
+      Personality/Style: ${JSON.stringify(userPersonality)}
+      Recent Progress: ${JSON.stringify(progress)}
+      Current Challenges: ${JSON.stringify(challenges)}
       
       Create:
-      1. Personalized encouragement
-      2. Progress celebration
-      3. Next milestone
-      4. Small action to take today
-      5. Why it matters
+      1. Motivational message (tailored to personality)
+      2. Progress celebration (specific wins)
+      3. Challenge reframe (turn obstacles into opportunities)
+      4. Success story (relatable example)
+      5. Next milestone excitement
+      6. Accountability reminder
       
-      Tone: supportive, positive, empowering`,
+      Tone should match user preferences (analytical, emotional, humorous, etc)`,
       response_json_schema: {
         type: 'object',
         properties: {
-          message: { type: 'string' },
-          milestone: { type: 'string' },
-          actionToday: { type: 'string' },
-          whyItMatters: { type: 'string' },
+          motivationalMessage: { type: 'string' },
+          progressCelebration: { type: 'string' },
+          challengeReframe: { type: 'string' },
+          successStory: { type: 'string' },
+          nextMilestoneMessage: { type: 'string' },
         },
       },
     });
 
     return response;
   } catch (error) {
-    console.error('Error generating nudge:', error);
-    throw error;
-  }
-}
-
-/**
- * Get personalized advice on specific topic
- */
-export async function getCoachingAdvice(userEmail, topic, userData) {
-  try {
-    const response = await base44.integrations.Core.InvokeLLM({
-      prompt: `Provide personalized coaching advice on ${topic}:
-      
-      User: ${userEmail}
-      Data: ${JSON.stringify(userData)}
-      
-      Cover:
-      1. Current situation assessment
-      2. Key issues/opportunities
-      3. Best practices
-      4. Specific recommendations
-      5. Implementation timeline
-      6. Expected benefits
-      7. Potential challenges
-      8. Resources needed`,
-      response_json_schema: {
-        type: 'object',
-        properties: {
-          assessment: { type: 'string' },
-          recommendations: { type: 'array', items: { type: 'string' } },
-          timeline: { type: 'string' },
-          benefits: { type: 'array', items: { type: 'string' } },
-          challenges: { type: 'array', items: { type: 'string' } },
-        },
-      },
-    });
-
-    return response;
-  } catch (error) {
-    console.error('Error getting advice:', error);
+    console.error('Error generating motivational content:', error);
     throw error;
   }
 }
 
 export default {
-  generateCoachingPlan,
-  answerFinancialQuestion,
-  trackFinancialProgress,
-  generateMotivationalNudge,
-  getCoachingAdvice,
+  analyzeBehaviorAndGenerateCoaching,
+  detectFinancialAnomalies,
+  generateProactiveNudges,
+  createAdaptiveCoachingPlan,
+  generateMotivationalContent,
 };

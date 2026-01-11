@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Send, MessageCircle, TrendingUp, Lightbulb } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
+import * as coachingEngine from '../../functions/coaching/financial-coaching-engine';
 
 export default function FinancialAdvisorChatbot({ userEmail, userContext }) {
   const [messages, setMessages] = useState([
@@ -52,15 +53,23 @@ export default function FinancialAdvisorChatbot({ userEmail, userContext }) {
         },
       });
 
-      // Get comprehensive financial advice
+      // Get coaching insights
+      const coachingInsights = await coachingEngine.analyzeBehaviorAndGenerateCoaching(
+        userEmail,
+        userContext?.portfolio || {},
+        userContext?.goals || []
+      );
+
+      // Get comprehensive financial advice with coaching integration
       const adviceResponse = await base44.integrations.Core.InvokeLLM({
-        prompt: `Provide personalized financial advice:
+        prompt: `Provide personalized financial advice with coaching elements:
         
         User: ${userEmail}
         Question: "${userQuestion}"
         Portfolio Context: ${JSON.stringify(userContext?.portfolio || {})}
         Financial Goals: ${JSON.stringify(userContext?.goals || [])}
         Sentiment: ${sentimentResponse.sentiment}
+        Coaching Insights: ${JSON.stringify(coachingInsights.coachingObjectives)}
         
         Provide:
         1. Direct answer to the question
@@ -69,6 +78,7 @@ export default function FinancialAdvisorChatbot({ userEmail, userContext }) {
         4. Actionable recommendations (3-5 specific steps)
         5. Risk considerations
         6. Timeline/urgency
+        7. Coaching reinforcement (if relevant to question)
         
         Adapt tone to user sentiment: ${sentimentResponse.sentiment}.
         Be empathetic if stressed, confident if uncertain.`,
@@ -82,6 +92,7 @@ export default function FinancialAdvisorChatbot({ userEmail, userContext }) {
             recommendations: { type: 'array', items: { type: 'object' } },
             riskConsiderations: { type: 'array', items: { type: 'string' } },
             timeline: { type: 'string' },
+            coachingReinforcement: { type: 'string' },
           },
         },
       });
