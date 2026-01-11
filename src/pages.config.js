@@ -210,6 +210,7 @@ import IntegrationDevelopmentHub from './pages/IntegrationDevelopmentHub';
 import AdvancedAgentCapabilities from './pages/AdvancedAgentCapabilities';
 import CrossAgentPlanningHub from './pages/CrossAgentPlanningHub';
 import FinancialAdvisorHub from './pages/FinancialAdvisorHub';
+import ComprehensiveFinancialHub from './pages/ComprehensiveFinancialHub';
 import __Layout from './Layout.jsx';
 
 
@@ -426,6 +427,7 @@ export const PAGES = {
     "AdvancedAgentCapabilities": AdvancedAgentCapabilities,
     "CrossAgentPlanningHub": CrossAgentPlanningHub,
     "FinancialAdvisorHub": FinancialAdvisorHub,
+    "ComprehensiveFinancialHub": ComprehensiveFinancialHub,
 }
 
 export const pagesConfig = {
