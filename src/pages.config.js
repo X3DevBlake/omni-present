@@ -205,6 +205,8 @@ import FinancialCoachingHub from './pages/FinancialCoachingHub';
 import AgentGovernanceHub from './pages/AgentGovernanceHub';
 import AgentCustomizationStudio from './pages/AgentCustomizationStudio';
 import CollaborationDashboard from './pages/CollaborationDashboard';
+import EnhancedAnomalyDashboard from './pages/EnhancedAnomalyDashboard';
+import IntegrationDevelopmentHub from './pages/IntegrationDevelopmentHub';
 import __Layout from './Layout.jsx';
 
 
@@ -416,6 +418,8 @@ export const PAGES = {
     "AgentGovernanceHub": AgentGovernanceHub,
     "AgentCustomizationStudio": AgentCustomizationStudio,
     "CollaborationDashboard": CollaborationDashboard,
+    "EnhancedAnomalyDashboard": EnhancedAnomalyDashboard,
+    "IntegrationDevelopmentHub": IntegrationDevelopmentHub,
 }
 
 export const pagesConfig = {

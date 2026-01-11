@@ -1,94 +1,50 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-import AuroraBackground from '../components/omni/AuroraBackground';
 import AgentTrainingStudio from '../components/training/AgentTrainingStudio';
-import CustomDatasetUploader from '../components/training/CustomDatasetUploader';
-import RewardFunctionDesigner from '../components/training/RewardFunctionDesigner';
-import { base44 } from '@/api/base44Client';
-import { GraduationCap, Brain, Database, Zap } from 'lucide-react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export default function AgentTrainingCenter() {
-  const [userEmail, setUserEmail] = useState(null);
-  const [selectedAgent, setSelectedAgent] = useState('agent-1');
-
-  React.useEffect(() => {
-    base44.auth.me()
-      .then(user => setUserEmail(user?.email))
-      .catch(() => setUserEmail(null));
-  }, []);
-
   return (
-    <AuroraBackground className="min-h-screen py-8">
-      <div className="max-w-7xl mx-auto px-4">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950 p-6">
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="max-w-7xl mx-auto"
+      >
+        <h1 className="text-4xl font-bold bg-gradient-to-r from-cyan-400 to-yellow-400 bg-clip-text text-transparent mb-2">
+          Agent Training Center
+        </h1>
+        <p className="text-white/60 mb-8">
+          AI-driven training with custom datasets, reinforcement learning, and adaptive curricula
+        </p>
+
+        <AgentTrainingStudio />
+
+        {/* Training Features */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
+          transition={{ delay: 0.3 }}
+          className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4"
         >
-          <div className="flex items-center gap-4 mb-4">
-            <div className="p-4 bg-gradient-to-br from-orange-500/20 to-amber-500/20 rounded-2xl">
-              <GraduationCap className="w-8 h-8 text-orange-400" />
-            </div>
-            <div>
-              <h1 className="text-4xl font-bold text-white">Agent Training Center</h1>
-              <p className="text-white/60">Advanced training, datasets, and reward functions</p>
-            </div>
-          </div>
+          {[
+            { title: 'Custom Datasets', desc: 'Upload domain-specific training data' },
+            { title: 'Reinforcement Learning', desc: 'Learn from user feedback and outcomes' },
+            { title: 'Adaptive Curricula', desc: 'Personalized training paths for each agent' },
+          ].map((feature, idx) => (
+            <motion.div
+              key={idx}
+              whileHover={{ y: -5 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: idx * 0.1 }}
+              className="bg-white/5 border border-white/10 rounded-lg p-4 hover:border-white/30 transition-all"
+            >
+              <p className="text-white font-bold mb-1">{feature.title}</p>
+              <p className="text-white/60 text-sm">{feature.desc}</p>
+            </motion.div>
+          ))}
         </motion.div>
-
-        <Tabs defaultValue="training" className="w-full">
-          <TabsList className="grid w-full grid-cols-4 bg-white/5 border border-white/10">
-            <TabsTrigger value="training" className="data-[state=active]:bg-orange-500/20">
-              <Brain className="w-4 h-4 mr-2" />
-              Training
-            </TabsTrigger>
-            <TabsTrigger value="datasets" className="data-[state=active]:bg-orange-500/20">
-              <Database className="w-4 h-4 mr-2" />
-              Datasets
-            </TabsTrigger>
-            <TabsTrigger value="rewards" className="data-[state=active]:bg-orange-500/20">
-              <Zap className="w-4 h-4 mr-2" />
-              Rewards
-            </TabsTrigger>
-            <TabsTrigger value="analytics" className="data-[state=active]:bg-orange-500/20">
-              <GraduationCap className="w-4 h-4 mr-2" />
-              Analytics
-            </TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="training" className="space-y-6 mt-6">
-            {userEmail && (
-              <div className="bg-gradient-to-br from-black/40 to-black/20 border border-white/10 rounded-xl p-6">
-                <AgentTrainingStudio agentId={selectedAgent} userEmail={userEmail} />
-              </div>
-            )}
-          </TabsContent>
-
-          <TabsContent value="datasets" className="space-y-6 mt-6">
-            {userEmail && (
-              <div className="bg-gradient-to-br from-black/40 to-black/20 border border-white/10 rounded-xl p-6">
-                <CustomDatasetUploader agentId={selectedAgent} userEmail={userEmail} />
-              </div>
-            )}
-          </TabsContent>
-
-          <TabsContent value="rewards" className="space-y-6 mt-6">
-            {userEmail && (
-              <div className="bg-gradient-to-br from-black/40 to-black/20 border border-white/10 rounded-xl p-6">
-                <RewardFunctionDesigner agentId={selectedAgent} userEmail={userEmail} />
-              </div>
-            )}
-          </TabsContent>
-
-          <TabsContent value="analytics" className="space-y-6 mt-6">
-            <div className="bg-gradient-to-br from-black/40 to-black/20 border border-white/10 rounded-xl p-6">
-              <h3 className="text-white font-bold mb-4">Training Analytics</h3>
-              <p className="text-white/60">Coming soon: Comprehensive training analytics and performance metrics</p>
-            </div>
-          </TabsContent>
-        </Tabs>
-      </div>
-    </AuroraBackground>
+      </motion.div>
+    </div>
   );
 }
