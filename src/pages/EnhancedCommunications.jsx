@@ -11,7 +11,10 @@ import VoiceCommandInterface from '../components/ai/VoiceCommandInterface';
 import ProactiveMonitorDashboard from '../components/ai/ProactiveMonitorDashboard';
 import UnifiedAIOrchestrator from '../components/ai/UnifiedAIOrchestrator';
 import TwilioSMSPanel from '../components/communication/TwilioSMSPanel';
+import DeviceManagementPanel from '../components/ai/DeviceManagementPanel';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Link } from 'react-router-dom';
+import { createPageUrl } from './utils';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { MessageSquare, Volume2, Users, Plus, Sparkles, Mic, Eye } from 'lucide-react';
@@ -73,10 +76,18 @@ export default function EnhancedCommunications() {
                 <p className="text-white/60">AI-powered chat & voice messaging</p>
               </div>
             </div>
-            <Button className="bg-gradient-to-r from-purple-500 to-pink-500">
-              <Plus className="w-4 h-4 mr-2" />
-              New Conversation
-            </Button>
+            <div className="flex gap-3">
+              <Link to={createPageUrl('UnifiedConversationHub')}>
+                <Button className="bg-gradient-to-r from-cyan-500 to-blue-500">
+                  <Eye className="w-4 h-4 mr-2" />
+                  Unified Hub
+                </Button>
+              </Link>
+              <Button className="bg-gradient-to-r from-purple-500 to-pink-500">
+                <Plus className="w-4 h-4 mr-2" />
+                New Conversation
+              </Button>
+            </div>
           </div>
 
           <div className="grid grid-cols-5 gap-4 mb-6">
@@ -229,6 +240,8 @@ export default function EnhancedCommunications() {
                 <ProactiveMonitorDashboard userEmail={userEmail} />
               </TabsContent>
             </Tabs>
+
+            <DeviceManagementPanel userEmail={userEmail} />
           </div>
         </div>
       </div>
