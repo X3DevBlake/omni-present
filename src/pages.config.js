@@ -11,6 +11,7 @@ import AchievementsAwards from './pages/AchievementsAwards';
 import ActivityLog from './pages/ActivityLog';
 import AdminHome from './pages/AdminHome';
 import AdvancedAgentCapabilities from './pages/AdvancedAgentCapabilities';
+import AdvancedFinancialEcosystem from './pages/AdvancedFinancialEcosystem';
 import AdvancedPredictionCenter from './pages/AdvancedPredictionCenter';
 import AdvancedSimulation from './pages/AdvancedSimulation';
 import AdvancedSimulationStudio from './pages/AdvancedSimulationStudio';
@@ -82,6 +83,7 @@ import DeFiAutonomousPhase3 from './pages/DeFiAutonomousPhase3';
 import DeFiCorePhase2 from './pages/DeFiCorePhase2';
 import DeFiGovernancePhase5 from './pages/DeFiGovernancePhase5';
 import DeFiHub from './pages/DeFiHub';
+import DeepLearningPlatform from './pages/DeepLearningPlatform';
 import DepositETH from './pages/DepositETH';
 import DepositOmni from './pages/DepositOmni';
 import DepositUSDT from './pages/DepositUSDT';
@@ -97,8 +99,10 @@ import DiscountsRebates from './pages/DiscountsRebates';
 import Documentation from './pages/Documentation';
 import EmergentBehavior from './pages/EmergentBehavior';
 import EnhancedAnomalyDashboard from './pages/EnhancedAnomalyDashboard';
+import EnhancedBankingHub from './pages/EnhancedBankingHub';
 import EnhancedCollaborationHub from './pages/EnhancedCollaborationHub';
 import EnhancedCommunications from './pages/EnhancedCommunications';
+import EnhancedCommunityHub from './pages/EnhancedCommunityHub';
 import EnhancedDashboard from './pages/EnhancedDashboard';
 import EnhancedDeFiHub from './pages/EnhancedDeFiHub';
 import EnhancedMediaHub from './pages/EnhancedMediaHub';
@@ -107,10 +111,10 @@ import EnvironmentDesigner from './pages/EnvironmentDesigner';
 import EthicsHub from './pages/EthicsHub';
 import EthicsSafetyHub from './pages/EthicsSafetyHub';
 import EventsCalendar from './pages/EventsCalendar';
+import FAQ from './pages/FAQ';
 import EvolutionDashboardPage from './pages/EvolutionDashboardPage';
 import ExchangeListings from './pages/ExchangeListings';
 import ExperimentTracking from './pages/ExperimentTracking';
-import FAQ from './pages/FAQ';
 import FeatureDetail from './pages/FeatureDetail';
 import Features from './pages/Features';
 import FeedbackDashboard from './pages/FeedbackDashboard';
@@ -204,19 +208,16 @@ import Technology from './pages/Technology';
 import Terms from './pages/Terms';
 import Tokenomics from './pages/Tokenomics';
 import UnifiedAnalytics from './pages/UnifiedAnalytics';
+import UnifiedCommunicationHub from './pages/UnifiedCommunicationHub';
 import UnifiedConversationHub from './pages/UnifiedConversationHub';
+import UnifiedVoicePlatform from './pages/UnifiedVoicePlatform';
 import UserRolesPermissions from './pages/UserRolesPermissions';
 import VirtualClassrooms from './pages/VirtualClassrooms';
 import Wallet from './pages/Wallet';
 import Webhooks from './pages/Webhooks';
 import WithdrawOmni from './pages/WithdrawOmni';
 import World from './pages/World';
-import EnhancedCommunityHub from './pages/EnhancedCommunityHub';
-import AdvancedFinancialEcosystem from './pages/AdvancedFinancialEcosystem';
-import EnhancedBankingHub from './pages/EnhancedBankingHub';
-import DeepLearningPlatform from './pages/DeepLearningPlatform';
-import UnifiedVoicePlatform from './pages/UnifiedVoicePlatform';
-import UnifiedCommunicationHub from './pages/UnifiedCommunicationHub';
+import NotificationsAndVisualizations from './pages/NotificationsAndVisualizations';
 import __Layout from './Layout.jsx';
 
 
@@ -234,6 +235,7 @@ export const PAGES = {
     "ActivityLog": ActivityLog,
     "AdminHome": AdminHome,
     "AdvancedAgentCapabilities": AdvancedAgentCapabilities,
+    "AdvancedFinancialEcosystem": AdvancedFinancialEcosystem,
     "AdvancedPredictionCenter": AdvancedPredictionCenter,
     "AdvancedSimulation": AdvancedSimulation,
     "AdvancedSimulationStudio": AdvancedSimulationStudio,
@@ -305,6 +307,7 @@ export const PAGES = {
     "DeFiCorePhase2": DeFiCorePhase2,
     "DeFiGovernancePhase5": DeFiGovernancePhase5,
     "DeFiHub": DeFiHub,
+    "DeepLearningPlatform": DeepLearningPlatform,
     "DepositETH": DepositETH,
     "DepositOmni": DepositOmni,
     "DepositUSDT": DepositUSDT,
@@ -320,8 +323,10 @@ export const PAGES = {
     "Documentation": Documentation,
     "EmergentBehavior": EmergentBehavior,
     "EnhancedAnomalyDashboard": EnhancedAnomalyDashboard,
+    "EnhancedBankingHub": EnhancedBankingHub,
     "EnhancedCollaborationHub": EnhancedCollaborationHub,
     "EnhancedCommunications": EnhancedCommunications,
+    "EnhancedCommunityHub": EnhancedCommunityHub,
     "EnhancedDashboard": EnhancedDashboard,
     "EnhancedDeFiHub": EnhancedDeFiHub,
     "EnhancedMediaHub": EnhancedMediaHub,
@@ -330,10 +335,10 @@ export const PAGES = {
     "EthicsHub": EthicsHub,
     "EthicsSafetyHub": EthicsSafetyHub,
     "EventsCalendar": EventsCalendar,
+    "FAQ": FAQ,
     "EvolutionDashboardPage": EvolutionDashboardPage,
     "ExchangeListings": ExchangeListings,
     "ExperimentTracking": ExperimentTracking,
-    "FAQ": FAQ,
     "FeatureDetail": FeatureDetail,
     "Features": Features,
     "FeedbackDashboard": FeedbackDashboard,
@@ -427,19 +432,16 @@ export const PAGES = {
     "Terms": Terms,
     "Tokenomics": Tokenomics,
     "UnifiedAnalytics": UnifiedAnalytics,
+    "UnifiedCommunicationHub": UnifiedCommunicationHub,
     "UnifiedConversationHub": UnifiedConversationHub,
+    "UnifiedVoicePlatform": UnifiedVoicePlatform,
     "UserRolesPermissions": UserRolesPermissions,
     "VirtualClassrooms": VirtualClassrooms,
     "Wallet": Wallet,
     "Webhooks": Webhooks,
     "WithdrawOmni": WithdrawOmni,
     "World": World,
-    "EnhancedCommunityHub": EnhancedCommunityHub,
-    "AdvancedFinancialEcosystem": AdvancedFinancialEcosystem,
-    "EnhancedBankingHub": EnhancedBankingHub,
-    "DeepLearningPlatform": DeepLearningPlatform,
-    "UnifiedVoicePlatform": UnifiedVoicePlatform,
-    "UnifiedCommunicationHub": UnifiedCommunicationHub,
+    "NotificationsAndVisualizations": NotificationsAndVisualizations,
 }
 
 export const pagesConfig = {
