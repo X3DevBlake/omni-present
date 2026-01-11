@@ -208,6 +208,7 @@ import CollaborationDashboard from './pages/CollaborationDashboard';
 import EnhancedAnomalyDashboard from './pages/EnhancedAnomalyDashboard';
 import IntegrationDevelopmentHub from './pages/IntegrationDevelopmentHub';
 import AdvancedAgentCapabilities from './pages/AdvancedAgentCapabilities';
+import CrossAgentPlanningHub from './pages/CrossAgentPlanningHub';
 import __Layout from './Layout.jsx';
 
 
@@ -422,6 +423,7 @@ export const PAGES = {
     "EnhancedAnomalyDashboard": EnhancedAnomalyDashboard,
     "IntegrationDevelopmentHub": IntegrationDevelopmentHub,
     "AdvancedAgentCapabilities": AdvancedAgentCapabilities,
+    "CrossAgentPlanningHub": CrossAgentPlanningHub,
 }
 
 export const pagesConfig = {
