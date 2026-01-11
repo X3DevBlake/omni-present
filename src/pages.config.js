@@ -186,6 +186,7 @@ import AgentModularBuilder from './pages/AgentModularBuilder';
 import EthicsSafetyHub from './pages/EthicsSafetyHub';
 import CollaborativeWorkspace from './pages/CollaborativeWorkspace';
 import PredictiveAnalyticsHub from './pages/PredictiveAnalyticsHub';
+import SimulationControlPanel from './pages/SimulationControlPanel';
 import __Layout from './Layout.jsx';
 
 
@@ -378,6 +379,7 @@ export const PAGES = {
     "EthicsSafetyHub": EthicsSafetyHub,
     "CollaborativeWorkspace": CollaborativeWorkspace,
     "PredictiveAnalyticsHub": PredictiveAnalyticsHub,
+    "SimulationControlPanel": SimulationControlPanel,
 }
 
 export const pagesConfig = {
