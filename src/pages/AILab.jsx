@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Brain, Sparkles, Code, Zap, Settings, Play, Database } from 'lucide-react';
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls, Float, MeshDistortMaterial } from '@react-three/drei';
+import { OrbitControls, Float } from '@react-three/drei';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import MistralChatAssistant from '../components/ai/MistralChatAssistant';
 import AutonomousNavigator from '../components/agents/AutonomousNavigator';
@@ -139,12 +139,10 @@ function FloatingBrain() {
     <Float speed={2} rotationIntensity={1} floatIntensity={0.5}>
       <mesh>
         <icosahedronGeometry args={[3, 4]} />
-        <MeshDistortMaterial
+        <meshStandardMaterial
           color="#a855f7"
           emissive="#a855f7"
           emissiveIntensity={0.6}
-          distort={0.4}
-          speed={2}
           roughness={0.2}
           metalness={0.8}
         />
