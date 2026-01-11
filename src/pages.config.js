@@ -200,6 +200,9 @@ import Phase9ImmersiveUX from './pages/Phase9ImmersiveUX';
 import Phase10AdvancedAutonomy from './pages/Phase10AdvancedAutonomy';
 import MarketIntelligenceHub from './pages/MarketIntelligenceHub';
 import MultiAgentCollaborationHub from './pages/MultiAgentCollaborationHub';
+import InvestmentStrategyHub from './pages/InvestmentStrategyHub';
+import FinancialCoachingHub from './pages/FinancialCoachingHub';
+import AgentGovernanceHub from './pages/AgentGovernanceHub';
 import __Layout from './Layout.jsx';
 
 
@@ -406,6 +409,9 @@ export const PAGES = {
     "Phase10AdvancedAutonomy": Phase10AdvancedAutonomy,
     "MarketIntelligenceHub": MarketIntelligenceHub,
     "MultiAgentCollaborationHub": MultiAgentCollaborationHub,
+    "InvestmentStrategyHub": InvestmentStrategyHub,
+    "FinancialCoachingHub": FinancialCoachingHub,
+    "AgentGovernanceHub": AgentGovernanceHub,
 }
 
 export const pagesConfig = {
