@@ -7,6 +7,8 @@ import BehaviorTreeVisualizer from '../components/agents/BehaviorTreeVisualizer'
 import SkillAcquisitionHub from '../components/agents/SkillAcquisitionHub';
 import AgentTrainingStudio from '../components/training/AgentTrainingStudio';
 import RealWorldTaskManager from '../components/tasks/RealWorldTaskManager';
+import CustomDatasetUploader from '../components/training/CustomDatasetUploader';
+import RewardFunctionDesigner from '../components/training/RewardFunctionDesigner';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Brain, GitBranch, Zap, GraduationCap, Briefcase } from 'lucide-react';
 
@@ -116,13 +118,19 @@ export default function AgentManagementHub() {
               </TabsContent>
 
               <TabsContent value="training" className="space-y-6 mt-6">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="bg-gradient-to-br from-black/20 to-black/40 border border-white/10 rounded-xl p-6"
-                >
-                  {userEmail && <AgentTrainingStudio agentId={selectedAgent} userEmail={userEmail} />}
-                </motion.div>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="bg-gradient-to-br from-black/20 to-black/40 border border-white/10 rounded-xl p-6"
+                  >
+                    {userEmail && <AgentTrainingStudio agentId={selectedAgent} userEmail={userEmail} />}
+                  </motion.div>
+                  <div className="space-y-4">
+                    {userEmail && <CustomDatasetUploader agentId={selectedAgent} userEmail={userEmail} />}
+                    {userEmail && <RewardFunctionDesigner agentId={selectedAgent} userEmail={userEmail} />}
+                  </div>
+                </div>
               </TabsContent>
 
               <TabsContent value="tasks" className="space-y-6 mt-6">

@@ -1,99 +1,88 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Award, Plus, Minus } from 'lucide-react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { base44 } from '@/api/base44Client';
+import { Award, TrendingUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Slider } from '@/components/ui/slider';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
 
-export default function RewardFunctionDesigner() {
-  const [rewards, setRewards] = useState([
-    { id: 1, event: 'Task Completion', value: 100 },
-    { id: 2, event: 'Collaboration', value: 50 },
-    { id: 3, event: 'Exploration', value: 25 },
-  ]);
-  const [penalties, setPenalties] = useState([
-    { id: 1, event: 'Failed Attempt', value: -20 },
-    { id: 2, event: 'Resource Waste', value: -30 },
-  ]);
+export default function RewardFunctionDesigner({ agentId, userEmail }) {
+  const [functionName, setFunctionName] = useState('');
+  const [strategy, setStrategy] = useState('epsilon_greedy');
+  const [criteria, setCriteria] = useState('');
+  const queryClient = useQueryClient();
 
-  const addReward = () => {
-    setRewards([...rewards, { id: Date.now(), event: 'New Event', value: 10 }]);
-  };
+  const createRewardFn = useMutation({
+    mutationFn: async () => {
+      const criteriaObj = criteria.split('\n').reduce((obj, line) => {
+        const [key, value] = line.split(':').map(s => s.trim());
+        if (key && value) obj[key] = parseFloat(value) || value;
+        return obj;
+      }, {});
+
+      return await base44.entities.RewardFunction.create({
+        user_email: userEmail,
+        agent_id: agentId,
+        function_name: functionName,
+        reward_criteria: criteriaObj,
+        exploration_strategy: strategy,
+        discount_factor: 0.95,
+        performance_metrics: { total_rewards: 0, episodes: 0 }
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['rewardFunctions', agentId] });
+      setFunctionName('');
+      setCriteria('');
+    }
+  });
 
   return (
-    <div className="bg-gradient-to-br from-yellow-500/10 to-orange-500/10 border border-yellow-500/30 rounded-xl p-6">
-      <h3 className="text-white font-bold text-xl mb-4 flex items-center gap-2">
-        <Award className="w-6 h-6 text-yellow-400" />
-        Reward Function Designer
-      </h3>
-
-      <div className="mb-6">
-        <div className="flex items-center justify-between mb-3">
-          <h4 className="text-white font-semibold">Rewards</h4>
-          <Button onClick={addReward} size="sm" className="bg-green-500/20 hover:bg-green-500/30">
-            <Plus className="w-4 h-4" />
-          </Button>
-        </div>
-        <div className="space-y-3">
-          {rewards.map((reward, i) => (
-            <div key={reward.id} className="bg-black/20 rounded-lg p-3">
-              <Input
-                value={reward.event}
-                onChange={(e) => {
-                  const updated = [...rewards];
-                  updated[i].event = e.target.value;
-                  setRewards(updated);
-                }}
-                className="bg-white/5 border-white/10 text-white mb-2 text-sm"
-              />
-              <div className="flex items-center gap-3">
-                <Slider
-                  value={[reward.value]}
-                  onValueChange={([v]) => {
-                    const updated = [...rewards];
-                    updated[i].value = v;
-                    setRewards(updated);
-                  }}
-                  max={200}
-                  className="flex-1"
-                />
-                <span className="text-green-400 font-bold w-12 text-right">+{reward.value}</span>
-              </div>
-            </div>
-          ))}
-        </div>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="bg-gradient-to-br from-yellow-900/20 to-orange-900/20 border border-yellow-500/30 rounded-xl p-6 space-y-4"
+    >
+      <div className="flex items-center gap-2 mb-4">
+        <Award className="w-5 h-5 text-yellow-400" />
+        <h4 className="text-white font-bold">Reward Function Designer</h4>
       </div>
 
-      <div>
-        <h4 className="text-white font-semibold mb-3">Penalties</h4>
-        <div className="space-y-3">
-          {penalties.map((penalty, i) => (
-            <div key={penalty.id} className="bg-black/20 rounded-lg p-3">
-              <div className="text-white text-sm mb-2">{penalty.event}</div>
-              <div className="flex items-center gap-3">
-                <Slider
-                  value={[Math.abs(penalty.value)]}
-                  onValueChange={([v]) => {
-                    const updated = [...penalties];
-                    updated[i].value = -v;
-                    setPenalties(updated);
-                  }}
-                  max={100}
-                  className="flex-1"
-                />
-                <span className="text-red-400 font-bold w-12 text-right">{penalty.value}</span>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+      <Input
+        placeholder="Function name..."
+        value={functionName}
+        onChange={(e) => setFunctionName(e.target.value)}
+        className="bg-white/5 border-white/10"
+      />
 
-      <div className="mt-6 bg-gradient-to-r from-green-500/10 to-red-500/10 rounded-lg p-4">
-        <div className="text-white/60 text-sm mb-2">Expected Total Reward</div>
-        <div className="text-white text-2xl font-bold">
-          {rewards.reduce((sum, r) => sum + r.value, 0) + penalties.reduce((sum, p) => sum + p.value, 0)}
-        </div>
-      </div>
-    </div>
+      <Select value={strategy} onValueChange={setStrategy}>
+        <SelectTrigger className="bg-white/5 border-white/10">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="epsilon_greedy">Epsilon Greedy</SelectItem>
+          <SelectItem value="ucb">Upper Confidence Bound</SelectItem>
+          <SelectItem value="thompson_sampling">Thompson Sampling</SelectItem>
+        </SelectContent>
+      </Select>
+
+      <Textarea
+        placeholder="Reward criteria (key: value per line)..."
+        value={criteria}
+        onChange={(e) => setCriteria(e.target.value)}
+        className="bg-white/5 border-white/10 min-h-[100px] font-mono text-xs"
+      />
+
+      <Button
+        onClick={() => createRewardFn.mutate()}
+        disabled={!functionName || !criteria || createRewardFn.isPending}
+        className="w-full bg-gradient-to-r from-yellow-500 to-orange-500"
+      >
+        <TrendingUp className="w-4 h-4 mr-2" />
+        Create Reward Function
+      </Button>
+    </motion.div>
   );
 }
