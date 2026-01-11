@@ -148,6 +148,7 @@ import OrderManagement from './pages/OrderManagement';
 import OrgSettings from './pages/OrgSettings';
 import Partnerships from './pages/Partnerships';
 import PaymentHistory from './pages/PaymentHistory';
+import Phase4ImmersiveUI from './pages/Phase4ImmersiveUI';
 import PhysicalWorldIntegration from './pages/PhysicalWorldIntegration';
 import PortfolioRebalancer from './pages/PortfolioRebalancer';
 import PredictiveAnalyticsHub from './pages/PredictiveAnalyticsHub';
@@ -192,7 +193,7 @@ import Wallet from './pages/Wallet';
 import Webhooks from './pages/Webhooks';
 import WithdrawOmni from './pages/WithdrawOmni';
 import World from './pages/World';
-import Phase4ImmersiveUI from './pages/Phase4ImmersiveUI';
+import Phase6AgentCognition from './pages/Phase6AgentCognition';
 import __Layout from './Layout.jsx';
 
 
@@ -347,6 +348,7 @@ export const PAGES = {
     "OrgSettings": OrgSettings,
     "Partnerships": Partnerships,
     "PaymentHistory": PaymentHistory,
+    "Phase4ImmersiveUI": Phase4ImmersiveUI,
     "PhysicalWorldIntegration": PhysicalWorldIntegration,
     "PortfolioRebalancer": PortfolioRebalancer,
     "PredictiveAnalyticsHub": PredictiveAnalyticsHub,
@@ -391,7 +393,7 @@ export const PAGES = {
     "Webhooks": Webhooks,
     "WithdrawOmni": WithdrawOmni,
     "World": World,
-    "Phase4ImmersiveUI": Phase4ImmersiveUI,
+    "Phase6AgentCognition": Phase6AgentCognition,
 }
 
 export const pagesConfig = {
