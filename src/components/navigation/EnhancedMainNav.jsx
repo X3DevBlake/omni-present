@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Menu, ChevronRight } from 'lucide-react';
+import { X, Menu, LayoutDashboard, Users, Cpu, Video, TrendingUp, Zap, Target, Box } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import Hub3DIcon from './Hub3DIcon';
@@ -8,15 +8,15 @@ import Rotating3DIcon from '../3d/Rotating3DIcon';
 
 const hubs = [
   { id: 1, label: 'Home', page: 'Home', icon: '🏠', color: '#00f5ff' },
-  { id: 2, label: 'Features', page: 'Features', icon: '✨', color: '#a855f7' },
-  { id: 3, label: 'AI Playground', page: 'AIPlayground', icon: '🎨', color: '#10b981' },
-  { id: 4, label: 'Architecture', page: 'Architecture', icon: '🏗️', color: '#f59e0b' },
-  { id: 5, label: 'Blueprint', page: 'Blueprint', icon: '📐', color: '#ec4899' },
-  { id: 10, label: 'AI Lab', page: 'AILab', icon: '🧪', color: '#a855f7' },
-  { id: 6, label: 'World', page: 'World', icon: '🌍', color: '#06b6d4' },
-  { id: 7, label: 'Omni Hub', page: 'OmniHub', icon: '💰', color: '#8b5cf6' },
-  { id: 8, label: 'Simulations', page: 'AdvancedSimulation', icon: '🎮', color: '#ec4899' },
-  { id: 9, label: 'Profile', page: 'ProfileHome', icon: '👤', color: '#06b6d4' },
+  { id: 2, label: 'Dashboard', page: 'EnhancedDashboard', icon: '📊', color: '#06b6d4' },
+  { id: 3, label: 'Collaboration', page: 'EnhancedCollaborationHub', icon: '🤝', color: '#a855f7' },
+  { id: 4, label: 'Agent Mgmt', page: 'AgentManagementHub', icon: '🤖', color: '#10b981' },
+  { id: 5, label: 'Video Call', page: 'AgentVideoInterface', icon: '📹', color: '#ec4899' },
+  { id: 6, label: 'Auto Finance', page: 'AutomatedFinanceHub', icon: '💰', color: '#f59e0b' },
+  { id: 7, label: 'Real-time', page: 'RealtimeDashboard', icon: '⚡', color: '#06b6d4' },
+  { id: 8, label: 'Predictions', page: 'AdvancedPredictionCenter', icon: '🎯', color: '#8b5cf6' },
+  { id: 9, label: 'Sim Studio', page: 'AdvancedSimulationStudio', icon: '🔬', color: '#ec4899' },
+  { id: 10, label: 'Blueprint', page: 'Blueprint', icon: '📐', color: '#a855f7' },
 ];
 
 export default function EnhancedMainNav() {
