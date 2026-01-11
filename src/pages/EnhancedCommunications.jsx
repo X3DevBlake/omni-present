@@ -14,7 +14,7 @@ import TwilioSMSPanel from '../components/communication/TwilioSMSPanel';
 import DeviceManagementPanel from '../components/ai/DeviceManagementPanel';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Link } from 'react-router-dom';
-import { createPageUrl } from './utils';
+import { createPageUrl } from '../utils';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { MessageSquare, Volume2, Users, Plus, Sparkles, Mic, Eye } from 'lucide-react';
