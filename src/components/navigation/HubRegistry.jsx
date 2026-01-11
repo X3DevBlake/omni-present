@@ -41,7 +41,10 @@ export const HubRegistry = [
   { id: 'settings', name: 'Settings', path: 'Settings', category: 'management', icon3d: 'gear', color: '#64748b' },
   { id: 'profile', name: 'Profile', path: 'Profile', category: 'management', icon3d: 'user', color: '#06b6d4' },
   { id: 'billing', name: 'Billing', path: 'Billing', category: 'management', icon3d: 'card', color: '#10b981' },
-  { id: 'ethics', name: 'Ethics Hub', path: 'EthicsHub', category: 'management', icon3d: 'shield', color: '#f59e0b' }
+  { id: 'ethics', name: 'Ethics Hub', path: 'EthicsHub', category: 'management', icon3d: 'shield', color: '#f59e0b' },
+  
+  // New Enhanced Hubs
+  { id: 'media', name: 'Media Hub', path: 'EnhancedMediaHub', category: 'core', icon3d: 'galaxy', color: '#ec4899' }
 ];
 
 export const HubCategories = {

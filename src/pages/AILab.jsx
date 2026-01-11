@@ -4,6 +4,9 @@ import { Brain, Sparkles, Code, Zap, Settings, Play, Database } from 'lucide-rea
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Float, MeshDistortMaterial } from '@react-three/drei';
 import AuroraBackground from '../components/omni/AuroraBackground';
+import MistralChatAssistant from '../components/ai/MistralChatAssistant';
+import AutonomousNavigator from '../components/agents/AutonomousNavigator';
+import EnhancedCard from '../components/ui/EnhancedCard';
 import { base44 } from '@/api/base44Client';
 import { toast } from 'sonner';
 import Data3DVisualizer from '../components/3d/Data3DVisualizer';
