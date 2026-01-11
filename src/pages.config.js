@@ -10,6 +10,7 @@ import About from './pages/About';
 import AchievementsAwards from './pages/AchievementsAwards';
 import ActivityLog from './pages/ActivityLog';
 import AdminHome from './pages/AdminHome';
+import AdvancedAgentCapabilities from './pages/AdvancedAgentCapabilities';
 import AdvancedPredictionCenter from './pages/AdvancedPredictionCenter';
 import AdvancedSimulation from './pages/AdvancedSimulation';
 import AdvancedSimulationStudio from './pages/AdvancedSimulationStudio';
@@ -19,8 +20,10 @@ import AgentAutonomy from './pages/AgentAutonomy';
 import AgentBudget from './pages/AgentBudget';
 import AgentCardSettings from './pages/AgentCardSettings';
 import AgentCustomization from './pages/AgentCustomization';
+import AgentCustomizationStudio from './pages/AgentCustomizationStudio';
 import AgentDebugger from './pages/AgentDebugger';
 import AgentECommerceSettings from './pages/AgentECommerceSettings';
+import AgentGovernanceHub from './pages/AgentGovernanceHub';
 import AgentKnowledge from './pages/AgentKnowledge';
 import AgentKnowledgeBase from './pages/AgentKnowledgeBase';
 import AgentManagement from './pages/AgentManagement';
@@ -55,6 +58,7 @@ import Certifications from './pages/Certifications';
 import Challenges from './pages/Challenges';
 import CloudinaryHub from './pages/CloudinaryHub';
 import CodeEditor from './pages/CodeEditor';
+import CollaborationDashboard from './pages/CollaborationDashboard';
 import CollaborativeAgentHub from './pages/CollaborativeAgentHub';
 import CollaborativeWorkspace from './pages/CollaborativeWorkspace';
 import Communications from './pages/Communications';
@@ -64,7 +68,9 @@ import CommunityGuidelinesEnhanced from './pages/CommunityGuidelinesEnhanced';
 import CompetitiveArenas from './pages/CompetitiveArenas';
 import Compliance from './pages/Compliance';
 import ComplianceDashboard from './pages/ComplianceDashboard';
+import ComprehensiveFinancialHub from './pages/ComprehensiveFinancialHub';
 import Contact from './pages/Contact';
+import CrossAgentPlanningHub from './pages/CrossAgentPlanningHub';
 import CryptoTradingHub from './pages/CryptoTradingHub';
 import CurriculumCourses from './pages/CurriculumCourses';
 import CustomDashboard from './pages/CustomDashboard';
@@ -90,6 +96,7 @@ import DeviceTelemetry from './pages/DeviceTelemetry';
 import DiscountsRebates from './pages/DiscountsRebates';
 import Documentation from './pages/Documentation';
 import EmergentBehavior from './pages/EmergentBehavior';
+import EnhancedAnomalyDashboard from './pages/EnhancedAnomalyDashboard';
 import EnhancedCollaborationHub from './pages/EnhancedCollaborationHub';
 import EnhancedCommunications from './pages/EnhancedCommunications';
 import EnhancedDashboard from './pages/EnhancedDashboard';
@@ -108,6 +115,8 @@ import FeatureDetail from './pages/FeatureDetail';
 import Features from './pages/Features';
 import FeedbackDashboard from './pages/FeedbackDashboard';
 import FiatDeposit from './pages/FiatDeposit';
+import FinancialAdvisorHub from './pages/FinancialAdvisorHub';
+import FinancialCoachingHub from './pages/FinancialCoachingHub';
 import FirmwareUpdates from './pages/FirmwareUpdates';
 import FleetManagement from './pages/FleetManagement';
 import GeminiHub from './pages/GeminiHub';
@@ -116,9 +125,11 @@ import GlobalMap from './pages/GlobalMap';
 import Home from './pages/Home';
 import HomeHub from './pages/HomeHub';
 import InstructorDirectory from './pages/InstructorDirectory';
+import IntegrationDevelopmentHub from './pages/IntegrationDevelopmentHub';
 import IntegrationStore from './pages/IntegrationStore';
 import Integrations from './pages/Integrations';
 import IntegrationsHub from './pages/IntegrationsHub';
+import InvestmentStrategyHub from './pages/InvestmentStrategyHub';
 import IoTDeviceControl from './pages/IoTDeviceControl';
 import Labs from './pages/Labs';
 import LabsHome from './pages/LabsHome';
@@ -128,11 +139,13 @@ import LinkBankAccount from './pages/LinkBankAccount';
 import LiquidityPools from './pages/LiquidityPools';
 import LoansAndCredit from './pages/LoansAndCredit';
 import MaintenanceSchedule from './pages/MaintenanceSchedule';
+import MarketIntelligenceHub from './pages/MarketIntelligenceHub';
 import Marketplace from './pages/Marketplace';
 import MarketplaceHome from './pages/MarketplaceHome';
 import MentorshipProgramsPage from './pages/MentorshipProgramsPage';
 import MistralHub from './pages/MistralHub';
 import ModelTraining from './pages/ModelTraining';
+import MultiAgentCollaborationHub from './pages/MultiAgentCollaborationHub';
 import NewsUpdates from './pages/NewsUpdates';
 import Notifications from './pages/Notifications';
 import OmniAchievements from './pages/OmniAchievements';
@@ -148,7 +161,12 @@ import OrderManagement from './pages/OrderManagement';
 import OrgSettings from './pages/OrgSettings';
 import Partnerships from './pages/Partnerships';
 import PaymentHistory from './pages/PaymentHistory';
+import Phase10AdvancedAutonomy from './pages/Phase10AdvancedAutonomy';
 import Phase4ImmersiveUI from './pages/Phase4ImmersiveUI';
+import Phase6AgentCognition from './pages/Phase6AgentCognition';
+import Phase7IntegrationHub from './pages/Phase7IntegrationHub';
+import Phase8PredictiveIntelligence from './pages/Phase8PredictiveIntelligence';
+import Phase9ImmersiveUX from './pages/Phase9ImmersiveUX';
 import PhysicalWorldIntegration from './pages/PhysicalWorldIntegration';
 import PortfolioRebalancer from './pages/PortfolioRebalancer';
 import PredictiveAnalyticsHub from './pages/PredictiveAnalyticsHub';
@@ -193,24 +211,7 @@ import Wallet from './pages/Wallet';
 import Webhooks from './pages/Webhooks';
 import WithdrawOmni from './pages/WithdrawOmni';
 import World from './pages/World';
-import Phase6AgentCognition from './pages/Phase6AgentCognition';
-import Phase7IntegrationHub from './pages/Phase7IntegrationHub';
-import Phase8PredictiveIntelligence from './pages/Phase8PredictiveIntelligence';
-import Phase9ImmersiveUX from './pages/Phase9ImmersiveUX';
-import Phase10AdvancedAutonomy from './pages/Phase10AdvancedAutonomy';
-import MarketIntelligenceHub from './pages/MarketIntelligenceHub';
-import MultiAgentCollaborationHub from './pages/MultiAgentCollaborationHub';
-import InvestmentStrategyHub from './pages/InvestmentStrategyHub';
-import FinancialCoachingHub from './pages/FinancialCoachingHub';
-import AgentGovernanceHub from './pages/AgentGovernanceHub';
-import AgentCustomizationStudio from './pages/AgentCustomizationStudio';
-import CollaborationDashboard from './pages/CollaborationDashboard';
-import EnhancedAnomalyDashboard from './pages/EnhancedAnomalyDashboard';
-import IntegrationDevelopmentHub from './pages/IntegrationDevelopmentHub';
-import AdvancedAgentCapabilities from './pages/AdvancedAgentCapabilities';
-import CrossAgentPlanningHub from './pages/CrossAgentPlanningHub';
-import FinancialAdvisorHub from './pages/FinancialAdvisorHub';
-import ComprehensiveFinancialHub from './pages/ComprehensiveFinancialHub';
+import EnhancedCommunityHub from './pages/EnhancedCommunityHub';
 import __Layout from './Layout.jsx';
 
 
@@ -227,6 +228,7 @@ export const PAGES = {
     "AchievementsAwards": AchievementsAwards,
     "ActivityLog": ActivityLog,
     "AdminHome": AdminHome,
+    "AdvancedAgentCapabilities": AdvancedAgentCapabilities,
     "AdvancedPredictionCenter": AdvancedPredictionCenter,
     "AdvancedSimulation": AdvancedSimulation,
     "AdvancedSimulationStudio": AdvancedSimulationStudio,
@@ -236,8 +238,10 @@ export const PAGES = {
     "AgentBudget": AgentBudget,
     "AgentCardSettings": AgentCardSettings,
     "AgentCustomization": AgentCustomization,
+    "AgentCustomizationStudio": AgentCustomizationStudio,
     "AgentDebugger": AgentDebugger,
     "AgentECommerceSettings": AgentECommerceSettings,
+    "AgentGovernanceHub": AgentGovernanceHub,
     "AgentKnowledge": AgentKnowledge,
     "AgentKnowledgeBase": AgentKnowledgeBase,
     "AgentManagement": AgentManagement,
@@ -272,6 +276,7 @@ export const PAGES = {
     "Challenges": Challenges,
     "CloudinaryHub": CloudinaryHub,
     "CodeEditor": CodeEditor,
+    "CollaborationDashboard": CollaborationDashboard,
     "CollaborativeAgentHub": CollaborativeAgentHub,
     "CollaborativeWorkspace": CollaborativeWorkspace,
     "Communications": Communications,
@@ -281,7 +286,9 @@ export const PAGES = {
     "CompetitiveArenas": CompetitiveArenas,
     "Compliance": Compliance,
     "ComplianceDashboard": ComplianceDashboard,
+    "ComprehensiveFinancialHub": ComprehensiveFinancialHub,
     "Contact": Contact,
+    "CrossAgentPlanningHub": CrossAgentPlanningHub,
     "CryptoTradingHub": CryptoTradingHub,
     "CurriculumCourses": CurriculumCourses,
     "CustomDashboard": CustomDashboard,
@@ -307,6 +314,7 @@ export const PAGES = {
     "DiscountsRebates": DiscountsRebates,
     "Documentation": Documentation,
     "EmergentBehavior": EmergentBehavior,
+    "EnhancedAnomalyDashboard": EnhancedAnomalyDashboard,
     "EnhancedCollaborationHub": EnhancedCollaborationHub,
     "EnhancedCommunications": EnhancedCommunications,
     "EnhancedDashboard": EnhancedDashboard,
@@ -325,6 +333,8 @@ export const PAGES = {
     "Features": Features,
     "FeedbackDashboard": FeedbackDashboard,
     "FiatDeposit": FiatDeposit,
+    "FinancialAdvisorHub": FinancialAdvisorHub,
+    "FinancialCoachingHub": FinancialCoachingHub,
     "FirmwareUpdates": FirmwareUpdates,
     "FleetManagement": FleetManagement,
     "GeminiHub": GeminiHub,
@@ -333,9 +343,11 @@ export const PAGES = {
     "Home": Home,
     "HomeHub": HomeHub,
     "InstructorDirectory": InstructorDirectory,
+    "IntegrationDevelopmentHub": IntegrationDevelopmentHub,
     "IntegrationStore": IntegrationStore,
     "Integrations": Integrations,
     "IntegrationsHub": IntegrationsHub,
+    "InvestmentStrategyHub": InvestmentStrategyHub,
     "IoTDeviceControl": IoTDeviceControl,
     "Labs": Labs,
     "LabsHome": LabsHome,
@@ -345,11 +357,13 @@ export const PAGES = {
     "LiquidityPools": LiquidityPools,
     "LoansAndCredit": LoansAndCredit,
     "MaintenanceSchedule": MaintenanceSchedule,
+    "MarketIntelligenceHub": MarketIntelligenceHub,
     "Marketplace": Marketplace,
     "MarketplaceHome": MarketplaceHome,
     "MentorshipProgramsPage": MentorshipProgramsPage,
     "MistralHub": MistralHub,
     "ModelTraining": ModelTraining,
+    "MultiAgentCollaborationHub": MultiAgentCollaborationHub,
     "NewsUpdates": NewsUpdates,
     "Notifications": Notifications,
     "OmniAchievements": OmniAchievements,
@@ -365,7 +379,12 @@ export const PAGES = {
     "OrgSettings": OrgSettings,
     "Partnerships": Partnerships,
     "PaymentHistory": PaymentHistory,
+    "Phase10AdvancedAutonomy": Phase10AdvancedAutonomy,
     "Phase4ImmersiveUI": Phase4ImmersiveUI,
+    "Phase6AgentCognition": Phase6AgentCognition,
+    "Phase7IntegrationHub": Phase7IntegrationHub,
+    "Phase8PredictiveIntelligence": Phase8PredictiveIntelligence,
+    "Phase9ImmersiveUX": Phase9ImmersiveUX,
     "PhysicalWorldIntegration": PhysicalWorldIntegration,
     "PortfolioRebalancer": PortfolioRebalancer,
     "PredictiveAnalyticsHub": PredictiveAnalyticsHub,
@@ -410,24 +429,7 @@ export const PAGES = {
     "Webhooks": Webhooks,
     "WithdrawOmni": WithdrawOmni,
     "World": World,
-    "Phase6AgentCognition": Phase6AgentCognition,
-    "Phase7IntegrationHub": Phase7IntegrationHub,
-    "Phase8PredictiveIntelligence": Phase8PredictiveIntelligence,
-    "Phase9ImmersiveUX": Phase9ImmersiveUX,
-    "Phase10AdvancedAutonomy": Phase10AdvancedAutonomy,
-    "MarketIntelligenceHub": MarketIntelligenceHub,
-    "MultiAgentCollaborationHub": MultiAgentCollaborationHub,
-    "InvestmentStrategyHub": InvestmentStrategyHub,
-    "FinancialCoachingHub": FinancialCoachingHub,
-    "AgentGovernanceHub": AgentGovernanceHub,
-    "AgentCustomizationStudio": AgentCustomizationStudio,
-    "CollaborationDashboard": CollaborationDashboard,
-    "EnhancedAnomalyDashboard": EnhancedAnomalyDashboard,
-    "IntegrationDevelopmentHub": IntegrationDevelopmentHub,
-    "AdvancedAgentCapabilities": AdvancedAgentCapabilities,
-    "CrossAgentPlanningHub": CrossAgentPlanningHub,
-    "FinancialAdvisorHub": FinancialAdvisorHub,
-    "ComprehensiveFinancialHub": ComprehensiveFinancialHub,
+    "EnhancedCommunityHub": EnhancedCommunityHub,
 }
 
 export const pagesConfig = {
