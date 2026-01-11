@@ -101,7 +101,14 @@ export default function Home() {
 
   return (
     <AuroraBackground className="min-h-screen">
-      {/* Hero Section with 3D Background */}
+      {/* Proactive AI Feed & Enhanced Gemini */}
+      <ProactiveAIFeed />
+      <EnhancedGeminiHome />
+
+      {/* 3D Ecosystem Map - Phase 1 */}
+      <EcosystemMap3D activeHubs={['agents']} />
+
+      {/* Hero Section with 3D Background - Keep for context */}
       <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
         {/* 3D Canvas Background */}
         <div className="absolute inset-0 opacity-30">
