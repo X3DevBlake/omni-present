@@ -79,6 +79,28 @@ Format each as JSON: {
       stored.push(prediction);
     }
 
+    // Send high-confidence predictions to Zapier
+    if (context.secrets.ZAPIER_WEBHOOK_URL) {
+      for (const pred of stored.filter(p => p.confidence > 75)) {
+        await fetch(`${context.baseUrl}/api/functions/zapier-relay`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            event: 'prediction_generated',
+            agent_id: 'predictive_analytics',
+            agent_name: 'Predictive Analytics Agent',
+            user_email: userEmail,
+            data: {
+              prediction_type: pred.prediction_type,
+              prediction: pred.prediction,
+              confidence: pred.confidence,
+              suggested_actions: pred.suggested_actions
+            }
+          })
+        }).catch(() => {});
+      }
+    }
+
     return {
       statusCode: 200,
       body: {

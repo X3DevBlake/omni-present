@@ -127,6 +127,7 @@ import EnhancedAgentOrchestration from '../components/orchestration/EnhancedAgen
 import AutonomousAgentCreator from '../components/ai/AutonomousAgentCreator';
 import SnowflakeQueryPanel from '../components/integrations/SnowflakeQueryPanel';
 import AutonomousSnowflakeAgent from '../components/integrations/AutonomousSnowflakeAgent';
+import ZapierConfigPanel from '../components/integrations/ZapierConfigPanel';
 
 function FloatingBrain() {
   return (
@@ -1196,6 +1197,7 @@ export default function AILab() {
               <SnowflakeQueryPanel />
               {userEmail && <AutonomousSnowflakeAgent userEmail={userEmail} />}
             </div>
+            <ZapierConfigPanel />
           </div>
           )}
           </div>

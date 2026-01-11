@@ -81,6 +81,7 @@ import DiscountsRebates from './pages/DiscountsRebates';
 import Documentation from './pages/Documentation';
 import EmergentBehavior from './pages/EmergentBehavior';
 import EnhancedCollaborationHub from './pages/EnhancedCollaborationHub';
+import EnhancedCommunications from './pages/EnhancedCommunications';
 import EnhancedDashboard from './pages/EnhancedDashboard';
 import EnhancedDeFiHub from './pages/EnhancedDeFiHub';
 import EnhancedMediaHub from './pages/EnhancedMediaHub';
@@ -98,6 +99,7 @@ import FeedbackDashboard from './pages/FeedbackDashboard';
 import FiatDeposit from './pages/FiatDeposit';
 import FirmwareUpdates from './pages/FirmwareUpdates';
 import FleetManagement from './pages/FleetManagement';
+import GeminiHub from './pages/GeminiHub';
 import GlobalGovernance from './pages/GlobalGovernance';
 import GlobalMap from './pages/GlobalMap';
 import Home from './pages/Home';
@@ -169,15 +171,13 @@ import Technology from './pages/Technology';
 import Terms from './pages/Terms';
 import Tokenomics from './pages/Tokenomics';
 import UnifiedAnalytics from './pages/UnifiedAnalytics';
+import UnifiedConversationHub from './pages/UnifiedConversationHub';
 import UserRolesPermissions from './pages/UserRolesPermissions';
 import VirtualClassrooms from './pages/VirtualClassrooms';
 import Wallet from './pages/Wallet';
 import Webhooks from './pages/Webhooks';
 import WithdrawOmni from './pages/WithdrawOmni';
 import World from './pages/World';
-import GeminiHub from './pages/GeminiHub';
-import EnhancedCommunications from './pages/EnhancedCommunications';
-import UnifiedConversationHub from './pages/UnifiedConversationHub';
 import __Layout from './Layout.jsx';
 
 
@@ -265,6 +265,7 @@ export const PAGES = {
     "Documentation": Documentation,
     "EmergentBehavior": EmergentBehavior,
     "EnhancedCollaborationHub": EnhancedCollaborationHub,
+    "EnhancedCommunications": EnhancedCommunications,
     "EnhancedDashboard": EnhancedDashboard,
     "EnhancedDeFiHub": EnhancedDeFiHub,
     "EnhancedMediaHub": EnhancedMediaHub,
@@ -282,6 +283,7 @@ export const PAGES = {
     "FiatDeposit": FiatDeposit,
     "FirmwareUpdates": FirmwareUpdates,
     "FleetManagement": FleetManagement,
+    "GeminiHub": GeminiHub,
     "GlobalGovernance": GlobalGovernance,
     "GlobalMap": GlobalMap,
     "Home": Home,
@@ -353,15 +355,13 @@ export const PAGES = {
     "Terms": Terms,
     "Tokenomics": Tokenomics,
     "UnifiedAnalytics": UnifiedAnalytics,
+    "UnifiedConversationHub": UnifiedConversationHub,
     "UserRolesPermissions": UserRolesPermissions,
     "VirtualClassrooms": VirtualClassrooms,
     "Wallet": Wallet,
     "Webhooks": Webhooks,
     "WithdrawOmni": WithdrawOmni,
     "World": World,
-    "GeminiHub": GeminiHub,
-    "EnhancedCommunications": EnhancedCommunications,
-    "UnifiedConversationHub": UnifiedConversationHub,
 }
 
 export const pagesConfig = {

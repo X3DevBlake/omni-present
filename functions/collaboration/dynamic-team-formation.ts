@@ -69,6 +69,28 @@ Format as JSON: {"agent_ids": [], "reasoning": "", "score": 0, "team_name": ""}`
       status: 'active'
     });
 
+    // Send to Zapier
+    if (context.secrets.ZAPIER_WEBHOOK_URL) {
+      await fetch(`${context.baseUrl}/api/functions/zapier-relay`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          event: 'dynamic_team_formed',
+          agent_id: 'team_coordinator',
+          agent_name: 'Team Coordinator',
+          user_email: context.user.email,
+          data: {
+            team_name: team.team_name,
+            team_id: team.id,
+            agent_count: teamSuggestion.agent_ids.length,
+            collaboration_score: teamSuggestion.score,
+            task: taskObjective,
+            autonomous: enableAutonomous
+          }
+        })
+      }).catch(() => {});
+    }
+
     return {
       statusCode: 200,
       body: {
