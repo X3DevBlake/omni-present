@@ -128,6 +128,28 @@ Format as JSON: {"enhanced": "", "sentiment": "", "suggestions": [], "translatio
       autonomous: false
     });
 
+    // Send to Zapier
+    if (context.secrets.ZAPIER_WEBHOOK_URL) {
+      try {
+        await fetch(`${context.baseUrl}/api/functions/zapier-relay`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': context.request.headers.get('Authorization') || '' },
+          body: JSON.stringify({
+            event: 'ai_message_sent',
+            agent_id: 'chat_agent',
+            agent_name: 'AI Chat Assistant',
+            user_email: context.user.email,
+            data: {
+              conversation_id: conversation.id,
+              message_content: message,
+              sentiment: enhancedData.sentiment,
+              voice_enabled: generateVoice
+            }
+          })
+        });
+      } catch {}
+    }
+
     return {
       statusCode: 200,
       body: {

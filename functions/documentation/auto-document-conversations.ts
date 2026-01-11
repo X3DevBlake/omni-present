@@ -96,6 +96,27 @@ export default async function autoDocumentConversations(request, context) {
       body: JSON.stringify({ requests })
     });
 
+    // Send to Zapier
+    if (context.secrets.ZAPIER_WEBHOOK_URL) {
+      try {
+        await fetch(`${context.baseUrl}/api/functions/zapier-relay`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': context.request.headers.get('Authorization') || '' },
+          body: JSON.stringify({
+            event: 'document_generated',
+            agent_id: 'documentation_agent',
+            agent_name: 'Documentation Agent',
+            user_email: context.user.email,
+            data: {
+              document_id: documentId,
+              document_url: `https://docs.google.com/document/d/${documentId}/edit`,
+              conversations_documented: conversations.length + geminiInteractions.length
+            }
+          })
+        });
+      } catch {}
+    }
+
     return {
       statusCode: 200,
       body: {

@@ -137,6 +137,28 @@ Generate a concise, professional SMS message (max 160 characters) to notify the 
       autonomous: true
     });
 
+    // Send to Zapier
+    if (context.secrets.ZAPIER_WEBHOOK_URL) {
+      try {
+        await fetch(`${context.baseUrl}/api/functions/zapier-relay`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': context.request.headers.get('Authorization') || '' },
+          body: JSON.stringify({
+            event: 'autonomous_sms_sent',
+            agent_id: agentId || 'sms_agent',
+            agent_name: agent?.name || 'SMS Agent',
+            user_email: context.user.email,
+            data: {
+              to_number: phoneNumber,
+              message: smsMessage,
+              event_type: eventType,
+              ai_generated: true
+            }
+          })
+        });
+      } catch {}
+    }
+
     return {
       statusCode: 200,
       body: {

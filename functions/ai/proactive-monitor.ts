@@ -97,6 +97,30 @@ Format as JSON: {"events": [{"type": "", "severity": "", "description": "", "act
       });
     }
 
+    // Send critical events to Zapier
+    if (context.secrets.ZAPIER_WEBHOOK_URL) {
+      for (const event of proactiveEvents.filter(e => ['high', 'critical'].includes(e.severity))) {
+        try {
+          await fetch(`${context.baseUrl}/api/functions/zapier-relay`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': context.request.headers.get('Authorization') || '' },
+            body: JSON.stringify({
+              event: 'proactive_alert',
+              agent_id: agentId || 'monitor',
+              agent_name: 'Proactive Monitor',
+              user_email: context.user.email,
+              data: {
+                event_type: event.event_type,
+                severity: event.severity,
+                description: event.description,
+                voice_sent: !!event.audio
+              }
+            })
+          });
+        } catch {}
+      }
+    }
+
     return {
       statusCode: 200,
       body: {

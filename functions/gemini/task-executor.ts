@@ -66,6 +66,28 @@ export default async function taskExecutor(request, context) {
       result: result
     });
 
+    // Send to Zapier
+    if (context.secrets.ZAPIER_WEBHOOK_URL) {
+      try {
+        await fetch(`${context.baseUrl}/api/functions/zapier-relay`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': context.request.headers.get('Authorization') || '' },
+          body: JSON.stringify({
+            event: 'task_completed',
+            agent_id: 'gemini_executor',
+            agent_name: 'Gemini Task Executor',
+            user_email: context.user.email,
+            data: {
+              task_id: taskId,
+              task_name: task.task_name,
+              task_type: task.task_type,
+              result: result
+            }
+          })
+        });
+      } catch {}
+    }
+
     return {
       statusCode: 200,
       body: {
