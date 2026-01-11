@@ -213,6 +213,7 @@ import WithdrawOmni from './pages/WithdrawOmni';
 import World from './pages/World';
 import EnhancedCommunityHub from './pages/EnhancedCommunityHub';
 import AdvancedFinancialEcosystem from './pages/AdvancedFinancialEcosystem';
+import EnhancedBankingHub from './pages/EnhancedBankingHub';
 import __Layout from './Layout.jsx';
 
 
@@ -432,6 +433,7 @@ export const PAGES = {
     "World": World,
     "EnhancedCommunityHub": EnhancedCommunityHub,
     "AdvancedFinancialEcosystem": AdvancedFinancialEcosystem,
+    "EnhancedBankingHub": EnhancedBankingHub,
 }
 
 export const pagesConfig = {
