@@ -6,7 +6,9 @@ import AuroraBackground from '../components/omni/AuroraBackground';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { MessageSquare, Volume2, Smartphone, Bot, Monitor, Brain, TrendingUp } from 'lucide-react';
+import { MessageSquare, Volume2, Smartphone, Bot, Monitor, Brain, TrendingUp, FileText, Sparkles } from 'lucide-react';
+import ConversationDocumenter from '../components/conversations/ConversationDocumenter';
+import VisualGenerator from '../components/conversations/VisualGenerator';
 
 export default function UnifiedConversationHub() {
   const [userEmail, setUserEmail] = useState(null);
@@ -172,6 +174,32 @@ export default function UnifiedConversationHub() {
               {type.replace('_', ' ')}
             </Button>
           ))}
+        </div>
+
+        <div className="grid grid-cols-3 gap-4 mb-6">
+          <ConversationDocumenter />
+          <VisualGenerator userEmail={userEmail} />
+          <Card className="bg-gradient-to-br from-black/40 to-black/20 border-white/10 p-6">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="p-2 bg-cyan-500/20 rounded-lg">
+                <Brain className="w-5 h-5 text-cyan-400" />
+              </div>
+              <div>
+                <h3 className="text-white font-bold">Simulation Ready</h3>
+                <p className="text-white/60 text-sm">All conversations logged</p>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <div className="flex justify-between text-sm">
+                <span className="text-white/60">Data Points</span>
+                <span className="text-white font-bold">{stats.total || 0}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-white/60">Autonomous</span>
+                <span className="text-cyan-400 font-bold">{stats.autonomous || 0}</span>
+              </div>
+            </div>
+          </Card>
         </div>
 
         <div className="space-y-3">
