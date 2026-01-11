@@ -5,6 +5,8 @@ import { base44 } from '@/api/base44Client';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import AIEnhancedChat from '../components/communication/AIEnhancedChat';
 import VoiceMessagePlayer from '../components/communication/VoiceMessagePlayer';
+import DeviceConnector from '../components/communication/DeviceConnector';
+import AutonomousVoiceAgent from '../components/communication/AutonomousVoiceAgent';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -139,7 +141,7 @@ export default function EnhancedCommunications() {
 
           <div className="col-span-2">
             <Tabs defaultValue="chat" className="w-full">
-              <TabsList className="grid w-full grid-cols-2 bg-white/5 border border-white/10">
+              <TabsList className="grid w-full grid-cols-4 bg-white/5 border border-white/10">
                 <TabsTrigger value="chat">
                   <MessageSquare className="w-4 h-4 mr-2" />
                   Chat
@@ -147,6 +149,14 @@ export default function EnhancedCommunications() {
                 <TabsTrigger value="voice">
                   <Volume2 className="w-4 h-4 mr-2" />
                   Voice
+                </TabsTrigger>
+                <TabsTrigger value="devices">
+                  <Users className="w-4 h-4 mr-2" />
+                  Devices
+                </TabsTrigger>
+                <TabsTrigger value="autonomous">
+                  <Sparkles className="w-4 h-4 mr-2" />
+                  Autonomous
                 </TabsTrigger>
               </TabsList>
 
@@ -159,6 +169,14 @@ export default function EnhancedCommunications() {
 
               <TabsContent value="voice" className="mt-4">
                 <VoiceMessagePlayer />
+              </TabsContent>
+
+              <TabsContent value="devices" className="mt-4">
+                <DeviceConnector userEmail={userEmail} />
+              </TabsContent>
+
+              <TabsContent value="autonomous" className="mt-4">
+                <AutonomousVoiceAgent userEmail={userEmail} />
               </TabsContent>
             </Tabs>
           </div>
