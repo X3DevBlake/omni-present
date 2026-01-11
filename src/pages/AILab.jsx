@@ -121,6 +121,7 @@ import AICollaborationVisualizer from '../components/collaboration/AICollaborati
 import AIScenarioGenerator from '../components/simulation/AIScenarioGenerator';
 import AICommunicationHub from '../components/communication/AICommunicationHub';
 import EnhancedAgentOrchestration from '../components/orchestration/EnhancedAgentOrchestration';
+import AutonomousAgentCreator from '../components/ai/AutonomousAgentCreator';
 
 function FloatingBrain() {
   return (
@@ -156,6 +157,13 @@ export default function AILab() {
   const [sampleData, setSampleData] = useState([]);
   const [selectedAgent, setSelectedAgent] = useState(null);
   const [mockAgent, setMockAgent] = useState({ id: 1, name: 'Test Agent' });
+  const [userEmail, setUserEmail] = React.useState(null);
+
+  React.useEffect(() => {
+    base44.auth.me()
+      .then(user => setUserEmail(user?.email))
+      .catch(() => setUserEmail(null));
+  }, []);
 
   const runExperiment = async () => {
     if (!prompt.trim()) {
@@ -207,6 +215,7 @@ export default function AILab() {
         <div className="flex gap-4 mb-8 border-b border-white/10 overflow-x-auto pb-2">
           {[
             { id: 'experiment', label: '🧪 Experiment', icon: 'Experiment' },
+            { id: 'agent-creator', label: '✨ Agent Creator', icon: 'Creator' },
             { id: 'visualize', label: '📊 3D Visualization', icon: 'Visualization' },
             { id: 'training', label: '🎓 Training', icon: 'Training' },
             { id: 'advanced-training', label: '🚀 Advanced Training', icon: 'AdvTraining' },
@@ -1159,6 +1168,19 @@ export default function AILab() {
           {activeTab === 'collab-panel' && (
           <div className="space-y-6">
            <RealtimeCollaborationPanel />
+          </div>
+          )}
+
+          {/* Autonomous Agent Creator Tab */}
+          {activeTab === 'agent-creator' && (
+          <div className="space-y-6">
+           {userEmail ? (
+             <AutonomousAgentCreator userEmail={userEmail} />
+           ) : (
+             <div className="text-center py-12 text-white/60">
+               Please log in to create agents
+             </div>
+           )}
           </div>
           )}
           </div>
