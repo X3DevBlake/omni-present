@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageSquare, Users, History, Share2, Loader, CheckCircle2, AlertCircle } from 'lucide-react';
+import { MessageSquare, Users, History, Share2, Loader, CheckCircle2, AlertCircle, Zap } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
+import { suggestWorkflowsForComment, createWorkflowFromSuggestion, getWorkflowTemplates } from '../../functions/collaboration/workflow-suggestion-engine';
 
 export default function RealtimeDocumentCollaboration({ documentId, documentTitle }) {
   const [comments, setComments] = useState([]);
@@ -12,10 +13,16 @@ export default function RealtimeDocumentCollaboration({ documentId, documentTitl
   const [posting, setPosting] = useState(false);
   const [userEmail, setUserEmail] = useState(null);
   const [expandedComment, setExpandedComment] = useState(null);
+  const [workflowSuggestions, setWorkflowSuggestions] = useState({});
+  const [loadingSuggestions, setLoadingSuggestions] = useState({});
+  const [userRole, setUserRole] = useState('viewer');
 
   useEffect(() => {
     base44.auth.me()
-      .then(user => setUserEmail(user?.email))
+      .then(user => {
+        setUserEmail(user?.email);
+        setUserRole(user?.role || 'viewer');
+      })
       .catch(() => setUserEmail(null));
 
     loadDocumentCollaboration();
@@ -72,12 +79,53 @@ Load:
         await notifyMention(mention, userEmail, newComment);
       }
 
+      // Generate workflow suggestions
+      await generateWorkflowSuggestions(comment.id || Date.now(), newComment, metric);
+
       setComments(prev => [...prev, comment]);
       setNewComment('');
     } catch (error) {
       console.error('Error posting comment:', error);
     } finally {
       setPosting(false);
+    }
+  };
+
+  const generateWorkflowSuggestions = async (commentId, content, metric) => {
+    setLoadingSuggestions(prev => ({ ...prev, [commentId]: true }));
+    try {
+      const suggestions = await suggestWorkflowsForComment(
+        content,
+        { documentTitle, metric },
+        userRole
+      );
+      setWorkflowSuggestions(prev => ({ ...prev, [commentId]: suggestions }));
+    } catch (error) {
+      console.error('Error generating suggestions:', error);
+    } finally {
+      setLoadingSuggestions(prev => ({ ...prev, [commentId]: false }));
+    }
+  };
+
+  const implementWorkflow = async (commentId, suggestion) => {
+    try {
+      const result = await createWorkflowFromSuggestion(userEmail, suggestion, [
+        { resource: 'workflows', actions: ['create'] },
+      ]);
+
+      if (result.status === 'created') {
+        alert('Workflow created successfully!');
+        setWorkflowSuggestions(prev => {
+          const updated = { ...prev };
+          delete updated[commentId];
+          return updated;
+        });
+      } else if (result.status === 'pending_approval') {
+        alert('Workflow pending approval from admin');
+      }
+    } catch (error) {
+      console.error('Error implementing workflow:', error);
+      alert('Failed to create workflow');
     }
   };
 
@@ -164,7 +212,7 @@ Restore and create new version entry.`,
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className="border-t border-white/10 pt-2 mt-2 space-y-1"
+                    className="border-t border-white/10 pt-2 mt-2 space-y-2"
                   >
                     {comment.replies?.map((reply, ridx) => (
                       <div key={ridx} className="bg-white/5 rounded p-1 ml-2">
@@ -172,6 +220,28 @@ Restore and create new version entry.`,
                         <p className="text-white/70 text-xs">{reply.content}</p>
                       </div>
                     ))}
+                    
+                    {/* Workflow Suggestions */}
+                    {workflowSuggestions[idx] && workflowSuggestions[idx].length > 0 && (
+                      <div className="bg-purple-500/10 rounded p-2 space-y-1 border border-purple-400/30">
+                        <p className="text-purple-300 text-xs font-semibold flex items-center gap-1">
+                          <Zap className="w-3 h-3" /> Suggested Workflows
+                        </p>
+                        {workflowSuggestions[idx].map((wf, wfIdx) => (
+                          <div key={wfIdx} className="bg-white/5 rounded p-1">
+                            <p className="text-white text-xs font-semibold">{wf.name}</p>
+                            <p className="text-white/60 text-xs">{wf.description}</p>
+                            <button
+                              onClick={() => implementWorkflow(idx, wf)}
+                              className="text-xs text-cyan-400 hover:text-cyan-300 mt-1"
+                            >
+                              Implement →
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    
                     {!comment.resolved && (
                       <button
                         onClick={() => resolveComment(comment.id)}
