@@ -131,6 +131,8 @@ import ZapierConfigPanel from '../components/integrations/ZapierConfigPanel';
 import ComprehensiveAgentMonitoring from '../components/monitoring/ComprehensiveAgentMonitoring';
 import EnhancedAgentMarketplace from '../components/marketplace/EnhancedAgentMarketplace';
 import ComprehensiveAgentDebugger from '../components/debugging/ComprehensiveAgentDebugger';
+import InterAgentCollaboration from '../components/collaboration/InterAgentCollaboration';
+import AdvancedAgentAnalytics from '../components/analytics/AdvancedAgentAnalytics';
 
 function FloatingBrain() {
   return (
@@ -318,7 +320,9 @@ export default function AILab() {
             { id: 'collab-panel', label: '👥 RT Collab', icon: 'RTCollab' },
             { id: 'monitoring-dash', label: '📊 Monitoring', icon: 'Monitor' },
             { id: 'marketplace-enhanced', label: '🛍️ Marketplace', icon: 'Market' },
-            { id: 'debugger-tool', label: '🐛 Debugger', icon: 'Debug' }
+            { id: 'debugger-tool', label: '🐛 Debugger', icon: 'Debug' },
+            { id: 'agent-collab', label: '🤝 Agent Collab', icon: 'Collab' },
+            { id: 'advanced-analytics', label: '📈 Advanced Analytics', icon: 'Analytics' }
           ].map(tab => (
             <button
               key={tab.id}
@@ -1201,6 +1205,20 @@ export default function AILab() {
           {activeTab === 'debugger-tool' && userEmail && (
           <div className="space-y-6">
            <ComprehensiveAgentDebugger userEmail={userEmail} />
+          </div>
+          )}
+
+          {/* Agent Collaboration Tab */}
+          {activeTab === 'agent-collab' && userEmail && (
+          <div className="space-y-6">
+           <InterAgentCollaboration userEmail={userEmail} />
+          </div>
+          )}
+
+          {/* Advanced Analytics Tab */}
+          {activeTab === 'advanced-analytics' && userEmail && (
+          <div className="space-y-6">
+           <AdvancedAgentAnalytics userEmail={userEmail} />
           </div>
           )}
 
