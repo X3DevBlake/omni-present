@@ -203,6 +203,8 @@ import MultiAgentCollaborationHub from './pages/MultiAgentCollaborationHub';
 import InvestmentStrategyHub from './pages/InvestmentStrategyHub';
 import FinancialCoachingHub from './pages/FinancialCoachingHub';
 import AgentGovernanceHub from './pages/AgentGovernanceHub';
+import AgentCustomizationStudio from './pages/AgentCustomizationStudio';
+import CollaborationDashboard from './pages/CollaborationDashboard';
 import __Layout from './Layout.jsx';
 
 
@@ -412,6 +414,8 @@ export const PAGES = {
     "InvestmentStrategyHub": InvestmentStrategyHub,
     "FinancialCoachingHub": FinancialCoachingHub,
     "AgentGovernanceHub": AgentGovernanceHub,
+    "AgentCustomizationStudio": AgentCustomizationStudio,
+    "CollaborationDashboard": CollaborationDashboard,
 }
 
 export const pagesConfig = {
