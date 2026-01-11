@@ -209,6 +209,7 @@ import EnhancedAnomalyDashboard from './pages/EnhancedAnomalyDashboard';
 import IntegrationDevelopmentHub from './pages/IntegrationDevelopmentHub';
 import AdvancedAgentCapabilities from './pages/AdvancedAgentCapabilities';
 import CrossAgentPlanningHub from './pages/CrossAgentPlanningHub';
+import FinancialAdvisorHub from './pages/FinancialAdvisorHub';
 import __Layout from './Layout.jsx';
 
 
@@ -424,6 +425,7 @@ export const PAGES = {
     "IntegrationDevelopmentHub": IntegrationDevelopmentHub,
     "AdvancedAgentCapabilities": AdvancedAgentCapabilities,
     "CrossAgentPlanningHub": CrossAgentPlanningHub,
+    "FinancialAdvisorHub": FinancialAdvisorHub,
 }
 
 export const pagesConfig = {
