@@ -207,6 +207,7 @@ import AgentCustomizationStudio from './pages/AgentCustomizationStudio';
 import CollaborationDashboard from './pages/CollaborationDashboard';
 import EnhancedAnomalyDashboard from './pages/EnhancedAnomalyDashboard';
 import IntegrationDevelopmentHub from './pages/IntegrationDevelopmentHub';
+import AdvancedAgentCapabilities from './pages/AdvancedAgentCapabilities';
 import __Layout from './Layout.jsx';
 
 
@@ -420,6 +421,7 @@ export const PAGES = {
     "CollaborationDashboard": CollaborationDashboard,
     "EnhancedAnomalyDashboard": EnhancedAnomalyDashboard,
     "IntegrationDevelopmentHub": IntegrationDevelopmentHub,
+    "AdvancedAgentCapabilities": AdvancedAgentCapabilities,
 }
 
 export const pagesConfig = {
