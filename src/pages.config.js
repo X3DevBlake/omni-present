@@ -28,6 +28,7 @@ import AgentShoppingLog from './pages/AgentShoppingLog';
 import AgentSimulation3D from './pages/AgentSimulation3D';
 import AgentSkillMarketplace from './pages/AgentSkillMarketplace';
 import AgentSpending from './pages/AgentSpending';
+import AgentTrainingCenter from './pages/AgentTrainingCenter';
 import AgentVideoInterface from './pages/AgentVideoInterface';
 import Analytics from './pages/Analytics';
 import Architecture from './pages/Architecture';
@@ -47,6 +48,7 @@ import CareerOpportunities from './pages/CareerOpportunities';
 import CareerPortal from './pages/CareerPortal';
 import Certifications from './pages/Certifications';
 import Challenges from './pages/Challenges';
+import CloudinaryHub from './pages/CloudinaryHub';
 import CodeEditor from './pages/CodeEditor';
 import CollaborativeAgentHub from './pages/CollaborativeAgentHub';
 import Communications from './pages/Communications';
@@ -81,6 +83,7 @@ import EmergentBehavior from './pages/EmergentBehavior';
 import EnhancedCollaborationHub from './pages/EnhancedCollaborationHub';
 import EnhancedDashboard from './pages/EnhancedDashboard';
 import EnhancedDeFiHub from './pages/EnhancedDeFiHub';
+import EnhancedMediaHub from './pages/EnhancedMediaHub';
 import EnhancedOmniBank from './pages/EnhancedOmniBank';
 import EnvironmentDesigner from './pages/EnvironmentDesigner';
 import EthicsHub from './pages/EthicsHub';
@@ -115,6 +118,7 @@ import MaintenanceSchedule from './pages/MaintenanceSchedule';
 import Marketplace from './pages/Marketplace';
 import MarketplaceHome from './pages/MarketplaceHome';
 import MentorshipProgramsPage from './pages/MentorshipProgramsPage';
+import MistralHub from './pages/MistralHub';
 import ModelTraining from './pages/ModelTraining';
 import NewsUpdates from './pages/NewsUpdates';
 import Notifications from './pages/Notifications';
@@ -146,6 +150,7 @@ import ResourceLibrary from './pages/ResourceLibrary';
 import Roadmap from './pages/Roadmap';
 import SDKsLibraries from './pages/SDKsLibraries';
 import SandboxEnvironment from './pages/SandboxEnvironment';
+import SandboxHub from './pages/SandboxHub';
 import ScenarioTesting from './pages/ScenarioTesting';
 import Security from './pages/Security';
 import SellOmni from './pages/SellOmni';
@@ -170,11 +175,7 @@ import Wallet from './pages/Wallet';
 import Webhooks from './pages/Webhooks';
 import WithdrawOmni from './pages/WithdrawOmni';
 import World from './pages/World';
-import SandboxHub from './pages/SandboxHub';
-import MistralHub from './pages/MistralHub';
-import AgentTrainingCenter from './pages/AgentTrainingCenter';
-import EnhancedMediaHub from './pages/EnhancedMediaHub';
-import CloudinaryHub from './pages/CloudinaryHub';
+import GeminiHub from './pages/GeminiHub';
 import __Layout from './Layout.jsx';
 
 
@@ -209,6 +210,7 @@ export const PAGES = {
     "AgentSimulation3D": AgentSimulation3D,
     "AgentSkillMarketplace": AgentSkillMarketplace,
     "AgentSpending": AgentSpending,
+    "AgentTrainingCenter": AgentTrainingCenter,
     "AgentVideoInterface": AgentVideoInterface,
     "Analytics": Analytics,
     "Architecture": Architecture,
@@ -228,6 +230,7 @@ export const PAGES = {
     "CareerPortal": CareerPortal,
     "Certifications": Certifications,
     "Challenges": Challenges,
+    "CloudinaryHub": CloudinaryHub,
     "CodeEditor": CodeEditor,
     "CollaborativeAgentHub": CollaborativeAgentHub,
     "Communications": Communications,
@@ -262,6 +265,7 @@ export const PAGES = {
     "EnhancedCollaborationHub": EnhancedCollaborationHub,
     "EnhancedDashboard": EnhancedDashboard,
     "EnhancedDeFiHub": EnhancedDeFiHub,
+    "EnhancedMediaHub": EnhancedMediaHub,
     "EnhancedOmniBank": EnhancedOmniBank,
     "EnvironmentDesigner": EnvironmentDesigner,
     "EthicsHub": EthicsHub,
@@ -296,6 +300,7 @@ export const PAGES = {
     "Marketplace": Marketplace,
     "MarketplaceHome": MarketplaceHome,
     "MentorshipProgramsPage": MentorshipProgramsPage,
+    "MistralHub": MistralHub,
     "ModelTraining": ModelTraining,
     "NewsUpdates": NewsUpdates,
     "Notifications": Notifications,
@@ -327,6 +332,7 @@ export const PAGES = {
     "Roadmap": Roadmap,
     "SDKsLibraries": SDKsLibraries,
     "SandboxEnvironment": SandboxEnvironment,
+    "SandboxHub": SandboxHub,
     "ScenarioTesting": ScenarioTesting,
     "Security": Security,
     "SellOmni": SellOmni,
@@ -351,11 +357,7 @@ export const PAGES = {
     "Webhooks": Webhooks,
     "WithdrawOmni": WithdrawOmni,
     "World": World,
-    "SandboxHub": SandboxHub,
-    "MistralHub": MistralHub,
-    "AgentTrainingCenter": AgentTrainingCenter,
-    "EnhancedMediaHub": EnhancedMediaHub,
-    "CloudinaryHub": CloudinaryHub,
+    "GeminiHub": GeminiHub,
 }
 
 export const pagesConfig = {
