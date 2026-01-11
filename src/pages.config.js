@@ -10,6 +10,7 @@ import AchievementsAwards from './pages/AchievementsAwards';
 import ActivityLog from './pages/ActivityLog';
 import AdminHome from './pages/AdminHome';
 import AdvancedSimulation from './pages/AdvancedSimulation';
+import AdvancedSimulationStudio from './pages/AdvancedSimulationStudio';
 import Agent from './pages/Agent';
 import AgentAudio from './pages/AgentAudio';
 import AgentAutonomy from './pages/AgentAutonomy';
@@ -20,6 +21,7 @@ import AgentECommerceSettings from './pages/AgentECommerceSettings';
 import AgentKnowledge from './pages/AgentKnowledge';
 import AgentKnowledgeBase from './pages/AgentKnowledgeBase';
 import AgentManagement from './pages/AgentManagement';
+import AgentManagementHub from './pages/AgentManagementHub';
 import AgentMarketplace from './pages/AgentMarketplace';
 import AgentShoppingLog from './pages/AgentShoppingLog';
 import AgentSimulation3D from './pages/AgentSimulation3D';
@@ -30,11 +32,13 @@ import Architecture from './pages/Architecture';
 import AssetBrowser from './pages/AssetBrowser';
 import AssetUpload from './pages/AssetUpload';
 import AuditLogs from './pages/AuditLogs';
+import AutomatedFinanceHub from './pages/AutomatedFinanceHub';
 import Billing from './pages/Billing';
 import BillingInvoicing from './pages/BillingInvoicing';
 import Blueprint from './pages/Blueprint';
 import BlueprintGallery from './pages/BlueprintGallery';
 import BridgeOmni from './pages/BridgeOmni';
+import BudgetingForecast from './pages/BudgetingForecast';
 import BuyOmni from './pages/BuyOmni';
 import CampusHome from './pages/CampusHome';
 import CareerOpportunities from './pages/CareerOpportunities';
@@ -50,6 +54,7 @@ import CompetitiveArenas from './pages/CompetitiveArenas';
 import Compliance from './pages/Compliance';
 import ComplianceDashboard from './pages/ComplianceDashboard';
 import Contact from './pages/Contact';
+import CryptoTradingHub from './pages/CryptoTradingHub';
 import CurriculumCourses from './pages/CurriculumCourses';
 import CustomDashboard from './pages/CustomDashboard';
 import CustomIntegrations from './pages/CustomIntegrations';
@@ -73,6 +78,7 @@ import EmergentBehavior from './pages/EmergentBehavior';
 import EnhancedDeFiHub from './pages/EnhancedDeFiHub';
 import EnhancedOmniBank from './pages/EnhancedOmniBank';
 import EnvironmentDesigner from './pages/EnvironmentDesigner';
+import EthicsHub from './pages/EthicsHub';
 import EventsCalendar from './pages/EventsCalendar';
 import EvolutionDashboardPage from './pages/EvolutionDashboardPage';
 import ExchangeListings from './pages/ExchangeListings';
@@ -85,6 +91,7 @@ import FiatDeposit from './pages/FiatDeposit';
 import FirmwareUpdates from './pages/FirmwareUpdates';
 import FleetManagement from './pages/FleetManagement';
 import GlobalGovernance from './pages/GlobalGovernance';
+import GlobalMap from './pages/GlobalMap';
 import Home from './pages/Home';
 import HomeHub from './pages/HomeHub';
 import InstructorDirectory from './pages/InstructorDirectory';
@@ -98,6 +105,7 @@ import Leaderboards from './pages/Leaderboards';
 import LicenseManagement from './pages/LicenseManagement';
 import LinkBankAccount from './pages/LinkBankAccount';
 import LiquidityPools from './pages/LiquidityPools';
+import LoansAndCredit from './pages/LoansAndCredit';
 import MaintenanceSchedule from './pages/MaintenanceSchedule';
 import Marketplace from './pages/Marketplace';
 import MarketplaceHome from './pages/MarketplaceHome';
@@ -106,6 +114,7 @@ import ModelTraining from './pages/ModelTraining';
 import NewsUpdates from './pages/NewsUpdates';
 import Notifications from './pages/Notifications';
 import OmniAchievements from './pages/OmniAchievements';
+import OmniBankingHub from './pages/OmniBankingHub';
 import OmniCardManagement from './pages/OmniCardManagement';
 import OmniCardStore from './pages/OmniCardStore';
 import OmniComm from './pages/OmniComm';
@@ -124,6 +133,7 @@ import Privacy from './pages/Privacy';
 import Profile from './pages/Profile';
 import ProfileHome from './pages/ProfileHome';
 import RealWorldBudget from './pages/RealWorldBudget';
+import RealtimeDashboard from './pages/RealtimeDashboard';
 import ReferralProgram from './pages/ReferralProgram';
 import RepairRequest from './pages/RepairRequest';
 import ReportingAnalytics from './pages/ReportingAnalytics';
@@ -139,6 +149,7 @@ import ServiceProviders from './pages/ServiceProviders';
 import Settings from './pages/Settings';
 import SimulationEnvironment from './pages/SimulationEnvironment';
 import SimulationHub from './pages/SimulationHub';
+import SimulationLabs from './pages/SimulationLabs';
 import SimulationWorld from './pages/SimulationWorld';
 import StudentLounge from './pages/StudentLounge';
 import StudyGroups from './pages/StudyGroups';
@@ -154,17 +165,9 @@ import Wallet from './pages/Wallet';
 import Webhooks from './pages/Webhooks';
 import WithdrawOmni from './pages/WithdrawOmni';
 import World from './pages/World';
-import GlobalMap from './pages/GlobalMap';
-import SimulationLabs from './pages/SimulationLabs';
-import EthicsHub from './pages/EthicsHub';
-import OmniBankingHub from './pages/OmniBankingHub';
-import LoansAndCredit from './pages/LoansAndCredit';
-import CryptoTradingHub from './pages/CryptoTradingHub';
-import BudgetingForecast from './pages/BudgetingForecast';
-import RealtimeDashboard from './pages/RealtimeDashboard';
-import AgentManagementHub from './pages/AgentManagementHub';
-import AutomatedFinanceHub from './pages/AutomatedFinanceHub';
-import AdvancedSimulationStudio from './pages/AdvancedSimulationStudio';
+import CollaborativeAgentHub from './pages/CollaborativeAgentHub';
+import AdvancedPredictionCenter from './pages/AdvancedPredictionCenter';
+import AgentVideoInterface from './pages/AgentVideoInterface';
 import __Layout from './Layout.jsx';
 
 
@@ -181,6 +184,7 @@ export const PAGES = {
     "ActivityLog": ActivityLog,
     "AdminHome": AdminHome,
     "AdvancedSimulation": AdvancedSimulation,
+    "AdvancedSimulationStudio": AdvancedSimulationStudio,
     "Agent": Agent,
     "AgentAudio": AgentAudio,
     "AgentAutonomy": AgentAutonomy,
@@ -191,6 +195,7 @@ export const PAGES = {
     "AgentKnowledge": AgentKnowledge,
     "AgentKnowledgeBase": AgentKnowledgeBase,
     "AgentManagement": AgentManagement,
+    "AgentManagementHub": AgentManagementHub,
     "AgentMarketplace": AgentMarketplace,
     "AgentShoppingLog": AgentShoppingLog,
     "AgentSimulation3D": AgentSimulation3D,
@@ -201,11 +206,13 @@ export const PAGES = {
     "AssetBrowser": AssetBrowser,
     "AssetUpload": AssetUpload,
     "AuditLogs": AuditLogs,
+    "AutomatedFinanceHub": AutomatedFinanceHub,
     "Billing": Billing,
     "BillingInvoicing": BillingInvoicing,
     "Blueprint": Blueprint,
     "BlueprintGallery": BlueprintGallery,
     "BridgeOmni": BridgeOmni,
+    "BudgetingForecast": BudgetingForecast,
     "BuyOmni": BuyOmni,
     "CampusHome": CampusHome,
     "CareerOpportunities": CareerOpportunities,
@@ -221,6 +228,7 @@ export const PAGES = {
     "Compliance": Compliance,
     "ComplianceDashboard": ComplianceDashboard,
     "Contact": Contact,
+    "CryptoTradingHub": CryptoTradingHub,
     "CurriculumCourses": CurriculumCourses,
     "CustomDashboard": CustomDashboard,
     "CustomIntegrations": CustomIntegrations,
@@ -244,6 +252,7 @@ export const PAGES = {
     "EnhancedDeFiHub": EnhancedDeFiHub,
     "EnhancedOmniBank": EnhancedOmniBank,
     "EnvironmentDesigner": EnvironmentDesigner,
+    "EthicsHub": EthicsHub,
     "EventsCalendar": EventsCalendar,
     "EvolutionDashboardPage": EvolutionDashboardPage,
     "ExchangeListings": ExchangeListings,
@@ -256,6 +265,7 @@ export const PAGES = {
     "FirmwareUpdates": FirmwareUpdates,
     "FleetManagement": FleetManagement,
     "GlobalGovernance": GlobalGovernance,
+    "GlobalMap": GlobalMap,
     "Home": Home,
     "HomeHub": HomeHub,
     "InstructorDirectory": InstructorDirectory,
@@ -269,6 +279,7 @@ export const PAGES = {
     "LicenseManagement": LicenseManagement,
     "LinkBankAccount": LinkBankAccount,
     "LiquidityPools": LiquidityPools,
+    "LoansAndCredit": LoansAndCredit,
     "MaintenanceSchedule": MaintenanceSchedule,
     "Marketplace": Marketplace,
     "MarketplaceHome": MarketplaceHome,
@@ -277,6 +288,7 @@ export const PAGES = {
     "NewsUpdates": NewsUpdates,
     "Notifications": Notifications,
     "OmniAchievements": OmniAchievements,
+    "OmniBankingHub": OmniBankingHub,
     "OmniCardManagement": OmniCardManagement,
     "OmniCardStore": OmniCardStore,
     "OmniComm": OmniComm,
@@ -295,6 +307,7 @@ export const PAGES = {
     "Profile": Profile,
     "ProfileHome": ProfileHome,
     "RealWorldBudget": RealWorldBudget,
+    "RealtimeDashboard": RealtimeDashboard,
     "ReferralProgram": ReferralProgram,
     "RepairRequest": RepairRequest,
     "ReportingAnalytics": ReportingAnalytics,
@@ -310,6 +323,7 @@ export const PAGES = {
     "Settings": Settings,
     "SimulationEnvironment": SimulationEnvironment,
     "SimulationHub": SimulationHub,
+    "SimulationLabs": SimulationLabs,
     "SimulationWorld": SimulationWorld,
     "StudentLounge": StudentLounge,
     "StudyGroups": StudyGroups,
@@ -325,17 +339,9 @@ export const PAGES = {
     "Webhooks": Webhooks,
     "WithdrawOmni": WithdrawOmni,
     "World": World,
-    "GlobalMap": GlobalMap,
-    "SimulationLabs": SimulationLabs,
-    "EthicsHub": EthicsHub,
-    "OmniBankingHub": OmniBankingHub,
-    "LoansAndCredit": LoansAndCredit,
-    "CryptoTradingHub": CryptoTradingHub,
-    "BudgetingForecast": BudgetingForecast,
-    "RealtimeDashboard": RealtimeDashboard,
-    "AgentManagementHub": AgentManagementHub,
-    "AutomatedFinanceHub": AutomatedFinanceHub,
-    "AdvancedSimulationStudio": AdvancedSimulationStudio,
+    "CollaborativeAgentHub": CollaborativeAgentHub,
+    "AdvancedPredictionCenter": AdvancedPredictionCenter,
+    "AgentVideoInterface": AgentVideoInterface,
 }
 
 export const pagesConfig = {
