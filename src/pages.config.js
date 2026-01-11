@@ -26,6 +26,7 @@ import AgentKnowledgeBase from './pages/AgentKnowledgeBase';
 import AgentManagement from './pages/AgentManagement';
 import AgentManagementHub from './pages/AgentManagementHub';
 import AgentMarketplace from './pages/AgentMarketplace';
+import AgentModularBuilder from './pages/AgentModularBuilder';
 import AgentMonitoringDashboard from './pages/AgentMonitoringDashboard';
 import AgentShoppingLog from './pages/AgentShoppingLog';
 import AgentSimulation3D from './pages/AgentSimulation3D';
@@ -54,6 +55,7 @@ import Challenges from './pages/Challenges';
 import CloudinaryHub from './pages/CloudinaryHub';
 import CodeEditor from './pages/CodeEditor';
 import CollaborativeAgentHub from './pages/CollaborativeAgentHub';
+import CollaborativeWorkspace from './pages/CollaborativeWorkspace';
 import Communications from './pages/Communications';
 import Community from './pages/Community';
 import CommunityGuidelines from './pages/CommunityGuidelines';
@@ -91,6 +93,7 @@ import EnhancedMediaHub from './pages/EnhancedMediaHub';
 import EnhancedOmniBank from './pages/EnhancedOmniBank';
 import EnvironmentDesigner from './pages/EnvironmentDesigner';
 import EthicsHub from './pages/EthicsHub';
+import EthicsSafetyHub from './pages/EthicsSafetyHub';
 import EventsCalendar from './pages/EventsCalendar';
 import EvolutionDashboardPage from './pages/EvolutionDashboardPage';
 import ExchangeListings from './pages/ExchangeListings';
@@ -142,6 +145,7 @@ import Partnerships from './pages/Partnerships';
 import PaymentHistory from './pages/PaymentHistory';
 import PhysicalWorldIntegration from './pages/PhysicalWorldIntegration';
 import PortfolioRebalancer from './pages/PortfolioRebalancer';
+import PredictiveAnalyticsHub from './pages/PredictiveAnalyticsHub';
 import PressReleases from './pages/PressReleases';
 import Privacy from './pages/Privacy';
 import Profile from './pages/Profile';
@@ -163,6 +167,7 @@ import SellOmni from './pages/SellOmni';
 import SensorDataAnalysis from './pages/SensorDataAnalysis';
 import ServiceProviders from './pages/ServiceProviders';
 import Settings from './pages/Settings';
+import SimulationControlPanel from './pages/SimulationControlPanel';
 import SimulationEnvironment from './pages/SimulationEnvironment';
 import SimulationHub from './pages/SimulationHub';
 import SimulationLabs from './pages/SimulationLabs';
@@ -182,11 +187,7 @@ import Wallet from './pages/Wallet';
 import Webhooks from './pages/Webhooks';
 import WithdrawOmni from './pages/WithdrawOmni';
 import World from './pages/World';
-import AgentModularBuilder from './pages/AgentModularBuilder';
-import EthicsSafetyHub from './pages/EthicsSafetyHub';
-import CollaborativeWorkspace from './pages/CollaborativeWorkspace';
-import PredictiveAnalyticsHub from './pages/PredictiveAnalyticsHub';
-import SimulationControlPanel from './pages/SimulationControlPanel';
+import BankingCorePhase1 from './pages/BankingCorePhase1';
 import __Layout from './Layout.jsx';
 
 
@@ -219,6 +220,7 @@ export const PAGES = {
     "AgentManagement": AgentManagement,
     "AgentManagementHub": AgentManagementHub,
     "AgentMarketplace": AgentMarketplace,
+    "AgentModularBuilder": AgentModularBuilder,
     "AgentMonitoringDashboard": AgentMonitoringDashboard,
     "AgentShoppingLog": AgentShoppingLog,
     "AgentSimulation3D": AgentSimulation3D,
@@ -247,6 +249,7 @@ export const PAGES = {
     "CloudinaryHub": CloudinaryHub,
     "CodeEditor": CodeEditor,
     "CollaborativeAgentHub": CollaborativeAgentHub,
+    "CollaborativeWorkspace": CollaborativeWorkspace,
     "Communications": Communications,
     "Community": Community,
     "CommunityGuidelines": CommunityGuidelines,
@@ -284,6 +287,7 @@ export const PAGES = {
     "EnhancedOmniBank": EnhancedOmniBank,
     "EnvironmentDesigner": EnvironmentDesigner,
     "EthicsHub": EthicsHub,
+    "EthicsSafetyHub": EthicsSafetyHub,
     "EventsCalendar": EventsCalendar,
     "EvolutionDashboardPage": EvolutionDashboardPage,
     "ExchangeListings": ExchangeListings,
@@ -335,6 +339,7 @@ export const PAGES = {
     "PaymentHistory": PaymentHistory,
     "PhysicalWorldIntegration": PhysicalWorldIntegration,
     "PortfolioRebalancer": PortfolioRebalancer,
+    "PredictiveAnalyticsHub": PredictiveAnalyticsHub,
     "PressReleases": PressReleases,
     "Privacy": Privacy,
     "Profile": Profile,
@@ -356,6 +361,7 @@ export const PAGES = {
     "SensorDataAnalysis": SensorDataAnalysis,
     "ServiceProviders": ServiceProviders,
     "Settings": Settings,
+    "SimulationControlPanel": SimulationControlPanel,
     "SimulationEnvironment": SimulationEnvironment,
     "SimulationHub": SimulationHub,
     "SimulationLabs": SimulationLabs,
@@ -375,11 +381,7 @@ export const PAGES = {
     "Webhooks": Webhooks,
     "WithdrawOmni": WithdrawOmni,
     "World": World,
-    "AgentModularBuilder": AgentModularBuilder,
-    "EthicsSafetyHub": EthicsSafetyHub,
-    "CollaborativeWorkspace": CollaborativeWorkspace,
-    "PredictiveAnalyticsHub": PredictiveAnalyticsHub,
-    "SimulationControlPanel": SimulationControlPanel,
+    "BankingCorePhase1": BankingCorePhase1,
 }
 
 export const pagesConfig = {
