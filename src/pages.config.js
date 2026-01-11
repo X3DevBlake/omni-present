@@ -174,6 +174,7 @@ import SandboxHub from './pages/SandboxHub';
 import MistralHub from './pages/MistralHub';
 import AgentTrainingCenter from './pages/AgentTrainingCenter';
 import EnhancedMediaHub from './pages/EnhancedMediaHub';
+import CloudinaryHub from './pages/CloudinaryHub';
 import __Layout from './Layout.jsx';
 
 
@@ -354,6 +355,7 @@ export const PAGES = {
     "MistralHub": MistralHub,
     "AgentTrainingCenter": AgentTrainingCenter,
     "EnhancedMediaHub": EnhancedMediaHub,
+    "CloudinaryHub": CloudinaryHub,
 }
 
 export const pagesConfig = {

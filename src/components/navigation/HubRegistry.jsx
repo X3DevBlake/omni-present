@@ -44,7 +44,8 @@ export const HubRegistry = [
   { id: 'ethics', name: 'Ethics Hub', path: 'EthicsHub', category: 'management', icon3d: 'shield', color: '#f59e0b' },
   
   // New Enhanced Hubs
-  { id: 'media', name: 'Media Hub', path: 'EnhancedMediaHub', category: 'core', icon3d: 'galaxy', color: '#ec4899' }
+  { id: 'media', name: 'Media Hub', path: 'EnhancedMediaHub', category: 'core', icon3d: 'galaxy', color: '#ec4899' },
+  { id: 'cloudinary', name: 'Cloudinary Hub', path: 'CloudinaryHub', category: 'core', icon3d: 'cube', color: '#3b82f6' }
 ];
 
 export const HubCategories = {
