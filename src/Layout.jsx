@@ -7,6 +7,7 @@ import OmniAssistant from './components/ai/OmniAssistant';
 import FeedbackButton from './components/feedback/FeedbackButton';
 import UnifiedCommandBar from './components/navigation/UnifiedCommandBar';
 import ContextAwareHelpButton from './components/ui/ContextAwareHelpButton';
+import GeminiAssistant from './components/ai/GeminiAssistant';
 import { GamificationProvider } from './components/gamification/GamificationContext';
 import { PersonalizationProvider } from './components/personalization/PersonalizationContext';
 import { base44 } from '@/api/base44Client';
@@ -32,6 +33,7 @@ export default function Layout({ children }) {
         <FeedbackButton />
         <UnifiedCommandBar />
         <ContextAwareHelpButton />
+        <GeminiAssistant />
         <style>{`
           .omni-logo-component {
             display: flex;
