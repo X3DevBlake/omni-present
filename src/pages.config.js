@@ -40,6 +40,7 @@ import AssetBrowser from './pages/AssetBrowser';
 import AssetUpload from './pages/AssetUpload';
 import AuditLogs from './pages/AuditLogs';
 import AutomatedFinanceHub from './pages/AutomatedFinanceHub';
+import BankingCorePhase1 from './pages/BankingCorePhase1';
 import Billing from './pages/Billing';
 import BillingInvoicing from './pages/BillingInvoicing';
 import Blueprint from './pages/Blueprint';
@@ -70,6 +71,7 @@ import CustomDashboard from './pages/CustomDashboard';
 import CustomIntegrations from './pages/CustomIntegrations';
 import DEXAggregator from './pages/DEXAggregator';
 import DataAnnotation from './pages/DataAnnotation';
+import DeFiCorePhase2 from './pages/DeFiCorePhase2';
 import DeFiHub from './pages/DeFiHub';
 import DepositETH from './pages/DepositETH';
 import DepositOmni from './pages/DepositOmni';
@@ -187,8 +189,9 @@ import Wallet from './pages/Wallet';
 import Webhooks from './pages/Webhooks';
 import WithdrawOmni from './pages/WithdrawOmni';
 import World from './pages/World';
-import BankingCorePhase1 from './pages/BankingCorePhase1';
-import DeFiCorePhase2 from './pages/DeFiCorePhase2';
+import DeFiAutonomousPhase3 from './pages/DeFiAutonomousPhase3';
+import DeFiAnalyticsPhase4 from './pages/DeFiAnalyticsPhase4';
+import DeFiGovernancePhase5 from './pages/DeFiGovernancePhase5';
 import __Layout from './Layout.jsx';
 
 
@@ -235,6 +238,7 @@ export const PAGES = {
     "AssetUpload": AssetUpload,
     "AuditLogs": AuditLogs,
     "AutomatedFinanceHub": AutomatedFinanceHub,
+    "BankingCorePhase1": BankingCorePhase1,
     "Billing": Billing,
     "BillingInvoicing": BillingInvoicing,
     "Blueprint": Blueprint,
@@ -265,6 +269,7 @@ export const PAGES = {
     "CustomIntegrations": CustomIntegrations,
     "DEXAggregator": DEXAggregator,
     "DataAnnotation": DataAnnotation,
+    "DeFiCorePhase2": DeFiCorePhase2,
     "DeFiHub": DeFiHub,
     "DepositETH": DepositETH,
     "DepositOmni": DepositOmni,
@@ -382,8 +387,9 @@ export const PAGES = {
     "Webhooks": Webhooks,
     "WithdrawOmni": WithdrawOmni,
     "World": World,
-    "BankingCorePhase1": BankingCorePhase1,
-    "DeFiCorePhase2": DeFiCorePhase2,
+    "DeFiAutonomousPhase3": DeFiAutonomousPhase3,
+    "DeFiAnalyticsPhase4": DeFiAnalyticsPhase4,
+    "DeFiGovernancePhase5": DeFiGovernancePhase5,
 }
 
 export const pagesConfig = {
