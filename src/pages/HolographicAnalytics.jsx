@@ -83,6 +83,10 @@ export default function HolographicAnalytics() {
           </motion.div>
         </div>
 
+        <div className="mb-6">
+          <GeminiInsightsDashboard simulationId={latestAnalytics?.simulation_id} />
+        </div>
+
         <div className="grid grid-cols-2 gap-6 mb-6">
           <AgentBehaviorNetwork agents={agents} interactions={interactions} />
           <PredictiveConflictAnalysis predictions={predictions} />

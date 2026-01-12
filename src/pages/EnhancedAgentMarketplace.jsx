@@ -2,14 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Store, Brain, Award, TrendingUp, Clock, ExternalLink } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
+import AdvancedAgentFilters from '../components/marketplace/AdvancedAgentFilters';
 
 export default function EnhancedAgentMarketplace() {
   const [listings, setListings] = useState([]);
   const [filteredListings, setFilteredListings] = useState([]);
   const [recommendations, setRecommendations] = useState([]);
   const [filters, setFilters] = useState({
+    tier: 'all',
+    personality: 'all',
+    maxPrice: '',
+    geminiScore: 'all',
+    skillCategory: 'all',
+    trialAvailable: 'all',
     minScore: 0,
-    maxPrice: 1000,
     sortBy: 'gemini_score'
   });
   const [trialAgent, setTrialAgent] = useState(null);
@@ -40,10 +46,20 @@ export default function EnhancedAgentMarketplace() {
   };
 
   const applyFilters = () => {
-    let filtered = listings.filter(l => 
-      (l.gemini_score || 0) >= filters.minScore && 
-      l.price <= filters.maxPrice
-    );
+    let filtered = listings.filter(l => {
+      const matchesTier = filters.tier === 'all' || l.tier === filters.tier;
+      const matchesScore = (l.gemini_score || 0) >= filters.minScore;
+      const matchesPrice = !filters.maxPrice || l.price <= parseFloat(filters.maxPrice);
+      const matchesGemini = filters.geminiScore === 'all' || 
+        (filters.geminiScore === '90+' && l.gemini_score >= 90) ||
+        (filters.geminiScore === '80+' && l.gemini_score >= 80) ||
+        (filters.geminiScore === '70+' && l.gemini_score >= 70);
+      const matchesTrial = filters.trialAvailable === 'all' ||
+        (filters.trialAvailable === 'yes' && l.trial_period_days > 0) ||
+        (filters.trialAvailable === 'no' && !l.trial_period_days);
+      
+      return matchesTier && matchesScore && matchesPrice && matchesGemini && matchesTrial;
+    });
 
     filtered.sort((a, b) => {
       if (filters.sortBy === 'price') return a.price - b.price;
@@ -103,51 +119,7 @@ export default function EnhancedAgentMarketplace() {
           </div>
         )}
 
-        {/* Filters */}
-        <div className="bg-white/5 border border-white/10 rounded-lg p-4 mb-6">
-          <h3 className="text-white font-bold mb-3">Filters & Sorting</h3>
-          <div className="grid grid-cols-4 gap-4">
-            <div>
-              <label className="text-white/60 text-xs mb-1 block">Min Gemini Score</label>
-              <input
-                type="range"
-                min="0"
-                max="100"
-                value={filters.minScore}
-                onChange={(e) => setFilters({...filters, minScore: parseInt(e.target.value)})}
-                className="w-full"
-              />
-              <span className="text-cyan-400 text-xs">{filters.minScore}</span>
-            </div>
-            <div>
-              <label className="text-white/60 text-xs mb-1 block">Max Price</label>
-              <input
-                type="range"
-                min="0"
-                max="1000"
-                value={filters.maxPrice}
-                onChange={(e) => setFilters({...filters, maxPrice: parseInt(e.target.value)})}
-                className="w-full"
-              />
-              <span className="text-cyan-400 text-xs">{filters.maxPrice} OMNI</span>
-            </div>
-            <div>
-              <label className="text-white/60 text-xs mb-1 block">Sort By</label>
-              <select
-                value={filters.sortBy}
-                onChange={(e) => setFilters({...filters, sortBy: e.target.value})}
-                className="w-full px-3 py-1 bg-white/10 border border-white/20 rounded text-white text-xs"
-              >
-                <option value="gemini_score">Gemini Score</option>
-                <option value="price">Price</option>
-                <option value="downloads">Downloads</option>
-              </select>
-            </div>
-            <div className="flex items-end">
-              <p className="text-white/60 text-xs">{filteredListings.length} agents found</p>
-            </div>
-          </div>
-        </div>
+        <AdvancedAgentFilters filters={filters} setFilters={setFilters} />
 
         <div className="grid grid-cols-3 gap-4">
           {filteredListings.map(listing => (
@@ -187,6 +159,15 @@ export default function EnhancedAgentMarketplace() {
                 </div>
               </div>
               
+              {listing.trial_period_days > 0 && (
+                <div className="mb-3 px-3 py-2 bg-green-500/20 border border-green-400/30 rounded flex items-center gap-2">
+                  <Clock className="w-4 h-4 text-green-400" />
+                  <span className="text-green-400 text-xs font-semibold">
+                    {listing.trial_period_days}-Day Free Trial
+                  </span>
+                </div>
+              )}
+
               <div className="mb-3">
                 <p className="text-white/60 text-xs mb-1">Skill Benchmarks:</p>
                 {Object.entries(listing.skill_benchmarks || {}).slice(0, 3).map(([skill, score]) => (
