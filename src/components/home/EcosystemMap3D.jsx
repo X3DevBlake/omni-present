@@ -258,8 +258,8 @@ export default function EcosystemMap3D({ activeHubs = [] }) {
   }, [agents, userEmail]);
 
   return (
-    <div className="w-full h-screen relative bg-gradient-to-b from-slate-950 via-purple-950 to-slate-950">
-      <Canvas camera={{ position: [0, 8, 12], fov: 60 }}>
+    <div className="w-full h-[60vh] md:h-screen relative bg-gradient-to-b from-slate-950 via-purple-950 to-slate-950">
+      <Canvas camera={{ position: [0, 8, 12], fov: window.innerWidth < 768 ? 75 : 60 }}>
         <color attach="background" args={['#0a0a0f']} />
         <ambientLight intensity={0.5} />
         <pointLight position={[10, 10, 10]} intensity={2} color="#00f5ff" />
@@ -313,7 +313,7 @@ export default function EcosystemMap3D({ activeHubs = [] }) {
       </Canvas>
 
       {/* Enhanced Interactive Legend with Live Stats */}
-      <div className="absolute bottom-6 left-6 bg-black/70 backdrop-blur-xl border border-cyan-500/30 rounded-lg p-4 max-w-xs">
+      <div className="absolute bottom-2 left-2 md:bottom-6 md:left-6 bg-black/70 backdrop-blur-xl border border-cyan-500/30 rounded-lg p-2 md:p-4 max-w-[180px] md:max-w-xs text-xs md:text-sm">
         <h3 className="text-white font-bold text-sm mb-3 flex items-center justify-between">
           AI Ecosystem
           <span className="text-xs text-cyan-400 font-normal animate-pulse">● Live</span>
@@ -351,8 +351,11 @@ export default function EcosystemMap3D({ activeHubs = [] }) {
       </div>
       
       {/* Interaction Hint */}
-      <div className="absolute top-6 right-6 bg-black/50 backdrop-blur-xl border border-cyan-500/20 rounded-lg p-3">
-        <p className="text-xs text-white/70">Click nodes to navigate • Drag to rotate</p>
+      <div className="absolute top-2 right-2 md:top-6 md:right-6 bg-black/50 backdrop-blur-xl border border-cyan-500/20 rounded-lg p-2 md:p-3">
+        <p className="text-[10px] md:text-xs text-white/70">
+          <span className="hidden md:inline">Click nodes to navigate • Drag to rotate</span>
+          <span className="md:hidden">Tap nodes • Drag</span>
+        </p>
       </div>
     </div>
   );
