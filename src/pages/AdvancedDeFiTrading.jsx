@@ -5,6 +5,8 @@ import { TrendingUp, Bot, BarChart3, Zap } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import AITradingStrategyPanel from '../components/trading/AITradingStrategyPanel';
 import MarketPredictionDashboard from '../components/trading/MarketPredictionDashboard';
+import RealTimeMarketFeed from '../components/trading/RealTimeMarketFeed';
+import BacktestingEngine from '../components/trading/BacktestingEngine';
 
 export default function AdvancedDeFiTrading() {
   const [userEmail, setUserEmail] = useState(null);
@@ -33,16 +35,24 @@ export default function AdvancedDeFiTrading() {
 
         {/* Tabs */}
         <Tabs defaultValue="strategies" className="space-y-6">
-          <TabsList className="bg-white/10 border border-white/20 p-1 rounded-lg w-full justify-start">
-            <TabsTrigger value="strategies" className="flex items-center gap-2">
+          <TabsList className="bg-white/10 border border-white/20 p-1 rounded-lg w-full justify-start overflow-x-auto flex-nowrap">
+            <TabsTrigger value="strategies" className="flex items-center gap-2 flex-shrink-0">
               <Bot className="w-4 h-4" />
               AI Strategies
             </TabsTrigger>
-            <TabsTrigger value="predictions" className="flex items-center gap-2">
+            <TabsTrigger value="live" className="flex items-center gap-2 flex-shrink-0">
               <TrendingUp className="w-4 h-4" />
-              Market Predictions
+              Live Feed
             </TabsTrigger>
-            <TabsTrigger value="analytics" className="flex items-center gap-2">
+            <TabsTrigger value="predictions" className="flex items-center gap-2 flex-shrink-0">
+              <TrendingUp className="w-4 h-4" />
+              Predictions
+            </TabsTrigger>
+            <TabsTrigger value="backtest" className="flex items-center gap-2 flex-shrink-0">
+              <BarChart3 className="w-4 h-4" />
+              Backtest
+            </TabsTrigger>
+            <TabsTrigger value="analytics" className="flex items-center gap-2 flex-shrink-0">
               <BarChart3 className="w-4 h-4" />
               Analytics
             </TabsTrigger>
@@ -62,6 +72,16 @@ export default function AdvancedDeFiTrading() {
             </motion.div>
           </TabsContent>
 
+          {/* Live Feed Tab */}
+          <TabsContent value="live">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <RealTimeMarketFeed />
+            </motion.div>
+          </TabsContent>
+
           {/* Market Predictions Tab */}
           <TabsContent value="predictions">
             <motion.div
@@ -69,6 +89,20 @@ export default function AdvancedDeFiTrading() {
               animate={{ opacity: 1, y: 0 }}
             >
               <MarketPredictionDashboard />
+            </motion.div>
+          </TabsContent>
+
+          {/* Backtesting Tab */}
+          <TabsContent value="backtest">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              {userEmail ? (
+                <BacktestingEngine userEmail={userEmail} />
+              ) : (
+                <p className="text-white/60 text-center py-12">Loading...</p>
+              )}
             </motion.div>
           </TabsContent>
 

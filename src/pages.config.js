@@ -222,6 +222,7 @@ import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import World from './pages/World';
 import SmartBankingHub from './pages/SmartBankingHub';
 import AdvancedDeFiTrading from './pages/AdvancedDeFiTrading';
+import CollaborationCommHub from './pages/CollaborationCommHub';
 import __Layout from './Layout.jsx';
 
 
@@ -450,6 +451,7 @@ export const PAGES = {
     "World": World,
     "SmartBankingHub": SmartBankingHub,
     "AdvancedDeFiTrading": AdvancedDeFiTrading,
+    "CollaborationCommHub": CollaborationCommHub,
 }
 
 export const pagesConfig = {
