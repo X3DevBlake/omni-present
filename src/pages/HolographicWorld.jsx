@@ -10,6 +10,8 @@ import AgentInteractionLines from '../components/3d/AgentInteractionLines';
 import DeviceMarker3D from '../components/3d/DeviceMarker3D';
 import SimulationControls from '../components/simulation/SimulationControls';
 import AgentCommunicationPanel from '../components/agents/AgentCommunicationPanel';
+import GestureControlPanel from '../components/agents/GestureControlPanel';
+import CollaborationSessionHub from '../components/collaboration/CollaborationSessionHub';
 
 export default function HolographicWorld() {
   const [userEmail, setUserEmail] = useState(null);
@@ -192,6 +194,17 @@ Return simulation details.`,
             onToggle={() => setSimulationRunning(!simulationRunning)}
             userEmail={userEmail}
           />
+        </div>
+
+        {/* Side Panels */}
+        <div className="absolute top-20 left-4 space-y-4 max-w-xs">
+          {agents.length > 0 && devices.length > 0 && (
+            <GestureControlPanel agent={agents[0]} devices={devices} />
+          )}
+        </div>
+
+        <div className="absolute top-20 right-4 max-w-md max-h-[calc(100vh-200px)] overflow-y-auto">
+          {userEmail && <CollaborationSessionHub userEmail={userEmail} />}
         </div>
 
         {/* Agent Communication Panel */}
