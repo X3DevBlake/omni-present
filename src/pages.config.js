@@ -218,8 +218,9 @@ import VirtualClassrooms from './pages/VirtualClassrooms';
 import Wallet from './pages/Wallet';
 import Webhooks from './pages/Webhooks';
 import WithdrawOmni from './pages/WithdrawOmni';
-import World from './pages/World';
 import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
+import World from './pages/World';
+import SmartBankingHub from './pages/SmartBankingHub';
 import __Layout from './Layout.jsx';
 
 
@@ -444,8 +445,9 @@ export const PAGES = {
     "Wallet": Wallet,
     "Webhooks": Webhooks,
     "WithdrawOmni": WithdrawOmni,
-    "World": World,
     "WorkflowAutomationHub": WorkflowAutomationHub,
+    "World": World,
+    "SmartBankingHub": SmartBankingHub,
 }
 
 export const pagesConfig = {
