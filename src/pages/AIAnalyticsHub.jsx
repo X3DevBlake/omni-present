@@ -61,6 +61,7 @@ export default function AIAnalyticsHub() {
 
   // Performance trend data
   const trendData = React.useMemo(() => {
+    if (!kpis?.length) return [];
     const days = timeRange === '7d' ? 7 : timeRange === '30d' ? 30 : 90;
     return Array.from({ length: days }, (_, i) => ({
       day: `Day ${i + 1}`,
@@ -68,15 +69,16 @@ export default function AIAnalyticsHub() {
       tasks: Math.floor(50 + Math.random() * 100),
       responseTime: 1 + Math.random() * 2
     }));
-  }, [timeRange]);
+  }, [timeRange, kpis]);
 
   // Agent performance comparison
   const agentComparison = React.useMemo(() => {
-    return agents?.slice(0, 8).map(agent => ({
-      name: agent.name,
+    if (!agents?.length) return [];
+    return agents.slice(0, 8).map(agent => ({
+      name: agent.name || 'Agent',
       efficiency: 70 + Math.random() * 30,
       tasks: Math.floor(20 + Math.random() * 80)
-    })) || [];
+    }));
   }, [agents]);
 
   // Anomaly detection
@@ -236,32 +238,44 @@ export default function AIAnalyticsHub() {
             <div className="grid lg:grid-cols-2 gap-6">
               <Card className="bg-black/40 border-white/10 p-6">
                 <h3 className="text-white font-bold mb-4">Performance Trends</h3>
-                <ResponsiveContainer width="100%" height={300}>
-                  <LineChart data={trendData}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#ffffff20" />
-                    <XAxis dataKey="day" stroke="#ffffff60" />
-                    <YAxis stroke="#ffffff60" />
-                    <Tooltip contentStyle={{ backgroundColor: '#1a1a2e', border: '1px solid #ffffff20' }} />
-                    <Legend />
-                    <Line type="monotone" dataKey="efficiency" stroke="#00f5ff" strokeWidth={2} />
-                    <Line type="monotone" dataKey="tasks" stroke="#a855f7" strokeWidth={2} />
-                  </LineChart>
-                </ResponsiveContainer>
+                {trendData.length > 0 ? (
+                  <ResponsiveContainer width="100%" height={300}>
+                    <LineChart data={trendData}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="#ffffff20" />
+                      <XAxis dataKey="day" stroke="#ffffff60" />
+                      <YAxis stroke="#ffffff60" />
+                      <Tooltip contentStyle={{ backgroundColor: '#1a1a2e', border: '1px solid #ffffff20' }} />
+                      <Legend />
+                      <Line type="monotone" dataKey="efficiency" stroke="#00f5ff" strokeWidth={2} />
+                      <Line type="monotone" dataKey="tasks" stroke="#a855f7" strokeWidth={2} />
+                    </LineChart>
+                  </ResponsiveContainer>
+                ) : (
+                  <div className="flex items-center justify-center h-[300px] text-white/60">
+                    Loading data...
+                  </div>
+                )}
               </Card>
 
               <Card className="bg-black/40 border-white/10 p-6">
                 <h3 className="text-white font-bold mb-4">Agent Performance Comparison</h3>
-                <ResponsiveContainer width="100%" height={300}>
-                  <BarChart data={agentComparison}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#ffffff20" />
-                    <XAxis dataKey="name" stroke="#ffffff60" angle={-45} textAnchor="end" height={80} />
-                    <YAxis stroke="#ffffff60" />
-                    <Tooltip contentStyle={{ backgroundColor: '#1a1a2e', border: '1px solid #ffffff20' }} />
-                    <Legend />
-                    <Bar dataKey="efficiency" fill="#00f5ff" />
-                    <Bar dataKey="tasks" fill="#a855f7" />
-                  </BarChart>
-                </ResponsiveContainer>
+                {agentComparison.length > 0 ? (
+                  <ResponsiveContainer width="100%" height={300}>
+                    <BarChart data={agentComparison}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="#ffffff20" />
+                      <XAxis dataKey="name" stroke="#ffffff60" angle={-45} textAnchor="end" height={80} />
+                      <YAxis stroke="#ffffff60" />
+                      <Tooltip contentStyle={{ backgroundColor: '#1a1a2e', border: '1px solid #ffffff20' }} />
+                      <Legend />
+                      <Bar dataKey="efficiency" fill="#00f5ff" />
+                      <Bar dataKey="tasks" fill="#a855f7" />
+                    </BarChart>
+                  </ResponsiveContainer>
+                ) : (
+                  <div className="flex items-center justify-center h-[300px] text-white/60">
+                    No agent data available
+                  </div>
+                )}
               </Card>
             </div>
           </TabsContent>
