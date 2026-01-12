@@ -158,9 +158,8 @@ function DataStream({ from, to, active }) {
   );
 }
 
-function AgentMarker({ position, agentName, activity, trail = [] }) {
+function AgentMarker({ position, agentName, activity }) {
   const markerRef = useRef();
-  const trailRef = useRef();
   
   useFrame(({ clock }) => {
     if (markerRef.current) {
@@ -169,45 +168,18 @@ function AgentMarker({ position, agentName, activity, trail = [] }) {
   });
   
   return (
-    <group>
-      {/* Agent trail path */}
-      {trail.length > 0 && (
-        <Trail
-          width={0.5}
+    <group position={position} ref={markerRef}>
+      <mesh>
+        <sphereGeometry args={[0.15, 16, 16]} />
+        <meshStandardMaterial
           color="#fbbf24"
-          length={10}
-          decay={1}
-          attenuation={(width) => width}
-        >
-          <group position={position} ref={markerRef}>
-            <mesh>
-              <sphereGeometry args={[0.15, 16, 16]} />
-              <meshStandardMaterial
-                color="#fbbf24"
-                emissive="#fbbf24"
-                emissiveIntensity={1}
-              />
-            </mesh>
-          </group>
-        </Trail>
-      )}
-      
-      {!trail.length && (
-        <group position={position} ref={markerRef}>
-          <mesh>
-            <sphereGeometry args={[0.15, 16, 16]} />
-            <meshStandardMaterial
-              color="#fbbf24"
-              emissive="#fbbf24"
-              emissiveIntensity={1}
-            />
-          </mesh>
-        </group>
-      )}
-      
+          emissive="#fbbf24"
+          emissiveIntensity={1}
+        />
+      </mesh>
       {activity && (
         <Text
-          position={[position[0], position[1] + 0.5, position[2]]}
+          position={[0, 0.5, 0]}
           fontSize={0.2}
           color="#fbbf24"
           anchorX="center"
@@ -250,20 +222,6 @@ export default function EcosystemMap3D({ activeHubs = [] }) {
     refetchInterval: 10000
   });
 
-  // Calculate hub performance based on user activity
-  const hubPerformance = React.useMemo(() => {
-    if (!userActivity) return {};
-    const performance = {};
-    hubs.forEach(hub => {
-      const hubActivity = userActivity.filter(a => a.entity_type?.includes(hub.id));
-      const successRate = hubActivity.length > 0 
-        ? (hubActivity.filter(a => a.success !== false).length / hubActivity.length) * 100
-        : 75;
-      performance[hub.id] = successRate;
-    });
-    return performance;
-  }, [userActivity]);
-
   const hubs = [
     { 
       id: 'agents', 
@@ -272,7 +230,7 @@ export default function EcosystemMap3D({ activeHubs = [] }) {
       color: '#00f5ff', 
       metrics: agents?.length || '0',
       page: 'AgentManagementHub',
-      performance: hubPerformance['agents'] || 75
+      performance: 75
     },
     { 
       id: 'simulation', 
@@ -281,7 +239,7 @@ export default function EcosystemMap3D({ activeHubs = [] }) {
       color: '#a855f7', 
       metrics: '5',
       page: 'SimulationLabs',
-      performance: hubPerformance['simulation'] || 80
+      performance: 80
     },
     { 
       id: 'knowledge', 
@@ -290,7 +248,7 @@ export default function EcosystemMap3D({ activeHubs = [] }) {
       color: '#ec4899', 
       metrics: '1.2K',
       page: 'KnowledgeBase',
-      performance: hubPerformance['knowledge'] || 92
+      performance: 92
     },
     { 
       id: 'analytics', 
@@ -299,7 +257,7 @@ export default function EcosystemMap3D({ activeHubs = [] }) {
       color: '#3b82f6', 
       metrics: userActivity?.length || '0',
       page: 'AIAnalyticsHub',
-      performance: hubPerformance['analytics'] || 88
+      performance: 88
     },
     { 
       id: 'sandbox', 
@@ -308,7 +266,7 @@ export default function EcosystemMap3D({ activeHubs = [] }) {
       color: '#10b981', 
       metrics: '12',
       page: 'SandboxHub',
-      performance: hubPerformance['sandbox'] || 85
+      performance: 85
     },
   ];
 
