@@ -5,18 +5,52 @@ import { base44 } from '@/api/base44Client';
 
 export default function EnhancedAgentMarketplace() {
   const [listings, setListings] = useState([]);
+  const [filteredListings, setFilteredListings] = useState([]);
   const [recommendations, setRecommendations] = useState([]);
+  const [filters, setFilters] = useState({
+    minScore: 0,
+    maxPrice: 1000,
+    sortBy: 'gemini_score'
+  });
+  const [trialAgent, setTrialAgent] = useState(null);
 
   useEffect(() => {
     loadMarketplace();
   }, []);
 
+  useEffect(() => {
+    applyFilters();
+  }, [listings, filters]);
+
   const loadMarketplace = async () => {
-    const data = await base44.entities.AgentMarketplaceListing.list('-gemini_score', 20);
+    const data = await base44.entities.AgentMarketplaceListing.list('-gemini_score', 50);
     setListings(data);
     
     const topRated = data.filter(l => l.gemini_score > 80);
     setRecommendations(topRated.slice(0, 3));
+  };
+
+  const applyFilters = () => {
+    let filtered = listings.filter(l => 
+      (l.gemini_score || 0) >= filters.minScore && 
+      l.price <= filters.maxPrice
+    );
+
+    filtered.sort((a, b) => {
+      if (filters.sortBy === 'price') return a.price - b.price;
+      if (filters.sortBy === 'gemini_score') return (b.gemini_score || 0) - (a.gemini_score || 0);
+      if (filters.sortBy === 'downloads') return (b.downloads || 0) - (a.downloads || 0);
+      return 0;
+    });
+
+    setFilteredListings(filtered);
+  };
+
+  const startTrial = async (listing) => {
+    setTrialAgent(listing);
+    await base44.entities.AgentMarketplaceListing.update(listing.id, {
+      downloads: (listing.downloads || 0) + 1
+    });
   };
 
   return (
@@ -60,8 +94,54 @@ export default function EnhancedAgentMarketplace() {
           </div>
         )}
 
+        {/* Filters */}
+        <div className="bg-white/5 border border-white/10 rounded-lg p-4 mb-6">
+          <h3 className="text-white font-bold mb-3">Filters & Sorting</h3>
+          <div className="grid grid-cols-4 gap-4">
+            <div>
+              <label className="text-white/60 text-xs mb-1 block">Min Gemini Score</label>
+              <input
+                type="range"
+                min="0"
+                max="100"
+                value={filters.minScore}
+                onChange={(e) => setFilters({...filters, minScore: parseInt(e.target.value)})}
+                className="w-full"
+              />
+              <span className="text-cyan-400 text-xs">{filters.minScore}</span>
+            </div>
+            <div>
+              <label className="text-white/60 text-xs mb-1 block">Max Price</label>
+              <input
+                type="range"
+                min="0"
+                max="1000"
+                value={filters.maxPrice}
+                onChange={(e) => setFilters({...filters, maxPrice: parseInt(e.target.value)})}
+                className="w-full"
+              />
+              <span className="text-cyan-400 text-xs">{filters.maxPrice} OMNI</span>
+            </div>
+            <div>
+              <label className="text-white/60 text-xs mb-1 block">Sort By</label>
+              <select
+                value={filters.sortBy}
+                onChange={(e) => setFilters({...filters, sortBy: e.target.value})}
+                className="w-full px-3 py-1 bg-white/10 border border-white/20 rounded text-white text-xs"
+              >
+                <option value="gemini_score">Gemini Score</option>
+                <option value="price">Price</option>
+                <option value="downloads">Downloads</option>
+              </select>
+            </div>
+            <div className="flex items-end">
+              <p className="text-white/60 text-xs">{filteredListings.length} agents found</p>
+            </div>
+          </div>
+        </div>
+
         <div className="grid grid-cols-3 gap-4">
-          {listings.map(listing => (
+          {filteredListings.map(listing => (
             <motion.div key={listing.id} className="bg-white/5 border border-white/10 rounded-lg p-4 hover:border-cyan-400/50">
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
@@ -95,13 +175,43 @@ export default function EnhancedAgentMarketplace() {
                 ))}
               </div>
 
-              <button className="w-full px-4 py-2 bg-gradient-to-r from-cyan-500 to-purple-500 text-white rounded font-semibold hover:shadow-lg flex items-center justify-center gap-2">
+              <button
+                onClick={() => startTrial(listing)}
+                className="w-full px-4 py-2 bg-gradient-to-r from-cyan-500 to-purple-500 text-white rounded font-semibold hover:shadow-lg flex items-center justify-center gap-2"
+              >
                 <Clock className="w-4 h-4" />
                 Start {listing.trial_period_days}-Day Trial
               </button>
             </motion.div>
           ))}
         </div>
+
+        {/* Trial Modal */}
+        {trialAgent && (
+          <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              className="bg-gradient-to-br from-[#1a1a2e] to-[#0D0D1A] border border-cyan-400 rounded-lg p-6 max-w-md"
+            >
+              <h3 className="text-white font-bold text-xl mb-3">Trial Started!</h3>
+              <p className="text-white/80 mb-4">
+                You have {trialAgent.trial_period_days} days to test this agent. 
+                Performance will be monitored automatically.
+              </p>
+              <div className="bg-white/5 rounded p-3 mb-4">
+                <p className="text-white text-sm mb-2">Trial Agent: {trialAgent.personality_profile?.archetype}</p>
+                <p className="text-white/60 text-xs">Expires in {trialAgent.trial_period_days} days</p>
+              </div>
+              <button
+                onClick={() => setTrialAgent(null)}
+                className="w-full px-4 py-2 bg-cyan-500 text-white rounded font-semibold"
+              >
+                Start Using Agent
+              </button>
+            </motion.div>
+          </div>
+        )}
       </div>
     </div>
   );
