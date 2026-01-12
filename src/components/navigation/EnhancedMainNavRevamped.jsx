@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { HubRegistry, HubCategories } from './HubRegistry';
 import Hub3DIcon from '../3d/Hub3DIcon';
-import { Menu, X, Sparkles, ChevronRight } from 'lucide-react';
+import { Menu, X, Sparkles, ChevronRight, Zap } from 'lucide-react';
 import AuroraBackground from '../omni/AuroraBackground';
 
 export default function EnhancedMainNavRevamped() {
