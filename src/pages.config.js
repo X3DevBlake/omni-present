@@ -91,6 +91,7 @@ import DeFiCorePhase2 from './pages/DeFiCorePhase2';
 import DeFiGovernancePhase5 from './pages/DeFiGovernancePhase5';
 import DeFiHub from './pages/DeFiHub';
 import DeepLearningPlatform from './pages/DeepLearningPlatform';
+import DeploymentReadiness from './pages/DeploymentReadiness';
 import DepositETH from './pages/DepositETH';
 import DepositOmni from './pages/DepositOmni';
 import DepositUSDT from './pages/DepositUSDT';
@@ -126,6 +127,7 @@ import ExchangeListings from './pages/ExchangeListings';
 import ExperimentTracking from './pages/ExperimentTracking';
 import FAQ from './pages/FAQ';
 import FeatureDetail from './pages/FeatureDetail';
+import FeatureFlagManager from './pages/FeatureFlagManager';
 import Features from './pages/Features';
 import FeedbackDashboard from './pages/FeedbackDashboard';
 import FiatDeposit from './pages/FiatDeposit';
@@ -219,26 +221,25 @@ import SmartBankingHub from './pages/SmartBankingHub';
 import StudentLounge from './pages/StudentLounge';
 import StudyGroups from './pages/StudyGroups';
 import SubscriptionManagement from './pages/SubscriptionManagement';
+import SystemDashboard from './pages/SystemDashboard';
 import Team from './pages/Team';
 import Technology from './pages/Technology';
 import Terms from './pages/Terms';
 import Tokenomics from './pages/Tokenomics';
 import UnifiedAnalytics from './pages/UnifiedAnalytics';
 import UnifiedCommunicationHub from './pages/UnifiedCommunicationHub';
+import Wallet from './pages/Wallet';
 import UnifiedConversationHub from './pages/UnifiedConversationHub';
 import UnifiedVoicePlatform from './pages/UnifiedVoicePlatform';
+import UpgradeTracker from './pages/UpgradeTracker';
 import UserRolesPermissions from './pages/UserRolesPermissions';
 import VirtualClassrooms from './pages/VirtualClassrooms';
-import Wallet from './pages/Wallet';
+import WebhookManager from './pages/WebhookManager';
 import Webhooks from './pages/Webhooks';
 import WithdrawOmni from './pages/WithdrawOmni';
 import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import World from './pages/World';
-import SystemDashboard from './pages/SystemDashboard';
-import WebhookManager from './pages/WebhookManager';
-import UpgradeTracker from './pages/UpgradeTracker';
-import FeatureFlagManager from './pages/FeatureFlagManager';
-import DeploymentReadiness from './pages/DeploymentReadiness';
+import IntegrationHub from './pages/IntegrationHub';
 import __Layout from './Layout.jsx';
 
 
@@ -336,6 +337,7 @@ export const PAGES = {
     "DeFiGovernancePhase5": DeFiGovernancePhase5,
     "DeFiHub": DeFiHub,
     "DeepLearningPlatform": DeepLearningPlatform,
+    "DeploymentReadiness": DeploymentReadiness,
     "DepositETH": DepositETH,
     "DepositOmni": DepositOmni,
     "DepositUSDT": DepositUSDT,
@@ -371,6 +373,7 @@ export const PAGES = {
     "ExperimentTracking": ExperimentTracking,
     "FAQ": FAQ,
     "FeatureDetail": FeatureDetail,
+    "FeatureFlagManager": FeatureFlagManager,
     "Features": Features,
     "FeedbackDashboard": FeedbackDashboard,
     "FiatDeposit": FiatDeposit,
@@ -464,26 +467,25 @@ export const PAGES = {
     "StudentLounge": StudentLounge,
     "StudyGroups": StudyGroups,
     "SubscriptionManagement": SubscriptionManagement,
+    "SystemDashboard": SystemDashboard,
     "Team": Team,
     "Technology": Technology,
     "Terms": Terms,
     "Tokenomics": Tokenomics,
     "UnifiedAnalytics": UnifiedAnalytics,
     "UnifiedCommunicationHub": UnifiedCommunicationHub,
+    "Wallet": Wallet,
     "UnifiedConversationHub": UnifiedConversationHub,
     "UnifiedVoicePlatform": UnifiedVoicePlatform,
+    "UpgradeTracker": UpgradeTracker,
     "UserRolesPermissions": UserRolesPermissions,
     "VirtualClassrooms": VirtualClassrooms,
-    "Wallet": Wallet,
+    "WebhookManager": WebhookManager,
     "Webhooks": Webhooks,
     "WithdrawOmni": WithdrawOmni,
     "WorkflowAutomationHub": WorkflowAutomationHub,
     "World": World,
-    "SystemDashboard": SystemDashboard,
-    "WebhookManager": WebhookManager,
-    "UpgradeTracker": UpgradeTracker,
-    "FeatureFlagManager": FeatureFlagManager,
-    "DeploymentReadiness": DeploymentReadiness,
+    "IntegrationHub": IntegrationHub,
 }
 
 export const pagesConfig = {
