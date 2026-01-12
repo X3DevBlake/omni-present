@@ -1,105 +1,112 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Sliders, Zap, Droplets, Wind } from 'lucide-react';
+import { Play, Pause, Settings, Plus, Zap } from 'lucide-react';
+import { base44 } from '@/api/base44Client';
 
-export default function SimulationControls({ onUpdate }) {
-  const [physics, setPhysics] = useState({ gravity: 9.8, friction: 0.5 });
-  const [environment, setEnvironment] = useState({ weather: 'clear', time: 'day' });
+export default function SimulationControls({ simulation, running, onToggle, userEmail }) {
+  const [showMenu, setShowMenu] = useState(false);
+  const [spawning, setSpawning] = useState(false);
 
-  const updatePhysics = (key, value) => {
-    const newPhysics = { ...physics, [key]: value };
-    setPhysics(newPhysics);
-    onUpdate({ physics: newPhysics, environment });
-  };
-
-  const updateEnvironment = (key, value) => {
-    const newEnvironment = { ...environment, [key]: value };
-    setEnvironment(newEnvironment);
-    onUpdate({ physics, environment: newEnvironment });
+  const spawnAgent = async () => {
+    setSpawning(true);
+    try {
+      await base44.integrations.Core.InvokeLLM({
+        prompt: `Spawn a new holographic agent in simulation ${simulation.id}.
+Generate unique name and personality.
+Place at random location within simulation bounds.`,
+        response_json_schema: {
+          type: 'object',
+          properties: {
+            agent_name: { type: 'string' },
+            agent_id: { type: 'string' }
+          }
+        }
+      });
+      alert('Agent spawned successfully!');
+    } catch (error) {
+      console.error('Error spawning agent:', error);
+    } finally {
+      setSpawning(false);
+    }
   };
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl p-6"
+      initial={{ opacity: 0, x: 20 }}
+      animate={{ opacity: 1, x: 0 }}
+      className="space-y-2"
     >
-      <h3 className="text-white font-bold text-xl mb-4 flex items-center gap-2">
-        <Sliders className="w-5 h-5 text-cyan-400" />
-        Simulation Parameters
-      </h3>
+      {/* Main Controls */}
+      <div className="bg-black/80 backdrop-blur-sm border border-white/20 rounded-lg p-3 space-y-2">
+        <button
+          onClick={onToggle}
+          className={`w-full px-4 py-2 rounded font-semibold flex items-center justify-center gap-2 ${
+            running
+              ? 'bg-red-500/20 border border-red-400 text-red-300 hover:bg-red-500/30'
+              : 'bg-green-500/20 border border-green-400 text-green-300 hover:bg-green-500/30'
+          }`}
+        >
+          {running ? (
+            <>
+              <Pause className="w-4 h-4" />
+              Pause
+            </>
+          ) : (
+            <>
+              <Play className="w-4 h-4" />
+              Run
+            </>
+          )}
+        </button>
 
-      <div className="grid md:grid-cols-2 gap-6">
-        {/* Physics Controls */}
-        <div>
-          <h4 className="text-white/80 font-semibold mb-3 flex items-center gap-2">
-            <Zap className="w-4 h-4 text-yellow-400" />
-            Physics
-          </h4>
-          <div className="space-y-3">
-            <div>
-              <label className="text-white/60 text-sm">Gravity: {physics.gravity} m/s²</label>
-              <input
-                type="range"
-                min="0"
-                max="20"
-                step="0.1"
-                value={physics.gravity}
-                onChange={(e) => updatePhysics('gravity', parseFloat(e.target.value))}
-                className="w-full"
-              />
-            </div>
-            <div>
-              <label className="text-white/60 text-sm">Friction: {physics.friction}</label>
-              <input
-                type="range"
-                min="0"
-                max="1"
-                step="0.05"
-                value={physics.friction}
-                onChange={(e) => updatePhysics('friction', parseFloat(e.target.value))}
-                className="w-full"
-              />
-            </div>
-          </div>
-        </div>
+        <button
+          onClick={spawnAgent}
+          disabled={spawning}
+          className="w-full px-4 py-2 bg-cyan-500/20 border border-cyan-400 text-cyan-300 rounded font-semibold hover:bg-cyan-500/30 disabled:opacity-50 flex items-center justify-center gap-2"
+        >
+          <Plus className="w-4 h-4" />
+          Spawn Agent
+        </button>
 
-        {/* Environment Controls */}
-        <div>
-          <h4 className="text-white/80 font-semibold mb-3 flex items-center gap-2">
-            <Wind className="w-4 h-4 text-blue-400" />
-            Environment
-          </h4>
-          <div className="space-y-3">
-            <div>
-              <label className="text-white/60 text-sm mb-2 block">Weather</label>
-              <select
-                value={environment.weather}
-                onChange={(e) => updateEnvironment('weather', e.target.value)}
-                className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white"
-              >
-                <option value="clear">Clear</option>
-                <option value="rain">Rain</option>
-                <option value="storm">Storm</option>
-                <option value="snow">Snow</option>
-              </select>
-            </div>
-            <div>
-              <label className="text-white/60 text-sm mb-2 block">Time of Day</label>
-              <select
-                value={environment.time}
-                onChange={(e) => updateEnvironment('time', e.target.value)}
-                className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white"
-              >
-                <option value="day">Day</option>
-                <option value="night">Night</option>
-                <option value="dawn">Dawn</option>
-                <option value="dusk">Dusk</option>
-              </select>
-            </div>
-          </div>
-        </div>
+        <button
+          onClick={() => setShowMenu(!showMenu)}
+          className="w-full px-4 py-2 bg-purple-500/20 border border-purple-400 text-purple-300 rounded font-semibold hover:bg-purple-500/30 flex items-center justify-center gap-2"
+        >
+          <Settings className="w-4 h-4" />
+          Settings
+        </button>
       </div>
+
+      {/* Extended Menu */}
+      {showMenu && (
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-black/80 backdrop-blur-sm border border-white/20 rounded-lg p-3 space-y-2"
+        >
+          <div>
+            <label className="text-white/60 text-xs">Simulation Speed</label>
+            <input 
+              type="range" 
+              min="0.5" 
+              max="5" 
+              step="0.5"
+              defaultValue={simulation?.simulation_speed || 1}
+              className="w-full"
+            />
+          </div>
+          
+          <div className="flex items-center justify-between">
+            <span className="text-white/60 text-xs">Google Earth Terrain</span>
+            <input type="checkbox" defaultChecked={simulation?.google_earth_config?.terrain_enabled} />
+          </div>
+          
+          <div className="flex items-center justify-between">
+            <span className="text-white/60 text-xs">Buildings</span>
+            <input type="checkbox" defaultChecked={simulation?.google_earth_config?.buildings_enabled} />
+          </div>
+        </motion.div>
+      )}
     </motion.div>
   );
 }

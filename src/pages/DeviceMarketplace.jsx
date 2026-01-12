@@ -1,158 +1,158 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Cpu, Camera, Wifi, Zap, ShoppingCart, Star } from 'lucide-react';
-import AuroraBackground from '../components/omni/AuroraBackground';
-import EnhancedHubNav from '../components/navigation/EnhancedHubNav';
+import { Monitor, Smartphone, Glasses, ShoppingCart, DollarSign } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
-import { toast } from 'sonner';
 
 export default function DeviceMarketplace() {
+  const [userEmail, setUserEmail] = useState(null);
   const [devices, setDevices] = useState([]);
-  const [filter, setFilter] = useState('all');
+  const [myDevices, setMyDevices] = useState([]);
 
   useEffect(() => {
-    loadDevices();
+    base44.auth.me()
+      .then(user => {
+        setUserEmail(user?.email);
+        loadMarketplace(user?.email);
+      })
+      .catch(() => setUserEmail(null));
   }, []);
 
-  const loadDevices = async () => {
-    const allDevices = await base44.entities.PhysicalDevice.list();
-    setDevices(allDevices);
+  const loadMarketplace = async (email) => {
+    try {
+      const allDevices = await base44.entities.HolographicDevice.list({ for_sale: true });
+      const owned = await base44.entities.HolographicDevice.list({ owner_email: email });
+      setDevices(allDevices);
+      setMyDevices(owned);
+    } catch (error) {
+      console.error('Error loading marketplace:', error);
+    }
   };
 
-  const filteredDevices = filter === 'all' 
-    ? devices 
-    : devices.filter(d => d.category === filter);
+  const purchaseDevice = async (deviceId) => {
+    try {
+      await base44.entities.HolographicDevice.update(deviceId, {
+        owner_email: userEmail,
+        for_sale: false
+      });
+      alert('Device purchased successfully!');
+      await loadMarketplace(userEmail);
+    } catch (error) {
+      console.error('Purchase error:', error);
+    }
+  };
 
-  const categories = ['all', 'core', 'sensors', 'display', 'robotics', 'interface', 'power', 'networking'];
-
-  const handlePurchase = async (device) => {
-    const user = await base44.auth.me();
-    
-    await base44.entities.Order.create({
-      device_id: device.id,
-      device_name: device.name,
-      quantity: 1,
-      total_price: device.price,
-      shipping_address: { name: user.full_name, email: user.email },
-      payment_method: 'Omni Token'
-    });
-
-    toast.success(`${device.name} ordered successfully!`);
+  const getDeviceIcon = (type) => {
+    switch (type) {
+      case 'holographic_projector': return Monitor;
+      case 'ar_glasses': return Glasses;
+      case 'mobile': return Smartphone;
+      default: return Monitor;
+    }
   };
 
   return (
-    <>
-      <EnhancedHubNav currentHub="DeviceHome" />
-      <AuroraBackground className="min-h-screen py-16 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-[#0D0D1A] via-[#1a1a2e] to-[#0D0D1A] p-6">
       <div className="max-w-7xl mx-auto">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-8">
-          <h1 className="text-5xl font-bold text-white mb-4">
-            Device <span className="bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">Marketplace</span>
-          </h1>
-          <p className="text-white/60 text-lg">Discover, purchase, and deploy AI-compatible hardware</p>
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-8"
+        >
+          <h1 className="text-4xl font-bold text-white mb-2">Holographic Device Marketplace</h1>
+          <p className="text-white/60">Purchase devices to run your holographic agents</p>
         </motion.div>
 
-        {/* Category Filter */}
-        <div className="flex gap-2 mb-8 overflow-x-auto pb-2">
-          {categories.map(cat => (
-            <button
-              key={cat}
-              onClick={() => setFilter(cat)}
-              className={`px-4 py-2 rounded-lg whitespace-nowrap transition-all ${
-                filter === cat
-                  ? 'bg-cyan-500 text-white'
-                  : 'bg-white/5 text-white/60 hover:bg-white/10'
-              }`}
-            >
-              {cat.charAt(0).toUpperCase() + cat.slice(1)}
-            </button>
-          ))}
-        </div>
-
-        {/* Featured Banner */}
-        <div className="bg-gradient-to-r from-cyan-500/20 to-purple-500/20 border border-cyan-500/30 rounded-2xl p-8 mb-8">
-          <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-3xl font-bold text-white mb-2">IoT Integration Ready</h2>
-              <p className="text-white/70 mb-4">All devices support real-time data streaming and AI agent control</p>
-              <div className="flex gap-4">
-                <div className="flex items-center gap-2">
-                  <Wifi className="w-5 h-5 text-cyan-400" />
-                  <span className="text-white text-sm">Wireless</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Zap className="w-5 h-5 text-yellow-400" />
-                  <span className="text-white text-sm">Low Power</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Cpu className="w-5 h-5 text-purple-400" />
-                  <span className="text-white text-sm">AI Optimized</span>
-                </div>
-              </div>
-            </div>
-            <Camera className="w-24 h-24 text-cyan-400/30" />
-          </div>
-        </div>
-
-        {/* Device Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredDevices.map((device, i) => (
-            <motion.div
-              key={device.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.05 }}
-              className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl p-6 hover:border-cyan-500/30 transition-all group"
-            >
-              <div className="text-6xl mb-4">{device.thumbnail || '🔌'}</div>
-              
-              <h3 className="text-white font-bold text-xl mb-2">{device.name}</h3>
-              <p className="text-white/60 text-sm mb-4">{device.description}</p>
-
-              <div className="flex items-center gap-2 mb-4">
-                <div className="flex">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
-                  ))}
-                </div>
-                <span className="text-white/60 text-sm">(4.8)</span>
-              </div>
-
-              {device.features && (
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {device.features.slice(0, 3).map((feature, i) => (
-                    <span key={i} className="px-2 py-1 bg-cyan-500/20 text-cyan-400 text-xs rounded-full">
-                      {feature}
-                    </span>
-                  ))}
-                </div>
-              )}
-
-              <div className="flex items-center justify-between mt-4">
-                <div>
-                  <div className="text-2xl font-bold text-white">${device.price}</div>
-                  <div className="text-white/60 text-xs">In stock: {device.stock_quantity}</div>
-                </div>
-                <button
-                  onClick={() => handlePurchase(device)}
-                  className="px-4 py-2 bg-gradient-to-r from-cyan-500 to-purple-500 text-white rounded-lg hover:opacity-90 transition-all"
+        {/* My Devices */}
+        <div className="mb-8">
+          <h2 className="text-2xl font-bold text-white mb-4">My Devices</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {myDevices.map((device, idx) => {
+              const Icon = getDeviceIcon(device.device_type);
+              return (
+                <motion.div
+                  key={device.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: idx * 0.1 }}
+                  className="bg-gradient-to-br from-cyan-500/20 to-purple-500/20 border border-cyan-400/30 rounded-lg p-4"
                 >
-                  <ShoppingCart className="w-4 h-4 inline mr-1" />
-                  Buy
-                </button>
-              </div>
-            </motion.div>
-          ))}
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-12 h-12 rounded-full bg-cyan-500/20 flex items-center justify-center">
+                      <Icon className="w-6 h-6 text-cyan-400" />
+                    </div>
+                    <div>
+                      <h3 className="text-white font-bold">{device.device_name}</h3>
+                      <p className="text-white/60 text-sm">{device.device_type}</p>
+                    </div>
+                  </div>
+                  <div className="space-y-1 text-sm">
+                    <p className="text-white/70">Status: <span className={`font-semibold ${device.status === 'online' ? 'text-green-400' : 'text-gray-400'}`}>{device.status}</span></p>
+                    <p className="text-white/70">Agents: <span className="text-cyan-400">{device.connected_agents?.length || 0}</span></p>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
         </div>
 
-        {filteredDevices.length === 0 && (
-          <div className="text-center py-12">
-            <Cpu className="w-16 h-16 text-white/20 mx-auto mb-4" />
-            <div className="text-white/60">No devices found in this category</div>
+        {/* Available Devices */}
+        <div>
+          <h2 className="text-2xl font-bold text-white mb-4">Available Devices</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {devices.map((device, idx) => {
+              const Icon = getDeviceIcon(device.device_type);
+              return (
+                <motion.div
+                  key={device.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: idx * 0.1 }}
+                  className="bg-white/5 border border-white/10 rounded-lg p-4 hover:border-cyan-400/50 transition-all"
+                >
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center">
+                      <Icon className="w-6 h-6 text-purple-400" />
+                    </div>
+                    <div>
+                      <h3 className="text-white font-bold">{device.device_name}</h3>
+                      <p className="text-white/60 text-sm">{device.device_type}</p>
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-2 mb-4">
+                    <div className="flex items-center gap-2 text-xs">
+                      <span className="text-white/60">Holographic:</span>
+                      <span className={device.capabilities?.holographic_projection ? 'text-green-400' : 'text-gray-400'}>
+                        {device.capabilities?.holographic_projection ? 'Yes' : 'No'}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2 text-xs">
+                      <span className="text-white/60">Voice:</span>
+                      <span className={device.capabilities?.voice_input ? 'text-green-400' : 'text-gray-400'}>
+                        {device.capabilities?.voice_input ? 'Yes' : 'No'}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-white/60 text-xs">Price</p>
+                      <p className="text-cyan-400 text-2xl font-bold">${device.price}</p>
+                    </div>
+                    <button
+                      onClick={() => purchaseDevice(device.id)}
+                      className="px-4 py-2 bg-gradient-to-r from-cyan-500 to-purple-500 text-white rounded font-semibold hover:shadow-lg flex items-center gap-2"
+                    >
+                      <ShoppingCart className="w-4 h-4" />
+                      Buy
+                    </button>
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
-        )}
+        </div>
       </div>
-    </AuroraBackground>
-    </>
+    </div>
   );
 }
