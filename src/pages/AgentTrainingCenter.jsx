@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Brain, Target, Zap, TrendingUp } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
+import AdaptiveLearningDashboard from '../components/training/AdaptiveLearningDashboard';
 
 export default function AgentTrainingCenter() {
   const [agents, setAgents] = useState([]);
@@ -35,7 +36,7 @@ export default function AgentTrainingCenter() {
       <div className="max-w-7xl mx-auto">
         <h1 className="text-4xl font-bold text-white mb-8">Agent Training & Deployment</h1>
 
-        <div className="grid grid-cols-2 gap-6">
+        <div className="grid grid-cols-3 gap-6">
           <div className="bg-white/5 border border-white/10 rounded-lg p-6">
             <h3 className="text-white font-bold mb-4 flex items-center gap-2">
               <Brain className="w-5 h-5 text-cyan-400" />
@@ -62,6 +63,10 @@ export default function AgentTrainingCenter() {
               </div>
             ))}
           </div>
+
+          {agents.length > 0 && (
+            <AdaptiveLearningDashboard agentId={agents[0]?.id} />
+          )}
         </div>
       </div>
     </div>
