@@ -221,6 +221,7 @@ import WithdrawOmni from './pages/WithdrawOmni';
 import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import World from './pages/World';
 import SmartBankingHub from './pages/SmartBankingHub';
+import AdvancedDeFiTrading from './pages/AdvancedDeFiTrading';
 import __Layout from './Layout.jsx';
 
 
@@ -448,6 +449,7 @@ export const PAGES = {
     "WorkflowAutomationHub": WorkflowAutomationHub,
     "World": World,
     "SmartBankingHub": SmartBankingHub,
+    "AdvancedDeFiTrading": AdvancedDeFiTrading,
 }
 
 export const pagesConfig = {
