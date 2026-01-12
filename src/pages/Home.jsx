@@ -141,7 +141,7 @@ export default function Home() {
               </motion.div>
             </div>
 
-            <h1 className="text-7xl font-bold text-white mb-6 leading-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-white mb-4 md:mb-6 leading-tight px-4">
               Welcome to <span className="bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">Omni</span>
             </h1>
 
@@ -151,14 +151,14 @@ export default function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
-                className="text-2xl text-white/80 mb-12 max-w-3xl mx-auto"
+                className="text-base sm:text-lg md:text-xl lg:text-2xl text-white/80 mb-8 md:mb-12 max-w-3xl mx-auto px-4"
               >
                 {taglines[currentTagline]}
               </motion.p>
             </AnimatePresence>
 
             {/* Quick Actions */}
-            <div className="flex flex-wrap gap-4 justify-center mb-12">
+            <div className="flex flex-wrap gap-3 md:gap-4 justify-center mb-8 md:mb-12 px-4">
               {quickActions.map((action, idx) => (
                 <motion.div
                   key={action.path}
@@ -167,9 +167,10 @@ export default function Home() {
                   transition={{ delay: idx * 0.1 }}
                 >
                   <Link to={createPageUrl(action.path)}>
-                    <Button className={`bg-gradient-to-r ${action.color} text-white px-6 py-6 text-lg group`}>
-                      <action.icon className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
-                      {action.label}
+                    <Button className={`bg-gradient-to-r ${action.color} text-white px-4 py-4 md:px-6 md:py-6 text-sm md:text-lg group`}>
+                      <action.icon className="w-4 h-4 md:w-5 md:h-5 mr-1 md:mr-2 group-hover:scale-110 transition-transform" />
+                      <span className="hidden sm:inline">{action.label}</span>
+                      <span className="sm:hidden">{action.label.split(' ')[0]}</span>
                     </Button>
                   </Link>
                 </motion.div>
@@ -211,15 +212,15 @@ export default function Home() {
 
       {/* Dashboard Widgets Section */}
       {userEmail && (
-        <div className="max-w-7xl mx-auto px-6 py-16">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-16">
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-4xl font-bold text-white mb-8">Your Command Center</h2>
+            <h2 className="text-2xl md:text-4xl font-bold text-white mb-6 md:mb-8">Your Command Center</h2>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-8 md:mb-12">
               {/* Active Agents Widget */}
               <Card className="bg-gradient-to-br from-purple-500/10 to-blue-500/10 border-purple-500/30 p-6">
                 <div className="flex items-center gap-3 mb-4">
@@ -387,16 +388,16 @@ export default function Home() {
       )}
 
       {/* Featured Hubs Section */}
-      <div className="max-w-7xl mx-auto px-6 py-16">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-16">
         <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-4xl font-bold text-white mb-4">Explore Hubs</h2>
-          <p className="text-white/60 text-lg mb-8">Powerful tools and capabilities at your fingertips</p>
+          <h2 className="text-2xl md:text-4xl font-bold text-white mb-3 md:mb-4">Explore Hubs</h2>
+          <p className="text-white/60 text-base md:text-lg mb-6 md:mb-8">Powerful tools and capabilities at your fingertips</p>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             {featuredHubs.map((hub, idx) => (
               <motion.div
                 key={hub.path}

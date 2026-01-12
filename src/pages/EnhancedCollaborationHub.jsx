@@ -7,6 +7,9 @@ import AgentCollaborationSpace3D from '../components/collaboration/AgentCollabor
 import RealTimeDocEditor from '../components/collaboration/RealTimeDocEditor';
 import AgentMoodSystem from '../components/collaboration/AgentMoodSystem';
 import DynamicTeamFormation from '../components/collaboration/DynamicTeamFormation';
+import RealTimeCommunicationVisualizer from '../components/collaboration/RealTimeCommunicationVisualizer';
+import AITaskDelegationEngine from '../components/collaboration/AITaskDelegationEngine';
+import CollaborationTemplateManager from '../components/collaboration/CollaborationTemplateManager';
 import SimulationConfigurator from '../components/simulation/SimulationConfigurator';
 import AgentDataFlowVisualizer3D from '../components/collaboration/AgentDataFlowVisualizer3D';
 import DocumentWorkspace from '../components/collaboration/DocumentWorkspace';
@@ -47,43 +50,48 @@ export default function EnhancedCollaborationHub() {
   ];
 
   return (
-    <AuroraBackground className="min-h-screen py-8">
-      <div className="max-w-7xl mx-auto px-4">
+    <AuroraBackground className="min-h-screen py-4 md:py-8">
+      <div className="max-w-7xl mx-auto px-3 md:px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
+          className="mb-6 md:mb-8"
         >
-          <h1 className="text-4xl font-bold text-white mb-2 flex items-center gap-3">
-            <Users className="w-10 h-10 text-cyan-400" />
-            Enhanced Collaboration Hub
+          <h1 className="text-2xl md:text-4xl font-bold text-white mb-2 flex items-center gap-2 md:gap-3">
+            <Users className="w-8 h-8 md:w-10 md:h-10 text-cyan-400" />
+            <span className="hidden sm:inline">Enhanced Collaboration Hub</span>
+            <span className="sm:hidden">Collaboration</span>
           </h1>
-          <p className="text-white/60">Multi-agent workspace with autonomous coordination</p>
+          <p className="text-white/60 text-sm md:text-base">Multi-agent workspace with autonomous coordination</p>
         </motion.div>
 
-        <Tabs defaultValue="agents" className="w-full space-y-6">
-          <TabsList className="grid w-full grid-cols-4 bg-white/5 border border-white/10">
+        <Tabs defaultValue="agents" className="w-full space-y-4 md:space-y-6">
+          <TabsList className="grid w-full grid-cols-2 md:grid-cols-5 bg-white/5 border border-white/10 text-xs md:text-sm">
             <TabsTrigger value="agents">
-              <Users className="w-4 h-4 mr-2" />
-              Agents
+              <Users className="w-3 h-3 md:w-4 md:h-4 md:mr-2" />
+              <span className="hidden md:inline">Agents</span>
             </TabsTrigger>
-            <TabsTrigger value="dataflow">
-              <Share2 className="w-4 h-4 mr-2" />
-              Data Flow
+            <TabsTrigger value="communication">
+              <Share2 className="w-3 h-3 md:w-4 md:h-4 md:mr-2" />
+              <span className="hidden md:inline">Communication</span>
             </TabsTrigger>
-            <TabsTrigger value="documents">
-              <FileText className="w-4 h-4 mr-2" />
-              Documents
+            <TabsTrigger value="delegation">
+              <FileText className="w-3 h-3 md:w-4 md:h-4 md:mr-2" />
+              <span className="hidden md:inline">Delegation</span>
             </TabsTrigger>
-            <TabsTrigger value="3d">
-              <Eye className="w-4 h-4 mr-2" />
-              3D View
+            <TabsTrigger value="templates">
+              <Eye className="w-3 h-3 md:w-4 md:h-4 md:mr-2" />
+              <span className="hidden md:inline">Templates</span>
+            </TabsTrigger>
+            <TabsTrigger value="3d" className="col-span-2 md:col-span-1">
+              <Eye className="w-3 h-3 md:w-4 md:h-4 md:mr-2" />
+              <span className="hidden md:inline">3D View</span>
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value="agents">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-              <div className="lg:col-span-2 bg-gradient-to-br from-black/20 to-black/40 border border-white/10 rounded-xl p-6">
+              <div className="lg:col-span-2 bg-gradient-to-br from-black/20 to-black/40 border border-white/10 rounded-xl p-4 md:p-6">
                 <AgentCollaborationSpace3D agents={agents} communications={communications} />
               </div>
               {activeWorkspace && (
@@ -93,7 +101,7 @@ export default function EnhancedCollaborationHub() {
               )}
             </div>
 
-            <div className="grid lg:grid-cols-2 gap-6 mt-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 mt-4 md:mt-6">
               <RealTimeDocEditor agents={['Agent-Alpha', 'Agent-Beta']} userEmail={userEmail} />
               <AgentMoodSystem agentId="agent-1" userEmail={userEmail} />
             </div>
@@ -103,10 +111,16 @@ export default function EnhancedCollaborationHub() {
             <SimulationConfigurator userEmail={userEmail} />
           </TabsContent>
 
-          <TabsContent value="dataflow">
-            <div className="bg-gradient-to-br from-black/20 to-black/40 border border-white/10 rounded-xl p-6">
-              <AgentDataFlowVisualizer3D agents={agents} communications={communications} />
-            </div>
+          <TabsContent value="communication">
+            <RealTimeCommunicationVisualizer communications={communications} agents={agents} />
+          </TabsContent>
+
+          <TabsContent value="delegation">
+            <AITaskDelegationEngine collaborationId={activeWorkspace?.workspace_id} agents={agents} />
+          </TabsContent>
+
+          <TabsContent value="templates">
+            <CollaborationTemplateManager userEmail={userEmail} />
           </TabsContent>
 
           <TabsContent value="documents">
