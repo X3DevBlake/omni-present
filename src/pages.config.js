@@ -229,6 +229,7 @@ import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import World from './pages/World';
 import CrossSimulationHub from './pages/CrossSimulationHub';
 import DeviceIntegrationHub from './pages/DeviceIntegrationHub';
+import AdvancedCollaborationHub from './pages/AdvancedCollaborationHub';
 import __Layout from './Layout.jsx';
 
 
@@ -464,6 +465,7 @@ export const PAGES = {
     "World": World,
     "CrossSimulationHub": CrossSimulationHub,
     "DeviceIntegrationHub": DeviceIntegrationHub,
+    "AdvancedCollaborationHub": AdvancedCollaborationHub,
 }
 
 export const pagesConfig = {

@@ -6,6 +6,8 @@ import HapticFeedbackController from '../components/devices/HapticFeedbackContro
 import GestureSequenceBuilder from '../components/devices/GestureSequenceBuilder';
 import DynamicDeviceDiscovery from '../components/devices/DynamicDeviceDiscovery';
 import HapticCustomizer from '../components/haptics/HapticCustomizer';
+import MultiModalInteractionPanel from '../components/devices/MultiModalInteractionPanel';
+import AutonomousDeviceLearning from '../components/devices/AutonomousDeviceLearning';
 
 export default function DeviceIntegrationHub() {
   const [devices, setDevices] = useState([]);
@@ -57,6 +59,11 @@ export default function DeviceIntegrationHub() {
         <div className="grid grid-cols-2 gap-6 mb-6">
           <HapticFeedbackController deviceId={selectedDevice} agentId={selectedAgent} />
           <GestureSequenceBuilder agentId={selectedAgent} deviceId={selectedDevice} />
+        </div>
+
+        <div className="grid grid-cols-2 gap-6 mb-6">
+          <MultiModalInteractionPanel deviceId={selectedDevice} agentId={selectedAgent} />
+          <AutonomousDeviceLearning agentId={selectedAgent} />
         </div>
 
         <div className="grid grid-cols-2 gap-6">
