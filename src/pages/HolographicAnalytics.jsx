@@ -18,14 +18,20 @@ export default function HolographicAnalytics() {
   }, []);
 
   const loadAnalytics = async () => {
-    const [analyticsData, agentsData, interactionsData] = await Promise.all([
+    const [analyticsData, agentsData, interactionsData, tiers] = await Promise.all([
       base44.entities.SimulationAnalytics.list('-created_date', 10),
       base44.entities.HolographicAgent.list(),
-      base44.entities.AgentInteraction.list('-timestamp', 50)
+      base44.entities.AgentInteraction.list('-timestamp', 50),
+      base44.entities.AgentPerformanceTier.list()
     ]);
     
+    const enrichedAgents = agentsData.map(agent => ({
+      ...agent,
+      tier: tiers.find(t => t.agent_id === agent.id)
+    }));
+    
     setAnalytics(analyticsData);
-    setAgents(agentsData);
+    setAgents(enrichedAgents);
     setInteractions(interactionsData);
     
     if (analyticsData.length > 0) {

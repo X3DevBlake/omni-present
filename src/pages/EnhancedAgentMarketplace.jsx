@@ -23,10 +23,19 @@ export default function EnhancedAgentMarketplace() {
   }, [listings, filters]);
 
   const loadMarketplace = async () => {
-    const data = await base44.entities.AgentMarketplaceListing.list('-gemini_score', 50);
-    setListings(data);
+    const [data, tiers] = await Promise.all([
+      base44.entities.AgentMarketplaceListing.list('-gemini_score', 50),
+      base44.entities.AgentPerformanceTier.list()
+    ]);
     
-    const topRated = data.filter(l => l.gemini_score > 80);
+    const enriched = data.map(listing => ({
+      ...listing,
+      tier: tiers.find(t => t.agent_id === listing.agent_id)?.tier || 'bronze'
+    }));
+    
+    setListings(enriched);
+    
+    const topRated = enriched.filter(l => l.gemini_score > 80);
     setRecommendations(topRated.slice(0, 3));
   };
 
@@ -145,11 +154,26 @@ export default function EnhancedAgentMarketplace() {
             <motion.div key={listing.id} className="bg-white/5 border border-white/10 rounded-lg p-4 hover:border-cyan-400/50">
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
-                  <div className="w-10 h-10 bg-purple-500/20 rounded-full flex items-center justify-center">
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                    listing.tier === 'diamond' ? 'bg-cyan-500/20' :
+                    listing.tier === 'platinum' ? 'bg-purple-500/20' :
+                    listing.tier === 'gold' ? 'bg-yellow-500/20' :
+                    listing.tier === 'silver' ? 'bg-gray-300/20' : 'bg-orange-500/20'
+                  }`}>
                     <Brain className="w-5 h-5 text-purple-400" />
                   </div>
                   <div>
-                    <p className="text-white font-semibold text-sm">{listing.personality_profile?.archetype}</p>
+                    <div className="flex items-center gap-1">
+                      <p className="text-white font-semibold text-sm">{listing.personality_profile?.archetype}</p>
+                      <span className={`px-1.5 py-0.5 rounded text-xs font-bold uppercase ${
+                        listing.tier === 'diamond' ? 'bg-cyan-500/20 text-cyan-400' :
+                        listing.tier === 'platinum' ? 'bg-purple-500/20 text-purple-400' :
+                        listing.tier === 'gold' ? 'bg-yellow-500/20 text-yellow-400' :
+                        listing.tier === 'silver' ? 'bg-gray-300/20 text-gray-300' : 'bg-orange-500/20 text-orange-400'
+                      }`}>
+                        {listing.tier}
+                      </span>
+                    </div>
                     <p className="text-white/60 text-xs">{listing.downloads} downloads</p>
                   </div>
                 </div>

@@ -30,7 +30,19 @@ export default function AgentBehaviorNetwork({ agents, interactions }) {
               className="bg-white/5 rounded p-3"
             >
               <div className="flex items-center justify-between mb-2">
-                <p className="text-white text-sm font-semibold">{agent.name}</p>
+                <div className="flex items-center gap-2">
+                  <p className="text-white text-sm font-semibold">{agent.name}</p>
+                  {agent.tier && (
+                    <span className={`px-1.5 py-0.5 rounded text-xs font-bold uppercase ${
+                      agent.tier.tier === 'diamond' ? 'bg-cyan-500/20 text-cyan-400' :
+                      agent.tier.tier === 'platinum' ? 'bg-purple-500/20 text-purple-400' :
+                      agent.tier.tier === 'gold' ? 'bg-yellow-500/20 text-yellow-400' :
+                      agent.tier.tier === 'silver' ? 'bg-gray-300/20 text-gray-300' : 'bg-orange-500/20 text-orange-400'
+                    }`}>
+                      {agent.tier.tier}
+                    </span>
+                  )}
+                </div>
                 <span className="text-cyan-400 text-xs font-bold">{count} interactions</span>
               </div>
               <div className="w-full bg-white/10 rounded-full h-2">

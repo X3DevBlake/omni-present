@@ -227,6 +227,7 @@ import Webhooks from './pages/Webhooks';
 import WithdrawOmni from './pages/WithdrawOmni';
 import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import World from './pages/World';
+import CrossSimulationHub from './pages/CrossSimulationHub';
 import __Layout from './Layout.jsx';
 
 
@@ -460,6 +461,7 @@ export const PAGES = {
     "WithdrawOmni": WithdrawOmni,
     "WorkflowAutomationHub": WorkflowAutomationHub,
     "World": World,
+    "CrossSimulationHub": CrossSimulationHub,
 }
 
 export const pagesConfig = {
