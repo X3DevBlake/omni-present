@@ -226,6 +226,7 @@ import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import World from './pages/World';
 import HolographicAnalytics from './pages/HolographicAnalytics';
 import AutonomyControlCenter from './pages/AutonomyControlCenter';
+import EnhancedAgentMarketplace from './pages/EnhancedAgentMarketplace';
 import __Layout from './Layout.jsx';
 
 
@@ -458,6 +459,7 @@ export const PAGES = {
     "World": World,
     "HolographicAnalytics": HolographicAnalytics,
     "AutonomyControlCenter": AutonomyControlCenter,
+    "EnhancedAgentMarketplace": EnhancedAgentMarketplace,
 }
 
 export const pagesConfig = {
