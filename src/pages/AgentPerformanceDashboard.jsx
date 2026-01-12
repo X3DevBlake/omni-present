@@ -34,20 +34,24 @@ export default function AgentPerformanceDashboard() {
     queryFn: () => base44.entities.AgentKPI.list('-created_date', 100)
   });
 
+  const [predictiveAlerts, setPredictiveAlerts] = useState([]);
+  const [anomalies, setAnomalies] = useState([]);
+
   const analyzePerformance = useMutation({
     mutationFn: async () => {
       const result = await base44.integrations.Core.InvokeLLM({
-        prompt: `Analyze agent performance data and suggest resource reallocations:
+        prompt: `Analyze agent performance with predictive analytics and anomaly detection:
         
 Active agents: ${agents?.length || 0}
 Recent metrics: ${JSON.stringify(metrics?.slice(0, 10))}
 Performance data: ${JSON.stringify(kpis?.slice(0, 10))}
+Historical patterns: ${JSON.stringify(agentStats.slice(0, 10))}
 
-Provide recommendations for:
-1. Resource optimization
-2. Load balancing opportunities
-3. Performance bottleneck resolution
-4. Scaling recommendations`,
+Provide:
+1. Predictive failure analysis (agents at risk of failure)
+2. Anomaly detection (unusual patterns in execution)
+3. Optimization recommendations (retraining, resource allocation)
+4. Alert triggers (error spikes, latency issues)`,
         response_json_schema: {
           type: 'object',
           properties: {
@@ -63,14 +67,47 @@ Provide recommendations for:
                 }
               }
             },
+            predictive_alerts: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  agent_id: { type: 'string' },
+                  risk_type: { type: 'string' },
+                  probability: { type: 'number' },
+                  time_to_failure_hours: { type: 'number' },
+                  recommended_action: { type: 'string' }
+                }
+              }
+            },
+            anomalies: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  agent_id: { type: 'string' },
+                  anomaly_type: { type: 'string' },
+                  severity: { type: 'string' },
+                  description: { type: 'string' },
+                  detected_at: { type: 'string' }
+                }
+              }
+            },
             overall_health: { type: 'string' }
           }
         }
       });
+      
+      setPredictiveAlerts(result.predictive_alerts || []);
+      setAnomalies(result.anomalies || []);
+      
       return result;
     },
     onSuccess: (data) => {
       toast.success(`System health: ${data.overall_health}`);
+      if (data.predictive_alerts?.length > 0) {
+        toast.warning(`${data.predictive_alerts.length} agents at risk!`);
+      }
     }
   });
 
@@ -216,6 +253,70 @@ Provide recommendations for:
             </ResponsiveContainer>
           </CardContent>
         </Card>
+
+        {/* Predictive Alerts & Anomalies */}
+        {(predictiveAlerts.length > 0 || anomalies.length > 0) && (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            {predictiveAlerts.length > 0 && (
+              <Card className="bg-red-900/20 backdrop-blur-lg border-red-500/30">
+                <CardHeader>
+                  <CardTitle className="text-white flex items-center gap-2">
+                    <AlertTriangle className="w-5 h-5 text-red-400" />
+                    Predictive Failure Alerts
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    {predictiveAlerts.map((alert, idx) => (
+                      <div key={idx} className="p-3 bg-red-500/10 rounded-lg border border-red-500/20">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-white font-semibold text-sm">{alert.agent_id}</span>
+                          <Badge className="bg-red-500/20 text-red-400">{alert.risk_type}</Badge>
+                        </div>
+                        <Progress value={alert.probability} className="mb-2" />
+                        <div className="text-xs text-gray-300 mb-2">
+                          {alert.probability}% risk in {alert.time_to_failure_hours}h
+                        </div>
+                        <div className="text-xs text-yellow-400">{alert.recommended_action}</div>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
+            {anomalies.length > 0 && (
+              <Card className="bg-yellow-900/20 backdrop-blur-lg border-yellow-500/30">
+                <CardHeader>
+                  <CardTitle className="text-white flex items-center gap-2">
+                    <AlertCircle className="w-5 h-5 text-yellow-400" />
+                    Detected Anomalies
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    {anomalies.map((anomaly, idx) => (
+                      <div key={idx} className="p-3 bg-yellow-500/10 rounded-lg border border-yellow-500/20">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-white font-semibold text-sm">{anomaly.agent_id}</span>
+                          <Badge className={
+                            anomaly.severity === 'critical' ? 'bg-red-500/20 text-red-400' :
+                            anomaly.severity === 'high' ? 'bg-orange-500/20 text-orange-400' :
+                            'bg-yellow-500/20 text-yellow-400'
+                          }>
+                            {anomaly.severity}
+                          </Badge>
+                        </div>
+                        <div className="text-sm text-white mb-1">{anomaly.anomaly_type}</div>
+                        <div className="text-xs text-gray-400">{anomaly.description}</div>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+          </div>
+        )}
 
         {/* Agent List with Metrics */}
         <Card className="bg-white/10 backdrop-blur-lg border-white/20">

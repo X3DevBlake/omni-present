@@ -8,7 +8,7 @@ import { createPageUrl } from '@/utils';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 
-function HubNode({ position, label, color, onClick, metrics, isActive }) {
+function HubNode({ position, label, color, onClick, metrics, isActive, performance, onWorkflowCreate }) {
   const meshRef = useRef();
   const [hovered, setHovered] = useState(false);
 
@@ -24,6 +24,9 @@ function HubNode({ position, label, color, onClick, metrics, isActive }) {
       meshRef.current.material.emissiveIntensity = hovered || isActive ? 0.8 : 0.4;
     }
   });
+
+  // Performance indicator color
+  const perfColor = performance > 80 ? '#10b981' : performance > 50 ? '#fbbf24' : '#ef4444';
 
   return (
     <group position={position}>
@@ -54,17 +57,48 @@ function HubNode({ position, label, color, onClick, metrics, isActive }) {
         />
       </mesh>
 
+      {/* Performance indicator ring */}
+      <mesh position={[0, 0, 0]} rotation={[Math.PI / 2, 0, 0]}>
+        <ringGeometry args={[1.7, 1.9, 32]} />
+        <meshBasicMaterial color={perfColor} transparent opacity={0.6} />
+      </mesh>
+
       {/* Floating metrics */}
       {metrics && (hovered || isActive) && (
-        <Text
-          position={[0, 2.5, 0]}
-          fontSize={0.4}
-          color={color}
-          anchorX="center"
-          anchorY="bottom"
+        <>
+          <Text
+            position={[0, 2.5, 0]}
+            fontSize={0.4}
+            color={color}
+            anchorX="center"
+            anchorY="bottom"
+          >
+            {label}: {metrics}
+          </Text>
+          <Text
+            position={[0, 2, 0]}
+            fontSize={0.3}
+            color={perfColor}
+            anchorX="center"
+            anchorY="bottom"
+          >
+            {performance}% Performance
+          </Text>
+        </>
+      )}
+
+      {/* Workflow creation button on hover */}
+      {hovered && onWorkflowCreate && (
+        <mesh 
+          position={[0, -2, 0]}
+          onClick={(e) => {
+            e.stopPropagation();
+            onWorkflowCreate();
+          }}
         >
-          {label}: {metrics}
-        </Text>
+          <planeGeometry args={[2, 0.5]} />
+          <meshBasicMaterial color="#a855f7" transparent opacity={0.8} />
+        </mesh>
       )}
     </group>
   );
@@ -124,8 +158,9 @@ function DataStream({ from, to, active }) {
   );
 }
 
-function AgentMarker({ position, agentName, activity }) {
+function AgentMarker({ position, agentName, activity, trail = [] }) {
   const markerRef = useRef();
+  const trailRef = useRef();
   
   useFrame(({ clock }) => {
     if (markerRef.current) {
@@ -134,18 +169,45 @@ function AgentMarker({ position, agentName, activity }) {
   });
   
   return (
-    <group position={position} ref={markerRef}>
-      <mesh>
-        <sphereGeometry args={[0.15, 16, 16]} />
-        <meshStandardMaterial
+    <group>
+      {/* Agent trail path */}
+      {trail.length > 0 && (
+        <Trail
+          width={0.5}
           color="#fbbf24"
-          emissive="#fbbf24"
-          emissiveIntensity={1}
-        />
-      </mesh>
+          length={10}
+          decay={1}
+          attenuation={(width) => width}
+        >
+          <group position={position} ref={markerRef}>
+            <mesh>
+              <sphereGeometry args={[0.15, 16, 16]} />
+              <meshStandardMaterial
+                color="#fbbf24"
+                emissive="#fbbf24"
+                emissiveIntensity={1}
+              />
+            </mesh>
+          </group>
+        </Trail>
+      )}
+      
+      {!trail.length && (
+        <group position={position} ref={markerRef}>
+          <mesh>
+            <sphereGeometry args={[0.15, 16, 16]} />
+            <meshStandardMaterial
+              color="#fbbf24"
+              emissive="#fbbf24"
+              emissiveIntensity={1}
+            />
+          </mesh>
+        </group>
+      )}
+      
       {activity && (
         <Text
-          position={[0, 0.5, 0]}
+          position={[position[0], position[1] + 0.5, position[2]]}
           fontSize={0.2}
           color="#fbbf24"
           anchorX="center"
@@ -188,6 +250,20 @@ export default function EcosystemMap3D({ activeHubs = [] }) {
     refetchInterval: 10000
   });
 
+  // Calculate hub performance based on user activity
+  const hubPerformance = React.useMemo(() => {
+    if (!userActivity) return {};
+    const performance = {};
+    hubs.forEach(hub => {
+      const hubActivity = userActivity.filter(a => a.entity_type?.includes(hub.id));
+      const successRate = hubActivity.length > 0 
+        ? (hubActivity.filter(a => a.success !== false).length / hubActivity.length) * 100
+        : 75;
+      performance[hub.id] = successRate;
+    });
+    return performance;
+  }, [userActivity]);
+
   const hubs = [
     { 
       id: 'agents', 
@@ -195,7 +271,8 @@ export default function EcosystemMap3D({ activeHubs = [] }) {
       position: [-6, 0, -4], 
       color: '#00f5ff', 
       metrics: agents?.length || '0',
-      page: 'AgentManagementHub'
+      page: 'AgentManagementHub',
+      performance: hubPerformance['agents'] || 75
     },
     { 
       id: 'simulation', 
@@ -203,7 +280,8 @@ export default function EcosystemMap3D({ activeHubs = [] }) {
       position: [6, 0, -4], 
       color: '#a855f7', 
       metrics: '5',
-      page: 'SimulationLabs'
+      page: 'SimulationLabs',
+      performance: hubPerformance['simulation'] || 80
     },
     { 
       id: 'knowledge', 
@@ -211,7 +289,8 @@ export default function EcosystemMap3D({ activeHubs = [] }) {
       position: [0, 6, 0], 
       color: '#ec4899', 
       metrics: '1.2K',
-      page: 'KnowledgeBase'
+      page: 'KnowledgeBase',
+      performance: hubPerformance['knowledge'] || 92
     },
     { 
       id: 'analytics', 
@@ -219,7 +298,8 @@ export default function EcosystemMap3D({ activeHubs = [] }) {
       position: [-6, 0, 4], 
       color: '#3b82f6', 
       metrics: userActivity?.length || '0',
-      page: 'AIAnalyticsHub'
+      page: 'AIAnalyticsHub',
+      performance: hubPerformance['analytics'] || 88
     },
     { 
       id: 'sandbox', 
@@ -227,12 +307,17 @@ export default function EcosystemMap3D({ activeHubs = [] }) {
       position: [6, 0, 4], 
       color: '#10b981', 
       metrics: '12',
-      page: 'SandboxHub'
+      page: 'SandboxHub',
+      performance: hubPerformance['sandbox'] || 85
     },
   ];
 
   const handleHubClick = (hub) => {
     navigate(createPageUrl(hub.page || 'Home'));
+  };
+
+  const handleWorkflowCreate = (hub) => {
+    navigate(createPageUrl('IntegrationHub') + `?workflowFrom=${hub.id}`);
   };
 
   // Determine active data streams based on real-time activity
@@ -287,7 +372,9 @@ export default function EcosystemMap3D({ activeHubs = [] }) {
             label={hub.label}
             color={hub.color}
             metrics={hub.metrics}
+            performance={hub.performance}
             onClick={() => handleHubClick(hub)}
+            onWorkflowCreate={() => handleWorkflowCreate(hub)}
             isActive={activeHubs.includes(hub.id) || (userActivity && userActivity.some(a => a.entity_type === hub.id))}
           />
         ))}

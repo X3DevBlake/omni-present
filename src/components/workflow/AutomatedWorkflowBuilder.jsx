@@ -8,6 +8,7 @@ import { base44 } from '@/api/base44Client';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Play, Plus, Trash2, Zap, Settings, Eye, Bot, Webhook, Calendar } from 'lucide-react';
 import { toast } from 'sonner';
+import AIWorkflowAnalyzer from './AIWorkflowAnalyzer';
 
 export default function AutomatedWorkflowBuilder() {
   const [workflowName, setWorkflowName] = useState('');
@@ -145,8 +146,9 @@ Provide actionable suggestions for workflow optimization, error handling improve
         </CardHeader>
         <CardContent>
           <Tabs defaultValue="builder">
-            <TabsList className="grid w-full grid-cols-3">
+            <TabsList className="grid w-full grid-cols-4">
               <TabsTrigger value="builder">Visual Builder</TabsTrigger>
+              <TabsTrigger value="analyzer">AI Analyzer</TabsTrigger>
               <TabsTrigger value="monitor">Execution Monitor</TabsTrigger>
               <TabsTrigger value="library">Workflow Library</TabsTrigger>
             </TabsList>
@@ -257,6 +259,15 @@ Provide actionable suggestions for workflow optimization, error handling improve
                   </CardContent>
                 </Card>
               )}
+            </TabsContent>
+
+            <TabsContent value="analyzer">
+              <AIWorkflowAnalyzer 
+                onCreateWorkflow={(suggestion) => {
+                  setWorkflowName(suggestion.workflow_name);
+                  toast.success('Workflow template created from AI suggestion!');
+                }}
+              />
             </TabsContent>
 
             <TabsContent value="monitor">
