@@ -237,6 +237,8 @@ import World from './pages/World';
 import SystemDashboard from './pages/SystemDashboard';
 import WebhookManager from './pages/WebhookManager';
 import UpgradeTracker from './pages/UpgradeTracker';
+import FeatureFlagManager from './pages/FeatureFlagManager';
+import DeploymentReadiness from './pages/DeploymentReadiness';
 import __Layout from './Layout.jsx';
 
 
@@ -480,6 +482,8 @@ export const PAGES = {
     "SystemDashboard": SystemDashboard,
     "WebhookManager": WebhookManager,
     "UpgradeTracker": UpgradeTracker,
+    "FeatureFlagManager": FeatureFlagManager,
+    "DeploymentReadiness": DeploymentReadiness,
 }
 
 export const pagesConfig = {
