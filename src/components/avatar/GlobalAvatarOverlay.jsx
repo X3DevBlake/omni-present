@@ -1,136 +1,110 @@
-import React, { useEffect, useState } from 'react';
-import { useAvatar } from './AvatarContext';
+import React, { Suspense, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls } from '@react-three/drei';
-import { motion } from 'framer-motion';
-import { X, Maximize2, Minimize2, Move } from 'lucide-react';
-import OptimizedAvatarModel from './OptimizedAvatarModel';
-import AgentGestureSystem from './AgentGestureSystem';
+import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Eye, EyeOff, Maximize2, Minimize2 } from 'lucide-react';
+import { useAvatar } from './AvatarContext';
+import OptimizedLive3DViewer from '../3d/OptimizedLive3DViewer';
+import AgentInteractionOverlay from './AgentInteractionOverlay';
 
 export default function GlobalAvatarOverlay() {
-  const { avatarData, isVisible, position, updatePosition, toggleVisibility, currentAnimation } = useAvatar();
-  const [isDragging, setIsDragging] = useState(false);
+  const { activeAvatar, isVisible, setIsVisible, agentAvatars, animationState } = useAvatar();
   const [isExpanded, setIsExpanded] = useState(false);
-  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const [position, setPosition] = useState({ x: 20, y: 80 });
 
-  useEffect(() => {
-    const handleMouseMove = (e) => {
-      if (isDragging) {
-        updatePosition({
-          x: e.clientX - dragOffset.x,
-          y: e.clientY - dragOffset.y
-        });
-      }
-    };
+  if (!activeAvatar) return null;
 
-    const handleMouseUp = () => {
-      setIsDragging(false);
-    };
-
-    if (isDragging) {
-      window.addEventListener('mousemove', handleMouseMove);
-      window.addEventListener('mouseup', handleMouseUp);
-    }
-
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseup', handleMouseUp);
-    };
-  }, [isDragging, dragOffset, updatePosition]);
-
-  const handleMouseDown = (e) => {
-    setIsDragging(true);
-    setDragOffset({
-      x: e.clientX - position.x,
-      y: e.clientY - position.y
-    });
-  };
-
-  if (!avatarData || !isVisible) return null;
-
-  const size = isExpanded ? { width: 600, height: 800 } : { width: 300, height: 400 };
+  const overlaySize = isExpanded ? 'w-96 h-96' : 'w-48 h-48';
 
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.8 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.8 }}
-      style={{
-        position: 'fixed',
-        left: position.x,
-        top: position.y,
-        width: size.width,
-        height: size.height,
-        zIndex: 9999,
-        pointerEvents: 'auto'
-      }}
-      className="bg-black/80 backdrop-blur-lg rounded-2xl border border-cyan-500/30 shadow-2xl overflow-hidden"
-    >
-      <div
-        className="bg-gradient-to-r from-cyan-900/50 to-blue-900/50 p-3 flex items-center justify-between cursor-move border-b border-cyan-500/20"
-        onMouseDown={handleMouseDown}
-      >
-        <div className="flex items-center gap-2">
-          <Move className="w-4 h-4 text-cyan-400" />
-          <span className="text-white text-sm font-bold">
-            {avatarData.avatar_name || avatarData.base?.name || 'Avatar'}
-          </span>
-          {avatarData.isAgent && (
-            <span className="px-2 py-0.5 bg-purple-500/20 text-purple-400 text-xs rounded">AI Agent</span>
-          )}
-        </div>
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => setIsExpanded(!isExpanded)}
-            className="text-cyan-400 hover:text-cyan-300 transition-colors"
-          >
-            {isExpanded ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
-          </button>
-          <button
-            onClick={toggleVisibility}
-            className="text-red-400 hover:text-red-300 transition-colors"
-          >
-            <X className="w-4 h-4" />
-          </button>
-        </div>
-      </div>
+    <AnimatePresence>
+      {isVisible && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.8 }}
+          className={`fixed z-50 ${overlaySize} rounded-xl overflow-hidden shadow-2xl border-2 border-white/20 bg-black/40 backdrop-blur-sm`}
+          style={{ right: `${position.x}px`, bottom: `${position.y}px` }}
+          drag
+          dragMomentum={false}
+          onDragEnd={(e, info) => {
+            setPosition({
+              x: Math.max(20, position.x - info.offset.x),
+              y: Math.max(20, position.y - info.offset.y)
+            });
+          }}
+        >
+          {/* Controls */}
+          <div className="absolute top-2 right-2 z-10 flex gap-2">
+            <button
+              onClick={() => setIsExpanded(!isExpanded)}
+              className="p-1.5 bg-white/10 hover:bg-white/20 rounded-lg backdrop-blur-sm transition-all"
+            >
+              {isExpanded ? (
+                <Minimize2 className="w-4 h-4 text-white" />
+              ) : (
+                <Maximize2 className="w-4 h-4 text-white" />
+              )}
+            </button>
+            <button
+              onClick={() => setIsVisible(false)}
+              className="p-1.5 bg-white/10 hover:bg-white/20 rounded-lg backdrop-blur-sm transition-all"
+            >
+              <EyeOff className="w-4 h-4 text-white" />
+            </button>
+          </div>
 
-      <div className="relative w-full h-[calc(100%-60px)]">
-        <Canvas camera={{ position: [0, 1.5, 3], fov: 50 }}>
-          <ambientLight intensity={0.6} />
-          <directionalLight position={[5, 5, 5]} intensity={0.8} />
-          <spotLight position={[-5, 5, 5]} intensity={0.5} angle={0.3} penumbra={1} />
-          
-          <OptimizedAvatarModel
-            base={avatarData.base}
-            components={avatarData.components || []}
-            componentProperties={avatarData.component_properties || {}}
-            animation={currentAnimation}
-            isExpanded={isExpanded}
-          />
+          {/* Avatar Name */}
+          <div className="absolute top-2 left-2 z-10">
+            <div className="px-3 py-1 bg-black/60 backdrop-blur-sm rounded-full">
+              <p className="text-white text-xs font-semibold">{activeAvatar.avatar_name || 'My Avatar'}</p>
+            </div>
+          </div>
 
-          {avatarData.isAgent && (
-            <AgentGestureSystem
-              agentId={avatarData.agent_id}
-              gestureQueue={avatarData.gesture_queue || []}
+          {/* 3D Canvas */}
+          <Canvas>
+            <PerspectiveCamera makeDefault position={[0, 1, 3]} />
+            <ambientLight intensity={0.6} />
+            <directionalLight position={[5, 5, 5]} intensity={0.8} />
+            <spotLight position={[-5, 5, 5]} intensity={0.5} />
+            
+            <Suspense fallback={null}>
+              <OptimizedLive3DViewer
+                avatarData={activeAvatar}
+                animationState={animationState}
+                enableLOD={true}
+                enableLazyLoading={true}
+              />
+            </Suspense>
+            
+            <OrbitControls
+              enableZoom={isExpanded}
+              enablePan={false}
+              minDistance={2}
+              maxDistance={5}
+              minPolarAngle={Math.PI / 4}
+              maxPolarAngle={Math.PI / 2}
             />
+          </Canvas>
+
+          {/* Agent Interactions */}
+          {agentAvatars.length > 0 && isExpanded && (
+            <AgentInteractionOverlay agents={agentAvatars} />
           )}
+        </motion.div>
+      )}
 
-          <OrbitControls
-            enableZoom={true}
-            enablePan={false}
-            minDistance={2}
-            maxDistance={6}
-            target={[0, 1, 0]}
-          />
-        </Canvas>
-      </div>
-
-      <div className="absolute bottom-0 left-0 right-0 bg-black/60 p-2 flex justify-center gap-2">
-        <div className="text-xs text-cyan-400 font-mono">
-          Animation: {currentAnimation}
-        </div>
-      </div>
-    </motion.div>
+      {/* Toggle Button (when hidden) */}
+      {!isVisible && activeAvatar && (
+        <motion.button
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          onClick={() => setIsVisible(true)}
+          className="fixed bottom-20 right-6 z-50 p-3 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full shadow-lg hover:scale-110 transition-transform"
+        >
+          <Eye className="w-6 h-6 text-white" />
+        </motion.button>
+      )}
+    </AnimatePresence>
   );
 }

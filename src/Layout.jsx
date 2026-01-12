@@ -50,6 +50,7 @@ export default function Layout({ children }) {
             justify-content: center;
           }
         `}</style>
+        </AvatarProvider>
       </GamificationProvider>
     </PersonalizationProvider>
   );
