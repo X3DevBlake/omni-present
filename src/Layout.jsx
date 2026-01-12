@@ -12,8 +12,7 @@ import { GamificationProvider } from './components/gamification/GamificationCont
 import { PersonalizationProvider } from './components/personalization/PersonalizationContext';
 import { AvatarProvider } from './components/avatar/AvatarContext';
 import GlobalAvatarOverlay from './components/avatar/GlobalAvatarOverlay';
-import AvatarNavigationSync from './components/avatar/AvatarNavigationSync';
-import AvatarQuickSelector from './components/avatar/AvatarQuickSelector';
+import AnimationController from './components/avatar/AnimationController';
 import { base44 } from '@/api/base44Client';
 
 export default function Layout({ children }) {
@@ -35,23 +34,21 @@ export default function Layout({ children }) {
           {userEmail && <NotificationCenter userEmail={userEmail} />}
           {children}
           <GlobalAvatarOverlay />
-          <AvatarNavigationSync />
-          <AvatarQuickSelector />
+          <AnimationController />
           <OmniAssistant />
           <FeedbackButton />
           <UnifiedCommandBar />
           <ContextAwareHelpButton />
           <GeminiAssistant />
-        </AvatarProvider>
-        <style>{`
+          <style>{`
           .omni-logo-component {
             display: flex;
             align-items: center;
             justify-content: center;
           }
         `}</style>
-        </AvatarProvider>
-      </GamificationProvider>
+      </AvatarProvider>
+    </GamificationProvider>
     </PersonalizationProvider>
   );
 }
