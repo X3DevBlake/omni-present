@@ -241,6 +241,7 @@ import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import World from './pages/World';
 import IntegrationHub from './pages/IntegrationHub';
 import HomepageUpgradePlan from './pages/HomepageUpgradePlan';
+import AgentPerformanceDashboard from './pages/AgentPerformanceDashboard';
 import __Layout from './Layout.jsx';
 
 
@@ -488,6 +489,7 @@ export const PAGES = {
     "World": World,
     "IntegrationHub": IntegrationHub,
     "HomepageUpgradePlan": HomepageUpgradePlan,
+    "AgentPerformanceDashboard": AgentPerformanceDashboard,
 }
 
 export const pagesConfig = {
