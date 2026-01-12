@@ -10,6 +10,7 @@ import BacktestingEngine from '../components/trading/BacktestingEngine';
 import AdvancedOrderPanel from '../components/trading/AdvancedOrderPanel';
 import PriceAlertSystem from '../components/trading/PriceAlertSystem';
 import PortfolioRebalancer from '../components/trading/PortfolioRebalancer';
+import AutonomousAgentController from '../components/trading/AutonomousAgentController';
 
 export default function AdvancedDeFiTrading() {
   const [userEmail, setUserEmail] = useState(null);
@@ -78,9 +79,13 @@ export default function AdvancedDeFiTrading() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
+              className="space-y-6"
             >
               {userEmail ? (
-                <AITradingStrategyPanel userEmail={userEmail} />
+                <>
+                  <AutonomousAgentController userEmail={userEmail} />
+                  <AITradingStrategyPanel userEmail={userEmail} />
+                </>
               ) : (
                 <p className="text-white/60 text-center py-12">Loading...</p>
               )}

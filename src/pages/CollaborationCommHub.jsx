@@ -9,6 +9,7 @@ import EnhancedNotificationSystem from '../components/notifications/EnhancedNoti
 import AIResponseSuggester from '../components/communication/AIResponseSuggester';
 import SentimentAnalyzer from '../components/communication/SentimentAnalyzer';
 import MeetingAgendaGenerator from '../components/communication/MeetingAgendaGenerator';
+import AutonomousCommAgent from '../components/communication/AutonomousCommAgent';
 
 export default function CollaborationCommHub() {
   const [userEmail, setUserEmail] = useState(null);
@@ -96,9 +97,13 @@ export default function CollaborationCommHub() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
+              className="space-y-6"
             >
               {userEmail ? (
-                <UnifiedCommHub userEmail={userEmail} />
+                <>
+                  <AutonomousCommAgent userEmail={userEmail} />
+                  <UnifiedCommHub userEmail={userEmail} />
+                </>
               ) : (
                 <p className="text-white/60 text-center py-12">Loading...</p>
               )}

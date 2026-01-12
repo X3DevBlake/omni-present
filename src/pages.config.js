@@ -11,6 +11,7 @@ import AchievementsAwards from './pages/AchievementsAwards';
 import ActivityLog from './pages/ActivityLog';
 import AdminHome from './pages/AdminHome';
 import AdvancedAgentCapabilities from './pages/AdvancedAgentCapabilities';
+import AdvancedDeFiTrading from './pages/AdvancedDeFiTrading';
 import AdvancedFinancialEcosystem from './pages/AdvancedFinancialEcosystem';
 import AdvancedPredictionCenter from './pages/AdvancedPredictionCenter';
 import AdvancedSimulation from './pages/AdvancedSimulation';
@@ -59,6 +60,7 @@ import Certifications from './pages/Certifications';
 import Challenges from './pages/Challenges';
 import CloudinaryHub from './pages/CloudinaryHub';
 import CodeEditor from './pages/CodeEditor';
+import CollaborationCommHub from './pages/CollaborationCommHub';
 import CollaborationDashboard from './pages/CollaborationDashboard';
 import CollaborativeAgentHub from './pages/CollaborativeAgentHub';
 import CollaborativeWorkspace from './pages/CollaborativeWorkspace';
@@ -108,8 +110,8 @@ import EnhancedDeFiHub from './pages/EnhancedDeFiHub';
 import EnhancedMediaHub from './pages/EnhancedMediaHub';
 import EnhancedOmniBank from './pages/EnhancedOmniBank';
 import EnhancedVideoIntegrationHub from './pages/EnhancedVideoIntegrationHub';
-import EnvironmentDesigner from './pages/EnvironmentDesigner';
 import EthicsHub from './pages/EthicsHub';
+import EnvironmentDesigner from './pages/EnvironmentDesigner';
 import EthicsSafetyHub from './pages/EthicsSafetyHub';
 import EventsCalendar from './pages/EventsCalendar';
 import EvolutionDashboardPage from './pages/EvolutionDashboardPage';
@@ -202,6 +204,7 @@ import SimulationEnvironment from './pages/SimulationEnvironment';
 import SimulationHub from './pages/SimulationHub';
 import SimulationLabs from './pages/SimulationLabs';
 import SimulationWorld from './pages/SimulationWorld';
+import SmartBankingHub from './pages/SmartBankingHub';
 import StudentLounge from './pages/StudentLounge';
 import StudyGroups from './pages/StudyGroups';
 import SubscriptionManagement from './pages/SubscriptionManagement';
@@ -220,9 +223,6 @@ import Webhooks from './pages/Webhooks';
 import WithdrawOmni from './pages/WithdrawOmni';
 import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import World from './pages/World';
-import SmartBankingHub from './pages/SmartBankingHub';
-import AdvancedDeFiTrading from './pages/AdvancedDeFiTrading';
-import CollaborationCommHub from './pages/CollaborationCommHub';
 import __Layout from './Layout.jsx';
 
 
@@ -240,6 +240,7 @@ export const PAGES = {
     "ActivityLog": ActivityLog,
     "AdminHome": AdminHome,
     "AdvancedAgentCapabilities": AdvancedAgentCapabilities,
+    "AdvancedDeFiTrading": AdvancedDeFiTrading,
     "AdvancedFinancialEcosystem": AdvancedFinancialEcosystem,
     "AdvancedPredictionCenter": AdvancedPredictionCenter,
     "AdvancedSimulation": AdvancedSimulation,
@@ -288,6 +289,7 @@ export const PAGES = {
     "Challenges": Challenges,
     "CloudinaryHub": CloudinaryHub,
     "CodeEditor": CodeEditor,
+    "CollaborationCommHub": CollaborationCommHub,
     "CollaborationDashboard": CollaborationDashboard,
     "CollaborativeAgentHub": CollaborativeAgentHub,
     "CollaborativeWorkspace": CollaborativeWorkspace,
@@ -337,8 +339,8 @@ export const PAGES = {
     "EnhancedMediaHub": EnhancedMediaHub,
     "EnhancedOmniBank": EnhancedOmniBank,
     "EnhancedVideoIntegrationHub": EnhancedVideoIntegrationHub,
-    "EnvironmentDesigner": EnvironmentDesigner,
     "EthicsHub": EthicsHub,
+    "EnvironmentDesigner": EnvironmentDesigner,
     "EthicsSafetyHub": EthicsSafetyHub,
     "EventsCalendar": EventsCalendar,
     "EvolutionDashboardPage": EvolutionDashboardPage,
@@ -431,6 +433,7 @@ export const PAGES = {
     "SimulationHub": SimulationHub,
     "SimulationLabs": SimulationLabs,
     "SimulationWorld": SimulationWorld,
+    "SmartBankingHub": SmartBankingHub,
     "StudentLounge": StudentLounge,
     "StudyGroups": StudyGroups,
     "SubscriptionManagement": SubscriptionManagement,
@@ -449,9 +452,6 @@ export const PAGES = {
     "WithdrawOmni": WithdrawOmni,
     "WorkflowAutomationHub": WorkflowAutomationHub,
     "World": World,
-    "SmartBankingHub": SmartBankingHub,
-    "AdvancedDeFiTrading": AdvancedDeFiTrading,
-    "CollaborationCommHub": CollaborationCommHub,
 }
 
 export const pagesConfig = {
