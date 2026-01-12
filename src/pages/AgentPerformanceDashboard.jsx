@@ -8,7 +8,7 @@ import { Progress } from '@/components/ui/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   Activity, Cpu, MemoryStick, TrendingUp, TrendingDown, 
-  AlertTriangle, CheckCircle, Bell, Settings, Zap 
+  AlertTriangle, CheckCircle, Bell, Settings, Zap, AlertCircle 
 } from 'lucide-react';
 import { LineChart, Line, AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { toast } from 'sonner';
