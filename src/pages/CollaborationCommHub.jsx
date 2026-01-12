@@ -6,6 +6,9 @@ import { base44 } from '@/api/base44Client';
 import UnifiedCommHub from '../components/communication/UnifiedCommHub';
 import SmartDocumentEditor from '../components/collaboration/SmartDocumentEditor';
 import EnhancedNotificationSystem from '../components/notifications/EnhancedNotificationSystem';
+import AIResponseSuggester from '../components/communication/AIResponseSuggester';
+import SentimentAnalyzer from '../components/communication/SentimentAnalyzer';
+import MeetingAgendaGenerator from '../components/communication/MeetingAgendaGenerator';
 
 export default function CollaborationCommHub() {
   const [userEmail, setUserEmail] = useState(null);
@@ -74,6 +77,18 @@ export default function CollaborationCommHub() {
               <Bell className="w-4 h-4" />
               Notifications
             </TabsTrigger>
+            <TabsTrigger value="ai-assist" className="flex items-center gap-2">
+              <Zap className="w-4 h-4" />
+              AI Assistant
+            </TabsTrigger>
+            <TabsTrigger value="sentiment" className="flex items-center gap-2">
+              <MessageSquare className="w-4 h-4" />
+              Sentiment
+            </TabsTrigger>
+            <TabsTrigger value="agenda" className="flex items-center gap-2">
+              <FileText className="w-4 h-4" />
+              Agenda
+            </TabsTrigger>
           </TabsList>
 
           {/* Communication Tab */}
@@ -112,6 +127,53 @@ export default function CollaborationCommHub() {
             >
               {userEmail ? (
                 <EnhancedNotificationSystem userEmail={userEmail} />
+              ) : (
+                <p className="text-white/60 text-center py-12">Loading...</p>
+              )}
+            </motion.div>
+          </TabsContent>
+
+          {/* AI Assistant Tab */}
+          <TabsContent value="ai-assist">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <div className="bg-white/5 border border-white/10 rounded-lg p-4">
+                <h4 className="text-white font-bold mb-3">Sample Message for Testing</h4>
+                <p className="text-white/70 text-sm mb-4 italic">
+                  "Hey team, I need help with the DeFi integration. Can someone review the trading module by EOD?"
+                </p>
+                <AIResponseSuggester 
+                  message="Hey team, I need help with the DeFi integration. Can someone review the trading module by EOD?"
+                  onSelectResponse={(text) => alert(`Selected: ${text}`)}
+                />
+              </div>
+            </motion.div>
+          </TabsContent>
+
+          {/* Sentiment Analysis Tab */}
+          <TabsContent value="sentiment">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              {userEmail ? (
+                <SentimentAnalyzer userEmail={userEmail} />
+              ) : (
+                <p className="text-white/60 text-center py-12">Loading...</p>
+              )}
+            </motion.div>
+          </TabsContent>
+
+          {/* Meeting Agenda Tab */}
+          <TabsContent value="agenda">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              {userEmail ? (
+                <MeetingAgendaGenerator userEmail={userEmail} />
               ) : (
                 <p className="text-white/60 text-center py-12">Loading...</p>
               )}

@@ -7,6 +7,9 @@ import AITradingStrategyPanel from '../components/trading/AITradingStrategyPanel
 import MarketPredictionDashboard from '../components/trading/MarketPredictionDashboard';
 import RealTimeMarketFeed from '../components/trading/RealTimeMarketFeed';
 import BacktestingEngine from '../components/trading/BacktestingEngine';
+import AdvancedOrderPanel from '../components/trading/AdvancedOrderPanel';
+import PriceAlertSystem from '../components/trading/PriceAlertSystem';
+import PortfolioRebalancer from '../components/trading/PortfolioRebalancer';
 
 export default function AdvancedDeFiTrading() {
   const [userEmail, setUserEmail] = useState(null);
@@ -51,6 +54,18 @@ export default function AdvancedDeFiTrading() {
             <TabsTrigger value="backtest" className="flex items-center gap-2 flex-shrink-0">
               <BarChart3 className="w-4 h-4" />
               Backtest
+            </TabsTrigger>
+            <TabsTrigger value="orders" className="flex items-center gap-2 flex-shrink-0">
+              <BarChart3 className="w-4 h-4" />
+              Orders
+            </TabsTrigger>
+            <TabsTrigger value="alerts" className="flex items-center gap-2 flex-shrink-0">
+              <BarChart3 className="w-4 h-4" />
+              Alerts
+            </TabsTrigger>
+            <TabsTrigger value="rebalance" className="flex items-center gap-2 flex-shrink-0">
+              <BarChart3 className="w-4 h-4" />
+              Rebalance
             </TabsTrigger>
             <TabsTrigger value="analytics" className="flex items-center gap-2 flex-shrink-0">
               <BarChart3 className="w-4 h-4" />
@@ -100,6 +115,48 @@ export default function AdvancedDeFiTrading() {
             >
               {userEmail ? (
                 <BacktestingEngine userEmail={userEmail} />
+              ) : (
+                <p className="text-white/60 text-center py-12">Loading...</p>
+              )}
+            </motion.div>
+          </TabsContent>
+
+          {/* Advanced Orders Tab */}
+          <TabsContent value="orders">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              {userEmail ? (
+                <AdvancedOrderPanel userEmail={userEmail} />
+              ) : (
+                <p className="text-white/60 text-center py-12">Loading...</p>
+              )}
+            </motion.div>
+          </TabsContent>
+
+          {/* Price Alerts Tab */}
+          <TabsContent value="alerts">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              {userEmail ? (
+                <PriceAlertSystem userEmail={userEmail} />
+              ) : (
+                <p className="text-white/60 text-center py-12">Loading...</p>
+              )}
+            </motion.div>
+          </TabsContent>
+
+          {/* Portfolio Rebalancing Tab */}
+          <TabsContent value="rebalance">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              {userEmail ? (
+                <PortfolioRebalancer userEmail={userEmail} />
               ) : (
                 <p className="text-white/60 text-center py-12">Loading...</p>
               )}
