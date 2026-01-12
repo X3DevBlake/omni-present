@@ -4,6 +4,7 @@ import { BarChart3, TrendingUp, Users, AlertTriangle, Brain } from 'lucide-react
 import { base44 } from '@/api/base44Client';
 import AgentBehaviorNetwork from '../components/analytics/AgentBehaviorNetwork';
 import PredictiveConflictAnalysis from '../components/analytics/PredictiveConflictAnalysis';
+import GeminiInsightsDashboard from '../components/analytics/GeminiInsightsDashboard';
 
 export default function HolographicAnalytics() {
   const [analytics, setAnalytics] = useState([]);

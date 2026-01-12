@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { MessageSquare, Shield } from 'lucide-react';
+import { MessageSquare, Shield, Lock, Send } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 
 export default function RealTimeMessageFeed() {
   const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState('');
+  const [selectedType, setSelectedType] = useState('data_exchange');
 
   useEffect(() => {
     loadMessages();
@@ -23,13 +27,55 @@ export default function RealTimeMessageFeed() {
     setMessages(msgs);
   };
 
+  const sendEncryptedMessage = async () => {
+    if (!newMessage.trim()) return;
+    
+    const encrypted = btoa(newMessage);
+    
+    await base44.entities.CrossSimulationMessage.create({
+      from_agent_id: 'current_agent',
+      from_simulation_id: 'sim_1',
+      to_agent_id: 'target_agent',
+      to_simulation_id: 'sim_2',
+      message_type: selectedType,
+      encrypted_payload: encrypted,
+      status: 'pending'
+    });
+    
+    setNewMessage('');
+  };
+
   return (
     <div className="bg-white/5 border border-white/10 rounded-lg p-4">
       <h3 className="text-white font-bold mb-4 flex items-center gap-2">
         <MessageSquare className="w-5 h-5 text-purple-400" />
         Live Message Feed
+        <Lock className="w-4 h-4 text-green-400 ml-auto" />
       </h3>
-      <div className="space-y-2 max-h-[400px] overflow-y-auto">
+
+      <div className="mb-4 flex gap-2">
+        <select 
+          value={selectedType}
+          onChange={(e) => setSelectedType(e.target.value)}
+          className="px-3 py-2 bg-white/5 border border-white/10 rounded text-white text-sm"
+        >
+          <option value="data_exchange">Data Exchange</option>
+          <option value="collaboration_request">Collaboration</option>
+          <option value="knowledge_share">Knowledge Share</option>
+          <option value="alert">Alert</option>
+        </select>
+        <Input 
+          value={newMessage}
+          onChange={(e) => setNewMessage(e.target.value)}
+          placeholder="Encrypted message..."
+          className="bg-white/5 border-white/10 text-white"
+        />
+        <Button onClick={sendEncryptedMessage} size="sm" className="bg-purple-500 hover:bg-purple-600">
+          <Send className="w-4 h-4" />
+        </Button>
+      </div>
+      
+      <div className="space-y-2 max-h-[300px] overflow-y-auto">
         {messages.map(msg => (
           <motion.div
             key={msg.id}
