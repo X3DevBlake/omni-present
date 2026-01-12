@@ -230,6 +230,10 @@ import World from './pages/World';
 import CrossSimulationHub from './pages/CrossSimulationHub';
 import DeviceIntegrationHub from './pages/DeviceIntegrationHub';
 import AdvancedCollaborationHub from './pages/AdvancedCollaborationHub';
+import CharacterCustomizer from './pages/CharacterCustomizer';
+import ObjectCustomizer from './pages/ObjectCustomizer';
+import MyCreations from './pages/MyCreations';
+import CommunityCreations from './pages/CommunityCreations';
 import __Layout from './Layout.jsx';
 
 
@@ -466,6 +470,10 @@ export const PAGES = {
     "CrossSimulationHub": CrossSimulationHub,
     "DeviceIntegrationHub": DeviceIntegrationHub,
     "AdvancedCollaborationHub": AdvancedCollaborationHub,
+    "CharacterCustomizer": CharacterCustomizer,
+    "ObjectCustomizer": ObjectCustomizer,
+    "MyCreations": MyCreations,
+    "CommunityCreations": CommunityCreations,
 }
 
 export const pagesConfig = {
