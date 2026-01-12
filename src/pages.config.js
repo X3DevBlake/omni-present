@@ -11,6 +11,7 @@ import AchievementsAwards from './pages/AchievementsAwards';
 import ActivityLog from './pages/ActivityLog';
 import AdminHome from './pages/AdminHome';
 import AdvancedAgentCapabilities from './pages/AdvancedAgentCapabilities';
+import AdvancedCollaborationHub from './pages/AdvancedCollaborationHub';
 import AdvancedDeFiTrading from './pages/AdvancedDeFiTrading';
 import AdvancedFinancialEcosystem from './pages/AdvancedFinancialEcosystem';
 import AdvancedPredictionCenter from './pages/AdvancedPredictionCenter';
@@ -59,6 +60,7 @@ import CareerOpportunities from './pages/CareerOpportunities';
 import CareerPortal from './pages/CareerPortal';
 import Certifications from './pages/Certifications';
 import Challenges from './pages/Challenges';
+import CharacterCustomizer from './pages/CharacterCustomizer';
 import CloudinaryHub from './pages/CloudinaryHub';
 import CodeEditor from './pages/CodeEditor';
 import CollaborationCommHub from './pages/CollaborationCommHub';
@@ -67,6 +69,7 @@ import CollaborativeAgentHub from './pages/CollaborativeAgentHub';
 import CollaborativeWorkspace from './pages/CollaborativeWorkspace';
 import Communications from './pages/Communications';
 import Community from './pages/Community';
+import CommunityCreations from './pages/CommunityCreations';
 import CommunityGuidelines from './pages/CommunityGuidelines';
 import CommunityGuidelinesEnhanced from './pages/CommunityGuidelinesEnhanced';
 import CompetitiveArenas from './pages/CompetitiveArenas';
@@ -75,6 +78,7 @@ import ComplianceDashboard from './pages/ComplianceDashboard';
 import ComprehensiveFinancialHub from './pages/ComprehensiveFinancialHub';
 import Contact from './pages/Contact';
 import CrossAgentPlanningHub from './pages/CrossAgentPlanningHub';
+import CrossSimulationHub from './pages/CrossSimulationHub';
 import CryptoTradingHub from './pages/CryptoTradingHub';
 import CurriculumCourses from './pages/CurriculumCourses';
 import CustomDashboard from './pages/CustomDashboard';
@@ -93,6 +97,7 @@ import DepositUSDT from './pages/DepositUSDT';
 import DeveloperHome from './pages/DeveloperHome';
 import DeviceHealth from './pages/DeviceHealth';
 import DeviceHome from './pages/DeviceHome';
+import DeviceIntegrationHub from './pages/DeviceIntegrationHub';
 import DeviceInteraction from './pages/DeviceInteraction';
 import DeviceMarketplace from './pages/DeviceMarketplace';
 import DeviceSettings from './pages/DeviceSettings';
@@ -157,9 +162,11 @@ import MentorshipProgramsPage from './pages/MentorshipProgramsPage';
 import MistralHub from './pages/MistralHub';
 import ModelTraining from './pages/ModelTraining';
 import MultiAgentCollaborationHub from './pages/MultiAgentCollaborationHub';
+import MyCreations from './pages/MyCreations';
 import NewsUpdates from './pages/NewsUpdates';
 import Notifications from './pages/Notifications';
 import NotificationsAndVisualizations from './pages/NotificationsAndVisualizations';
+import ObjectCustomizer from './pages/ObjectCustomizer';
 import OmniAchievements from './pages/OmniAchievements';
 import OmniBankingHub from './pages/OmniBankingHub';
 import OmniCardManagement from './pages/OmniCardManagement';
@@ -227,13 +234,9 @@ import Webhooks from './pages/Webhooks';
 import WithdrawOmni from './pages/WithdrawOmni';
 import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import World from './pages/World';
-import CrossSimulationHub from './pages/CrossSimulationHub';
-import DeviceIntegrationHub from './pages/DeviceIntegrationHub';
-import ObjectCustomizer from './pages/ObjectCustomizer';
-import AdvancedCollaborationHub from './pages/AdvancedCollaborationHub';
-import CharacterCustomizer from './pages/CharacterCustomizer';
-import MyCreations from './pages/MyCreations';
-import CommunityCreations from './pages/CommunityCreations';
+import SystemDashboard from './pages/SystemDashboard';
+import WebhookManager from './pages/WebhookManager';
+import UpgradeTracker from './pages/UpgradeTracker';
 import __Layout from './Layout.jsx';
 
 
@@ -251,6 +254,7 @@ export const PAGES = {
     "ActivityLog": ActivityLog,
     "AdminHome": AdminHome,
     "AdvancedAgentCapabilities": AdvancedAgentCapabilities,
+    "AdvancedCollaborationHub": AdvancedCollaborationHub,
     "AdvancedDeFiTrading": AdvancedDeFiTrading,
     "AdvancedFinancialEcosystem": AdvancedFinancialEcosystem,
     "AdvancedPredictionCenter": AdvancedPredictionCenter,
@@ -299,6 +303,7 @@ export const PAGES = {
     "CareerPortal": CareerPortal,
     "Certifications": Certifications,
     "Challenges": Challenges,
+    "CharacterCustomizer": CharacterCustomizer,
     "CloudinaryHub": CloudinaryHub,
     "CodeEditor": CodeEditor,
     "CollaborationCommHub": CollaborationCommHub,
@@ -307,6 +312,7 @@ export const PAGES = {
     "CollaborativeWorkspace": CollaborativeWorkspace,
     "Communications": Communications,
     "Community": Community,
+    "CommunityCreations": CommunityCreations,
     "CommunityGuidelines": CommunityGuidelines,
     "CommunityGuidelinesEnhanced": CommunityGuidelinesEnhanced,
     "CompetitiveArenas": CompetitiveArenas,
@@ -315,6 +321,7 @@ export const PAGES = {
     "ComprehensiveFinancialHub": ComprehensiveFinancialHub,
     "Contact": Contact,
     "CrossAgentPlanningHub": CrossAgentPlanningHub,
+    "CrossSimulationHub": CrossSimulationHub,
     "CryptoTradingHub": CryptoTradingHub,
     "CurriculumCourses": CurriculumCourses,
     "CustomDashboard": CustomDashboard,
@@ -333,6 +340,7 @@ export const PAGES = {
     "DeveloperHome": DeveloperHome,
     "DeviceHealth": DeviceHealth,
     "DeviceHome": DeviceHome,
+    "DeviceIntegrationHub": DeviceIntegrationHub,
     "DeviceInteraction": DeviceInteraction,
     "DeviceMarketplace": DeviceMarketplace,
     "DeviceSettings": DeviceSettings,
@@ -397,9 +405,11 @@ export const PAGES = {
     "MistralHub": MistralHub,
     "ModelTraining": ModelTraining,
     "MultiAgentCollaborationHub": MultiAgentCollaborationHub,
+    "MyCreations": MyCreations,
     "NewsUpdates": NewsUpdates,
     "Notifications": Notifications,
     "NotificationsAndVisualizations": NotificationsAndVisualizations,
+    "ObjectCustomizer": ObjectCustomizer,
     "OmniAchievements": OmniAchievements,
     "OmniBankingHub": OmniBankingHub,
     "OmniCardManagement": OmniCardManagement,
@@ -467,13 +477,9 @@ export const PAGES = {
     "WithdrawOmni": WithdrawOmni,
     "WorkflowAutomationHub": WorkflowAutomationHub,
     "World": World,
-    "CrossSimulationHub": CrossSimulationHub,
-    "DeviceIntegrationHub": DeviceIntegrationHub,
-    "ObjectCustomizer": ObjectCustomizer,
-    "AdvancedCollaborationHub": AdvancedCollaborationHub,
-    "CharacterCustomizer": CharacterCustomizer,
-    "MyCreations": MyCreations,
-    "CommunityCreations": CommunityCreations,
+    "SystemDashboard": SystemDashboard,
+    "WebhookManager": WebhookManager,
+    "UpgradeTracker": UpgradeTracker,
 }
 
 export const pagesConfig = {
