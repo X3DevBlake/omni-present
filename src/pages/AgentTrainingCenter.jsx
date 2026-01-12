@@ -3,6 +3,9 @@ import { motion } from 'framer-motion';
 import { Brain, Target, Zap, TrendingUp } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import AdaptiveLearningDashboard from '../components/training/AdaptiveLearningDashboard';
+import PersonalizedLearningModule from '../components/training/PersonalizedLearningModule';
+import AIMentorshipSystem from '../components/training/AIMentorshipSystem';
+import RolePlayingScenarioGenerator from '../components/training/RolePlayingScenarioGenerator';
 
 export default function AgentTrainingCenter() {
   const [agents, setAgents] = useState([]);
@@ -68,6 +71,14 @@ export default function AgentTrainingCenter() {
             <AdaptiveLearningDashboard agentId={agents[0]?.id} />
           )}
         </div>
+
+        {agents.length > 0 && (
+          <div className="grid grid-cols-3 gap-6 mt-6">
+            <PersonalizedLearningModule agentId={agents[0]?.id} />
+            <AIMentorshipSystem agentId={agents[0]?.id} />
+            <RolePlayingScenarioGenerator agentId={agents[0]?.id} />
+          </div>
+        )}
       </div>
     </div>
   );
