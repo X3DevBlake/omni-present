@@ -81,6 +81,30 @@ export default function EnhancedMainNavRevamped() {
                   ))}
                 </motion.div>
 
+                {/* Quick Action: Workflow Hub */}
+                <motion.div
+                  initial={{ y: -20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.2 }}
+                  className="mb-8"
+                >
+                  <Link to={createPageUrl('WorkflowAutomationHub')} onClick={() => setIsOpen(false)}>
+                    <motion.div
+                      className="bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-400/50 rounded-lg p-6 hover:border-cyan-400 transition-all cursor-pointer"
+                      whileHover={{ scale: 1.02 }}
+                    >
+                      <div className="flex items-center gap-3">
+                        <Zap className="w-6 h-6 text-cyan-400" />
+                        <div>
+                          <h3 className="text-white font-bold">Workflow Automation</h3>
+                          <p className="text-white/60 text-sm">Orchestrate with Gemini & Zapier</p>
+                        </div>
+                        <ChevronRight className="w-5 h-5 text-cyan-400 ml-auto" />
+                      </div>
+                    </motion.div>
+                  </Link>
+                </motion.div>
+
                 {/* Hub Grid */}
                 <motion.div
                   className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
