@@ -45,6 +45,7 @@ import AssetBrowser from './pages/AssetBrowser';
 import AssetUpload from './pages/AssetUpload';
 import AuditLogs from './pages/AuditLogs';
 import AutomatedFinanceHub from './pages/AutomatedFinanceHub';
+import AutonomyControlCenter from './pages/AutonomyControlCenter';
 import BankingCorePhase1 from './pages/BankingCorePhase1';
 import Billing from './pages/Billing';
 import BillingInvoicing from './pages/BillingInvoicing';
@@ -100,6 +101,7 @@ import DeviceTelemetry from './pages/DeviceTelemetry';
 import DiscountsRebates from './pages/DiscountsRebates';
 import Documentation from './pages/Documentation';
 import EmergentBehavior from './pages/EmergentBehavior';
+import EnhancedAgentMarketplace from './pages/EnhancedAgentMarketplace';
 import EnhancedAnomalyDashboard from './pages/EnhancedAnomalyDashboard';
 import EnhancedBankingHub from './pages/EnhancedBankingHub';
 import EnhancedCollaborationHub from './pages/EnhancedCollaborationHub';
@@ -110,8 +112,8 @@ import EnhancedDeFiHub from './pages/EnhancedDeFiHub';
 import EnhancedMediaHub from './pages/EnhancedMediaHub';
 import EnhancedOmniBank from './pages/EnhancedOmniBank';
 import EnhancedVideoIntegrationHub from './pages/EnhancedVideoIntegrationHub';
-import EthicsHub from './pages/EthicsHub';
 import EnvironmentDesigner from './pages/EnvironmentDesigner';
+import EthicsHub from './pages/EthicsHub';
 import EthicsSafetyHub from './pages/EthicsSafetyHub';
 import EventsCalendar from './pages/EventsCalendar';
 import EvolutionDashboardPage from './pages/EvolutionDashboardPage';
@@ -129,6 +131,7 @@ import FleetManagement from './pages/FleetManagement';
 import GeminiHub from './pages/GeminiHub';
 import GlobalGovernance from './pages/GlobalGovernance';
 import GlobalMap from './pages/GlobalMap';
+import HolographicAnalytics from './pages/HolographicAnalytics';
 import HolographicWorld from './pages/HolographicWorld';
 import Home from './pages/Home';
 import HomeHub from './pages/HomeHub';
@@ -224,9 +227,6 @@ import Webhooks from './pages/Webhooks';
 import WithdrawOmni from './pages/WithdrawOmni';
 import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import World from './pages/World';
-import HolographicAnalytics from './pages/HolographicAnalytics';
-import AutonomyControlCenter from './pages/AutonomyControlCenter';
-import EnhancedAgentMarketplace from './pages/EnhancedAgentMarketplace';
 import __Layout from './Layout.jsx';
 
 
@@ -278,6 +278,7 @@ export const PAGES = {
     "AssetUpload": AssetUpload,
     "AuditLogs": AuditLogs,
     "AutomatedFinanceHub": AutomatedFinanceHub,
+    "AutonomyControlCenter": AutonomyControlCenter,
     "BankingCorePhase1": BankingCorePhase1,
     "Billing": Billing,
     "BillingInvoicing": BillingInvoicing,
@@ -333,6 +334,7 @@ export const PAGES = {
     "DiscountsRebates": DiscountsRebates,
     "Documentation": Documentation,
     "EmergentBehavior": EmergentBehavior,
+    "EnhancedAgentMarketplace": EnhancedAgentMarketplace,
     "EnhancedAnomalyDashboard": EnhancedAnomalyDashboard,
     "EnhancedBankingHub": EnhancedBankingHub,
     "EnhancedCollaborationHub": EnhancedCollaborationHub,
@@ -343,8 +345,8 @@ export const PAGES = {
     "EnhancedMediaHub": EnhancedMediaHub,
     "EnhancedOmniBank": EnhancedOmniBank,
     "EnhancedVideoIntegrationHub": EnhancedVideoIntegrationHub,
-    "EthicsHub": EthicsHub,
     "EnvironmentDesigner": EnvironmentDesigner,
+    "EthicsHub": EthicsHub,
     "EthicsSafetyHub": EthicsSafetyHub,
     "EventsCalendar": EventsCalendar,
     "EvolutionDashboardPage": EvolutionDashboardPage,
@@ -362,6 +364,7 @@ export const PAGES = {
     "GeminiHub": GeminiHub,
     "GlobalGovernance": GlobalGovernance,
     "GlobalMap": GlobalMap,
+    "HolographicAnalytics": HolographicAnalytics,
     "HolographicWorld": HolographicWorld,
     "Home": Home,
     "HomeHub": HomeHub,
@@ -457,9 +460,6 @@ export const PAGES = {
     "WithdrawOmni": WithdrawOmni,
     "WorkflowAutomationHub": WorkflowAutomationHub,
     "World": World,
-    "HolographicAnalytics": HolographicAnalytics,
-    "AutonomyControlCenter": AutonomyControlCenter,
-    "EnhancedAgentMarketplace": EnhancedAgentMarketplace,
 }
 
 export const pagesConfig = {
