@@ -10,6 +10,10 @@ import ContextAwareHelpButton from './components/ui/ContextAwareHelpButton';
 import GeminiAssistant from './components/ai/GeminiAssistant';
 import { GamificationProvider } from './components/gamification/GamificationContext';
 import { PersonalizationProvider } from './components/personalization/PersonalizationContext';
+import { AvatarProvider } from './components/avatar/AvatarContext';
+import GlobalAvatarOverlay from './components/avatar/GlobalAvatarOverlay';
+import AvatarNavigationSync from './components/avatar/AvatarNavigationSync';
+import AvatarQuickSelector from './components/avatar/AvatarQuickSelector';
 import { base44 } from '@/api/base44Client';
 
 export default function Layout({ children }) {
@@ -24,16 +28,21 @@ export default function Layout({ children }) {
   return (
     <PersonalizationProvider>
       <GamificationProvider>
-        <EnhancedMainNavRevamped />
-        <BackButton />
-        <GlobalSearch />
-        {userEmail && <NotificationCenter userEmail={userEmail} />}
-        {children}
-        <OmniAssistant />
-        <FeedbackButton />
-        <UnifiedCommandBar />
-        <ContextAwareHelpButton />
-        <GeminiAssistant />
+        <AvatarProvider>
+          <EnhancedMainNavRevamped />
+          <BackButton />
+          <GlobalSearch />
+          {userEmail && <NotificationCenter userEmail={userEmail} />}
+          {children}
+          <GlobalAvatarOverlay />
+          <AvatarNavigationSync />
+          <AvatarQuickSelector />
+          <OmniAssistant />
+          <FeedbackButton />
+          <UnifiedCommandBar />
+          <ContextAwareHelpButton />
+          <GeminiAssistant />
+        </AvatarProvider>
         <style>{`
           .omni-logo-component {
             display: flex;
