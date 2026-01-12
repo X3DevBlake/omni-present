@@ -107,14 +107,15 @@ import EnhancedDashboard from './pages/EnhancedDashboard';
 import EnhancedDeFiHub from './pages/EnhancedDeFiHub';
 import EnhancedMediaHub from './pages/EnhancedMediaHub';
 import EnhancedOmniBank from './pages/EnhancedOmniBank';
+import EnhancedVideoIntegrationHub from './pages/EnhancedVideoIntegrationHub';
 import EnvironmentDesigner from './pages/EnvironmentDesigner';
 import EthicsHub from './pages/EthicsHub';
 import EthicsSafetyHub from './pages/EthicsSafetyHub';
 import EventsCalendar from './pages/EventsCalendar';
-import FAQ from './pages/FAQ';
 import EvolutionDashboardPage from './pages/EvolutionDashboardPage';
 import ExchangeListings from './pages/ExchangeListings';
 import ExperimentTracking from './pages/ExperimentTracking';
+import FAQ from './pages/FAQ';
 import FeatureDetail from './pages/FeatureDetail';
 import Features from './pages/Features';
 import FeedbackDashboard from './pages/FeedbackDashboard';
@@ -152,6 +153,7 @@ import ModelTraining from './pages/ModelTraining';
 import MultiAgentCollaborationHub from './pages/MultiAgentCollaborationHub';
 import NewsUpdates from './pages/NewsUpdates';
 import Notifications from './pages/Notifications';
+import NotificationsAndVisualizations from './pages/NotificationsAndVisualizations';
 import OmniAchievements from './pages/OmniAchievements';
 import OmniBankingHub from './pages/OmniBankingHub';
 import OmniCardManagement from './pages/OmniCardManagement';
@@ -217,8 +219,7 @@ import Wallet from './pages/Wallet';
 import Webhooks from './pages/Webhooks';
 import WithdrawOmni from './pages/WithdrawOmni';
 import World from './pages/World';
-import NotificationsAndVisualizations from './pages/NotificationsAndVisualizations';
-import EnhancedVideoIntegrationHub from './pages/EnhancedVideoIntegrationHub';
+import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import __Layout from './Layout.jsx';
 
 
@@ -332,14 +333,15 @@ export const PAGES = {
     "EnhancedDeFiHub": EnhancedDeFiHub,
     "EnhancedMediaHub": EnhancedMediaHub,
     "EnhancedOmniBank": EnhancedOmniBank,
+    "EnhancedVideoIntegrationHub": EnhancedVideoIntegrationHub,
     "EnvironmentDesigner": EnvironmentDesigner,
     "EthicsHub": EthicsHub,
     "EthicsSafetyHub": EthicsSafetyHub,
     "EventsCalendar": EventsCalendar,
-    "FAQ": FAQ,
     "EvolutionDashboardPage": EvolutionDashboardPage,
     "ExchangeListings": ExchangeListings,
     "ExperimentTracking": ExperimentTracking,
+    "FAQ": FAQ,
     "FeatureDetail": FeatureDetail,
     "Features": Features,
     "FeedbackDashboard": FeedbackDashboard,
@@ -377,6 +379,7 @@ export const PAGES = {
     "MultiAgentCollaborationHub": MultiAgentCollaborationHub,
     "NewsUpdates": NewsUpdates,
     "Notifications": Notifications,
+    "NotificationsAndVisualizations": NotificationsAndVisualizations,
     "OmniAchievements": OmniAchievements,
     "OmniBankingHub": OmniBankingHub,
     "OmniCardManagement": OmniCardManagement,
@@ -442,8 +445,7 @@ export const PAGES = {
     "Webhooks": Webhooks,
     "WithdrawOmni": WithdrawOmni,
     "World": World,
-    "NotificationsAndVisualizations": NotificationsAndVisualizations,
-    "EnhancedVideoIntegrationHub": EnhancedVideoIntegrationHub,
+    "WorkflowAutomationHub": WorkflowAutomationHub,
 }
 
 export const pagesConfig = {
