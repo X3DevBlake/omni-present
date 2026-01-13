@@ -244,6 +244,9 @@ import Webhooks from './pages/Webhooks';
 import WithdrawOmni from './pages/WithdrawOmni';
 import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import World from './pages/World';
+import AgentLogsHub from './pages/AgentLogsHub';
+import WebhooksHub from './pages/WebhooksHub';
+import EnhancedAgentCreator from './pages/EnhancedAgentCreator';
 import __Layout from './Layout.jsx';
 
 
@@ -494,6 +497,9 @@ export const PAGES = {
     "WithdrawOmni": WithdrawOmni,
     "WorkflowAutomationHub": WorkflowAutomationHub,
     "World": World,
+    "AgentLogsHub": AgentLogsHub,
+    "WebhooksHub": WebhooksHub,
+    "EnhancedAgentCreator": EnhancedAgentCreator,
 }
 
 export const pagesConfig = {
