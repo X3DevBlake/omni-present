@@ -246,8 +246,8 @@ export default function AIAnalyticsHub() {
                       <YAxis stroke="#ffffff60" />
                       <Tooltip contentStyle={{ backgroundColor: '#1a1a2e', border: '1px solid #ffffff20' }} />
                       <Legend />
-                      <Line type="monotone" dataKey="efficiency" stroke="#00f5ff" strokeWidth={2} />
-                      <Line type="monotone" dataKey="tasks" stroke="#a855f7" strokeWidth={2} />
+                      <Line type="monotone" dataKey="efficiency" stroke="#00f5ff" strokeWidth={2} isAnimationActive={false} />
+                      <Line type="monotone" dataKey="tasks" stroke="#a855f7" strokeWidth={2} isAnimationActive={false} />
                     </LineChart>
                   </ResponsiveContainer>
                 ) : (
@@ -267,8 +267,8 @@ export default function AIAnalyticsHub() {
                       <YAxis stroke="#ffffff60" />
                       <Tooltip contentStyle={{ backgroundColor: '#1a1a2e', border: '1px solid #ffffff20' }} />
                       <Legend />
-                      <Bar dataKey="efficiency" fill="#00f5ff" />
-                      <Bar dataKey="tasks" fill="#a855f7" />
+                      <Bar dataKey="efficiency" fill="#00f5ff" isAnimationActive={false} />
+                      <Bar dataKey="tasks" fill="#a855f7" isAnimationActive={false} />
                     </BarChart>
                   </ResponsiveContainer>
                 ) : (
