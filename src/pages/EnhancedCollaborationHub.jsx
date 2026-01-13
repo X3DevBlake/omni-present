@@ -9,6 +9,7 @@ import AgentMoodSystem from '../components/collaboration/AgentMoodSystem';
 import DynamicTeamFormation from '../components/collaboration/DynamicTeamFormation';
 import RealTimeCommunicationVisualizer from '../components/collaboration/RealTimeCommunicationVisualizer';
 import AITaskDelegationEngine from '../components/collaboration/AITaskDelegationEngine';
+import AgentCommunicationPanel from '../components/collaboration/AgentCommunicationPanel';
 import CollaborationTemplateManager from '../components/collaboration/CollaborationTemplateManager';
 import SimulationConfigurator from '../components/simulation/SimulationConfigurator';
 import AgentDataFlowVisualizer3D from '../components/collaboration/AgentDataFlowVisualizer3D';

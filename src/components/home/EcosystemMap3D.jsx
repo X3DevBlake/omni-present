@@ -510,8 +510,11 @@ export default function EcosystemMap3D({ activeHubs = [] }) {
   }, [agents, userEmail]);
 
   return (
-    <div className="w-full h-[60vh] md:h-screen relative bg-gradient-to-b from-slate-950 via-purple-950 to-slate-950">
-      <Canvas camera={{ position: [0, 8, 12], fov: window.innerWidth < 768 ? 75 : 60 }}>
+    <div className="w-full h-[60vh] md:h-screen relative bg-gradient-to-b from-slate-950 via-purple-950 to-slate-950 pointer-events-none">
+      <Canvas 
+        camera={{ position: [0, 8, 12], fov: window.innerWidth < 768 ? 75 : 60 }}
+        style={{ pointerEvents: 'auto' }}
+      >
         <color attach="background" args={['#0a0a0f']} />
         
         {/* Enhanced lighting */}
@@ -579,11 +582,18 @@ export default function EcosystemMap3D({ activeHubs = [] }) {
         <DataStream from={hubs[3].position} to={hubs[4].position} active={activeStreams.has('3-4')} dataType="general" />
         <DataStream from={hubs[2].position} to={hubs[4].position} active={activeStreams.has('2-4')} dataType="agent" />
 
-        <OrbitControls enableZoom autoRotate autoRotateSpeed={0.5} />
+        <OrbitControls 
+          enableZoom={true}
+          autoRotate 
+          autoRotateSpeed={0.5}
+          enablePan={false}
+          maxDistance={20}
+          minDistance={8}
+        />
       </Canvas>
 
       {/* Enhanced Interactive Legend with Live Stats */}
-      <div className="absolute bottom-2 left-2 md:bottom-6 md:left-6 bg-black/70 backdrop-blur-xl border border-cyan-500/30 rounded-lg p-2 md:p-4 max-w-[180px] md:max-w-xs text-xs md:text-sm">
+      <div className="absolute bottom-2 left-2 md:bottom-6 md:left-6 bg-black/70 backdrop-blur-xl border border-cyan-500/30 rounded-lg p-2 md:p-4 max-w-[180px] md:max-w-xs text-xs md:text-sm pointer-events-auto">
         <h3 className="text-white font-bold text-sm mb-3 flex items-center justify-between">
           AI Ecosystem
           <span className="text-xs text-cyan-400 font-normal animate-pulse">● Live</span>
@@ -621,7 +631,7 @@ export default function EcosystemMap3D({ activeHubs = [] }) {
       </div>
       
       {/* Interaction Hint */}
-      <div className="absolute top-2 right-2 md:top-6 md:right-6 bg-black/50 backdrop-blur-xl border border-cyan-500/20 rounded-lg p-2 md:p-3">
+      <div className="absolute top-2 right-2 md:top-6 md:right-6 bg-black/50 backdrop-blur-xl border border-cyan-500/20 rounded-lg p-2 md:p-3 pointer-events-auto">
         <p className="text-[10px] md:text-xs text-white/70">
           <span className="hidden md:inline">Click nodes to navigate • Drag to rotate • Hover for actions</span>
           <span className="md:hidden">Tap nodes • Drag</span>

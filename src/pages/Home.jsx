@@ -18,6 +18,7 @@ import AuroraBackground from '../components/omni/AuroraBackground';
 import EcosystemMap3D from '../components/home/EcosystemMap3D';
 import ProactiveAIFeed from '../components/home/ProactiveAIFeed';
 import EnhancedGeminiHome from '../components/home/EnhancedGeminiHome';
+import Interactive3DStats from '../components/home/Interactive3DStats';
 
 function AnimatedOrb() {
   return (
@@ -208,6 +209,11 @@ export default function Home() {
         >
           <ChevronRight className="w-8 h-8 text-white/60 rotate-90" />
         </motion.div>
+      </div>
+
+      {/* Interactive 3D Stats */}
+      <div className="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-16">
+        <Interactive3DStats />
       </div>
 
       {/* Dashboard Widgets Section */}

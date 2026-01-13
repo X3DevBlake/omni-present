@@ -242,6 +242,8 @@ import Webhooks from './pages/Webhooks';
 import WithdrawOmni from './pages/WithdrawOmni';
 import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import World from './pages/World';
+import APIIntegrations from './pages/APIIntegrations';
+import AgentTraining from './pages/AgentTraining';
 import __Layout from './Layout.jsx';
 
 
@@ -490,6 +492,8 @@ export const PAGES = {
     "WithdrawOmni": WithdrawOmni,
     "WorkflowAutomationHub": WorkflowAutomationHub,
     "World": World,
+    "APIIntegrations": APIIntegrations,
+    "AgentTraining": AgentTraining,
 }
 
 export const pagesConfig = {
