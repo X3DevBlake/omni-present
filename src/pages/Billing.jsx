@@ -67,31 +67,26 @@ export default function Billing() {
           </TabsList>
 
           <TabsContent value="plans" className="mt-6">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="bg-gradient-to-br from-black/20 to-black/40 border border-white/10 rounded-xl p-6"
-            >
-              <SubscriptionTiers
-                onSelectTier={(tier, cycle) => {
-                  setSelectedTier(tier);
-                  setBillingCycle(cycle);
-                }}
-              />
-
-              {selectedTier && (
+            {subscribed ? (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="bg-gradient-to-br from-green-500/20 to-emerald-500/20 border border-green-500/30 rounded-xl p-12 text-center"
+              >
+                <h2 className="text-4xl font-bold text-white mb-4">Welcome to Premium! 🎉</h2>
+                <p className="text-gray-300 mb-4">Your subscription is now active. Redirecting...</p>
+              </motion.div>
+            ) : (
+              <Elements stripe={stripePromise}>
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="mt-8 pt-8 border-t border-white/10"
+                  className="bg-gradient-to-br from-black/20 to-black/40 border border-white/10 rounded-xl p-6"
                 >
-                  <StripeCheckout
-                    tier={selectedTier}
-                    billingCycle={billingCycle}
-                  />
+                  <StripeCheckoutButton onSuccess={handleSuccess} />
                 </motion.div>
-              )}
-            </motion.div>
+              </Elements>
+            )}
           </TabsContent>
 
           <TabsContent value="payment" className="mt-6">
