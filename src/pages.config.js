@@ -34,6 +34,7 @@ import AgentManagementHub from './pages/AgentManagementHub';
 import AgentMarketplace from './pages/AgentMarketplace';
 import AgentModularBuilder from './pages/AgentModularBuilder';
 import AgentMonitoringDashboard from './pages/AgentMonitoringDashboard';
+import AgentPerformanceDashboard from './pages/AgentPerformanceDashboard';
 import AgentShoppingLog from './pages/AgentShoppingLog';
 import AgentSimulation3D from './pages/AgentSimulation3D';
 import AgentSkillMarketplace from './pages/AgentSkillMarketplace';
@@ -142,8 +143,10 @@ import HolographicAnalytics from './pages/HolographicAnalytics';
 import HolographicWorld from './pages/HolographicWorld';
 import Home from './pages/Home';
 import HomeHub from './pages/HomeHub';
+import HomepageUpgradePlan from './pages/HomepageUpgradePlan';
 import InstructorDirectory from './pages/InstructorDirectory';
 import IntegrationDevelopmentHub from './pages/IntegrationDevelopmentHub';
+import IntegrationHub from './pages/IntegrationHub';
 import IntegrationStore from './pages/IntegrationStore';
 import Integrations from './pages/Integrations';
 import IntegrationsHub from './pages/IntegrationsHub';
@@ -228,20 +231,17 @@ import Terms from './pages/Terms';
 import Tokenomics from './pages/Tokenomics';
 import UnifiedAnalytics from './pages/UnifiedAnalytics';
 import UnifiedCommunicationHub from './pages/UnifiedCommunicationHub';
-import Wallet from './pages/Wallet';
 import UnifiedConversationHub from './pages/UnifiedConversationHub';
 import UnifiedVoicePlatform from './pages/UnifiedVoicePlatform';
 import UpgradeTracker from './pages/UpgradeTracker';
 import UserRolesPermissions from './pages/UserRolesPermissions';
 import VirtualClassrooms from './pages/VirtualClassrooms';
+import Wallet from './pages/Wallet';
 import WebhookManager from './pages/WebhookManager';
 import Webhooks from './pages/Webhooks';
 import WithdrawOmni from './pages/WithdrawOmni';
 import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import World from './pages/World';
-import IntegrationHub from './pages/IntegrationHub';
-import HomepageUpgradePlan from './pages/HomepageUpgradePlan';
-import AgentPerformanceDashboard from './pages/AgentPerformanceDashboard';
 import __Layout from './Layout.jsx';
 
 
@@ -282,6 +282,7 @@ export const PAGES = {
     "AgentMarketplace": AgentMarketplace,
     "AgentModularBuilder": AgentModularBuilder,
     "AgentMonitoringDashboard": AgentMonitoringDashboard,
+    "AgentPerformanceDashboard": AgentPerformanceDashboard,
     "AgentShoppingLog": AgentShoppingLog,
     "AgentSimulation3D": AgentSimulation3D,
     "AgentSkillMarketplace": AgentSkillMarketplace,
@@ -390,8 +391,10 @@ export const PAGES = {
     "HolographicWorld": HolographicWorld,
     "Home": Home,
     "HomeHub": HomeHub,
+    "HomepageUpgradePlan": HomepageUpgradePlan,
     "InstructorDirectory": InstructorDirectory,
     "IntegrationDevelopmentHub": IntegrationDevelopmentHub,
+    "IntegrationHub": IntegrationHub,
     "IntegrationStore": IntegrationStore,
     "Integrations": Integrations,
     "IntegrationsHub": IntegrationsHub,
@@ -476,20 +479,17 @@ export const PAGES = {
     "Tokenomics": Tokenomics,
     "UnifiedAnalytics": UnifiedAnalytics,
     "UnifiedCommunicationHub": UnifiedCommunicationHub,
-    "Wallet": Wallet,
     "UnifiedConversationHub": UnifiedConversationHub,
     "UnifiedVoicePlatform": UnifiedVoicePlatform,
     "UpgradeTracker": UpgradeTracker,
     "UserRolesPermissions": UserRolesPermissions,
     "VirtualClassrooms": VirtualClassrooms,
+    "Wallet": Wallet,
     "WebhookManager": WebhookManager,
     "Webhooks": Webhooks,
     "WithdrawOmni": WithdrawOmni,
     "WorkflowAutomationHub": WorkflowAutomationHub,
     "World": World,
-    "IntegrationHub": IntegrationHub,
-    "HomepageUpgradePlan": HomepageUpgradePlan,
-    "AgentPerformanceDashboard": AgentPerformanceDashboard,
 }
 
 export const pagesConfig = {

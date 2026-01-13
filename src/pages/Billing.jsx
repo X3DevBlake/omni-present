@@ -1,4 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+import StripeCheckoutButton from '@/components/payments/StripeCheckoutButton';
+import { useNavigate } from 'react-router-dom';
+import { createPageUrl } from '@/utils';
+
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || 'pk_test_51QdS2QRtO6KZy9vAGb3nZDqYJZvjMKH9N8SyNfZJy0iOnqXqXCH9eqV2gHX8jDPbHbG5KYqXq6MjLZyLZyLZyL');
 import { motion } from 'framer-motion';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { base44 } from '@/api/base44Client';
@@ -9,6 +16,15 @@ import PlaidConnectButton from '../components/banking/PlaidConnectButton';
 import { CreditCard, DollarSign, Settings } from 'lucide-react';
 
 export default function Billing() {
+  const navigate = useNavigate();
+  const [subscribed, setSubscribed] = useState(false);
+
+  const handleSuccess = (planId) => {
+    setSubscribed(true);
+    setTimeout(() => {
+      navigate(createPageUrl('Home'));
+    }, 2000);
+  };
   const [userEmail, setUserEmail] = React.useState(null);
   const [selectedTier, setSelectedTier] = React.useState(null);
   const [billingCycle, setBillingCycle] = React.useState('monthly');

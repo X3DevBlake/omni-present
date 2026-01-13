@@ -1,59 +1,117 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, Float, Text, Trail } from '@react-three/drei';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { OrbitControls, Float, Text, Sparkles, PerspectiveCamera, PositionalAudio, Environment, Stars } from '@react-three/drei';
 import * as THREE from 'three';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
+import { CreditCard, Zap, TrendingUp } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
-function HubNode({ position, label, color, onClick, metrics, isActive, performance, onWorkflowCreate }) {
+function PulsingEnergyField({ position, color, intensity = 1 }) {
   const meshRef = useRef();
-  const [hovered, setHovered] = useState(false);
+  
+  useFrame(({ clock }) => {
+    if (meshRef.current) {
+      const pulse = Math.sin(clock.getElapsedTime() * 2) * 0.3 + 0.7;
+      meshRef.current.scale.setScalar(pulse * intensity);
+      meshRef.current.material.opacity = pulse * 0.3;
+    }
+  });
+  
+  return (
+    <mesh ref={meshRef} position={position}>
+      <sphereGeometry args={[3, 32, 32]} />
+      <meshBasicMaterial color={color} transparent opacity={0.2} side={THREE.BackSide} />
+    </mesh>
+  );
+}
 
-  useFrame(() => {
+function HubNode({ position, label, color, onClick, metrics, isActive, performance, onWorkflowCreate, onUpgrade }) {
+  const meshRef = useRef();
+  const outerRingRef = useRef();
+  const sparklesRef = useRef();
+  const [hovered, setHovered] = useState(false);
+  const [clicked, setClicked] = useState(false);
+
+  useFrame(({ clock }) => {
     if (meshRef.current) {
       meshRef.current.rotation.x += 0.003;
       meshRef.current.rotation.y += 0.005;
-      meshRef.current.scale.set(
-        hovered ? 1.3 : isActive ? 1.15 : 1,
-        hovered ? 1.3 : isActive ? 1.15 : 1,
-        hovered ? 1.3 : isActive ? 1.15 : 1
-      );
+      
+      const scale = clicked ? 1.5 : hovered ? 1.3 : isActive ? 1.15 : 1;
+      meshRef.current.scale.lerp(new THREE.Vector3(scale, scale, scale), 0.1);
       meshRef.current.material.emissiveIntensity = hovered || isActive ? 0.8 : 0.4;
+    }
+    
+    if (outerRingRef.current) {
+      outerRingRef.current.rotation.z = clock.getElapsedTime() * 0.5;
     }
   });
 
-  // Performance indicator color
   const perfColor = performance > 80 ? '#10b981' : performance > 50 ? '#fbbf24' : '#ef4444';
 
   return (
     <group position={position}>
+      {/* Pulsing energy field */}
+      <PulsingEnergyField position={[0, 0, 0]} color={color} intensity={isActive ? 1.5 : 1} />
+      
+      {/* Sparkles effect */}
+      {(hovered || isActive) && (
+        <Sparkles
+          count={50}
+          scale={4}
+          size={2}
+          speed={0.3}
+          color={color}
+          opacity={0.6}
+        />
+      )}
+
+      {/* Main hub node */}
       <mesh
         ref={meshRef}
         onPointerEnter={() => setHovered(true)}
         onPointerLeave={() => setHovered(false)}
-        onClick={onClick}
+        onClick={(e) => {
+          e.stopPropagation();
+          setClicked(true);
+          setTimeout(() => setClicked(false), 300);
+          onClick();
+        }}
       >
         <icosahedronGeometry args={[1.2, 4]} />
-        <meshStandardMaterial
+        <meshPhysicalMaterial
           color={color}
           emissive={color}
           emissiveIntensity={0.4}
-          metalness={0.8}
-          roughness={0.2}
-          wireframe={false}
+          metalness={0.9}
+          roughness={0.1}
+          clearcoat={1}
+          clearcoatRoughness={0.1}
+          transmission={0.1}
+          thickness={0.5}
         />
       </mesh>
 
-      {/* Orbit rings */}
+      {/* Multiple orbit rings */}
       <mesh>
         <torusGeometry args={[1.5, 0.08, 16, 100]} />
         <meshStandardMaterial
           color={color}
-          transparent={true}
+          transparent
           opacity={hovered || isActive ? 0.6 : 0.2}
+        />
+      </mesh>
+
+      <mesh ref={outerRingRef} rotation={[Math.PI / 3, 0, 0]}>
+        <torusGeometry args={[2, 0.05, 16, 100]} />
+        <meshStandardMaterial
+          color={color}
+          transparent
+          opacity={hovered || isActive ? 0.4 : 0.1}
         />
       </mesh>
 
@@ -63,130 +121,277 @@ function HubNode({ position, label, color, onClick, metrics, isActive, performan
         <meshBasicMaterial color={perfColor} transparent opacity={0.6} />
       </mesh>
 
-      {/* Floating metrics */}
+      {/* Floating metrics with improved visibility */}
       {metrics && (hovered || isActive) && (
-        <>
+        <group>
           <Text
-            position={[0, 2.5, 0]}
-            fontSize={0.4}
+            position={[0, 2.8, 0]}
+            fontSize={0.45}
+            color="#ffffff"
+            anchorX="center"
+            anchorY="bottom"
+            outlineWidth={0.05}
+            outlineColor="#000000"
+          >
+            {label}
+          </Text>
+          <Text
+            position={[0, 2.3, 0]}
+            fontSize={0.35}
             color={color}
             anchorX="center"
             anchorY="bottom"
+            outlineWidth={0.03}
+            outlineColor="#000000"
           >
-            {label}: {metrics}
+            {metrics} active
           </Text>
           <Text
-            position={[0, 2, 0]}
+            position={[0, 1.9, 0]}
             fontSize={0.3}
             color={perfColor}
             anchorX="center"
             anchorY="bottom"
+            outlineWidth={0.03}
+            outlineColor="#000000"
           >
-            {performance}% Performance
+            {performance}% perf
           </Text>
-        </>
+        </group>
       )}
 
-      {/* Workflow creation button on hover */}
-      {hovered && onWorkflowCreate && (
-        <mesh 
-          position={[0, -2, 0]}
-          onClick={(e) => {
-            e.stopPropagation();
-            onWorkflowCreate();
-          }}
-        >
-          <planeGeometry args={[2, 0.5]} />
-          <meshBasicMaterial color="#a855f7" transparent opacity={0.8} />
-        </mesh>
+      {/* Action buttons on hover */}
+      {hovered && (
+        <group position={[0, -2.5, 0]}>
+          <mesh 
+            onClick={(e) => {
+              e.stopPropagation();
+              onWorkflowCreate();
+            }}
+          >
+            <planeGeometry args={[2.2, 0.6]} />
+            <meshBasicMaterial color="#a855f7" transparent opacity={0.9} />
+          </mesh>
+          <Text
+            position={[0, 0, 0.01]}
+            fontSize={0.25}
+            color="#ffffff"
+            anchorX="center"
+            anchorY="middle"
+          >
+            Create Workflow
+          </Text>
+          
+          {onUpgrade && (
+            <>
+              <mesh 
+                position={[0, -0.8, 0]}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onUpgrade();
+                }}
+              >
+                <planeGeometry args={[2.2, 0.6]} />
+                <meshBasicMaterial color="#10b981" transparent opacity={0.9} />
+              </mesh>
+              <Text
+                position={[0, -0.8, 0.01]}
+                fontSize={0.25}
+                color="#ffffff"
+                anchorX="center"
+                anchorY="middle"
+              >
+                Upgrade Hub
+              </Text>
+            </>
+          )}
+        </group>
       )}
     </group>
   );
 }
 
-function DataStream({ from, to, active }) {
-  const points = [
-    new THREE.Vector3(...from),
-    new THREE.Vector3(...to),
-  ];
+function DataStream({ from, to, active, dataType = 'general' }) {
+  const particlesRef = useRef([]);
   const lineRef = useRef();
-  const particleRef = useRef();
-  const [progress, setProgress] = useState(0);
+  const numParticles = active ? 5 : 1;
 
   useFrame(({ clock }) => {
-    if (lineRef.current) {
-      lineRef.current.material.dashOffset = -clock.getElapsedTime() * 0.5;
-    }
+    const time = clock.getElapsedTime();
     
-    // Animate particle along path
-    const t = (clock.getElapsedTime() * 0.2) % 1;
-    setProgress(t);
-    
-    if (particleRef.current) {
-      const pos = new THREE.Vector3().lerpVectors(points[0], points[1], t);
-      particleRef.current.position.copy(pos);
-    }
+    particlesRef.current.forEach((particle, idx) => {
+      if (particle) {
+        const offset = idx / numParticles;
+        const t = ((time * 0.3 + offset) % 1);
+        const pos = new THREE.Vector3().lerpVectors(
+          new THREE.Vector3(...from),
+          new THREE.Vector3(...to),
+          t
+        );
+        particle.position.copy(pos);
+        
+        // Pulse effect
+        const scale = 1 + Math.sin(time * 3 + idx) * 0.3;
+        particle.scale.setScalar(scale);
+      }
+    });
   });
 
-  const curve = new THREE.CatmullRomCurve3(points);
-  const tubeGeometry = new THREE.TubeGeometry(curve, 20, 0.05, 8, false);
+  const curve = useMemo(() => {
+    const start = new THREE.Vector3(...from);
+    const end = new THREE.Vector3(...to);
+    const mid = new THREE.Vector3().lerpVectors(start, end, 0.5);
+    mid.y += 2; // Add arc
+    return new THREE.QuadraticBezierCurve3(start, mid, end);
+  }, [from, to]);
+
+  const tubeGeometry = useMemo(() => 
+    new THREE.TubeGeometry(curve, 40, active ? 0.08 : 0.05, 8, false),
+    [curve, active]
+  );
+
+  const streamColor = {
+    general: '#a855f7',
+    agent: '#00f5ff',
+    data: '#10b981',
+    workflow: '#fbbf24'
+  }[dataType] || '#a855f7';
 
   return (
     <group>
-      <mesh geometry={tubeGeometry}>
+      <mesh geometry={tubeGeometry} ref={lineRef}>
         <meshStandardMaterial
-          color={active ? "#00f5ff" : "#a855f7"}
-          transparent={true}
+          color={active ? streamColor : '#a855f7'}
+          transparent
           opacity={active ? 0.8 : 0.3}
-          emissive={active ? "#00f5ff" : "#a855f7"}
-          emissiveIntensity={active ? 0.5 : 0.1}
+          emissive={active ? streamColor : '#a855f7'}
+          emissiveIntensity={active ? 0.6 : 0.1}
         />
       </mesh>
       
-      {/* Moving particle */}
-      {active && (
-        <mesh ref={particleRef}>
-          <sphereGeometry args={[0.1, 16, 16]} />
+      {/* Multiple moving particles */}
+      {Array.from({ length: numParticles }).map((_, idx) => (
+        <mesh 
+          key={idx}
+          ref={el => particlesRef.current[idx] = el}
+        >
+          <sphereGeometry args={[active ? 0.12 : 0.08, 16, 16]} />
           <meshStandardMaterial
-            color="#00f5ff"
-            emissive="#00f5ff"
-            emissiveIntensity={1}
+            color={streamColor}
+            emissive={streamColor}
+            emissiveIntensity={active ? 1.5 : 0.5}
           />
         </mesh>
+      ))}
+      
+      {/* Data packet representation */}
+      {active && (
+        <Float speed={2} rotationIntensity={0.5}>
+          <Text
+            position={[(from[0] + to[0]) / 2, (from[1] + to[1]) / 2 + 1, (from[2] + to[2]) / 2]}
+            fontSize={0.2}
+            color={streamColor}
+            anchorX="center"
+          >
+            {dataType}
+          </Text>
+        </Float>
       )}
     </group>
   );
 }
 
-function AgentMarker({ position, agentName, activity }) {
+function AgentMarker({ position, agentName, activity, performance = 85 }) {
   const markerRef = useRef();
+  const trailRef = useRef([]);
+  const [path, setPath] = useState([]);
   
   useFrame(({ clock }) => {
     if (markerRef.current) {
-      markerRef.current.position.y = position[1] + Math.sin(clock.getElapsedTime() * 2) * 0.2;
+      const yOffset = Math.sin(clock.getElapsedTime() * 2) * 0.2;
+      const xOffset = Math.cos(clock.getElapsedTime() * 0.5) * 0.3;
+      markerRef.current.position.set(position[0] + xOffset, position[1] + yOffset, position[2]);
+      
+      // Update trail
+      if (clock.getElapsedTime() % 0.1 < 0.016) {
+        setPath(prev => [...prev.slice(-20), markerRef.current.position.clone()]);
+      }
     }
   });
   
+  const perfColor = performance > 80 ? '#10b981' : performance > 60 ? '#fbbf24' : '#ef4444';
+  
   return (
-    <group position={position} ref={markerRef}>
-      <mesh>
-        <sphereGeometry args={[0.15, 16, 16]} />
-        <meshStandardMaterial
-          color="#fbbf24"
-          emissive="#fbbf24"
-          emissiveIntensity={1}
-        />
-      </mesh>
-      {activity && (
-        <Text
-          position={[0, 0.5, 0]}
-          fontSize={0.2}
-          color="#fbbf24"
-          anchorX="center"
-        >
-          {agentName}
-        </Text>
+    <group>
+      {/* Agent trail */}
+      {path.length > 1 && (
+        <line>
+          <bufferGeometry>
+            <bufferAttribute
+              attach="attributes-position"
+              count={path.length}
+              array={new Float32Array(path.flatMap(p => [p.x, p.y, p.z]))}
+              itemSize={3}
+            />
+          </bufferGeometry>
+          <lineBasicMaterial color="#fbbf24" opacity={0.3} transparent />
+        </line>
       )}
+      
+      <group ref={markerRef}>
+        {/* Main agent sphere */}
+        <mesh>
+          <sphereGeometry args={[0.18, 16, 16]} />
+          <meshPhysicalMaterial
+            color="#fbbf24"
+            emissive="#fbbf24"
+            emissiveIntensity={activity ? 1.5 : 0.8}
+            metalness={0.8}
+            roughness={0.2}
+          />
+        </mesh>
+        
+        {/* Performance ring */}
+        <mesh rotation={[Math.PI / 2, 0, 0]}>
+          <ringGeometry args={[0.22, 0.28, 32]} />
+          <meshBasicMaterial color={perfColor} transparent opacity={0.6} />
+        </mesh>
+        
+        {/* Agent info */}
+        {activity && (
+          <group>
+            <Text
+              position={[0, 0.6, 0]}
+              fontSize={0.22}
+              color="#ffffff"
+              anchorX="center"
+              outlineWidth={0.02}
+              outlineColor="#000000"
+            >
+              {agentName}
+            </Text>
+            <Text
+              position={[0, 0.35, 0]}
+              fontSize={0.15}
+              color={perfColor}
+              anchorX="center"
+            >
+              {performance}% eff
+            </Text>
+          </group>
+        )}
+        
+        {/* Activity indicator sparkles */}
+        {activity && (
+          <Sparkles
+            count={10}
+            scale={0.5}
+            size={1}
+            speed={0.4}
+            color="#fbbf24"
+          />
+        )}
+      </group>
     </group>
   );
 }
@@ -278,6 +483,10 @@ export default function EcosystemMap3D({ activeHubs = [] }) {
     navigate(createPageUrl('IntegrationHub') + `?workflowFrom=${hub.id}`);
   };
 
+  const handleUpgrade = (hub) => {
+    navigate(createPageUrl('Billing') + `?upgrade=${hub.id}`);
+  };
+
   // Determine active data streams based on real-time activity
   const activeStreams = React.useMemo(() => {
     const streams = new Set();
@@ -304,9 +513,22 @@ export default function EcosystemMap3D({ activeHubs = [] }) {
     <div className="w-full h-[60vh] md:h-screen relative bg-gradient-to-b from-slate-950 via-purple-950 to-slate-950">
       <Canvas camera={{ position: [0, 8, 12], fov: window.innerWidth < 768 ? 75 : 60 }}>
         <color attach="background" args={['#0a0a0f']} />
-        <ambientLight intensity={0.5} />
-        <pointLight position={[10, 10, 10]} intensity={2} color="#00f5ff" />
-        <pointLight position={[-10, -10, -10]} intensity={1.5} color="#a855f7" />
+        
+        {/* Enhanced lighting */}
+        <ambientLight intensity={0.4} />
+        <pointLight position={[10, 10, 10]} intensity={2.5} color="#00f5ff" />
+        <pointLight position={[-10, -10, -10]} intensity={2} color="#a855f7" />
+        <pointLight position={[0, 15, 0]} intensity={1.5} color="#ec4899" />
+        <spotLight position={[0, 20, 0]} angle={0.3} penumbra={1} intensity={1} color="#ffffff" />
+        
+        {/* Environment for better reflections */}
+        <Environment preset="night" />
+        
+        {/* Fog for depth */}
+        <fog attach="fog" args={['#0a0a0f', 10, 35]} />
+        
+        {/* Stars background */}
+        <Stars radius={100} depth={50} count={7000} factor={5} fade speed={1} />
 
         {/* Central reference */}
         <Float speed={0.3} rotationIntensity={0.1} floatIntensity={0.1}>
@@ -333,6 +555,7 @@ export default function EcosystemMap3D({ activeHubs = [] }) {
             performance={hub.performance}
             onClick={() => handleHubClick(hub)}
             onWorkflowCreate={() => handleWorkflowCreate(hub)}
+            onUpgrade={() => handleUpgrade(hub)}
             isActive={activeHubs.includes(hub.id) || (userActivity && userActivity.some(a => a.entity_type === hub.id))}
           />
         ))}
@@ -344,15 +567,17 @@ export default function EcosystemMap3D({ activeHubs = [] }) {
             position={agent.position}
             agentName={agent.name}
             activity={agent.activity}
+            performance={75 + Math.random() * 25}
           />
         ))}
 
-        {/* Data streams between hubs - with real-time activity */}
-        <DataStream from={hubs[0].position} to={hubs[1].position} active={activeStreams.has('0-1')} />
-        <DataStream from={hubs[0].position} to={hubs[2].position} active={activeStreams.has('0-2')} />
-        <DataStream from={hubs[1].position} to={hubs[2].position} active={activeStreams.has('1-2')} />
-        <DataStream from={hubs[1].position} to={hubs[3].position} active={activeStreams.has('1-3')} />
-        <DataStream from={hubs[3].position} to={hubs[4].position} active={activeStreams.has('3-4')} />
+        {/* Data streams between hubs - with real-time activity and types */}
+        <DataStream from={hubs[0].position} to={hubs[1].position} active={activeStreams.has('0-1')} dataType="agent" />
+        <DataStream from={hubs[0].position} to={hubs[2].position} active={activeStreams.has('0-2')} dataType="data" />
+        <DataStream from={hubs[1].position} to={hubs[2].position} active={activeStreams.has('1-2')} dataType="workflow" />
+        <DataStream from={hubs[1].position} to={hubs[3].position} active={activeStreams.has('1-3')} dataType="data" />
+        <DataStream from={hubs[3].position} to={hubs[4].position} active={activeStreams.has('3-4')} dataType="general" />
+        <DataStream from={hubs[2].position} to={hubs[4].position} active={activeStreams.has('2-4')} dataType="agent" />
 
         <OrbitControls enableZoom autoRotate autoRotateSpeed={0.5} />
       </Canvas>
@@ -398,10 +623,50 @@ export default function EcosystemMap3D({ activeHubs = [] }) {
       {/* Interaction Hint */}
       <div className="absolute top-2 right-2 md:top-6 md:right-6 bg-black/50 backdrop-blur-xl border border-cyan-500/20 rounded-lg p-2 md:p-3">
         <p className="text-[10px] md:text-xs text-white/70">
-          <span className="hidden md:inline">Click nodes to navigate • Drag to rotate</span>
+          <span className="hidden md:inline">Click nodes to navigate • Drag to rotate • Hover for actions</span>
           <span className="md:hidden">Tap nodes • Drag</span>
         </p>
       </div>
+      
+      {/* Stripe Upgrade CTA */}
+      <AnimatePresence>
+        {userEmail && (
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 50 }}
+            className="absolute top-20 right-2 md:right-6 bg-gradient-to-br from-purple-600/90 to-pink-600/90 backdrop-blur-xl border border-purple-400/30 rounded-lg p-3 md:p-4 max-w-[200px] md:max-w-xs"
+          >
+            <div className="flex items-start gap-3 mb-3">
+              <div className="p-2 bg-white/20 rounded-lg">
+                <Zap className="w-5 h-5 text-yellow-300" />
+              </div>
+              <div>
+                <h4 className="text-white font-bold text-sm">Unlock Premium</h4>
+                <p className="text-white/80 text-xs mt-1">Advanced AI features & unlimited agents</p>
+              </div>
+            </div>
+            
+            <div className="space-y-2 mb-3 text-xs text-white/90">
+              <div className="flex items-center gap-2">
+                <TrendingUp className="w-3 h-3" />
+                <span>10x faster processing</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CreditCard className="w-3 h-3" />
+                <span>Priority support</span>
+              </div>
+            </div>
+            
+            <Button 
+              onClick={() => navigate(createPageUrl('Billing'))}
+              className="w-full bg-white text-purple-600 hover:bg-white/90 text-sm"
+            >
+              Upgrade Now
+            </Button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
