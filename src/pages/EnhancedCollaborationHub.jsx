@@ -114,6 +114,9 @@ export default function EnhancedCollaborationHub() {
 
           <TabsContent value="communication">
             <RealTimeCommunicationVisualizer communications={communications} agents={agents} />
+            <div className="mt-6">
+              <AgentCommunicationPanel workspaceId={activeWorkspace?.id} />
+            </div>
           </TabsContent>
 
           <TabsContent value="delegation">
