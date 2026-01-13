@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { Canvas } from '@react-three/fiber';
@@ -106,10 +106,17 @@ export default function Home() {
   ];
 
   return (
-    <AuroraBackground className="min-h-screen">
-      {/* Proactive AI Feed & Enhanced Gemini */}
-      <ProactiveAIFeed />
-      <EnhancedGeminiHome />
+    <div className="min-h-screen relative">
+      {/* Smooth Scroll Progress Bar */}
+      <motion.div
+        className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 z-50 origin-left"
+        style={{ scaleX: scrollYProgress }}
+      />
+
+      <AuroraBackground className="min-h-screen">
+        {/* Proactive AI Feed & Enhanced Gemini */}
+        <ProactiveAIFeed />
+        <EnhancedGeminiHome />
 
       {/* 3D Ecosystem Map - Phase 1 */}
       <EcosystemMap3D activeHubs={['agents']} />
@@ -461,6 +468,7 @@ export default function Home() {
           </Link>
         </motion.div>
       </div>
-    </AuroraBackground>
+      </AuroraBackground>
+    </div>
   );
 }
