@@ -247,6 +247,9 @@ import World from './pages/World';
 import AgentLogsHub from './pages/AgentLogsHub';
 import WebhooksHub from './pages/WebhooksHub';
 import EnhancedAgentCreator from './pages/EnhancedAgentCreator';
+import ProactiveMonitoring from './pages/ProactiveMonitoring';
+import AdvancedWebhooks from './pages/AdvancedWebhooks';
+import AgentMarketplaceHub from './pages/AgentMarketplaceHub';
 import __Layout from './Layout.jsx';
 
 
@@ -500,6 +503,9 @@ export const PAGES = {
     "AgentLogsHub": AgentLogsHub,
     "WebhooksHub": WebhooksHub,
     "EnhancedAgentCreator": EnhancedAgentCreator,
+    "ProactiveMonitoring": ProactiveMonitoring,
+    "AdvancedWebhooks": AdvancedWebhooks,
+    "AgentMarketplaceHub": AgentMarketplaceHub,
 }
 
 export const pagesConfig = {
