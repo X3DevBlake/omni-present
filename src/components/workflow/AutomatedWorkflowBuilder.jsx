@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { base44 } from '@/api/base44Client';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Play, Plus, Trash2, Zap, Settings, Eye, Bot, Webhook, Calendar } from 'lucide-react';
+import { Play, Plus, Trash2, Zap, Settings, Eye, Bot, Webhook, Calendar, AlertTriangle, ArrowRightLeft, Layers, ShieldAlert } from 'lucide-react';
 import { toast } from 'sonner';
 import AIWorkflowAnalyzer from './AIWorkflowAnalyzer';
 
@@ -126,7 +126,11 @@ Provide actionable suggestions for workflow optimization, error handling improve
     { type: 'agent', icon: Bot, label: 'AI Agent', color: 'bg-purple-500' },
     { type: 'webhook', icon: Webhook, label: 'Webhook', color: 'bg-blue-500' },
     { type: 'schedule', icon: Calendar, label: 'Schedule', color: 'bg-green-500' },
-    { type: 'integration', icon: Zap, label: 'Integration', color: 'bg-yellow-500' }
+    { type: 'integration', icon: Zap, label: 'Integration', color: 'bg-yellow-500' },
+    { type: 'condition', icon: AlertTriangle, label: 'Condition', color: 'bg-orange-500' },
+    { type: 'loop', icon: ArrowRightLeft, label: 'Loop', color: 'bg-cyan-500' },
+    { type: 'parallel', icon: Layers, label: 'Parallel', color: 'bg-indigo-500' },
+    { type: 'error_handler', icon: ShieldAlert, label: 'Error Handler', color: 'bg-red-500' }
   ];
 
   return (

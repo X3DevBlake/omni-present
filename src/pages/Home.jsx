@@ -19,6 +19,8 @@ import EcosystemMap3D from '../components/home/EcosystemMap3D';
 import ProactiveAIFeed from '../components/home/ProactiveAIFeed';
 import EnhancedGeminiHome from '../components/home/EnhancedGeminiHome';
 import Interactive3DStats from '../components/home/Interactive3DStats';
+import PersonalizedInsightsEngine from '../components/insights/PersonalizedInsightsEngine';
+import MistralAgentGenerator from '../components/ai/MistralAgentGenerator';
 
 function AnimatedOrb() {
   return (
@@ -209,6 +211,12 @@ export default function Home() {
         >
           <ChevronRight className="w-8 h-8 text-white/60 rotate-90" />
         </motion.div>
+      </div>
+
+      {/* Personalized Insights & Mistral Generator */}
+      <div className="max-w-7xl mx-auto px-4 md:px-6 py-8 md:gap-8 grid grid-cols-1 lg:grid-cols-2">
+        <PersonalizedInsightsEngine />
+        <MistralAgentGenerator />
       </div>
 
       {/* Interactive 3D Stats */}
