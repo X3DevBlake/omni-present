@@ -8,6 +8,16 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import PersonalizedContentFeed from "../components/ai/PersonalizedContentFeed";
+import XPSystem from "../components/gamification/XPSystem";
+import TeamSynergyAnalyzer from "../components/collaboration/TeamSynergyAnalyzer";
+import IntegrationHealthMonitor from "../components/integrations/IntegrationHealthMonitor";
+import PredictiveBottleneckDetector from "../components/workflow/PredictiveBottleneckDetector";
+import RealTimeTrendAnalyzer from "../components/analytics/RealTimeTrendAnalyzer";
+import AIStrategyAdvisor from "../components/insights/AIStrategyAdvisor";
+import VoiceCommandInterface from "../components/multimodal/VoiceCommandInterface";
+import ImmersiveDataFlowVisualizer from "../components/3d/ImmersiveDataFlowVisualizer";
+import QuickActionsPanel from "../components/dashboard/QuickActionsPanel";
 
 export default function AIAnalyticsHub() {
   const [userEmail, setUserEmail] = useState(null);
@@ -421,6 +431,36 @@ export default function AIAnalyticsHub() {
             </Card>
           </TabsContent>
         </Tabs>
+
+        {/* New Enhanced Sections */}
+        <div className="grid gap-6 md:grid-cols-2 mt-8">
+          <PersonalizedContentFeed />
+          <XPSystem />
+        </div>
+
+        <Card className="bg-black/40 border-white/10 p-6 mt-6">
+          <h3 className="text-white font-bold mb-4">Immersive Data Flow</h3>
+          <ImmersiveDataFlowVisualizer height="500px" />
+        </Card>
+
+        <div className="grid gap-6 md:grid-cols-2 mt-6">
+          <AIStrategyAdvisor />
+          <TeamSynergyAnalyzer />
+        </div>
+
+        <div className="grid gap-6 md:grid-cols-3 mt-6">
+          <RealTimeTrendAnalyzer />
+          <IntegrationHealthMonitor />
+          <VoiceCommandInterface />
+        </div>
+
+        <div className="mt-6">
+          <PredictiveBottleneckDetector />
+        </div>
+
+        <div className="mt-6">
+          <QuickActionsPanel />
+        </div>
       </div>
     </AuroraBackground>
   );

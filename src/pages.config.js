@@ -5,6 +5,7 @@ import AIPlayground from './pages/AIPlayground';
 import AIPortfolioManager from './pages/AIPortfolioManager';
 import APIDocumentation from './pages/APIDocumentation';
 import APIExplorer from './pages/APIExplorer';
+import APIIntegrations from './pages/APIIntegrations';
 import APIKeys from './pages/APIKeys';
 import About from './pages/About';
 import AchievementsAwards from './pages/AchievementsAwards';
@@ -39,6 +40,7 @@ import AgentShoppingLog from './pages/AgentShoppingLog';
 import AgentSimulation3D from './pages/AgentSimulation3D';
 import AgentSkillMarketplace from './pages/AgentSkillMarketplace';
 import AgentSpending from './pages/AgentSpending';
+import AgentTraining from './pages/AgentTraining';
 import AgentTrainingCenter from './pages/AgentTrainingCenter';
 import AgentVideoInterface from './pages/AgentVideoInterface';
 import Analytics from './pages/Analytics';
@@ -108,6 +110,7 @@ import DeviceTelemetry from './pages/DeviceTelemetry';
 import DiscountsRebates from './pages/DiscountsRebates';
 import Documentation from './pages/Documentation';
 import EmergentBehavior from './pages/EmergentBehavior';
+import FAQ from './pages/FAQ';
 import EnhancedAgentMarketplace from './pages/EnhancedAgentMarketplace';
 import EnhancedAnomalyDashboard from './pages/EnhancedAnomalyDashboard';
 import EnhancedBankingHub from './pages/EnhancedBankingHub';
@@ -126,7 +129,6 @@ import EventsCalendar from './pages/EventsCalendar';
 import EvolutionDashboardPage from './pages/EvolutionDashboardPage';
 import ExchangeListings from './pages/ExchangeListings';
 import ExperimentTracking from './pages/ExperimentTracking';
-import FAQ from './pages/FAQ';
 import FeatureDetail from './pages/FeatureDetail';
 import FeatureFlagManager from './pages/FeatureFlagManager';
 import Features from './pages/Features';
@@ -242,8 +244,6 @@ import Webhooks from './pages/Webhooks';
 import WithdrawOmni from './pages/WithdrawOmni';
 import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import World from './pages/World';
-import APIIntegrations from './pages/APIIntegrations';
-import AgentTraining from './pages/AgentTraining';
 import __Layout from './Layout.jsx';
 
 
@@ -255,6 +255,7 @@ export const PAGES = {
     "AIPortfolioManager": AIPortfolioManager,
     "APIDocumentation": APIDocumentation,
     "APIExplorer": APIExplorer,
+    "APIIntegrations": APIIntegrations,
     "APIKeys": APIKeys,
     "About": About,
     "AchievementsAwards": AchievementsAwards,
@@ -289,6 +290,7 @@ export const PAGES = {
     "AgentSimulation3D": AgentSimulation3D,
     "AgentSkillMarketplace": AgentSkillMarketplace,
     "AgentSpending": AgentSpending,
+    "AgentTraining": AgentTraining,
     "AgentTrainingCenter": AgentTrainingCenter,
     "AgentVideoInterface": AgentVideoInterface,
     "Analytics": Analytics,
@@ -358,6 +360,7 @@ export const PAGES = {
     "DiscountsRebates": DiscountsRebates,
     "Documentation": Documentation,
     "EmergentBehavior": EmergentBehavior,
+    "FAQ": FAQ,
     "EnhancedAgentMarketplace": EnhancedAgentMarketplace,
     "EnhancedAnomalyDashboard": EnhancedAnomalyDashboard,
     "EnhancedBankingHub": EnhancedBankingHub,
@@ -376,7 +379,6 @@ export const PAGES = {
     "EvolutionDashboardPage": EvolutionDashboardPage,
     "ExchangeListings": ExchangeListings,
     "ExperimentTracking": ExperimentTracking,
-    "FAQ": FAQ,
     "FeatureDetail": FeatureDetail,
     "FeatureFlagManager": FeatureFlagManager,
     "Features": Features,
@@ -492,8 +494,6 @@ export const PAGES = {
     "WithdrawOmni": WithdrawOmni,
     "WorkflowAutomationHub": WorkflowAutomationHub,
     "World": World,
-    "APIIntegrations": APIIntegrations,
-    "AgentTraining": AgentTraining,
 }
 
 export const pagesConfig = {
