@@ -18,6 +18,7 @@ import AdvancedFinancialEcosystem from './pages/AdvancedFinancialEcosystem';
 import AdvancedPredictionCenter from './pages/AdvancedPredictionCenter';
 import AdvancedSimulation from './pages/AdvancedSimulation';
 import AdvancedSimulationStudio from './pages/AdvancedSimulationStudio';
+import AdvancedWebhooks from './pages/AdvancedWebhooks';
 import Agent from './pages/Agent';
 import AgentAudio from './pages/AgentAudio';
 import AgentAutonomy from './pages/AgentAutonomy';
@@ -30,9 +31,11 @@ import AgentECommerceSettings from './pages/AgentECommerceSettings';
 import AgentGovernanceHub from './pages/AgentGovernanceHub';
 import AgentKnowledge from './pages/AgentKnowledge';
 import AgentKnowledgeBase from './pages/AgentKnowledgeBase';
+import AgentLogsHub from './pages/AgentLogsHub';
 import AgentManagement from './pages/AgentManagement';
 import AgentManagementHub from './pages/AgentManagementHub';
 import AgentMarketplace from './pages/AgentMarketplace';
+import AgentMarketplaceHub from './pages/AgentMarketplaceHub';
 import AgentModularBuilder from './pages/AgentModularBuilder';
 import AgentMonitoringDashboard from './pages/AgentMonitoringDashboard';
 import AgentPerformanceDashboard from './pages/AgentPerformanceDashboard';
@@ -110,7 +113,7 @@ import DeviceTelemetry from './pages/DeviceTelemetry';
 import DiscountsRebates from './pages/DiscountsRebates';
 import Documentation from './pages/Documentation';
 import EmergentBehavior from './pages/EmergentBehavior';
-import FAQ from './pages/FAQ';
+import EnhancedAgentCreator from './pages/EnhancedAgentCreator';
 import EnhancedAgentMarketplace from './pages/EnhancedAgentMarketplace';
 import EnhancedAnomalyDashboard from './pages/EnhancedAnomalyDashboard';
 import EnhancedBankingHub from './pages/EnhancedBankingHub';
@@ -129,6 +132,7 @@ import EventsCalendar from './pages/EventsCalendar';
 import EvolutionDashboardPage from './pages/EvolutionDashboardPage';
 import ExchangeListings from './pages/ExchangeListings';
 import ExperimentTracking from './pages/ExperimentTracking';
+import FAQ from './pages/FAQ';
 import FeatureDetail from './pages/FeatureDetail';
 import FeatureFlagManager from './pages/FeatureFlagManager';
 import Features from './pages/Features';
@@ -198,6 +202,7 @@ import PortfolioRebalancer from './pages/PortfolioRebalancer';
 import PredictiveAnalyticsHub from './pages/PredictiveAnalyticsHub';
 import PressReleases from './pages/PressReleases';
 import Privacy from './pages/Privacy';
+import ProactiveMonitoring from './pages/ProactiveMonitoring';
 import Profile from './pages/Profile';
 import ProfileHome from './pages/ProfileHome';
 import RealWorldBudget from './pages/RealWorldBudget';
@@ -241,15 +246,10 @@ import VirtualClassrooms from './pages/VirtualClassrooms';
 import Wallet from './pages/Wallet';
 import WebhookManager from './pages/WebhookManager';
 import Webhooks from './pages/Webhooks';
+import WebhooksHub from './pages/WebhooksHub';
 import WithdrawOmni from './pages/WithdrawOmni';
 import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import World from './pages/World';
-import AgentLogsHub from './pages/AgentLogsHub';
-import WebhooksHub from './pages/WebhooksHub';
-import EnhancedAgentCreator from './pages/EnhancedAgentCreator';
-import ProactiveMonitoring from './pages/ProactiveMonitoring';
-import AdvancedWebhooks from './pages/AdvancedWebhooks';
-import AgentMarketplaceHub from './pages/AgentMarketplaceHub';
 import __Layout from './Layout.jsx';
 
 
@@ -274,6 +274,7 @@ export const PAGES = {
     "AdvancedPredictionCenter": AdvancedPredictionCenter,
     "AdvancedSimulation": AdvancedSimulation,
     "AdvancedSimulationStudio": AdvancedSimulationStudio,
+    "AdvancedWebhooks": AdvancedWebhooks,
     "Agent": Agent,
     "AgentAudio": AgentAudio,
     "AgentAutonomy": AgentAutonomy,
@@ -286,9 +287,11 @@ export const PAGES = {
     "AgentGovernanceHub": AgentGovernanceHub,
     "AgentKnowledge": AgentKnowledge,
     "AgentKnowledgeBase": AgentKnowledgeBase,
+    "AgentLogsHub": AgentLogsHub,
     "AgentManagement": AgentManagement,
     "AgentManagementHub": AgentManagementHub,
     "AgentMarketplace": AgentMarketplace,
+    "AgentMarketplaceHub": AgentMarketplaceHub,
     "AgentModularBuilder": AgentModularBuilder,
     "AgentMonitoringDashboard": AgentMonitoringDashboard,
     "AgentPerformanceDashboard": AgentPerformanceDashboard,
@@ -366,7 +369,7 @@ export const PAGES = {
     "DiscountsRebates": DiscountsRebates,
     "Documentation": Documentation,
     "EmergentBehavior": EmergentBehavior,
-    "FAQ": FAQ,
+    "EnhancedAgentCreator": EnhancedAgentCreator,
     "EnhancedAgentMarketplace": EnhancedAgentMarketplace,
     "EnhancedAnomalyDashboard": EnhancedAnomalyDashboard,
     "EnhancedBankingHub": EnhancedBankingHub,
@@ -385,6 +388,7 @@ export const PAGES = {
     "EvolutionDashboardPage": EvolutionDashboardPage,
     "ExchangeListings": ExchangeListings,
     "ExperimentTracking": ExperimentTracking,
+    "FAQ": FAQ,
     "FeatureDetail": FeatureDetail,
     "FeatureFlagManager": FeatureFlagManager,
     "Features": Features,
@@ -454,6 +458,7 @@ export const PAGES = {
     "PredictiveAnalyticsHub": PredictiveAnalyticsHub,
     "PressReleases": PressReleases,
     "Privacy": Privacy,
+    "ProactiveMonitoring": ProactiveMonitoring,
     "Profile": Profile,
     "ProfileHome": ProfileHome,
     "RealWorldBudget": RealWorldBudget,
@@ -497,15 +502,10 @@ export const PAGES = {
     "Wallet": Wallet,
     "WebhookManager": WebhookManager,
     "Webhooks": Webhooks,
+    "WebhooksHub": WebhooksHub,
     "WithdrawOmni": WithdrawOmni,
     "WorkflowAutomationHub": WorkflowAutomationHub,
     "World": World,
-    "AgentLogsHub": AgentLogsHub,
-    "WebhooksHub": WebhooksHub,
-    "EnhancedAgentCreator": EnhancedAgentCreator,
-    "ProactiveMonitoring": ProactiveMonitoring,
-    "AdvancedWebhooks": AdvancedWebhooks,
-    "AgentMarketplaceHub": AgentMarketplaceHub,
 }
 
 export const pagesConfig = {

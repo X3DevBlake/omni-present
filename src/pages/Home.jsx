@@ -118,11 +118,8 @@ export default function Home() {
         <ProactiveAIFeed />
         <EnhancedGeminiHome />
 
-      {/* 3D Ecosystem Map - Phase 1 */}
-      <EcosystemMap3D activeHubs={['agents']} />
-
-      {/* Hero Section with 3D Background - Keep for context */}
-      <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        {/* Hero Section with 3D Background - Keep for context */}
+        <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
         {/* 3D Canvas Background */}
         <div className="absolute inset-0 opacity-30">
           <Canvas camera={{ position: [0, 0, 5] }}>
@@ -222,6 +219,9 @@ export default function Home() {
           <ChevronRight className="w-8 h-8 text-white/60 rotate-90" />
         </motion.div>
       </div>
+
+      {/* 3D Ecosystem Map - Phase 1 */}
+      <EcosystemMap3D activeHubs={['agents']} />
 
       {/* Personalized Insights & Mistral Generator */}
       <div className="max-w-7xl mx-auto px-4 md:px-6 py-8 md:gap-8 grid grid-cols-1 lg:grid-cols-2">
