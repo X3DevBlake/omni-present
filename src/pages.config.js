@@ -3,6 +3,7 @@ import AILab from './pages/AILab';
 import AIModelDeployment from './pages/AIModelDeployment';
 import AIPlayground from './pages/AIPlayground';
 import AIPortfolioManager from './pages/AIPortfolioManager';
+import AITrainingCenter from './pages/AITrainingCenter';
 import APIDocumentation from './pages/APIDocumentation';
 import APIExplorer from './pages/APIExplorer';
 import APIIntegrations from './pages/APIIntegrations';
@@ -28,6 +29,7 @@ import AgentCustomization from './pages/AgentCustomization';
 import AgentCustomizationStudio from './pages/AgentCustomizationStudio';
 import AgentDebugger from './pages/AgentDebugger';
 import AgentECommerceSettings from './pages/AgentECommerceSettings';
+import AgentGovernance from './pages/AgentGovernance';
 import AgentGovernanceHub from './pages/AgentGovernanceHub';
 import AgentKnowledge from './pages/AgentKnowledge';
 import AgentKnowledgeBase from './pages/AgentKnowledgeBase';
@@ -53,6 +55,7 @@ import AssetUpload from './pages/AssetUpload';
 import AuditLogs from './pages/AuditLogs';
 import AutomatedFinanceHub from './pages/AutomatedFinanceHub';
 import AutonomyControlCenter from './pages/AutonomyControlCenter';
+import AvatarCreationHub from './pages/AvatarCreationHub';
 import BankingCorePhase1 from './pages/BankingCorePhase1';
 import Billing from './pages/Billing';
 import BillingInvoicing from './pages/BillingInvoicing';
@@ -96,6 +99,7 @@ import DeFiAutonomousPhase3 from './pages/DeFiAutonomousPhase3';
 import DeFiCorePhase2 from './pages/DeFiCorePhase2';
 import DeFiGovernancePhase5 from './pages/DeFiGovernancePhase5';
 import DeFiHub from './pages/DeFiHub';
+import DecentralizedNetwork from './pages/DecentralizedNetwork';
 import DeepLearningPlatform from './pages/DeepLearningPlatform';
 import DeploymentReadiness from './pages/DeploymentReadiness';
 import DepositETH from './pages/DepositETH';
@@ -187,6 +191,7 @@ import OmniDashboard from './pages/OmniDashboard';
 import OmniHome from './pages/OmniHome';
 import OmniHub from './pages/OmniHub';
 import OmniStaking from './pages/OmniStaking';
+import OmniWallet from './pages/OmniWallet';
 import OrderManagement from './pages/OrderManagement';
 import OrgSettings from './pages/OrgSettings';
 import Partnerships from './pages/Partnerships';
@@ -225,6 +230,7 @@ import Settings from './pages/Settings';
 import SimulationControlPanel from './pages/SimulationControlPanel';
 import SimulationEnvironment from './pages/SimulationEnvironment';
 import SimulationHub from './pages/SimulationHub';
+import SimulationLab from './pages/SimulationLab';
 import SimulationLabs from './pages/SimulationLabs';
 import SimulationWorld from './pages/SimulationWorld';
 import SmartBankingHub from './pages/SmartBankingHub';
@@ -233,6 +239,7 @@ import StudyGroups from './pages/StudyGroups';
 import SubscriptionManagement from './pages/SubscriptionManagement';
 import SystemDashboard from './pages/SystemDashboard';
 import Team from './pages/Team';
+import TeamOrchestration from './pages/TeamOrchestration';
 import Technology from './pages/Technology';
 import Terms from './pages/Terms';
 import Tokenomics from './pages/Tokenomics';
@@ -250,13 +257,6 @@ import WebhooksHub from './pages/WebhooksHub';
 import WithdrawOmni from './pages/WithdrawOmni';
 import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import World from './pages/World';
-import TeamOrchestration from './pages/TeamOrchestration';
-import AITrainingCenter from './pages/AITrainingCenter';
-import OmniWallet from './pages/OmniWallet';
-import AgentGovernance from './pages/AgentGovernance';
-import AvatarCreationHub from './pages/AvatarCreationHub';
-import SimulationLab from './pages/SimulationLab';
-import DecentralizedNetwork from './pages/DecentralizedNetwork';
 import AgentDetail from './pages/AgentDetail';
 import __Layout from './Layout.jsx';
 
@@ -267,6 +267,7 @@ export const PAGES = {
     "AIModelDeployment": AIModelDeployment,
     "AIPlayground": AIPlayground,
     "AIPortfolioManager": AIPortfolioManager,
+    "AITrainingCenter": AITrainingCenter,
     "APIDocumentation": APIDocumentation,
     "APIExplorer": APIExplorer,
     "APIIntegrations": APIIntegrations,
@@ -292,6 +293,7 @@ export const PAGES = {
     "AgentCustomizationStudio": AgentCustomizationStudio,
     "AgentDebugger": AgentDebugger,
     "AgentECommerceSettings": AgentECommerceSettings,
+    "AgentGovernance": AgentGovernance,
     "AgentGovernanceHub": AgentGovernanceHub,
     "AgentKnowledge": AgentKnowledge,
     "AgentKnowledgeBase": AgentKnowledgeBase,
@@ -317,6 +319,7 @@ export const PAGES = {
     "AuditLogs": AuditLogs,
     "AutomatedFinanceHub": AutomatedFinanceHub,
     "AutonomyControlCenter": AutonomyControlCenter,
+    "AvatarCreationHub": AvatarCreationHub,
     "BankingCorePhase1": BankingCorePhase1,
     "Billing": Billing,
     "BillingInvoicing": BillingInvoicing,
@@ -360,6 +363,7 @@ export const PAGES = {
     "DeFiCorePhase2": DeFiCorePhase2,
     "DeFiGovernancePhase5": DeFiGovernancePhase5,
     "DeFiHub": DeFiHub,
+    "DecentralizedNetwork": DecentralizedNetwork,
     "DeepLearningPlatform": DeepLearningPlatform,
     "DeploymentReadiness": DeploymentReadiness,
     "DepositETH": DepositETH,
@@ -451,6 +455,7 @@ export const PAGES = {
     "OmniHome": OmniHome,
     "OmniHub": OmniHub,
     "OmniStaking": OmniStaking,
+    "OmniWallet": OmniWallet,
     "OrderManagement": OrderManagement,
     "OrgSettings": OrgSettings,
     "Partnerships": Partnerships,
@@ -489,6 +494,7 @@ export const PAGES = {
     "SimulationControlPanel": SimulationControlPanel,
     "SimulationEnvironment": SimulationEnvironment,
     "SimulationHub": SimulationHub,
+    "SimulationLab": SimulationLab,
     "SimulationLabs": SimulationLabs,
     "SimulationWorld": SimulationWorld,
     "SmartBankingHub": SmartBankingHub,
@@ -497,6 +503,7 @@ export const PAGES = {
     "SubscriptionManagement": SubscriptionManagement,
     "SystemDashboard": SystemDashboard,
     "Team": Team,
+    "TeamOrchestration": TeamOrchestration,
     "Technology": Technology,
     "Terms": Terms,
     "Tokenomics": Tokenomics,
@@ -514,13 +521,6 @@ export const PAGES = {
     "WithdrawOmni": WithdrawOmni,
     "WorkflowAutomationHub": WorkflowAutomationHub,
     "World": World,
-    "TeamOrchestration": TeamOrchestration,
-    "AITrainingCenter": AITrainingCenter,
-    "OmniWallet": OmniWallet,
-    "AgentGovernance": AgentGovernance,
-    "AvatarCreationHub": AvatarCreationHub,
-    "SimulationLab": SimulationLab,
-    "DecentralizedNetwork": DecentralizedNetwork,
     "AgentDetail": AgentDetail,
 }
 
