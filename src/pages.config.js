@@ -28,6 +28,7 @@ import AgentCardSettings from './pages/AgentCardSettings';
 import AgentCustomization from './pages/AgentCustomization';
 import AgentCustomizationStudio from './pages/AgentCustomizationStudio';
 import AgentDebugger from './pages/AgentDebugger';
+import AgentDetail from './pages/AgentDetail';
 import AgentECommerceSettings from './pages/AgentECommerceSettings';
 import AgentGovernance from './pages/AgentGovernance';
 import AgentGovernanceHub from './pages/AgentGovernanceHub';
@@ -257,7 +258,6 @@ import WebhooksHub from './pages/WebhooksHub';
 import WithdrawOmni from './pages/WithdrawOmni';
 import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import World from './pages/World';
-import AgentDetail from './pages/AgentDetail';
 import __Layout from './Layout.jsx';
 
 
@@ -292,6 +292,7 @@ export const PAGES = {
     "AgentCustomization": AgentCustomization,
     "AgentCustomizationStudio": AgentCustomizationStudio,
     "AgentDebugger": AgentDebugger,
+    "AgentDetail": AgentDetail,
     "AgentECommerceSettings": AgentECommerceSettings,
     "AgentGovernance": AgentGovernance,
     "AgentGovernanceHub": AgentGovernanceHub,
@@ -521,7 +522,6 @@ export const PAGES = {
     "WithdrawOmni": WithdrawOmni,
     "WorkflowAutomationHub": WorkflowAutomationHub,
     "World": World,
-    "AgentDetail": AgentDetail,
 }
 
 export const pagesConfig = {
