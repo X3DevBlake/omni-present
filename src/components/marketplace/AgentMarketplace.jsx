@@ -17,6 +17,8 @@ export default function AgentMarketplace() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [sortBy, setSortBy] = useState('downloads');
+  const [deployDialogOpen, setDeployDialogOpen] = useState(false);
+  const [selectedListing, setSelectedListing] = useState(null);
   const queryClient = useQueryClient();
 
   const { data: listings, isLoading } = useQuery({
@@ -102,6 +104,16 @@ export default function AgentMarketplace() {
   });
 
   const categories = ['all', 'finance', 'research', 'automation', 'communication', 'analytics', 'security', 'productivity'];
+
+  // Make state setters available to AgentCard
+  React.useEffect(() => {
+    window.setDeployDialogOpen = setDeployDialogOpen;
+    window.setSelectedListing = setSelectedListing;
+    return () => {
+      delete window.setDeployDialogOpen;
+      delete window.setSelectedListing;
+    };
+  }, []);
 
   return (
     <div className="space-y-6">
@@ -206,6 +218,24 @@ export default function AgentMarketplace() {
           </div>
         </TabsContent>
       </Tabs>
+
+      {/* Deployment Pipeline Dialog */}
+      <Dialog open={deployDialogOpen} onOpenChange={setDeployDialogOpen}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Configure Deployment Pipeline</DialogTitle>
+          </DialogHeader>
+          {selectedListing && (
+            <DeploymentPipelineBuilder 
+              listingId={selectedListing.id}
+              onComplete={(agent) => {
+                setDeployDialogOpen(false);
+                deployAgent.mutate(selectedListing);
+              }}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
@@ -260,7 +290,15 @@ function AgentCard({ listing, onDeploy, isRecommended }) {
           </div>
           <Button
             size="sm"
-            onClick={() => onDeploy.mutate(listing)}
+            onClick={() => {
+              // Open deployment pipeline dialog instead
+              if (window.setDeployDialogOpen) {
+                window.setDeployDialogOpen(true);
+                window.setSelectedListing(listing);
+              } else {
+                onDeploy.mutate(listing);
+              }
+            }}
             disabled={onDeploy.isPending}
           >
             <Download className="w-4 h-4 mr-2" />

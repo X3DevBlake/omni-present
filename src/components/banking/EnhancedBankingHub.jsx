@@ -9,6 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { CreditCard, TrendingUp, Shield, Zap, Eye, EyeOff, ArrowUpRight, ArrowDownLeft } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { toast } from 'sonner';
+import AdvancedFinancialAnalytics from './AdvancedFinancialAnalytics';
 
 export default function EnhancedBankingHub() {
   const [showBalance, setShowBalance] = useState(true);
@@ -120,11 +121,12 @@ export default function EnhancedBankingHub() {
       </div>
 
       <Tabs defaultValue="accounts">
-        <TabsList className="grid w-full grid-cols-4">
+        <TabsList className="grid w-full grid-cols-5">
           <TabsTrigger value="accounts">Accounts</TabsTrigger>
           <TabsTrigger value="transactions">Transactions</TabsTrigger>
           <TabsTrigger value="cards">Cards</TabsTrigger>
           <TabsTrigger value="insights">AI Insights</TabsTrigger>
+          <TabsTrigger value="analytics">Analytics</TabsTrigger>
         </TabsList>
 
         <TabsContent value="accounts" className="space-y-4">
