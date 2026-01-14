@@ -251,6 +251,8 @@ import WithdrawOmni from './pages/WithdrawOmni';
 import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import World from './pages/World';
 import TeamOrchestration from './pages/TeamOrchestration';
+import AITrainingCenter from './pages/AITrainingCenter';
+import OmniWallet from './pages/OmniWallet';
 import __Layout from './Layout.jsx';
 
 
@@ -508,6 +510,8 @@ export const PAGES = {
     "WorkflowAutomationHub": WorkflowAutomationHub,
     "World": World,
     "TeamOrchestration": TeamOrchestration,
+    "AITrainingCenter": AITrainingCenter,
+    "OmniWallet": OmniWallet,
 }
 
 export const pagesConfig = {

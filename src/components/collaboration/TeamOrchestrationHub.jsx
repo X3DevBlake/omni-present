@@ -216,10 +216,17 @@ function WorkflowBuilder({ workflow, agents, onSave, onCancel }) {
     team_agents: [],
     workflow_nodes: [],
     delegation_rules: [],
-    communication_protocol: {}
+    communication_protocol: {},
+    automation_config: {
+      enable_conditional_logic: true,
+      enable_parallel_execution: true,
+      enable_skill_routing: true,
+      enable_ai_optimization: true
+    }
   });
 
   const [selectedAgents, setSelectedAgents] = useState(workflow?.team_agents || []);
+  const [showAdvanced, setShowAdvanced] = useState(false);
 
   const handleSubmit = () => {
     if (!formData.name || selectedAgents.length === 0) {
@@ -268,11 +275,98 @@ function WorkflowBuilder({ workflow, agents, onSave, onCancel }) {
                   }}
                 >
                   {agent.name}
+                  {agent.skills && <Badge variant="secondary" className="ml-2 text-xs">{agent.skills.length}</Badge>}
                 </Button>
               );
             })}
           </div>
         </div>
+
+        <Button 
+          variant="outline" 
+          onClick={() => setShowAdvanced(!showAdvanced)}
+          className="w-full"
+        >
+          {showAdvanced ? 'Hide' : 'Show'} Advanced Automation
+        </Button>
+
+        {showAdvanced && (
+          <div className="p-4 rounded-lg bg-purple-50 border border-purple-200 space-y-3">
+            <h4 className="font-semibold">Advanced Automation Features</h4>
+            
+            <div className="space-y-2">
+              <label className="flex items-center gap-2">
+                <input 
+                  type="checkbox" 
+                  checked={formData.automation_config.enable_conditional_logic}
+                  onChange={(e) => setFormData({
+                    ...formData,
+                    automation_config: {
+                      ...formData.automation_config,
+                      enable_conditional_logic: e.target.checked
+                    }
+                  })}
+                />
+                <span className="text-sm">Enable Conditional Logic & Branching</span>
+              </label>
+
+              <label className="flex items-center gap-2">
+                <input 
+                  type="checkbox" 
+                  checked={formData.automation_config.enable_parallel_execution}
+                  onChange={(e) => setFormData({
+                    ...formData,
+                    automation_config: {
+                      ...formData.automation_config,
+                      enable_parallel_execution: e.target.checked
+                    }
+                  })}
+                />
+                <span className="text-sm">Enable Parallel Task Execution</span>
+              </label>
+
+              <label className="flex items-center gap-2">
+                <input 
+                  type="checkbox" 
+                  checked={formData.automation_config.enable_skill_routing}
+                  onChange={(e) => setFormData({
+                    ...formData,
+                    automation_config: {
+                      ...formData.automation_config,
+                      enable_skill_routing: e.target.checked
+                    }
+                  })}
+                />
+                <span className="text-sm">Enable Skill-Based Task Routing</span>
+              </label>
+
+              <label className="flex items-center gap-2">
+                <input 
+                  type="checkbox" 
+                  checked={formData.automation_config.enable_ai_optimization}
+                  onChange={(e) => setFormData({
+                    ...formData,
+                    automation_config: {
+                      ...formData.automation_config,
+                      enable_ai_optimization: e.target.checked
+                    }
+                  })}
+                />
+                <span className="text-sm">Enable AI Dynamic Workflow Optimization</span>
+              </label>
+            </div>
+
+            <div className="p-3 rounded bg-blue-50 border border-blue-200 text-xs">
+              <p className="font-semibold mb-1">AI Optimization Features:</p>
+              <ul className="space-y-1 text-gray-600">
+                <li>• Real-time performance monitoring</li>
+                <li>• Automatic bottleneck detection</li>
+                <li>• Dynamic task re-routing</li>
+                <li>• Load balancing across agents</li>
+              </ul>
+            </div>
+          </div>
+        )}
 
         <div className="flex gap-2">
           <Button onClick={handleSubmit} className="flex-1">
