@@ -131,7 +131,7 @@ export default function AuroraBackground({ children, className = "" }) {
       />
       
       {/* Data stream lines */}
-      <svg className="absolute inset-0 w-full h-full opacity-10">
+      <svg className="absolute inset-0 w-full h-full opacity-10 pointer-events-none">
         <defs>
           <linearGradient id="streamGradient" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#00f5ff" stopOpacity="0" />
@@ -140,7 +140,7 @@ export default function AuroraBackground({ children, className = "" }) {
           </linearGradient>
         </defs>
         {[0, 1, 2, 3].map((i) => (
-          <motion.line
+          <line
             key={i}
             x1={`${i * 25}%`}
             y1="0%"
@@ -148,17 +148,7 @@ export default function AuroraBackground({ children, className = "" }) {
             y2="100%"
             stroke="url(#streamGradient)"
             strokeWidth="2"
-            initial={{ pathLength: 0, opacity: 0 }}
-            animate={{ 
-              pathLength: [0, 1, 0],
-              opacity: [0, 0.5, 0]
-            }}
-            transition={{
-              duration: 3,
-              repeat: Infinity,
-              delay: i * 0.7,
-              ease: "linear"
-            }}
+            opacity="0.3"
           />
         ))}
       </svg>
