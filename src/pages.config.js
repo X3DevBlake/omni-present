@@ -257,6 +257,7 @@ import AgentGovernance from './pages/AgentGovernance';
 import AvatarCreationHub from './pages/AvatarCreationHub';
 import SimulationLab from './pages/SimulationLab';
 import DecentralizedNetwork from './pages/DecentralizedNetwork';
+import AgentDetail from './pages/AgentDetail';
 import __Layout from './Layout.jsx';
 
 
@@ -520,6 +521,7 @@ export const PAGES = {
     "AvatarCreationHub": AvatarCreationHub,
     "SimulationLab": SimulationLab,
     "DecentralizedNetwork": DecentralizedNetwork,
+    "AgentDetail": AgentDetail,
 }
 
 export const pagesConfig = {

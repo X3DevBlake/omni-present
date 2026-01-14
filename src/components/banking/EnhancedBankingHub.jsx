@@ -247,6 +247,10 @@ export default function EnhancedBankingHub() {
             </CardContent>
           </Card>
         </TabsContent>
+
+        <TabsContent value="analytics">
+          <AdvancedFinancialAnalytics />
+        </TabsContent>
       </Tabs>
     </div>
   );
