@@ -12,21 +12,24 @@ export default function AuroraBackground({ children, className = "" }) {
     if (!container) return;
 
     const handleMouseMove = (e) => {
-      if (containerRef.current) {
-        const rect = containerRef.current.getBoundingClientRect();
-        if (rect) {
-          setMousePosition({
-            x: (e.clientX - rect.left) / rect.width,
-            y: (e.clientY - rect.top) / rect.height,
-          });
-        }
+      const currentContainer = containerRef.current;
+      if (!currentContainer) return;
+      
+      const rect = currentContainer.getBoundingClientRect();
+      if (rect && rect.width && rect.height) {
+        setMousePosition({
+          x: (e.clientX - rect.left) / rect.width,
+          y: (e.clientY - rect.top) / rect.height,
+        });
       }
     };
 
-    if (container) {
-      container.addEventListener('mousemove', handleMouseMove);
-      return () => container.removeEventListener('mousemove', handleMouseMove);
-    }
+    container.addEventListener('mousemove', handleMouseMove);
+    return () => {
+      if (container) {
+        container.removeEventListener('mousemove', handleMouseMove);
+      }
+    };
   }, []);
 
   return (
