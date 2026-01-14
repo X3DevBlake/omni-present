@@ -255,6 +255,8 @@ import AITrainingCenter from './pages/AITrainingCenter';
 import OmniWallet from './pages/OmniWallet';
 import AgentGovernance from './pages/AgentGovernance';
 import AvatarCreationHub from './pages/AvatarCreationHub';
+import SimulationLab from './pages/SimulationLab';
+import DecentralizedNetwork from './pages/DecentralizedNetwork';
 import __Layout from './Layout.jsx';
 
 
@@ -516,6 +518,8 @@ export const PAGES = {
     "OmniWallet": OmniWallet,
     "AgentGovernance": AgentGovernance,
     "AvatarCreationHub": AvatarCreationHub,
+    "SimulationLab": SimulationLab,
+    "DecentralizedNetwork": DecentralizedNetwork,
 }
 
 export const pagesConfig = {
