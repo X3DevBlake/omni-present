@@ -9,6 +9,8 @@ import { Badge } from '@/components/ui/badge';
 import { Wallet, Send, ArrowLeftRight, Image, Shield, History, Zap } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { toast } from 'sonner';
+import AdvancedTradingHub from './AdvancedTradingHub';
+import EnhancedSecurityFeatures from './EnhancedSecurityFeatures';
 
 export default function OmniWalletHub() {
   const [sendAmount, setSendAmount] = useState('');
@@ -119,12 +121,14 @@ export default function OmniWalletHub() {
       </Card>
 
       <Tabs defaultValue="send">
-        <TabsList className="grid w-full grid-cols-5">
+        <TabsList className="grid w-full grid-cols-7">
           <TabsTrigger value="send">Send</TabsTrigger>
           <TabsTrigger value="swap">Swap</TabsTrigger>
+          <TabsTrigger value="trade">Trade</TabsTrigger>
           <TabsTrigger value="nfts">NFTs</TabsTrigger>
           <TabsTrigger value="history">History</TabsTrigger>
           <TabsTrigger value="security">Security</TabsTrigger>
+          <TabsTrigger value="advanced">Advanced</TabsTrigger>
         </TabsList>
 
         <TabsContent value="send">
@@ -186,6 +190,14 @@ export default function OmniWalletHub() {
               <SwapInterface onSwap={(data) => swapTokens.mutate(data)} />
             </CardContent>
           </Card>
+        </TabsContent>
+
+        <TabsContent value="trade">
+          <AdvancedTradingHub />
+        </TabsContent>
+
+        <TabsContent value="advanced">
+          <EnhancedSecurityFeatures />
         </TabsContent>
 
         <TabsContent value="nfts">

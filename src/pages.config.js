@@ -253,6 +253,8 @@ import World from './pages/World';
 import TeamOrchestration from './pages/TeamOrchestration';
 import AITrainingCenter from './pages/AITrainingCenter';
 import OmniWallet from './pages/OmniWallet';
+import AgentGovernance from './pages/AgentGovernance';
+import AvatarCreationHub from './pages/AvatarCreationHub';
 import __Layout from './Layout.jsx';
 
 
@@ -512,6 +514,8 @@ export const PAGES = {
     "TeamOrchestration": TeamOrchestration,
     "AITrainingCenter": AITrainingCenter,
     "OmniWallet": OmniWallet,
+    "AgentGovernance": AgentGovernance,
+    "AvatarCreationHub": AvatarCreationHub,
 }
 
 export const pagesConfig = {
