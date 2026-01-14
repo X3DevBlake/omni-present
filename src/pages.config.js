@@ -250,6 +250,7 @@ import WebhooksHub from './pages/WebhooksHub';
 import WithdrawOmni from './pages/WithdrawOmni';
 import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import World from './pages/World';
+import TeamOrchestration from './pages/TeamOrchestration';
 import __Layout from './Layout.jsx';
 
 
@@ -506,6 +507,7 @@ export const PAGES = {
     "WithdrawOmni": WithdrawOmni,
     "WorkflowAutomationHub": WorkflowAutomationHub,
     "World": World,
+    "TeamOrchestration": TeamOrchestration,
 }
 
 export const pagesConfig = {
