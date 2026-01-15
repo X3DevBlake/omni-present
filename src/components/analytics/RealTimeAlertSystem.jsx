@@ -37,7 +37,8 @@ export default function RealTimeAlertSystem() {
     const newAlerts = [];
 
     // From ProactiveAlert entities
-    proactiveAlerts.forEach(alert => {
+    if (Array.isArray(proactiveAlerts)) {
+      proactiveAlerts.forEach(alert => {
       if (!dismissedAlerts.has(alert.id)) {
         newAlerts.push({
           id: alert.id,
@@ -48,10 +49,11 @@ export default function RealTimeAlertSystem() {
           source: 'System Monitor'
         });
       }
-    });
+      });
+    }
 
     // Analyze KPIs for anomalies
-    const recentKPIs = agentKPIs.slice(0, 10);
+    const recentKPIs = Array.isArray(agentKPIs) ? agentKPIs.slice(0, 10) : [];
     recentKPIs.forEach(kpi => {
       if (kpi.efficiency_score < 70 && !dismissedAlerts.has(`kpi-${kpi.id}`)) {
         newAlerts.push({
