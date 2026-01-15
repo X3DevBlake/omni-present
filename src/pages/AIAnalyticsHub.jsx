@@ -72,12 +72,16 @@ export default function AIAnalyticsHub() {
   // Performance trend data
   const trendData = React.useMemo(() => {
     const days = timeRange === '7d' ? 7 : timeRange === '30d' ? 30 : 90;
-    return Array.from({ length: Math.min(days, 30) }, (_, i) => ({
-      day: `Day ${i + 1}`,
-      efficiency: Number((70 + Math.random() * 25).toFixed(1)),
-      tasks: Math.floor(50 + Math.random() * 100),
-      responseTime: Number((1 + Math.random() * 2).toFixed(2))
-    }));
+    return Array.from({ length: Math.min(days, 30) }, (_, i) => {
+      const efficiency = Number((70 + Math.random() * 25).toFixed(1));
+      const tasks = Math.floor(50 + Math.random() * 100);
+      return {
+        day: `Day ${i + 1}`,
+        efficiency: isNaN(efficiency) ? 0 : efficiency,
+        tasks: isNaN(tasks) ? 0 : tasks,
+        responseTime: Number((1 + Math.random() * 2).toFixed(2))
+      };
+    });
   }, [timeRange]);
 
   // Agent performance comparison
@@ -88,11 +92,15 @@ export default function AIAnalyticsHub() {
         { name: 'Agent 2', efficiency: 78, tasks: 62 }
       ];
     }
-    return agents.slice(0, 8).map(agent => ({
-      name: String(agent.name || 'Agent'),
-      efficiency: Number((70 + Math.random() * 30).toFixed(1)),
-      tasks: Math.floor(20 + Math.random() * 80)
-    }));
+    return agents.slice(0, 8).map(agent => {
+      const efficiency = Number((70 + Math.random() * 30).toFixed(1));
+      const tasks = Math.floor(20 + Math.random() * 80);
+      return {
+        name: String(agent.name || 'Agent'),
+        efficiency: isNaN(efficiency) ? 0 : efficiency,
+        tasks: isNaN(tasks) ? 0 : tasks
+      };
+    });
   }, [agents]);
 
   // Anomaly detection
@@ -260,8 +268,8 @@ export default function AIAnalyticsHub() {
                       <YAxis stroke="#ffffff60" />
                       <Tooltip contentStyle={{ backgroundColor: '#1a1a2e', border: '1px solid #ffffff20' }} />
                       <Legend />
-                      <Line type="monotone" dataKey="efficiency" stroke="#00f5ff" strokeWidth={2} dot={false} isAnimationActive={false} />
-                      <Line type="monotone" dataKey="tasks" stroke="#a855f7" strokeWidth={2} dot={false} isAnimationActive={false} />
+                      <Line type="monotone" dataKey="efficiency" stroke="#00f5ff" strokeWidth={2} dot={false} isAnimationActive={false} connectNulls />
+                      <Line type="monotone" dataKey="tasks" stroke="#a855f7" strokeWidth={2} dot={false} isAnimationActive={false} connectNulls />
                     </LineChart>
                   </ResponsiveContainer>
                 ) : (
@@ -279,8 +287,8 @@ export default function AIAnalyticsHub() {
                       <YAxis stroke="#ffffff60" />
                       <Tooltip contentStyle={{ backgroundColor: '#1a1a2e', border: '1px solid #ffffff20' }} />
                       <Legend />
-                      <Bar dataKey="efficiency" fill="#00f5ff" radius={[4, 4, 0, 0]} isAnimationActive={false} />
-                      <Bar dataKey="tasks" fill="#a855f7" radius={[4, 4, 0, 0]} isAnimationActive={false} />
+                      <Bar dataKey="efficiency" fill="#00f5ff" radius={[4, 4, 0, 0]} isAnimationActive={false} background={false} />
+                      <Bar dataKey="tasks" fill="#a855f7" radius={[4, 4, 0, 0]} isAnimationActive={false} background={false} />
                     </BarChart>
                   </ResponsiveContainer>
                 ) : (
