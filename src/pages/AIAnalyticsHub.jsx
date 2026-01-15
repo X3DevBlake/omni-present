@@ -255,8 +255,8 @@ export default function AIAnalyticsHub() {
                     <YAxis stroke="#ffffff60" />
                     <Tooltip contentStyle={{ backgroundColor: '#1a1a2e', border: '1px solid #ffffff20' }} />
                     <Legend />
-                    <Line type="monotone" dataKey="efficiency" stroke="#00f5ff" strokeWidth={2} dot={false} isAnimationActive={false} />
-                    <Line type="monotone" dataKey="tasks" stroke="#a855f7" strokeWidth={2} dot={false} isAnimationActive={false} />
+                    <Line type="monotone" dataKey="efficiency" stroke="#00f5ff" strokeWidth={2} dot={false} isAnimationActive={false} connectNulls />
+                    <Line type="monotone" dataKey="tasks" stroke="#a855f7" strokeWidth={2} dot={false} isAnimationActive={false} connectNulls />
                   </LineChart>
                 </ResponsiveContainer>
               </Card>
@@ -270,8 +270,8 @@ export default function AIAnalyticsHub() {
                     <YAxis stroke="#ffffff60" />
                     <Tooltip contentStyle={{ backgroundColor: '#1a1a2e', border: '1px solid #ffffff20' }} />
                     <Legend />
-                    <Bar dataKey="efficiency" fill="#00f5ff" radius={[4, 4, 0, 0]} isAnimationActive={false} />
-                    <Bar dataKey="tasks" fill="#a855f7" radius={[4, 4, 0, 0]} isAnimationActive={false} />
+                    <Bar dataKey="efficiency" fill="#00f5ff" radius={[4, 4, 0, 0]} isAnimationActive={false} background={false} />
+                    <Bar dataKey="tasks" fill="#a855f7" radius={[4, 4, 0, 0]} isAnimationActive={false} background={false} />
                   </BarChart>
                 </ResponsiveContainer>
               </Card>
