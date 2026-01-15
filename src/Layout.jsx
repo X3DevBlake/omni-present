@@ -9,6 +9,7 @@ import UnifiedCommandBar from './components/navigation/UnifiedCommandBar';
 import ContextAwareHelpButton from './components/ui/ContextAwareHelpButton';
 import GeminiAssistant from './components/ai/GeminiAssistant';
 import VertexAICopilot from './components/ai/VertexAICopilot';
+import RealTimeAlertSystem from './components/analytics/RealTimeAlertSystem';
 import { GamificationProvider } from './components/gamification/GamificationContext';
 import { PersonalizationProvider } from './components/personalization/PersonalizationContext';
 import { AvatarProvider } from './components/avatar/AvatarContext';
@@ -42,6 +43,7 @@ export default function Layout({ children }) {
           <ContextAwareHelpButton />
           <GeminiAssistant />
           <VertexAICopilot />
+          <RealTimeAlertSystem />
           <style>{`
           .omni-logo-component {
             display: flex;
