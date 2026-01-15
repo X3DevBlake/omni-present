@@ -30,26 +30,26 @@ function DataFlowNode({ position, color, label, isActive }) {
 
 function AnimatedDataFlow({ start, end, color }) {
   const [progress, setProgress] = React.useState(0);
+  const particleRef = useRef();
   
   useFrame(() => {
     setProgress((prev) => (prev + 0.01) % 1);
   });
 
-  const points = [
+  const points = React.useMemo(() => [
     new THREE.Vector3(...start),
     new THREE.Vector3(...end)
-  ];
+  ], [start, end]);
 
-  const particlePosition = new THREE.Vector3().lerpVectors(
-    points[0],
-    points[1],
-    progress
-  );
+  const particlePosition = React.useMemo(() => {
+    const pos = new THREE.Vector3();
+    return pos.lerpVectors(points[0], points[1], progress);
+  }, [points, progress]);
 
   return (
     <>
       <Line points={points} color={color} lineWidth={2} opacity={0.6} transparent />
-      <Sphere args={[0.1, 16, 16]} position={particlePosition}>
+      <Sphere ref={particleRef} args={[0.1, 16, 16]} position={particlePosition}>
         <meshBasicMaterial color={color} />
       </Sphere>
     </>
@@ -74,19 +74,19 @@ export default function ImmersiveDataFlowVisualizer({ width = "100%", height = "
 
   return (
     <div style={{ width, height }}>
-      <Canvas camera={{ position: [0, 0, 10], fov: 50 }}>
+      <Canvas camera={{ position: [0, 0, 10], fov: 50 }} gl={{ preserveDrawingBuffer: true }}>
         <ambientLight intensity={0.5} />
         <pointLight position={[10, 10, 10]} />
         
         {nodes.map((node, idx) => (
-          <DataFlowNode key={idx} {...node} />
+          <DataFlowNode key={`node-${idx}`} {...node} />
         ))}
         
         {flows.map((flow, idx) => (
-          <AnimatedDataFlow key={idx} {...flow} />
+          <AnimatedDataFlow key={`flow-${idx}`} {...flow} />
         ))}
         
-        <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={0.5} />
+        <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={0.5} enablePan={false} />
       </Canvas>
     </div>
   );
