@@ -133,28 +133,13 @@ export default function AuroraBackground({ children, className = "" }) {
         }}
       />
       
-      {/* Data stream lines */}
-      <svg className="absolute inset-0 w-full h-full opacity-10 pointer-events-none">
-        <defs>
-          <linearGradient id="streamGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#00f5ff" stopOpacity="0" />
-            <stop offset="50%" stopColor="#00f5ff" stopOpacity="1" />
-            <stop offset="100%" stopColor="#00f5ff" stopOpacity="0" />
-          </linearGradient>
-        </defs>
-        {[0, 1, 2, 3].map((i) => (
-          <line
-            key={i}
-            x1={`${i * 25}%`}
-            y1="0%"
-            x2={`${i * 25 + 50}%`}
-            y2="100%"
-            stroke="url(#streamGradient)"
-            strokeWidth="2"
-            opacity="0.3"
-          />
-        ))}
-      </svg>
+      {/* Simplified gradient overlay */}
+      <div className="absolute inset-0 opacity-5 pointer-events-none">
+        <div className="absolute inset-0" style={{
+          background: 'linear-gradient(45deg, transparent 48%, #00f5ff 50%, transparent 52%)',
+          backgroundSize: '50px 50px'
+        }} />
+      </div>
 
       {/* Content */}
       <div className="relative z-10">
