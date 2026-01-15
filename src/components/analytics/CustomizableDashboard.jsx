@@ -9,17 +9,20 @@ const WIDGET_TYPES = {
   performance: {
     title: 'Performance Metrics',
     icon: TrendingUp,
-    component: ({ data }) => (
-      <ResponsiveContainer width="100%" height={200}>
-        <LineChart data={data || []}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#ffffff20" />
-          <XAxis dataKey="name" stroke="#ffffff60" />
-          <YAxis stroke="#ffffff60" />
-          <Tooltip contentStyle={{ backgroundColor: '#1a1a2e', border: '1px solid #ffffff20' }} />
-          <Line type="monotone" dataKey="value" stroke="#00f5ff" strokeWidth={2} />
-        </LineChart>
-      </ResponsiveContainer>
-    )
+    component: ({ data }) => {
+      const validData = (data || []).filter(d => d && typeof d.value !== 'undefined');
+      return validData.length > 0 ? (
+        <ResponsiveContainer width="100%" height={200}>
+          <LineChart data={validData}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#ffffff20" />
+            <XAxis dataKey="name" stroke="#ffffff60" />
+            <YAxis stroke="#ffffff60" />
+            <Tooltip contentStyle={{ backgroundColor: '#1a1a2e', border: '1px solid #ffffff20' }} />
+            <Line type="monotone" dataKey="value" stroke="#00f5ff" strokeWidth={2} dot={false} isAnimationActive={false} />
+          </LineChart>
+        </ResponsiveContainer>
+      ) : <div className="h-[200px] flex items-center justify-center text-white/40">No data</div>;
+    }
   },
   agents: {
     title: 'Active Agents',
@@ -54,17 +57,20 @@ const WIDGET_TYPES = {
   comparison: {
     title: 'Agent Comparison',
     icon: BarChart3,
-    component: ({ data }) => (
-      <ResponsiveContainer width="100%" height={200}>
-        <BarChart data={data || []}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#ffffff20" />
-          <XAxis dataKey="name" stroke="#ffffff60" />
-          <YAxis stroke="#ffffff60" />
-          <Tooltip contentStyle={{ backgroundColor: '#1a1a2e', border: '1px solid #ffffff20' }} />
-          <Bar dataKey="efficiency" fill="#00f5ff" />
-        </BarChart>
-      </ResponsiveContainer>
-    )
+    component: ({ data }) => {
+      const validData = (data || []).filter(d => d && typeof d.efficiency !== 'undefined');
+      return validData.length > 0 ? (
+        <ResponsiveContainer width="100%" height={200}>
+          <BarChart data={validData}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#ffffff20" />
+            <XAxis dataKey="name" stroke="#ffffff60" />
+            <YAxis stroke="#ffffff60" />
+            <Tooltip contentStyle={{ backgroundColor: '#1a1a2e', border: '1px solid #ffffff20' }} />
+            <Bar dataKey="efficiency" fill="#00f5ff" isAnimationActive={false} />
+          </BarChart>
+        </ResponsiveContainer>
+      ) : <div className="h-[200px] flex items-center justify-center text-white/40">No data</div>;
+    }
   }
 };
 
