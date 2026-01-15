@@ -1,5 +1,6 @@
 import AIAnalyticsHub from './pages/AIAnalyticsHub';
 import AILab from './pages/AILab';
+import AIManagement from './pages/AIManagement';
 import AIModelDeployment from './pages/AIModelDeployment';
 import AIPlayground from './pages/AIPlayground';
 import AIPortfolioManager from './pages/AIPortfolioManager';
@@ -109,6 +110,7 @@ import DepositUSDT from './pages/DepositUSDT';
 import DeveloperHome from './pages/DeveloperHome';
 import DeviceHealth from './pages/DeviceHealth';
 import DeviceHome from './pages/DeviceHome';
+import FAQ from './pages/FAQ';
 import DeviceIntegrationHub from './pages/DeviceIntegrationHub';
 import DeviceInteraction from './pages/DeviceInteraction';
 import DeviceMarketplace from './pages/DeviceMarketplace';
@@ -137,7 +139,6 @@ import EventsCalendar from './pages/EventsCalendar';
 import EvolutionDashboardPage from './pages/EvolutionDashboardPage';
 import ExchangeListings from './pages/ExchangeListings';
 import ExperimentTracking from './pages/ExperimentTracking';
-import FAQ from './pages/FAQ';
 import FeatureDetail from './pages/FeatureDetail';
 import FeatureFlagManager from './pages/FeatureFlagManager';
 import Features from './pages/Features';
@@ -258,13 +259,13 @@ import WebhooksHub from './pages/WebhooksHub';
 import WithdrawOmni from './pages/WithdrawOmni';
 import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import World from './pages/World';
-import AIManagement from './pages/AIManagement';
 import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
     "AIAnalyticsHub": AIAnalyticsHub,
     "AILab": AILab,
+    "AIManagement": AIManagement,
     "AIModelDeployment": AIModelDeployment,
     "AIPlayground": AIPlayground,
     "AIPortfolioManager": AIPortfolioManager,
@@ -374,6 +375,7 @@ export const PAGES = {
     "DeveloperHome": DeveloperHome,
     "DeviceHealth": DeviceHealth,
     "DeviceHome": DeviceHome,
+    "FAQ": FAQ,
     "DeviceIntegrationHub": DeviceIntegrationHub,
     "DeviceInteraction": DeviceInteraction,
     "DeviceMarketplace": DeviceMarketplace,
@@ -402,7 +404,6 @@ export const PAGES = {
     "EvolutionDashboardPage": EvolutionDashboardPage,
     "ExchangeListings": ExchangeListings,
     "ExperimentTracking": ExperimentTracking,
-    "FAQ": FAQ,
     "FeatureDetail": FeatureDetail,
     "FeatureFlagManager": FeatureFlagManager,
     "Features": Features,
@@ -523,7 +524,6 @@ export const PAGES = {
     "WithdrawOmni": WithdrawOmni,
     "WorkflowAutomationHub": WorkflowAutomationHub,
     "World": World,
-    "AIManagement": AIManagement,
 }
 
 export const pagesConfig = {
