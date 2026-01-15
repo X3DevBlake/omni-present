@@ -24,11 +24,12 @@ export default function AuroraBackground({ children, className = "" }) {
       }
     };
 
-    const safeContainer = container;
-    safeContainer.addEventListener('mousemove', handleMouseMove);
+    container.addEventListener('mousemove', handleMouseMove);
     
     return () => {
-      safeContainer.removeEventListener('mousemove', handleMouseMove);
+      if (container) {
+        container.removeEventListener('mousemove', handleMouseMove);
+      }
     };
   }, []);
 
