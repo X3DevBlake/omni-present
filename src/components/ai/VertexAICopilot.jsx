@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { base44 } from '@/api/base44Client';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-import { createPageUrl } from './utils';
+import { createPageUrl } from '../../utils';
 
 export default function VertexAICopilot() {
   const [isOpen, setIsOpen] = useState(false);
