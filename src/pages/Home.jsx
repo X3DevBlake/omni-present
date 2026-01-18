@@ -27,6 +27,7 @@ import RealtimeFinancialGalaxy3D from '../components/home/RealtimeFinancialGalax
 import EmergentBehaviorVisualizer3D from '../components/home/EmergentBehaviorVisualizer3D';
 import AdaptiveTokenomicsDisplay3D from '../components/home/AdaptiveTokenomicsDisplay3D';
 import RealtimeDataSourcesMonitor from '../components/home/RealtimeDataSourcesMonitor';
+import RealtimeEcosystemDashboard from '../components/home/RealtimeEcosystemDashboard';
 
 export default function Home() {
   const [activeFeature, setActiveFeature] = useState(0);
@@ -322,11 +323,24 @@ export default function Home() {
             </Card>
           </motion.div>
 
-          {/* Real-Time Data Sources Monitor */}
+          {/* Real-Time Ecosystem Dashboard */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1 }}
+            className="mb-20"
+          >
+            <h2 className="text-4xl font-bold text-center mb-8 text-white">
+              Live Ecosystem Metrics
+            </h2>
+            <RealtimeEcosystemDashboard />
+          </motion.div>
+
+          {/* Real-Time Data Sources Monitor */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.05 }}
             className="mb-20"
           >
             <h2 className="text-4xl font-bold text-center mb-8 text-white">
