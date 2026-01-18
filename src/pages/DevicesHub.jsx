@@ -9,7 +9,8 @@ import AuroraBackground from '../components/omni/AuroraBackground';
 import DeviceDiscovery3D from '../components/devices/DeviceDiscovery3D';
 import DeviceControlPanel from '../components/devices/DeviceControlPanel';
 import DigitalTwin3D from '../components/devices/DigitalTwin3D';
-import TelemetryStream from '../components/devices/TelemetryStream';
+import EnhancedTelemetryStream from '../components/devices/EnhancedTelemetryStream';
+import PredictiveMaintenanceSystem from '../components/devices/PredictiveMaintenanceSystem';
 
 export default function DevicesHub() {
   const [activeTab, setActiveTab] = useState('overview');
@@ -55,8 +56,9 @@ export default function DevicesHub() {
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="discovery">Device Discovery</TabsTrigger>
             <TabsTrigger value="control">Control Panel</TabsTrigger>
-            <TabsTrigger value="twin">Digital Twin</TabsTrigger>
             <TabsTrigger value="telemetry">Telemetry</TabsTrigger>
+            <TabsTrigger value="maintenance">Predictive Maintenance</TabsTrigger>
+            <TabsTrigger value="twin">Digital Twin</TabsTrigger>
           </TabsList>
 
           {/* Overview Tab */}
