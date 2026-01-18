@@ -54,7 +54,8 @@ Prioritize based on:
     }
   });
   
-  for (const prioritizedTask of prioritization.prioritized_tasks) {
+  for (const prioritizedTask of (prioritization?.prioritized_tasks || [])) {
+    if (!prioritizedTask || prioritizedTask.task_index === undefined) continue;
     const originalTask = tasks[prioritizedTask.task_index];
     
     await context.entities.Workflow.create({
@@ -75,6 +76,6 @@ Prioritize based on:
   return {
     prioritization,
     tasks_prioritized: tasks.length,
-    parallel_groups: prioritization.parallel_execution_groups.length
+    parallel_groups: prioritization?.parallel_execution_groups?.length || 0
   };
 }
