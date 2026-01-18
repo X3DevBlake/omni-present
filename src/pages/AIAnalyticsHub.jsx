@@ -43,9 +43,9 @@ export default function AIAnalyticsHub() {
     queryFn: () => base44.entities.Agent.list(),
     enabled: !!userEmail,
     initialData: [],
-    staleTime: 5 * 60 * 1000,
-    gcTime: 10 * 60 * 1000,
-    retry: 1
+    staleTime: 10 * 60 * 1000,
+    gcTime: 15 * 60 * 1000,
+    retry: 0
   });
 
   const { data: kpis } = useQuery({
@@ -53,9 +53,9 @@ export default function AIAnalyticsHub() {
     queryFn: () => base44.entities.AgentKPI.list(),
     enabled: !!userEmail,
     initialData: [],
-    staleTime: 5 * 60 * 1000,
-    gcTime: 10 * 60 * 1000,
-    retry: 1
+    staleTime: 10 * 60 * 1000,
+    gcTime: 15 * 60 * 1000,
+    retry: 0
   });
 
   const { data: predictions } = useQuery({
@@ -63,9 +63,9 @@ export default function AIAnalyticsHub() {
     queryFn: () => base44.entities.PredictiveAnalytic.list(),
     enabled: !!userEmail,
     initialData: [],
-    staleTime: 5 * 60 * 1000,
-    gcTime: 10 * 60 * 1000,
-    retry: 1
+    staleTime: 10 * 60 * 1000,
+    gcTime: 15 * 60 * 1000,
+    retry: 0
   });
 
   // Calculate aggregated metrics
