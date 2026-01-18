@@ -12,17 +12,20 @@ export default function CustomizableDashboard({ userRole, onClose }) {
   ]);
 
   const handleDragEnd = (result) => {
-    if (!result || typeof result !== 'object') return;
-    
-    const { source, destination } = result || {};
-    if (!source || !destination) return;
-    if (typeof source.index !== 'number' || typeof destination.index !== 'number') return;
-    if (destination.index === source.index) return;
-    
-    const items = Array.from(widgets);
-    const [reordered] = items.splice(source.index, 1);
-    items.splice(destination.index, 0, reordered);
-    setWidgets(items);
+    try {
+      if (!result || !result.source || !result.destination) return;
+      
+      const { source, destination } = result;
+      if (destination.index === source.index) return;
+      
+      const items = Array.from(widgets);
+      const [reordered] = items.splice(source.index, 1);
+      items.splice(destination.index, 0, reordered);
+      setWidgets(items);
+    } catch (error) {
+      // Silently handle DnD errors
+      return;
+    }
   };
 
   const toggleWidget = (id) => {
