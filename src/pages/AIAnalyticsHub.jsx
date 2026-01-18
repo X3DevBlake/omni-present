@@ -457,39 +457,7 @@ export default function AIAnalyticsHub() {
           </TabsContent>
         </Tabs>
 
-        {/* New Enhanced Sections - Lazy loaded to prevent rate limiting */}
-        {loadedSections.enhanced && (
-          <>
-            <div className="grid gap-6 md:grid-cols-2 mt-8">
-              <PersonalizedContentFeed />
-              <XPSystem />
-            </div>
-
-            <Card className="bg-black/40 border-white/10 p-6 mt-6">
-              <h3 className="text-white font-bold mb-4">Immersive Data Flow</h3>
-              <ImmersiveDataFlowVisualizer height="500px" />
-            </Card>
-
-            <div className="grid gap-6 md:grid-cols-2 mt-6">
-              <AIStrategyAdvisor />
-              <TeamSynergyAnalyzer />
-            </div>
-
-            <div className="grid gap-6 md:grid-cols-3 mt-6">
-              <RealTimeTrendAnalyzer />
-              <IntegrationHealthMonitor />
-              <VoiceCommandInterface />
-            </div>
-
-            <div className="mt-6">
-              <PredictiveBottleneckDetector />
-            </div>
-
-            <div className="mt-6">
-              <QuickActionsPanel />
-            </div>
-          </>
-        )}
+        {/* Enhanced sections disabled to prevent rate limiting */}
       </div>
     </AuroraBackground>
   );

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import { TrendingUp, DollarSign, Activity, AlertTriangle, X, Plus } from 'lucide-react';
 
 export default function CustomizableDashboard({ userRole, onClose }) {
@@ -11,22 +10,7 @@ export default function CustomizableDashboard({ userRole, onClose }) {
     { id: 'health', title: 'System Health', icon: Activity, enabled: true, role: ['devops', 'executive'] }
   ]);
 
-  const handleDragEnd = (result) => {
-    try {
-      if (!result || !result.source || !result.destination) return;
-      
-      const { source, destination } = result;
-      if (destination.index === source.index) return;
-      
-      const items = Array.from(widgets);
-      const [reordered] = items.splice(source.index, 1);
-      items.splice(destination.index, 0, reordered);
-      setWidgets(items);
-    } catch (error) {
-      // Silently handle DnD errors
-      return;
-    }
-  };
+
 
   const toggleWidget = (id) => {
     setWidgets(widgets.map(w => w.id === id ? { ...w, enabled: !w.enabled } : w));
@@ -56,53 +40,36 @@ export default function CustomizableDashboard({ userRole, onClose }) {
           Drag and drop to reorder • Toggle to show/hide
         </div>
 
-        <DragDropContext onDragEnd={handleDragEnd}>
-          <Droppable droppableId="widgets">
-            {(provided = {}) => (
-              <div {...(provided.droppableProps || {})} ref={provided.innerRef || null} className="space-y-3">
-                {widgets.map((widget, index) => {
-                  const Icon = widget.icon;
-                  return (
-                    <Draggable key={widget.id} draggableId={widget.id} index={index}>
-                      {(provided = {}, snapshot = {}) => (
-                        <div
-                          ref={provided.innerRef || null}
-                          {...(provided.draggableProps || {})}
-                          {...(provided.dragHandleProps || {})}
-                          className={`p-4 rounded-xl border transition-all ${
-                            snapshot.isDragging 
-                              ? 'bg-cyan-500/20 border-cyan-500/40' 
-                              : 'bg-white/5 border-white/10'
-                          }`}
-                        >
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-3">
-                              <Icon className="w-5 h-5 text-cyan-400" />
-                              <span className="text-white font-medium">{widget.title}</span>
-                              <span className="text-xs text-white/50">
-                                {widget.role.join(', ')}
-                              </span>
-                            </div>
-                            <label className="flex items-center gap-2 cursor-pointer">
-                              <input
-                                type="checkbox"
-                                checked={widget.enabled}
-                                onChange={() => toggleWidget(widget.id)}
-                                className="w-4 h-4 rounded"
-                              />
-                              <span className="text-white/70 text-sm">Show</span>
-                            </label>
-                          </div>
-                        </div>
-                      )}
-                    </Draggable>
-                  );
-                })}
-                {provided.placeholder || null}
+        <div className="space-y-3">
+          {widgets.map((widget) => {
+            const Icon = widget.icon;
+            return (
+              <div
+                key={widget.id}
+                className="p-4 rounded-xl border bg-white/5 border-white/10"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <Icon className="w-5 h-5 text-cyan-400" />
+                    <span className="text-white font-medium">{widget.title}</span>
+                    <span className="text-xs text-white/50">
+                      {widget.role.join(', ')}
+                    </span>
+                  </div>
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={widget.enabled}
+                      onChange={() => toggleWidget(widget.id)}
+                      className="w-4 h-4 rounded"
+                    />
+                    <span className="text-white/70 text-sm">Show</span>
+                  </label>
+                </div>
               </div>
-            )}
-          </Droppable>
-        </DragDropContext>
+            );
+          })}
+        </div>
 
         <button className="mt-6 w-full py-3 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-400 flex items-center justify-center gap-2">
           <Plus className="w-4 h-4" />
