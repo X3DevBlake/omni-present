@@ -11,6 +11,10 @@ import AuroraBackground from '../components/omni/AuroraBackground';
 import RoleDefinitionPanel from '../components/admin/RoleDefinitionPanel';
 import UserPermissionsPanel from '../components/admin/UserPermissionsPanel';
 import PermissionVisualization from '../components/admin/PermissionVisualization';
+import PermissionAuditLog from '../components/admin/PermissionAuditLog';
+import TemporaryAccessElevation from '../components/admin/TemporaryAccessElevation';
+import RoleCloner from '../components/admin/RoleCloner';
+import PermissionConsentManager from '../components/admin/PermissionConsentManager';
 
 export default function UserRoleManagement() {
   const [showCreateRole, setShowCreateRole] = useState(false);
