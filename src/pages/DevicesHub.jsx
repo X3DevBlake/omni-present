@@ -176,7 +176,7 @@ export default function DevicesHub() {
 
           {/* Telemetry Tab */}
           <TabsContent value="telemetry">
-            <TelemetryStream />
+            <EnhancedTelemetryStream />
           </TabsContent>
         </Tabs>
       </div>
