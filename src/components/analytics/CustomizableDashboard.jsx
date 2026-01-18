@@ -181,7 +181,7 @@ export default function CustomizableDashboard({ initialWidgets = ['performance',
 
                 return (
                   <Draggable key={widgetKey} draggableId={widgetKey} index={index}>
-                    {(provided, snapshot) => (
+                    {(provided, snapshot) => provided ? (
                       <div
                         ref={provided.innerRef}
                         {...provided.draggableProps}
@@ -208,7 +208,7 @@ export default function CustomizableDashboard({ initialWidgets = ['performance',
                           </CardContent>
                         </Card>
                       </div>
-                    )}
+                    ) : null}
                   </Draggable>
                 );
               })}
