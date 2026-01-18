@@ -3,13 +3,8 @@ import EnhancedMainNavRevamped from './components/navigation/EnhancedMainNavReva
 import BackButton from './components/navigation/BackButton';
 import GlobalSearch from './components/navigation/GlobalSearch';
 import NotificationCenter from './components/navigation/NotificationCenter';
-import OmniAssistant from './components/ai/OmniAssistant';
 import FeedbackButton from './components/feedback/FeedbackButton';
 import UnifiedCommandBar from './components/navigation/UnifiedCommandBar';
-import ContextAwareHelpButton from './components/ui/ContextAwareHelpButton';
-import GeminiAssistant from './components/ai/GeminiAssistant';
-import VertexAICopilot from './components/ai/VertexAICopilot';
-import RealTimeAlertSystem from './components/analytics/RealTimeAlertSystem';
 import { GamificationProvider } from './components/gamification/GamificationContext';
 import { PersonalizationProvider } from './components/personalization/PersonalizationContext';
 import { AvatarProvider } from './components/avatar/AvatarContext';
