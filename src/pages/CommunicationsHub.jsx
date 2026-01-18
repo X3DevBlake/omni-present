@@ -8,6 +8,8 @@ import AuroraBackground from '../components/omni/AuroraBackground';
 import RealtimeChat from '../components/communications/RealtimeChat';
 import VoiceIntegration from '../components/communications/VoiceIntegration';
 import AgentMarketplaceHub from '../components/marketplace/AgentMarketplaceHub';
+import ProactiveAgentSystem from '../components/communications/ProactiveAgentSystem';
+import SuggestedActionsPanel from '../components/communications/SuggestedActionsPanel';
 
 export default function CommunicationsHub() {
   const [activeTab, setActiveTab] = useState('overview');
@@ -58,6 +60,7 @@ export default function CommunicationsHub() {
         <Tabs defaultValue="overview" className="space-y-6">
           <TabsList className="bg-black/40 border border-white/10">
             <TabsTrigger value="overview">Overview</TabsTrigger>
+            <TabsTrigger value="proactive">Proactive Agents</TabsTrigger>
             <TabsTrigger value="chat">Real-time Chat</TabsTrigger>
             <TabsTrigger value="voice">Voice Commands</TabsTrigger>
             <TabsTrigger value="marketplace">Agent Marketplace</TabsTrigger>
@@ -116,6 +119,14 @@ export default function CommunicationsHub() {
                   </div>
                 </div>
               </Card>
+            </div>
+          </TabsContent>
+
+          {/* Proactive Tab */}
+          <TabsContent value="proactive" className="space-y-6">
+            <div className="grid lg:grid-cols-2 gap-6">
+              <ProactiveAgentSystem />
+              <SuggestedActionsPanel />
             </div>
           </TabsContent>
 
