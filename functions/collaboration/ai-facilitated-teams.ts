@@ -86,22 +86,22 @@ Analyze agent capabilities and past collaboration success to:
     name: `AI-Facilitated Team: ${team_objective}`,
     description: `Autonomous team formed for: ${team_objective}`,
     team_agents: selectedAgentIds,
-    communication_protocol: teamFormation.communication_protocol,
-    delegation_rules: teamFormation.team_composition.map(member => ({
-      agent_id: member.agent_id,
-      role: member.role,
-      skills: member.skill_contribution
-    })),
+    communication_protocol: teamFormation?.communication_protocol || {},
+    delegation_rules: teamFormation?.team_composition?.map(member => ({
+      agent_id: member?.agent_id,
+      role: member?.role,
+      skills: member?.skill_contribution || []
+    })) || [],
     status: 'active',
     performance_metrics: {
-      synergy_score: teamFormation.synergy_score,
-      success_probability: teamFormation.success_probability
+      synergy_score: teamFormation?.synergy_score || 0,
+      success_probability: teamFormation?.success_probability || 0
     }
   });
   
-  for (const member of teamFormation.team_composition) {
-    const agentExists = availableAgents.find(a => a.id === member.agent_id);
-    if (agentExists) {
+  for (const member of (teamFormation?.team_composition || [])) {
+    const agentExists = availableAgents.find(a => a?.id === member?.agent_id);
+    if (agentExists && member?.agent_id) {
       await context.entities.AgentCollaboration.create({
         initiator_agent_id: selectedAgentIds[0],
         collaborator_agent_id: member.agent_id,
@@ -109,35 +109,37 @@ Analyze agent capabilities and past collaboration success to:
         shared_goal: team_objective,
         status: 'active',
         success_metrics: {
-          role: member.role,
-          expected_contribution: member.responsibility
+          role: member?.role || 'member',
+          expected_contribution: member?.responsibility || ''
         }
       });
     }
   }
   
-  if (teamFormation.potential_conflicts.length > 0) {
+  if (teamFormation?.potential_conflicts?.length > 0) {
     for (const conflict of teamFormation.potential_conflicts) {
-      await context.entities.AgentGovernanceRule.create({
-        rule_name: `Conflict Prevention: ${conflict.conflict_type}`,
-        rule_type: 'ethical_constraint',
-        agent_ids: selectedAgentIds,
-        ethical_guidelines: [conflict.mitigation],
-        enforcement_level: 'moderate',
-        is_active: true
-      });
+      if (conflict?.conflict_type && conflict?.mitigation) {
+        await context.entities.AgentGovernanceRule.create({
+          rule_name: `Conflict Prevention: ${conflict.conflict_type}`,
+          rule_type: 'ethical_constraint',
+          agent_ids: selectedAgentIds,
+          ethical_guidelines: [conflict.mitigation],
+          enforcement_level: 'moderate',
+          is_active: true
+        });
+      }
     }
   }
   
   return {
     team_id: teamOrchestration.id,
     team_size: selectedAgentIds.length,
-    team_composition: teamFormation.team_composition,
-    communication_protocol: teamFormation.communication_protocol,
-    synergy_score: teamFormation.synergy_score,
-    success_probability: teamFormation.success_probability,
-    facilitation_strategies: teamFormation.facilitation_strategies,
-    conflicts_identified: teamFormation.potential_conflicts.length,
+    team_composition: teamFormation?.team_composition || [],
+    communication_protocol: teamFormation?.communication_protocol || {},
+    synergy_score: teamFormation?.synergy_score || 0,
+    success_probability: teamFormation?.success_probability || 0,
+    facilitation_strategies: teamFormation?.facilitation_strategies || [],
+    conflicts_identified: teamFormation?.potential_conflicts?.length || 0,
     duration_hours,
     created_at: new Date().toISOString()
   };

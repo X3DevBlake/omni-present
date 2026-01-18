@@ -69,30 +69,30 @@ export default async function microservicesOrchestrator(data, context) {
             }
           }
         });
-        result = prediction;
+        result = prediction || { trend: 'unknown', confidence: 0 };
       }
       break;
       
     case 'simulation_engine':
       if (action === 'run') {
         const simulation = await context.entities.SimulationScenario.create({
-          scenario_name: payload.name || 'Microservice Simulation',
-          agent_count: payload.agent_count || 5,
+          scenario_name: payload?.name || 'Microservice Simulation',
+          agent_count: payload?.agent_count || 5,
           status: 'running'
         });
-        result = { simulation_id: simulation.id, status: 'started' };
+        result = { simulation_id: simulation?.id, status: 'started' };
       }
       break;
       
     case 'governance':
       if (action === 'propose') {
         const proposal = await context.entities.DAOProposal.create({
-          title: payload.title,
-          description: payload.description,
+          title: payload?.title || 'New Proposal',
+          description: payload?.description || '',
           proposal_type: 'platform_upgrade',
           status: 'active'
         });
-        result = { proposal_id: proposal.id };
+        result = { proposal_id: proposal?.id };
       }
       break;
       

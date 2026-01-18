@@ -75,35 +75,37 @@ Based on this data:
     }
   });
   
-  const newAutonomyLevel = Math.min(100, (currentAgent.autonomous_level || 50) + learningAnalysis.predicted_performance_gain);
+  const newAutonomyLevel = Math.min(100, (currentAgent.autonomous_level || 50) + (learningAnalysis?.predicted_performance_gain || 0));
   
   await context.entities.Agent.update(agent_id, {
     autonomous_level: newAutonomyLevel,
     last_training: new Date().toISOString()
   });
   
-  for (const skill of learningAnalysis.new_skills.slice(0, 3)) {
-    await context.entities.AgentSkill.create({
-      agent_id: agent_id,
-      skill_name: skill.skill_name,
-      proficiency_level: 1,
-      category: 'learned',
-      is_active: true
-    });
+  for (const skill of (learningAnalysis?.new_skills || []).slice(0, 3)) {
+    if (skill?.skill_name) {
+      await context.entities.AgentSkill.create({
+        agent_id: agent_id,
+        skill_name: skill.skill_name,
+        proficiency_level: 1,
+        category: 'learned',
+        is_active: true
+      });
+    }
   }
   
   await context.entities.TrainingProgress.create({
     agent_id: agent_id,
     training_type: training_mode,
     progress_percentage: 100,
-    insights_gained: learningAnalysis.success_patterns,
-    performance_improvement: learningAnalysis.predicted_performance_gain,
+    insights_gained: learningAnalysis?.success_patterns || [],
+    performance_improvement: learningAnalysis?.predicted_performance_gain || 0,
     status: 'completed'
   });
   
-  const emergentCapabilities = learningAnalysis.behavioral_adjustments
-    .filter(adj => adj.expected_improvement > 15)
-    .map(adj => adj.recommended_behavior);
+  const emergentCapabilities = (learningAnalysis?.behavioral_adjustments || [])
+    .filter(adj => adj?.expected_improvement > 15)
+    .map(adj => adj?.recommended_behavior);
   
   return {
     agent_id,
@@ -114,7 +116,7 @@ Based on this data:
       new: newAutonomyLevel,
       improvement: newAutonomyLevel - (currentAgent.autonomous_level || 50)
     },
-    skills_acquired: learningAnalysis.new_skills.length,
+    skills_acquired: learningAnalysis?.new_skills?.length || 0,
     emergent_capabilities: emergentCapabilities,
     next_training_recommended: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()
   };

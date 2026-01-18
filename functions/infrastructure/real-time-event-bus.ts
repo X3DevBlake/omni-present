@@ -28,12 +28,12 @@ export default async function realTimeEventBus(data, context) {
   
   if (category === 'alert') {
     await context.entities.ProactiveAlert.create({
-      alert_type: event_data.alert_type || 'system_warning',
-      severity: event_data.severity || 'medium',
+      alert_type: event_data?.alert_type || 'system_warning',
+      severity: event_data?.severity || 'medium',
       title: event_type,
       description: JSON.stringify(event_data),
       status: 'active',
-      confidence_score: event_data.confidence || 80
+      confidence_score: event_data?.confidence || 80
     });
   }
   
@@ -43,13 +43,15 @@ export default async function realTimeEventBus(data, context) {
     });
     
     for (const agent of relatedAgents) {
-      await context.entities.AgentInteractionLog.create({
-        agent_id: agent.id,
-        interaction_type: event_type,
-        target_id: event_data.target_id || null,
-        outcome: 'event_received',
-        metadata: { event_id: event.id }
-      });
+      if (agent?.id) {
+        await context.entities.AgentInteractionLog.create({
+          agent_id: agent.id,
+          interaction_type: event_type,
+          target_id: event_data?.target_id || null,
+          outcome: 'event_received',
+          metadata: { event_id: event.id }
+        });
+      }
     }
   }
   
@@ -79,7 +81,7 @@ Determine:
   return {
     event,
     priority,
-    processing_result,
+    processing_result: processing_result || {},
     dispatched: true,
     subscriber_count: subscribers.length || 'broadcast'
   };
