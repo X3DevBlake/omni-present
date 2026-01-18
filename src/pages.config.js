@@ -267,6 +267,7 @@ import WithdrawOmni from './pages/WithdrawOmni';
 import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import World from './pages/World';
 import DashboardHome from './pages/DashboardHome';
+import EcosystemDashboard from './pages/EcosystemDashboard';
 import __Layout from './Layout.jsx';
 
 
@@ -540,6 +541,7 @@ export const PAGES = {
     "WorkflowAutomationHub": WorkflowAutomationHub,
     "World": World,
     "DashboardHome": DashboardHome,
+    "EcosystemDashboard": EcosystemDashboard,
 }
 
 export const pagesConfig = {
