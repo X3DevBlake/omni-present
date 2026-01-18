@@ -12,9 +12,13 @@ import CollaborationWorkingGroupsPanel from '../components/collaboration/Collabo
 import CollaborationTasksPanel from '../components/collaboration/CollaborationTasksPanel';
 import SharedInsightsPanel from '../components/collaboration/SharedInsightsPanel';
 import CollaborationVisualization from '../components/collaboration/CollaborationVisualization';
+import CollaborationChat from '../components/collaboration/CollaborationChat';
+import TaskDependencyBuilder from '../components/collaboration/TaskDependencyBuilder';
+import AIInsightSuggestions from '../components/collaboration/AIInsightSuggestions';
 
 export default function AgentCollaborationDashboard() {
   const [selectedGroup, setSelectedGroup] = useState(null);
+  const [selectedTask, setSelectedTask] = useState(null);
   const [showCreateGroup, setShowCreateGroup] = useState(false);
 
   const { data: workingGroups = [] } = useQuery({
@@ -83,6 +87,7 @@ export default function AgentCollaborationDashboard() {
             <TabsTrigger value="visualization">Collaboration Network</TabsTrigger>
             <TabsTrigger value="groups">Working Groups</TabsTrigger>
             <TabsTrigger value="tasks">Collaborative Tasks</TabsTrigger>
+            <TabsTrigger value="chat">Chat & Dependencies</TabsTrigger>
             <TabsTrigger value="insights">Shared Insights</TabsTrigger>
           </TabsList>
 
@@ -116,7 +121,43 @@ export default function AgentCollaborationDashboard() {
 
           {/* Tasks Tab */}
           <TabsContent value="tasks">
-            <CollaborationTasksPanel tasks={collaborationTasks} groups={workingGroups} />
+            <CollaborationTasksPanel 
+              tasks={collaborationTasks} 
+              groups={workingGroups}
+              onSelectTask={setSelectedTask}
+            />
+          </TabsContent>
+
+          {/* Chat & Dependencies Tab */}
+          <TabsContent value="chat" className="space-y-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {selectedTask ? (
+                <>
+                  <div className="lg:col-span-2">
+                    <CollaborationChat 
+                      taskId={selectedTask.id}
+                      groupId={selectedTask.working_group_id}
+                      title={`Chat: ${selectedTask.task_name}`}
+                    />
+                  </div>
+                  <div>
+                    <AIInsightSuggestions 
+                      taskContext={selectedTask}
+                      groupContext={selectedGroup}
+                      onApply={(suggestion) => console.log('Applied:', suggestion)}
+                    />
+                  </div>
+                </>
+              ) : (
+                <div className="lg:col-span-3 p-8 text-center text-slate-400">
+                  Select a task from the Collaborative Tasks tab to start chatting
+                </div>
+              )}
+            </div>
+            <TaskDependencyBuilder 
+              tasks={collaborationTasks} 
+              onDependencyCreate={() => console.log('Dependency created')}
+            />
           </TabsContent>
 
           {/* Insights Tab */}
