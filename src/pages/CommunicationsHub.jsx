@@ -10,6 +10,7 @@ import VoiceIntegration from '../components/communications/VoiceIntegration';
 import AgentMarketplaceHub from '../components/marketplace/AgentMarketplaceHub';
 import ProactiveAgentSystem from '../components/communications/ProactiveAgentSystem';
 import SuggestedActionsPanel from '../components/communications/SuggestedActionsPanel';
+import AgentLearningSystem from '../components/communications/AgentLearningSystem';
 
 export default function CommunicationsHub() {
   const [activeTab, setActiveTab] = useState('overview');
@@ -61,6 +62,7 @@ export default function CommunicationsHub() {
           <TabsList className="bg-black/40 border border-white/10">
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="proactive">Proactive Agents</TabsTrigger>
+            <TabsTrigger value="learning">RL Learning</TabsTrigger>
             <TabsTrigger value="chat">Real-time Chat</TabsTrigger>
             <TabsTrigger value="voice">Voice Commands</TabsTrigger>
             <TabsTrigger value="marketplace">Agent Marketplace</TabsTrigger>
@@ -128,6 +130,11 @@ export default function CommunicationsHub() {
               <ProactiveAgentSystem />
               <SuggestedActionsPanel />
             </div>
+          </TabsContent>
+
+          {/* Learning Tab */}
+          <TabsContent value="learning">
+            <AgentLearningSystem />
           </TabsContent>
 
           {/* Chat Tab */}
