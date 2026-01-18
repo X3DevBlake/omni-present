@@ -262,6 +262,7 @@ import WebhooksHub from './pages/WebhooksHub';
 import WithdrawOmni from './pages/WithdrawOmni';
 import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import World from './pages/World';
+import Phase1Dashboard from './pages/Phase1Dashboard';
 import __Layout from './Layout.jsx';
 
 
@@ -530,6 +531,7 @@ export const PAGES = {
     "WithdrawOmni": WithdrawOmni,
     "WorkflowAutomationHub": WorkflowAutomationHub,
     "World": World,
+    "Phase1Dashboard": Phase1Dashboard,
 }
 
 export const pagesConfig = {
