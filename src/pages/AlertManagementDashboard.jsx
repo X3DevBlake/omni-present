@@ -18,6 +18,7 @@ import AlertReportGenerator from '../components/alerts/AlertReportGenerator';
 
 export default function AlertManagementDashboard() {
   const [showCreateRule, setShowCreateRule] = useState(false);
+  const [selectedRuleId, setSelectedRuleId] = useState(null);
 
   const { data: alertRules = [] } = useQuery({
     queryKey: ['alertRules'],
@@ -79,10 +80,14 @@ export default function AlertManagementDashboard() {
 
         {/* Main Tabs */}
         <Tabs defaultValue="active" className="space-y-6">
-          <TabsList className="bg-black/40 border border-white/10">
+          <TabsList className="bg-black/40 border border-white/10 flex flex-wrap">
             <TabsTrigger value="active">Active Alerts</TabsTrigger>
+            <TabsTrigger value="analytics">Analytics & Trends</TabsTrigger>
             <TabsTrigger value="rules">Alert Rules</TabsTrigger>
-            <TabsTrigger value="channels">Notification Channels</TabsTrigger>
+            <TabsTrigger value="ml">ML Anomaly</TabsTrigger>
+            <TabsTrigger value="rootcause">Root Cause</TabsTrigger>
+            <TabsTrigger value="reports">Reports</TabsTrigger>
+            <TabsTrigger value="channels">Channels</TabsTrigger>
             <TabsTrigger value="history">History</TabsTrigger>
           </TabsList>
 
@@ -129,6 +134,11 @@ export default function AlertManagementDashboard() {
             </Card>
           </TabsContent>
 
+          {/* Analytics Tab */}
+          <TabsContent value="analytics">
+            <AlertTrendsAnalytics />
+          </TabsContent>
+
           {/* Rules Tab */}
           <TabsContent value="rules">
             <div className="flex justify-end mb-4">
@@ -137,7 +147,22 @@ export default function AlertManagementDashboard() {
                 Create Alert Rule
               </Button>
             </div>
-            <AlertRulesPanel rules={alertRules} />
+            <AlertRulesPanel rules={alertRules} onSelectRule={setSelectedRuleId} />
+          </TabsContent>
+
+          {/* ML Anomaly Detection Tab */}
+          <TabsContent value="ml">
+            <MLAnomalyRuleBuilder onRuleCreate={() => console.log('ML rule created')} />
+          </TabsContent>
+
+          {/* Root Cause Analysis Tab */}
+          <TabsContent value="rootcause">
+            <RootCauseAnalyzer selectedRuleId={selectedRuleId} />
+          </TabsContent>
+
+          {/* Reports Tab */}
+          <TabsContent value="reports">
+            <AlertReportGenerator />
           </TabsContent>
 
           {/* Channels Tab */}
