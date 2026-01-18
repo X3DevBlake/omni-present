@@ -60,7 +60,7 @@ Determine:
   
   const syncedKnowledge = [];
   
-  for (const shareEntry of syncAnalysis.knowledge_to_share.slice(0, 5)) {
+  for (const shareEntry of (syncAnalysis?.knowledge_to_share || []).slice(0, 5)) {
     const relevantKnowledge = localKnowledge
       .filter(k => knowledge_domains.length === 0 || knowledge_domains.includes(k?.domain || shareEntry.domain))
       .slice(0, shareEntry.entries_count || 1);
@@ -78,7 +78,7 @@ Determine:
   }
   
   const receivedKnowledge = [];
-  for (const requestEntry of syncAnalysis.knowledge_to_request.slice(0, 3)) {
+  for (const requestEntry of (syncAnalysis?.knowledge_to_request || []).slice(0, 3)) {
     if (requestEntry && requestEntry.domain) {
       await context.entities.SharedKnowledge.create({
         domain: requestEntry.domain,
@@ -107,7 +107,7 @@ Determine:
     }),
     connections: knowledgeNodes.map(n => n.node_id),
     metadata: {
-      sync_quality: syncAnalysis.sync_quality_score,
+      sync_quality: syncAnalysis?.sync_quality_score || 0,
       privacy_level
     }
   });
@@ -117,10 +117,10 @@ Determine:
     knowledge_shared: syncedKnowledge.length,
     knowledge_received: receivedKnowledge.length,
     nodes_participated: knowledgeNodes.length,
-    bandwidth_used_mb: syncAnalysis.estimated_bandwidth_mb,
-    sync_quality_score: syncAnalysis.sync_quality_score,
-    privacy_technique: syncAnalysis.privacy_technique,
-    conflict_resolution: syncAnalysis.conflict_resolution,
+    bandwidth_used_mb: syncAnalysis?.estimated_bandwidth_mb || 0,
+    sync_quality_score: syncAnalysis?.sync_quality_score || 0,
+    privacy_technique: syncAnalysis?.privacy_technique || 'none',
+    conflict_resolution: syncAnalysis?.conflict_resolution || 'latest',
     shared_entries: syncedKnowledge,
     received_entries: receivedKnowledge,
     sync_timestamp: new Date().toISOString()
