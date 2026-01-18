@@ -2,9 +2,8 @@ export default async function collaborativeKnowledgeBuilder(data, context) {
   const { contributing_agent_ids, knowledge_topic, knowledge_content, contribution_type = 'addition' } = data;
   
   const agents = await Promise.all(contributing_agent_ids.map(id => context.entities.Agent.get(id)));
-  const existingKnowledge = await context.entities.SharedKnowledge.filter({
-    knowledge_topic
-  }).sort('-created_date').limit(1);
+  const existingKnowledge = await context.entities.SharedKnowledge.list('-created_date', 50);
+  const filteredKnowledge = existingKnowledge.filter(k => k?.title === knowledge_topic || k?.domain === knowledge_topic).slice(0, 1);
   
   const knowledgeValidation = await context.integrations.Core.InvokeLLM({
     prompt: `Validate and integrate collaborative knowledge contribution:
@@ -15,7 +14,7 @@ Contributing Agents: ${agents.map(a => a.name).join(', ')}
 
 New Content: ${JSON.stringify(knowledge_content)}
 
-${existingKnowledge.length > 0 ? `Existing Knowledge: ${existingKnowledge[0].knowledge_content}` : 'No existing knowledge'}
+${filteredKnowledge.length > 0 ? `Existing Knowledge: ${filteredKnowledge[0]?.content || ''}` : 'No existing knowledge'}
 
 Validate:
 1. Accuracy and reliability
@@ -41,24 +40,19 @@ Validate:
   let sharedKnowledge;
   
   if (knowledgeValidation.validation_status === 'approved' || knowledgeValidation.validation_status === 'merge_required') {
-    if (existingKnowledge.length > 0) {
-      sharedKnowledge = await context.entities.SharedKnowledge.update(existingKnowledge[0].id, {
-        knowledge_content: knowledgeValidation.merged_content,
-        agent_ids: [...new Set([...existingKnowledge[0].agent_ids, ...contributing_agent_ids])],
-        contribution_count: (existingKnowledge[0].contribution_count || 0) + 1,
-        quality_score: knowledgeValidation.quality_score,
-        last_updated_by: contributing_agent_ids[0],
-        version: (existingKnowledge[0].version || 1) + 1
+    if (filteredKnowledge.length > 0) {
+      sharedKnowledge = await context.entities.SharedKnowledge.update(filteredKnowledge[0].id, {
+        content: JSON.stringify(knowledgeValidation.merged_content),
+        title: knowledge_topic,
+        knowledge_type: 'synthesis',
+        publisher_agent_id: contributing_agent_ids[0]
       });
     } else {
       sharedKnowledge = await context.entities.SharedKnowledge.create({
-        knowledge_topic,
-        knowledge_content: knowledgeValidation.merged_content,
-        agent_ids: contributing_agent_ids,
-        contribution_count: 1,
-        quality_score: knowledgeValidation.quality_score,
-        created_by_agent: contributing_agent_ids[0],
-        version: 1
+        title: knowledge_topic,
+        content: JSON.stringify(knowledgeValidation.merged_content),
+        knowledge_type: 'synthesis',
+        publisher_agent_id: contributing_agent_ids[0]
       });
     }
     
@@ -72,11 +66,11 @@ Validate:
     }
     
     await context.entities.KnowledgeInsight.create({
-      insight_type: 'collaborative_contribution',
-      topic: knowledge_topic,
-      contributing_agents: agents.map(a => a.name),
-      insight_content: `${agents.length} agents collaboratively built knowledge on ${knowledge_topic}`,
-      quality_score: knowledgeValidation.quality_score
+      title: `Collaborative Knowledge: ${knowledge_topic}`,
+      description: `${agents.length} agents collaboratively built knowledge on ${knowledge_topic}`,
+      insight_type: 'synthesis',
+      contributing_agents: contributing_agent_ids,
+      confidence_score: knowledgeValidation.quality_score || 50
     });
   }
   
