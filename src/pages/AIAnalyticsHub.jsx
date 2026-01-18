@@ -34,7 +34,7 @@ export default function AIAnalyticsHub() {
   React.useEffect(() => {
     const timer = setTimeout(() => {
       setLoadedSections(prev => ({ ...prev, enhanced: true }));
-    }, 1000);
+    }, 2000);
     return () => clearTimeout(timer);
   }, []);
 
