@@ -273,6 +273,9 @@ import WithdrawOmni from './pages/WithdrawOmni';
 import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import World from './pages/World';
 import IntelligenceDashboard from './pages/IntelligenceDashboard';
+import AgentCollaborationDashboard from './pages/AgentCollaborationDashboard';
+import AlertManagementDashboard from './pages/AlertManagementDashboard';
+import UserRoleManagement from './pages/UserRoleManagement';
 import __Layout from './Layout.jsx';
 
 
@@ -552,6 +555,9 @@ export const PAGES = {
     "WorkflowAutomationHub": WorkflowAutomationHub,
     "World": World,
     "IntelligenceDashboard": IntelligenceDashboard,
+    "AgentCollaborationDashboard": AgentCollaborationDashboard,
+    "AlertManagementDashboard": AlertManagementDashboard,
+    "UserRoleManagement": UserRoleManagement,
 }
 
 export const pagesConfig = {
