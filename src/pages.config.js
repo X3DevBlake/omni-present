@@ -29,6 +29,7 @@ import AgentAutonomy from './pages/AgentAutonomy';
 import AgentAutonomyDashboard from './pages/AgentAutonomyDashboard';
 import AgentBudget from './pages/AgentBudget';
 import AgentCardSettings from './pages/AgentCardSettings';
+import AgentCollaborationDashboard from './pages/AgentCollaborationDashboard';
 import AgentCustomization from './pages/AgentCustomization';
 import AgentCustomizationStudio from './pages/AgentCustomizationStudio';
 import AgentDebugger from './pages/AgentDebugger';
@@ -53,6 +54,7 @@ import AgentSpending from './pages/AgentSpending';
 import AgentTraining from './pages/AgentTraining';
 import AgentTrainingCenter from './pages/AgentTrainingCenter';
 import AgentVideoInterface from './pages/AgentVideoInterface';
+import AlertManagementDashboard from './pages/AlertManagementDashboard';
 import Analytics from './pages/Analytics';
 import Architecture from './pages/Architecture';
 import AssetBrowser from './pages/AssetBrowser';
@@ -171,6 +173,7 @@ import IntegrationHub from './pages/IntegrationHub';
 import IntegrationStore from './pages/IntegrationStore';
 import Integrations from './pages/Integrations';
 import IntegrationsHub from './pages/IntegrationsHub';
+import IntelligenceDashboard from './pages/IntelligenceDashboard';
 import InvestmentStrategyHub from './pages/InvestmentStrategyHub';
 import IoTDeviceControl from './pages/IoTDeviceControl';
 import Labs from './pages/Labs';
@@ -222,16 +225,16 @@ import PortfolioRebalancer from './pages/PortfolioRebalancer';
 import PredictiveAnalyticsHub from './pages/PredictiveAnalyticsHub';
 import PressReleases from './pages/PressReleases';
 import Privacy from './pages/Privacy';
-import ProactiveMonitoring from './pages/ProactiveMonitoring';
 import Profile from './pages/Profile';
+import ProactiveMonitoring from './pages/ProactiveMonitoring';
 import ProfileHome from './pages/ProfileHome';
 import RealWorldBudget from './pages/RealWorldBudget';
-import Roadmap from './pages/Roadmap';
 import RealtimeDashboard from './pages/RealtimeDashboard';
 import ReferralProgram from './pages/ReferralProgram';
 import RepairRequest from './pages/RepairRequest';
 import ReportingAnalytics from './pages/ReportingAnalytics';
 import ResourceLibrary from './pages/ResourceLibrary';
+import Roadmap from './pages/Roadmap';
 import SDKsLibraries from './pages/SDKsLibraries';
 import SandboxEnvironment from './pages/SandboxEnvironment';
 import SandboxHub from './pages/SandboxHub';
@@ -263,6 +266,7 @@ import UnifiedCommunicationHub from './pages/UnifiedCommunicationHub';
 import UnifiedConversationHub from './pages/UnifiedConversationHub';
 import UnifiedVoicePlatform from './pages/UnifiedVoicePlatform';
 import UpgradeTracker from './pages/UpgradeTracker';
+import UserRoleManagement from './pages/UserRoleManagement';
 import UserRolesPermissions from './pages/UserRolesPermissions';
 import VirtualClassrooms from './pages/VirtualClassrooms';
 import Wallet from './pages/Wallet';
@@ -272,10 +276,6 @@ import WebhooksHub from './pages/WebhooksHub';
 import WithdrawOmni from './pages/WithdrawOmni';
 import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import World from './pages/World';
-import IntelligenceDashboard from './pages/IntelligenceDashboard';
-import AgentCollaborationDashboard from './pages/AgentCollaborationDashboard';
-import AlertManagementDashboard from './pages/AlertManagementDashboard';
-import UserRoleManagement from './pages/UserRoleManagement';
 import __Layout from './Layout.jsx';
 
 
@@ -311,6 +311,7 @@ export const PAGES = {
     "AgentAutonomyDashboard": AgentAutonomyDashboard,
     "AgentBudget": AgentBudget,
     "AgentCardSettings": AgentCardSettings,
+    "AgentCollaborationDashboard": AgentCollaborationDashboard,
     "AgentCustomization": AgentCustomization,
     "AgentCustomizationStudio": AgentCustomizationStudio,
     "AgentDebugger": AgentDebugger,
@@ -335,6 +336,7 @@ export const PAGES = {
     "AgentTraining": AgentTraining,
     "AgentTrainingCenter": AgentTrainingCenter,
     "AgentVideoInterface": AgentVideoInterface,
+    "AlertManagementDashboard": AlertManagementDashboard,
     "Analytics": Analytics,
     "Architecture": Architecture,
     "AssetBrowser": AssetBrowser,
@@ -453,6 +455,7 @@ export const PAGES = {
     "IntegrationStore": IntegrationStore,
     "Integrations": Integrations,
     "IntegrationsHub": IntegrationsHub,
+    "IntelligenceDashboard": IntelligenceDashboard,
     "InvestmentStrategyHub": InvestmentStrategyHub,
     "IoTDeviceControl": IoTDeviceControl,
     "Labs": Labs,
@@ -504,16 +507,16 @@ export const PAGES = {
     "PredictiveAnalyticsHub": PredictiveAnalyticsHub,
     "PressReleases": PressReleases,
     "Privacy": Privacy,
-    "ProactiveMonitoring": ProactiveMonitoring,
     "Profile": Profile,
+    "ProactiveMonitoring": ProactiveMonitoring,
     "ProfileHome": ProfileHome,
     "RealWorldBudget": RealWorldBudget,
-    "Roadmap": Roadmap,
     "RealtimeDashboard": RealtimeDashboard,
     "ReferralProgram": ReferralProgram,
     "RepairRequest": RepairRequest,
     "ReportingAnalytics": ReportingAnalytics,
     "ResourceLibrary": ResourceLibrary,
+    "Roadmap": Roadmap,
     "SDKsLibraries": SDKsLibraries,
     "SandboxEnvironment": SandboxEnvironment,
     "SandboxHub": SandboxHub,
@@ -545,6 +548,7 @@ export const PAGES = {
     "UnifiedConversationHub": UnifiedConversationHub,
     "UnifiedVoicePlatform": UnifiedVoicePlatform,
     "UpgradeTracker": UpgradeTracker,
+    "UserRoleManagement": UserRoleManagement,
     "UserRolesPermissions": UserRolesPermissions,
     "VirtualClassrooms": VirtualClassrooms,
     "Wallet": Wallet,
@@ -554,10 +558,6 @@ export const PAGES = {
     "WithdrawOmni": WithdrawOmni,
     "WorkflowAutomationHub": WorkflowAutomationHub,
     "World": World,
-    "IntelligenceDashboard": IntelligenceDashboard,
-    "AgentCollaborationDashboard": AgentCollaborationDashboard,
-    "AlertManagementDashboard": AlertManagementDashboard,
-    "UserRoleManagement": UserRoleManagement,
 }
 
 export const pagesConfig = {
