@@ -202,6 +202,7 @@ import OrgSettings from './pages/OrgSettings';
 import Partnerships from './pages/Partnerships';
 import PaymentHistory from './pages/PaymentHistory';
 import Phase10AdvancedAutonomy from './pages/Phase10AdvancedAutonomy';
+import Phase1Dashboard from './pages/Phase1Dashboard';
 import Phase4ImmersiveUI from './pages/Phase4ImmersiveUI';
 import Phase6AgentCognition from './pages/Phase6AgentCognition';
 import Phase7IntegrationHub from './pages/Phase7IntegrationHub';
@@ -225,9 +226,9 @@ import Roadmap from './pages/Roadmap';
 import SDKsLibraries from './pages/SDKsLibraries';
 import SandboxEnvironment from './pages/SandboxEnvironment';
 import SandboxHub from './pages/SandboxHub';
+import Security from './pages/Security';
 import SandboxSimulationHub from './pages/SandboxSimulationHub';
 import ScenarioTesting from './pages/ScenarioTesting';
-import Security from './pages/Security';
 import SellOmni from './pages/SellOmni';
 import SensorDataAnalysis from './pages/SensorDataAnalysis';
 import ServiceProviders from './pages/ServiceProviders';
@@ -262,7 +263,7 @@ import WebhooksHub from './pages/WebhooksHub';
 import WithdrawOmni from './pages/WithdrawOmni';
 import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import World from './pages/World';
-import Phase1Dashboard from './pages/Phase1Dashboard';
+import Phase2Dashboard from './pages/Phase2Dashboard';
 import __Layout from './Layout.jsx';
 
 
@@ -471,6 +472,7 @@ export const PAGES = {
     "Partnerships": Partnerships,
     "PaymentHistory": PaymentHistory,
     "Phase10AdvancedAutonomy": Phase10AdvancedAutonomy,
+    "Phase1Dashboard": Phase1Dashboard,
     "Phase4ImmersiveUI": Phase4ImmersiveUI,
     "Phase6AgentCognition": Phase6AgentCognition,
     "Phase7IntegrationHub": Phase7IntegrationHub,
@@ -494,9 +496,9 @@ export const PAGES = {
     "SDKsLibraries": SDKsLibraries,
     "SandboxEnvironment": SandboxEnvironment,
     "SandboxHub": SandboxHub,
+    "Security": Security,
     "SandboxSimulationHub": SandboxSimulationHub,
     "ScenarioTesting": ScenarioTesting,
-    "Security": Security,
     "SellOmni": SellOmni,
     "SensorDataAnalysis": SensorDataAnalysis,
     "ServiceProviders": ServiceProviders,
@@ -531,7 +533,7 @@ export const PAGES = {
     "WithdrawOmni": WithdrawOmni,
     "WorkflowAutomationHub": WorkflowAutomationHub,
     "World": World,
-    "Phase1Dashboard": Phase1Dashboard,
+    "Phase2Dashboard": Phase2Dashboard,
 }
 
 export const pagesConfig = {
