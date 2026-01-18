@@ -273,6 +273,7 @@ import WithdrawOmni from './pages/WithdrawOmni';
 import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import World from './pages/World';
 import IntelligenceDashboard from './pages/IntelligenceDashboard';
+import OmniTokenomics from './pages/OmniTokenomics';
 import __Layout from './Layout.jsx';
 
 
@@ -552,6 +553,7 @@ export const PAGES = {
     "WorkflowAutomationHub": WorkflowAutomationHub,
     "World": World,
     "IntelligenceDashboard": IntelligenceDashboard,
+    "OmniTokenomics": OmniTokenomics,
 }
 
 export const pagesConfig = {
