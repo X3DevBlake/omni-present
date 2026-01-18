@@ -10,10 +10,7 @@ export default function PersonalizedContentFeed() {
   const { data: insights, isLoading } = useQuery({
     queryKey: ['personalized-insights'],
     queryFn: async () => {
-      const agents = await base44.entities.Agent.list();
-      const agentKPIs = await base44.entities.AgentKPI.list();
-      
-      // Generate personalized insights
+      // Generate personalized insights without fetching
       return [
         {
           type: 'trend',
@@ -45,7 +42,9 @@ export default function PersonalizedContentFeed() {
         }
       ];
     },
-    refetchInterval: 60000
+    staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
+    refetchInterval: 5 * 60 * 1000
   });
 
   if (isLoading) return <div>Loading personalized insights...</div>;
