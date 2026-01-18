@@ -268,6 +268,7 @@ import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import World from './pages/World';
 import DashboardHome from './pages/DashboardHome';
 import EcosystemDashboard from './pages/EcosystemDashboard';
+import CommunityHub from './pages/CommunityHub';
 import __Layout from './Layout.jsx';
 
 
@@ -542,6 +543,7 @@ export const PAGES = {
     "World": World,
     "DashboardHome": DashboardHome,
     "EcosystemDashboard": EcosystemDashboard,
+    "CommunityHub": CommunityHub,
 }
 
 export const pagesConfig = {
