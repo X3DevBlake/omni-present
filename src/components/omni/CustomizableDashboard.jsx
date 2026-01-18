@@ -55,19 +55,19 @@ export default function CustomizableDashboard({ userRole, onClose }) {
 
         <DragDropContext onDragEnd={handleDragEnd}>
           <Droppable droppableId="widgets">
-            {(provided) => (
-              <div {...provided?.droppableProps} ref={provided?.innerRef} className="space-y-3">
+            {(provided = {}) => (
+              <div {...(provided.droppableProps || {})} ref={provided.innerRef || null} className="space-y-3">
                 {widgets.map((widget, index) => {
                   const Icon = widget.icon;
                   return (
                     <Draggable key={widget.id} draggableId={widget.id} index={index}>
-                      {(provided, snapshot) => (
+                      {(provided = {}, snapshot = {}) => (
                         <div
-                          ref={provided?.innerRef}
-                          {...provided?.draggableProps}
-                          {...provided?.dragHandleProps}
+                          ref={provided.innerRef || null}
+                          {...(provided.draggableProps || {})}
+                          {...(provided.dragHandleProps || {})}
                           className={`p-4 rounded-xl border transition-all ${
-                            snapshot?.isDragging 
+                            snapshot.isDragging 
                               ? 'bg-cyan-500/20 border-cyan-500/40' 
                               : 'bg-white/5 border-white/10'
                           }`}
@@ -95,7 +95,7 @@ export default function CustomizableDashboard({ userRole, onClose }) {
                     </Draggable>
                   );
                 })}
-                {provided?.placeholder}
+                {provided.placeholder || null}
               </div>
             )}
           </Droppable>
