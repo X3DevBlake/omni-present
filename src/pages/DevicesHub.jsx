@@ -180,6 +180,11 @@ export default function DevicesHub() {
           <TabsContent value="telemetry">
             <EnhancedTelemetryStream />
           </TabsContent>
+
+          {/* Maintenance Tab */}
+          <TabsContent value="maintenance">
+            <PredictiveMaintenanceSystem />
+          </TabsContent>
         </Tabs>
       </div>
     </AuroraBackground>
