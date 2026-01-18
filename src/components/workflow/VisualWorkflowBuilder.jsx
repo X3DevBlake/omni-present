@@ -157,8 +157,6 @@ export default function VisualWorkflowBuilder() {
           {nodes.map(node => (
             <motion.div
               key={node.id}
-              drag
-              dragMomentum={false}
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               style={{ 
