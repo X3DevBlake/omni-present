@@ -1,4 +1,5 @@
 import AIAnalyticsHub from './pages/AIAnalyticsHub';
+import AICollaborationHub from './pages/AICollaborationHub';
 import AILab from './pages/AILab';
 import AIManagement from './pages/AIManagement';
 import AIModelDeployment from './pages/AIModelDeployment';
@@ -24,6 +25,7 @@ import AdvancedWebhooks from './pages/AdvancedWebhooks';
 import Agent from './pages/Agent';
 import AgentAudio from './pages/AgentAudio';
 import AgentAutonomy from './pages/AgentAutonomy';
+import AgentAutonomyDashboard from './pages/AgentAutonomyDashboard';
 import AgentBudget from './pages/AgentBudget';
 import AgentCardSettings from './pages/AgentCardSettings';
 import AgentCustomization from './pages/AgentCustomization';
@@ -101,6 +103,7 @@ import DeFiAutonomousPhase3 from './pages/DeFiAutonomousPhase3';
 import DeFiCorePhase2 from './pages/DeFiCorePhase2';
 import DeFiGovernancePhase5 from './pages/DeFiGovernancePhase5';
 import DeFiHub from './pages/DeFiHub';
+import DeFiRiskManagementSuite from './pages/DeFiRiskManagementSuite';
 import DecentralizedNetwork from './pages/DecentralizedNetwork';
 import DeepLearningPlatform from './pages/DeepLearningPlatform';
 import DeploymentReadiness from './pages/DeploymentReadiness';
@@ -110,7 +113,6 @@ import DepositUSDT from './pages/DepositUSDT';
 import DeveloperHome from './pages/DeveloperHome';
 import DeviceHealth from './pages/DeviceHealth';
 import DeviceHome from './pages/DeviceHome';
-import FAQ from './pages/FAQ';
 import DeviceIntegrationHub from './pages/DeviceIntegrationHub';
 import DeviceInteraction from './pages/DeviceInteraction';
 import DeviceMarketplace from './pages/DeviceMarketplace';
@@ -139,6 +141,7 @@ import EventsCalendar from './pages/EventsCalendar';
 import EvolutionDashboardPage from './pages/EvolutionDashboardPage';
 import ExchangeListings from './pages/ExchangeListings';
 import ExperimentTracking from './pages/ExperimentTracking';
+import FAQ from './pages/FAQ';
 import FeatureDetail from './pages/FeatureDetail';
 import FeatureFlagManager from './pages/FeatureFlagManager';
 import Features from './pages/Features';
@@ -259,14 +262,12 @@ import WebhooksHub from './pages/WebhooksHub';
 import WithdrawOmni from './pages/WithdrawOmni';
 import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import World from './pages/World';
-import AgentAutonomyDashboard from './pages/AgentAutonomyDashboard';
-import AICollaborationHub from './pages/AICollaborationHub';
-import DeFiRiskManagementSuite from './pages/DeFiRiskManagementSuite';
 import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
     "AIAnalyticsHub": AIAnalyticsHub,
+    "AICollaborationHub": AICollaborationHub,
     "AILab": AILab,
     "AIManagement": AIManagement,
     "AIModelDeployment": AIModelDeployment,
@@ -292,6 +293,7 @@ export const PAGES = {
     "Agent": Agent,
     "AgentAudio": AgentAudio,
     "AgentAutonomy": AgentAutonomy,
+    "AgentAutonomyDashboard": AgentAutonomyDashboard,
     "AgentBudget": AgentBudget,
     "AgentCardSettings": AgentCardSettings,
     "AgentCustomization": AgentCustomization,
@@ -369,6 +371,7 @@ export const PAGES = {
     "DeFiCorePhase2": DeFiCorePhase2,
     "DeFiGovernancePhase5": DeFiGovernancePhase5,
     "DeFiHub": DeFiHub,
+    "DeFiRiskManagementSuite": DeFiRiskManagementSuite,
     "DecentralizedNetwork": DecentralizedNetwork,
     "DeepLearningPlatform": DeepLearningPlatform,
     "DeploymentReadiness": DeploymentReadiness,
@@ -378,7 +381,6 @@ export const PAGES = {
     "DeveloperHome": DeveloperHome,
     "DeviceHealth": DeviceHealth,
     "DeviceHome": DeviceHome,
-    "FAQ": FAQ,
     "DeviceIntegrationHub": DeviceIntegrationHub,
     "DeviceInteraction": DeviceInteraction,
     "DeviceMarketplace": DeviceMarketplace,
@@ -407,6 +409,7 @@ export const PAGES = {
     "EvolutionDashboardPage": EvolutionDashboardPage,
     "ExchangeListings": ExchangeListings,
     "ExperimentTracking": ExperimentTracking,
+    "FAQ": FAQ,
     "FeatureDetail": FeatureDetail,
     "FeatureFlagManager": FeatureFlagManager,
     "Features": Features,
@@ -527,9 +530,6 @@ export const PAGES = {
     "WithdrawOmni": WithdrawOmni,
     "WorkflowAutomationHub": WorkflowAutomationHub,
     "World": World,
-    "AgentAutonomyDashboard": AgentAutonomyDashboard,
-    "AICollaborationHub": AICollaborationHub,
-    "DeFiRiskManagementSuite": DeFiRiskManagementSuite,
 }
 
 export const pagesConfig = {
