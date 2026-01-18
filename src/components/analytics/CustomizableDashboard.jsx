@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { BarChart3, TrendingUp, Activity, Users, Settings, Plus } from 'lucide-react';
+import { BarChart3, TrendingUp, Activity, Users, Settings, Plus, X } from 'lucide-react';
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 const WIDGET_TYPES = {
@@ -107,26 +106,7 @@ export default function CustomizableDashboard({ initialWidgets = ['performance',
     ]
   };
 
-  const handleDragEnd = (result) => {
-    // Safe handling of drag end - result might not be defined or might be incomplete
-    try {
-      if (!result) return;
-      if (typeof result !== 'object') return;
 
-      const { source, destination } = result;
-
-      if (!source || !destination) return;
-      if (typeof source.index !== 'number' || typeof destination.index !== 'number') return;
-      if (destination.index === source.index) return;
-
-      const items = Array.from(widgets);
-      const [reorderedItem] = items.splice(source.index, 1);
-      items.splice(destination.index, 0, reorderedItem);
-      setWidgets(items);
-    } catch (error) {
-      console.error('Drag reorder error:', error);
-    }
-  };
 
   const addWidget = (widgetType) => {
     if (!widgets.includes(widgetType)) {
@@ -178,66 +158,34 @@ export default function CustomizableDashboard({ initialWidgets = ['performance',
         </Card>
       )}
 
-      <DragDropContext onDragEnd={handleDragEnd}>
-        <Droppable droppableId="dashboard">
-          {(provided) => {
-            if (!provided || !provided.innerRef || !provided.droppableProps) {
-              console.warn('DnD: Droppable provided props missing');
-              return null;
-            }
-            return (
-            <div
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-              className="grid grid-cols-1 md:grid-cols-2 gap-4"
-            >
-              {widgets.map((widgetKey, index) => {
-                const widget = WIDGET_TYPES[widgetKey];
-                if (!widget) return null;
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {widgets.map((widgetKey) => {
+          const widget = WIDGET_TYPES[widgetKey];
+          if (!widget) return null;
 
-                return (
-                  <Draggable key={widgetKey} draggableId={widgetKey} index={index}>
-                    {(provided, snapshot) => {
-                      if (!provided || !provided.innerRef || !provided.draggableProps) {
-                        console.warn('DnD: Draggable provided props missing');
-                        return null;
-                      }
-                      return (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        className={snapshot?.isDragging ? 'opacity-50' : ''}
-                      >
-                        <Card className="bg-white/5 border-purple-500/20 hover:border-purple-500/40 transition-all">
-                          <CardHeader className="flex flex-row items-center justify-between pb-2">
-                            <CardTitle className="text-white text-sm flex items-center gap-2">
-                              <widget.icon className="w-4 h-4" />
-                              {widget.title}
-                            </CardTitle>
-                            <Button
-                              size="sm"
-                              variant="ghost"
-                              onClick={() => removeWidget(widgetKey)}
-                              className="h-6 w-6 p-0"
-                            >
-                              ×
-                            </Button>
-                          </CardHeader>
-                          <CardContent>
-                            <widget.component data={mockData[widgetKey]} />
-                          </CardContent>
-                        </Card>
-                      </div>
-                    );}}
-                  </Draggable>
-                );
-              })}
-              {provided.placeholder}
-            </div>
-          );}}
-        </Droppable>
-      </DragDropContext>
+          return (
+            <Card key={widgetKey} className="bg-white/5 border-purple-500/20 hover:border-purple-500/40 transition-all">
+              <CardHeader className="flex flex-row items-center justify-between pb-2">
+                <CardTitle className="text-white text-sm flex items-center gap-2">
+                  <widget.icon className="w-4 h-4" />
+                  {widget.title}
+                </CardTitle>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  onClick={() => removeWidget(widgetKey)}
+                  className="h-6 w-6 p-0"
+                >
+                  <X className="w-4 h-4" />
+                </Button>
+              </CardHeader>
+              <CardContent>
+                <widget.component data={mockData[widgetKey]} />
+              </CardContent>
+            </Card>
+          );
+        })}
+      </div>
     </div>
   );
 }
