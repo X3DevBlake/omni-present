@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { Home, Users, TrendingUp, Zap, Settings, Database, Brain, Shield } from 'lucide-react';
+import * as THREE from 'three';
 
 function NavigationNode({ position, label, icon, pageName, color, onHover }) {
   const [hovered, setHovered] = useState(false);

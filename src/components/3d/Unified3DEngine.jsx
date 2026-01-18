@@ -1,6 +1,7 @@
 import React, { Suspense, useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, PerspectiveCamera, Environment, Grid, Sky } from '@react-three/drei';
+import * as THREE from 'three';
 
 export function Scene3D({ children, enablePostProcessing = true, cameraPosition = [0, 5, 10] }) {
   return (
