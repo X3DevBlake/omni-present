@@ -8,20 +8,16 @@ import { motion } from 'framer-motion';
 export default function IntegrationHealthMonitor() {
   const { data: integrations, isLoading } = useQuery({
     queryKey: ['integration-health'],
-    queryFn: async () => {
-      // Simulate integration health checks
-      const mockIntegrations = [
-        { name: 'Salesforce', status: 'healthy', uptime: 99.9, latency: 45 },
-        { name: 'Google Workspace', status: 'healthy', uptime: 99.7, latency: 32 },
-        { name: 'Slack', status: 'warning', uptime: 98.5, latency: 120 },
-        { name: 'Snowflake', status: 'healthy', uptime: 99.8, latency: 55 },
-        { name: 'Stripe', status: 'healthy', uptime: 99.9, latency: 28 },
-        { name: 'Mistral AI', status: 'healthy', uptime: 99.6, latency: 89 }
-      ];
-      
-      return mockIntegrations;
-    },
-    refetchInterval: 30000
+    queryFn: async () => Promise.resolve([
+      { name: 'Salesforce', status: 'healthy', uptime: 99.9, latency: 45 },
+      { name: 'Google Workspace', status: 'healthy', uptime: 99.7, latency: 32 },
+      { name: 'Slack', status: 'warning', uptime: 98.5, latency: 120 },
+      { name: 'Snowflake', status: 'healthy', uptime: 99.8, latency: 55 },
+      { name: 'Stripe', status: 'healthy', uptime: 99.9, latency: 28 },
+      { name: 'Mistral AI', status: 'healthy', uptime: 99.6, latency: 89 }
+    ]),
+    staleTime: Infinity,
+    gcTime: Infinity
   });
 
   const getStatusIcon = (status) => {
