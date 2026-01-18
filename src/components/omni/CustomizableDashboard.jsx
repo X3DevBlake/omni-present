@@ -69,13 +69,23 @@ export default function CustomizableDashboard({ userRole, onClose }) {
 
         <DragDropContext onDragEnd={handleDragEnd}>
           <Droppable droppableId="widgets">
-            {(provided) => provided && provided.innerRef && provided.droppableProps ? (
+            {(provided) => {
+              if (!provided || !provided.innerRef || !provided.droppableProps) {
+                console.warn('DnD: Droppable provided props missing');
+                return null;
+              }
+              return (
               <div {...provided.droppableProps} ref={provided.innerRef} className="space-y-3">
                 {widgets.map((widget, index) => {
                   const Icon = widget.icon;
                   return (
                     <Draggable key={widget.id} draggableId={widget.id} index={index}>
-                      {(provided, snapshot) => provided && provided.innerRef && provided.draggableProps ? (
+                      {(provided, snapshot) => {
+                        if (!provided || !provided.innerRef || !provided.draggableProps) {
+                          console.warn('DnD: Draggable provided props missing');
+                          return null;
+                        }
+                        return (
                         <div
                           ref={provided.innerRef}
                           {...provided.draggableProps}
@@ -105,13 +115,13 @@ export default function CustomizableDashboard({ userRole, onClose }) {
                             </label>
                           </div>
                         </div>
-                      ) : null}
+                      );}}
                     </Draggable>
                   );
                 })}
                 {provided.placeholder}
               </div>
-            ) : null}
+            );}}
           </Droppable>
         </DragDropContext>
 

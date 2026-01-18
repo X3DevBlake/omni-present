@@ -187,7 +187,12 @@ export default function CustomizableDashboard({ initialWidgets = ['performance',
 
       <DragDropContext onDragEnd={handleDragEnd}>
         <Droppable droppableId="dashboard">
-          {(provided) => provided && provided.innerRef && provided.droppableProps ? (
+          {(provided) => {
+            if (!provided || !provided.innerRef || !provided.droppableProps) {
+              console.warn('DnD: Droppable provided props missing');
+              return null;
+            }
+            return (
             <div
               {...provided.droppableProps}
               ref={provided.innerRef}
@@ -199,7 +204,12 @@ export default function CustomizableDashboard({ initialWidgets = ['performance',
 
                 return (
                   <Draggable key={widgetKey} draggableId={widgetKey} index={index}>
-                    {(provided, snapshot) => provided && provided.innerRef && provided.draggableProps ? (
+                    {(provided, snapshot) => {
+                      if (!provided || !provided.innerRef || !provided.draggableProps) {
+                        console.warn('DnD: Draggable provided props missing');
+                        return null;
+                      }
+                      return (
                       <div
                         ref={provided.innerRef}
                         {...provided.draggableProps}
@@ -226,13 +236,13 @@ export default function CustomizableDashboard({ initialWidgets = ['performance',
                           </CardContent>
                         </Card>
                       </div>
-                    ) : null}
+                    );}}
                   </Draggable>
                 );
               })}
               {provided.placeholder}
             </div>
-          ) : null}
+          );}}
         </Droppable>
       </DragDropContext>
     </div>
