@@ -12,7 +12,8 @@ export default function CustomizableDashboard({ userRole, onClose }) {
   ]);
 
   const handleDragEnd = (result) => {
-    if (!result?.destination || !result?.source) return;
+    if (!result || !result.destination || !result.source) return;
+    if (result.destination.index === result.source.index) return;
     
     const items = Array.from(widgets);
     const [reordered] = items.splice(result.source.index, 1);
@@ -51,19 +52,19 @@ export default function CustomizableDashboard({ userRole, onClose }) {
 
         <DragDropContext onDragEnd={handleDragEnd}>
           <Droppable droppableId="widgets">
-            {(provided) => provided ? (
+            {(provided) => provided && provided.innerRef && provided.droppableProps ? (
               <div {...provided.droppableProps} ref={provided.innerRef} className="space-y-3">
                 {widgets.map((widget, index) => {
                   const Icon = widget.icon;
                   return (
                     <Draggable key={widget.id} draggableId={widget.id} index={index}>
-                      {(provided, snapshot) => provided ? (
+                      {(provided, snapshot) => provided && provided.innerRef && provided.draggableProps ? (
                         <div
                           ref={provided.innerRef}
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
                           className={`p-4 rounded-xl border transition-all ${
-                            snapshot.isDragging 
+                            snapshot?.isDragging 
                               ? 'bg-cyan-500/20 border-cyan-500/40' 
                               : 'bg-white/5 border-white/10'
                           }`}

@@ -108,7 +108,8 @@ export default function CustomizableDashboard({ initialWidgets = ['performance',
   };
 
   const handleDragEnd = (result) => {
-    if (!result?.destination || !result?.source) return;
+    if (!result || !result.destination || !result.source) return;
+    if (result.destination.index === result.source.index) return;
 
     const items = Array.from(widgets);
     const [reorderedItem] = items.splice(result.source.index, 1);
@@ -169,7 +170,7 @@ export default function CustomizableDashboard({ initialWidgets = ['performance',
 
       <DragDropContext onDragEnd={handleDragEnd}>
         <Droppable droppableId="dashboard">
-          {(provided) => provided ? (
+          {(provided) => provided && provided.innerRef && provided.droppableProps ? (
             <div
               {...provided.droppableProps}
               ref={provided.innerRef}
@@ -181,12 +182,12 @@ export default function CustomizableDashboard({ initialWidgets = ['performance',
 
                 return (
                   <Draggable key={widgetKey} draggableId={widgetKey} index={index}>
-                    {(provided, snapshot) => provided ? (
+                    {(provided, snapshot) => provided && provided.innerRef && provided.draggableProps ? (
                       <div
                         ref={provided.innerRef}
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
-                        className={snapshot.isDragging ? 'opacity-50' : ''}
+                        className={snapshot?.isDragging ? 'opacity-50' : ''}
                       >
                         <Card className="bg-white/5 border-purple-500/20 hover:border-purple-500/40 transition-all">
                           <CardHeader className="flex flex-row items-center justify-between pb-2">
