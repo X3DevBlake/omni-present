@@ -107,28 +107,21 @@ export default function CustomizableDashboard({ initialWidgets = ['performance',
     ]
   };
 
-  const handleDragEnd = (result) => {
-    // Defensive null/undefined checks for drag-drop
-    if (!result) {
-      console.warn('DnD: result is null/undefined');
-      return;
-    }
-    if (!result.source) {
-      console.warn('DnD: result.source is null/undefined');
-      return;
-    }
-    if (!result.destination) {
-      console.warn('DnD: Dropped outside droppable area');
-      return;
-    }
-    if (result.destination.index === result.source.index) {
-      return;
-    }
-
+  const handleDragEnd = (result = {}) => {
+    // Safe null-coalescing and destructuring
     try {
+      const { source, destination } = result || {};
+      
+      if (!source || !destination) {
+        return;
+      }
+      if (destination.index === source.index) {
+        return;
+      }
+
       const items = Array.from(widgets);
-      const [reorderedItem] = items.splice(result.source.index, 1);
-      items.splice(result.destination.index, 0, reorderedItem);
+      const [reorderedItem] = items.splice(source.index, 1);
+      items.splice(destination.index, 0, reorderedItem);
       setWidgets(items);
     } catch (error) {
       console.error('Drag reorder error:', error);
