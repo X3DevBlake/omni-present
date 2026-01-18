@@ -81,13 +81,13 @@ Analyze and decide:
     }
   });
   
-  const shouldExecute = decision.confidence >= config.confidence_threshold && !config.requires_approval;
+  const shouldExecute = (decision?.confidence || 0) >= config.confidence_threshold && !config.requires_approval;
   
   const decisionRecord = {
     decision_type,
-    decision: decision.decision,
-    confidence: decision.confidence,
-    reasoning: decision.reasoning,
+    decision: decision?.decision || '',
+    confidence: decision?.confidence || 0,
+    reasoning: decision?.reasoning || '',
     auto_executed: shouldExecute,
     requires_approval: config.requires_approval,
     timestamp: new Date().toISOString(),
@@ -106,22 +106,22 @@ Analyze and decide:
   if (config.requires_approval) {
     await context.entities.DAOProposal.create({
       title: `Autonomous Decision: ${decision_type}`,
-      description: decision.reasoning,
+      description: decision?.reasoning || '',
       proposal_type: 'autonomous_decision',
       status: 'active',
       metadata: {
         decision_data: decisionRecord,
-        ai_confidence: decision.confidence
+        ai_confidence: decision?.confidence || 0
       }
     });
   }
   
   return {
     ...decisionRecord,
-    alternatives: decision.alternatives,
-    expected_outcomes: decision.expected_outcomes,
-    risks: decision.risk_factors,
-    implementation_plan: decision.implementation_steps,
+    alternatives: decision?.alternatives || [],
+    expected_outcomes: decision?.expected_outcomes || [],
+    risks: decision?.risk_factors || [],
+    implementation_plan: decision?.implementation_steps || [],
     execution_status: shouldExecute ? 'executed' : config.requires_approval ? 'awaiting_approval' : 'confidence_too_low'
   };
 }

@@ -76,23 +76,25 @@ Provide:
   
   const optimizationPlan = {
     target: optimization_target,
-    current_health: analysis.overall_health_score,
-    bottlenecks: analysis.bottlenecks,
-    recommended_actions: analysis.optimizations,
+    current_health: analysis?.overall_health_score || 0,
+    bottlenecks: analysis?.bottlenecks || [],
+    recommended_actions: analysis?.optimizations || [],
     strategy,
-    auto_apply: analysis.optimizations.filter(o => o.complexity === 'low').map(o => o.technique)
+    auto_apply: (analysis?.optimizations || []).filter(o => o?.complexity === 'low').map(o => o?.technique)
   };
   
-  for (const opt of analysis.optimizations.filter(o => o.priority >= 8)) {
-    await context.entities.SystemMetric.create({
-      metric_name: `optimization_${optimization_target}`,
-      metric_value: opt.expected_improvement,
-      category: 'performance',
-      metadata: {
-        technique: opt.technique,
-        priority: opt.priority
-      }
-    });
+  for (const opt of (analysis?.optimizations || []).filter(o => o?.priority >= 8)) {
+    if (opt?.expected_improvement && opt?.technique) {
+      await context.entities.SystemMetric.create({
+        metric_name: `optimization_${optimization_target}`,
+        metric_value: opt.expected_improvement,
+        category: 'performance',
+        metadata: {
+          technique: opt.technique,
+          priority: opt.priority
+        }
+      });
+    }
   }
   
   return optimizationPlan;

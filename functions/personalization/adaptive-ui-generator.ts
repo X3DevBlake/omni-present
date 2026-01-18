@@ -83,24 +83,24 @@ Analyze user behavior and generate:
   const uiConfig = await context.entities.DynamicUIConfig.create({
     user_email: user.email,
     config_name: `Personalized UI - ${new Date().toLocaleDateString()}`,
-    layout_config: uiGeneration.layout_structure,
+    layout_config: uiGeneration?.layout_structure || {},
     component_config: {
-      priorities: uiGeneration.component_priorities,
-      density: uiGeneration.content_density
+      priorities: uiGeneration?.component_priorities || [],
+      density: uiGeneration?.content_density || 'medium'
     },
-    theme_config: uiGeneration.color_scheme,
-    interaction_preferences: uiGeneration.interaction_patterns,
-    quick_actions: uiGeneration.quick_actions,
-    personalization_level: uiGeneration.personalization_score,
+    theme_config: uiGeneration?.color_scheme || {},
+    interaction_preferences: uiGeneration?.interaction_patterns || [],
+    quick_actions: uiGeneration?.quick_actions || [],
+    personalization_level: uiGeneration?.personalization_score || 0,
     is_active: true
   });
   
   return {
-    config_id: uiConfig.id,
+    config_id: uiConfig?.id,
     user_email: user.email,
     generation_mode,
-    ui_configuration: uiGeneration,
-    personalization_score: uiGeneration.personalization_score,
+    ui_configuration: uiGeneration || {},
+    personalization_score: uiGeneration?.personalization_score || 0,
     generated_at: new Date().toISOString()
   };
 }

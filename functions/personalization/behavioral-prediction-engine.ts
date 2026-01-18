@@ -84,29 +84,31 @@ Based on patterns, predict:
     }
   });
   
-  for (const need of predictions.anticipated_needs.slice(0, 3)) {
-    await context.entities.ProactiveAlert.create({
-      alert_type: 'anticipated_need',
-      severity: need.urgency === 'high' ? 'high' : 'medium',
-      title: `Anticipated Need: ${need.need}`,
-      description: need.suggested_solution,
-      confidence_score: predictions.overall_accuracy * 100,
-      status: 'active',
-      metadata: { user_email, prediction_horizon }
-    });
+  for (const need of (predictions?.anticipated_needs || []).slice(0, 3)) {
+    if (need?.need && need?.suggested_solution) {
+      await context.entities.ProactiveAlert.create({
+        alert_type: 'anticipated_need',
+        severity: need.urgency === 'high' ? 'high' : 'medium',
+        title: `Anticipated Need: ${need.need}`,
+        description: need.suggested_solution,
+        confidence_score: (predictions?.overall_accuracy || 0) * 100,
+        status: 'active',
+        metadata: { user_email, prediction_horizon }
+      });
+    }
   }
   
   return {
     user_email,
     prediction_horizon,
     predictions: {
-      actions: predictions.next_actions,
-      preferences: predictions.preference_predictions,
-      needs: predictions.anticipated_needs,
-      timing: predictions.optimal_timing,
-      interests: predictions.content_interests
+      actions: predictions?.next_actions || [],
+      preferences: predictions?.preference_predictions || [],
+      needs: predictions?.anticipated_needs || [],
+      timing: predictions?.optimal_timing || {},
+      interests: predictions?.content_interests || []
     },
-    accuracy: predictions.overall_accuracy,
+    accuracy: predictions?.overall_accuracy || 0,
     generated_at: new Date().toISOString()
   };
 }
