@@ -62,21 +62,23 @@ Provide multiple pairing options with confidence scores.`,
     }
   });
   
-  const topPairing = pairingAnalysis.recommended_pairings[0];
+  const topPairing = pairingAnalysis?.recommended_pairings?.[0];
   
-  await context.entities.AgentCollaboration.create({
-    collaboration_type: 'ai_optimized_pairing',
-    task_description,
-    agent_ids: topPairing.agents,
-    status: 'proposed',
-    formation_reasoning: `AI-driven pairing with ${topPairing.confidence_score}% confidence`,
-    synergy_score: topPairing.skill_coverage,
-    predicted_success_rate: topPairing.predicted_efficiency
-  });
+  if (topPairing) {
+    await context.entities.AgentCollaboration.create({
+      collaboration_type: 'ai_optimized_pairing',
+      task_description,
+      agent_ids: topPairing.agents || [],
+      status: 'proposed',
+      formation_reasoning: `AI-driven pairing with ${topPairing.confidence_score || 0}% confidence`,
+      synergy_score: topPairing.skill_coverage || 0,
+      predicted_success_rate: topPairing.predicted_efficiency || 0
+    });
+  }
   
   return {
-    pairings: pairingAnalysis.recommended_pairings,
-    top_pairing: topPairing,
-    skill_gaps: pairingAnalysis.skill_gaps
+    pairings: pairingAnalysis?.recommended_pairings || [],
+    top_pairing: topPairing || null,
+    skill_gaps: pairingAnalysis?.skill_gaps || []
   };
 }

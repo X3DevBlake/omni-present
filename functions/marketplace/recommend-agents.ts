@@ -61,7 +61,7 @@ For each recommendation, explain why it's a good fit.`,
   });
   
   // Match recommendations to actual listings
-  const enrichedRecommendations = recommendations.recommendations.map(rec => {
+  const enrichedRecommendations = (recommendations?.recommendations || []).map(rec => {
     const listing = listings.find(l => l.name.toLowerCase().includes(rec.agent_name.toLowerCase()));
     return {
       ...rec,
