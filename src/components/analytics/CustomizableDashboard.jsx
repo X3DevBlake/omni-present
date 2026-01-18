@@ -108,18 +108,26 @@ export default function CustomizableDashboard({ initialWidgets = ['performance',
   };
 
   const handleDragEnd = (result) => {
-    // Check for required properties before accessing
-    if (!result || result.source === undefined || result.destination === undefined) {
+    // Safe handling of drag end - result might not be defined or might be incomplete
+    if (!result || typeof result !== 'object') {
       return;
     }
-    if (result.destination.index === result.source.index) {
+    
+    const source = result?.source;
+    const destination = result?.destination;
+    
+    if (!source || !destination || source.index === undefined || destination.index === undefined) {
+      return;
+    }
+    
+    if (destination.index === source.index) {
       return;
     }
     
     try {
       const items = Array.from(widgets);
-      const [reorderedItem] = items.splice(result.source.index, 1);
-      items.splice(result.destination.index, 0, reorderedItem);
+      const [reorderedItem] = items.splice(source.index, 1);
+      items.splice(destination.index, 0, reorderedItem);
       setWidgets(items);
     } catch (error) {
       console.error('Drag reorder error:', error);
