@@ -22,13 +22,10 @@ export default function XPSystem() {
 
   const { data: achievements } = useQuery({
     queryKey: ['user-achievements', user?.email],
-    queryFn: async () => {
-      const allAchievements = await base44.entities.OmniAchievement.list();
-      return allAchievements.filter(a => a.created_by === user?.email);
-    },
+    queryFn: async () => Promise.resolve([]),
     enabled: !!user,
-    staleTime: 10 * 60 * 1000,
-    gcTime: 15 * 60 * 1000
+    staleTime: Infinity,
+    gcTime: Infinity
   });
 
   useEffect(() => {
