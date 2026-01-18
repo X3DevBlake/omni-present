@@ -108,14 +108,20 @@ export default function CustomizableDashboard({ initialWidgets = ['performance',
   };
 
   const handleDragEnd = (result) => {
-    if (!result || !result.destination || !result.source) return;
+    // Comprehensive null checks for drag-drop
+    if (!result) return;
+    if (!result.source) return;
+    if (!result.destination) return;
     if (result.destination.index === result.source.index) return;
 
-    const items = Array.from(widgets);
-    const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
-
-    setWidgets(items);
+    try {
+      const items = Array.from(widgets);
+      const [reorderedItem] = items.splice(result.source.index, 1);
+      items.splice(result.destination.index, 0, reorderedItem);
+      setWidgets(items);
+    } catch (error) {
+      console.error('Drag error:', error);
+    }
   };
 
   const addWidget = (widgetType) => {

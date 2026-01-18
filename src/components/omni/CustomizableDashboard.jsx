@@ -12,14 +12,20 @@ export default function CustomizableDashboard({ userRole, onClose }) {
   ]);
 
   const handleDragEnd = (result) => {
-    if (!result || !result.destination || !result.source) return;
+    // Comprehensive null checks for drag-drop
+    if (!result) return;
+    if (!result.source) return;
+    if (!result.destination) return;
     if (result.destination.index === result.source.index) return;
     
-    const items = Array.from(widgets);
-    const [reordered] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reordered);
-    
-    setWidgets(items);
+    try {
+      const items = Array.from(widgets);
+      const [reordered] = items.splice(result.source.index, 1);
+      items.splice(result.destination.index, 0, reordered);
+      setWidgets(items);
+    } catch (error) {
+      console.error('Drag error:', error);
+    }
   };
 
   const toggleWidget = (id) => {
