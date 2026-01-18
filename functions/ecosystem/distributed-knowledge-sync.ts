@@ -62,36 +62,39 @@ Determine:
   
   for (const shareEntry of syncAnalysis.knowledge_to_share.slice(0, 5)) {
     const relevantKnowledge = localKnowledge
-      .filter(k => knowledge_domains.length === 0 || knowledge_domains.includes(k.domain || shareEntry.domain))
-      .slice(0, shareEntry.entries_count);
+      .filter(k => knowledge_domains.length === 0 || knowledge_domains.includes(k?.domain || shareEntry.domain))
+      .slice(0, shareEntry.entries_count || 1);
     
     for (const knowledge of relevantKnowledge) {
-      syncedKnowledge.push({
-        knowledge_id: knowledge.id,
-        domain: shareEntry.domain,
-        shared_with: shareEntry.target_nodes.length,
-        sync_timestamp: new Date().toISOString()
-      });
+      if (knowledge && knowledge.id) {
+        syncedKnowledge.push({
+          knowledge_id: knowledge.id,
+          domain: shareEntry.domain,
+          shared_with: shareEntry.target_nodes?.length || 0,
+          sync_timestamp: new Date().toISOString()
+        });
+      }
     }
   }
   
   const receivedKnowledge = [];
   for (const requestEntry of syncAnalysis.knowledge_to_request.slice(0, 3)) {
-    await context.entities.SharedKnowledge.create({
-      domain: requestEntry.domain,
-      knowledge_type: 'distributed',
-      content: `Synced knowledge from network: ${requestEntry.domain}`,
-      source: 'federated_network',
-      confidence_score: 0.85,
-      is_public: privacy_level === 'public',
-      access_count: 0
-    });
-    
-    receivedKnowledge.push({
-      domain: requestEntry.domain,
-      priority: requestEntry.priority,
-      sources: requestEntry.source_nodes.length
-    });
+    if (requestEntry && requestEntry.domain) {
+      await context.entities.SharedKnowledge.create({
+        domain: requestEntry.domain,
+        knowledge_type: 'distributed',
+        content: `Synced knowledge from network: ${requestEntry.domain}`,
+        confidence_score: 0.85,
+        is_public: privacy_level === 'public',
+        access_count: 0
+      });
+      
+      receivedKnowledge.push({
+        domain: requestEntry.domain,
+        priority: requestEntry.priority || 1,
+        sources: requestEntry.source_nodes?.length || 0
+      });
+    }
   }
   
   await context.entities.KnowledgeGraphNode.create({
