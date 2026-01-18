@@ -12,21 +12,26 @@ export default function CustomizableDashboard({ userRole, onClose }) {
   ]);
 
   const handleDragEnd = (result) => {
-    // Check if result and required properties exist
-    if (!result?.source?.index !== undefined || !result?.destination?.index !== undefined) {
+    // Safe handling of drag end - result might not be defined or might be incomplete
+    if (!result || typeof result !== 'object') {
       return;
     }
-    if (!result.source || !result.destination) {
+    
+    const source = result?.source;
+    const destination = result?.destination;
+    
+    if (!source || !destination || source.index === undefined || destination.index === undefined) {
       return;
     }
-    if (result.destination.index === result.source.index) {
+    
+    if (destination.index === source.index) {
       return;
     }
     
     try {
       const items = Array.from(widgets);
-      const [reordered] = items.splice(result.source.index, 1);
-      items.splice(result.destination.index, 0, reordered);
+      const [reordered] = items.splice(source.index, 1);
+      items.splice(destination.index, 0, reordered);
       setWidgets(items);
     } catch (error) {
       console.error('Drag reorder error:', error);
