@@ -34,21 +34,30 @@ export default function AIAnalyticsHub() {
     queryKey: ['agents', userEmail],
     queryFn: () => base44.entities.Agent.list(),
     enabled: !!userEmail,
-    initialData: []
+    initialData: [],
+    staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
+    retry: 1
   });
 
   const { data: kpis } = useQuery({
     queryKey: ['agentKPIs', userEmail, timeRange],
     queryFn: () => base44.entities.AgentKPI.list(),
     enabled: !!userEmail,
-    initialData: []
+    initialData: [],
+    staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
+    retry: 1
   });
 
   const { data: predictions } = useQuery({
     queryKey: ['predictions', userEmail],
     queryFn: () => base44.entities.PredictiveAnalytic.list(),
     enabled: !!userEmail,
-    initialData: []
+    initialData: [],
+    staleTime: 5 * 60 * 1000,
+    gcTime: 10 * 60 * 1000,
+    retry: 1
   });
 
   // Calculate aggregated metrics
