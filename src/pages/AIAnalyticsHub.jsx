@@ -262,7 +262,7 @@ export default function AIAnalyticsHub() {
                 <h3 className="text-white font-bold mb-4">Performance Trends</h3>
                 {trendData?.length > 0 ? (
                   <ResponsiveContainer width="100%" height={300}>
-                    <LineChart data={trendData}>
+                    <LineChart data={trendData} onClick={(e) => e?.stopPropagation?.()} onMouseDown={(e) => e?.stopPropagation?.()}>
                       <CartesianGrid strokeDasharray="3 3" stroke="#ffffff20" />
                       <XAxis dataKey="day" stroke="#ffffff60" />
                       <YAxis stroke="#ffffff60" />
@@ -281,7 +281,7 @@ export default function AIAnalyticsHub() {
                 <h3 className="text-white font-bold mb-4">Agent Performance Comparison</h3>
                 {agentComparison?.length > 0 ? (
                   <ResponsiveContainer width="100%" height={300}>
-                    <BarChart data={agentComparison}>
+                    <BarChart data={agentComparison} onClick={(e) => e?.stopPropagation?.()} onMouseDown={(e) => e?.stopPropagation?.()}>
                       <CartesianGrid strokeDasharray="3 3" stroke="#ffffff20" />
                       <XAxis dataKey="name" stroke="#ffffff60" angle={-45} textAnchor="end" height={80} />
                       <YAxis stroke="#ffffff60" />
