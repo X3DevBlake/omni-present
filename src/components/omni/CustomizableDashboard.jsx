@@ -12,11 +12,22 @@ export default function CustomizableDashboard({ userRole, onClose }) {
   ]);
 
   const handleDragEnd = (result) => {
-    // Comprehensive null checks for drag-drop
-    if (!result) return;
-    if (!result.source) return;
-    if (!result.destination) return;
-    if (result.destination.index === result.source.index) return;
+    // Defensive null/undefined checks for drag-drop
+    if (!result) {
+      console.warn('DnD: result is null/undefined');
+      return;
+    }
+    if (!result.source) {
+      console.warn('DnD: result.source is null/undefined');
+      return;
+    }
+    if (!result.destination) {
+      console.warn('DnD: Dropped outside droppable area');
+      return;
+    }
+    if (result.destination.index === result.source.index) {
+      return;
+    }
     
     try {
       const items = Array.from(widgets);
@@ -24,7 +35,7 @@ export default function CustomizableDashboard({ userRole, onClose }) {
       items.splice(result.destination.index, 0, reordered);
       setWidgets(items);
     } catch (error) {
-      console.error('Drag error:', error);
+      console.error('Drag reorder error:', error);
     }
   };
 
