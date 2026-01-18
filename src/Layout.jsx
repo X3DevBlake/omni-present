@@ -47,38 +47,22 @@ class ErrorBoundary extends React.Component {
 }
 
 export default function Layout({ children }) {
-  const [userEmail, setUserEmail] = React.useState(null);
-
-  React.useEffect(() => {
-    base44.auth.me()
-      .then(user => setUserEmail(user?.email))
-      .catch(() => setUserEmail(null));
-  }, []);
-
   return (
     <ErrorBoundary>
       <PersonalizationProvider>
         <GamificationProvider>
-          <AvatarProvider>
-            <EnhancedMainNavRevamped />
-            <BackButton />
-            <GlobalSearch />
-            {userEmail && <NotificationCenter userEmail={userEmail} />}
-            {children}
-            <GlobalAvatarOverlay />
-            <AnimationController />
-            <FeedbackButton />
-            <UnifiedCommandBar />
-            <style>{`
+          <EnhancedMainNavRevamped />
+          <BackButton />
+          {children}
+          <style>{`
             .omni-logo-component {
               display: flex;
               align-items: center;
               justify-content: center;
             }
           `}</style>
-          </AvatarProvider>
         </GamificationProvider>
       </PersonalizationProvider>
     </ErrorBoundary>
   );
-  }
+}
