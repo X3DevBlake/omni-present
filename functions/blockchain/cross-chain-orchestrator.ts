@@ -84,7 +84,7 @@ Determine:
     },
     status: 'pending',
     confirmations: 0,
-    gas_fee: bridgeAnalysis.estimated_fee_usd,
+    gas_fee: bridgeAnalysis?.estimated_fee_usd || 0,
     timestamp: new Date().toISOString()
   });
   
@@ -105,7 +105,7 @@ Determine:
     network: target_chain,
     type: 'bridge',
     status: 'pending',
-    gas_fee: bridgeAnalysis.estimated_fee_usd,
+    gas_fee: bridgeAnalysis?.estimated_fee_usd || 0,
     timestamp: new Date().toISOString()
   });
   
