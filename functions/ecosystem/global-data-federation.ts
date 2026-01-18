@@ -50,15 +50,17 @@ Determine:
   
   const queryResults = [];
   
-  for (const step of federationStrategy.execution_plan) {
-    const source = availableSources[step.source];
-    if (source) {
-      queryResults.push({
-        source: step.source,
-        latency: source.latency_ms,
-        reliability: source.reliability,
-        data_points: Math.floor(Math.random() * 100) + 10
-      });
+  for (const step of (federationStrategy.execution_plan || [])) {
+    if (step && step.source) {
+      const source = availableSources[step.source];
+      if (source) {
+        queryResults.push({
+          source: step.source,
+          latency: source.latency_ms,
+          reliability: source.reliability,
+          data_points: Math.floor(Math.random() * 100) + 10
+        });
+      }
     }
   }
   
