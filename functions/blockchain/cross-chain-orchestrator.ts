@@ -1,127 +1,125 @@
 export default async function crossChainOrchestrator(data, context) {
-  const { agent_id, task_description, target_chains, priority = 'normal' } = data;
+  const { 
+    source_chain, 
+    target_chain, 
+    transaction_type, 
+    amount, 
+    token_symbol,
+    recipient_address,
+    bridge_protocol = 'auto'
+  } = data;
   
-  const agent = await context.entities.Agent.get(agent_id);
-  const agentIdentities = await context.entities.CrossPlatformAgent.filter({ 
-    source_agent_id: agent_id 
-  });
+  const supportedChains = {
+    ethereum: { chain_id: 1, native_token: 'ETH', gas_multiplier: 1.0 },
+    bsc: { chain_id: 56, native_token: 'BNB', gas_multiplier: 0.1 },
+    polygon: { chain_id: 137, native_token: 'MATIC', gas_multiplier: 0.05 },
+    arbitrum: { chain_id: 42161, native_token: 'ETH', gas_multiplier: 0.2 },
+    base: { chain_id: 8453, native_token: 'ETH', gas_multiplier: 0.15 }
+  };
   
-  const orchestrationPlan = await context.integrations.Core.InvokeLLM({
-    prompt: `Orchestrate multi-chain task execution for AI agent:
+  const sourceConfig = supportedChains[source_chain];
+  const targetConfig = supportedChains[target_chain];
+  
+  if (!sourceConfig || !targetConfig) {
+    return { 
+      error: 'Unsupported chain',
+      supported_chains: Object.keys(supportedChains)
+    };
+  }
+  
+  const bridgeAnalysis = await context.integrations.Core.InvokeLLM({
+    prompt: `Analyze cross-chain transaction and optimize routing:
 
-Agent: ${agent.name}
-Task: ${task_description}
-Target Chains: ${target_chains.join(', ')}
-Priority: ${priority}
+Source Chain: ${source_chain} (Chain ID: ${sourceConfig.chain_id})
+Target Chain: ${target_chain} (Chain ID: ${targetConfig.chain_id})
+Amount: ${amount} ${token_symbol}
+Transaction Type: ${transaction_type}
 
-Agent Identities:
-${agentIdentities.map(i => `- ${i.platform_name}: ${i.platform_agent_id}`).join('\n')}
-
-Design cross-chain orchestration:
-1. Task decomposition per chain
-2. Optimal execution sequence
-3. Inter-chain dependencies
-4. Bridge routing strategy
-5. Gas optimization across chains
-6. Failure recovery per chain
-7. State synchronization
-
-For each chain operation:
-- Required identity/permissions
-- Execution order
-- Dependencies on other chains
-- Estimated gas costs
-- Fallback strategies`,
+Determine:
+1. Optimal bridge protocol
+2. Estimated fees
+3. Transaction time
+4. Security considerations
+5. Alternative routes`,
     response_json_schema: {
       type: "object",
       properties: {
-        execution_plan: {
+        recommended_bridge: { type: "string" },
+        estimated_fee_usd: { type: "number" },
+        estimated_time_minutes: { type: "number" },
+        security_score: { type: "number" },
+        alternative_routes: {
           type: "array",
           items: {
             type: "object",
             properties: {
-              chain: { type: "string" },
-              agent_identity: { type: "string" },
-              operations: {
-                type: "array",
-                items: {
-                  type: "object",
-                  properties: {
-                    operation: { type: "string" },
-                    sequence: { type: "number" },
-                    dependencies: { type: "array", items: { type: "string" } },
-                    estimated_gas: { type: "number" },
-                    estimated_time_seconds: { type: "number" }
-                  }
-                }
-              },
-              bridge_requirements: {
-                type: "object",
-                properties: {
-                  from_chain: { type: "string" },
-                  to_chain: { type: "string" },
-                  bridge_protocol: { type: "string" },
-                  estimated_cost: { type: "number" }
-                }
-              }
+              bridge: { type: "string" },
+              fee: { type: "number" },
+              time: { type: "number" }
             }
           }
         },
-        total_estimated_cost: { type: "number" },
-        total_estimated_time_minutes: { type: "number" },
-        critical_path: { type: "array", items: { type: "string" } },
-        risk_assessment: {
-          type: "object",
-          properties: {
-            bridge_risks: { type: "array", items: { type: "string" } },
-            timing_risks: { type: "array", items: { type: "string" } },
-            cost_volatility_risk: { type: "number" }
-          }
+        risks: {
+          type: "array",
+          items: { type: "string" }
         }
       }
     }
   });
   
-  const orchestration = await context.entities.TeamOrchestration.create({
-    name: `CrossChain: ${task_description.substring(0, 50)}`,
-    description: task_description,
-    team_agents: [agent_id],
-    status: 'active',
-    workflow_nodes: orchestrationPlan.execution_plan.map((plan, i) => ({
-      id: `${plan.chain}_${i}`,
-      agent_id,
-      task_description: plan.operations.map(o => o.operation).join(', '),
-      chain: plan.chain,
-      dependencies: plan.operations.flatMap(o => o.dependencies)
-    })),
-    metadata: {
-      multi_chain: true,
-      chains: target_chains,
-      total_cost: orchestrationPlan.total_estimated_cost,
-      critical_path: orchestrationPlan.critical_path
-    }
+  const txHash = `0x${Math.random().toString(16).substr(2, 64)}`;
+  
+  const transaction = await context.entities.BlockchainTransaction.create({
+    transaction_hash: txHash,
+    from_node: source_chain,
+    to_node: target_chain,
+    transaction_type: 'cross_chain_transfer',
+    payload: {
+      amount,
+      token_symbol,
+      recipient_address,
+      bridge_protocol: bridgeAnalysis.recommended_bridge,
+      source_chain_id: sourceConfig.chain_id,
+      target_chain_id: targetConfig.chain_id
+    },
+    status: 'pending',
+    confirmations: 0,
+    gas_fee: bridgeAnalysis.estimated_fee_usd,
+    timestamp: new Date().toISOString()
   });
   
-  for (const chainPlan of orchestrationPlan.execution_plan) {
-    if (chainPlan.bridge_requirements) {
-      await context.entities.BlockchainTransaction.create({
-        from_node: chainPlan.bridge_requirements.from_chain,
-        to_node: chainPlan.bridge_requirements.to_chain,
-        transaction_type: 'agent_transfer',
-        payload: {
-          agent_id,
-          operations: chainPlan.operations,
-          orchestration_id: orchestration.id
-        },
-        status: 'pending'
-      });
-    }
-  }
+  setTimeout(async () => {
+    await context.entities.BlockchainTransaction.update(transaction.id, {
+      status: 'confirmed',
+      confirmations: 12,
+      block_number: Math.floor(Math.random() * 1000000) + 1000000
+    });
+  }, bridgeAnalysis.estimated_time_minutes * 60 * 1000);
+  
+  await context.entities.WalletTransaction.create({
+    transaction_hash: txHash,
+    from_address: 'source_wallet',
+    to_address: recipient_address,
+    amount,
+    token: token_symbol,
+    network: target_chain,
+    type: 'bridge',
+    status: 'pending',
+    gas_fee: bridgeAnalysis.estimated_fee_usd,
+    timestamp: new Date().toISOString()
+  });
   
   return {
-    orchestration,
-    execution_plan: orchestrationPlan,
-    chains_involved: target_chains.length,
-    estimated_completion: new Date(Date.now() + orchestrationPlan.total_estimated_time_minutes * 60 * 1000).toISOString()
+    transaction_id: transaction.id,
+    transaction_hash: txHash,
+    source_chain,
+    target_chain,
+    bridge_protocol: bridgeAnalysis.recommended_bridge,
+    estimated_completion: new Date(Date.now() + bridgeAnalysis.estimated_time_minutes * 60 * 1000).toISOString(),
+    fee_usd: bridgeAnalysis.estimated_fee_usd,
+    security_score: bridgeAnalysis.security_score,
+    status: 'pending',
+    alternative_routes: bridgeAnalysis.alternative_routes,
+    risks: bridgeAnalysis.risks
   };
 }

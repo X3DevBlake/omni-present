@@ -264,6 +264,7 @@ import WithdrawOmni from './pages/WithdrawOmni';
 import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import World from './pages/World';
 import Phase2Dashboard from './pages/Phase2Dashboard';
+import Phase3Dashboard from './pages/Phase3Dashboard';
 import __Layout from './Layout.jsx';
 
 
@@ -534,6 +535,7 @@ export const PAGES = {
     "WorkflowAutomationHub": WorkflowAutomationHub,
     "World": World,
     "Phase2Dashboard": Phase2Dashboard,
+    "Phase3Dashboard": Phase3Dashboard,
 }
 
 export const pagesConfig = {
