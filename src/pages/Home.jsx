@@ -22,6 +22,11 @@ import AIEcosystemNetwork3D from '../components/home/AIEcosystemNetwork3D';
 import RealtimeFeedsWidget from '../components/home/RealtimeFeedsWidget';
 import HomeEnhanced3DSection from '../components/home/HomeEnhanced3DSection';
 import DraggableFeatureCard from '../components/home/DraggableFeatureCard';
+import RealtimeAgentActivityGlobe3D from '../components/home/RealtimeAgentActivityGlobe3D';
+import RealtimeFinancialGalaxy3D from '../components/home/RealtimeFinancialGalaxy3D';
+import EmergentBehaviorVisualizer3D from '../components/home/EmergentBehaviorVisualizer3D';
+import AdaptiveTokenomicsDisplay3D from '../components/home/AdaptiveTokenomicsDisplay3D';
+import RealtimeDataSourcesMonitor from '../components/home/RealtimeDataSourcesMonitor';
 
 export default function Home() {
   const [activeFeature, setActiveFeature] = useState(0);
@@ -223,7 +228,7 @@ export default function Home() {
             </Card>
           </motion.div>
 
-          {/* Phase 1: Interactive Globe 3D */}
+          {/* Real-time Agent Activity Globe 3D */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -231,18 +236,18 @@ export default function Home() {
             className="mb-20"
           >
             <h2 className="text-4xl font-bold text-center mb-8 text-white">
-              Global Agent Activity
+              Real-Time Agent Activity Globe
             </h2>
             <Card className="bg-slate-900/60 backdrop-blur-xl border-slate-700">
               <CardContent className="p-0">
-                <div className="h-[500px]">
-                  <InteractiveGlobe3D agents={agents} />
+                <div className="h-[600px]">
+                  <RealtimeAgentActivityGlobe3D />
                 </div>
               </CardContent>
             </Card>
           </motion.div>
 
-          {/* Phase 1: Financial Galaxy 3D */}
+          {/* Real-time Financial Galaxy 3D */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -250,18 +255,18 @@ export default function Home() {
             className="mb-20"
           >
             <h2 className="text-4xl font-bold text-center mb-8 text-white">
-              Personal Financial Galaxy
+              Real-Time Financial Galaxy
             </h2>
             <Card className="bg-slate-900/60 backdrop-blur-xl border-slate-700">
               <CardContent className="p-0">
-                <div className="h-[500px]">
-                  <FinancialGalaxy3DEnhanced />
+                <div className="h-[600px]">
+                  <RealtimeFinancialGalaxy3D />
                 </div>
               </CardContent>
             </Card>
           </motion.div>
 
-          {/* Phase 1: AI Ecosystem Network */}
+          {/* Emergent Behavior Visualizer 3D */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -269,12 +274,12 @@ export default function Home() {
             className="mb-20"
           >
             <h2 className="text-4xl font-bold text-center mb-8 text-white">
-              AI Ecosystem Network
+              Emergent Behavior Patterns
             </h2>
             <Card className="bg-slate-900/60 backdrop-blur-xl border-slate-700">
               <CardContent className="p-0">
-                <div className="h-[500px]">
-                  <AIEcosystemNetwork3D agents={agents} />
+                <div className="h-[600px]">
+                  <EmergentBehaviorVisualizer3D />
                 </div>
               </CardContent>
             </Card>
@@ -297,7 +302,7 @@ export default function Home() {
             </Card>
           </motion.div>
 
-          {/* Tokenomics 3D Visualizer */}
+          {/* Adaptive Tokenomics Display 3D */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -305,21 +310,19 @@ export default function Home() {
             className="mb-20"
           >
             <h2 className="text-4xl font-bold text-center mb-4 text-white">
-              Omni Tokenomics
+              Adaptive Omni Tokenomics
             </h2>
             <p className="text-center text-slate-400 mb-8 text-lg">
-              300 Million Total Supply • Deflationary Mechanics • Staking Rewards
+              Real-time Distribution • Live Staking Data • Governance Participation
             </p>
             <Card className="bg-slate-900/60 backdrop-blur-xl border-slate-700">
-              <CardContent className="p-0">
-                <div className="h-[700px]">
-                  <Tokenomics3DVisualizer />
-                </div>
+              <CardContent className="p-6">
+                <AdaptiveTokenomicsDisplay3D />
               </CardContent>
             </Card>
           </motion.div>
 
-          {/* Token Ecosystem 3D */}
+          {/* Real-Time Data Sources Monitor */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -327,18 +330,12 @@ export default function Home() {
             className="mb-20"
           >
             <h2 className="text-4xl font-bold text-center mb-8 text-white">
-              Omni Token Utility
+              Real-Time Data Infrastructure
             </h2>
-            <Card className="bg-slate-900/60 backdrop-blur-xl border-slate-700">
-              <CardContent className="p-0">
-                <div className="h-[500px]">
-                  <OmniTokenEcosystem3D />
-                </div>
-              </CardContent>
-            </Card>
+            <RealtimeDataSourcesMonitor />
           </motion.div>
 
-          {/* Enhanced 3D Analytics Section */}
+          {/* Live Analytics & Insights */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -346,7 +343,7 @@ export default function Home() {
             className="mb-20"
           >
             <h2 className="text-4xl font-bold text-center mb-8 text-white">
-              Live Analytics & Insights
+              Live Analytics & System Performance
             </h2>
             <HomeEnhanced3DSection />
           </motion.div>
