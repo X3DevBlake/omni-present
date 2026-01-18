@@ -37,7 +37,7 @@ export default function CustomizableDashboard({ userRole, onClose }) {
         </div>
 
         <div className="mb-4 text-white/70 text-sm">
-          Drag and drop to reorder • Toggle to show/hide
+          Toggle to show/hide
         </div>
 
         <div className="space-y-3">
