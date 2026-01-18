@@ -32,21 +32,21 @@ export default function AIAnalyticsHub() {
 
   const { data: agents } = useQuery({
     queryKey: ['agents', userEmail],
-    queryFn: () => base44.entities.Agent.list({ created_by: userEmail }),
+    queryFn: () => base44.entities.Agent.list(),
     enabled: !!userEmail,
     initialData: []
   });
 
   const { data: kpis } = useQuery({
     queryKey: ['agentKPIs', userEmail, timeRange],
-    queryFn: () => base44.entities.AgentKPI.list({ user_email: userEmail }),
+    queryFn: () => base44.entities.AgentKPI.list(),
     enabled: !!userEmail,
     initialData: []
   });
 
   const { data: predictions } = useQuery({
     queryKey: ['predictions', userEmail],
-    queryFn: () => base44.entities.PredictiveAnalytic.list({ user_email: userEmail }),
+    queryFn: () => base44.entities.PredictiveAnalytic.list(),
     enabled: !!userEmail,
     initialData: []
   });
