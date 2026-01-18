@@ -265,6 +265,7 @@ import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import World from './pages/World';
 import Phase2Dashboard from './pages/Phase2Dashboard';
 import Phase3Dashboard from './pages/Phase3Dashboard';
+import Phase4Dashboard from './pages/Phase4Dashboard';
 import __Layout from './Layout.jsx';
 
 
@@ -536,6 +537,7 @@ export const PAGES = {
     "World": World,
     "Phase2Dashboard": Phase2Dashboard,
     "Phase3Dashboard": Phase3Dashboard,
+    "Phase4Dashboard": Phase4Dashboard,
 }
 
 export const pagesConfig = {
