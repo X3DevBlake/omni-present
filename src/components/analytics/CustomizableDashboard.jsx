@@ -108,8 +108,8 @@ export default function CustomizableDashboard({ initialWidgets = ['performance',
   };
 
   const handleDragEnd = (result) => {
-    // Defensive null/undefined checks
-    if (!result?.source || !result?.destination) {
+    // Check for required properties before accessing
+    if (!result || result.source === undefined || result.destination === undefined) {
       return;
     }
     if (result.destination.index === result.source.index) {
