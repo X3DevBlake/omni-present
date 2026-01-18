@@ -47,7 +47,7 @@ export default function AIStrategyAdvisor() {
         }
       });
       
-      return result.strategies || [];
+      return result?.strategies || [];
     }
   });
 
@@ -126,7 +126,7 @@ export default function AIStrategyAdvisor() {
             <p className="text-sm text-gray-600 mb-3">{strategy.description}</p>
             
             <div className="space-y-2 mb-4">
-              {strategy.steps?.map((step, stepIdx) => (
+              {strategy?.steps?.map((step, stepIdx) => (
                 <div key={stepIdx} className="flex items-start gap-2 text-sm">
                   <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
                   <span>{step}</span>

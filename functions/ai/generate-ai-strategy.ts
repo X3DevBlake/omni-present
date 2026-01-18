@@ -55,5 +55,5 @@ Focus on practical, implementable strategies.`,
     }
   });
   
-  return strategies;
+  return strategies || { strategies: [] };
 }
