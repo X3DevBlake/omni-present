@@ -17,6 +17,31 @@ import GlobalAvatarOverlay from './components/avatar/GlobalAvatarOverlay';
 import AnimationController from './components/avatar/AnimationController';
 import { base44 } from '@/api/base44Client';
 
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    if (error?.message?.includes('source')) {
+      console.warn('DnD error caught and handled:', error.message);
+      this.setState({ hasError: false });
+    }
+  }
+
+  render() {
+    if (this.state.hasError && !this.state.error?.message?.includes('source')) {
+      return <div className="text-white p-4">Something went wrong. Please refresh.</div>;
+    }
+    return this.props.children;
+  }
+}
+
 export default function Layout({ children }) {
   const [userEmail, setUserEmail] = React.useState(null);
 
