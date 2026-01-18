@@ -80,11 +80,15 @@ export default function UserRoleManagement() {
 
         {/* Main Tabs */}
         <Tabs defaultValue="roles" className="space-y-6">
-          <TabsList className="bg-black/40 border border-white/10">
+          <TabsList className="bg-black/40 border border-white/10 flex flex-wrap">
             <TabsTrigger value="roles">Role Definitions</TabsTrigger>
             <TabsTrigger value="permissions">Permissions Matrix</TabsTrigger>
             <TabsTrigger value="users">User Assignments</TabsTrigger>
             <TabsTrigger value="visualization">Access Map</TabsTrigger>
+            <TabsTrigger value="clone">Clone Roles</TabsTrigger>
+            <TabsTrigger value="elevation">Temporary Access</TabsTrigger>
+            <TabsTrigger value="consent">Permission Consent</TabsTrigger>
+            <TabsTrigger value="audit">Audit Log</TabsTrigger>
           </TabsList>
 
           {/* Roles Tab */}
@@ -170,7 +174,27 @@ export default function UserRoleManagement() {
               </CardContent>
             </Card>
           </TabsContent>
-        </Tabs>
+
+          {/* Clone Roles Tab */}
+          <TabsContent value="clone">
+            <RoleCloner />
+          </TabsContent>
+
+          {/* Temporary Access Tab */}
+          <TabsContent value="elevation">
+            <TemporaryAccessElevation />
+          </TabsContent>
+
+          {/* Permission Consent Tab */}
+          <TabsContent value="consent">
+            <PermissionConsentManager />
+          </TabsContent>
+
+          {/* Audit Log Tab */}
+          <TabsContent value="audit">
+            <PermissionAuditLog />
+          </TabsContent>
+          </Tabs>
       </div>
     </AuroraBackground>
   );
