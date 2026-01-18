@@ -11,6 +11,10 @@ import AuroraBackground from '../components/omni/AuroraBackground';
 import AlertRulesPanel from '../components/alerts/AlertRulesPanel';
 import AlertHistoryPanel from '../components/alerts/AlertHistoryPanel';
 import AlertChannelsPanel from '../components/alerts/AlertChannelsPanel';
+import AlertTrendsAnalytics from '../components/alerts/AlertTrendsAnalytics';
+import RootCauseAnalyzer from '../components/alerts/RootCauseAnalyzer';
+import MLAnomalyRuleBuilder from '../components/alerts/MLAnomalyRuleBuilder';
+import AlertReportGenerator from '../components/alerts/AlertReportGenerator';
 
 export default function AlertManagementDashboard() {
   const [showCreateRule, setShowCreateRule] = useState(false);
