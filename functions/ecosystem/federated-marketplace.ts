@@ -64,15 +64,15 @@ Recommend:
     
     const federatedListings = [];
     
-    for (const marketplace of federationStrategy.recommended_marketplaces) {
-      const marketConfig = marketplaceRegistry[marketplace.marketplace];
-      if (marketConfig) {
+    for (const marketplace of (federationStrategy?.recommended_marketplaces || [])) {
+      const marketConfig = marketplace?.marketplace ? marketplaceRegistry[marketplace.marketplace] : null;
+      if (marketConfig && marketplace?.suggested_price) {
         federatedListings.push({
           marketplace: marketplace.marketplace,
-          marketplace_type: marketConfig.type,
+          marketplace_type: marketConfig?.type || 'unknown',
           price: marketplace.suggested_price,
-          fee: marketplace.suggested_price * (marketConfig.fee_percentage / 100),
-          reach: marketConfig.reach,
+          fee: marketplace.suggested_price * ((marketConfig?.fee_percentage || 0) / 100),
+          reach: marketConfig?.reach || 'unknown',
           status: 'listed'
         });
       }
@@ -80,16 +80,16 @@ Recommend:
     
     await context.entities.AgentMarketplaceListing.update(listing_id, {
       featured: true,
-      downloads: listingData.downloads + Math.floor(federationStrategy.total_expected_reach / 10)
+      downloads: (listingData?.downloads || 0) + Math.floor((federationStrategy?.total_expected_reach || 0) / 10)
     });
     
     return {
       listing_id,
       federated_to: federatedListings.length,
       marketplaces: federatedListings,
-      total_expected_reach: federationStrategy.total_expected_reach,
-      estimated_monthly_revenue: federationStrategy.estimated_monthly_revenue,
-      marketing_strategy: federationStrategy.marketing_strategy,
+      total_expected_reach: federationStrategy?.total_expected_reach || 0,
+      estimated_monthly_revenue: federationStrategy?.estimated_monthly_revenue || 0,
+      marketing_strategy: federationStrategy?.marketing_strategy || [],
       federation_timestamp: new Date().toISOString()
     };
   }

@@ -60,16 +60,16 @@ Adapt the content considering:
   
   return {
     original_content: content,
-    adapted_content: adaptation.adapted_content,
-    translation: adaptation.translation,
+    adapted_content: adaptation?.adapted_content || content,
+    translation: adaptation?.translation || '',
     target_region,
     target_language,
     cultural_profile: profile,
-    adjustments_made: adaptation.cultural_adjustments.length,
-    adjustments: adaptation.cultural_adjustments,
-    formatting: adaptation.formatting_changes,
-    tone: adaptation.tone_adjustment,
-    confidence: adaptation.confidence_score,
+    adjustments_made: adaptation?.cultural_adjustments?.length || 0,
+    adjustments: adaptation?.cultural_adjustments || [],
+    formatting: adaptation?.formatting_changes || {},
+    tone: adaptation?.tone_adjustment || '',
+    confidence: adaptation?.confidence_score || 0,
     adapted_at: new Date().toISOString()
   };
 }

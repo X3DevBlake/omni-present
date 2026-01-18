@@ -50,14 +50,14 @@ Determine:
   
   const queryResults = [];
   
-  for (const step of (federationStrategy.execution_plan || [])) {
-    if (step && step.source) {
+  for (const step of (federationStrategy?.execution_plan || [])) {
+    if (step?.source) {
       const source = availableSources[step.source];
       if (source) {
         queryResults.push({
           source: step.source,
-          latency: source.latency_ms,
-          reliability: source.reliability,
+          latency: source?.latency_ms || 0,
+          reliability: source?.reliability || 0,
           data_points: Math.floor(Math.random() * 100) + 10
         });
       }
@@ -74,14 +74,14 @@ Determine:
   return {
     query,
     federation_mode,
-    execution_plan: federationStrategy.execution_plan,
+    execution_plan: federationStrategy?.execution_plan || [],
     sources_queried: queryResults.length,
     results: queryResults,
     aggregated: aggregatedData,
-    merge_strategy: federationStrategy.merge_strategy,
-    data_quality: federationStrategy.data_quality_score,
-    total_time_ms: federationStrategy.estimated_time_ms,
-    cached: federationStrategy.caching_recommended,
+    merge_strategy: federationStrategy?.merge_strategy || '',
+    data_quality: federationStrategy?.data_quality_score || 0,
+    total_time_ms: federationStrategy?.estimated_time_ms || 0,
+    cached: federationStrategy?.caching_recommended || false,
     timestamp: new Date().toISOString()
   };
 }

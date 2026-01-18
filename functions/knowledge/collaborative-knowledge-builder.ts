@@ -1,7 +1,7 @@
 export default async function collaborativeKnowledgeBuilder(data, context) {
   const { contributing_agent_ids, knowledge_topic, knowledge_content, contribution_type = 'addition' } = data;
   
-  const agents = await Promise.all(contributing_agent_ids.map(id => context.entities.Agent.get(id)));
+  const agents = await Promise.all(contributing_agent_ids.map(id => context.entities.Agent.get(id).catch(() => null))).then(results => results.filter(a => a !== null));
   const existingKnowledge = await context.entities.SharedKnowledge.list('-created_date', 50);
   const filteredKnowledge = existingKnowledge.filter(k => k?.title === knowledge_topic || k?.domain === knowledge_topic).slice(0, 1);
   
@@ -10,7 +10,7 @@ export default async function collaborativeKnowledgeBuilder(data, context) {
 
 Topic: ${knowledge_topic}
 Contribution Type: ${contribution_type}
-Contributing Agents: ${agents.map(a => a.name).join(', ')}
+Contributing Agents: ${agents.map(a => a?.name || 'Unknown').join(', ')}
 
 New Content: ${JSON.stringify(knowledge_content)}
 
@@ -39,10 +39,10 @@ Validate:
   
   let sharedKnowledge;
   
-  if (knowledgeValidation.validation_status === 'approved' || knowledgeValidation.validation_status === 'merge_required') {
+  if (knowledgeValidation?.validation_status === 'approved' || knowledgeValidation?.validation_status === 'merge_required') {
     if (filteredKnowledge.length > 0) {
       sharedKnowledge = await context.entities.SharedKnowledge.update(filteredKnowledge[0].id, {
-        content: JSON.stringify(knowledgeValidation.merged_content),
+        content: JSON.stringify(knowledgeValidation?.merged_content || {}),
         title: knowledge_topic,
         knowledge_type: 'synthesis',
         publisher_agent_id: contributing_agent_ids[0]
@@ -50,7 +50,7 @@ Validate:
     } else {
       sharedKnowledge = await context.entities.SharedKnowledge.create({
         title: knowledge_topic,
-        content: JSON.stringify(knowledgeValidation.merged_content),
+        content: JSON.stringify(knowledgeValidation?.merged_content || {}),
         knowledge_type: 'synthesis',
         publisher_agent_id: contributing_agent_ids[0]
       });
@@ -59,9 +59,9 @@ Validate:
     for (const agentId of contributing_agent_ids) {
       await context.entities.AgentMemory.create({
         agent_id: agentId,
-        content: `Contributed to shared knowledge: ${knowledge_topic}. Quality score: ${knowledgeValidation.quality_score}`,
+        content: `Contributed to shared knowledge: ${knowledge_topic}. Quality score: ${knowledgeValidation?.quality_score || 0}`,
         memory_type: 'knowledge',
-        importance: 70 + knowledgeValidation.quality_score / 5
+        importance: 70 + (knowledgeValidation?.quality_score || 0) / 5
       });
     }
     
@@ -70,15 +70,15 @@ Validate:
       description: `${agents.length} agents collaboratively built knowledge on ${knowledge_topic}`,
       insight_type: 'synthesis',
       contributing_agents: contributing_agent_ids,
-      confidence_score: knowledgeValidation.quality_score || 50
+      confidence_score: knowledgeValidation?.quality_score || 50
     });
   }
   
   return {
-    validation: knowledgeValidation,
+    validation: knowledgeValidation || {},
     shared_knowledge: sharedKnowledge,
-    status: knowledgeValidation.validation_status,
+    status: knowledgeValidation?.validation_status || 'pending',
     contributors: agents.length,
-    next_actions: knowledgeValidation.recommendations
+    next_actions: knowledgeValidation?.recommendations || []
   };
 }
