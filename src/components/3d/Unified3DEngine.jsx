@@ -1,7 +1,6 @@
 import React, { Suspense, useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, PerspectiveCamera, Environment, Grid, Sky } from '@react-three/drei';
-import { EffectComposer, Bloom, SSAO } from '@react-three/postprocessing';
 
 export function Scene3D({ children, enablePostProcessing = true, cameraPosition = [0, 5, 10] }) {
   return (
@@ -19,13 +18,6 @@ export function Scene3D({ children, enablePostProcessing = true, cameraPosition 
       <Grid args={[100, 100]} cellSize={1} cellThickness={0.5} cellColor="#6b7280" sectionSize={10} sectionThickness={1} sectionColor="#3b82f6" fadeDistance={50} fadeStrength={1} followCamera={false} infiniteGrid />
       <Environment preset="city" />
       <OrbitControls enableDamping dampingFactor={0.05} minDistance={2} maxDistance={100} />
-      
-      {enablePostProcessing && (
-        <EffectComposer>
-          <Bloom luminanceThreshold={0.2} luminanceSmoothing={0.9} intensity={1.5} />
-          <SSAO samples={31} radius={5} intensity={40} />
-        </EffectComposer>
-      )}
     </Canvas>
   );
 }
