@@ -6,6 +6,8 @@ import { base44 } from '@/api/base44Client';
 import { toast } from 'sonner';
 import moment from 'moment';
 
+import OmniTokenContractInfo from '../components/omni/OmniTokenContractInfo';
+
 export default function OmniStaking() {
   const [user, setUser] = useState(null);
   const [stakes, setStakes] = useState([]);
