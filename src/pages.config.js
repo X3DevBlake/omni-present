@@ -1,6 +1,7 @@
 import AIAnalyticsHub from './pages/AIAnalyticsHub';
 import AICollaborationHub from './pages/AICollaborationHub';
 import AILab from './pages/AILab';
+import AILabs from './pages/AILabs';
 import AIManagement from './pages/AIManagement';
 import AIModelDeployment from './pages/AIModelDeployment';
 import AIPlayground from './pages/AIPlayground';
@@ -81,6 +82,7 @@ import CollaborationDashboard from './pages/CollaborationDashboard';
 import CollaborativeAgentHub from './pages/CollaborativeAgentHub';
 import CollaborativeWorkspace from './pages/CollaborativeWorkspace';
 import Communications from './pages/Communications';
+import CommunicationsHub from './pages/CommunicationsHub';
 import Community from './pages/Community';
 import CommunityCreations from './pages/CommunityCreations';
 import CommunityGuidelines from './pages/CommunityGuidelines';
@@ -121,6 +123,7 @@ import DeviceMarketplace from './pages/DeviceMarketplace';
 import DeviceSettings from './pages/DeviceSettings';
 import DeviceShop from './pages/DeviceShop';
 import DeviceTelemetry from './pages/DeviceTelemetry';
+import DevicesHub from './pages/DevicesHub';
 import DiscountsRebates from './pages/DiscountsRebates';
 import Documentation from './pages/Documentation';
 import EcosystemDashboard from './pages/EcosystemDashboard';
@@ -223,10 +226,10 @@ import ProactiveMonitoring from './pages/ProactiveMonitoring';
 import Profile from './pages/Profile';
 import ProfileHome from './pages/ProfileHome';
 import RealWorldBudget from './pages/RealWorldBudget';
+import Roadmap from './pages/Roadmap';
 import RealtimeDashboard from './pages/RealtimeDashboard';
 import ReferralProgram from './pages/ReferralProgram';
 import RepairRequest from './pages/RepairRequest';
-import Roadmap from './pages/Roadmap';
 import ReportingAnalytics from './pages/ReportingAnalytics';
 import ResourceLibrary from './pages/ResourceLibrary';
 import SDKsLibraries from './pages/SDKsLibraries';
@@ -269,9 +272,6 @@ import WebhooksHub from './pages/WebhooksHub';
 import WithdrawOmni from './pages/WithdrawOmni';
 import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import World from './pages/World';
-import AILabs from './pages/AILabs';
-import DevicesHub from './pages/DevicesHub';
-import CommunicationsHub from './pages/CommunicationsHub';
 import __Layout from './Layout.jsx';
 
 
@@ -279,6 +279,7 @@ export const PAGES = {
     "AIAnalyticsHub": AIAnalyticsHub,
     "AICollaborationHub": AICollaborationHub,
     "AILab": AILab,
+    "AILabs": AILabs,
     "AIManagement": AIManagement,
     "AIModelDeployment": AIModelDeployment,
     "AIPlayground": AIPlayground,
@@ -359,6 +360,7 @@ export const PAGES = {
     "CollaborativeAgentHub": CollaborativeAgentHub,
     "CollaborativeWorkspace": CollaborativeWorkspace,
     "Communications": Communications,
+    "CommunicationsHub": CommunicationsHub,
     "Community": Community,
     "CommunityCreations": CommunityCreations,
     "CommunityGuidelines": CommunityGuidelines,
@@ -399,6 +401,7 @@ export const PAGES = {
     "DeviceSettings": DeviceSettings,
     "DeviceShop": DeviceShop,
     "DeviceTelemetry": DeviceTelemetry,
+    "DevicesHub": DevicesHub,
     "DiscountsRebates": DiscountsRebates,
     "Documentation": Documentation,
     "EcosystemDashboard": EcosystemDashboard,
@@ -501,10 +504,10 @@ export const PAGES = {
     "Profile": Profile,
     "ProfileHome": ProfileHome,
     "RealWorldBudget": RealWorldBudget,
+    "Roadmap": Roadmap,
     "RealtimeDashboard": RealtimeDashboard,
     "ReferralProgram": ReferralProgram,
     "RepairRequest": RepairRequest,
-    "Roadmap": Roadmap,
     "ReportingAnalytics": ReportingAnalytics,
     "ResourceLibrary": ResourceLibrary,
     "SDKsLibraries": SDKsLibraries,
@@ -547,9 +550,6 @@ export const PAGES = {
     "WithdrawOmni": WithdrawOmni,
     "WorkflowAutomationHub": WorkflowAutomationHub,
     "World": World,
-    "AILabs": AILabs,
-    "DevicesHub": DevicesHub,
-    "CommunicationsHub": CommunicationsHub,
 }
 
 export const pagesConfig = {
