@@ -16,6 +16,10 @@ import Interactive3DStats from '../components/home/Interactive3DStats';
 import EcosystemMap3D from '../components/home/EcosystemMap3D';
 import OmniTokenEcosystem3D from '../components/3d/OmniTokenEcosystem3D';
 import Tokenomics3DVisualizer from '../components/3d/Tokenomics3DVisualizer';
+import InteractiveGlobe3D from '../components/home/InteractiveGlobe3D';
+import FinancialGalaxy3DEnhanced from '../components/home/FinancialGalaxy3DEnhanced';
+import AIEcosystemNetwork3D from '../components/home/AIEcosystemNetwork3D';
+import RealtimeFeedsWidget from '../components/home/RealtimeFeedsWidget';
 
 export default function Home() {
   const [activeFeature, setActiveFeature] = useState(0);
@@ -205,11 +209,85 @@ export default function Home() {
             </Card>
           </motion.div>
 
-          {/* Tokenomics 3D Visualizer */}
+          {/* Phase 1: Interactive Globe 3D */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.7 }}
+            className="mb-20"
+          >
+            <h2 className="text-4xl font-bold text-center mb-8 text-white">
+              Global Agent Activity
+            </h2>
+            <Card className="bg-slate-900/60 backdrop-blur-xl border-slate-700">
+              <CardContent className="p-0">
+                <div className="h-[500px]">
+                  <InteractiveGlobe3D agents={agents} />
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          {/* Phase 1: Financial Galaxy 3D */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.75 }}
+            className="mb-20"
+          >
+            <h2 className="text-4xl font-bold text-center mb-8 text-white">
+              Personal Financial Galaxy
+            </h2>
+            <Card className="bg-slate-900/60 backdrop-blur-xl border-slate-700">
+              <CardContent className="p-0">
+                <div className="h-[500px]">
+                  <FinancialGalaxy3DEnhanced />
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          {/* Phase 1: AI Ecosystem Network */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.8 }}
+            className="mb-20"
+          >
+            <h2 className="text-4xl font-bold text-center mb-8 text-white">
+              AI Ecosystem Network
+            </h2>
+            <Card className="bg-slate-900/60 backdrop-blur-xl border-slate-700">
+              <CardContent className="p-0">
+                <div className="h-[500px]">
+                  <AIEcosystemNetwork3D agents={agents} />
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          {/* Phase 1: Real-time Feeds Widget */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.85 }}
+            className="mb-20"
+          >
+            <h2 className="text-4xl font-bold text-center mb-8 text-white">
+              Real-Time Activity Feed
+            </h2>
+            <Card className="bg-slate-900/60 backdrop-blur-xl border-slate-700 p-6">
+              <CardContent className="p-0">
+                <RealtimeFeedsWidget />
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          {/* Tokenomics 3D Visualizer */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.9 }}
             className="mb-20"
           >
             <h2 className="text-4xl font-bold text-center mb-4 text-white">

@@ -85,6 +85,7 @@ import Community from './pages/Community';
 import CommunityCreations from './pages/CommunityCreations';
 import CommunityGuidelines from './pages/CommunityGuidelines';
 import CommunityGuidelinesEnhanced from './pages/CommunityGuidelinesEnhanced';
+import CommunityHub from './pages/CommunityHub';
 import CompetitiveArenas from './pages/CompetitiveArenas';
 import Compliance from './pages/Compliance';
 import ComplianceDashboard from './pages/ComplianceDashboard';
@@ -97,6 +98,7 @@ import CurriculumCourses from './pages/CurriculumCourses';
 import CustomDashboard from './pages/CustomDashboard';
 import CustomIntegrations from './pages/CustomIntegrations';
 import DEXAggregator from './pages/DEXAggregator';
+import DashboardHome from './pages/DashboardHome';
 import DataAnnotation from './pages/DataAnnotation';
 import DeFiAnalyticsPhase4 from './pages/DeFiAnalyticsPhase4';
 import DeFiAutonomousPhase3 from './pages/DeFiAutonomousPhase3';
@@ -121,6 +123,7 @@ import DeviceShop from './pages/DeviceShop';
 import DeviceTelemetry from './pages/DeviceTelemetry';
 import DiscountsRebates from './pages/DiscountsRebates';
 import Documentation from './pages/Documentation';
+import EcosystemDashboard from './pages/EcosystemDashboard';
 import EmergentBehavior from './pages/EmergentBehavior';
 import EnhancedAgentCreator from './pages/EnhancedAgentCreator';
 import EnhancedAgentMarketplace from './pages/EnhancedAgentMarketplace';
@@ -223,9 +226,9 @@ import RealWorldBudget from './pages/RealWorldBudget';
 import RealtimeDashboard from './pages/RealtimeDashboard';
 import ReferralProgram from './pages/ReferralProgram';
 import RepairRequest from './pages/RepairRequest';
+import Roadmap from './pages/Roadmap';
 import ReportingAnalytics from './pages/ReportingAnalytics';
 import ResourceLibrary from './pages/ResourceLibrary';
-import Roadmap from './pages/Roadmap';
 import SDKsLibraries from './pages/SDKsLibraries';
 import SandboxEnvironment from './pages/SandboxEnvironment';
 import SandboxHub from './pages/SandboxHub';
@@ -266,9 +269,6 @@ import WebhooksHub from './pages/WebhooksHub';
 import WithdrawOmni from './pages/WithdrawOmni';
 import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import World from './pages/World';
-import DashboardHome from './pages/DashboardHome';
-import EcosystemDashboard from './pages/EcosystemDashboard';
-import CommunityHub from './pages/CommunityHub';
 import __Layout from './Layout.jsx';
 
 
@@ -360,6 +360,7 @@ export const PAGES = {
     "CommunityCreations": CommunityCreations,
     "CommunityGuidelines": CommunityGuidelines,
     "CommunityGuidelinesEnhanced": CommunityGuidelinesEnhanced,
+    "CommunityHub": CommunityHub,
     "CompetitiveArenas": CompetitiveArenas,
     "Compliance": Compliance,
     "ComplianceDashboard": ComplianceDashboard,
@@ -372,6 +373,7 @@ export const PAGES = {
     "CustomDashboard": CustomDashboard,
     "CustomIntegrations": CustomIntegrations,
     "DEXAggregator": DEXAggregator,
+    "DashboardHome": DashboardHome,
     "DataAnnotation": DataAnnotation,
     "DeFiAnalyticsPhase4": DeFiAnalyticsPhase4,
     "DeFiAutonomousPhase3": DeFiAutonomousPhase3,
@@ -396,6 +398,7 @@ export const PAGES = {
     "DeviceTelemetry": DeviceTelemetry,
     "DiscountsRebates": DiscountsRebates,
     "Documentation": Documentation,
+    "EcosystemDashboard": EcosystemDashboard,
     "EmergentBehavior": EmergentBehavior,
     "EnhancedAgentCreator": EnhancedAgentCreator,
     "EnhancedAgentMarketplace": EnhancedAgentMarketplace,
@@ -498,9 +501,9 @@ export const PAGES = {
     "RealtimeDashboard": RealtimeDashboard,
     "ReferralProgram": ReferralProgram,
     "RepairRequest": RepairRequest,
+    "Roadmap": Roadmap,
     "ReportingAnalytics": ReportingAnalytics,
     "ResourceLibrary": ResourceLibrary,
-    "Roadmap": Roadmap,
     "SDKsLibraries": SDKsLibraries,
     "SandboxEnvironment": SandboxEnvironment,
     "SandboxHub": SandboxHub,
@@ -541,9 +544,6 @@ export const PAGES = {
     "WithdrawOmni": WithdrawOmni,
     "WorkflowAutomationHub": WorkflowAutomationHub,
     "World": World,
-    "DashboardHome": DashboardHome,
-    "EcosystemDashboard": EcosystemDashboard,
-    "CommunityHub": CommunityHub,
 }
 
 export const pagesConfig = {
