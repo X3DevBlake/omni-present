@@ -266,6 +266,7 @@ import WebhooksHub from './pages/WebhooksHub';
 import WithdrawOmni from './pages/WithdrawOmni';
 import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import World from './pages/World';
+import DashboardHome from './pages/DashboardHome';
 import __Layout from './Layout.jsx';
 
 
@@ -538,6 +539,7 @@ export const PAGES = {
     "WithdrawOmni": WithdrawOmni,
     "WorkflowAutomationHub": WorkflowAutomationHub,
     "World": World,
+    "DashboardHome": DashboardHome,
 }
 
 export const pagesConfig = {

@@ -1,16 +1,10 @@
 import React from 'react';
 import EnhancedMainNavRevamped from './components/navigation/EnhancedMainNavRevamped';
 import BackButton from './components/navigation/BackButton';
-import GlobalSearch from './components/navigation/GlobalSearch';
-import NotificationCenter from './components/navigation/NotificationCenter';
-import FeedbackButton from './components/feedback/FeedbackButton';
-import UnifiedCommandBar from './components/navigation/UnifiedCommandBar';
 import { GamificationProvider } from './components/gamification/GamificationContext';
 import { PersonalizationProvider } from './components/personalization/PersonalizationContext';
-import { AvatarProvider } from './components/avatar/AvatarContext';
-import GlobalAvatarOverlay from './components/avatar/GlobalAvatarOverlay';
-import AnimationController from './components/avatar/AnimationController';
-import { base44 } from '@/api/base44Client';
+import PageTransitionLoader from './components/ui/PageTransitionLoader';
+import { usePageTransition } from './components/hooks/usePageTransition';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -46,21 +40,31 @@ class ErrorBoundary extends React.Component {
   }
 }
 
+function LayoutContent({ children }) {
+  usePageTransition();
+  return (
+    <>
+      <PageTransitionLoader />
+      <EnhancedMainNavRevamped />
+      <BackButton />
+      {children}
+      <style>{`
+        .omni-logo-component {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      `}</style>
+    </>
+  );
+}
+
 export default function Layout({ children }) {
   return (
     <ErrorBoundary>
       <PersonalizationProvider>
         <GamificationProvider>
-          <EnhancedMainNavRevamped />
-          <BackButton />
-          {children}
-          <style>{`
-            .omni-logo-component {
-              display: flex;
-              align-items: center;
-              justify-content: center;
-            }
-          `}</style>
+          <LayoutContent>{children}</LayoutContent>
         </GamificationProvider>
       </PersonalizationProvider>
     </ErrorBoundary>
