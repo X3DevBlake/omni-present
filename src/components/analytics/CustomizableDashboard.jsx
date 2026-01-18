@@ -108,7 +108,7 @@ export default function CustomizableDashboard({ initialWidgets = ['performance',
   };
 
   const handleDragEnd = (result) => {
-    if (!result.destination) return;
+    if (!result?.destination || !result?.source) return;
 
     const items = Array.from(widgets);
     const [reorderedItem] = items.splice(result.source.index, 1);
