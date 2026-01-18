@@ -67,13 +67,8 @@ export default function Layout({ children }) {
             {children}
             <GlobalAvatarOverlay />
             <AnimationController />
-            <OmniAssistant />
             <FeedbackButton />
             <UnifiedCommandBar />
-            <ContextAwareHelpButton />
-            <GeminiAssistant />
-            <VertexAICopilot />
-            <RealTimeAlertSystem />
             <style>{`
             .omni-logo-component {
               display: flex;
