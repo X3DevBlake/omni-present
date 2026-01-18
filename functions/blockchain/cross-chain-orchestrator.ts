@@ -78,7 +78,7 @@ Determine:
       amount,
       token_symbol,
       recipient_address,
-      bridge_protocol: bridgeAnalysis.recommended_bridge,
+      bridge_protocol: bridgeAnalysis?.recommended_bridge || bridge_protocol,
       source_chain_id: sourceConfig.chain_id,
       target_chain_id: targetConfig.chain_id
     },
@@ -94,7 +94,7 @@ Determine:
       confirmations: 12,
       block_number: Math.floor(Math.random() * 1000000) + 1000000
     });
-  }, bridgeAnalysis.estimated_time_minutes * 60 * 1000);
+  }, (bridgeAnalysis?.estimated_time_minutes || 5) * 60 * 1000);
   
   await context.entities.WalletTransaction.create({
     transaction_hash: txHash,
@@ -114,12 +114,12 @@ Determine:
     transaction_hash: txHash,
     source_chain,
     target_chain,
-    bridge_protocol: bridgeAnalysis.recommended_bridge,
-    estimated_completion: new Date(Date.now() + bridgeAnalysis.estimated_time_minutes * 60 * 1000).toISOString(),
-    fee_usd: bridgeAnalysis.estimated_fee_usd,
-    security_score: bridgeAnalysis.security_score,
+    bridge_protocol: bridgeAnalysis?.recommended_bridge || bridge_protocol,
+    estimated_completion: new Date(Date.now() + (bridgeAnalysis?.estimated_time_minutes || 5) * 60 * 1000).toISOString(),
+    fee_usd: bridgeAnalysis?.estimated_fee_usd || 0,
+    security_score: bridgeAnalysis?.security_score || 0,
     status: 'pending',
-    alternative_routes: bridgeAnalysis.alternative_routes,
-    risks: bridgeAnalysis.risks
+    alternative_routes: bridgeAnalysis?.alternative_routes || [],
+    risks: bridgeAnalysis?.risks || []
   };
 }

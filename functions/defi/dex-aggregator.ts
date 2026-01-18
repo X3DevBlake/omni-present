@@ -27,9 +27,9 @@ Amount: ${amount}`,
   
   const routes = dexes.map(dex => {
     const priceImpact = (amount / dex.liquidity) * 100;
-    const effectiveRate = marketData.market_rate * (1 - priceImpact / 100);
+    const effectiveRate = (marketData?.market_rate || 1) * (1 - priceImpact / 100);
     const outputAmount = amount * effectiveRate * (1 - dex.fee);
-    const totalCost = amount - outputAmount * marketData.to_token_price / marketData.from_token_price;
+    const totalCost = amount - outputAmount * (marketData?.to_token_price || 1) / (marketData?.from_token_price || 1);
     
     return {
       dex: dex.name,
@@ -88,29 +88,31 @@ Design optimal split routing strategy to:
     }
   });
   
-  const bestRoute = splitRouting.optimal_route;
+  const bestRoute = splitRouting?.optimal_route;
   
-  await context.entities.TradeExecution.create({
-    user_email,
-    from_token,
-    to_token,
-    input_amount: amount,
-    expected_output: bestRoute.total_output,
-    route_strategy: bestRoute.strategy,
-    dexes_used: bestRoute.splits.map(s => s.dex),
-    price_impact: bestRoute.price_impact,
-    estimated_gas: bestRoute.total_gas_estimate,
-    status: 'pending',
-    aggregator_used: true
-  });
+  if (bestRoute) {
+    await context.entities.TradeExecution.create({
+      user_email,
+      from_token,
+      to_token,
+      input_amount: amount,
+      expected_output: bestRoute.total_output || 0,
+      route_strategy: bestRoute.strategy || 'single',
+      dexes_used: bestRoute.splits?.map(s => s.dex) || [],
+      price_impact: bestRoute.price_impact || 0,
+      estimated_gas: bestRoute.total_gas_estimate || 0,
+      status: 'pending',
+      aggregator_used: true
+    });
+  }
   
   return {
-    optimal_route: bestRoute,
+    optimal_route: bestRoute || routes[0],
     all_routes: routes,
-    savings_vs_single_dex: routes[0].output_amount < bestRoute.total_output 
+    savings_vs_single_dex: (routes[0] && bestRoute && routes[0].output_amount < bestRoute.total_output)
       ? ((bestRoute.total_output - routes[0].output_amount) / routes[0].output_amount * 100).toFixed(2)
       : 0,
     recommendation: 'Execute split route for optimal output',
-    execution_ready: true
+    execution_ready: !!bestRoute
   };
 }
