@@ -12,7 +12,7 @@ export default function CustomizableDashboard({ userRole, onClose }) {
   ]);
 
   const handleDragEnd = (result) => {
-    if (!result.destination) return;
+    if (!result?.destination || !result?.source) return;
     
     const items = Array.from(widgets);
     const [reordered] = items.splice(result.source.index, 1);
@@ -51,13 +51,13 @@ export default function CustomizableDashboard({ userRole, onClose }) {
 
         <DragDropContext onDragEnd={handleDragEnd}>
           <Droppable droppableId="widgets">
-            {(provided) => (
+            {(provided) => provided ? (
               <div {...provided.droppableProps} ref={provided.innerRef} className="space-y-3">
                 {widgets.map((widget, index) => {
                   const Icon = widget.icon;
                   return (
                     <Draggable key={widget.id} draggableId={widget.id} index={index}>
-                      {(provided, snapshot) => (
+                      {(provided, snapshot) => provided ? (
                         <div
                           ref={provided.innerRef}
                           {...provided.draggableProps}
@@ -87,13 +87,13 @@ export default function CustomizableDashboard({ userRole, onClose }) {
                             </label>
                           </div>
                         </div>
-                      )}
+                      ) : null}
                     </Draggable>
                   );
                 })}
                 {provided.placeholder}
               </div>
-            )}
+            ) : null}
           </Droppable>
         </DragDropContext>
 
