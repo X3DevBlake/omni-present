@@ -28,14 +28,15 @@ class ErrorBoundary extends React.Component {
   }
 
   componentDidCatch(error, errorInfo) {
-    if (error?.message?.includes('source')) {
+    const isMayBeDnDError = error?.message?.includes('source') || error?.message?.includes('Cannot read properties of undefined');
+    if (isMayBeDnDError) {
       console.warn('DnD error caught and handled:', error.message);
       this.setState({ hasError: false });
     }
   }
 
   render() {
-    if (this.state.hasError && !this.state.error?.message?.includes('source')) {
+    if (this.state.hasError && !this.state.error?.message?.includes('source') && !this.state.error?.message?.includes('Cannot read properties of undefined')) {
       return <div className="text-white p-4">Something went wrong. Please refresh.</div>;
     }
     return this.props.children;
