@@ -169,7 +169,7 @@ export default function CustomizableDashboard({ initialWidgets = ['performance',
 
       <DragDropContext onDragEnd={handleDragEnd}>
         <Droppable droppableId="dashboard">
-          {(provided) => (
+          {(provided) => provided ? (
             <div
               {...provided.droppableProps}
               ref={provided.innerRef}
@@ -214,7 +214,7 @@ export default function CustomizableDashboard({ initialWidgets = ['performance',
               })}
               {provided.placeholder}
             </div>
-          )}
+          ) : null}
         </Droppable>
       </DragDropContext>
     </div>
