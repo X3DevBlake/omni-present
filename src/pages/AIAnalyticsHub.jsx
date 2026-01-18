@@ -23,11 +23,19 @@ export default function AIAnalyticsHub() {
   const [userEmail, setUserEmail] = useState(null);
   const [timeRange, setTimeRange] = useState('7d');
   const [selectedAgent, setSelectedAgent] = useState('all');
+  const [loadedSections, setLoadedSections] = useState({ overview: true });
 
   React.useEffect(() => {
     base44.auth.me()
       .then(user => setUserEmail(user?.email))
       .catch(() => setUserEmail(null));
+  }, []);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoadedSections(prev => ({ ...prev, enhanced: true }));
+    }, 1000);
+    return () => clearTimeout(timer);
   }, []);
 
   const { data: agents } = useQuery({
