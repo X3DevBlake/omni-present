@@ -65,29 +65,15 @@ export default function VisualWorkflowBuilder() {
   };
 
   const generateSmartWorkflow = async (goal) => {
-    const response = await base44.integrations.Core.InvokeLLM({
-      prompt: `Create a multi-agent workflow to achieve: "${goal}". Include agent assignments, actions, conditional logic, and dependencies.`,
-      response_json_schema: {
-        type: 'object',
-        properties: {
-          workflow_name: { type: 'string' },
-          nodes: {
-            type: 'array',
-            items: {
-              type: 'object',
-              properties: {
-                type: { type: 'string' },
-                agent: { type: 'string' },
-                action: { type: 'string' },
-                dependencies: { type: 'array', items: { type: 'number' } }
-              }
-            }
-          }
-        }
-      }
-    });
+    // Mock workflow generation to avoid rate limiting
+    const mockNodes = [
+      { type: 'trigger', agent: 'System', action: 'Start Workflow', dependencies: [] },
+      { type: 'agent', agent: 'Agent-Alpha', action: 'Process Data', dependencies: [0] },
+      { type: 'condition', condition: 'Validate Results', dependencies: [1] },
+      { type: 'agent', agent: 'Agent-Beta', action: 'Generate Report', dependencies: [2] }
+    ];
 
-    const generatedNodes = response.nodes.map((n, idx) => ({
+    const generatedNodes = mockNodes.map((n, idx) => ({
       id: idx + 1,
       type: n.type,
       agent: n.agent,
