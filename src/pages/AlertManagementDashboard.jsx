@@ -8,9 +8,9 @@ import { Badge } from '@/components/ui/badge';
 import { motion } from 'framer-motion';
 import { AlertTriangle, Bell, CheckCircle2, Clock, Zap, Plus } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
-import AlertRulesPanel from '../components/alerts/AlertRulesPanel';
-import AlertHistoryPanel from '../components/alerts/AlertHistoryPanel';
-import AlertChannelsPanel from '../components/alerts/AlertChannelsPanel';
+import AlertRulesPanel from '../components/alerts/AlertRulesPanel.js';
+import AlertHistoryPanel from '../components/alerts/AlertHistoryPanel.js';
+import AlertChannelsPanel from '../components/alerts/AlertChannelsPanel.js';
 
 export default function AlertManagementDashboard() {
   const [showCreateRule, setShowCreateRule] = useState(false);

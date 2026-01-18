@@ -8,9 +8,9 @@ import { Badge } from '@/components/ui/badge';
 import { motion } from 'framer-motion';
 import { Shield, Users, Lock, Settings, Plus, Edit2, Trash2 } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
-import RoleDefinitionPanel from '../components/admin/RoleDefinitionPanel';
-import UserPermissionsPanel from '../components/admin/UserPermissionsPanel';
-import PermissionVisualization from '../components/admin/PermissionVisualization';
+import RoleDefinitionPanel from '../components/admin/RoleDefinitionPanel.js';
+import UserPermissionsPanel from '../components/admin/UserPermissionsPanel.js';
+import PermissionVisualization from '../components/admin/PermissionVisualization.js';
 
 export default function UserRoleManagement() {
   const [showCreateRole, setShowCreateRole] = useState(false);

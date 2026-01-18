@@ -8,10 +8,10 @@ import { Badge } from '@/components/ui/badge';
 import { motion } from 'framer-motion';
 import { Users, Network, Lightbulb, CheckCircle2, Clock, AlertCircle, Plus } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
-import CollaborationWorkingGroupsPanel from '../components/collaboration/CollaborationWorkingGroupsPanel';
-import CollaborationTasksPanel from '../components/collaboration/CollaborationTasksPanel';
-import SharedInsightsPanel from '../components/collaboration/SharedInsightsPanel';
-import CollaborationVisualization from '../components/collaboration/CollaborationVisualization';
+import CollaborationWorkingGroupsPanel from '../components/collaboration/CollaborationWorkingGroupsPanel.js';
+import CollaborationTasksPanel from '../components/collaboration/CollaborationTasksPanel.js';
+import SharedInsightsPanel from '../components/collaboration/SharedInsightsPanel.js';
+import CollaborationVisualization from '../components/collaboration/CollaborationVisualization.js';
 
 export default function AgentCollaborationDashboard() {
   const [selectedGroup, setSelectedGroup] = useState(null);
