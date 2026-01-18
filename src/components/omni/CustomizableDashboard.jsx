@@ -62,27 +62,17 @@ export default function CustomizableDashboard({ userRole, onClose }) {
 
         <DragDropContext onDragEnd={handleDragEnd}>
           <Droppable droppableId="widgets">
-            {(provided) => {
-              if (!provided || !provided.innerRef || !provided.droppableProps) {
-                console.warn('DnD: Droppable provided props missing');
-                return null;
-              }
-              return (
-              <div {...provided.droppableProps} ref={provided.innerRef} className="space-y-3">
+            {(provided) => (
+              <div {...provided?.droppableProps} ref={provided?.innerRef} className="space-y-3">
                 {widgets.map((widget, index) => {
                   const Icon = widget.icon;
                   return (
                     <Draggable key={widget.id} draggableId={widget.id} index={index}>
-                      {(provided, snapshot) => {
-                        if (!provided || !provided.innerRef || !provided.draggableProps) {
-                          console.warn('DnD: Draggable provided props missing');
-                          return null;
-                        }
-                        return (
+                      {(provided, snapshot) => (
                         <div
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
+                          ref={provided?.innerRef}
+                          {...provided?.draggableProps}
+                          {...provided?.dragHandleProps}
                           className={`p-4 rounded-xl border transition-all ${
                             snapshot?.isDragging 
                               ? 'bg-cyan-500/20 border-cyan-500/40' 
@@ -108,13 +98,13 @@ export default function CustomizableDashboard({ userRole, onClose }) {
                             </label>
                           </div>
                         </div>
-                      );}}
+                      )}
                     </Draggable>
                   );
                 })}
-                {provided.placeholder}
+                {provided?.placeholder}
               </div>
-            );}}
+            )}
           </Droppable>
         </DragDropContext>
 
