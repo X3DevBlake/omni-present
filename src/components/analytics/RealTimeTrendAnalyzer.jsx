@@ -52,7 +52,7 @@ export default function RealTimeTrendAnalyzer() {
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-2 gap-4">
-          {trends.map((trend, idx) => (
+          {trends.map((trend, idx) => trend ? (
             <motion.div
               key={idx}
               initial={{ scale: 0.9, opacity: 0 }}
@@ -61,8 +61,8 @@ export default function RealTimeTrendAnalyzer() {
               className="p-4 rounded-lg border bg-gradient-to-br from-blue-50 to-indigo-50"
             >
               <div className="flex items-center justify-between mb-2">
-                <p className="text-sm font-semibold text-gray-700">{trend.metric}</p>
-                {trend.change === 'up' ? (
+                <p className="text-sm font-semibold text-gray-700">{trend?.metric}</p>
+                {trend?.change === 'up' ? (
                   <TrendingUp className="w-5 h-5 text-green-500" />
                 ) : (
                   <TrendingDown className="w-5 h-5 text-red-500" />
@@ -70,13 +70,13 @@ export default function RealTimeTrendAnalyzer() {
               </div>
               
               <div className="flex items-baseline gap-2">
-                <span className="text-2xl font-bold">{trend.value}%</span>
-                <Badge variant={trend.change === 'up' ? 'default' : 'destructive'} className="text-xs">
-                  {trend.change === 'up' ? '+' : '-'}{trend.percentage}%
+                <span className="text-2xl font-bold">{trend?.value}%</span>
+                <Badge variant={trend?.change === 'up' ? 'default' : 'destructive'} className="text-xs">
+                  {trend?.change === 'up' ? '+' : '-'}{trend?.percentage}%
                 </Badge>
               </div>
             </motion.div>
-          ))}
+          ) : null)}
         </div>
       </CardContent>
     </Card>

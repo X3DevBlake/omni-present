@@ -54,7 +54,7 @@ export default function PersonalizedContentFeed() {
     <div className="space-y-4">
       <h2 className="text-2xl font-bold">Personalized Insights</h2>
       <div className="grid gap-4 md:grid-cols-2">
-        {insights?.map((insight, idx) => (
+        {insights?.map((insight, idx) => insight ? (
           <motion.div
             key={idx}
             initial={{ opacity: 0, y: 20 }}
@@ -64,17 +64,17 @@ export default function PersonalizedContentFeed() {
             <Card className="hover:shadow-lg transition-shadow">
               <CardHeader>
                 <div className="flex items-center justify-between">
-                  <insight.icon className={`w-6 h-6 ${insight.color}`} />
-                  <Badge>{insight.type}</Badge>
+                  {insight?.icon && <insight.icon className={`w-6 h-6 ${insight.color}`} />}
+                  <Badge>{insight?.type}</Badge>
                 </div>
-                <CardTitle className="text-lg mt-2">{insight.title}</CardTitle>
+                <CardTitle className="text-lg mt-2">{insight?.title}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-sm text-gray-600">{insight.description}</p>
+                <p className="text-sm text-gray-600">{insight?.description}</p>
               </CardContent>
             </Card>
           </motion.div>
-        ))}
+        ) : null)}
       </div>
     </div>
   );

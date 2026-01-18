@@ -74,7 +74,7 @@ export default function PredictiveBottleneckDetector() {
             <p className="text-sm text-gray-500">No bottlenecks detected</p>
           </div>
         ) : (
-          bottlenecks?.map((item, idx) => (
+          bottlenecks?.map((item, idx) => item ? (
             <motion.div
               key={idx}
               initial={{ opacity: 0, x: -20 }}
@@ -86,20 +86,20 @@ export default function PredictiveBottleneckDetector() {
                 <div className="flex items-center gap-2">
                   <AlertTriangle className="w-5 h-5 text-orange-500 flex-shrink-0" />
                   <div>
-                    <p className="font-semibold">{item.workflow}</p>
-                    <p className="text-sm text-gray-600">Issue: {item.bottleneck}</p>
+                    <p className="font-semibold">{item?.workflow}</p>
+                    <p className="text-sm text-gray-600">Issue: {item?.bottleneck}</p>
                   </div>
                 </div>
-                <Badge className={getImpactColor(item.impact)}>
-                  {item.impact}
+                <Badge className={getImpactColor(item?.impact)}>
+                  {item?.impact}
                 </Badge>
               </div>
               
               <div className="mt-3 space-y-2">
-                <p className="text-xs text-gray-500">⏱️ {item.eta}</p>
+                <p className="text-xs text-gray-500">⏱️ {item?.eta}</p>
                 <div className="flex items-start gap-2 p-2 bg-white rounded border">
                   <Zap className="w-4 h-4 text-blue-500 flex-shrink-0 mt-0.5" />
-                  <p className="text-sm">{item.suggestion}</p>
+                  <p className="text-sm">{item?.suggestion}</p>
                 </div>
               </div>
               
@@ -107,7 +107,7 @@ export default function PredictiveBottleneckDetector() {
                 Apply Optimization <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
             </motion.div>
-          ))
+          ) : null)
         )}
       </CardContent>
     </Card>

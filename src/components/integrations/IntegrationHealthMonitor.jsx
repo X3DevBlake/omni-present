@@ -62,7 +62,7 @@ export default function IntegrationHealthMonitor() {
       </CardHeader>
       <CardContent>
         <div className="space-y-3">
-          {integrations?.map((integration, idx) => (
+          {integrations?.map((integration, idx) => integration ? (
             <motion.div
               key={idx}
               initial={{ opacity: 0, y: 10 }}
@@ -71,19 +71,19 @@ export default function IntegrationHealthMonitor() {
               className="flex items-center justify-between p-3 rounded-lg border hover:shadow-md transition-shadow"
             >
               <div className="flex items-center gap-3">
-                {getStatusIcon(integration.status)}
+                {getStatusIcon(integration?.status)}
                 <div>
-                  <p className="font-semibold">{integration.name}</p>
+                  <p className="font-semibold">{integration?.name}</p>
                   <p className="text-xs text-gray-500">
-                    Uptime: {integration.uptime}% | Latency: {integration.latency}ms
+                    Uptime: {integration?.uptime}% | Latency: {integration?.latency}ms
                   </p>
                 </div>
               </div>
-              <Badge className={getStatusColor(integration.status)}>
-                {integration.status}
+              <Badge className={getStatusColor(integration?.status)}>
+                {integration?.status}
               </Badge>
             </motion.div>
-          ))}
+          ) : null)}
         </div>
       </CardContent>
     </Card>

@@ -22,12 +22,12 @@ export default function TeamSynergyAnalyzer() {
           
           // Calculate synergy based on complementary skills
           const sharedCollabs = collaborations.filter(c => 
-            c.agent_ids?.includes(agent1.id) && c.agent_ids?.includes(agent2.id)
+            c?.agent_ids?.includes(agent1?.id) && c?.agent_ids?.includes(agent2?.id)
           );
           
           const synergyScore = Math.min(95, 60 + sharedCollabs.length * 5 + Math.random() * 20);
           
-          if (synergyScore > 75) {
+          if (synergyScore > 75 && agent1?.name && agent2?.name) {
             teamPairs.push({
               agent1: agent1.name,
               agent2: agent2.name,
