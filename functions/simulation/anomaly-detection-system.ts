@@ -1,110 +1,82 @@
-/**
- * Advanced Anomaly Detection for Simulation Integrity
- */
+import { createClientFromRequest } from 'npm:@base44/sdk@0.8.6';
 
-import { base44 } from '@base44/sdk';
-
-export default async function anomalyDetectionSystem(context) {
-  const { simulation_id } = context.params;
-
+Deno.serve(async (req) => {
   try {
-    const [simulation, agents, interactions, analytics] = await Promise.all([
-      base44.asServiceRole.entities.WorldSimulation.get(simulation_id),
-      base44.asServiceRole.entities.HolographicAgent.list(),
-      base44.asServiceRole.entities.AgentInteraction.list('-timestamp', 100),
-      base44.asServiceRole.entities.SimulationAnalytics.list({ simulation_id })
-    ]);
+    const base44 = createClientFromRequest(req);
+    const user = await base44.auth.me();
 
-    // AI-powered anomaly detection
-    const anomalyAnalysis = await base44.integrations.Core.InvokeLLM({
-      prompt: `Advanced anomaly detection for simulation:
+    if (!user) {
+      return Response.json({ error: 'Unauthorized' }, { status: 401 });
+    }
 
-Agents: ${agents.length}
-Recent interactions: ${interactions.length}
-Performance: ${JSON.stringify(analytics[0]?.agent_performance)}
+    const body = await req.json();
+    const { simulationId, metrics } = body;
 
-Analyze for anomalies:
-1. Resource leaks (memory, CPU, network)
-2. Behavior divergence (agents acting unexpectedly)
-3. Communication failures (dropped messages, timeouts)
-4. Data corruption (invalid states, missing data)
-5. Performance degradation (slow responses, high latency)
+    // Fetch simulation
+    const simulation = await base44.asServiceRole.entities.Simulation?.get?.(simulationId)
+      .catch(() => null);
 
-For each anomaly found:
-- Type, severity
-- Root cause
-- Affected agents
-- Recommended action
-- Auto-resolution possible?`,
-      response_json_schema: {
-        type: 'object',
-        properties: {
-          anomalies: {
-            type: 'array',
-            items: {
-              type: 'object',
-              properties: {
-                type: { type: 'string' },
-                severity: { type: 'string' },
-                root_cause: { type: 'string' },
-                affected_agents: { type: 'array' },
-                recommended_action: { type: 'string' },
-                auto_resolvable: { type: 'boolean' },
-                resolution_steps: { type: 'array' }
-              }
-            }
-          },
-          overall_health: { type: 'number' }
-        }
-      }
-    });
+    if (!simulation) {
+      return Response.json({ error: 'Simulation not found' }, { status: 404 });
+    }
 
-    // Create anomaly records
-    const createdAnomalies = await Promise.all(
-      anomalyAnalysis.anomalies.map(async anomaly => {
-        const record = await base44.asServiceRole.entities.SimulationAnomaly.create({
-          simulation_id,
-          anomaly_type: anomaly.type,
-          severity: anomaly.severity,
-          detected_by: 'ai_monitor',
-          affected_agents: anomaly.affected_agents,
-          root_cause: anomaly.root_cause,
-          recommended_action: anomaly.recommended_action,
-          auto_resolved: false,
-          resolution_steps: anomaly.resolution_steps
+    // Detect anomalies using statistical methods
+    const anomalies = [];
+
+    // Check for unusual metric patterns
+    if (metrics) {
+      if (metrics.agentFailureRate > 0.15) {
+        anomalies.push({
+          type: 'high_failure_rate',
+          severity: 'critical',
+          metric: metrics.agentFailureRate * 100,
+          threshold: 15,
+          recommendation: 'Review agent health and restart failed instances',
         });
+      }
 
-        // Auto-resolve if possible
-        if (anomaly.auto_resolvable) {
-          await autoResolveAnomaly(record.id, anomaly.resolution_steps);
-          await base44.asServiceRole.entities.SimulationAnomaly.update(record.id, {
-            auto_resolved: true
-          });
-        }
+      if (metrics.latencySpike > 1000) {
+        anomalies.push({
+          type: 'latency_spike',
+          severity: 'high',
+          metric: metrics.latencySpike,
+          threshold: 1000,
+          recommendation: 'Check system resources and network connectivity',
+        });
+      }
 
-        return record;
-      })
-    );
+      if (metrics.commBreakdown > 0.1) {
+        anomalies.push({
+          type: 'communication_breakdown',
+          severity: 'medium',
+          metric: metrics.commBreakdown * 100,
+          threshold: 10,
+          recommendation: 'Verify inter-agent messaging queue and handlers',
+        });
+      }
+    }
 
-    return {
+    // Store detected anomalies
+    for (const anomaly of anomalies) {
+      await base44.asServiceRole.entities.SimulationAnomaly?.create?.({
+        simulation_id: simulationId,
+        anomaly_type: anomaly.type,
+        severity: anomaly.severity,
+        metric_value: anomaly.metric,
+        threshold: anomaly.threshold,
+        recommendation: anomaly.recommendation,
+        detected_at: new Date().toISOString(),
+      }).catch(() => null);
+    }
+
+    return Response.json({
       success: true,
-      anomalies_detected: createdAnomalies.length,
-      critical_count: createdAnomalies.filter(a => a.severity === 'critical').length,
-      auto_resolved: createdAnomalies.filter(a => a.auto_resolved).length,
-      overall_health: anomalyAnalysis.overall_health
-    };
-
-  } catch (error) {
-    console.error('Anomaly detection error:', error);
-    return { success: false, error: error.message };
-  }
-}
-
-async function autoResolveAnomaly(anomalyId, steps) {
-  // Execute resolution steps
-  for (const step of steps) {
-    await base44.integrations.Core.InvokeLLM({
-      prompt: `Execute anomaly resolution step: ${step}`
+      simulationId,
+      anomalyCount: anomalies.length,
+      anomalies,
+      healthStatus: anomalies.length === 0 ? 'healthy' : 'degraded',
     });
+  } catch (error) {
+    return Response.json({ error: error.message }, { status: 500 });
   }
-}
+});

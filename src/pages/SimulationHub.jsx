@@ -1,381 +1,213 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, Box, Sphere, Text } from '@react-three/drei';
-import { Play, Square, BarChart3, Download, Settings } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Play, Square, RotateCcw, Zap, Users, AlertTriangle } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
-import BackButton from '../components/navigation/BackButton';
-import DynamicEventControls from '../components/simulation/DynamicEventControls';
-import ContextKnowledgeRetrieval from '../components/knowledge/ContextKnowledgeRetrieval';
-import { createPageUrl } from '../utils';
-import { Link } from 'react-router-dom';
-
-function SimAgent({ position, agent, speed }) {
-  const meshRef = React.useRef();
-  const [offset] = React.useState(Math.random() * Math.PI * 2);
-  
-  useFrame((state) => {
-    if (meshRef.current) {
-      meshRef.current.position.x = position[0] + Math.cos(state.clock.elapsedTime * speed + offset) * 2;
-      meshRef.current.position.z = position[2] + Math.sin(state.clock.elapsedTime * speed + offset) * 2;
-    }
-  });
-
-  return (
-    <group>
-      <mesh ref={meshRef} position={position}>
-        <sphereGeometry args={[0.3, 16, 16]} />
-        <meshStandardMaterial color={agent.color} emissive={agent.color} emissiveIntensity={0.6} />
-      </mesh>
-      <Text position={[position[0], position[1] - 0.8, position[2]]} fontSize={0.15} color="white">
-        {agent.name}
-      </Text>
-    </group>
-  );
-}
-
-function SimEnvironment({ config, agents, isRunning }) {
-  return (
-    <group>
-      {/* Ground */}
-      <Box args={[20, 0.2, 20]} position={[0, -0.1, 0]}>
-        <meshStandardMaterial color="#1a202c" />
-      </Box>
-
-      {/* Environment Elements */}
-      {config.physics && (
-        <Box args={[2, 2, 2]} position={[5, 1, 5]}>
-          <meshStandardMaterial color="#4a5568" />
-        </Box>
-      )}
-      
-      {config.social && (
-        <Sphere args={[1, 16, 16]} position={[-5, 1, -5]}>
-          <meshStandardMaterial color="#805ad5" />
-        </Sphere>
-      )}
-
-      {/* Agents */}
-      {isRunning && agents.map((agent, idx) => (
-        <SimAgent
-          key={agent.id}
-          position={[
-            (idx % 4 - 1.5) * 4,
-            1,
-            (Math.floor(idx / 4) - 1) * 4
-          ]}
-          agent={agent}
-          speed={0.3 + agent.personality.energy * 0.5}
-        />
-      ))}
-    </group>
-  );
-}
+import WorldState3DSimulator from '../components/simulation/WorldState3DSimulator';
+import MultiAgentInteractionGraph from '../components/simulation/MultiAgentInteractionGraph';
+import AnomalyReplayVisualizer from '../components/simulation/AnomalyReplayVisualizer';
 
 export default function SimulationHub() {
-  const [simConfig, setSimConfig] = useState({
-    physics: true,
-    social: true,
-    economic: false,
-    gravity: 9.8,
-    friction: 0.5
-  });
-
-  const [agents, setAgents] = useState([
-    { id: 1, name: 'Explorer', personality: { curiosity: 85, energy: 0.7 }, mood: 80, stress: 20, color: '#00f5ff' },
-    { id: 2, name: 'Analyst', personality: { curiosity: 60, energy: 0.4 }, mood: 70, stress: 30, color: '#a855f7' },
-    { id: 3, name: 'Builder', personality: { curiosity: 50, energy: 0.8 }, mood: 90, stress: 10, color: '#10b981' },
-    { id: 4, name: 'Mediator', personality: { curiosity: 70, energy: 0.5 }, mood: 75, stress: 25, color: '#f59e0b' }
-  ]);
-  
-  const [savedStates, setSavedStates] = useState([]);
-
-  const [isRunning, setIsRunning] = useState(false);
-  const [simResults, setSimResults] = useState(null);
-
-  const startSimulation = () => {
-    setIsRunning(true);
-    setSimResults(null);
-
-    setTimeout(() => {
-      setSimResults({
-        duration: '5m 32s',
-        interactions: 147,
-        emergentBehaviors: [
-          'Agents formed two collaborative clusters',
-          'Explorer initiated 63% of new interactions',
-          'Resource pooling behavior emerged at t=2:15'
-        ],
-        goalAchievement: 87,
-        collaborationScore: 92
-      });
-    }, 10000);
-  };
-
-  const stopSimulation = () => {
-    setIsRunning(false);
-  };
-
-  const saveSimulationState = () => {
-    const state = {
-      id: Date.now(),
-      timestamp: new Date().toISOString(),
-      config: simConfig,
-      agents: agents,
-      results: simResults
-    };
-    setSavedStates([...savedStates, state]);
-    alert('Simulation state saved!');
-  };
-
-  const loadSimulationState = (state) => {
-    setSimConfig(state.config);
-    setAgents(state.agents);
-    setSimResults(state.results);
-    alert('Simulation state loaded!');
-  };
-
-  const handleEventTrigger = (event) => {
-    setAgents(prev => prev.map(agent => ({
-      ...agent,
-      stress: Math.min(100, agent.stress + event.severity * 0.3),
-      mood: Math.max(0, agent.mood - event.severity * 0.2)
-    })));
-  };
+  const [simulationRunning, setSimulationRunning] = useState(false);
+  const [activeTab, setActiveTab] = useState('overview');
 
   return (
-    <AuroraBackground className="min-h-screen py-16 px-4">
+    <AuroraBackground className="min-h-screen py-12 px-4">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-6">
-          <BackButton to={createPageUrl('AILab')} />
-        </div>
-
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-12"
+          className="mb-12"
         >
-          <h1 className="text-5xl font-bold text-white mb-4">
-            AI Agent <span className="bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">Simulation Hub</span>
+          <h1 className="text-5xl font-bold text-white mb-2">
+            <span className="bg-gradient-to-r from-pink-400 to-rose-400 bg-clip-text text-transparent">
+              Simulation Hub
+            </span>
           </h1>
-          <p className="text-white/60 text-lg">Configure, deploy, and analyze multi-agent simulations in real-time 3D</p>
+          <p className="text-white/60 text-lg">Multi-agent world simulation with real-time visualization and anomaly detection</p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-3 gap-6 mb-6">
-          {/* Configuration Panel */}
-          <div className="lg:col-span-1 space-y-4">
-            <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-6">
-              <h3 className="text-white font-bold mb-4 flex items-center gap-2">
-                <Settings className="w-5 h-5 text-cyan-400" />
-                Environment Config
-              </h3>
-              
-              <div className="space-y-3">
-                <label className="flex items-center justify-between">
-                  <span className="text-white/70 text-sm">Realistic Physics</span>
-                  <input
-                    type="checkbox"
-                    checked={simConfig.physics}
-                    onChange={(e) => setSimConfig({ ...simConfig, physics: e.target.checked })}
-                    className="w-5 h-5"
-                  />
-                </label>
-                <label className="flex items-center justify-between">
-                  <span className="text-white/70 text-sm">Social Interactions</span>
-                  <input
-                    type="checkbox"
-                    checked={simConfig.social}
-                    onChange={(e) => setSimConfig({ ...simConfig, social: e.target.checked })}
-                    className="w-5 h-5"
-                  />
-                </label>
-                <label className="flex items-center justify-between">
-                  <span className="text-white/70 text-sm">Economic Model</span>
-                  <input
-                    type="checkbox"
-                    checked={simConfig.economic}
-                    onChange={(e) => setSimConfig({ ...simConfig, economic: e.target.checked })}
-                    className="w-5 h-5"
-                  />
-                </label>
-
-                <div>
-                  <div className="flex justify-between mb-2">
-                    <span className="text-white/70 text-sm">Gravity</span>
-                    <span className="text-cyan-400 text-sm">{simConfig.gravity}</span>
-                  </div>
-                  <input
-                    type="range"
-                    min="0"
-                    max="20"
-                    step="0.1"
-                    value={simConfig.gravity}
-                    onChange={(e) => setSimConfig({ ...simConfig, gravity: parseFloat(e.target.value) })}
-                    className="w-full"
-                  />
-                </div>
-
-                <div>
-                  <div className="flex justify-between mb-2">
-                    <span className="text-white/70 text-sm">Friction</span>
-                    <span className="text-cyan-400 text-sm">{simConfig.friction}</span>
-                  </div>
-                  <input
-                    type="range"
-                    min="0"
-                    max="1"
-                    step="0.1"
-                    value={simConfig.friction}
-                    onChange={(e) => setSimConfig({ ...simConfig, friction: parseFloat(e.target.value) })}
-                    className="w-full"
-                  />
-                </div>
-              </div>
+        {/* Simulation Controls */}
+        <Card className="bg-gradient-to-r from-pink-500/20 to-rose-500/20 border-pink-500/30 p-6 mb-8">
+          <div className="flex items-center justify-between flex-wrap gap-4">
+            <div>
+              <h3 className="text-white font-bold mb-1">Current Simulation</h3>
+              <p className="text-white/60 text-sm">Market Scenario - 8 Agents - Running for 2:34</p>
             </div>
-
-            <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-6">
-              <h3 className="text-white font-bold mb-4">Deployed Agents</h3>
-              <div className="space-y-2 mb-4">
-                {agents.map(agent => (
-                  <div key={agent.id} className="p-3 bg-white/5 border border-white/10 rounded-lg">
-                    <div className="flex items-center gap-2 mb-2">
-                      <div className="w-3 h-3 rounded-full" style={{ backgroundColor: agent.color }} />
-                      <span className="text-white font-semibold text-sm">{agent.name}</span>
-                    </div>
-                    <div className="space-y-1 text-xs">
-                      <div className="flex justify-between">
-                        <span className="text-white/60">Mood</span>
-                        <span className={agent.mood > 60 ? 'text-green-400' : 'text-yellow-400'}>{agent.mood}%</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-white/60">Stress</span>
-                        <span className={agent.stress > 60 ? 'text-red-400' : 'text-cyan-400'}>{agent.stress}%</span>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <DynamicEventControls onEventTrigger={handleEventTrigger} />
-            </div>
-            
-            <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl p-6">
-              <h3 className="text-white font-bold mb-3 text-sm">Saved States</h3>
-              {savedStates.length === 0 ? (
-                <p className="text-white/60 text-xs">No saved states</p>
-              ) : (
-                <div className="space-y-2">
-                  {savedStates.map(state => (
-                    <div key={state.id} className="p-2 bg-white/5 border border-white/10 rounded flex items-center justify-between">
-                      <span className="text-white text-xs">{new Date(state.timestamp).toLocaleString()}</span>
-                      <button
-                        onClick={() => loadSimulationState(state)}
-                        className="px-2 py-1 bg-cyan-500/20 text-cyan-400 rounded text-xs hover:bg-cyan-500/30"
-                      >
-                        Load
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-            
-            <ContextKnowledgeRetrieval context="AI agent simulation with multi-agent interactions and emergent behaviors" />
-          </div>
-
-          {/* 3D Simulation View */}
-          <div className="lg:col-span-2 space-y-4">
-            <div className="h-96 bg-black/20 rounded-xl overflow-hidden border border-white/10">
-              <Canvas camera={{ position: [15, 10, 15], fov: 60 }}>
-                <ambientLight intensity={0.5} />
-                <pointLight position={[10, 10, 10]} intensity={1} />
-                <pointLight position={[-10, 10, -10]} intensity={0.5} />
-                <SimEnvironment config={simConfig} agents={agents} isRunning={isRunning} />
-                <OrbitControls />
-                <gridHelper args={[20, 20, '#ffffff20', '#ffffff10']} />
-              </Canvas>
-            </div>
-
-            <div className="flex gap-3">
-              {!isRunning ? (
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  onClick={startSimulation}
-                  className="px-6 py-3 bg-green-500/20 border border-green-500/50 rounded-lg text-green-400 font-bold flex items-center gap-2"
-                >
-                  <Play className="w-5 h-5" />
-                  Start Simulation
-                </motion.button>
-              ) : (
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  onClick={stopSimulation}
-                  className="px-6 py-3 bg-red-500/20 border border-red-500/50 rounded-lg text-red-400 font-bold flex items-center gap-2"
-                >
-                  <Square className="w-5 h-5" />
-                  Stop Simulation
-                </motion.button>
-              )}
-              {simResults && (
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  onClick={saveSimulationState}
-                  className="px-6 py-3 bg-purple-500/20 border border-purple-500/50 rounded-lg text-purple-400 font-bold flex items-center gap-2"
-                >
-                  Save State
-                </motion.button>
-              )}
+            <div className="flex gap-2">
+              <Button
+                onClick={() => setSimulationRunning(!simulationRunning)}
+                className={simulationRunning ? 'bg-red-600 hover:bg-red-700' : 'bg-green-600 hover:bg-green-700'}
+              >
+                {simulationRunning ? (
+                  <>
+                    <Square className="w-4 h-4 mr-2" /> Stop
+                  </>
+                ) : (
+                  <>
+                    <Play className="w-4 h-4 mr-2" /> Start
+                  </>
+                )}
+              </Button>
+              <Button variant="outline" size="icon">
+                <RotateCcw className="w-4 h-4" />
+              </Button>
             </div>
           </div>
+        </Card>
+
+        {/* Quick Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+          {[
+            { label: 'Active Agents', value: '8/8', icon: Users, color: 'from-blue-500 to-cyan-500' },
+            { label: 'Total Events', value: '4,234', icon: Zap, color: 'from-purple-500 to-pink-500' },
+            { label: 'Anomalies', value: '3', icon: AlertTriangle, color: 'from-red-500 to-orange-500' },
+            { label: 'System Health', value: 'Excellent', icon: Zap, color: 'from-green-500 to-emerald-500' },
+          ].map((stat, idx) => {
+            const Icon = stat.icon;
+            return (
+              <motion.div key={idx} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.1 }}>
+                <Card className={`bg-gradient-to-br ${stat.color} bg-opacity-20 border-white/10 p-4`}>
+                  <div className="flex items-center gap-3">
+                    <Icon className="w-6 h-6 text-white/80" />
+                    <div>
+                      <p className="text-white/60 text-xs">{stat.label}</p>
+                      <p className="text-white font-bold text-lg">{stat.value}</p>
+                    </div>
+                  </div>
+                </Card>
+              </motion.div>
+            );
+          })}
         </div>
 
-        {/* Post-Simulation Analysis */}
-        {simResults && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-gradient-to-br from-green-500/20 to-emerald-500/10 border border-green-500/30 rounded-xl p-6"
-          >
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-green-400 font-bold text-xl flex items-center gap-2">
-                <BarChart3 className="w-6 h-6" />
-                Simulation Results
-              </h3>
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                className="px-4 py-2 bg-cyan-500/20 border border-cyan-500/50 rounded-lg text-cyan-400 font-semibold flex items-center gap-2"
-              >
-                <Download className="w-4 h-4" />
-                Export Report
-              </motion.button>
-            </div>
+        {/* Tabs */}
+        <Tabs defaultValue="overview" className="space-y-6">
+          <TabsList className="bg-black/40 border border-white/10">
+            <TabsTrigger value="overview">Overview</TabsTrigger>
+            <TabsTrigger value="world">World State</TabsTrigger>
+            <TabsTrigger value="interactions">Agent Graph</TabsTrigger>
+            <TabsTrigger value="anomalies">Anomaly Replay</TabsTrigger>
+          </TabsList>
 
-            <div className="grid md:grid-cols-4 gap-4 mb-6">
-              <div className="bg-black/20 rounded-lg p-4 text-center">
-                <p className="text-white/60 text-sm mb-1">Duration</p>
-                <p className="text-white font-bold text-xl">{simResults.duration}</p>
-              </div>
-              <div className="bg-black/20 rounded-lg p-4 text-center">
-                <p className="text-white/60 text-sm mb-1">Interactions</p>
-                <p className="text-cyan-400 font-bold text-xl">{simResults.interactions}</p>
-              </div>
-              <div className="bg-black/20 rounded-lg p-4 text-center">
-                <p className="text-white/60 text-sm mb-1">Goal Achievement</p>
-                <p className="text-green-400 font-bold text-xl">{simResults.goalAchievement}%</p>
-              </div>
-              <div className="bg-black/20 rounded-lg p-4 text-center">
-                <p className="text-white/60 text-sm mb-1">Collaboration</p>
-                <p className="text-purple-400 font-bold text-xl">{simResults.collaborationScore}%</p>
-              </div>
-            </div>
+          {/* Overview Tab */}
+          <TabsContent value="overview" className="space-y-6">
+            <div className="grid lg:grid-cols-2 gap-6">
+              <Card className="bg-black/40 border-white/10 p-6">
+                <CardTitle className="text-white mb-4">Scenario Info</CardTitle>
+                <div className="space-y-3">
+                  <div>
+                    <p className="text-white/60 text-xs">Type</p>
+                    <p className="text-white font-semibold">Market Trading Scenario</p>
+                  </div>
+                  <div>
+                    <p className="text-white/60 text-xs">Agents</p>
+                    <p className="text-white font-semibold">8 Trading Agents</p>
+                  </div>
+                  <div>
+                    <p className="text-white/60 text-xs">Duration</p>
+                    <p className="text-white font-semibold">300 seconds</p>
+                  </div>
+                  <div>
+                    <p className="text-white/60 text-xs">Status</p>
+                    <Badge className="bg-green-500/30 text-green-300 mt-1">Running</Badge>
+                  </div>
+                </div>
+              </Card>
 
-            <div>
-              <h4 className="text-white font-bold mb-3">Emergent Behaviors</h4>
-              {simResults.emergentBehaviors.map((behavior, idx) => (
-                <p key={idx} className="text-white/80 text-sm mb-2">• {behavior}</p>
-              ))}
+              <Card className="bg-black/40 border-white/10 p-6">
+                <CardTitle className="text-white mb-4">Key Metrics</CardTitle>
+                <div className="space-y-3">
+                  <div className="flex justify-between items-center">
+                    <span className="text-white/60">Cooperation Score</span>
+                    <span className="text-white font-bold">87%</span>
+                  </div>
+                  <div className="bg-white/10 rounded-full h-2">
+                    <div className="bg-green-500 h-2 rounded-full w-[87%]" />
+                  </div>
+
+                  <div className="flex justify-between items-center pt-2">
+                    <span className="text-white/60">Avg Agent Utilization</span>
+                    <span className="text-white font-bold">76%</span>
+                  </div>
+                  <div className="bg-white/10 rounded-full h-2">
+                    <div className="bg-blue-500 h-2 rounded-full w-[76%]" />
+                  </div>
+
+                  <div className="flex justify-between items-center pt-2">
+                    <span className="text-white/60">System Efficiency</span>
+                    <span className="text-white font-bold">94%</span>
+                  </div>
+                  <div className="bg-white/10 rounded-full h-2">
+                    <div className="bg-cyan-500 h-2 rounded-full w-[94%]" />
+                  </div>
+                </div>
+              </Card>
             </div>
-          </motion.div>
-        )}
+          </TabsContent>
+
+          {/* World State Tab */}
+          <TabsContent value="world">
+            <Card className="bg-black/40 border-white/10">
+              <CardContent className="p-0">
+                <div className="h-[600px]">
+                  <WorldState3DSimulator />
+                </div>
+              </CardContent>
+            </Card>
+            <Card className="bg-black/40 border-white/10 p-6 mt-6">
+              <CardTitle className="text-white mb-4">Simulation State</CardTitle>
+              <p className="text-white/60 text-sm mb-4">
+                Visualization shows 8 agents (colored spheres) moving autonomously within the simulation world. Agents make decisions based on local observations and inter-agent communications.
+              </p>
+              <div className="space-y-2 text-white/60 text-sm">
+                <p>🎯 Agents navigating to targets using learned policies</p>
+                <p>📊 Real-time position tracking and state management</p>
+                <p>🔄 Collision avoidance and obstacle navigation active</p>
+              </div>
+            </Card>
+          </TabsContent>
+
+          {/* Agent Interactions Tab */}
+          <TabsContent value="interactions">
+            <Card className="bg-black/40 border-white/10">
+              <CardContent className="p-0">
+                <div className="h-[600px]">
+                  <MultiAgentInteractionGraph />
+                </div>
+              </CardContent>
+            </Card>
+            <Card className="bg-black/40 border-white/10 p-6 mt-6">
+              <CardTitle className="text-white mb-4">Collaboration Network</CardTitle>
+              <p className="text-white/60 text-sm mb-4">
+                Graph shows real-time agent interactions and collaborations. Edge thickness and color intensity indicate interaction strength.
+              </p>
+              <div className="grid grid-cols-3 gap-4">
+                <div className="bg-white/5 rounded-lg p-3">
+                  <p className="text-white/60 text-xs">Active Connections</p>
+                  <p className="text-white font-bold text-lg">18</p>
+                </div>
+                <div className="bg-white/5 rounded-lg p-3">
+                  <p className="text-white/60 text-xs">Avg Interaction Rate</p>
+                  <p className="text-white font-bold text-lg">2.3/s</p>
+                </div>
+                <div className="bg-white/5 rounded-lg p-3">
+                  <p className="text-white/60 text-xs">Network Cohesion</p>
+                  <p className="text-white font-bold text-lg">0.85</p>
+                </div>
+              </div>
+            </Card>
+          </TabsContent>
+
+          {/* Anomaly Replay Tab */}
+          <TabsContent value="anomalies">
+            <AnomalyReplayVisualizer />
+          </TabsContent>
+        </Tabs>
       </div>
     </AuroraBackground>
   );
