@@ -20,28 +20,12 @@ import InteractiveGlobe3D from '../components/home/InteractiveGlobe3D';
 import FinancialGalaxy3DEnhanced from '../components/home/FinancialGalaxy3DEnhanced';
 import AIEcosystemNetwork3D from '../components/home/AIEcosystemNetwork3D';
 import RealtimeFeedsWidget from '../components/home/RealtimeFeedsWidget';
+import HomeEnhanced3DSection from '../components/home/HomeEnhanced3DSection';
+import DraggableFeatureCard from '../components/home/DraggableFeatureCard';
 
 export default function Home() {
   const [activeFeature, setActiveFeature] = useState(0);
-
-  const { data: user } = useQuery({
-    queryKey: ['user'],
-    queryFn: () => base44.auth.me().catch(() => null)
-  });
-
-  const { data: agents = [] } = useQuery({
-    queryKey: ['agents'],
-    queryFn: () => base44.entities.Agent.filter({}).limit(100),
-    initialData: []
-  });
-
-  const { data: collaborations = [] } = useQuery({
-    queryKey: ['collaborations'],
-    queryFn: () => base44.entities.AgentCollaboration.filter({}).limit(50),
-    initialData: []
-  });
-
-  const features = [
+  const [features, setFeatures] = useState([
     {
       icon: <Bot className="w-8 h-8" />,
       title: 'Autonomous AI Agents',
@@ -84,7 +68,51 @@ export default function Home() {
       color: 'from-yellow-500 to-orange-500',
       link: '/DeFiRiskManagementSuite'
     }
-  ];
+  ]);
+  const [draggedIndex, setDraggedIndex] = useState(null);
+  const [dragOverIndex, setDragOverIndex] = useState(null);
+
+  const { data: user } = useQuery({
+    queryKey: ['user'],
+    queryFn: () => base44.auth.me().catch(() => null)
+  });
+
+  const { data: agents = [] } = useQuery({
+    queryKey: ['agents'],
+    queryFn: () => base44.entities.Agent.filter({}).limit(100),
+    initialData: []
+  });
+
+  const { data: collaborations = [] } = useQuery({
+    queryKey: ['collaborations'],
+    queryFn: () => base44.entities.AgentCollaboration.filter({}).limit(50),
+    initialData: []
+  });
+
+  const handleDragStart = (index) => {
+    setDraggedIndex(index);
+  };
+
+  const handleDragEnd = () => {
+    setDraggedIndex(null);
+    setDragOverIndex(null);
+  };
+
+  const handleDragOver = (index) => {
+    if (draggedIndex === null || draggedIndex === index) return;
+    setDragOverIndex(index);
+  };
+
+  const handleDrop = (index) => {
+    if (draggedIndex === null) return;
+    const newFeatures = [...features];
+    const draggedFeature = newFeatures[draggedIndex];
+    newFeatures.splice(draggedIndex, 1);
+    newFeatures.splice(index, 0, draggedFeature);
+    setFeatures(newFeatures);
+    setDraggedIndex(null);
+    setDragOverIndex(null);
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -155,7 +183,7 @@ export default function Home() {
             </Card>
           </motion.div>
 
-          {/* Features Grid */}
+          {/* Features Grid with Drag & Drop */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -163,30 +191,16 @@ export default function Home() {
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-20"
           >
             {features.map((feature, idx) => (
-              <motion.div
+              <DraggableFeatureCard
                 key={idx}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 * idx }}
-                whileHover={{ scale: 1.05, y: -5 }}
-                className={`relative overflow-hidden rounded-xl ${
-                  activeFeature === idx ? 'ring-2 ring-purple-500' : ''
-                }`}
-              >
-                <Link to={createPageUrl(feature.link)}>
-                  <Card className="bg-slate-900/60 backdrop-blur-xl border-slate-700 h-full hover:border-purple-500 transition-all">
-                    <CardHeader>
-                      <div className={`w-16 h-16 rounded-xl bg-gradient-to-br ${feature.color} flex items-center justify-center mb-4 text-white`}>
-                        {feature.icon}
-                      </div>
-                      <CardTitle className="text-white text-xl">{feature.title}</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-slate-400">{feature.description}</p>
-                    </CardContent>
-                  </Card>
-                </Link>
-              </motion.div>
+                feature={feature}
+                index={idx}
+                isDragging={draggedIndex === idx}
+                onDragStart={handleDragStart}
+                onDragEnd={handleDragEnd}
+                onDragOver={handleDragOver}
+                onDrop={handleDrop}
+              />
             ))}
           </motion.div>
 
@@ -322,6 +336,19 @@ export default function Home() {
                 </div>
               </CardContent>
             </Card>
+          </motion.div>
+
+          {/* Enhanced 3D Analytics Section */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.1 }}
+            className="mb-20"
+          >
+            <h2 className="text-4xl font-bold text-center mb-8 text-white">
+              Live Analytics & Insights
+            </h2>
+            <HomeEnhanced3DSection />
           </motion.div>
 
           {/* CTA Section */}
