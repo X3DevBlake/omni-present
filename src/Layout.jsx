@@ -52,32 +52,34 @@ export default function Layout({ children }) {
   }, []);
 
   return (
-    <PersonalizationProvider>
-      <GamificationProvider>
-        <AvatarProvider>
-          <EnhancedMainNavRevamped />
-          <BackButton />
-          <GlobalSearch />
-          {userEmail && <NotificationCenter userEmail={userEmail} />}
-          {children}
-          <GlobalAvatarOverlay />
-          <AnimationController />
-          <OmniAssistant />
-          <FeedbackButton />
-          <UnifiedCommandBar />
-          <ContextAwareHelpButton />
-          <GeminiAssistant />
-          <VertexAICopilot />
-          <RealTimeAlertSystem />
-          <style>{`
-          .omni-logo-component {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-          }
-        `}</style>
-      </AvatarProvider>
-    </GamificationProvider>
-    </PersonalizationProvider>
+    <ErrorBoundary>
+      <PersonalizationProvider>
+        <GamificationProvider>
+          <AvatarProvider>
+            <EnhancedMainNavRevamped />
+            <BackButton />
+            <GlobalSearch />
+            {userEmail && <NotificationCenter userEmail={userEmail} />}
+            {children}
+            <GlobalAvatarOverlay />
+            <AnimationController />
+            <OmniAssistant />
+            <FeedbackButton />
+            <UnifiedCommandBar />
+            <ContextAwareHelpButton />
+            <GeminiAssistant />
+            <VertexAICopilot />
+            <RealTimeAlertSystem />
+            <style>{`
+            .omni-logo-component {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            }
+          `}</style>
+          </AvatarProvider>
+        </GamificationProvider>
+      </PersonalizationProvider>
+    </ErrorBoundary>
   );
-}
+  }
