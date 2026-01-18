@@ -12,23 +12,16 @@ export default function CustomizableDashboard({ userRole, onClose }) {
   ]);
 
   const handleDragEnd = (result) => {
-    // Safe handling of drag end - result might not be defined or might be incomplete
-    if (!result || typeof result !== 'object') {
-      return;
-    }
-    
-    const source = result?.source;
-    const destination = result?.destination;
-    
-    if (!source || !destination || source.index === undefined || destination.index === undefined) {
-      return;
-    }
-    
-    if (destination.index === source.index) {
-      return;
-    }
-    
     try {
+      if (!result) return;
+      if (typeof result !== 'object') return;
+      
+      const { source, destination } = result;
+      
+      if (!source || !destination) return;
+      if (typeof source.index !== 'number' || typeof destination.index !== 'number') return;
+      if (destination.index === source.index) return;
+      
       const items = Array.from(widgets);
       const [reordered] = items.splice(source.index, 1);
       items.splice(destination.index, 0, reordered);
