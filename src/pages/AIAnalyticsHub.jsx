@@ -262,14 +262,14 @@ export default function AIAnalyticsHub() {
                 <h3 className="text-white font-bold mb-4">Performance Trends</h3>
                 {trendData?.length > 0 ? (
                   <ResponsiveContainer width="100%" height={300}>
-                    <LineChart data={trendData} onClick={(e) => e?.stopPropagation?.()} onMouseDown={(e) => e?.stopPropagation?.()}>
+                    <LineChart data={trendData}>
                       <CartesianGrid strokeDasharray="3 3" stroke="#ffffff20" />
                       <XAxis dataKey="day" stroke="#ffffff60" />
                       <YAxis stroke="#ffffff60" />
                       <Tooltip contentStyle={{ backgroundColor: '#1a1a2e', border: '1px solid #ffffff20' }} />
                       <Legend />
-                      <Line type="monotone" dataKey="efficiency" stroke="#00f5ff" strokeWidth={2} dot={false} isAnimationActive={false} connectNulls />
-                      <Line type="monotone" dataKey="tasks" stroke="#a855f7" strokeWidth={2} dot={false} isAnimationActive={false} connectNulls />
+                      <Line type="monotone" dataKey="efficiency" stroke="#00f5ff" strokeWidth={2} dot={false} isAnimationActive={false} />
+                      <Line type="monotone" dataKey="tasks" stroke="#a855f7" strokeWidth={2} dot={false} isAnimationActive={false} />
                     </LineChart>
                   </ResponsiveContainer>
                 ) : (
@@ -281,14 +281,14 @@ export default function AIAnalyticsHub() {
                 <h3 className="text-white font-bold mb-4">Agent Performance Comparison</h3>
                 {agentComparison?.length > 0 ? (
                   <ResponsiveContainer width="100%" height={300}>
-                    <BarChart data={agentComparison} onClick={(e) => e?.stopPropagation?.()} onMouseDown={(e) => e?.stopPropagation?.()}>
+                    <BarChart data={agentComparison}>
                       <CartesianGrid strokeDasharray="3 3" stroke="#ffffff20" />
                       <XAxis dataKey="name" stroke="#ffffff60" angle={-45} textAnchor="end" height={80} />
                       <YAxis stroke="#ffffff60" />
                       <Tooltip contentStyle={{ backgroundColor: '#1a1a2e', border: '1px solid #ffffff20' }} />
                       <Legend />
-                      <Bar dataKey="efficiency" fill="#00f5ff" radius={[4, 4, 0, 0]} isAnimationActive={false} background={false} />
-                      <Bar dataKey="tasks" fill="#a855f7" radius={[4, 4, 0, 0]} isAnimationActive={false} background={false} />
+                      <Bar dataKey="efficiency" fill="#00f5ff" radius={[4, 4, 0, 0]} isAnimationActive={false} />
+                      <Bar dataKey="tasks" fill="#a855f7" radius={[4, 4, 0, 0]} isAnimationActive={false} />
                     </BarChart>
                   </ResponsiveContainer>
                 ) : (
