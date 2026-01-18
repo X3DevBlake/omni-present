@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Plus, Play, GitBranch, Zap, Settings, Trash2 } from 'lucide-react';
-import { base44 } from '@/api/base44Client';
+import { Plus, Play, GitBranch, Zap, Settings } from 'lucide-react';
 
 export default function VisualWorkflowBuilder() {
   const [workflows, setWorkflows] = useState([
@@ -139,45 +138,42 @@ export default function VisualWorkflowBuilder() {
         </div>
 
         {/* Workflow Canvas */}
-        <div className="relative bg-black/20 border border-white/10 rounded-xl p-6 mb-6 min-h-[400px] overflow-auto">
-          {nodes.map(node => (
-            <motion.div
-              key={node.id}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              style={{ 
-                position: 'absolute', 
-                left: node.position.x, 
-                top: node.position.y 
-              }}
-              className={`w-48 p-3 rounded-lg border cursor-move ${
-                node.type === 'trigger' ? 'bg-cyan-500/20 border-cyan-500/50' :
-                node.type === 'agent' ? 'bg-purple-500/20 border-purple-500/50' :
-                'bg-yellow-500/20 border-yellow-500/50'
-              }`}
-            >
-              <div className="flex items-center justify-between mb-2">
-                <span className={`text-xs font-semibold ${
-                  node.type === 'trigger' ? 'text-cyan-400' :
-                  node.type === 'agent' ? 'text-purple-400' :
-                  'text-yellow-400'
-                }`}>
-                  {node.type.toUpperCase()}
-                </span>
-                <button className="p-1 hover:bg-white/10 rounded">
-                  <Settings className="w-3 h-3 text-white/60" />
-                </button>
-              </div>
-              <p className="text-white text-sm font-semibold mb-1">{node.agent}</p>
-              <p className="text-white/70 text-xs">{node.action}</p>
-              {node.dependencies && node.dependencies.length > 0 && (
-                <div className="mt-2 flex items-center gap-1">
-                  <GitBranch className="w-3 h-3 text-white/40" />
-                  <span className="text-white/40 text-xs">Depends on: {node.dependencies.join(', ')}</span>
+        <div className="relative bg-black/20 border border-white/10 rounded-xl p-6 mb-6 min-h-[400px]">
+          <div className="flex flex-wrap gap-4">
+            {nodes.map(node => (
+              <motion.div
+                key={node.id}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className={`w-48 p-3 rounded-lg border ${
+                  node.type === 'trigger' ? 'bg-cyan-500/20 border-cyan-500/50' :
+                  node.type === 'agent' ? 'bg-purple-500/20 border-purple-500/50' :
+                  'bg-yellow-500/20 border-yellow-500/50'
+                }`}
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <span className={`text-xs font-semibold ${
+                    node.type === 'trigger' ? 'text-cyan-400' :
+                    node.type === 'agent' ? 'text-purple-400' :
+                    'text-yellow-400'
+                  }`}>
+                    {node.type.toUpperCase()}
+                  </span>
+                  <button className="p-1 hover:bg-white/10 rounded">
+                    <Settings className="w-3 h-3 text-white/60" />
+                  </button>
                 </div>
-              )}
-            </motion.div>
-          ))}
+                <p className="text-white text-sm font-semibold mb-1">{node.agent}</p>
+                <p className="text-white/70 text-xs">{node.action}</p>
+                {node.dependencies && node.dependencies.length > 0 && (
+                  <div className="mt-2 flex items-center gap-1">
+                    <GitBranch className="w-3 h-3 text-white/40" />
+                    <span className="text-white/40 text-xs">Depends on: {node.dependencies.join(', ')}</span>
+                  </div>
+                )}
+              </motion.div>
+            ))}
+          </div>
         </div>
 
         {/* Execution Log */}
