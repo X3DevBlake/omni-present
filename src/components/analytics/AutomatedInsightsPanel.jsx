@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Sparkles, TrendingUp, AlertCircle, Target, Lightbulb } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Badge } from '@/components/ui/badge';
 import InsightNetwork3D from './InsightNetwork3D';
 
