@@ -5,6 +5,7 @@ import ModelVersionControl from '../components/ailab/ModelVersionControl';
 import DeployedModelMonitor from '../components/ailab/DeployedModelMonitor';
 import ModelRegistry from '../components/ailab/ModelRegistry';
 import AuroraBackground from '../components/omni/AuroraBackground';
+import AdvancedModelHub from '../components/ailab/AdvancedModelHub';
 
 export default function AILabsLifecycle() {
   const [activeTab, setActiveTab] = useState('registry');

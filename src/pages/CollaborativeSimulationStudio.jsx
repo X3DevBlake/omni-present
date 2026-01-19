@@ -5,6 +5,8 @@ import RealTimeSimulationController from '../components/simulation/RealTimeSimul
 import WhatIfAnalysisTool from '../components/simulation/WhatIfAnalysisTool';
 import MultiplayerSimulationHub from '../components/simulation/MultiplayerSimulationHub';
 import AuroraBackground from '../components/omni/AuroraBackground';
+import MultiAgentSimulation3D from '../components/simulation/MultiAgentSimulation3D';
+import AgentCommunicationHub from '../components/collaboration/AgentCommunicationHub';
 
 export default function CollaborativeSimulationStudio() {
   const [activeTab, setActiveTab] = useState('realtime');

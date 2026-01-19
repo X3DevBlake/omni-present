@@ -286,6 +286,8 @@ import World from './pages/World';
 import AgentOrchestrationHub from './pages/AgentOrchestrationHub';
 import KnowledgeGraphHub from './pages/KnowledgeGraphHub';
 import TransferLearningHub from './pages/TransferLearningHub';
+import AgentTrainingStudio from './pages/AgentTrainingStudio';
+import EnhancedMarketplace from './pages/EnhancedMarketplace';
 import __Layout from './Layout.jsx';
 
 
@@ -578,6 +580,8 @@ export const PAGES = {
     "AgentOrchestrationHub": AgentOrchestrationHub,
     "KnowledgeGraphHub": KnowledgeGraphHub,
     "TransferLearningHub": TransferLearningHub,
+    "AgentTrainingStudio": AgentTrainingStudio,
+    "EnhancedMarketplace": EnhancedMarketplace,
 }
 
 export const pagesConfig = {

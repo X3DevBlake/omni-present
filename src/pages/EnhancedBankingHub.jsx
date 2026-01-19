@@ -6,6 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { CreditCard, TrendingUp, AlertTriangle, PieChart, Settings, LinkIcon } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
+import AITradingDashboard from '../components/defi/AITradingDashboard';
 import OmniCard3DCustomizer from '../components/banking/OmniCard3DCustomizer';
 import FinancialFlow3DVisualizer from '../components/banking/FinancialFlow3DVisualizer';
 import BudgetingLandscape3D from '../components/banking/BudgetingLandscape3D';
