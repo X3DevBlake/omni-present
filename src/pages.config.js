@@ -308,6 +308,10 @@ import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
 import EnhancedAIAgentMarketplace from './pages/EnhancedAIAgentMarketplace';
+import EnhancedSecurityHub from './pages/EnhancedSecurityHub';
+import EnhancedAnalyticsHub from './pages/EnhancedAnalyticsHub';
+import EnhancedKnowledgeHub from './pages/EnhancedKnowledgeHub';
+import EnhancedGamificationHub from './pages/EnhancedGamificationHub';
 import __Layout from './Layout.jsx';
 
 
@@ -622,6 +626,10 @@ export const PAGES = {
     "WorkflowOrchestrationHub": WorkflowOrchestrationHub,
     "World": World,
     "EnhancedAIAgentMarketplace": EnhancedAIAgentMarketplace,
+    "EnhancedSecurityHub": EnhancedSecurityHub,
+    "EnhancedAnalyticsHub": EnhancedAnalyticsHub,
+    "EnhancedKnowledgeHub": EnhancedKnowledgeHub,
+    "EnhancedGamificationHub": EnhancedGamificationHub,
 }
 
 export const pagesConfig = {
