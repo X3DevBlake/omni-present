@@ -318,6 +318,8 @@ import EnhancedSimulationLab from './pages/EnhancedSimulationLab';
 import EnhancedWorkflowHub from './pages/EnhancedWorkflowHub';
 import EnhancedVoiceHub from './pages/EnhancedVoiceHub';
 import EnhancedMonitoringHub from './pages/EnhancedMonitoringHub';
+import DAOGovernanceHub from './pages/DAOGovernanceHub';
+import UnifiedIntelligenceDashboard from './pages/UnifiedIntelligenceDashboard';
 import __Layout from './Layout.jsx';
 
 
@@ -642,6 +644,8 @@ export const PAGES = {
     "EnhancedWorkflowHub": EnhancedWorkflowHub,
     "EnhancedVoiceHub": EnhancedVoiceHub,
     "EnhancedMonitoringHub": EnhancedMonitoringHub,
+    "DAOGovernanceHub": DAOGovernanceHub,
+    "UnifiedIntelligenceDashboard": UnifiedIntelligenceDashboard,
 }
 
 export const pagesConfig = {
