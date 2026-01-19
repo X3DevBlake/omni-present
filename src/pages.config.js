@@ -112,6 +112,7 @@ import Contact from './pages/Contact';
 import ComprehensiveFinancialHub from './pages/ComprehensiveFinancialHub';
 import ContextAwareAssistantHub from './pages/ContextAwareAssistantHub';
 import CrossAgentPlanningHub from './pages/CrossAgentPlanningHub';
+import CrossPlatformIntegrationHub from './pages/CrossPlatformIntegrationHub';
 import CrossSimulationHub from './pages/CrossSimulationHub';
 import CryptoTradingHub from './pages/CryptoTradingHub';
 import CurriculumCourses from './pages/CurriculumCourses';
@@ -306,7 +307,7 @@ import WithdrawOmni from './pages/WithdrawOmni';
 import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
-import CrossPlatformIntegrationHub from './pages/CrossPlatformIntegrationHub';
+import EnhancedAIAgentMarketplace from './pages/EnhancedAIAgentMarketplace';
 import __Layout from './Layout.jsx';
 
 
@@ -425,6 +426,7 @@ export const PAGES = {
     "ComprehensiveFinancialHub": ComprehensiveFinancialHub,
     "ContextAwareAssistantHub": ContextAwareAssistantHub,
     "CrossAgentPlanningHub": CrossAgentPlanningHub,
+    "CrossPlatformIntegrationHub": CrossPlatformIntegrationHub,
     "CrossSimulationHub": CrossSimulationHub,
     "CryptoTradingHub": CryptoTradingHub,
     "CurriculumCourses": CurriculumCourses,
@@ -619,7 +621,7 @@ export const PAGES = {
     "WorkflowAutomationHub": WorkflowAutomationHub,
     "WorkflowOrchestrationHub": WorkflowOrchestrationHub,
     "World": World,
-    "CrossPlatformIntegrationHub": CrossPlatformIntegrationHub,
+    "EnhancedAIAgentMarketplace": EnhancedAIAgentMarketplace,
 }
 
 export const pagesConfig = {
