@@ -1,5 +1,6 @@
 import AIAnalyticsHub from './pages/AIAnalyticsHub';
 import AICollaborationHub from './pages/AICollaborationHub';
+import AIEthicsHub from './pages/AIEthicsHub';
 import AILab from './pages/AILab';
 import AILabs from './pages/AILabs';
 import AILabsAdvanced from './pages/AILabsAdvanced';
@@ -198,6 +199,7 @@ import MarketIntelligenceHub from './pages/MarketIntelligenceHub';
 import Marketplace from './pages/Marketplace';
 import MarketplaceHome from './pages/MarketplaceHome';
 import MentorshipProgramsPage from './pages/MentorshipProgramsPage';
+import MessageBroadcastHub from './pages/MessageBroadcastHub';
 import MistralHub from './pages/MistralHub';
 import ModelTraining from './pages/ModelTraining';
 import MultiAgentCollaborationHub from './pages/MultiAgentCollaborationHub';
@@ -244,6 +246,7 @@ import ReferralProgram from './pages/ReferralProgram';
 import RepairRequest from './pages/RepairRequest';
 import ReportingAnalytics from './pages/ReportingAnalytics';
 import ResourceLibrary from './pages/ResourceLibrary';
+import ResourceManagementHub from './pages/ResourceManagementHub';
 import Roadmap from './pages/Roadmap';
 import SDKsLibraries from './pages/SDKsLibraries';
 import SandboxEnvironment from './pages/SandboxEnvironment';
@@ -288,15 +291,16 @@ import WebhooksHub from './pages/WebhooksHub';
 import WithdrawOmni from './pages/WithdrawOmni';
 import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import World from './pages/World';
-import AIEthicsHub from './pages/AIEthicsHub';
-import MessageBroadcastHub from './pages/MessageBroadcastHub';
-import ResourceManagementHub from './pages/ResourceManagementHub';
+import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
+import AdvancedDeFiHub from './pages/AdvancedDeFiHub';
+import AdvancedSimulationLab from './pages/AdvancedSimulationLab';
 import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
     "AIAnalyticsHub": AIAnalyticsHub,
     "AICollaborationHub": AICollaborationHub,
+    "AIEthicsHub": AIEthicsHub,
     "AILab": AILab,
     "AILabs": AILabs,
     "AILabsAdvanced": AILabsAdvanced,
@@ -495,6 +499,7 @@ export const PAGES = {
     "Marketplace": Marketplace,
     "MarketplaceHome": MarketplaceHome,
     "MentorshipProgramsPage": MentorshipProgramsPage,
+    "MessageBroadcastHub": MessageBroadcastHub,
     "MistralHub": MistralHub,
     "ModelTraining": ModelTraining,
     "MultiAgentCollaborationHub": MultiAgentCollaborationHub,
@@ -541,6 +546,7 @@ export const PAGES = {
     "RepairRequest": RepairRequest,
     "ReportingAnalytics": ReportingAnalytics,
     "ResourceLibrary": ResourceLibrary,
+    "ResourceManagementHub": ResourceManagementHub,
     "Roadmap": Roadmap,
     "SDKsLibraries": SDKsLibraries,
     "SandboxEnvironment": SandboxEnvironment,
@@ -585,9 +591,9 @@ export const PAGES = {
     "WithdrawOmni": WithdrawOmni,
     "WorkflowAutomationHub": WorkflowAutomationHub,
     "World": World,
-    "AIEthicsHub": AIEthicsHub,
-    "MessageBroadcastHub": MessageBroadcastHub,
-    "ResourceManagementHub": ResourceManagementHub,
+    "WorkflowOrchestrationHub": WorkflowOrchestrationHub,
+    "AdvancedDeFiHub": AdvancedDeFiHub,
+    "AdvancedSimulationLab": AdvancedSimulationLab,
 }
 
 export const pagesConfig = {

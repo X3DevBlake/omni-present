@@ -11,59 +11,89 @@ Deno.serve(async (req) => {
 
     const { workflow_id } = await req.json();
 
-    // Get workflow details
-    const workflow = await base44.asServiceRole.entities.Workflow.filter({ id: workflow_id });
-    if (!workflow || workflow.length === 0) {
+    const workflows = await base44.asServiceRole.entities.Workflow.filter({ id: workflow_id });
+    const workflow = workflows[0];
+
+    if (!workflow) {
       return Response.json({ error: 'Workflow not found' }, { status: 404 });
     }
-
-    const workflowData = workflow[0];
-    const tasks = workflowData.tasks || [];
 
     // Create execution record
     const execution = await base44.asServiceRole.entities.WorkflowExecution.create({
       workflow_id,
-      status: 'running',
-      started_at: new Date().toISOString(),
-      total_tasks: tasks.length,
-      completed_tasks: 0,
+      execution_status: 'running',
+      completed_tasks: [],
+      failed_tasks: [],
+      execution_log: [],
+      start_time: new Date().toISOString(),
     });
 
-    // Execute tasks based on dependencies
-    const executionResults = [];
-    const completedTasks = new Set();
+    // Execute tasks based on workflow type
+    const tasks = workflow.tasks || [];
+    const completedTasks = [];
+    const executionLog = [];
 
-    for (const task of tasks) {
-      // Check if dependencies are met
-      const dependencies = task.dependencies || [];
-      const canExecute = dependencies.every(dep => completedTasks.has(dep));
+    if (workflow.workflow_type === 'sequential') {
+      // Execute tasks one by one
+      for (const task of tasks) {
+        executionLog.push({
+          timestamp: new Date().toISOString(),
+          task_id: task.task_id,
+          event: 'started',
+        });
 
-      if (canExecute) {
-        // Simulate task execution
-        const result = {
-          task_id: task.id,
-          task_name: task.name,
-          agent_id: task.agent_id,
-          status: 'completed',
-          executed_at: new Date().toISOString(),
-        };
+        // Simulate task execution (in production, call actual agent)
+        await new Promise(resolve => setTimeout(resolve, 100));
 
-        executionResults.push(result);
-        completedTasks.add(task.id);
+        task.status = 'completed';
+        completedTasks.push(task.task_id);
 
-        // Update execution progress
-        await base44.asServiceRole.entities.WorkflowExecution.update(execution.id, {
-          completed_tasks: completedTasks.size,
-          status: completedTasks.size === tasks.length ? 'completed' : 'running',
+        executionLog.push({
+          timestamp: new Date().toISOString(),
+          task_id: task.task_id,
+          event: 'completed',
         });
       }
+    } else if (workflow.workflow_type === 'parallel') {
+      // Execute all tasks simultaneously
+      await Promise.all(tasks.map(async (task) => {
+        executionLog.push({
+          timestamp: new Date().toISOString(),
+          task_id: task.task_id,
+          event: 'started',
+        });
+
+        await new Promise(resolve => setTimeout(resolve, 100));
+        task.status = 'completed';
+        completedTasks.push(task.task_id);
+
+        executionLog.push({
+          timestamp: new Date().toISOString(),
+          task_id: task.task_id,
+          event: 'completed',
+        });
+      }));
     }
+
+    // Update workflow and execution
+    await base44.asServiceRole.entities.Workflow.update(workflow_id, {
+      status: 'completed',
+      progress_percentage: 100,
+      tasks,
+    });
+
+    await base44.asServiceRole.entities.WorkflowExecution.update(execution.id, {
+      execution_status: 'completed',
+      completed_tasks: completedTasks,
+      execution_log: executionLog,
+      end_time: new Date().toISOString(),
+    });
 
     return Response.json({
       success: true,
       execution_id: execution.id,
-      results: executionResults,
-      message: `Workflow executed: ${completedTasks.size}/${tasks.length} tasks completed`,
+      completed_tasks: completedTasks.length,
+      total_tasks: tasks.length,
     });
 
   } catch (error) {
