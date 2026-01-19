@@ -285,6 +285,7 @@ import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import World from './pages/World';
 import AgentOrchestrationHub from './pages/AgentOrchestrationHub';
 import KnowledgeGraphHub from './pages/KnowledgeGraphHub';
+import TransferLearningHub from './pages/TransferLearningHub';
 import __Layout from './Layout.jsx';
 
 
@@ -576,6 +577,7 @@ export const PAGES = {
     "World": World,
     "AgentOrchestrationHub": AgentOrchestrationHub,
     "KnowledgeGraphHub": KnowledgeGraphHub,
+    "TransferLearningHub": TransferLearningHub,
 }
 
 export const pagesConfig = {
