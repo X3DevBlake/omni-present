@@ -1,3 +1,4 @@
+import AIAgentMarketplace from './pages/AIAgentMarketplace';
 import AIAnalyticsHub from './pages/AIAnalyticsHub';
 import AICollaborationHub from './pages/AICollaborationHub';
 import AIEthicsHub from './pages/AIEthicsHub';
@@ -94,6 +95,7 @@ import CollaborationDashboard from './pages/CollaborationDashboard';
 import CollaborativeAgentHub from './pages/CollaborativeAgentHub';
 import CollaborativeSimulationStudio from './pages/CollaborativeSimulationStudio';
 import CollaborativeWorkspace from './pages/CollaborativeWorkspace';
+import CommunicationAnalyticsHub from './pages/CommunicationAnalyticsHub';
 import Communications from './pages/Communications';
 import CommunicationsHub from './pages/CommunicationsHub';
 import Community from './pages/Community';
@@ -106,9 +108,9 @@ import Compliance from './pages/Compliance';
 import ComplianceDashboard from './pages/ComplianceDashboard';
 import ComprehensiveFinancialHub from './pages/ComprehensiveFinancialHub';
 import Contact from './pages/Contact';
+import CryptoTradingHub from './pages/CryptoTradingHub';
 import CrossAgentPlanningHub from './pages/CrossAgentPlanningHub';
 import CrossSimulationHub from './pages/CrossSimulationHub';
-import CryptoTradingHub from './pages/CryptoTradingHub';
 import CurriculumCourses from './pages/CurriculumCourses';
 import CustomDashboard from './pages/CustomDashboard';
 import CustomIntegrations from './pages/CustomIntegrations';
@@ -297,12 +299,12 @@ import WithdrawOmni from './pages/WithdrawOmni';
 import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
-import AIAgentMarketplace from './pages/AIAgentMarketplace';
-import CommunicationAnalyticsHub from './pages/CommunicationAnalyticsHub';
+import AdvancedCommunicationHub from './pages/AdvancedCommunicationHub';
 import __Layout from './Layout.jsx';
 
 
 export const PAGES = {
+    "AIAgentMarketplace": AIAgentMarketplace,
     "AIAnalyticsHub": AIAnalyticsHub,
     "AICollaborationHub": AICollaborationHub,
     "AIEthicsHub": AIEthicsHub,
@@ -399,6 +401,7 @@ export const PAGES = {
     "CollaborativeAgentHub": CollaborativeAgentHub,
     "CollaborativeSimulationStudio": CollaborativeSimulationStudio,
     "CollaborativeWorkspace": CollaborativeWorkspace,
+    "CommunicationAnalyticsHub": CommunicationAnalyticsHub,
     "Communications": Communications,
     "CommunicationsHub": CommunicationsHub,
     "Community": Community,
@@ -411,9 +414,9 @@ export const PAGES = {
     "ComplianceDashboard": ComplianceDashboard,
     "ComprehensiveFinancialHub": ComprehensiveFinancialHub,
     "Contact": Contact,
+    "CryptoTradingHub": CryptoTradingHub,
     "CrossAgentPlanningHub": CrossAgentPlanningHub,
     "CrossSimulationHub": CrossSimulationHub,
-    "CryptoTradingHub": CryptoTradingHub,
     "CurriculumCourses": CurriculumCourses,
     "CustomDashboard": CustomDashboard,
     "CustomIntegrations": CustomIntegrations,
@@ -602,8 +605,7 @@ export const PAGES = {
     "WorkflowAutomationHub": WorkflowAutomationHub,
     "WorkflowOrchestrationHub": WorkflowOrchestrationHub,
     "World": World,
-    "AIAgentMarketplace": AIAgentMarketplace,
-    "CommunicationAnalyticsHub": CommunicationAnalyticsHub,
+    "AdvancedCommunicationHub": AdvancedCommunicationHub,
 }
 
 export const pagesConfig = {
