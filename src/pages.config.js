@@ -35,6 +35,7 @@ import AgentAutonomyDashboard from './pages/AgentAutonomyDashboard';
 import AgentBudget from './pages/AgentBudget';
 import AgentCardSettings from './pages/AgentCardSettings';
 import AgentCollaborationDashboard from './pages/AgentCollaborationDashboard';
+import AgentCollaborationHub from './pages/AgentCollaborationHub';
 import AgentConfigurator from './pages/AgentConfigurator';
 import AgentCustomization from './pages/AgentCustomization';
 import AgentCustomizationStudio from './pages/AgentCustomizationStudio';
@@ -119,6 +120,7 @@ import DeFiAutonomousPhase3 from './pages/DeFiAutonomousPhase3';
 import DeFiCorePhase2 from './pages/DeFiCorePhase2';
 import DeFiGovernancePhase5 from './pages/DeFiGovernancePhase5';
 import DeFiHub from './pages/DeFiHub';
+import DeFiRiskManagementHub from './pages/DeFiRiskManagementHub';
 import DeFiRiskManagementSuite from './pages/DeFiRiskManagementSuite';
 import DecentralizedNetwork from './pages/DecentralizedNetwork';
 import DeepLearningPlatform from './pages/DeepLearningPlatform';
@@ -138,6 +140,7 @@ import DeviceTelemetry from './pages/DeviceTelemetry';
 import DevicesHub from './pages/DevicesHub';
 import DiscountsRebates from './pages/DiscountsRebates';
 import Documentation from './pages/Documentation';
+import DynamicSimulationStudio from './pages/DynamicSimulationStudio';
 import EcosystemDashboard from './pages/EcosystemDashboard';
 import EmergentBehavior from './pages/EmergentBehavior';
 import EnhancedAgentCreator from './pages/EnhancedAgentCreator';
@@ -294,9 +297,8 @@ import WithdrawOmni from './pages/WithdrawOmni';
 import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
-import AgentCollaborationHub from './pages/AgentCollaborationHub';
-import DeFiRiskManagementHub from './pages/DeFiRiskManagementHub';
-import DynamicSimulationStudio from './pages/DynamicSimulationStudio';
+import AIAgentMarketplace from './pages/AIAgentMarketplace';
+import CommunicationAnalyticsHub from './pages/CommunicationAnalyticsHub';
 import __Layout from './Layout.jsx';
 
 
@@ -338,6 +340,7 @@ export const PAGES = {
     "AgentBudget": AgentBudget,
     "AgentCardSettings": AgentCardSettings,
     "AgentCollaborationDashboard": AgentCollaborationDashboard,
+    "AgentCollaborationHub": AgentCollaborationHub,
     "AgentConfigurator": AgentConfigurator,
     "AgentCustomization": AgentCustomization,
     "AgentCustomizationStudio": AgentCustomizationStudio,
@@ -422,6 +425,7 @@ export const PAGES = {
     "DeFiCorePhase2": DeFiCorePhase2,
     "DeFiGovernancePhase5": DeFiGovernancePhase5,
     "DeFiHub": DeFiHub,
+    "DeFiRiskManagementHub": DeFiRiskManagementHub,
     "DeFiRiskManagementSuite": DeFiRiskManagementSuite,
     "DecentralizedNetwork": DecentralizedNetwork,
     "DeepLearningPlatform": DeepLearningPlatform,
@@ -441,6 +445,7 @@ export const PAGES = {
     "DevicesHub": DevicesHub,
     "DiscountsRebates": DiscountsRebates,
     "Documentation": Documentation,
+    "DynamicSimulationStudio": DynamicSimulationStudio,
     "EcosystemDashboard": EcosystemDashboard,
     "EmergentBehavior": EmergentBehavior,
     "EnhancedAgentCreator": EnhancedAgentCreator,
@@ -597,9 +602,8 @@ export const PAGES = {
     "WorkflowAutomationHub": WorkflowAutomationHub,
     "WorkflowOrchestrationHub": WorkflowOrchestrationHub,
     "World": World,
-    "AgentCollaborationHub": AgentCollaborationHub,
-    "DeFiRiskManagementHub": DeFiRiskManagementHub,
-    "DynamicSimulationStudio": DynamicSimulationStudio,
+    "AIAgentMarketplace": AIAgentMarketplace,
+    "CommunicationAnalyticsHub": CommunicationAnalyticsHub,
 }
 
 export const pagesConfig = {
