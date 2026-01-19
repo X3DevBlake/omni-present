@@ -284,6 +284,7 @@ import WithdrawOmni from './pages/WithdrawOmni';
 import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import World from './pages/World';
 import AgentOrchestrationHub from './pages/AgentOrchestrationHub';
+import KnowledgeGraphHub from './pages/KnowledgeGraphHub';
 import __Layout from './Layout.jsx';
 
 
@@ -574,6 +575,7 @@ export const PAGES = {
     "WorkflowAutomationHub": WorkflowAutomationHub,
     "World": World,
     "AgentOrchestrationHub": AgentOrchestrationHub,
+    "KnowledgeGraphHub": KnowledgeGraphHub,
 }
 
 export const pagesConfig = {
