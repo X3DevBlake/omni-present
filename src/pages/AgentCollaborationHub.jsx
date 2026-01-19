@@ -10,7 +10,6 @@ import AuroraBackground from '../components/omni/AuroraBackground';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import CollaborationNetwork3D from '../components/collaboration/CollaborationNetwork3D';
-import NegotiationVisualizer3D from '../components/collaboration/NegotiationVisualizer3D';
 
 export default function AgentCollaborationHub() {
   const queryClient = useQueryClient();
