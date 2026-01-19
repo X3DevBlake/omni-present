@@ -280,6 +280,9 @@ import ImmersiveNavigationHub from './pages/ImmersiveNavigationHub';
 import AILabsAdvanced from './pages/AILabsAdvanced';
 import SimulationStudio from './pages/SimulationStudio';
 import AgentConfigurator from './pages/AgentConfigurator';
+import AutonomousAgentSystem from './pages/AutonomousAgentSystem';
+import CollaborativeSimulationStudio from './pages/CollaborativeSimulationStudio';
+import AILabsLifecycle from './pages/AILabsLifecycle';
 import __Layout from './Layout.jsx';
 
 
@@ -566,6 +569,9 @@ export const PAGES = {
     "AILabsAdvanced": AILabsAdvanced,
     "SimulationStudio": SimulationStudio,
     "AgentConfigurator": AgentConfigurator,
+    "AutonomousAgentSystem": AutonomousAgentSystem,
+    "CollaborativeSimulationStudio": CollaborativeSimulationStudio,
+    "AILabsLifecycle": AILabsLifecycle,
 }
 
 export const pagesConfig = {
