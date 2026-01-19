@@ -1,128 +1,104 @@
 import React, { useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, Sphere, Text, Line } from '@react-three/drei';
-import * as THREE from 'three';
+import { OrbitControls, Sphere, Line, Text } from '@react-three/drei';
 
-function AgentParticipant({ position, agentId, messageCount, sentiment }) {
+function GroupNode({ group, position, index }) {
   const meshRef = useRef();
   
   useFrame((state) => {
     if (meshRef.current) {
       meshRef.current.rotation.y += 0.01;
-      const scale = 1 + (messageCount / 50) * 0.5;
-      meshRef.current.scale.setScalar(scale);
     }
   });
 
-  const color = sentiment > 0 ? '#00ff88' : sentiment < 0 ? '#ff4444' : '#00f5ff';
+  const color = group.status === 'active' ? '#00f5ff' : '#888888';
+  const size = 0.5 + (group.member_agents?.length || 0) * 0.1;
 
   return (
     <group position={position}>
-      <Sphere ref={meshRef} args={[0.5, 32, 32]}>
+      <Sphere ref={meshRef} args={[size, 32, 32]}>
         <meshStandardMaterial
           color={color}
           emissive={color}
-          emissiveIntensity={0.7}
+          emissiveIntensity={group.status === 'active' ? 0.8 : 0.3}
+          transparent
+          opacity={0.9}
         />
       </Sphere>
 
       <Text
-        position={[0, -1, 0]}
-        fontSize={0.2}
+        position={[0, size + 0.8, 0]}
+        fontSize={0.25}
         color="white"
         anchorX="center"
       >
-        {agentId.slice(0, 6)}
+        {group.group_name}
       </Text>
 
-      {/* Message count indicator */}
-      {messageCount > 0 && (
-        <Text
-          position={[0, 0.8, 0]}
-          fontSize={0.15}
-          color="#ffcc00"
-          anchorX="center"
-        >
-          {messageCount}
-        </Text>
-      )}
+      <Text
+        position={[0, -size - 0.8, 0]}
+        fontSize={0.15}
+        color={color}
+        anchorX="center"
+      >
+        {group.member_agents?.length || 0} agents
+      </Text>
     </group>
   );
 }
 
-export default function CollaborationNetwork3D({ participants, messages }) {
-  const positions = React.useMemo(() => {
-    return participants.map((_, index) => {
-      const angle = (index / participants.length) * Math.PI * 2;
-      const radius = 4;
-      return [
-        Math.cos(angle) * radius,
-        0,
-        Math.sin(angle) * radius,
-      ];
-    });
-  }, [participants]);
-
-  const agentMessageCounts = React.useMemo(() => {
-    const counts = {};
-    messages.forEach(msg => {
-      counts[msg.sender_agent_id] = (counts[msg.sender_agent_id] || 0) + 1;
-    });
-    return counts;
-  }, [messages]);
-
-  const agentSentiments = React.useMemo(() => {
-    const sentiments = {};
-    messages.forEach(msg => {
-      if (!sentiments[msg.sender_agent_id]) {
-        sentiments[msg.sender_agent_id] = [];
-      }
-      if (msg.sentiment !== undefined) {
-        sentiments[msg.sender_agent_id].push(msg.sentiment);
-      }
-    });
-
-    // Average sentiment per agent
-    Object.keys(sentiments).forEach(agentId => {
-      const avg = sentiments[agentId].reduce((a, b) => a + b, 0) / sentiments[agentId].length;
-      sentiments[agentId] = avg;
-    });
-
-    return sentiments;
-  }, [messages]);
+export default function CollaborationNetwork3D({ groups = [], channels = [] }) {
+  const positions = groups.map((_, index) => {
+    const angle = (index / groups.length) * Math.PI * 2;
+    const radius = 6;
+    return [
+      Math.cos(angle) * radius,
+      (Math.random() - 0.5) * 2,
+      Math.sin(angle) * radius,
+    ];
+  });
 
   return (
-    <div className="w-full h-96 rounded-lg overflow-hidden bg-black/20">
-      <Canvas camera={{ position: [0, 5, 10], fov: 60 }}>
-        <ambientLight intensity={0.4} />
-        <pointLight position={[10, 10, 10]} intensity={1} />
+    <div className="w-full h-[600px] rounded-lg overflow-hidden bg-black/20">
+      <Canvas camera={{ position: [0, 8, 20], fov: 60 }}>
+        <ambientLight intensity={0.5} />
+        <pointLight position={[10, 10, 10]} intensity={1.5} />
+        <pointLight position={[-10, -10, -10]} intensity={0.8} color="#00f5ff" />
 
-        {participants.map((agentId, index) => (
-          <AgentParticipant
-            key={agentId}
-            position={positions[index]}
-            agentId={agentId}
-            messageCount={agentMessageCounts[agentId] || 0}
-            sentiment={agentSentiments[agentId] || 0}
+        {/* Central hub */}
+        <Sphere args={[1.5, 64, 64]} position={[0, 0, 0]}>
+          <meshStandardMaterial
+            color="#a855f7"
+            emissive="#a855f7"
+            emissiveIntensity={0.8}
+            transparent
+            opacity={0.4}
+            wireframe
           />
+        </Sphere>
+
+        {groups.map((group, index) => (
+          <React.Fragment key={group.id}>
+            <GroupNode group={group} position={positions[index]} index={index} />
+            
+            <Line
+              points={[[0, 0, 0], positions[index]]}
+              color="#00f5ff"
+              lineWidth={2}
+              transparent
+              opacity={group.status === 'active' ? 0.6 : 0.2}
+            />
+          </React.Fragment>
         ))}
 
-        {/* Draw connections between all participants */}
-        {positions.map((pos1, i) => 
-          positions.slice(i + 1).map((pos2, j) => (
-            <Line
-              key={`${i}-${j}`}
-              points={[pos1, pos2]}
-              color="#00f5ff"
-              lineWidth={1}
-              transparent
-              opacity={0.2}
-            />
-          ))
-        )}
-
-        <OrbitControls enableZoom={true} autoRotate autoRotateSpeed={1} />
+        <OrbitControls enableZoom={true} autoRotate autoRotateSpeed={0.5} />
       </Canvas>
+
+      {groups.length === 0 && (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <p className="text-white/60">No working groups to visualize</p>
+        </div>
+      )}
     </div>
   );
 }

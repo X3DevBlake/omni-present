@@ -20,10 +20,12 @@ import ActivityLog from './pages/ActivityLog';
 import AdminHome from './pages/AdminHome';
 import AdvancedAgentCapabilities from './pages/AdvancedAgentCapabilities';
 import AdvancedCollaborationHub from './pages/AdvancedCollaborationHub';
+import AdvancedDeFiHub from './pages/AdvancedDeFiHub';
 import AdvancedDeFiTrading from './pages/AdvancedDeFiTrading';
 import AdvancedFinancialEcosystem from './pages/AdvancedFinancialEcosystem';
 import AdvancedPredictionCenter from './pages/AdvancedPredictionCenter';
 import AdvancedSimulation from './pages/AdvancedSimulation';
+import AdvancedSimulationLab from './pages/AdvancedSimulationLab';
 import AdvancedSimulationStudio from './pages/AdvancedSimulationStudio';
 import AdvancedWebhooks from './pages/AdvancedWebhooks';
 import Agent from './pages/Agent';
@@ -290,10 +292,11 @@ import Webhooks from './pages/Webhooks';
 import WebhooksHub from './pages/WebhooksHub';
 import WithdrawOmni from './pages/WithdrawOmni';
 import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
-import World from './pages/World';
 import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
-import AdvancedDeFiHub from './pages/AdvancedDeFiHub';
-import AdvancedSimulationLab from './pages/AdvancedSimulationLab';
+import World from './pages/World';
+import AgentCollaborationHub from './pages/AgentCollaborationHub';
+import DeFiRiskManagementHub from './pages/DeFiRiskManagementHub';
+import DynamicSimulationStudio from './pages/DynamicSimulationStudio';
 import __Layout from './Layout.jsx';
 
 
@@ -320,10 +323,12 @@ export const PAGES = {
     "AdminHome": AdminHome,
     "AdvancedAgentCapabilities": AdvancedAgentCapabilities,
     "AdvancedCollaborationHub": AdvancedCollaborationHub,
+    "AdvancedDeFiHub": AdvancedDeFiHub,
     "AdvancedDeFiTrading": AdvancedDeFiTrading,
     "AdvancedFinancialEcosystem": AdvancedFinancialEcosystem,
     "AdvancedPredictionCenter": AdvancedPredictionCenter,
     "AdvancedSimulation": AdvancedSimulation,
+    "AdvancedSimulationLab": AdvancedSimulationLab,
     "AdvancedSimulationStudio": AdvancedSimulationStudio,
     "AdvancedWebhooks": AdvancedWebhooks,
     "Agent": Agent,
@@ -590,10 +595,11 @@ export const PAGES = {
     "WebhooksHub": WebhooksHub,
     "WithdrawOmni": WithdrawOmni,
     "WorkflowAutomationHub": WorkflowAutomationHub,
-    "World": World,
     "WorkflowOrchestrationHub": WorkflowOrchestrationHub,
-    "AdvancedDeFiHub": AdvancedDeFiHub,
-    "AdvancedSimulationLab": AdvancedSimulationLab,
+    "World": World,
+    "AgentCollaborationHub": AgentCollaborationHub,
+    "DeFiRiskManagementHub": DeFiRiskManagementHub,
+    "DynamicSimulationStudio": DynamicSimulationStudio,
 }
 
 export const pagesConfig = {
