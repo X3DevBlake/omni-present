@@ -6,6 +6,8 @@ import { PersonalizationProvider } from './components/personalization/Personaliz
 import PageTransitionLoader from './components/ui/PageTransitionLoader';
 import { usePageTransition } from './components/hooks/usePageTransition';
 import ImmersivePageTransition from './components/navigation/ImmersivePageTransition';
+import PerformanceMonitor from './components/performance/PerformanceMonitor';
+import ImmersiveNavToggle from './components/navigation/ImmersiveNavToggle';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -46,6 +48,7 @@ function LayoutContent({ children }) {
   return (
     <>
       <PageTransitionLoader />
+      <ImmersiveNavToggle />
       <ImmersivePageTransition>
         <EnhancedMainNavRevamped />
         <BackButton />
@@ -67,6 +70,7 @@ export default function Layout({ children }) {
     <ErrorBoundary>
       <PersonalizationProvider>
         <GamificationProvider>
+          <PerformanceMonitor />
           <LayoutContent>{children}</LayoutContent>
         </GamificationProvider>
       </PersonalizationProvider>
