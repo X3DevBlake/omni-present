@@ -21,7 +21,9 @@ import ActivityLog from './pages/ActivityLog';
 import AdminHome from './pages/AdminHome';
 import AdvancedAgentCapabilities from './pages/AdvancedAgentCapabilities';
 import AdvancedCollaborationHub from './pages/AdvancedCollaborationHub';
+import AdvancedCommunicationHub from './pages/AdvancedCommunicationHub';
 import AdvancedDeFiHub from './pages/AdvancedDeFiHub';
+import AdvancedDeFiRiskHub from './pages/AdvancedDeFiRiskHub';
 import AdvancedDeFiTrading from './pages/AdvancedDeFiTrading';
 import AdvancedFinancialEcosystem from './pages/AdvancedFinancialEcosystem';
 import AdvancedPredictionCenter from './pages/AdvancedPredictionCenter';
@@ -106,11 +108,12 @@ import CommunityHub from './pages/CommunityHub';
 import CompetitiveArenas from './pages/CompetitiveArenas';
 import Compliance from './pages/Compliance';
 import ComplianceDashboard from './pages/ComplianceDashboard';
-import ComprehensiveFinancialHub from './pages/ComprehensiveFinancialHub';
 import Contact from './pages/Contact';
-import CryptoTradingHub from './pages/CryptoTradingHub';
+import ComprehensiveFinancialHub from './pages/ComprehensiveFinancialHub';
+import ContextAwareAssistantHub from './pages/ContextAwareAssistantHub';
 import CrossAgentPlanningHub from './pages/CrossAgentPlanningHub';
 import CrossSimulationHub from './pages/CrossSimulationHub';
+import CryptoTradingHub from './pages/CryptoTradingHub';
 import CurriculumCourses from './pages/CurriculumCourses';
 import CustomDashboard from './pages/CustomDashboard';
 import CustomIntegrations from './pages/CustomIntegrations';
@@ -155,6 +158,7 @@ import EnhancedCommunityHub from './pages/EnhancedCommunityHub';
 import EnhancedDashboard from './pages/EnhancedDashboard';
 import EnhancedDeFiHub from './pages/EnhancedDeFiHub';
 import EnhancedMarketplace from './pages/EnhancedMarketplace';
+import EnhancedMarketplaceHub from './pages/EnhancedMarketplaceHub';
 import EnhancedMediaHub from './pages/EnhancedMediaHub';
 import EnhancedOmniBank from './pages/EnhancedOmniBank';
 import EnhancedVideoIntegrationHub from './pages/EnhancedVideoIntegrationHub';
@@ -245,6 +249,7 @@ import PredictiveAnalyticsHub from './pages/PredictiveAnalyticsHub';
 import PressReleases from './pages/PressReleases';
 import Privacy from './pages/Privacy';
 import ProactiveMonitoring from './pages/ProactiveMonitoring';
+import ProceduralSimulationStudio from './pages/ProceduralSimulationStudio';
 import Profile from './pages/Profile';
 import ProfileHome from './pages/ProfileHome';
 import RealWorldBudget from './pages/RealWorldBudget';
@@ -261,6 +266,7 @@ import SandboxHub from './pages/SandboxHub';
 import SandboxSimulationHub from './pages/SandboxSimulationHub';
 import ScenarioTesting from './pages/ScenarioTesting';
 import Security from './pages/Security';
+import SecurityMonitoringHub from './pages/SecurityMonitoringHub';
 import SellOmni from './pages/SellOmni';
 import SensorDataAnalysis from './pages/SensorDataAnalysis';
 import ServiceProviders from './pages/ServiceProviders';
@@ -286,6 +292,7 @@ import TransferLearningHub from './pages/TransferLearningHub';
 import UnifiedAnalytics from './pages/UnifiedAnalytics';
 import UnifiedCommunicationHub from './pages/UnifiedCommunicationHub';
 import UnifiedConversationHub from './pages/UnifiedConversationHub';
+import UnifiedPlatformNavigator from './pages/UnifiedPlatformNavigator';
 import UnifiedVoicePlatform from './pages/UnifiedVoicePlatform';
 import UpgradeTracker from './pages/UpgradeTracker';
 import UserRoleManagement from './pages/UserRoleManagement';
@@ -299,13 +306,7 @@ import WithdrawOmni from './pages/WithdrawOmni';
 import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
-import AdvancedCommunicationHub from './pages/AdvancedCommunicationHub';
-import AdvancedDeFiRiskHub from './pages/AdvancedDeFiRiskHub';
-import ProceduralSimulationStudio from './pages/ProceduralSimulationStudio';
-import EnhancedMarketplaceHub from './pages/EnhancedMarketplaceHub';
-import SecurityMonitoringHub from './pages/SecurityMonitoringHub';
-import ContextAwareAssistantHub from './pages/ContextAwareAssistantHub';
-import UnifiedPlatformNavigator from './pages/UnifiedPlatformNavigator';
+import CrossPlatformIntegrationHub from './pages/CrossPlatformIntegrationHub';
 import __Layout from './Layout.jsx';
 
 
@@ -333,7 +334,9 @@ export const PAGES = {
     "AdminHome": AdminHome,
     "AdvancedAgentCapabilities": AdvancedAgentCapabilities,
     "AdvancedCollaborationHub": AdvancedCollaborationHub,
+    "AdvancedCommunicationHub": AdvancedCommunicationHub,
     "AdvancedDeFiHub": AdvancedDeFiHub,
+    "AdvancedDeFiRiskHub": AdvancedDeFiRiskHub,
     "AdvancedDeFiTrading": AdvancedDeFiTrading,
     "AdvancedFinancialEcosystem": AdvancedFinancialEcosystem,
     "AdvancedPredictionCenter": AdvancedPredictionCenter,
@@ -418,11 +421,12 @@ export const PAGES = {
     "CompetitiveArenas": CompetitiveArenas,
     "Compliance": Compliance,
     "ComplianceDashboard": ComplianceDashboard,
-    "ComprehensiveFinancialHub": ComprehensiveFinancialHub,
     "Contact": Contact,
-    "CryptoTradingHub": CryptoTradingHub,
+    "ComprehensiveFinancialHub": ComprehensiveFinancialHub,
+    "ContextAwareAssistantHub": ContextAwareAssistantHub,
     "CrossAgentPlanningHub": CrossAgentPlanningHub,
     "CrossSimulationHub": CrossSimulationHub,
+    "CryptoTradingHub": CryptoTradingHub,
     "CurriculumCourses": CurriculumCourses,
     "CustomDashboard": CustomDashboard,
     "CustomIntegrations": CustomIntegrations,
@@ -467,6 +471,7 @@ export const PAGES = {
     "EnhancedDashboard": EnhancedDashboard,
     "EnhancedDeFiHub": EnhancedDeFiHub,
     "EnhancedMarketplace": EnhancedMarketplace,
+    "EnhancedMarketplaceHub": EnhancedMarketplaceHub,
     "EnhancedMediaHub": EnhancedMediaHub,
     "EnhancedOmniBank": EnhancedOmniBank,
     "EnhancedVideoIntegrationHub": EnhancedVideoIntegrationHub,
@@ -557,6 +562,7 @@ export const PAGES = {
     "PressReleases": PressReleases,
     "Privacy": Privacy,
     "ProactiveMonitoring": ProactiveMonitoring,
+    "ProceduralSimulationStudio": ProceduralSimulationStudio,
     "Profile": Profile,
     "ProfileHome": ProfileHome,
     "RealWorldBudget": RealWorldBudget,
@@ -573,6 +579,7 @@ export const PAGES = {
     "SandboxSimulationHub": SandboxSimulationHub,
     "ScenarioTesting": ScenarioTesting,
     "Security": Security,
+    "SecurityMonitoringHub": SecurityMonitoringHub,
     "SellOmni": SellOmni,
     "SensorDataAnalysis": SensorDataAnalysis,
     "ServiceProviders": ServiceProviders,
@@ -598,6 +605,7 @@ export const PAGES = {
     "UnifiedAnalytics": UnifiedAnalytics,
     "UnifiedCommunicationHub": UnifiedCommunicationHub,
     "UnifiedConversationHub": UnifiedConversationHub,
+    "UnifiedPlatformNavigator": UnifiedPlatformNavigator,
     "UnifiedVoicePlatform": UnifiedVoicePlatform,
     "UpgradeTracker": UpgradeTracker,
     "UserRoleManagement": UserRoleManagement,
@@ -611,13 +619,7 @@ export const PAGES = {
     "WorkflowAutomationHub": WorkflowAutomationHub,
     "WorkflowOrchestrationHub": WorkflowOrchestrationHub,
     "World": World,
-    "AdvancedCommunicationHub": AdvancedCommunicationHub,
-    "AdvancedDeFiRiskHub": AdvancedDeFiRiskHub,
-    "ProceduralSimulationStudio": ProceduralSimulationStudio,
-    "EnhancedMarketplaceHub": EnhancedMarketplaceHub,
-    "SecurityMonitoringHub": SecurityMonitoringHub,
-    "ContextAwareAssistantHub": ContextAwareAssistantHub,
-    "UnifiedPlatformNavigator": UnifiedPlatformNavigator,
+    "CrossPlatformIntegrationHub": CrossPlatformIntegrationHub,
 }
 
 export const pagesConfig = {

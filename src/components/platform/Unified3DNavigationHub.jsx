@@ -75,7 +75,7 @@ export default function Unified3DNavigationHub() {
       name: 'Communication', 
       type: 'communication', 
       page: 'AdvancedCommunicationHub',
-      description: 'Topics & Alerts'
+      description: 'Topics & Analytics'
     },
     { 
       name: 'DeFi Risk', 
@@ -93,7 +93,7 @@ export default function Unified3DNavigationHub() {
       name: 'Marketplace', 
       type: 'marketplace', 
       page: 'EnhancedMarketplaceHub',
-      description: 'Agent Matching'
+      description: 'Reputation & Reviews'
     },
     { 
       name: 'Security', 
@@ -106,6 +106,12 @@ export default function Unified3DNavigationHub() {
       type: 'assistant', 
       page: 'ContextAwareAssistantHub',
       description: 'Context Aware'
+    },
+    { 
+      name: 'Cross-Platform', 
+      type: 'platform', 
+      page: 'CrossPlatformIntegrationHub',
+      description: 'Multi-Platform Sync'
     }
   ];
 

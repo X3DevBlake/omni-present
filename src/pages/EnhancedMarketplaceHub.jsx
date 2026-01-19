@@ -2,23 +2,33 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
-import { Store, Sparkles, TrendingUp, Users } from 'lucide-react';
+import { Store, Sparkles, TrendingUp, Users, Shield, Star } from 'lucide-react';
 import { motion } from 'framer-motion';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import { Badge } from '@/components/ui/badge';
 import AgentConstellationVisualizer3D from '../components/marketplace/AgentConstellationVisualizer3D';
 import MarketplaceDynamics3D from '../components/marketplace/MarketplaceDynamics3D';
+import DecentralizedReputationVisualizer3D from '../components/marketplace/DecentralizedReputationVisualizer3D';
 
 export default function EnhancedMarketplaceHub() {
   const queryClient = useQueryClient();
   const [taskQuery, setTaskQuery] = useState('Build AI trading bot');
+  const [selectedAgent, setSelectedAgent] = useState(null);
+  const [rating, setRating] = useState(5);
+  const [reviewText, setReviewText] = useState('');
 
   const { data: profiles } = useQuery({
     queryKey: ['marketplace-profiles'],
     queryFn: () => base44.entities.AgentMarketplaceProfile.list('-recommendation_score', 50),
+  });
+
+  const { data: reputationRecords } = useQuery({
+    queryKey: ['reputation-records'],
+    queryFn: () => base44.entities.DecentralizedReputationRecord.list('-reputation_score', 50),
   });
 
   const orchestratePricing = useMutation({
@@ -39,6 +49,35 @@ export default function EnhancedMarketplaceHub() {
         budget: 5000
       });
       return response.data;
+    }
+  });
+
+  const submitReview = useMutation({
+    mutationFn: async () => {
+      const response = await base44.functions.invoke('reputation/submitAgentReview', {
+        agent_id: selectedAgent,
+        rating,
+        review_text: reviewText,
+        task_id: 'task_' + Date.now()
+      });
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['reputation-records'] });
+      setReviewText('');
+      setSelectedAgent(null);
+    }
+  });
+
+  const recordReputation = useMutation({
+    mutationFn: async (agentId) => {
+      const response = await base44.functions.invoke('reputation/recordReputationOnChain', {
+        agent_id: agentId
+      });
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['reputation-records'] });
     }
   });
 
@@ -96,10 +135,12 @@ export default function EnhancedMarketplaceHub() {
         </div>
 
         <Tabs defaultValue="match" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-5 bg-black/30 p-1">
+          <TabsList className="grid w-full grid-cols-7 bg-black/30 p-1">
             <TabsTrigger value="match">AI Matching</TabsTrigger>
             <TabsTrigger value="pricing">Dynamic Pricing</TabsTrigger>
             <TabsTrigger value="browse">Browse</TabsTrigger>
+            <TabsTrigger value="reputation">Reputation</TabsTrigger>
+            <TabsTrigger value="reviews">Reviews</TabsTrigger>
             <TabsTrigger value="constellation">Constellation 3D</TabsTrigger>
             <TabsTrigger value="dynamics">Market Dynamics</TabsTrigger>
           </TabsList>
@@ -265,6 +306,143 @@ export default function EnhancedMarketplaceHub() {
                 </Card>
               ))}
             </div>
+          </TabsContent>
+
+          <TabsContent value="reputation">
+            <Card className="bg-black/40 border-white/10 mb-6">
+              <CardHeader>
+                <CardTitle className="text-white flex items-center gap-2">
+                  <Shield className="w-5 h-5 text-cyan-400" />
+                  Decentralized Reputation System
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-white/60 mb-4">
+                  Agent reputations are recorded on an immutable ledger for transparency and trust.
+                </p>
+                <DecentralizedReputationVisualizer3D reputations={reputationRecords} />
+              </CardContent>
+            </Card>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {reputationRecords?.map((record) => (
+                <Card key={record.id} className="bg-white/5 border-white/10">
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between mb-3">
+                      <Badge className="bg-purple-500">
+                        Agent {record.agent_id?.slice(-6)}
+                      </Badge>
+                      <Badge className={
+                        record.reputation_tier === 'diamond' ? 'bg-cyan-400 text-black' :
+                        record.reputation_tier === 'platinum' ? 'bg-gray-300 text-black' :
+                        record.reputation_tier === 'gold' ? 'bg-yellow-500 text-black' :
+                        record.reputation_tier === 'silver' ? 'bg-gray-400 text-black' :
+                        'bg-orange-700'
+                      }>
+                        {record.reputation_tier?.toUpperCase()}
+                      </Badge>
+                    </div>
+                    <div className="grid grid-cols-2 gap-3 mb-3">
+                      <div className="bg-black/30 rounded p-2">
+                        <div className="text-white/60 text-xs">Reputation</div>
+                        <div className="text-green-400 font-bold">{record.reputation_score?.toFixed(0)}</div>
+                      </div>
+                      <div className="bg-black/30 rounded p-2">
+                        <div className="text-white/60 text-xs">Reviews</div>
+                        <div className="text-cyan-400 font-bold">{record.reviews?.length || 0}</div>
+                      </div>
+                    </div>
+                    <div className="bg-cyan-500/20 border border-cyan-500/30 rounded p-2 mb-3">
+                      <div className="text-cyan-300 text-xs mb-1">Blockchain Hash</div>
+                      <div className="text-white/70 text-xs font-mono truncate">
+                        {record.blockchain_hash}
+                      </div>
+                    </div>
+                    <Button
+                      onClick={() => recordReputation.mutate(record.agent_id)}
+                      disabled={recordReputation.isPending}
+                      size="sm"
+                      className="w-full bg-purple-600 hover:bg-purple-700"
+                    >
+                      Update On-Chain
+                    </Button>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </TabsContent>
+
+          <TabsContent value="reviews">
+            <Card className="bg-black/40 border-white/10 mb-6">
+              <CardHeader>
+                <CardTitle className="text-white">Submit Agent Review</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <label className="text-white text-sm mb-2 block">Select Agent</label>
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                    {profiles?.slice(0, 6).map((profile) => (
+                      <Button
+                        key={profile.id}
+                        onClick={() => setSelectedAgent(profile.agent_id)}
+                        variant={selectedAgent === profile.agent_id ? 'default' : 'outline'}
+                        size="sm"
+                        className={selectedAgent === profile.agent_id ? 'bg-purple-600' : ''}
+                      >
+                        Agent {profile.agent_id?.slice(-6)}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+                {selectedAgent && (
+                  <>
+                    <div>
+                      <label className="text-white text-sm mb-2 block">Rating (1-5 stars)</label>
+                      <div className="flex gap-2">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <Button
+                            key={star}
+                            onClick={() => setRating(star)}
+                            variant="ghost"
+                            size="sm"
+                            className={rating >= star ? 'text-yellow-400' : 'text-gray-500'}
+                          >
+                            <Star className={`w-6 h-6 ${rating >= star ? 'fill-yellow-400' : ''}`} />
+                          </Button>
+                        ))}
+                      </div>
+                    </div>
+                    <div>
+                      <label className="text-white text-sm mb-2 block">Review</label>
+                      <Textarea
+                        value={reviewText}
+                        onChange={(e) => setReviewText(e.target.value)}
+                        placeholder="Share your experience working with this agent..."
+                        className="bg-white/5 border-white/10 text-white min-h-[100px]"
+                      />
+                    </div>
+                    <Button
+                      onClick={() => submitReview.mutate()}
+                      disabled={submitReview.isPending || !reviewText}
+                      className="w-full bg-gradient-to-r from-green-600 to-emerald-600"
+                    >
+                      Submit Review
+                    </Button>
+                  </>
+                )}
+              </CardContent>
+            </Card>
+
+            {submitReview.data && (
+              <Card className="bg-gradient-to-r from-green-500/20 to-emerald-500/20 border-green-500/30">
+                <CardContent className="p-6">
+                  <h3 className="text-green-300 font-bold mb-2">Review Submitted!</h3>
+                  <p className="text-white/70">
+                    New average rating: {submitReview.data.new_avg_rating?.toFixed(1)} ⭐
+                  </p>
+                </CardContent>
+              </Card>
+            )}
           </TabsContent>
 
           <TabsContent value="constellation">

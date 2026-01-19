@@ -10,6 +10,8 @@ import AuroraBackground from '../components/omni/AuroraBackground';
 import { Badge } from '@/components/ui/badge';
 import CommunicationTopicTrends3D from '../components/communication/CommunicationTopicTrends3D';
 import SentimentNetwork3D from '../components/communication/SentimentNetwork3D';
+import RealTimePerformanceDashboard from '../components/analytics/RealTimePerformanceDashboard';
+import SkillTrendAnalyzer from '../components/analytics/SkillTrendAnalyzer';
 
 export default function AdvancedCommunicationHub() {
   const queryClient = useQueryClient();
@@ -28,6 +30,33 @@ export default function AdvancedCommunicationHub() {
   const { data: alerts } = useQuery({
     queryKey: ['communication-alerts'],
     queryFn: () => base44.entities.CommunicationAlert.filter({ resolved: false }, '-created_date', 20),
+  });
+
+  const { data: analytics } = useQuery({
+    queryKey: ['performance-analytics'],
+    queryFn: () => base44.entities.AgentPerformanceAnalytics.list('-created_date', 10),
+  });
+
+  const predictBurnout = useMutation({
+    mutationFn: async (agentId) => {
+      const response = await base44.functions.invoke('analytics/predictAgentBurnout', {
+        agent_id: agentId
+      });
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['performance-analytics'] });
+    }
+  });
+
+  const forecastSkills = useMutation({
+    mutationFn: async (agentId) => {
+      const response = await base44.functions.invoke('analytics/forecastSkillDemand', {
+        agent_id: agentId,
+        forecast_months: 6
+      });
+      return response.data;
+    }
   });
 
   const detectTopics = useMutation({
@@ -102,10 +131,12 @@ export default function AdvancedCommunicationHub() {
         </div>
 
         <Tabs defaultValue="channels" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-5 bg-black/30 p-1">
+          <TabsList className="grid w-full grid-cols-7 bg-black/30 p-1">
             <TabsTrigger value="channels">Channels</TabsTrigger>
             <TabsTrigger value="topics">Topic Trends</TabsTrigger>
             <TabsTrigger value="alerts">Alerts</TabsTrigger>
+            <TabsTrigger value="performance">Performance</TabsTrigger>
+            <TabsTrigger value="skills">Skill Trends</TabsTrigger>
             <TabsTrigger value="sentiment">Sentiment 3D</TabsTrigger>
             <TabsTrigger value="predict">Predictions</TabsTrigger>
           </TabsList>
@@ -239,6 +270,97 @@ export default function AdvancedCommunicationHub() {
                 </Card>
               ))}
             </div>
+          </TabsContent>
+
+          <TabsContent value="performance">
+            <RealTimePerformanceDashboard analytics={analytics} />
+            
+            <Card className="bg-black/40 border-white/10 mt-6">
+              <CardHeader>
+                <CardTitle className="text-white">Burnout Prediction</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <p className="text-white/60 mb-4">
+                  Select an agent to run AI-powered burnout risk analysis and get intervention suggestions.
+                </p>
+                {channels?.slice(0, 4).map((channel) => 
+                  channel.participant_agent_ids?.slice(0, 2).map((agentId, i) => (
+                    <Button
+                      key={`${channel.id}-${i}`}
+                      onClick={() => predictBurnout.mutate(agentId)}
+                      disabled={predictBurnout.isPending}
+                      className="w-full bg-gradient-to-r from-orange-600 to-red-600"
+                    >
+                      Analyze Agent {agentId.slice(-6)}
+                    </Button>
+                  ))
+                )}
+                {predictBurnout.data && (
+                  <Card className="bg-gradient-to-r from-orange-500/20 to-red-500/20 border-orange-500/30 mt-4">
+                    <CardContent className="p-6">
+                      <h3 className="text-orange-300 font-bold mb-4">Burnout Analysis Results</h3>
+                      <div className="grid grid-cols-2 gap-4 mb-4">
+                        <div className="bg-black/30 rounded p-3">
+                          <div className="text-white/60 text-sm">Risk Score</div>
+                          <div className={`text-2xl font-bold ${
+                            predictBurnout.data.burnout_analysis.burnout_risk_score >= 70 ? 'text-red-400' :
+                            predictBurnout.data.burnout_analysis.burnout_risk_score >= 40 ? 'text-yellow-400' :
+                            'text-green-400'
+                          }`}>
+                            {predictBurnout.data.burnout_analysis.burnout_risk_score?.toFixed(0)}%
+                          </div>
+                        </div>
+                        <div className="bg-black/30 rounded p-3">
+                          <div className="text-white/60 text-sm">Priority</div>
+                          <Badge className={
+                            predictBurnout.data.burnout_analysis.priority === 'critical' ? 'bg-red-500' :
+                            predictBurnout.data.burnout_analysis.priority === 'high' ? 'bg-orange-500' :
+                            'bg-yellow-500'
+                          }>
+                            {predictBurnout.data.burnout_analysis.priority}
+                          </Badge>
+                        </div>
+                      </div>
+                      <div className="bg-black/30 rounded p-3">
+                        <div className="text-cyan-300 text-sm mb-2">Suggested Interventions:</div>
+                        {predictBurnout.data.burnout_analysis.interventions?.map((intervention, i) => (
+                          <div key={i} className="text-white/70 text-sm">• {intervention}</div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                )}
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="skills">
+            <Card className="bg-black/40 border-white/10 mb-6">
+              <CardHeader>
+                <CardTitle className="text-white">Skill Demand Forecasting</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <p className="text-white/60 mb-4">
+                  Forecast future skill demand for agents to optimize training priorities.
+                </p>
+                {channels?.slice(0, 3).map((channel) => 
+                  channel.participant_agent_ids?.slice(0, 1).map((agentId, i) => (
+                    <Button
+                      key={`${channel.id}-${i}`}
+                      onClick={() => forecastSkills.mutate(agentId)}
+                      disabled={forecastSkills.isPending}
+                      className="w-full bg-gradient-to-r from-purple-600 to-pink-600"
+                    >
+                      Forecast Skills for Agent {agentId.slice(-6)}
+                    </Button>
+                  ))
+                )}
+              </CardContent>
+            </Card>
+
+            {forecastSkills.data?.forecast && (
+              <SkillTrendAnalyzer skillTrends={forecastSkills.data.forecast.skill_forecasts} />
+            )}
           </TabsContent>
 
           <TabsContent value="sentiment">
