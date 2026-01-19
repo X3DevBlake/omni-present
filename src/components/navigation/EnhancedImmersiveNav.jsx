@@ -7,6 +7,8 @@ import { base44 } from '@/api/base44Client';
 import { Brain, TrendingUp, Zap, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
+import Dynamic3DNavPortal from './Dynamic3DNavPortal';
+import { usePersonalizedNavTheme } from './PersonalizedNavTheme';
 
 // Live Data Hub with real-time metrics
 function LiveDataHub({ position, hubData, onClick }) {
@@ -148,6 +150,8 @@ export default function EnhancedImmersiveNav({ onClose }) {
     performanceAlerts: 0,
     newData: false,
   });
+  const { theme } = usePersonalizedNavTheme();
+  const [view, setView] = useState('portals'); // 'portals' or 'hubs'
 
   // Fetch live data for each hub
   const { data: hubsData } = useQuery({
@@ -209,37 +213,59 @@ export default function EnhancedImmersiveNav({ onClose }) {
     }
   };
 
+  const navDestinations = React.useMemo(() => {
+    if (!hubsData) return [];
+    return [
+      { name: 'AI Agents', path: '/AIManagement', activity: hubsData.agents?.activity || 0 },
+      { name: 'Simulations', path: '/SimulationStudio', activity: hubsData.simulation?.activity || 0 },
+      { name: 'Monitoring', path: '/AlertManagementDashboard', activity: hubsData.monitoring?.activity || 0 },
+      { name: 'Orchestration', path: '/AgentOrchestrationHub', activity: 20 },
+      { name: 'AI Labs', path: '/AILabsLifecycle', activity: 15 },
+      { name: 'Analytics', path: '/AIAnalyticsHub', activity: 10 },
+    ];
+  }, [hubsData]);
+
   return (
     <div className="fixed inset-0 z-50 bg-black">
-      <Canvas>
-        <PerspectiveCamera makeDefault position={[0, 0, 10]} />
-        <OrbitControls enablePan={false} maxDistance={20} minDistance={5} />
-        
-        <ambientLight intensity={0.3} />
-        <pointLight position={[10, 10, 10]} intensity={1} />
-        
-        <Stars radius={100} depth={50} count={5000} factor={4} />
-        
-        {hubsData && (
-          <>
-            <LiveDataHub 
-              position={[-4, 0, 0]} 
-              hubData={hubsData.agents}
-              onClick={() => handleHubClick('agents')}
-            />
-            <LiveDataHub 
-              position={[4, 0, 0]} 
-              hubData={hubsData.simulation}
-              onClick={() => handleHubClick('simulation')}
-            />
-            <LiveDataHub 
-              position={[0, 4, 0]} 
-              hubData={hubsData.monitoring}
-              onClick={() => handleHubClick('monitoring')}
-            />
-          </>
-        )}
-      </Canvas>
+      {view === 'portals' ? (
+        <Dynamic3DNavPortal
+          destinations={navDestinations}
+          onNavigate={(dest) => {
+            navigate(createPageUrl(dest.path));
+            onClose();
+          }}
+        />
+      ) : (
+        <Canvas>
+          <PerspectiveCamera makeDefault position={[0, 0, 10]} />
+          <OrbitControls enablePan={false} maxDistance={20} minDistance={5} />
+          
+          <ambientLight intensity={0.3} />
+          <pointLight position={[10, 10, 10]} intensity={1} />
+          
+          <Stars radius={100} depth={50} count={5000} factor={4} />
+          
+          {hubsData && (
+            <>
+              <LiveDataHub 
+                position={[-4, 0, 0]} 
+                hubData={hubsData.agents}
+                onClick={() => handleHubClick('agents')}
+              />
+              <LiveDataHub 
+                position={[4, 0, 0]} 
+                hubData={hubsData.simulation}
+                onClick={() => handleHubClick('simulation')}
+              />
+              <LiveDataHub 
+                position={[0, 4, 0]} 
+                hubData={hubsData.monitoring}
+                onClick={() => handleHubClick('monitoring')}
+              />
+            </>
+          )}
+        </Canvas>
+      )}
 
       {/* AI Assistant */}
       <AINavigationAssistant 
@@ -292,6 +318,26 @@ export default function EnhancedImmersiveNav({ onClose }) {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* View Toggle */}
+      <div className="absolute top-4 left-4 z-20 flex gap-2">
+        <button
+          onClick={() => setView('portals')}
+          className={`px-4 py-2 rounded-lg backdrop-blur-sm transition-all ${
+            view === 'portals' ? 'bg-cyan-600 text-white' : 'bg-white/10 text-white/60'
+          }`}
+        >
+          Portal View
+        </button>
+        <button
+          onClick={() => setView('hubs')}
+          className={`px-4 py-2 rounded-lg backdrop-blur-sm transition-all ${
+            view === 'hubs' ? 'bg-cyan-600 text-white' : 'bg-white/10 text-white/60'
+          }`}
+        >
+          Hub View
+        </button>
+      </div>
 
       {/* Close Button */}
       <button
