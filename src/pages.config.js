@@ -277,6 +277,7 @@ import WithdrawOmni from './pages/WithdrawOmni';
 import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import World from './pages/World';
 import ImmersiveNavigationHub from './pages/ImmersiveNavigationHub';
+import AILabsAdvanced from './pages/AILabsAdvanced';
 import __Layout from './Layout.jsx';
 
 
@@ -560,6 +561,7 @@ export const PAGES = {
     "WorkflowAutomationHub": WorkflowAutomationHub,
     "World": World,
     "ImmersiveNavigationHub": ImmersiveNavigationHub,
+    "AILabsAdvanced": AILabsAdvanced,
 }
 
 export const pagesConfig = {

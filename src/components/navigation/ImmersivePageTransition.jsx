@@ -18,7 +18,17 @@ export default function ImmersivePageTransition({ children }) {
   const transitionsEnabled = localStorage.getItem('immersive-transitions') !== 'false';
 
   useEffect(() => {
-    if (!transitionsEnabled || previousPath === location.pathname) return;
+    // Skip if same page or transitions disabled
+    if (!transitionsEnabled || previousPath === location.pathname) {
+      setPreviousPath(location.pathname);
+      return;
+    }
+
+    // Only transition if we have a previous path (not initial load)
+    if (!previousPath) {
+      setPreviousPath(location.pathname);
+      return;
+    }
 
     // Determine transition type based on path
     const path = location.pathname.toLowerCase();
@@ -36,20 +46,21 @@ export default function ImmersivePageTransition({ children }) {
       type = 'simulation';
     }
 
-    if (previousPath && type !== 'default') {
+    if (type !== 'default') {
       setTransitionType(type);
       setIsTransitioning(true);
 
       const timer = setTimeout(() => {
         setIsTransitioning(false);
         setTransitionType(null);
+        setPreviousPath(location.pathname);
       }, 1500);
 
       return () => clearTimeout(timer);
+    } else {
+      setPreviousPath(location.pathname);
     }
-
-    setPreviousPath(location.pathname);
-  }, [location.pathname, previousPath, transitionsEnabled]);
+  }, [location.pathname, transitionsEnabled]);
 
   const renderTransition = () => {
     switch (transitionType) {
