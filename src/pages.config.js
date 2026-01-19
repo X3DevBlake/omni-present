@@ -49,6 +49,7 @@ import AgentMarketplace from './pages/AgentMarketplace';
 import AgentMarketplaceHub from './pages/AgentMarketplaceHub';
 import AgentModularBuilder from './pages/AgentModularBuilder';
 import AgentMonitoringDashboard from './pages/AgentMonitoringDashboard';
+import AgentOrchestrationHub from './pages/AgentOrchestrationHub';
 import AgentPerformanceDashboard from './pages/AgentPerformanceDashboard';
 import AgentShoppingLog from './pages/AgentShoppingLog';
 import AgentSimulation3D from './pages/AgentSimulation3D';
@@ -56,6 +57,7 @@ import AgentSkillMarketplace from './pages/AgentSkillMarketplace';
 import AgentSpending from './pages/AgentSpending';
 import AgentTraining from './pages/AgentTraining';
 import AgentTrainingCenter from './pages/AgentTrainingCenter';
+import AgentTrainingStudio from './pages/AgentTrainingStudio';
 import AgentVideoInterface from './pages/AgentVideoInterface';
 import AlertManagementDashboard from './pages/AlertManagementDashboard';
 import Analytics from './pages/Analytics';
@@ -109,11 +111,11 @@ import CustomIntegrations from './pages/CustomIntegrations';
 import DEXAggregator from './pages/DEXAggregator';
 import DashboardHome from './pages/DashboardHome';
 import DataAnnotation from './pages/DataAnnotation';
-import DeFiHub from './pages/DeFiHub';
 import DeFiAnalyticsPhase4 from './pages/DeFiAnalyticsPhase4';
 import DeFiAutonomousPhase3 from './pages/DeFiAutonomousPhase3';
 import DeFiCorePhase2 from './pages/DeFiCorePhase2';
 import DeFiGovernancePhase5 from './pages/DeFiGovernancePhase5';
+import DeFiHub from './pages/DeFiHub';
 import DeFiRiskManagementSuite from './pages/DeFiRiskManagementSuite';
 import DecentralizedNetwork from './pages/DecentralizedNetwork';
 import DeepLearningPlatform from './pages/DeepLearningPlatform';
@@ -144,6 +146,7 @@ import EnhancedCommunications from './pages/EnhancedCommunications';
 import EnhancedCommunityHub from './pages/EnhancedCommunityHub';
 import EnhancedDashboard from './pages/EnhancedDashboard';
 import EnhancedDeFiHub from './pages/EnhancedDeFiHub';
+import EnhancedMarketplace from './pages/EnhancedMarketplace';
 import EnhancedMediaHub from './pages/EnhancedMediaHub';
 import EnhancedOmniBank from './pages/EnhancedOmniBank';
 import EnhancedVideoIntegrationHub from './pages/EnhancedVideoIntegrationHub';
@@ -182,6 +185,7 @@ import IntegrationsHub from './pages/IntegrationsHub';
 import IntelligenceDashboard from './pages/IntelligenceDashboard';
 import InvestmentStrategyHub from './pages/InvestmentStrategyHub';
 import IoTDeviceControl from './pages/IoTDeviceControl';
+import KnowledgeGraphHub from './pages/KnowledgeGraphHub';
 import Labs from './pages/Labs';
 import LabsHome from './pages/LabsHome';
 import Leaderboards from './pages/Leaderboards';
@@ -268,6 +272,7 @@ import TeamOrchestration from './pages/TeamOrchestration';
 import Technology from './pages/Technology';
 import Terms from './pages/Terms';
 import Tokenomics from './pages/Tokenomics';
+import TransferLearningHub from './pages/TransferLearningHub';
 import UnifiedAnalytics from './pages/UnifiedAnalytics';
 import UnifiedCommunicationHub from './pages/UnifiedCommunicationHub';
 import UnifiedConversationHub from './pages/UnifiedConversationHub';
@@ -283,11 +288,9 @@ import WebhooksHub from './pages/WebhooksHub';
 import WithdrawOmni from './pages/WithdrawOmni';
 import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import World from './pages/World';
-import AgentOrchestrationHub from './pages/AgentOrchestrationHub';
-import KnowledgeGraphHub from './pages/KnowledgeGraphHub';
-import TransferLearningHub from './pages/TransferLearningHub';
-import AgentTrainingStudio from './pages/AgentTrainingStudio';
-import EnhancedMarketplace from './pages/EnhancedMarketplace';
+import AIEthicsHub from './pages/AIEthicsHub';
+import MessageBroadcastHub from './pages/MessageBroadcastHub';
+import ResourceManagementHub from './pages/ResourceManagementHub';
 import __Layout from './Layout.jsx';
 
 
@@ -343,6 +346,7 @@ export const PAGES = {
     "AgentMarketplaceHub": AgentMarketplaceHub,
     "AgentModularBuilder": AgentModularBuilder,
     "AgentMonitoringDashboard": AgentMonitoringDashboard,
+    "AgentOrchestrationHub": AgentOrchestrationHub,
     "AgentPerformanceDashboard": AgentPerformanceDashboard,
     "AgentShoppingLog": AgentShoppingLog,
     "AgentSimulation3D": AgentSimulation3D,
@@ -350,6 +354,7 @@ export const PAGES = {
     "AgentSpending": AgentSpending,
     "AgentTraining": AgentTraining,
     "AgentTrainingCenter": AgentTrainingCenter,
+    "AgentTrainingStudio": AgentTrainingStudio,
     "AgentVideoInterface": AgentVideoInterface,
     "AlertManagementDashboard": AlertManagementDashboard,
     "Analytics": Analytics,
@@ -403,11 +408,11 @@ export const PAGES = {
     "DEXAggregator": DEXAggregator,
     "DashboardHome": DashboardHome,
     "DataAnnotation": DataAnnotation,
-    "DeFiHub": DeFiHub,
     "DeFiAnalyticsPhase4": DeFiAnalyticsPhase4,
     "DeFiAutonomousPhase3": DeFiAutonomousPhase3,
     "DeFiCorePhase2": DeFiCorePhase2,
     "DeFiGovernancePhase5": DeFiGovernancePhase5,
+    "DeFiHub": DeFiHub,
     "DeFiRiskManagementSuite": DeFiRiskManagementSuite,
     "DecentralizedNetwork": DecentralizedNetwork,
     "DeepLearningPlatform": DeepLearningPlatform,
@@ -438,6 +443,7 @@ export const PAGES = {
     "EnhancedCommunityHub": EnhancedCommunityHub,
     "EnhancedDashboard": EnhancedDashboard,
     "EnhancedDeFiHub": EnhancedDeFiHub,
+    "EnhancedMarketplace": EnhancedMarketplace,
     "EnhancedMediaHub": EnhancedMediaHub,
     "EnhancedOmniBank": EnhancedOmniBank,
     "EnhancedVideoIntegrationHub": EnhancedVideoIntegrationHub,
@@ -476,6 +482,7 @@ export const PAGES = {
     "IntelligenceDashboard": IntelligenceDashboard,
     "InvestmentStrategyHub": InvestmentStrategyHub,
     "IoTDeviceControl": IoTDeviceControl,
+    "KnowledgeGraphHub": KnowledgeGraphHub,
     "Labs": Labs,
     "LabsHome": LabsHome,
     "Leaderboards": Leaderboards,
@@ -562,6 +569,7 @@ export const PAGES = {
     "Technology": Technology,
     "Terms": Terms,
     "Tokenomics": Tokenomics,
+    "TransferLearningHub": TransferLearningHub,
     "UnifiedAnalytics": UnifiedAnalytics,
     "UnifiedCommunicationHub": UnifiedCommunicationHub,
     "UnifiedConversationHub": UnifiedConversationHub,
@@ -577,11 +585,9 @@ export const PAGES = {
     "WithdrawOmni": WithdrawOmni,
     "WorkflowAutomationHub": WorkflowAutomationHub,
     "World": World,
-    "AgentOrchestrationHub": AgentOrchestrationHub,
-    "KnowledgeGraphHub": KnowledgeGraphHub,
-    "TransferLearningHub": TransferLearningHub,
-    "AgentTrainingStudio": AgentTrainingStudio,
-    "EnhancedMarketplace": EnhancedMarketplace,
+    "AIEthicsHub": AIEthicsHub,
+    "MessageBroadcastHub": MessageBroadcastHub,
+    "ResourceManagementHub": ResourceManagementHub,
 }
 
 export const pagesConfig = {
