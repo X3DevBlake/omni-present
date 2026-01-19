@@ -431,6 +431,48 @@ export default function Home() {
             </Card>
           </motion.div>
 
+          {/* Emergent Behaviors */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1 }}
+            className="mb-20"
+          >
+            <h2 className="text-4xl font-bold text-center mb-4 text-white">
+              Emergent Behavior Detection
+            </h2>
+            <p className="text-center text-slate-400 mb-8 text-lg">
+              Watch agents develop unexpected strategies and collaborative patterns
+            </p>
+            <Card className="bg-slate-900/60 backdrop-blur-xl border-slate-700">
+              <CardContent className="p-0">
+                <div className="h-[600px]">
+                  <EmergentBehaviorVisualizer3D />
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          {/* Tokenomics */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.1 }}
+            className="mb-20"
+          >
+            <h2 className="text-4xl font-bold text-center mb-4 text-white">
+              Omni Token Ecosystem
+            </h2>
+            <p className="text-center text-slate-400 mb-8 text-lg">
+              Stake, govern, and earn rewards in our decentralized economy
+            </p>
+            <Card className="bg-slate-900/60 backdrop-blur-xl border-slate-700">
+              <CardContent className="p-6">
+                <AdaptiveTokenomicsDisplay3D />
+              </CardContent>
+            </Card>
+          </motion.div>
+
           {/* Use Cases */}
           <motion.div
             initial={{ opacity: 0 }}
