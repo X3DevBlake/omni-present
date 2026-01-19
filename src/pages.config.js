@@ -305,6 +305,7 @@ import ProceduralSimulationStudio from './pages/ProceduralSimulationStudio';
 import EnhancedMarketplaceHub from './pages/EnhancedMarketplaceHub';
 import SecurityMonitoringHub from './pages/SecurityMonitoringHub';
 import ContextAwareAssistantHub from './pages/ContextAwareAssistantHub';
+import UnifiedPlatformNavigator from './pages/UnifiedPlatformNavigator';
 import __Layout from './Layout.jsx';
 
 
@@ -616,6 +617,7 @@ export const PAGES = {
     "EnhancedMarketplaceHub": EnhancedMarketplaceHub,
     "SecurityMonitoringHub": SecurityMonitoringHub,
     "ContextAwareAssistantHub": ContextAwareAssistantHub,
+    "UnifiedPlatformNavigator": UnifiedPlatformNavigator,
 }
 
 export const pagesConfig = {
