@@ -312,6 +312,12 @@ import EnhancedSecurityHub from './pages/EnhancedSecurityHub';
 import EnhancedAnalyticsHub from './pages/EnhancedAnalyticsHub';
 import EnhancedKnowledgeHub from './pages/EnhancedKnowledgeHub';
 import EnhancedGamificationHub from './pages/EnhancedGamificationHub';
+import EnhancedIntegrationHub from './pages/EnhancedIntegrationHub';
+import EnhancedDeFiTradingHub from './pages/EnhancedDeFiTradingHub';
+import EnhancedSimulationLab from './pages/EnhancedSimulationLab';
+import EnhancedWorkflowHub from './pages/EnhancedWorkflowHub';
+import EnhancedVoiceHub from './pages/EnhancedVoiceHub';
+import EnhancedMonitoringHub from './pages/EnhancedMonitoringHub';
 import __Layout from './Layout.jsx';
 
 
@@ -630,6 +636,12 @@ export const PAGES = {
     "EnhancedAnalyticsHub": EnhancedAnalyticsHub,
     "EnhancedKnowledgeHub": EnhancedKnowledgeHub,
     "EnhancedGamificationHub": EnhancedGamificationHub,
+    "EnhancedIntegrationHub": EnhancedIntegrationHub,
+    "EnhancedDeFiTradingHub": EnhancedDeFiTradingHub,
+    "EnhancedSimulationLab": EnhancedSimulationLab,
+    "EnhancedWorkflowHub": EnhancedWorkflowHub,
+    "EnhancedVoiceHub": EnhancedVoiceHub,
+    "EnhancedMonitoringHub": EnhancedMonitoringHub,
 }
 
 export const pagesConfig = {

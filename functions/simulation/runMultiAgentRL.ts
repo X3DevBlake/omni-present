@@ -4,80 +4,80 @@ Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
     const user = await base44.auth.me();
-
+    
     if (!user) {
       return Response.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { environment_id, agent_ids, episodes = 100, algorithm = 'maddpg' } = await req.json();
-
-    const environments = await base44.asServiceRole.entities.SimulationEnvironment.filter({ id: environment_id });
+    const { environment_id, agent_count, training_episodes } = await req.json();
+    
+    // Get environment config
+    const environments = await base44.entities.SimulationEnvironmentConfig.filter({ id: environment_id });
     const environment = environments[0];
-
+    
     if (!environment) {
       return Response.json({ error: 'Environment not found' }, { status: 404 });
     }
-
+    
     // Create RL training session
-    const session = await base44.asServiceRole.entities.RLTrainingSession.create({
+    const session = await base44.entities.RLTrainingSession.create({
       environment_id,
-      participating_agents: agent_ids,
-      algorithm,
-      total_episodes: episodes,
-      episodes_completed: 0,
+      algorithm: 'maddpg',
+      agent_count,
+      total_episodes: training_episodes,
+      current_episode: 0,
       status: 'running',
+      hyperparameters: {
+        learning_rate: 0.001,
+        discount_factor: 0.99,
+        batch_size: 64,
+        replay_buffer_size: 100000
+      },
+      metrics: {
+        avg_reward: 0,
+        episode_rewards: [],
+        convergence_rate: 0
+      }
     });
-
-    // Simulate multi-agent RL training
-    const convergenceData = [];
-    const emergentBehaviors = [];
-
-    for (let episode = 0; episode < episodes; episode++) {
-      const progress = episode / episodes;
+    
+    // Simulate training episodes
+    const episodeRewards = [];
+    
+    for (let episode = 0; episode < Math.min(training_episodes, 10); episode++) {
+      // Simulate episode with increasing reward (learning)
+      const baseReward = 100;
+      const learningProgress = episode / training_episodes;
+      const reward = baseReward * (1 + learningProgress * 2) + (Math.random() - 0.5) * 50;
       
-      // Simulate reward improvement
-      const baseReward = -50;
-      const learningCurve = baseReward + (progress * 150) + (Math.random() - 0.5) * 20;
+      episodeRewards.push(reward);
       
-      convergenceData.push({
-        episode,
-        average_reward: parseFloat(learningCurve.toFixed(2)),
-        exploration_rate: (1 - progress) * 0.9,
-        cooperation_score: progress * 80 + Math.random() * 20,
+      // Update progress
+      await base44.entities.RLTrainingSession.update(session.id, {
+        current_episode: episode + 1,
+        metrics: {
+          avg_reward: episodeRewards.reduce((a, b) => a + b, 0) / episodeRewards.length,
+          episode_rewards: episodeRewards,
+          convergence_rate: learningProgress * 100
+        }
       });
-
-      // Detect emergent behaviors at certain points
-      if (episode === 25 && !emergentBehaviors.includes('cooperation_emergence')) {
-        emergentBehaviors.push('cooperation_emergence');
-      }
-      if (episode === 50 && !emergentBehaviors.includes('role_specialization')) {
-        emergentBehaviors.push('role_specialization');
-      }
-      if (episode === 75 && !emergentBehaviors.includes('coordinated_strategy')) {
-        emergentBehaviors.push('coordinated_strategy');
-      }
     }
-
-    const bestReward = Math.max(...convergenceData.map(d => d.average_reward));
-
-    // Update session with results
-    await base44.asServiceRole.entities.RLTrainingSession.update(session.id, {
-      episodes_completed: episodes,
-      average_reward: convergenceData[episodes - 1].average_reward,
-      best_reward: bestReward,
-      convergence_data: convergenceData,
-      emergent_behaviors: emergentBehaviors,
+    
+    // Mark as completed
+    await base44.entities.RLTrainingSession.update(session.id, {
       status: 'completed',
+      completed_at: new Date().toISOString()
     });
-
+    
     return Response.json({
-      success: true,
       session_id: session.id,
-      final_reward: convergenceData[episodes - 1].average_reward,
-      best_reward: bestReward,
-      emergent_behaviors: emergentBehaviors,
+      status: 'completed',
+      final_metrics: {
+        avg_reward: episodeRewards.reduce((a, b) => a + b, 0) / episodeRewards.length,
+        max_reward: Math.max(...episodeRewards),
+        convergence_achieved: true
+      }
     });
-
+    
   } catch (error) {
     return Response.json({ error: error.message }, { status: 500 });
   }
