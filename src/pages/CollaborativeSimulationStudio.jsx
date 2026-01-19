@@ -24,7 +24,7 @@ export default function CollaborativeSimulationStudio() {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-3 mb-8 bg-black/30 p-1">
+          <TabsList className="grid w-full grid-cols-5 mb-8 bg-black/30 p-1">
             <TabsTrigger value="realtime" className="data-[state=active]:bg-green-600">
               <Gamepad2 className="w-4 h-4 mr-2" />
               Real-Time Control
@@ -36,6 +36,12 @@ export default function CollaborativeSimulationStudio() {
             <TabsTrigger value="multiplayer" className="data-[state=active]:bg-purple-600">
               <Users className="w-4 h-4 mr-2" />
               Multiplayer
+            </TabsTrigger>
+            <TabsTrigger value="3d" className="data-[state=active]:bg-blue-600">
+              Multi-Agent 3D
+            </TabsTrigger>
+            <TabsTrigger value="communication" className="data-[state=active]:bg-pink-600">
+              Agent Chat
             </TabsTrigger>
           </TabsList>
 
@@ -49,6 +55,14 @@ export default function CollaborativeSimulationStudio() {
 
           <TabsContent value="multiplayer">
             <MultiplayerSimulationHub />
+          </TabsContent>
+
+          <TabsContent value="3d">
+            <MultiAgentSimulation3D simulationId="demo-sim" />
+          </TabsContent>
+
+          <TabsContent value="communication">
+            <AgentCommunicationHub channelId="demo-channel" simulationId="demo-sim" />
           </TabsContent>
         </Tabs>
       </div>
