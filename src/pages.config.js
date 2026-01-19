@@ -278,6 +278,8 @@ import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import World from './pages/World';
 import ImmersiveNavigationHub from './pages/ImmersiveNavigationHub';
 import AILabsAdvanced from './pages/AILabsAdvanced';
+import SimulationStudio from './pages/SimulationStudio';
+import AgentConfigurator from './pages/AgentConfigurator';
 import __Layout from './Layout.jsx';
 
 
@@ -562,6 +564,8 @@ export const PAGES = {
     "World": World,
     "ImmersiveNavigationHub": ImmersiveNavigationHub,
     "AILabsAdvanced": AILabsAdvanced,
+    "SimulationStudio": SimulationStudio,
+    "AgentConfigurator": AgentConfigurator,
 }
 
 export const pagesConfig = {
