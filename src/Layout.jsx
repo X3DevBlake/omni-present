@@ -8,6 +8,7 @@ import { usePageTransition } from './components/hooks/usePageTransition';
 import ImmersivePageTransition from './components/navigation/ImmersivePageTransition';
 import PerformanceMonitor from './components/performance/PerformanceMonitor';
 import ImmersiveNavToggle from './components/navigation/ImmersiveNavToggle';
+import VoiceNavigationAssistant from './components/navigation/VoiceNavigationAssistant';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -49,6 +50,7 @@ function LayoutContent({ children }) {
     <>
       <PageTransitionLoader />
       <ImmersiveNavToggle />
+      <VoiceNavigationAssistant />
       <ImmersivePageTransition>
         <EnhancedMainNavRevamped />
         <BackButton />

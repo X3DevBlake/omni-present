@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { rateLimitHandler } from '@/utils/rateLimitHandler';
-import { optimizedQueryConfig, realtimeQueryConfig, staticQueryConfig } from '@/utils/performanceOptimizer';
+import { rateLimitHandler } from '../utils/rateLimitHandler';
+import { optimizedQueryConfig, realtimeQueryConfig, staticQueryConfig } from '../utils/performanceOptimizer';
 
 /**
  * Enhanced useQuery hook with rate limit handling and optimized caching
