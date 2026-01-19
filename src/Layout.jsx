@@ -1,5 +1,4 @@
 import React from 'react';
-import { AnimatePresence } from 'framer-motion';
 import EnhancedMainNavRevamped from './components/navigation/EnhancedMainNavRevamped';
 import BackButton from './components/navigation/BackButton';
 import { GamificationProvider } from './components/gamification/GamificationContext';
