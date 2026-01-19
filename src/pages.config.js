@@ -2,6 +2,8 @@ import AIAnalyticsHub from './pages/AIAnalyticsHub';
 import AICollaborationHub from './pages/AICollaborationHub';
 import AILab from './pages/AILab';
 import AILabs from './pages/AILabs';
+import AILabsAdvanced from './pages/AILabsAdvanced';
+import AILabsLifecycle from './pages/AILabsLifecycle';
 import AIManagement from './pages/AIManagement';
 import AIModelDeployment from './pages/AIModelDeployment';
 import AIPlayground from './pages/AIPlayground';
@@ -30,6 +32,7 @@ import AgentAutonomyDashboard from './pages/AgentAutonomyDashboard';
 import AgentBudget from './pages/AgentBudget';
 import AgentCardSettings from './pages/AgentCardSettings';
 import AgentCollaborationDashboard from './pages/AgentCollaborationDashboard';
+import AgentConfigurator from './pages/AgentConfigurator';
 import AgentCustomization from './pages/AgentCustomization';
 import AgentCustomizationStudio from './pages/AgentCustomizationStudio';
 import AgentDebugger from './pages/AgentDebugger';
@@ -61,6 +64,7 @@ import AssetBrowser from './pages/AssetBrowser';
 import AssetUpload from './pages/AssetUpload';
 import AuditLogs from './pages/AuditLogs';
 import AutomatedFinanceHub from './pages/AutomatedFinanceHub';
+import AutonomousAgentSystem from './pages/AutonomousAgentSystem';
 import AutonomyControlCenter from './pages/AutonomyControlCenter';
 import AvatarCreationHub from './pages/AvatarCreationHub';
 import BankingCorePhase1 from './pages/BankingCorePhase1';
@@ -82,6 +86,7 @@ import CodeEditor from './pages/CodeEditor';
 import CollaborationCommHub from './pages/CollaborationCommHub';
 import CollaborationDashboard from './pages/CollaborationDashboard';
 import CollaborativeAgentHub from './pages/CollaborativeAgentHub';
+import CollaborativeSimulationStudio from './pages/CollaborativeSimulationStudio';
 import CollaborativeWorkspace from './pages/CollaborativeWorkspace';
 import Communications from './pages/Communications';
 import CommunicationsHub from './pages/CommunicationsHub';
@@ -104,11 +109,11 @@ import CustomIntegrations from './pages/CustomIntegrations';
 import DEXAggregator from './pages/DEXAggregator';
 import DashboardHome from './pages/DashboardHome';
 import DataAnnotation from './pages/DataAnnotation';
+import DeFiHub from './pages/DeFiHub';
 import DeFiAnalyticsPhase4 from './pages/DeFiAnalyticsPhase4';
 import DeFiAutonomousPhase3 from './pages/DeFiAutonomousPhase3';
 import DeFiCorePhase2 from './pages/DeFiCorePhase2';
 import DeFiGovernancePhase5 from './pages/DeFiGovernancePhase5';
-import DeFiHub from './pages/DeFiHub';
 import DeFiRiskManagementSuite from './pages/DeFiRiskManagementSuite';
 import DecentralizedNetwork from './pages/DecentralizedNetwork';
 import DeepLearningPlatform from './pages/DeepLearningPlatform';
@@ -167,6 +172,7 @@ import HolographicWorld from './pages/HolographicWorld';
 import Home from './pages/Home';
 import HomeHub from './pages/HomeHub';
 import HomepageUpgradePlan from './pages/HomepageUpgradePlan';
+import ImmersiveNavigationHub from './pages/ImmersiveNavigationHub';
 import InstructorDirectory from './pages/InstructorDirectory';
 import IntegrationDevelopmentHub from './pages/IntegrationDevelopmentHub';
 import IntegrationHub from './pages/IntegrationHub';
@@ -225,8 +231,8 @@ import PortfolioRebalancer from './pages/PortfolioRebalancer';
 import PredictiveAnalyticsHub from './pages/PredictiveAnalyticsHub';
 import PressReleases from './pages/PressReleases';
 import Privacy from './pages/Privacy';
-import Profile from './pages/Profile';
 import ProactiveMonitoring from './pages/ProactiveMonitoring';
+import Profile from './pages/Profile';
 import ProfileHome from './pages/ProfileHome';
 import RealWorldBudget from './pages/RealWorldBudget';
 import RealtimeDashboard from './pages/RealtimeDashboard';
@@ -250,6 +256,7 @@ import SimulationEnvironment from './pages/SimulationEnvironment';
 import SimulationHub from './pages/SimulationHub';
 import SimulationLab from './pages/SimulationLab';
 import SimulationLabs from './pages/SimulationLabs';
+import SimulationStudio from './pages/SimulationStudio';
 import SimulationWorld from './pages/SimulationWorld';
 import SmartBankingHub from './pages/SmartBankingHub';
 import StudentLounge from './pages/StudentLounge';
@@ -276,13 +283,7 @@ import WebhooksHub from './pages/WebhooksHub';
 import WithdrawOmni from './pages/WithdrawOmni';
 import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import World from './pages/World';
-import ImmersiveNavigationHub from './pages/ImmersiveNavigationHub';
-import AILabsAdvanced from './pages/AILabsAdvanced';
-import SimulationStudio from './pages/SimulationStudio';
-import AgentConfigurator from './pages/AgentConfigurator';
-import AutonomousAgentSystem from './pages/AutonomousAgentSystem';
-import CollaborativeSimulationStudio from './pages/CollaborativeSimulationStudio';
-import AILabsLifecycle from './pages/AILabsLifecycle';
+import AgentOrchestrationHub from './pages/AgentOrchestrationHub';
 import __Layout from './Layout.jsx';
 
 
@@ -291,6 +292,8 @@ export const PAGES = {
     "AICollaborationHub": AICollaborationHub,
     "AILab": AILab,
     "AILabs": AILabs,
+    "AILabsAdvanced": AILabsAdvanced,
+    "AILabsLifecycle": AILabsLifecycle,
     "AIManagement": AIManagement,
     "AIModelDeployment": AIModelDeployment,
     "AIPlayground": AIPlayground,
@@ -319,6 +322,7 @@ export const PAGES = {
     "AgentBudget": AgentBudget,
     "AgentCardSettings": AgentCardSettings,
     "AgentCollaborationDashboard": AgentCollaborationDashboard,
+    "AgentConfigurator": AgentConfigurator,
     "AgentCustomization": AgentCustomization,
     "AgentCustomizationStudio": AgentCustomizationStudio,
     "AgentDebugger": AgentDebugger,
@@ -350,6 +354,7 @@ export const PAGES = {
     "AssetUpload": AssetUpload,
     "AuditLogs": AuditLogs,
     "AutomatedFinanceHub": AutomatedFinanceHub,
+    "AutonomousAgentSystem": AutonomousAgentSystem,
     "AutonomyControlCenter": AutonomyControlCenter,
     "AvatarCreationHub": AvatarCreationHub,
     "BankingCorePhase1": BankingCorePhase1,
@@ -371,6 +376,7 @@ export const PAGES = {
     "CollaborationCommHub": CollaborationCommHub,
     "CollaborationDashboard": CollaborationDashboard,
     "CollaborativeAgentHub": CollaborativeAgentHub,
+    "CollaborativeSimulationStudio": CollaborativeSimulationStudio,
     "CollaborativeWorkspace": CollaborativeWorkspace,
     "Communications": Communications,
     "CommunicationsHub": CommunicationsHub,
@@ -393,11 +399,11 @@ export const PAGES = {
     "DEXAggregator": DEXAggregator,
     "DashboardHome": DashboardHome,
     "DataAnnotation": DataAnnotation,
+    "DeFiHub": DeFiHub,
     "DeFiAnalyticsPhase4": DeFiAnalyticsPhase4,
     "DeFiAutonomousPhase3": DeFiAutonomousPhase3,
     "DeFiCorePhase2": DeFiCorePhase2,
     "DeFiGovernancePhase5": DeFiGovernancePhase5,
-    "DeFiHub": DeFiHub,
     "DeFiRiskManagementSuite": DeFiRiskManagementSuite,
     "DecentralizedNetwork": DecentralizedNetwork,
     "DeepLearningPlatform": DeepLearningPlatform,
@@ -456,6 +462,7 @@ export const PAGES = {
     "Home": Home,
     "HomeHub": HomeHub,
     "HomepageUpgradePlan": HomepageUpgradePlan,
+    "ImmersiveNavigationHub": ImmersiveNavigationHub,
     "InstructorDirectory": InstructorDirectory,
     "IntegrationDevelopmentHub": IntegrationDevelopmentHub,
     "IntegrationHub": IntegrationHub,
@@ -514,8 +521,8 @@ export const PAGES = {
     "PredictiveAnalyticsHub": PredictiveAnalyticsHub,
     "PressReleases": PressReleases,
     "Privacy": Privacy,
-    "Profile": Profile,
     "ProactiveMonitoring": ProactiveMonitoring,
+    "Profile": Profile,
     "ProfileHome": ProfileHome,
     "RealWorldBudget": RealWorldBudget,
     "RealtimeDashboard": RealtimeDashboard,
@@ -539,6 +546,7 @@ export const PAGES = {
     "SimulationHub": SimulationHub,
     "SimulationLab": SimulationLab,
     "SimulationLabs": SimulationLabs,
+    "SimulationStudio": SimulationStudio,
     "SimulationWorld": SimulationWorld,
     "SmartBankingHub": SmartBankingHub,
     "StudentLounge": StudentLounge,
@@ -565,13 +573,7 @@ export const PAGES = {
     "WithdrawOmni": WithdrawOmni,
     "WorkflowAutomationHub": WorkflowAutomationHub,
     "World": World,
-    "ImmersiveNavigationHub": ImmersiveNavigationHub,
-    "AILabsAdvanced": AILabsAdvanced,
-    "SimulationStudio": SimulationStudio,
-    "AgentConfigurator": AgentConfigurator,
-    "AutonomousAgentSystem": AutonomousAgentSystem,
-    "CollaborativeSimulationStudio": CollaborativeSimulationStudio,
-    "AILabsLifecycle": AILabsLifecycle,
+    "AgentOrchestrationHub": AgentOrchestrationHub,
 }
 
 export const pagesConfig = {
