@@ -300,6 +300,11 @@ import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
 import AdvancedCommunicationHub from './pages/AdvancedCommunicationHub';
+import AdvancedDeFiRiskHub from './pages/AdvancedDeFiRiskHub';
+import ProceduralSimulationStudio from './pages/ProceduralSimulationStudio';
+import EnhancedMarketplaceHub from './pages/EnhancedMarketplaceHub';
+import SecurityMonitoringHub from './pages/SecurityMonitoringHub';
+import ContextAwareAssistantHub from './pages/ContextAwareAssistantHub';
 import __Layout from './Layout.jsx';
 
 
@@ -606,6 +611,11 @@ export const PAGES = {
     "WorkflowOrchestrationHub": WorkflowOrchestrationHub,
     "World": World,
     "AdvancedCommunicationHub": AdvancedCommunicationHub,
+    "AdvancedDeFiRiskHub": AdvancedDeFiRiskHub,
+    "ProceduralSimulationStudio": ProceduralSimulationStudio,
+    "EnhancedMarketplaceHub": EnhancedMarketplaceHub,
+    "SecurityMonitoringHub": SecurityMonitoringHub,
+    "ContextAwareAssistantHub": ContextAwareAssistantHub,
 }
 
 export const pagesConfig = {
