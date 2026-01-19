@@ -5,6 +5,7 @@ import { GamificationProvider } from './components/gamification/GamificationCont
 import { PersonalizationProvider } from './components/personalization/PersonalizationContext';
 import PageTransitionLoader from './components/ui/PageTransitionLoader';
 import { usePageTransition } from './components/hooks/usePageTransition';
+import ImmersivePageTransition from './components/navigation/ImmersivePageTransition';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -45,9 +46,11 @@ function LayoutContent({ children }) {
   return (
     <>
       <PageTransitionLoader />
-      <EnhancedMainNavRevamped />
-      <BackButton />
-      {children}
+      <ImmersivePageTransition>
+        <EnhancedMainNavRevamped />
+        <BackButton />
+        {children}
+      </ImmersivePageTransition>
       <style>{`
         .omni-logo-component {
           display: flex;

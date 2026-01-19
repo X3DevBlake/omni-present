@@ -1,16 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { HubRegistry, HubCategories } from './HubRegistry';
 import Hub3DIcon from '../3d/Hub3DIcon';
-import { Menu, X, Sparkles, ChevronRight, Zap } from 'lucide-react';
+import { Menu, X, Sparkles, ChevronRight, Zap, Globe } from 'lucide-react';
 import AuroraBackground from '../omni/AuroraBackground';
+import { Canvas } from '@react-three/fiber';
+import MiniAgentActivityGlobe from './MiniAgentActivityGlobe';
+import MiniFinancialGalaxy from './MiniFinancialGalaxy';
+import MiniAILabsVisualizer from './MiniAILabsVisualizer';
+import MiniSimulationVisualizer from './MiniSimulationVisualizer';
+import MiniEcosystemNetwork from './MiniEcosystemNetwork';
 
 export default function EnhancedMainNavRevamped() {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [hoveredHub, setHoveredHub] = useState(null);
+  const [showMiniVisualizer, setShowMiniVisualizer] = useState(null);
 
   const categories = ['all', ...Object.keys(HubCategories)];
   
@@ -81,29 +88,52 @@ export default function EnhancedMainNavRevamped() {
                   ))}
                 </motion.div>
 
-                {/* Quick Action: Workflow Hub */}
-                <motion.div
-                  initial={{ y: -20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.2 }}
-                  className="mb-8"
-                >
-                  <Link to={createPageUrl('WorkflowAutomationHub')} onClick={() => setIsOpen(false)}>
-                    <motion.div
-                      className="bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-400/50 rounded-lg p-6 hover:border-cyan-400 transition-all cursor-pointer"
-                      whileHover={{ scale: 1.02 }}
-                    >
-                      <div className="flex items-center gap-3">
-                        <Zap className="w-6 h-6 text-cyan-400" />
-                        <div>
-                          <h3 className="text-white font-bold">Workflow Automation</h3>
-                          <p className="text-white/60 text-sm">Orchestrate with Gemini & Zapier</p>
+                {/* Quick Actions */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                  <motion.div
+                    initial={{ y: -20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.2 }}
+                  >
+                    <Link to={createPageUrl('ImmersiveNavigationHub')} onClick={() => setIsOpen(false)}>
+                      <motion.div
+                        className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-400/50 rounded-lg p-6 hover:border-purple-400 transition-all cursor-pointer"
+                        whileHover={{ scale: 1.02 }}
+                      >
+                        <div className="flex items-center gap-3">
+                          <Globe className="w-6 h-6 text-purple-400" />
+                          <div>
+                            <h3 className="text-white font-bold">3D Immersive Navigation</h3>
+                            <p className="text-white/60 text-sm">Explore the ecosystem in full 3D</p>
+                          </div>
+                          <ChevronRight className="w-5 h-5 text-purple-400 ml-auto" />
                         </div>
-                        <ChevronRight className="w-5 h-5 text-cyan-400 ml-auto" />
-                      </div>
-                    </motion.div>
-                  </Link>
-                </motion.div>
+                      </motion.div>
+                    </Link>
+                  </motion.div>
+
+                  <motion.div
+                    initial={{ y: -20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.25 }}
+                  >
+                    <Link to={createPageUrl('WorkflowAutomationHub')} onClick={() => setIsOpen(false)}>
+                      <motion.div
+                        className="bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-400/50 rounded-lg p-6 hover:border-cyan-400 transition-all cursor-pointer"
+                        whileHover={{ scale: 1.02 }}
+                      >
+                        <div className="flex items-center gap-3">
+                          <Zap className="w-6 h-6 text-cyan-400" />
+                          <div>
+                            <h3 className="text-white font-bold">Workflow Automation</h3>
+                            <p className="text-white/60 text-sm">Orchestrate with Gemini & Zapier</p>
+                          </div>
+                          <ChevronRight className="w-5 h-5 text-cyan-400 ml-auto" />
+                        </div>
+                      </motion.div>
+                    </Link>
+                  </motion.div>
+                </div>
 
                 {/* Hub Grid */}
                 <motion.div
@@ -132,8 +162,14 @@ export default function EnhancedMainNavRevamped() {
                       >
                         <motion.div
                           className="relative group"
-                          onHoverStart={() => setHoveredHub(hub.id)}
-                          onHoverEnd={() => setHoveredHub(null)}
+                          onHoverStart={() => {
+                            setHoveredHub(hub.id);
+                            setShowMiniVisualizer(hub.id);
+                          }}
+                          onHoverEnd={() => {
+                            setHoveredHub(null);
+                            setShowMiniVisualizer(null);
+                          }}
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.98 }}
                         >
@@ -145,14 +181,24 @@ export default function EnhancedMainNavRevamped() {
                               style={{ backgroundColor: hub.color }}
                             />
                             
-                            {/* 3D Icon */}
-                            <div className="relative z-10 mb-4 flex justify-center">
-                              <Hub3DIcon 
-                                type={hub.icon3d} 
-                                color={hub.color}
-                                isHovered={hoveredHub === hub.id}
-                                size={100}
-                              />
+                            {/* 3D Icon or Mini Visualizer */}
+                            <div className="relative z-10 mb-4 flex justify-center h-32">
+                              {showMiniVisualizer === hub.id && getMiniVisualizer(hub.path) ? (
+                                <div className="w-full h-full">
+                                  <Canvas camera={{ position: [0, 0, 5], fov: 50 }}>
+                                    <Suspense fallback={null}>
+                                      {getMiniVisualizer(hub.path)}
+                                    </Suspense>
+                                  </Canvas>
+                                </div>
+                              ) : (
+                                <Hub3DIcon 
+                                  type={hub.icon3d} 
+                                  color={hub.color}
+                                  isHovered={hoveredHub === hub.id}
+                                  size={100}
+                                />
+                              )}
                             </div>
 
                             {/* Content */}
@@ -212,4 +258,22 @@ export default function EnhancedMainNavRevamped() {
       </AnimatePresence>
     </>
   );
+
+  function getMiniVisualizer(hubPath) {
+    const path = hubPath.toLowerCase();
+    
+    if (path.includes('home')) {
+      return <MiniEcosystemNetwork />;
+    } else if (path.includes('agent') || path.includes('aimanagement')) {
+      return <MiniAgentActivityGlobe />;
+    } else if (path.includes('bank') || path.includes('defi')) {
+      return <MiniFinancialGalaxy />;
+    } else if (path.includes('ailab')) {
+      return <MiniAILabsVisualizer />;
+    } else if (path.includes('simulation')) {
+      return <MiniSimulationVisualizer />;
+    }
+    
+    return null;
+  }
 }
