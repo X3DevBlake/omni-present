@@ -1,107 +1,120 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, Suspense } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { RoundedBox, Text, OrbitControls } from '@react-three/drei';
-import { motion } from 'framer-motion';
+import { OrbitControls, RoundedBox, Text, MeshReflectorMaterial } from '@react-three/drei';
+import * as THREE from 'three';
 
-function Card3D({ design, cardData }) {
+function Card3D({ card }) {
   const cardRef = useRef();
-  const [hovered, setHovered] = useState(false);
-
+  
   useFrame((state) => {
-    if (cardRef.current && !hovered) {
+    if (cardRef.current) {
       cardRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.5) * 0.3;
     }
   });
 
-  const cardColor = design?.color || '#00f5ff';
-  const material = design?.material || 'standard';
-
-  const materialProps = {
-    standard: { roughness: 0.3, metalness: 0.5 },
-    metal: { roughness: 0.1, metalness: 0.9 },
-    matte: { roughness: 0.9, metalness: 0.1 },
-    glossy: { roughness: 0.05, metalness: 0.3 },
-  };
+  const design = card?.card_design || {};
+  const bgColor = design.background_color || '#1e293b';
+  const accentColor = design.accent_color || '#6366f1';
 
   return (
-    <group
-      ref={cardRef}
-      onPointerOver={() => setHovered(true)}
-      onPointerOut={() => setHovered(false)}
-    >
-      <RoundedBox args={[4, 2.5, 0.1]} radius={0.1}>
+    <group ref={cardRef}>
+      {/* Card Body */}
+      <RoundedBox args={[3.5, 2.2, 0.1]} radius={0.1} smoothness={4}>
         <meshStandardMaterial
-          color={cardColor}
-          {...materialProps[material]}
-          envMapIntensity={1}
+          color={bgColor}
+          metalness={design.material === 'metallic' ? 0.8 : 0.2}
+          roughness={design.material === 'glossy' ? 0.1 : 0.5}
         />
       </RoundedBox>
 
-      {/* Card details */}
+      {/* Holographic Overlay */}
+      {design.material === 'holographic' && (
+        <RoundedBox args={[3.5, 2.2, 0.11]} radius={0.1} smoothness={4} position={[0, 0, 0.01]}>
+          <meshBasicMaterial
+            color={accentColor}
+            transparent
+            opacity={0.3}
+          />
+        </RoundedBox>
+      )}
+
+      {/* Accent Stripe */}
+      <RoundedBox args={[3.5, 0.3, 0.11]} radius={0.05} smoothness={4} position={[0, 0.8, 0.06]}>
+        <meshStandardMaterial color={accentColor} metalness={0.9} roughness={0.1} />
+      </RoundedBox>
+
+      {/* OMNI Logo */}
       <Text
-        position={[-1.5, 0.8, 0.06]}
-        fontSize={0.15}
-        color="#ffffff"
+        position={[-1.3, 0.7, 0.07]}
+        fontSize={0.3}
+        color="white"
         anchorX="left"
-        fontWeight="bold"
+        font="/fonts/bold.woff"
       >
-        OMNI CARD
+        OMNI
       </Text>
 
+      {/* Card Type */}
       <Text
-        position={[-1.5, 0.3, 0.06]}
-        fontSize={0.2}
-        color="#ffffff"
-        anchorX="left"
-        fontWeight="bold"
-        font="/fonts/courier-prime.woff"
-      >
-        {cardData?.number || '**** **** **** ****'}
-      </Text>
-
-      <Text
-        position={[-1.5, -0.5, 0.06]}
+        position={[1.3, 0.7, 0.07]}
         fontSize={0.15}
-        color="#ffffff"
-        anchorX="left"
-      >
-        {cardData?.name || 'CARD HOLDER'}
-      </Text>
-
-      <Text
-        position={[1.5, -0.5, 0.06]}
-        fontSize={0.15}
-        color="#ffffff"
+        color={accentColor}
         anchorX="right"
+        font="/fonts/regular.woff"
       >
-        {cardData?.expiry || '12/28'}
+        {card?.card_type?.toUpperCase()}
       </Text>
 
-      {/* Chip */}
-      <mesh position={[-1.2, 0, 0.06]}>
-        <boxGeometry args={[0.4, 0.3, 0.02]} />
+      {/* Chip Simulation */}
+      <RoundedBox args={[0.4, 0.3, 0.08]} radius={0.05} smoothness={4} position={[-1.2, 0.1, 0.06]}>
         <meshStandardMaterial color="#FFD700" metalness={0.9} roughness={0.1} />
-      </mesh>
+      </RoundedBox>
 
-      {/* Lighting */}
-      <pointLight position={[2, 2, 3]} intensity={0.5} color={cardColor} />
+      {/* Card Number Placeholder */}
+      <Text
+        position={[0, -0.5, 0.07]}
+        fontSize={0.25}
+        color="white"
+        anchorX="center"
+        font="/fonts/mono.woff"
+      >
+        •••• •••• •••• ••••
+      </Text>
+
+      {/* Contactless Symbol */}
+      <group position={[1.4, 0.2, 0.07]}>
+        <mesh rotation={[0, 0, Math.PI / 4]}>
+          <torusGeometry args={[0.08, 0.015, 16, 32, Math.PI]} />
+          <meshStandardMaterial color="white" />
+        </mesh>
+        <mesh rotation={[0, 0, Math.PI / 4]} position={[-0.05, 0.05, 0]}>
+          <torusGeometry args={[0.12, 0.015, 16, 32, Math.PI]} />
+          <meshStandardMaterial color="white" />
+        </mesh>
+        <mesh rotation={[0, 0, Math.PI / 4]} position={[-0.1, 0.1, 0]}>
+          <torusGeometry args={[0.16, 0.015, 16, 32, Math.PI]} />
+          <meshStandardMaterial color="white" />
+        </mesh>
+      </group>
     </group>
   );
 }
 
-export default function OmniCard3DViewer({ design, cardData }) {
+export default function OmniCard3DViewer({ card }) {
   return (
-    <div className="relative w-full h-96 rounded-2xl overflow-hidden bg-gradient-to-br from-black/60 to-black/80 border border-white/10">
-      <Canvas camera={{ position: [0, 0, 5], fov: 50 }}>
+    <Canvas camera={{ position: [0, 0, 5], fov: 50 }}>
+      <Suspense fallback={null}>
         <ambientLight intensity={0.5} />
-        <pointLight position={[10, 10, 10]} intensity={1} />
-        <Card3D design={design} cardData={cardData} />
-        <OrbitControls enableZoom={false} />
-      </Canvas>
-
-      <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-xl border border-white/20 rounded-xl px-4 py-2">
-        <div className="text-white/60 text-xs">3D Preview</div>
-      </div>
-    </div>
+        <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={1} />
+        <pointLight position={[-10, -10, -10]} intensity={0.5} />
+        <Card3D card={card} />
+        <OrbitControls
+          enableZoom={false}
+          enablePan={false}
+          minPolarAngle={Math.PI / 3}
+          maxPolarAngle={Math.PI / 1.5}
+        />
+      </Suspense>
+    </Canvas>
   );
 }

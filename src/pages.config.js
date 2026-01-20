@@ -1,6 +1,7 @@
 import AIAgentMarketplace from './pages/AIAgentMarketplace';
 import AIAnalyticsHub from './pages/AIAnalyticsHub';
 import AICollaborationHub from './pages/AICollaborationHub';
+import AICollaborativeIntelligenceHub from './pages/AICollaborativeIntelligenceHub';
 import AIEthicsHub from './pages/AIEthicsHub';
 import AILab from './pages/AILab';
 import AILabs from './pages/AILabs';
@@ -187,6 +188,7 @@ import EnhancedMediaHub from './pages/EnhancedMediaHub';
 import EnhancedMonitoringHub from './pages/EnhancedMonitoringHub';
 import EnhancedOmniBank from './pages/EnhancedOmniBank';
 import EnhancedSecurityHub from './pages/EnhancedSecurityHub';
+import EnhancedSimulationHub from './pages/EnhancedSimulationHub';
 import EnhancedSimulationLab from './pages/EnhancedSimulationLab';
 import EnhancedVideoIntegrationHub from './pages/EnhancedVideoIntegrationHub';
 import EnhancedVoiceHub from './pages/EnhancedVoiceHub';
@@ -331,12 +333,12 @@ import UnifiedConversationHub from './pages/UnifiedConversationHub';
 import UnifiedIntelligenceCenter from './pages/UnifiedIntelligenceCenter';
 import UnifiedIntelligenceDashboard from './pages/UnifiedIntelligenceDashboard';
 import UnifiedPlatformNavigator from './pages/UnifiedPlatformNavigator';
+import Wallet from './pages/Wallet';
 import UnifiedVoicePlatform from './pages/UnifiedVoicePlatform';
 import UpgradeTracker from './pages/UpgradeTracker';
 import UserRoleManagement from './pages/UserRoleManagement';
 import UserRolesPermissions from './pages/UserRolesPermissions';
 import VirtualClassrooms from './pages/VirtualClassrooms';
-import Wallet from './pages/Wallet';
 import WebhookManager from './pages/WebhookManager';
 import Webhooks from './pages/Webhooks';
 import WebhooksHub from './pages/WebhooksHub';
@@ -344,8 +346,8 @@ import WithdrawOmni from './pages/WithdrawOmni';
 import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
-import EnhancedSimulationHub from './pages/EnhancedSimulationHub';
-import AICollaborativeIntelligenceHub from './pages/AICollaborativeIntelligenceHub';
+import EnhancedOmniCardHub from './pages/EnhancedOmniCardHub';
+import CryptoSwapHub from './pages/CryptoSwapHub';
 import __Layout from './Layout.jsx';
 
 
@@ -353,6 +355,7 @@ export const PAGES = {
     "AIAgentMarketplace": AIAgentMarketplace,
     "AIAnalyticsHub": AIAnalyticsHub,
     "AICollaborationHub": AICollaborationHub,
+    "AICollaborativeIntelligenceHub": AICollaborativeIntelligenceHub,
     "AIEthicsHub": AIEthicsHub,
     "AILab": AILab,
     "AILabs": AILabs,
@@ -539,6 +542,7 @@ export const PAGES = {
     "EnhancedMonitoringHub": EnhancedMonitoringHub,
     "EnhancedOmniBank": EnhancedOmniBank,
     "EnhancedSecurityHub": EnhancedSecurityHub,
+    "EnhancedSimulationHub": EnhancedSimulationHub,
     "EnhancedSimulationLab": EnhancedSimulationLab,
     "EnhancedVideoIntegrationHub": EnhancedVideoIntegrationHub,
     "EnhancedVoiceHub": EnhancedVoiceHub,
@@ -683,12 +687,12 @@ export const PAGES = {
     "UnifiedIntelligenceCenter": UnifiedIntelligenceCenter,
     "UnifiedIntelligenceDashboard": UnifiedIntelligenceDashboard,
     "UnifiedPlatformNavigator": UnifiedPlatformNavigator,
+    "Wallet": Wallet,
     "UnifiedVoicePlatform": UnifiedVoicePlatform,
     "UpgradeTracker": UpgradeTracker,
     "UserRoleManagement": UserRoleManagement,
     "UserRolesPermissions": UserRolesPermissions,
     "VirtualClassrooms": VirtualClassrooms,
-    "Wallet": Wallet,
     "WebhookManager": WebhookManager,
     "Webhooks": Webhooks,
     "WebhooksHub": WebhooksHub,
@@ -696,8 +700,8 @@ export const PAGES = {
     "WorkflowAutomationHub": WorkflowAutomationHub,
     "WorkflowOrchestrationHub": WorkflowOrchestrationHub,
     "World": World,
-    "EnhancedSimulationHub": EnhancedSimulationHub,
-    "AICollaborativeIntelligenceHub": AICollaborativeIntelligenceHub,
+    "EnhancedOmniCardHub": EnhancedOmniCardHub,
+    "CryptoSwapHub": CryptoSwapHub,
 }
 
 export const pagesConfig = {
