@@ -325,6 +325,8 @@ import AdvancedMLHub from './pages/AdvancedMLHub';
 import AutonomousCollaborationHub from './pages/AutonomousCollaborationHub';
 import UnifiedIntelligenceCenter from './pages/UnifiedIntelligenceCenter';
 import EnhancedAgentTrainingHub from './pages/EnhancedAgentTrainingHub';
+import EnhancedCollaborationStudio from './pages/EnhancedCollaborationStudio';
+import EnhancedGovernanceHub from './pages/EnhancedGovernanceHub';
 import __Layout from './Layout.jsx';
 
 
@@ -656,6 +658,8 @@ export const PAGES = {
     "AutonomousCollaborationHub": AutonomousCollaborationHub,
     "UnifiedIntelligenceCenter": UnifiedIntelligenceCenter,
     "EnhancedAgentTrainingHub": EnhancedAgentTrainingHub,
+    "EnhancedCollaborationStudio": EnhancedCollaborationStudio,
+    "EnhancedGovernanceHub": EnhancedGovernanceHub,
 }
 
 export const pagesConfig = {
