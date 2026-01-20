@@ -26,7 +26,6 @@ import AdvancedDeFiHub from './pages/AdvancedDeFiHub';
 import AdvancedDeFiRiskHub from './pages/AdvancedDeFiRiskHub';
 import AdvancedDeFiTrading from './pages/AdvancedDeFiTrading';
 import AdvancedFinancialEcosystem from './pages/AdvancedFinancialEcosystem';
-import AdvancedMLHub from './pages/AdvancedMLHub';
 import AdvancedPredictionCenter from './pages/AdvancedPredictionCenter';
 import AdvancedSimulation from './pages/AdvancedSimulation';
 import AdvancedSimulationLab from './pages/AdvancedSimulationLab';
@@ -64,7 +63,6 @@ import AgentSimulation3D from './pages/AgentSimulation3D';
 import AgentSkillMarketplace from './pages/AgentSkillMarketplace';
 import AgentSpending from './pages/AgentSpending';
 import AgentTraining from './pages/AgentTraining';
-import AgentTrainingAcademy from './pages/AgentTrainingAcademy';
 import AgentTrainingCenter from './pages/AgentTrainingCenter';
 import AgentTrainingStudio from './pages/AgentTrainingStudio';
 import AgentVideoInterface from './pages/AgentVideoInterface';
@@ -76,7 +74,6 @@ import AssetUpload from './pages/AssetUpload';
 import AuditLogs from './pages/AuditLogs';
 import AutomatedFinanceHub from './pages/AutomatedFinanceHub';
 import AutonomousAgentSystem from './pages/AutonomousAgentSystem';
-import AutonomousCollaborationHub from './pages/AutonomousCollaborationHub';
 import AutonomyControlCenter from './pages/AutonomyControlCenter';
 import AvatarCreationHub from './pages/AvatarCreationHub';
 import BankingCorePhase1 from './pages/BankingCorePhase1';
@@ -111,8 +108,8 @@ import CommunityHub from './pages/CommunityHub';
 import CompetitiveArenas from './pages/CompetitiveArenas';
 import Compliance from './pages/Compliance';
 import ComplianceDashboard from './pages/ComplianceDashboard';
-import ComprehensiveFinancialHub from './pages/ComprehensiveFinancialHub';
 import Contact from './pages/Contact';
+import ComprehensiveFinancialHub from './pages/ComprehensiveFinancialHub';
 import ContextAwareAssistantHub from './pages/ContextAwareAssistantHub';
 import CrossAgentPlanningHub from './pages/CrossAgentPlanningHub';
 import CrossPlatformIntegrationHub from './pages/CrossPlatformIntegrationHub';
@@ -223,6 +220,7 @@ import LiquidityPools from './pages/LiquidityPools';
 import LoansAndCredit from './pages/LoansAndCredit';
 import MaintenanceSchedule from './pages/MaintenanceSchedule';
 import MarketIntelligenceHub from './pages/MarketIntelligenceHub';
+import OmniComm from './pages/OmniComm';
 import Marketplace from './pages/Marketplace';
 import MarketplaceHome from './pages/MarketplaceHome';
 import MentorshipProgramsPage from './pages/MentorshipProgramsPage';
@@ -239,7 +237,6 @@ import OmniAchievements from './pages/OmniAchievements';
 import OmniBankingHub from './pages/OmniBankingHub';
 import OmniCardManagement from './pages/OmniCardManagement';
 import OmniCardStore from './pages/OmniCardStore';
-import OmniComm from './pages/OmniComm';
 import OmniDashboard from './pages/OmniDashboard';
 import OmniHome from './pages/OmniHome';
 import OmniHub from './pages/OmniHub';
@@ -308,7 +305,6 @@ import TransferLearningHub from './pages/TransferLearningHub';
 import UnifiedAnalytics from './pages/UnifiedAnalytics';
 import UnifiedCommunicationHub from './pages/UnifiedCommunicationHub';
 import UnifiedConversationHub from './pages/UnifiedConversationHub';
-import UnifiedIntelligenceCenter from './pages/UnifiedIntelligenceCenter';
 import UnifiedIntelligenceDashboard from './pages/UnifiedIntelligenceDashboard';
 import UnifiedPlatformNavigator from './pages/UnifiedPlatformNavigator';
 import UnifiedVoicePlatform from './pages/UnifiedVoicePlatform';
@@ -324,7 +320,12 @@ import WithdrawOmni from './pages/WithdrawOmni';
 import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
-import AdvancedAgentTrainingHub from './pages/AdvancedAgentTrainingHub';
+import AgentTrainingAcademy from './pages/AgentTrainingAcademy';
+import AdvancedMLHub from './pages/AdvancedMLHub';
+import AutonomousCollaborationHub from './pages/AutonomousCollaborationHub';
+import UnifiedIntelligenceCenter from './pages/UnifiedIntelligenceCenter';
+import EnhancedAgentTrainingHub from './pages/EnhancedAgentTrainingHub';
+import EnhancedCollaborationStudio from './pages/EnhancedCollaborationStudio';
 import EnhancedGovernanceHub from './pages/EnhancedGovernanceHub';
 import __Layout from './Layout.jsx';
 
@@ -358,7 +359,6 @@ export const PAGES = {
     "AdvancedDeFiRiskHub": AdvancedDeFiRiskHub,
     "AdvancedDeFiTrading": AdvancedDeFiTrading,
     "AdvancedFinancialEcosystem": AdvancedFinancialEcosystem,
-    "AdvancedMLHub": AdvancedMLHub,
     "AdvancedPredictionCenter": AdvancedPredictionCenter,
     "AdvancedSimulation": AdvancedSimulation,
     "AdvancedSimulationLab": AdvancedSimulationLab,
@@ -396,7 +396,6 @@ export const PAGES = {
     "AgentSkillMarketplace": AgentSkillMarketplace,
     "AgentSpending": AgentSpending,
     "AgentTraining": AgentTraining,
-    "AgentTrainingAcademy": AgentTrainingAcademy,
     "AgentTrainingCenter": AgentTrainingCenter,
     "AgentTrainingStudio": AgentTrainingStudio,
     "AgentVideoInterface": AgentVideoInterface,
@@ -408,7 +407,6 @@ export const PAGES = {
     "AuditLogs": AuditLogs,
     "AutomatedFinanceHub": AutomatedFinanceHub,
     "AutonomousAgentSystem": AutonomousAgentSystem,
-    "AutonomousCollaborationHub": AutonomousCollaborationHub,
     "AutonomyControlCenter": AutonomyControlCenter,
     "AvatarCreationHub": AvatarCreationHub,
     "BankingCorePhase1": BankingCorePhase1,
@@ -443,8 +441,8 @@ export const PAGES = {
     "CompetitiveArenas": CompetitiveArenas,
     "Compliance": Compliance,
     "ComplianceDashboard": ComplianceDashboard,
-    "ComprehensiveFinancialHub": ComprehensiveFinancialHub,
     "Contact": Contact,
+    "ComprehensiveFinancialHub": ComprehensiveFinancialHub,
     "ContextAwareAssistantHub": ContextAwareAssistantHub,
     "CrossAgentPlanningHub": CrossAgentPlanningHub,
     "CrossPlatformIntegrationHub": CrossPlatformIntegrationHub,
@@ -555,6 +553,7 @@ export const PAGES = {
     "LoansAndCredit": LoansAndCredit,
     "MaintenanceSchedule": MaintenanceSchedule,
     "MarketIntelligenceHub": MarketIntelligenceHub,
+    "OmniComm": OmniComm,
     "Marketplace": Marketplace,
     "MarketplaceHome": MarketplaceHome,
     "MentorshipProgramsPage": MentorshipProgramsPage,
@@ -571,7 +570,6 @@ export const PAGES = {
     "OmniBankingHub": OmniBankingHub,
     "OmniCardManagement": OmniCardManagement,
     "OmniCardStore": OmniCardStore,
-    "OmniComm": OmniComm,
     "OmniDashboard": OmniDashboard,
     "OmniHome": OmniHome,
     "OmniHub": OmniHub,
@@ -640,7 +638,6 @@ export const PAGES = {
     "UnifiedAnalytics": UnifiedAnalytics,
     "UnifiedCommunicationHub": UnifiedCommunicationHub,
     "UnifiedConversationHub": UnifiedConversationHub,
-    "UnifiedIntelligenceCenter": UnifiedIntelligenceCenter,
     "UnifiedIntelligenceDashboard": UnifiedIntelligenceDashboard,
     "UnifiedPlatformNavigator": UnifiedPlatformNavigator,
     "UnifiedVoicePlatform": UnifiedVoicePlatform,
@@ -656,7 +653,12 @@ export const PAGES = {
     "WorkflowAutomationHub": WorkflowAutomationHub,
     "WorkflowOrchestrationHub": WorkflowOrchestrationHub,
     "World": World,
-    "AdvancedAgentTrainingHub": AdvancedAgentTrainingHub,
+    "AgentTrainingAcademy": AgentTrainingAcademy,
+    "AdvancedMLHub": AdvancedMLHub,
+    "AutonomousCollaborationHub": AutonomousCollaborationHub,
+    "UnifiedIntelligenceCenter": UnifiedIntelligenceCenter,
+    "EnhancedAgentTrainingHub": EnhancedAgentTrainingHub,
+    "EnhancedCollaborationStudio": EnhancedCollaborationStudio,
     "EnhancedGovernanceHub": EnhancedGovernanceHub,
 }
 

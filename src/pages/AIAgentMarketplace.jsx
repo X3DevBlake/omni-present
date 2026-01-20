@@ -10,7 +10,7 @@ import AuroraBackground from '../components/omni/AuroraBackground';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import MarketplaceDynamics3D from '../components/marketplace/MarketplaceDynamics3D';
-import AdvancedSpecializationFilters from '../components/marketplace/AdvancedSpecializationFilters';
+import SpecializationFilters from '../components/marketplace/SpecializationFilters';
 
 export default function AIAgentMarketplace() {
   const queryClient = useQueryClient();
@@ -53,26 +53,40 @@ export default function AIAgentMarketplace() {
 
   const filteredProfiles = React.useMemo(() => {
     if (!profiles) return [];
+    
     return profiles.filter(profile => {
-      if (filters.skills?.length > 0) {
-        const hasSkills = filters.skills.some(skill => 
-          profile.specializations?.some(spec => spec.toLowerCase().includes(skill.toLowerCase()))
+      // Search filter
+      if (filters.search) {
+        const searchLower = filters.search.toLowerCase();
+        const hasMatchingSpec = profile.specializations?.some(s => 
+          s.toLowerCase().includes(searchLower)
         );
-        if (!hasSkills) return false;
+        if (!hasMatchingSpec) return false;
       }
-      if (filters.minProficiency > 0) {
-        const avgProf = profile.skills_profile?.reduce((sum, s) => sum + s.level, 0) / (profile.skills_profile?.length || 1);
-        if (avgProf < filters.minProficiency) return false;
+
+      // Specialization filter
+      if (filters.specializations?.length > 0) {
+        const hasAllSpecs = filters.specializations.every(spec =>
+          profile.specializations?.includes(spec)
+        );
+        if (!hasAllSpecs) return false;
       }
-      if (filters.minReputation > 0 && (profile.collaboration_score || 0) < filters.minReputation) return false;
-      if (filters.maxPrice < 1000 && (profile.pricing_model?.current_price || 0) > filters.maxPrice) return false;
-      if (filters.availability > 0 && (profile.availability_score || 0) < filters.availability) return false;
-      if (filters.searchTerm) {
-        const searchLower = filters.searchTerm.toLowerCase();
-        const matchesSearch = profile.specializations?.some(s => s.toLowerCase().includes(searchLower)) ||
-          profile.agent_id?.toLowerCase().includes(searchLower);
-        if (!matchesSearch) return false;
+
+      // Min proficiency (using recommendation score as proxy)
+      if (filters.min_proficiency && (profile.recommendation_score || 0) < filters.min_proficiency) {
+        return false;
       }
+
+      // Min availability
+      if (filters.min_availability && (profile.availability_score || 0) < filters.min_availability) {
+        return false;
+      }
+
+      // Min success rate
+      if (filters.min_success_rate && (profile.performance_history?.success_rate || 0) < filters.min_success_rate) {
+        return false;
+      }
+
       return true;
     });
   }, [profiles, filters]);
@@ -134,15 +148,8 @@ export default function AIAgentMarketplace() {
           </TabsList>
 
           <TabsContent value="browse">
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
-              <div className="lg:col-span-1">
-                <AdvancedSpecializationFilters 
-                  onFilterChange={setFilters}
-                  availableSkills={[]}
-                />
-              </div>
-              <div className="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {filteredProfiles?.map((profile) => (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {filteredProfiles.map((profile) => (
                 <Card key={profile.id} className="bg-white/5 border-white/10">
                   <CardContent className="p-6">
                     <div className="flex items-center justify-between mb-4">
@@ -197,13 +204,11 @@ export default function AIAgentMarketplace() {
                   </CardContent>
                 </Card>
               ))}
-              </div>
             </div>
-            {filteredProfiles?.length === 0 && (
-              <div className="lg:col-span-3 text-center py-12">
-                <p className="text-white/60">No agents match your filters</p>
-              </div>
-            )}
+          </TabsContent>
+
+          <TabsContent value="filters">
+            <SpecializationFilters onFilterChange={setFilters} />
           </TabsContent>
 
           <TabsContent value="recommend">
