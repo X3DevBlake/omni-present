@@ -173,7 +173,7 @@ export default function ActionableInsightsEngine({ insights, onExecuteAction, on
       {!insights?.length && (
         <Card className="bg-white/5 border-white/10">
           <CardContent className="text-center py-12">
-            <Brain className="w-16 h-16 text-white/40 mx-auto mb-4" />
+            <AlertCircle className="w-16 h-16 text-white/40 mx-auto mb-4" />
             <p className="text-white/60">No actionable insights at the moment</p>
             <p className="text-white/40 text-sm mt-2">The AI will generate insights automatically</p>
           </CardContent>
