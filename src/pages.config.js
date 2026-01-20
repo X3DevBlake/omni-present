@@ -214,6 +214,7 @@ import GlobalMap from './pages/GlobalMap';
 import HolographicAnalytics from './pages/HolographicAnalytics';
 import HolographicWorld from './pages/HolographicWorld';
 import Home from './pages/Home';
+import HomeEnhanced from './pages/HomeEnhanced';
 import HomeHub from './pages/HomeHub';
 import HomepageUpgradePlan from './pages/HomepageUpgradePlan';
 import HybridMLHub from './pages/HybridMLHub';
@@ -343,7 +344,6 @@ import WithdrawOmni from './pages/WithdrawOmni';
 import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
-import HomeEnhanced from './pages/HomeEnhanced';
 import __Layout from './Layout.jsx';
 
 
@@ -564,6 +564,7 @@ export const PAGES = {
     "HolographicAnalytics": HolographicAnalytics,
     "HolographicWorld": HolographicWorld,
     "Home": Home,
+    "HomeEnhanced": HomeEnhanced,
     "HomeHub": HomeHub,
     "HomepageUpgradePlan": HomepageUpgradePlan,
     "HybridMLHub": HybridMLHub,
@@ -693,7 +694,6 @@ export const PAGES = {
     "WorkflowAutomationHub": WorkflowAutomationHub,
     "WorkflowOrchestrationHub": WorkflowOrchestrationHub,
     "World": World,
-    "HomeEnhanced": HomeEnhanced,
 }
 
 export const pagesConfig = {

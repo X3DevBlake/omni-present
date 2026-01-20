@@ -11,6 +11,10 @@ import ImmersiveNavToggle from './components/navigation/ImmersiveNavToggle';
 import VoiceNavigationAssistant from './components/navigation/VoiceNavigationAssistant';
 import GestureNavigationController from './components/navigation/GestureNavigationController';
 import ContextualNavSuggestions from './components/navigation/ContextualNavSuggestions';
+import IntelligentNavBar from './components/navigation/IntelligentNavBar';
+import GestureControlOverlay from './components/home/GestureControlOverlay';
+import SmartBreadcrumbs from './components/navigation/SmartBreadcrumbs';
+import FloatingMiniMap from './components/navigation/FloatingMiniMap';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -46,19 +50,27 @@ class ErrorBoundary extends React.Component {
   }
 }
 
-function LayoutContent({ children }) {
+function LayoutContent({ children, currentPageName }) {
   usePageTransition();
+  const [navigationHistory, setNavigationHistory] = React.useState([]);
+
   return (
     <>
       <PageTransitionLoader />
+      <IntelligentNavBar />
       <ImmersiveNavToggle />
       <VoiceNavigationAssistant />
       <GestureNavigationController />
+      <GestureControlOverlay onGesture={(g) => console.log('Gesture:', g)} />
       <ContextualNavSuggestions />
+      <FloatingMiniMap currentPage={currentPageName} hubs={[]} />
       <ImmersivePageTransition>
         <EnhancedMainNavRevamped />
         <BackButton />
-        {children}
+        <div className="pt-20">
+          <SmartBreadcrumbs currentPage={currentPageName} navigationHistory={navigationHistory} />
+          {children}
+        </div>
       </ImmersivePageTransition>
       <style>{`
         .omni-logo-component {
@@ -71,13 +83,13 @@ function LayoutContent({ children }) {
   );
 }
 
-export default function Layout({ children }) {
+export default function Layout({ children, currentPageName }) {
   return (
     <ErrorBoundary>
       <PersonalizationProvider>
         <GamificationProvider>
           <PerformanceMonitor />
-          <LayoutContent>{children}</LayoutContent>
+          <LayoutContent currentPageName={currentPageName}>{children}</LayoutContent>
         </GamificationProvider>
       </PersonalizationProvider>
     </ErrorBoundary>
