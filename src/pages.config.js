@@ -342,6 +342,7 @@ import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
 import AnalyticsIntelligenceHub from './pages/AnalyticsIntelligenceHub';
+import SecurityComplianceHub from './pages/SecurityComplianceHub';
 import __Layout from './Layout.jsx';
 
 
@@ -690,6 +691,7 @@ export const PAGES = {
     "WorkflowOrchestrationHub": WorkflowOrchestrationHub,
     "World": World,
     "AnalyticsIntelligenceHub": AnalyticsIntelligenceHub,
+    "SecurityComplianceHub": SecurityComplianceHub,
 }
 
 export const pagesConfig = {
