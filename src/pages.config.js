@@ -127,6 +127,7 @@ import ContextAwareAssistantHub from './pages/ContextAwareAssistantHub';
 import CrossAgentPlanningHub from './pages/CrossAgentPlanningHub';
 import CrossPlatformIntegrationHub from './pages/CrossPlatformIntegrationHub';
 import CrossSimulationHub from './pages/CrossSimulationHub';
+import CryptoSwapHub from './pages/CryptoSwapHub';
 import CryptoTradingHub from './pages/CryptoTradingHub';
 import CurriculumCourses from './pages/CurriculumCourses';
 import CustomDashboard from './pages/CustomDashboard';
@@ -187,6 +188,7 @@ import EnhancedMarketplaceHub from './pages/EnhancedMarketplaceHub';
 import EnhancedMediaHub from './pages/EnhancedMediaHub';
 import EnhancedMonitoringHub from './pages/EnhancedMonitoringHub';
 import EnhancedOmniBank from './pages/EnhancedOmniBank';
+import EnhancedOmniCardHub from './pages/EnhancedOmniCardHub';
 import EnhancedSecurityHub from './pages/EnhancedSecurityHub';
 import EnhancedSimulationHub from './pages/EnhancedSimulationHub';
 import EnhancedSimulationLab from './pages/EnhancedSimulationLab';
@@ -250,6 +252,7 @@ import MistralHub from './pages/MistralHub';
 import ModelTraining from './pages/ModelTraining';
 import MultiAgentCollaborationHub from './pages/MultiAgentCollaborationHub';
 import MyCreations from './pages/MyCreations';
+import NavigationControl from './pages/NavigationControl';
 import NewsUpdates from './pages/NewsUpdates';
 import NextGenMLHub from './pages/NextGenMLHub';
 import Notifications from './pages/Notifications';
@@ -333,12 +336,12 @@ import UnifiedConversationHub from './pages/UnifiedConversationHub';
 import UnifiedIntelligenceCenter from './pages/UnifiedIntelligenceCenter';
 import UnifiedIntelligenceDashboard from './pages/UnifiedIntelligenceDashboard';
 import UnifiedPlatformNavigator from './pages/UnifiedPlatformNavigator';
-import Wallet from './pages/Wallet';
 import UnifiedVoicePlatform from './pages/UnifiedVoicePlatform';
 import UpgradeTracker from './pages/UpgradeTracker';
 import UserRoleManagement from './pages/UserRoleManagement';
 import UserRolesPermissions from './pages/UserRolesPermissions';
 import VirtualClassrooms from './pages/VirtualClassrooms';
+import Wallet from './pages/Wallet';
 import WebhookManager from './pages/WebhookManager';
 import Webhooks from './pages/Webhooks';
 import WebhooksHub from './pages/WebhooksHub';
@@ -346,9 +349,6 @@ import WithdrawOmni from './pages/WithdrawOmni';
 import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
-import EnhancedOmniCardHub from './pages/EnhancedOmniCardHub';
-import CryptoSwapHub from './pages/CryptoSwapHub';
-import NavigationControl from './pages/NavigationControl';
 import WorldHubEnhanced from './pages/WorldHubEnhanced';
 import __Layout from './Layout.jsx';
 
@@ -483,6 +483,7 @@ export const PAGES = {
     "CrossAgentPlanningHub": CrossAgentPlanningHub,
     "CrossPlatformIntegrationHub": CrossPlatformIntegrationHub,
     "CrossSimulationHub": CrossSimulationHub,
+    "CryptoSwapHub": CryptoSwapHub,
     "CryptoTradingHub": CryptoTradingHub,
     "CurriculumCourses": CurriculumCourses,
     "CustomDashboard": CustomDashboard,
@@ -543,6 +544,7 @@ export const PAGES = {
     "EnhancedMediaHub": EnhancedMediaHub,
     "EnhancedMonitoringHub": EnhancedMonitoringHub,
     "EnhancedOmniBank": EnhancedOmniBank,
+    "EnhancedOmniCardHub": EnhancedOmniCardHub,
     "EnhancedSecurityHub": EnhancedSecurityHub,
     "EnhancedSimulationHub": EnhancedSimulationHub,
     "EnhancedSimulationLab": EnhancedSimulationLab,
@@ -606,6 +608,7 @@ export const PAGES = {
     "ModelTraining": ModelTraining,
     "MultiAgentCollaborationHub": MultiAgentCollaborationHub,
     "MyCreations": MyCreations,
+    "NavigationControl": NavigationControl,
     "NewsUpdates": NewsUpdates,
     "NextGenMLHub": NextGenMLHub,
     "Notifications": Notifications,
@@ -689,12 +692,12 @@ export const PAGES = {
     "UnifiedIntelligenceCenter": UnifiedIntelligenceCenter,
     "UnifiedIntelligenceDashboard": UnifiedIntelligenceDashboard,
     "UnifiedPlatformNavigator": UnifiedPlatformNavigator,
-    "Wallet": Wallet,
     "UnifiedVoicePlatform": UnifiedVoicePlatform,
     "UpgradeTracker": UpgradeTracker,
     "UserRoleManagement": UserRoleManagement,
     "UserRolesPermissions": UserRolesPermissions,
     "VirtualClassrooms": VirtualClassrooms,
+    "Wallet": Wallet,
     "WebhookManager": WebhookManager,
     "Webhooks": Webhooks,
     "WebhooksHub": WebhooksHub,
@@ -702,9 +705,6 @@ export const PAGES = {
     "WorkflowAutomationHub": WorkflowAutomationHub,
     "WorkflowOrchestrationHub": WorkflowOrchestrationHub,
     "World": World,
-    "EnhancedOmniCardHub": EnhancedOmniCardHub,
-    "CryptoSwapHub": CryptoSwapHub,
-    "NavigationControl": NavigationControl,
     "WorldHubEnhanced": WorldHubEnhanced,
 }
 

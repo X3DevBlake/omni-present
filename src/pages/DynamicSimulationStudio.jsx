@@ -1,212 +1,243 @@
 import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Slider } from '@/components/ui/slider';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
-import { Sparkles, Zap, Target } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Badge } from '@/components/ui/badge';
+import { Sparkles, Zap, Play, Pause, RefreshCw, Target } from 'lucide-react';
 import { motion } from 'framer-motion';
 import AuroraBackground from '../components/omni/AuroraBackground';
-import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import DynamicScenario3D from '../components/simulation/DynamicScenario3D';
+import DynamicScenarioDesigner from '../components/simulation/DynamicScenarioDesigner';
+import MultiAgentInteractionGraph from '../components/simulation/MultiAgentInteractionGraph';
+import AIWorldEvolution3D from '../components/simulation/AIWorldEvolution3D';
+import RealTimeInterventionPanel from '../components/simulation/RealTimeInterventionPanel';
+import { toast } from 'sonner';
 
 export default function DynamicSimulationStudio() {
   const queryClient = useQueryClient();
-  const [complexity, setComplexity] = useState([5]);
-  const [selectedEnv, setSelectedEnv] = useState(null);
+  const [activeSimulation, setActiveSimulation] = useState(null);
 
-  const { data: environments } = useQuery({
-    queryKey: ['environments'],
-    queryFn: () => base44.entities.SimulationEnvironment.list(),
+  const { data: simulations = [] } = useQuery({
+    queryKey: ['simulations'],
+    queryFn: () => base44.entities.Simulation.filter({}).limit(50),
+    initialData: []
   });
 
-  const { data: scenarios } = useQuery({
-    queryKey: ['dynamic-scenarios'],
-    queryFn: () => base44.entities.DynamicSimulationScenario.list('-created_date', 15),
+  const { data: scenarios = [] } = useQuery({
+    queryKey: ['scenarios'],
+    queryFn: () => base44.entities.SimulationScenario.filter({}).limit(50),
+    initialData: []
   });
 
-  const generateScenario = useMutation({
-    mutationFn: async (params) => {
-      const response = await base44.functions.invoke('generateDynamicScenario', params);
+  const { data: agents = [] } = useQuery({
+    queryKey: ['sim-agents', activeSimulation],
+    queryFn: () => 
+      activeSimulation 
+        ? base44.entities.SimulationAgent.filter({ simulation_id: activeSimulation }).limit(100)
+        : Promise.resolve([]),
+    enabled: !!activeSimulation,
+    initialData: []
+  });
+
+  const { data: interventions = [] } = useQuery({
+    queryKey: ['interventions', activeSimulation],
+    queryFn: () =>
+      activeSimulation
+        ? base44.entities.SimulationIntervention.filter({ simulation_id: activeSimulation }).limit(50)
+        : Promise.resolve([]),
+    enabled: !!activeSimulation,
+    initialData: []
+  });
+
+  const createScenarioMutation = useMutation({
+    mutationFn: async (scenarioConfig) => {
+      const response = await base44.functions.invoke('autonomous-scenario-creator', scenarioConfig);
       return response.data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['dynamic-scenarios'] });
+      queryClient.invalidateQueries(['scenarios']);
+      toast.success('AI-generated scenario created');
+    }
+  });
+
+  const interventionMutation = useMutation({
+    mutationFn: async (interventionData) => {
+      const response = await base44.functions.invoke('real-time-intervention', interventionData);
+      return response.data;
     },
+    onSuccess: () => {
+      queryClient.invalidateQueries(['interventions']);
+      queryClient.invalidateQueries(['sim-agents']);
+      toast.success('Intervention applied successfully');
+    }
   });
 
   return (
-    <AuroraBackground className="min-h-screen py-8 px-4">
-      <div className="max-w-7xl mx-auto">
+    <AuroraBackground className="min-h-screen py-8">
+      <div className="container mx-auto px-4 max-w-7xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
         >
-          <h1 className="text-5xl font-bold text-white mb-4">
-            <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-red-400 bg-clip-text text-transparent">
-              Dynamic Simulation Studio
-            </span>
+          <h1 className="text-4xl font-bold text-white mb-2 flex items-center gap-3">
+            <Sparkles className="w-10 h-10 text-purple-400" />
+            Dynamic Simulation Studio
           </h1>
-          <p className="text-white/60 text-lg">
-            AI-generated scenarios with adaptive rules and emergent challenges
-          </p>
+          <p className="text-slate-400">AI-powered scenario creation and real-time intervention</p>
         </motion.div>
 
-        <Tabs defaultValue="generate" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-3 bg-black/30 p-1">
-            <TabsTrigger value="generate">Generate Scenario</TabsTrigger>
-            <TabsTrigger value="scenarios">AI Scenarios</TabsTrigger>
-            <TabsTrigger value="visualizer">3D Visualizer</TabsTrigger>
+        {/* Quick Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+          <Card className="bg-slate-900/60 border-slate-700">
+            <CardContent className="p-4">
+              <div className="flex items-center gap-3">
+                <Play className="w-8 h-8 text-green-400" />
+                <div>
+                  <p className="text-slate-400 text-xs">Active Simulations</p>
+                  <p className="text-white text-2xl font-bold">
+                    {simulations.filter(s => s.status === 'running').length}
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-slate-900/60 border-slate-700">
+            <CardContent className="p-4">
+              <div className="flex items-center gap-3">
+                <Target className="w-8 h-8 text-purple-400" />
+                <div>
+                  <p className="text-slate-400 text-xs">AI Scenarios</p>
+                  <p className="text-white text-2xl font-bold">{scenarios.length}</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-slate-900/60 border-slate-700">
+            <CardContent className="p-4">
+              <div className="flex items-center gap-3">
+                <Zap className="w-8 h-8 text-yellow-400" />
+                <div>
+                  <p className="text-slate-400 text-xs">Interventions</p>
+                  <p className="text-white text-2xl font-bold">{interventions.length}</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-slate-900/60 border-slate-700">
+            <CardContent className="p-4">
+              <div className="flex items-center gap-3">
+                <RefreshCw className="w-8 h-8 text-cyan-400" />
+                <div>
+                  <p className="text-slate-400 text-xs">Active Agents</p>
+                  <p className="text-white text-2xl font-bold">{agents.length}</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        <Tabs defaultValue="designer" className="space-y-6">
+          <TabsList className="bg-slate-900/60">
+            <TabsTrigger value="designer">Scenario Designer</TabsTrigger>
+            <TabsTrigger value="evolution">World Evolution</TabsTrigger>
+            <TabsTrigger value="interactions">Agent Interactions</TabsTrigger>
+            <TabsTrigger value="interventions">Real-Time Control</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="generate">
-            <Card className="bg-black/40 border-white/10 mb-6">
-              <CardHeader>
-                <CardTitle className="text-white">AI Scenario Generator</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div>
-                  <label className="text-white text-sm mb-3 block">Select Environment</label>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    {environments?.map((env) => (
-                      <div
-                        key={env.id}
-                        onClick={() => setSelectedEnv(env)}
-                        className={`p-4 rounded-lg border cursor-pointer transition-all ${
-                          selectedEnv?.id === env.id
-                            ? 'bg-purple-500/20 border-purple-500'
-                            : 'bg-white/5 border-white/10 hover:bg-white/10'
-                        }`}
-                      >
-                        <div className="text-white font-bold mb-1">{env.environment_name}</div>
-                        <Badge>{env.environment_type}</Badge>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div>
-                  <label className="text-white text-sm mb-3 block">
-                    Complexity Level: {complexity[0]}/10
-                  </label>
-                  <Slider
-                    value={complexity}
-                    onValueChange={setComplexity}
-                    min={1}
-                    max={10}
-                    step={1}
-                    className="mb-2"
-                  />
-                  <div className="flex justify-between text-white/60 text-xs">
-                    <span>Simple</span>
-                    <span>Complex</span>
-                  </div>
-                </div>
-
-                <Button
-                  onClick={() => {
-                    if (selectedEnv) {
-                      generateScenario.mutate({
-                        environment_id: selectedEnv.id,
-                        complexity_level: complexity[0],
-                      });
-                    }
-                  }}
-                  disabled={!selectedEnv || generateScenario.isPending}
-                  className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
-                >
-                  <Sparkles className="w-4 h-4 mr-2" />
-                  {generateScenario.isPending ? 'Generating...' : 'Generate AI Scenario'}
-                </Button>
-
-                {generateScenario.data && (
-                  <div className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30 rounded-lg p-6">
-                    <h3 className="text-purple-300 font-bold text-lg mb-3">
-                      {generateScenario.data.scenario_name}
-                    </h3>
-                    
-                    <div className="bg-black/30 rounded p-3 mb-3">
-                      <div className="text-white/60 text-sm mb-2">Complexity Score</div>
-                      <div className="flex items-center gap-2">
-                        <div className="flex-1 bg-white/10 rounded-full h-2">
-                          <div
-                            className="bg-gradient-to-r from-purple-400 to-pink-400 h-2 rounded-full"
-                            style={{ width: `${generateScenario.data.complexity * 10}%` }}
-                          />
-                        </div>
-                        <span className="text-purple-400 font-bold">{generateScenario.data.complexity}/10</span>
-                      </div>
-                    </div>
-
-                    {generateScenario.data.objectives?.length > 0 && (
-                      <div>
-                        <div className="text-cyan-300 text-sm mb-2">Challenge Objectives:</div>
-                        {generateScenario.data.objectives.map((obj, i) => (
-                          <div key={i} className="flex items-start gap-2 mb-1">
-                            <Target className="w-4 h-4 text-cyan-400 mt-0.5" />
-                            <span className="text-white/80 text-sm">{obj}</span>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                )}
-              </CardContent>
-            </Card>
+          <TabsContent value="designer">
+            <DynamicScenarioDesigner
+              onCreateScenario={(config) => createScenarioMutation.mutate(config)}
+              scenarios={scenarios}
+              isCreating={createScenarioMutation.isPending}
+            />
           </TabsContent>
 
-          <TabsContent value="scenarios">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {scenarios?.map((scenario, i) => (
-                <Card key={scenario.id} className="bg-white/5 border-white/10">
-                  <CardContent className="p-6">
-                    <h3 className="text-white font-bold text-lg mb-3">{scenario.scenario_name}</h3>
-
-                    <div className="grid grid-cols-2 gap-3 mb-4">
-                      <div className="bg-black/30 rounded p-2">
-                        <div className="text-white/60 text-xs">Complexity</div>
-                        <div className="text-purple-400 font-bold">{scenario.complexity_level}/10</div>
-                      </div>
-                      <div className="bg-black/30 rounded p-2">
-                        <div className="text-white/60 text-xs">Adaptive Rules</div>
-                        <div className="text-cyan-400 font-bold">{scenario.adaptive_rules?.length || 0}</div>
-                      </div>
-                    </div>
-
-                    {scenario.challenge_objectives?.length > 0 && (
-                      <div className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/20 rounded p-3 mb-3">
-                        <div className="text-purple-300 text-xs mb-2">Objectives:</div>
-                        {scenario.challenge_objectives.slice(0, 2).map((obj, j) => (
-                          <div key={j} className="text-white/70 text-xs">• {obj}</div>
-                        ))}
-                      </div>
-                    )}
-
-                    {scenario.emergent_patterns?.length > 0 && (
-                      <div>
-                        <div className="text-cyan-300 text-xs mb-1">Emergent Patterns:</div>
-                        {scenario.emergent_patterns.map((pattern, j) => (
-                          <Badge key={j} className="mr-1 mb-1 text-xs bg-cyan-500/20">{pattern}</Badge>
-                        ))}
-                      </div>
-                    )}
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </TabsContent>
-
-          <TabsContent value="visualizer">
-            <Card className="bg-black/40 border-white/10">
+          <TabsContent value="evolution">
+            <Card className="bg-slate-900/60 border-slate-700">
               <CardHeader>
-                <CardTitle className="text-white">Dynamic Scenario Visualization</CardTitle>
+                <CardTitle className="text-white">AI World Evolution Visualizer</CardTitle>
+                <p className="text-slate-400 text-sm">
+                  Watch emergent behaviors and environmental changes in real-time
+                </p>
               </CardHeader>
               <CardContent>
-                <DynamicScenario3D scenario={scenarios?.[0]} />
+                <div className="h-[700px]">
+                  <AIWorldEvolution3D
+                    agents={agents}
+                    simulations={simulations}
+                    scenarios={scenarios}
+                  />
+                </div>
               </CardContent>
             </Card>
+          </TabsContent>
+
+          <TabsContent value="interactions">
+            <Card className="bg-slate-900/60 border-slate-700">
+              <CardHeader>
+                <CardTitle className="text-white">Multi-Agent Interaction Network</CardTitle>
+                <p className="text-slate-400 text-sm">
+                  Visualize collaboration, conflicts, and knowledge transfer
+                </p>
+              </CardHeader>
+              <CardContent>
+                <div className="h-[700px]">
+                  <MultiAgentInteractionGraph agents={agents} />
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="interventions">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div className="lg:col-span-2">
+                <RealTimeInterventionPanel
+                  simulation={simulations.find(s => s.id === activeSimulation)}
+                  agents={agents}
+                  onIntervene={(data) => interventionMutation.mutate(data)}
+                  isPending={interventionMutation.isPending}
+                />
+              </div>
+
+              <div className="space-y-4">
+                <Card className="bg-slate-900/60 border-slate-700">
+                  <CardHeader>
+                    <CardTitle className="text-white text-sm">Recent Interventions</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    {interventions.slice(0, 5).map((int, idx) => (
+                      <motion.div
+                        key={int.id}
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: idx * 0.1 }}
+                        className="bg-slate-800/50 rounded-lg p-3"
+                      >
+                        <div className="flex items-start justify-between mb-2">
+                          <p className="text-white font-medium text-xs">
+                            {int.intervention_type?.replace('_', ' ')}
+                          </p>
+                          <Badge className="bg-purple-500/20 text-purple-400 text-xs">
+                            {int.triggered_by}
+                          </Badge>
+                        </div>
+                        {int.predicted_impact && (
+                          <div className="text-xs text-slate-400 space-y-1">
+                            <div>Affected: {int.predicted_impact.affected_agents} agents</div>
+                            <div>Cascade: {Math.round(int.predicted_impact.cascade_probability * 100)}%</div>
+                          </div>
+                        )}
+                      </motion.div>
+                    ))}
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
           </TabsContent>
         </Tabs>
       </div>
