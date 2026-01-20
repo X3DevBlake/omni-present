@@ -1,52 +1,258 @@
 import React, { useState } from 'react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Network, Target, Sparkles } from 'lucide-react';
-import VisualWorkflowBuilder from '../components/orchestration/VisualWorkflowBuilder';
-import AgentRoleAssignment from '../components/orchestration/AgentRoleAssignment';
-import EmergentGoalSystem from '../components/orchestration/EmergentGoalSystem';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { base44 } from '@/api/base44Client';
 import AuroraBackground from '../components/omni/AuroraBackground';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
+import AgentOrchestration3D from '../components/orchestration/AgentOrchestration3D';
+import AgentTeamFormation3D from '../components/agents/AgentTeamFormation3D';
+import PredictiveTrajectory3D from '../components/simulation/PredictiveTrajectory3D';
+import { Network, TrendingUp, Zap, Plus } from 'lucide-react';
+import { toast } from 'sonner';
 
 export default function AgentOrchestrationHub() {
-  const [activeTab, setActiveTab] = useState('workflow');
+  const [taskInput, setTaskInput] = useState('');
+  const queryClient = useQueryClient();
+
+  const { data: orchestrationData } = useQuery({
+    queryKey: ['orchestration-visuals'],
+    queryFn: async () => {
+      const response = await base44.functions.invoke('getOrchestrationVisuals', {});
+      return response.data.orchestration_data;
+    },
+    refetchInterval: 10000
+  });
+
+  const { data: teamDynamics } = useQuery({
+    queryKey: ['team-dynamics'],
+    queryFn: async () => {
+      const response = await base44.functions.invoke('getAgentTeamDynamics', {});
+      return response.data;
+    },
+    refetchInterval: 10000
+  });
+
+  const { data: predictions } = useQuery({
+    queryKey: ['simulation-predictions'],
+    queryFn: async () => {
+      const sims = await base44.entities.Simulation.filter({ status: 'running' });
+      if (sims.length === 0) return [];
+      
+      return await base44.entities.PredictiveSimulation.filter({ 
+        simulation_id: sims[0].id 
+      });
+    }
+  });
+
+  const allocateTasks = useMutation({
+    mutationFn: async (tasks) => {
+      const response = await base44.functions.invoke('allocateTasksToTeams', { tasks });
+      return response.data;
+    },
+    onSuccess: (data) => {
+      toast.success(`Allocated ${data.allocations.length} tasks`);
+      queryClient.invalidateQueries({ queryKey: ['orchestration-visuals'] });
+    }
+  });
+
+  const handleAllocate = () => {
+    const tasks = taskInput.split('\n').filter(t => t.trim()).map((task, i) => ({
+      task_id: `task-${Date.now()}-${i}`,
+      description: task,
+      priority: 1,
+      complexity: 'medium'
+    }));
+
+    if (tasks.length > 0) {
+      allocateTasks.mutate(tasks);
+      setTaskInput('');
+    }
+  };
 
   return (
-    <AuroraBackground className="min-h-screen">
-      <div className="container mx-auto px-6 py-12">
-        <div className="mb-8">
-          <h1 className="text-5xl font-bold text-white mb-3">
-            AI Agent Orchestration
-          </h1>
-          <p className="text-xl text-white/70">
-            Define complex multi-agent workflows and emergent goal systems
+    <AuroraBackground className="min-h-screen pt-24 pb-12">
+      <div className="container mx-auto px-6 space-y-8">
+        <div className="text-center space-y-4">
+          <h1 className="text-5xl font-bold text-white">Agent Orchestration Hub</h1>
+          <p className="text-white/70 text-xl">
+            AI-Powered Task Allocation & Team Coordination
           </p>
         </div>
 
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-3 mb-8 bg-black/30 p-1">
-            <TabsTrigger value="workflow" className="data-[state=active]:bg-cyan-600">
+        {orchestrationData && (
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <Card className="bg-gradient-to-br from-purple-900/80 to-pink-900/80 border-purple-400/50 backdrop-blur-md">
+              <CardContent className="p-4">
+                <div className="text-white/60 text-xs">Active Teams</div>
+                <div className="text-white text-3xl font-bold">{orchestrationData.teams?.length || 0}</div>
+              </CardContent>
+            </Card>
+            <Card className="bg-gradient-to-br from-cyan-900/80 to-blue-900/80 border-cyan-400/50 backdrop-blur-md">
+              <CardContent className="p-4">
+                <div className="text-white/60 text-xs">Tasks in Queue</div>
+                <div className="text-white text-3xl font-bold">{orchestrationData.task_flow?.length || 0}</div>
+              </CardContent>
+            </Card>
+            <Card className="bg-gradient-to-br from-green-900/80 to-emerald-900/80 border-green-400/50 backdrop-blur-md">
+              <CardContent className="p-4">
+                <div className="text-white/60 text-xs">Success Rate</div>
+                <div className="text-white text-3xl font-bold">
+                  {((orchestrationData.performance?.success_rate || 0) * 100).toFixed(0)}%
+                </div>
+              </CardContent>
+            </Card>
+            <Card className="bg-gradient-to-br from-orange-900/80 to-yellow-900/80 border-orange-400/50 backdrop-blur-md">
+              <CardContent className="p-4">
+                <div className="text-white/60 text-xs">Optimization Score</div>
+                <div className="text-white text-3xl font-bold">
+                  {((orchestrationData.performance?.optimization_score || 0) * 100).toFixed(0)}%
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
+
+        <Tabs defaultValue="orchestration" className="w-full">
+          <TabsList className="grid w-full grid-cols-3 bg-black/30">
+            <TabsTrigger value="orchestration">
               <Network className="w-4 h-4 mr-2" />
-              Workflow Builder
+              Orchestration
             </TabsTrigger>
-            <TabsTrigger value="roles" className="data-[state=active]:bg-purple-600">
-              <Sparkles className="w-4 h-4 mr-2" />
-              Role Assignment
+            <TabsTrigger value="allocation">
+              <Zap className="w-4 h-4 mr-2" />
+              Task Allocation
             </TabsTrigger>
-            <TabsTrigger value="emergent" className="data-[state=active]:bg-orange-600">
-              <Target className="w-4 h-4 mr-2" />
-              Emergent Goals
+            <TabsTrigger value="predictions">
+              <TrendingUp className="w-4 h-4 mr-2" />
+              Predictions
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="workflow">
-            <VisualWorkflowBuilder />
+          <TabsContent value="orchestration" className="space-y-6 mt-6">
+            <AgentOrchestration3D
+              orchestrationData={orchestrationData}
+              onTeamSelect={(team) => toast.info(`Team: ${team.team_name}`)}
+              onTaskSelect={(task) => toast.info(`Task: ${task.task_id}`)}
+            />
+
+            {orchestrationData?.recommendations && orchestrationData.recommendations.length > 0 && (
+              <Card className="bg-gradient-to-r from-purple-900/80 to-blue-900/80 border-purple-400/50 backdrop-blur-md">
+                <CardContent className="p-6">
+                  <h3 className="text-white font-semibold mb-3">AI Recommendations</h3>
+                  <div className="space-y-2">
+                    {orchestrationData.recommendations.map((rec, i) => (
+                      <div key={i} className="bg-white/10 rounded-lg p-3">
+                        <p className="text-white text-sm">{rec.recommendation}</p>
+                        <div className="flex items-center gap-2 mt-2">
+                          <Badge className="bg-purple-600 text-xs">
+                            {(rec.confidence * 100).toFixed(0)}% confidence
+                          </Badge>
+                          <span className="text-white/60 text-xs">{rec.impact} impact</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
           </TabsContent>
 
-          <TabsContent value="roles">
-            <AgentRoleAssignment />
+          <TabsContent value="allocation" className="space-y-6 mt-6">
+            <Card className="bg-white/10 border-white/20 backdrop-blur-md">
+              <CardHeader>
+                <CardTitle className="text-white">Allocate Tasks to Teams</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <label className="text-white/80 text-sm mb-2 block">
+                    Enter tasks (one per line)
+                  </label>
+                  <textarea
+                    value={taskInput}
+                    onChange={(e) => setTaskInput(e.target.value)}
+                    placeholder="Analyze market trends&#10;Generate quarterly report&#10;Optimize portfolio allocation"
+                    className="w-full h-32 bg-white/10 border border-white/20 rounded-lg p-3 text-white placeholder:text-white/40 resize-none"
+                  />
+                </div>
+                <Button
+                  onClick={handleAllocate}
+                  disabled={!taskInput.trim() || allocateTasks.isPending}
+                  className="w-full bg-gradient-to-r from-cyan-600 to-purple-600"
+                >
+                  <Plus className="w-4 h-4 mr-2" />
+                  {allocateTasks.isPending ? 'Allocating...' : 'Allocate with AI'}
+                </Button>
+              </CardContent>
+            </Card>
+
+            {teamDynamics?.team_dynamics?.map((team, i) => (
+              <Card key={i} className="bg-white/10 border-white/20 backdrop-blur-md">
+                <CardHeader>
+                  <CardTitle className="text-white text-lg">{team.team_name}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-3 gap-4 text-sm">
+                    <div>
+                      <span className="text-white/60">Members</span>
+                      <p className="text-white font-semibold">{team.members?.length || 0}</p>
+                    </div>
+                    <div>
+                      <span className="text-white/60">Health Score</span>
+                      <p className="text-white font-semibold">{(team.health_score * 100).toFixed(0)}%</p>
+                    </div>
+                    <div>
+                      <span className="text-white/60">Tasks</span>
+                      <p className="text-white font-semibold">{team.performance?.tasks_completed || 0}</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
           </TabsContent>
 
-          <TabsContent value="emergent">
-            <EmergentGoalSystem />
+          <TabsContent value="predictions" className="space-y-6 mt-6">
+            {predictions && predictions.map((pred, i) => (
+              <div key={i}>
+                <PredictiveTrajectory3D prediction={pred} />
+                
+                <Card className="bg-white/10 border-white/20 backdrop-blur-md mt-4">
+                  <CardHeader>
+                    <CardTitle className="text-white">Outcome Analysis</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-3">
+                      {pred.predicted_outcomes?.map((outcome, j) => (
+                        <div key={j} className="bg-white/5 rounded-lg p-4">
+                          <div className="flex items-center justify-between mb-2">
+                            <h4 className="text-white font-medium">{outcome.scenario}</h4>
+                            <Badge className="bg-green-600">
+                              {(outcome.probability * 100).toFixed(1)}%
+                            </Badge>
+                          </div>
+                          <div className="text-white/70 text-sm">
+                            Expected Value: {outcome.expected_value?.toFixed(2)}
+                          </div>
+                          {outcome.confidence_interval && (
+                            <div className="text-white/60 text-xs mt-1">
+                              CI: [{outcome.confidence_interval.lower?.toFixed(2)}, {outcome.confidence_interval.upper?.toFixed(2)}]
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            ))}
+
+            {(!predictions || predictions.length === 0) && (
+              <div className="text-center text-white/60 py-12">
+                No predictions available. Run a simulation to generate forecasts.
+              </div>
+            )}
           </TabsContent>
         </Tabs>
       </div>

@@ -10,6 +10,7 @@ import { Textarea } from '@/components/ui/textarea';
 import AgentTeamFormation3D from '../components/agents/AgentTeamFormation3D';
 import LiveDataStream3D from '../components/data/LiveDataStream3D';
 import MarketDataIntegration from '../components/data/MarketDataIntegration';
+import AgentOrchestration3D from '../components/orchestration/AgentOrchestration3D';
 import { Users, MessageSquare, TrendingUp, Plus } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -57,6 +58,15 @@ export default function AICollaborativeIntelligenceHub() {
     refetchInterval: 60000
   });
 
+  const { data: orchestrationData } = useQuery({
+    queryKey: ['orchestration-visuals'],
+    queryFn: async () => {
+      const response = await base44.functions.invoke('getOrchestrationVisuals', {});
+      return response.data.orchestration_data;
+    },
+    refetchInterval: 10000
+  });
+
   const formTeam = useMutation({
     mutationFn: async () => {
       const response = await base44.functions.invoke('formDynamicAgentTeam', {
@@ -89,10 +99,13 @@ export default function AICollaborativeIntelligenceHub() {
         </div>
 
         <Tabs defaultValue="teams" className="w-full">
-          <TabsList className="grid w-full grid-cols-3 bg-black/30">
+          <TabsList className="grid w-full grid-cols-4 bg-black/30">
             <TabsTrigger value="teams">
               <Users className="w-4 h-4 mr-2" />
               Agent Teams
+            </TabsTrigger>
+            <TabsTrigger value="orchestration">
+              Orchestration
             </TabsTrigger>
             <TabsTrigger value="data">
               <TrendingUp className="w-4 h-4 mr-2" />
@@ -143,6 +156,21 @@ export default function AICollaborativeIntelligenceHub() {
             {teamDynamics?.total_teams === 0 && (
               <div className="text-center text-white/60 py-12">
                 No active teams. Create one above to get started!
+              </div>
+            )}
+          </TabsContent>
+
+          <TabsContent value="orchestration" className="space-y-6 mt-6">
+            {orchestrationData && (
+              <AgentOrchestration3D
+                orchestrationData={orchestrationData}
+                onTeamSelect={(team) => toast.info(`Team: ${team.team_name}`)}
+              />
+            )}
+
+            {!orchestrationData && (
+              <div className="text-center text-white/60 py-12">
+                Create agent teams to enable orchestration
               </div>
             )}
           </TabsContent>

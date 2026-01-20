@@ -8,11 +8,14 @@ import { Button } from '@/components/ui/button';
 import MultiUserSimulationCanvas from '../components/simulation/MultiUserSimulationCanvas';
 import PhysicsEngineControls from '../components/simulation/PhysicsEngineControls';
 import SimulationExporter from '../components/simulation/SimulationExporter';
-import { Play, Users, Settings, Download } from 'lucide-react';
+import PredictiveTrajectory3D from '../components/simulation/PredictiveTrajectory3D';
+import { Play, Users, Settings, Download, Activity } from 'lucide-react';
 import { toast } from 'sonner';
+import { useQueryClient } from '@tanstack/react-query';
 
 export default function EnhancedSimulationHub() {
   const [selectedSimulation, setSelectedSimulation] = useState(null);
+  const queryClient = useQueryClient();
 
   const { data: simulations } = useQuery({
     queryKey: ['simulations'],
@@ -29,6 +32,31 @@ export default function EnhancedSimulationHub() {
     },
     enabled: !!selectedSimulation
   });
+
+  const { data: prediction } = useQuery({
+    queryKey: ['simulation-prediction', selectedSimulation?.id],
+    queryFn: async () => {
+      const preds = await base44.entities.PredictiveSimulation.filter({ 
+        simulation_id: selectedSimulation.id 
+      });
+      return preds[0] || null;
+    },
+    enabled: !!selectedSimulation
+  });
+
+  const generatePrediction = async () => {
+    if (!selectedSimulation) return;
+    
+    try {
+      const response = await base44.functions.invoke('predictSimulationOutcome', {
+        simulation_id: selectedSimulation.id
+      });
+      toast.success('Prediction generated');
+      queryClient.invalidateQueries({ queryKey: ['simulation-prediction'] });
+    } catch (error) {
+      toast.error('Failed to generate prediction');
+    }
+  };
 
   const createNewSimulation = async () => {
     try {
@@ -93,7 +121,7 @@ export default function EnhancedSimulationHub() {
 
         {selectedSimulation && (
           <Tabs defaultValue="canvas" className="w-full">
-            <TabsList className="grid w-full grid-cols-4 bg-black/30">
+            <TabsList className="grid w-full grid-cols-5 bg-black/30">
               <TabsTrigger value="canvas">
                 <Users className="w-4 h-4 mr-2" />
                 Multi-User Canvas
@@ -101,6 +129,10 @@ export default function EnhancedSimulationHub() {
               <TabsTrigger value="physics">
                 <Settings className="w-4 h-4 mr-2" />
                 Physics Engine
+              </TabsTrigger>
+              <TabsTrigger value="prediction">
+                <Activity className="w-4 h-4 mr-2" />
+                AI Prediction
               </TabsTrigger>
               <TabsTrigger value="export">
                 <Download className="w-4 h-4 mr-2" />
@@ -121,6 +153,28 @@ export default function EnhancedSimulationHub() {
                 currentConfig={physicsConfig}
                 onUpdate={(config) => toast.success('Physics updated')}
               />
+            </TabsContent>
+
+            <TabsContent value="prediction" className="mt-6 space-y-6">
+              <Card className="bg-white/10 border-white/20 backdrop-blur-md">
+                <CardContent className="p-6">
+                  <Button
+                    onClick={generatePrediction}
+                    className="w-full bg-gradient-to-r from-purple-600 to-pink-600"
+                  >
+                    <Activity className="w-4 h-4 mr-2" />
+                    Generate AI Prediction
+                  </Button>
+                </CardContent>
+              </Card>
+
+              {prediction && <PredictiveTrajectory3D prediction={prediction} />}
+
+              {!prediction && (
+                <div className="text-center text-white/60 py-12">
+                  Click above to generate AI-powered outcome predictions
+                </div>
+              )}
             </TabsContent>
 
             <TabsContent value="export" className="mt-6">
