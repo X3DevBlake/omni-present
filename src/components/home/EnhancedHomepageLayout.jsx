@@ -11,6 +11,9 @@ import QuickActionsPanel from './QuickActionsPanel';
 import EcosystemGraph3D from './EcosystemGraph3D';
 import DataVisualizationCarousel from './DataVisualizationCarousel';
 import RealTimeNotificationFeed from './RealTimeNotificationFeed';
+import DynamicUIConfigurator3D from './DynamicUIConfigurator3D';
+import AgentInteractionFlow3D from './AgentInteractionFlow3D';
+import RealTimeAlertFlow3D from './RealTimeAlertFlow3D';
 import SmartTaskRecommender from './SmartTaskRecommender';
 import PersonalizedNewsFeed from './PersonalizedNewsFeed';
 import InteractiveMetricsGalaxy3D from './InteractiveMetricsGalaxy3D';
@@ -101,6 +104,35 @@ export default function EnhancedHomepageLayout() {
     refetchInterval: 120000
   });
 
+  const { data: uiConfig } = useQuery({
+    queryKey: ['ui-config'],
+    queryFn: async () => {
+      const response = await base44.functions.invoke('getDynamicUIConfig', {});
+      return response.data.config;
+    },
+    enabled: !!user
+  });
+
+  const { data: agentFlow } = useQuery({
+    queryKey: ['agent-flow'],
+    queryFn: async () => {
+      const response = await base44.functions.invoke('getAgentInteractionFlow', {});
+      return response.data;
+    },
+    enabled: !!user,
+    refetchInterval: 10000
+  });
+
+  const { data: alertFlow } = useQuery({
+    queryKey: ['alert-flow'],
+    queryFn: async () => {
+      const response = await base44.functions.invoke('getAlertFlowData', {});
+      return response.data;
+    },
+    enabled: !!user,
+    refetchInterval: 5000
+  });
+
   const dismissInsight = useMutation({
     mutationFn: async (insightId) => {
       await base44.entities.ProactiveInsight.update(insightId, { acknowledged: true });
@@ -185,6 +217,28 @@ export default function EnhancedHomepageLayout() {
           <TabsContent value="analytics" className="space-y-8 mt-6">
             {ecosystemData && (
               <EcosystemGraph3D graphData={ecosystemData} />
+            )}
+
+            {uiConfig && (
+              <DynamicUIConfigurator3D
+                config={uiConfig}
+                onWidgetClick={(widget) => toast.info(`Widget: ${widget.widget_id}`)}
+              />
+            )}
+
+            {agentFlow && (
+              <AgentInteractionFlow3D
+                agents={agentFlow.agents}
+                interactions={agentFlow.interactions}
+                onAgentSelect={(agent) => toast.info(`Agent: ${agent.name}`)}
+              />
+            )}
+
+            {alertFlow && (
+              <RealTimeAlertFlow3D
+                alerts={alertFlow.alerts}
+                onAlertClick={(alert) => toast.warning(alert.title)}
+              />
             )}
 
             <InteractiveMetricsGalaxy3D />

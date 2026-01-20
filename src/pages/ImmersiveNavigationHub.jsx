@@ -1,232 +1,208 @@
-import React, { Suspense, useState, useEffect } from 'react';
-import { Canvas } from '@react-three/fiber';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
-import ImmersiveNavEnvironment from '../components/navigation/ImmersiveNavEnvironment';
-import { Button } from '@/components/ui/button';
-import { X, Info, Settings } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import AuroraBackground from '../components/omni/AuroraBackground';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import CrossHubNetwork3D from '../components/navigation/CrossHubNetwork3D';
+import PredictiveNavigationPath3D from '../components/navigation/PredictiveNavigationPath3D';
+import NavigationHeatmap3D from '../components/navigation/NavigationHeatmap3D';
+import NavigationAnalyticsDashboard from '../components/navigation/NavigationAnalyticsDashboard';
+import NavigationTimeline from '../components/navigation/NavigationTimeline';
+import { Network, TrendingUp, Map, Activity } from 'lucide-react';
+import { toast } from 'sonner';
 
 export default function ImmersiveNavigationHub() {
-  const navigate = useNavigate();
   const [selectedHub, setSelectedHub] = useState(null);
-  const [showInstructions, setShowInstructions] = useState(true);
-  const [controlMode, setControlMode] = useState('orbit'); // 'orbit' or 'fps'
 
-  // Fetch real-time ecosystem data
-  const { data: ecosystemData } = useQuery({
-    queryKey: ['immersive-nav-data'],
+  const { data: networkData } = useQuery({
+    queryKey: ['cross-hub-network'],
     queryFn: async () => {
-      const response = await base44.functions.invoke('aggregate-realtime-ecosystem-data', {});
+      const response = await base44.functions.invoke('getCrossHubNetwork', {});
       return response.data;
     },
-    refetchInterval: 5000,
+    refetchInterval: 30000
   });
 
-  useEffect(() => {
-    const timer = setTimeout(() => setShowInstructions(false), 8000);
-    return () => clearTimeout(timer);
-  }, []);
+  const { data: navigationData } = useQuery({
+    queryKey: ['navigation-intelligence'],
+    queryFn: async () => {
+      const response = await base44.functions.invoke('analyzeNavigationIntelligence', {
+        current_page: 'ImmersiveNavigationHub'
+      });
+      return response.data.pattern;
+    },
+    refetchInterval: 20000
+  });
 
-  const handleHubClick = (hubName, path) => {
-    setSelectedHub(hubName);
-    setTimeout(() => {
-      navigate(path);
-    }, 1000);
-  };
-
-  const hubData = {
-    home: {
-      name: 'Ecosystem Home',
-      path: '/Home',
-      color: '#00f5ff',
-      metrics: ecosystemData?.overview || {},
-    },
-    agents: {
-      name: 'AI Agents Hub',
-      path: '/AIManagement',
-      color: '#a855f7',
-      metrics: {
-        active: ecosystemData?.agents?.active_count || 0,
-        collaborations: ecosystemData?.collaborations?.active_count || 0,
-      },
-    },
-    banking: {
-      name: 'Banking & DeFi',
-      path: '/EnhancedBankingHub',
-      color: '#3b82f6',
-      metrics: {
-        volume: ecosystemData?.transactions?.total_volume || 0,
-        staked: ecosystemData?.staking?.total_staked || 0,
-      },
-    },
-    ailab: {
-      name: 'AI Labs',
-      path: '/AILabs',
-      color: '#ec4899',
-      metrics: {
-        models: ecosystemData?.models?.count || 0,
-        training: ecosystemData?.training?.active_sessions || 0,
-      },
-    },
-    simulation: {
-      name: 'Simulation Hub',
-      path: '/SimulationHub',
-      color: '#f59e0b',
-      metrics: {
-        scenarios: ecosystemData?.simulations?.active_count || 0,
-        agents: ecosystemData?.simulations?.total_agents || 0,
-      },
-    },
+  const handleHubSelect = (hub) => {
+    setSelectedHub(hub);
+    toast.info(`Selected: ${hub.display_name}`);
   };
 
   return (
-    <div className="relative w-full h-screen bg-black overflow-hidden">
-      {/* 3D Environment */}
-      <Canvas
-        camera={{ position: [0, 5, 15], fov: 60 }}
-        className="w-full h-full"
-      >
-        <Suspense fallback={null}>
-          <ImmersiveNavEnvironment
-            hubData={hubData}
-            onHubClick={handleHubClick}
-            selectedHub={selectedHub}
-            controlMode={controlMode}
-          />
-        </Suspense>
-      </Canvas>
-
-      {/* UI Overlay */}
-      <div className="absolute inset-0 pointer-events-none">
-        {/* Top Bar */}
-        <div className="absolute top-0 left-0 right-0 p-6 flex justify-between items-start pointer-events-auto">
-          <div>
-            <h1 className="text-3xl font-bold text-white mb-2">Immersive Navigation</h1>
-            <p className="text-gray-400">Explore the ecosystem in 3D</p>
-          </div>
-          <div className="flex gap-2">
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={() => setShowInstructions(!showInstructions)}
-              className="bg-black/50 border-white/20 hover:bg-white/10"
-            >
-              <Info className="w-4 h-4 text-white" />
-            </Button>
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={() => setControlMode(controlMode === 'orbit' ? 'fps' : 'orbit')}
-              className="bg-black/50 border-white/20 hover:bg-white/10"
-            >
-              <Settings className="w-4 h-4 text-white" />
-            </Button>
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={() => navigate('/Home')}
-              className="bg-black/50 border-white/20 hover:bg-white/10"
-            >
-              <X className="w-4 h-4 text-white" />
-            </Button>
-          </div>
+    <AuroraBackground className="min-h-screen pt-24 pb-12">
+      <div className="container mx-auto px-6 space-y-8">
+        <div className="text-center space-y-4">
+          <h1 className="text-5xl font-bold text-white">
+            Immersive Navigation Hub
+          </h1>
+          <p className="text-white/70 text-xl">
+            AI-Powered Navigation Intelligence & Predictive Path Analysis
+          </p>
         </div>
 
-        {/* Instructions */}
-        <AnimatePresence>
-          {showInstructions && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="absolute bottom-6 left-1/2 transform -translate-x-1/2 pointer-events-auto"
-            >
-              <div className="bg-black/80 backdrop-blur-lg border border-white/20 rounded-2xl p-6 max-w-2xl">
-                <h3 className="text-white font-semibold mb-3">How to Navigate</h3>
-                <div className="grid grid-cols-2 gap-4 text-sm">
-                  <div className="text-gray-300">
-                    <span className="text-cyan-400 font-medium">Click & Drag:</span> Rotate view
-                  </div>
-                  <div className="text-gray-300">
-                    <span className="text-cyan-400 font-medium">Scroll:</span> Zoom in/out
-                  </div>
-                  <div className="text-gray-300">
-                    <span className="text-cyan-400 font-medium">Click Portal:</span> Enter hub
-                  </div>
-                  <div className="text-gray-300">
-                    <span className="text-cyan-400 font-medium">Hover:</span> View metrics
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Hub Info Panels */}
-        <div className="absolute right-6 top-24 space-y-3 pointer-events-auto max-w-sm">
-          {Object.entries(hubData).map(([key, hub]) => (
-            <motion.div
-              key={key}
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.1 * Object.keys(hubData).indexOf(key) }}
-              className="bg-black/60 backdrop-blur-lg border border-white/10 rounded-xl p-4 hover:bg-black/80 transition-all cursor-pointer"
-              onClick={() => handleHubClick(hub.name, hub.path)}
-              style={{ borderColor: hub.color + '40' }}
-            >
-              <div className="flex items-center gap-3">
-                <div
-                  className="w-3 h-3 rounded-full animate-pulse"
-                  style={{ backgroundColor: hub.color }}
-                />
-                <div className="flex-1">
-                  <h4 className="text-white font-medium text-sm">{hub.name}</h4>
-                  <div className="flex gap-3 mt-1 text-xs text-gray-400">
-                    {Object.entries(hub.metrics).map(([key, value]) => (
-                      <span key={key}>
-                        {key}: <span className="text-white">{typeof value === 'number' ? value.toLocaleString() : value}</span>
-                      </span>
+        {networkData?.insights && (
+          <Card className="bg-white/10 border-white/20 backdrop-blur-md">
+            <CardContent className="p-6">
+              <div className="flex items-start gap-4">
+                <Activity className="w-6 h-6 text-cyan-400 shrink-0 mt-1" />
+                <div>
+                  <h3 className="text-white font-semibold mb-2">AI Navigation Insights</h3>
+                  <div className="space-y-2">
+                    {networkData.insights.map((insight, i) => (
+                      <p key={i} className="text-white/80 text-sm">• {insight}</p>
                     ))}
                   </div>
                 </div>
               </div>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Control Mode Indicator */}
-        <div className="absolute bottom-6 left-6 pointer-events-auto">
-          <div className="bg-black/60 backdrop-blur-lg border border-white/10 rounded-lg px-4 py-2">
-            <span className="text-gray-400 text-sm">
-              Mode: <span className="text-cyan-400 font-medium">{controlMode === 'orbit' ? 'Orbit' : 'Free Camera'}</span>
-            </span>
-          </div>
-        </div>
-      </div>
-
-      {/* Transition Effect */}
-      <AnimatePresence>
-        {selectedHub && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-gradient-to-br from-cyan-500/20 to-purple-500/20 backdrop-blur-xl pointer-events-none"
-          >
-            <div className="flex items-center justify-center h-full">
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                className="text-white text-4xl font-bold"
-              >
-                Entering {selectedHub}...
-              </motion.div>
-            </div>
-          </motion.div>
+            </CardContent>
+          </Card>
         )}
-      </AnimatePresence>
-    </div>
+
+        <Tabs defaultValue="network" className="w-full">
+          <TabsList className="grid w-full grid-cols-4 bg-black/30">
+            <TabsTrigger value="network">
+              <Network className="w-4 h-4 mr-2" />
+              Hub Network
+            </TabsTrigger>
+            <TabsTrigger value="predictive">
+              <TrendingUp className="w-4 h-4 mr-2" />
+              Predictive Paths
+            </TabsTrigger>
+            <TabsTrigger value="heatmap">
+              <Map className="w-4 h-4 mr-2" />
+              Usage Heatmap
+            </TabsTrigger>
+            <TabsTrigger value="analytics">
+              <Activity className="w-4 h-4 mr-2" />
+              Analytics
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="network" className="space-y-6 mt-6">
+            <Card className="bg-white/10 border-white/20 backdrop-blur-md">
+              <CardHeader>
+                <CardTitle className="text-white">Cross-Hub Network Visualization</CardTitle>
+              </CardHeader>
+              <CardContent>
+                {networkData && (
+                  <CrossHubNetwork3D
+                    hubs={networkData.hubs}
+                    links={networkData.links}
+                    onHubSelect={handleHubSelect}
+                  />
+                )}
+              </CardContent>
+            </Card>
+
+            {selectedHub && (
+              <Card className="bg-white/10 border-white/20 backdrop-blur-md">
+                <CardContent className="p-6">
+                  <h3 className="text-white font-semibold text-lg mb-4">
+                    {selectedHub.display_name}
+                  </h3>
+                  <div className="grid grid-cols-3 gap-4 text-white/80 text-sm">
+                    <div>
+                      <span className="text-white/60">Category:</span>
+                      <p className="font-medium">{selectedHub.hub_category}</p>
+                    </div>
+                    <div>
+                      <span className="text-white/60">Total Visits:</span>
+                      <p className="font-medium">{selectedHub.usage_stats?.total_visits || 0}</p>
+                    </div>
+                    <div>
+                      <span className="text-white/60">Unique Visitors:</span>
+                      <p className="font-medium">{selectedHub.usage_stats?.unique_visitors || 0}</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
+            {networkData?.optimization_suggestions && (
+              <Card className="bg-gradient-to-r from-purple-900/80 to-blue-900/80 border-purple-400/50 backdrop-blur-md">
+                <CardContent className="p-6">
+                  <h3 className="text-white font-semibold mb-3">Optimization Suggestions</h3>
+                  <div className="space-y-2">
+                    {networkData.optimization_suggestions.map((suggestion, i) => (
+                      <p key={i} className="text-white/80 text-sm">💡 {suggestion}</p>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+          </TabsContent>
+
+          <TabsContent value="predictive" className="space-y-6 mt-6">
+            <Card className="bg-white/10 border-white/20 backdrop-blur-md">
+              <CardHeader>
+                <CardTitle className="text-white">AI-Predicted Navigation Paths</CardTitle>
+              </CardHeader>
+              <CardContent>
+                {navigationData?.predicted_next_pages && (
+                  <PredictiveNavigationPath3D
+                    predictions={navigationData.predicted_next_pages}
+                    currentPage="ImmersiveNavigationHub"
+                  />
+                )}
+              </CardContent>
+            </Card>
+
+            {navigationData?.predicted_next_pages && (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {navigationData.predicted_next_pages.slice(0, 3).map((pred, i) => (
+                  <Card key={i} className="bg-gradient-to-br from-green-900/80 to-emerald-900/80 border-green-400/50">
+                    <CardContent className="p-4">
+                      <div className="text-white">
+                        <div className="text-3xl font-bold mb-2">
+                          {(pred.probability * 100).toFixed(0)}%
+                        </div>
+                        <div className="text-sm font-medium mb-1">
+                          {pred.page_name?.replace(/([A-Z])/g, ' $1').trim()}
+                        </div>
+                        <div className="text-xs text-white/60">{pred.reason}</div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            )}
+          </TabsContent>
+
+          <TabsContent value="heatmap" className="space-y-6 mt-6">
+            <Card className="bg-white/10 border-white/20 backdrop-blur-md">
+              <CardHeader>
+                <CardTitle className="text-white">Navigation Usage Heatmap</CardTitle>
+              </CardHeader>
+              <CardContent>
+                {navigationData && (
+                  <NavigationHeatmap3D navigationData={navigationData} />
+                )}
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="analytics" className="space-y-6 mt-6">
+            {navigationData && (
+              <>
+                <NavigationAnalyticsDashboard navigationData={navigationData} />
+                <NavigationTimeline navigationSequence={navigationData.navigation_sequence || []} />
+              </>
+            )}
+          </TabsContent>
+        </Tabs>
+      </div>
+    </AuroraBackground>
   );
 }
