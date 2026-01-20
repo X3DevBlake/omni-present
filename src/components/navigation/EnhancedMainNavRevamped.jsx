@@ -6,7 +6,7 @@ import { HubRegistry, HubCategories } from './HubRegistry';
 import Hub3DIcon from '../3d/Hub3DIcon';
 import Enhanced3DNavIcon from './Enhanced3DNavIcons';
 import ProfileIcon from './ProfileIcon';
-import { Menu, X, Sparkles, ChevronRight, Zap, Globe } from 'lucide-react';
+import { Menu, X, Sparkles, ChevronRight, Zap, Globe, Radio } from 'lucide-react';
 import AuroraBackground from '../omni/AuroraBackground';
 import { Canvas } from '@react-three/fiber';
 import MiniAgentActivityGlobe from './MiniAgentActivityGlobe';
@@ -45,10 +45,13 @@ export default function EnhancedMainNavRevamped() {
             )}
           </motion.button>
 
-          <Link to={createPageUrl('HomeEnhanced')}>
-            <h1 className="text-xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-              OMNI-PRESENT
-            </h1>
+          <Link to={createPageUrl('Home')}>
+            <div className="flex items-center gap-2">
+              <Radio className="w-5 h-5 text-cyan-400" />
+              <h1 className="text-xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+                OMNI-PRESENT
+              </h1>
+            </div>
           </Link>
 
           <ProfileIcon />
@@ -72,11 +75,14 @@ export default function EnhancedMainNavRevamped() {
                   animate={{ y: 0, opacity: 1 }}
                   className="mb-12"
                 >
-                  <h1 className="text-6xl font-bold text-white mb-4 bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-purple-400">
-                    Navigate Your Universe
-                  </h1>
+                  <div className="flex items-center justify-center gap-4 mb-4">
+                    <Radio className="w-12 h-12 text-cyan-400" />
+                    <h1 className="text-6xl font-bold text-white bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-purple-400">
+                      Omni-Present
+                    </h1>
+                  </div>
                   <p className="text-white/60 text-xl">
-                    {HubRegistry.length} hubs • Powered by AI
+                    {HubRegistry.length} hubs • Agents that live in your world
                   </p>
                 </motion.div>
 
