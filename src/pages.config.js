@@ -340,6 +340,7 @@ import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
 import AdvancedAICapabilitiesHub from './pages/AdvancedAICapabilitiesHub';
 import BackendInfrastructureHub from './pages/BackendInfrastructureHub';
+import CollaborationOrchestrationHub from './pages/CollaborationOrchestrationHub';
 import __Layout from './Layout.jsx';
 
 
@@ -686,6 +687,7 @@ export const PAGES = {
     "World": World,
     "AdvancedAICapabilitiesHub": AdvancedAICapabilitiesHub,
     "BackendInfrastructureHub": BackendInfrastructureHub,
+    "CollaborationOrchestrationHub": CollaborationOrchestrationHub,
 }
 
 export const pagesConfig = {
