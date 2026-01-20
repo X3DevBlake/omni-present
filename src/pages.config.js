@@ -333,6 +333,7 @@ import World from './pages/World';
 import MetaLearningHub from './pages/MetaLearningHub';
 import NextGenMLHub from './pages/NextGenMLHub';
 import HybridMLHub from './pages/HybridMLHub';
+import AdvancedReasoningHub from './pages/AdvancedReasoningHub';
 import __Layout from './Layout.jsx';
 
 
@@ -672,6 +673,7 @@ export const PAGES = {
     "MetaLearningHub": MetaLearningHub,
     "NextGenMLHub": NextGenMLHub,
     "HybridMLHub": HybridMLHub,
+    "AdvancedReasoningHub": AdvancedReasoningHub,
 }
 
 export const pagesConfig = {
