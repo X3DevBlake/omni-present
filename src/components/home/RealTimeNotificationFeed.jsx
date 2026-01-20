@@ -23,6 +23,12 @@ export default function RealTimeNotificationFeed() {
           3
         );
 
+        const liveFeeds = await base44.entities.LiveDataFeed.filter(
+          { is_active: true, feed_type: 'threat_intel' },
+          '-created_date',
+          3
+        );
+
         const anomalies = await base44.entities.AnomalyDetector.list('-created_date', 3);
         
         const notifs = [
@@ -39,6 +45,13 @@ export default function RealTimeNotificationFeed() {
             title: `Security: ${t.threat_name}`,
             message: `${t.severity_level} threat detected`,
             timestamp: t.created_date
+          })),
+          ...liveFeeds.map(f => ({
+            id: f.id,
+            type: 'critical',
+            title: `Live Alert: ${f.feed_name}`,
+            message: f.current_value?.description || 'Threat detected',
+            timestamp: f.created_date
           }))
         ].sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 

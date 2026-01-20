@@ -344,6 +344,8 @@ import WithdrawOmni from './pages/WithdrawOmni';
 import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
+import EnhancedSimulationHub from './pages/EnhancedSimulationHub';
+import AICollaborativeIntelligenceHub from './pages/AICollaborativeIntelligenceHub';
 import __Layout from './Layout.jsx';
 
 
@@ -694,6 +696,8 @@ export const PAGES = {
     "WorkflowAutomationHub": WorkflowAutomationHub,
     "WorkflowOrchestrationHub": WorkflowOrchestrationHub,
     "World": World,
+    "EnhancedSimulationHub": EnhancedSimulationHub,
+    "AICollaborativeIntelligenceHub": AICollaborativeIntelligenceHub,
 }
 
 export const pagesConfig = {

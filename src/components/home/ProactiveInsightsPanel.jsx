@@ -7,6 +7,36 @@ import { createPageUrl } from '@/utils';
 import { Link } from 'react-router-dom';
 
 export default function ProactiveInsightsPanel({ insights = [], onDismiss }) {
+  const [liveFeeds, setLiveFeeds] = useState([]);
+
+  useEffect(() => {
+    const fetchLiveData = async () => {
+      try {
+        const feeds = await base44.entities.LiveDataFeed.filter({ is_active: true }, '-created_date', 5);
+        setLiveFeeds(feeds);
+      } catch (error) {
+        console.error('Failed to fetch live feeds:', error);
+      }
+    };
+
+    fetchLiveData();
+    const interval = setInterval(fetchLiveData, 30000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const combinedInsights = [
+    ...insights,
+    ...liveFeeds.filter(f => f.feed_type === 'news' || f.feed_type === 'threat_intel').map(f => ({
+      id: f.id,
+      insight_type: f.feed_type === 'threat_intel' ? 'warning' : 'trend',
+      title: f.feed_name,
+      message: f.current_value?.summary || f.current_value?.description || 'Live data update',
+      urgency: f.feed_type === 'threat_intel' ? 'high' : 'medium',
+      confidence: f.impact_analysis?.impact_score || 0.7,
+      source: 'Real-Time Feed'
+    }))
+  ].slice(0, 5);
+
   const getIcon = (type) => {
     switch (type) {
       case 'warning': return <AlertTriangle className="w-5 h-5" />;
