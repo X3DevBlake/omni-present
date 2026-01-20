@@ -140,8 +140,9 @@ export default function AIAgentMarketplace() {
         </div>
 
         <Tabs defaultValue="browse" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4 bg-black/30 p-1">
+          <TabsList className="grid w-full grid-cols-5 bg-black/30 p-1">
             <TabsTrigger value="browse">Browse</TabsTrigger>
+            <TabsTrigger value="filters">Filters</TabsTrigger>
             <TabsTrigger value="recommend">AI Recommendations</TabsTrigger>
             <TabsTrigger value="pricing">Dynamic Pricing</TabsTrigger>
             <TabsTrigger value="3d">Market Dynamics</TabsTrigger>

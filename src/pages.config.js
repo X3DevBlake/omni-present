@@ -79,6 +79,7 @@ import AssetBrowser from './pages/AssetBrowser';
 import AssetUpload from './pages/AssetUpload';
 import AuditLogs from './pages/AuditLogs';
 import AutomatedFinanceHub from './pages/AutomatedFinanceHub';
+import AutomationsHub from './pages/AutomationsHub';
 import AutonomousAgentSystem from './pages/AutonomousAgentSystem';
 import AutonomousCollaborationHub from './pages/AutonomousCollaborationHub';
 import AutonomyControlCenter from './pages/AutonomyControlCenter';
@@ -107,8 +108,8 @@ import CollaborativeWorkspace from './pages/CollaborativeWorkspace';
 import CommunicationAnalyticsHub from './pages/CommunicationAnalyticsHub';
 import Communications from './pages/Communications';
 import CommunicationsHub from './pages/CommunicationsHub';
-import Community from './pages/Community';
 import Contact from './pages/Contact';
+import Community from './pages/Community';
 import CommunityCreations from './pages/CommunityCreations';
 import CommunityGuidelines from './pages/CommunityGuidelines';
 import CommunityGuidelinesEnhanced from './pages/CommunityGuidelinesEnhanced';
@@ -336,7 +337,6 @@ import WithdrawOmni from './pages/WithdrawOmni';
 import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
-import AutomationsHub from './pages/AutomationsHub';
 import __Layout from './Layout.jsx';
 
 
@@ -422,6 +422,7 @@ export const PAGES = {
     "AssetUpload": AssetUpload,
     "AuditLogs": AuditLogs,
     "AutomatedFinanceHub": AutomatedFinanceHub,
+    "AutomationsHub": AutomationsHub,
     "AutonomousAgentSystem": AutonomousAgentSystem,
     "AutonomousCollaborationHub": AutonomousCollaborationHub,
     "AutonomyControlCenter": AutonomyControlCenter,
@@ -450,8 +451,8 @@ export const PAGES = {
     "CommunicationAnalyticsHub": CommunicationAnalyticsHub,
     "Communications": Communications,
     "CommunicationsHub": CommunicationsHub,
-    "Community": Community,
     "Contact": Contact,
+    "Community": Community,
     "CommunityCreations": CommunityCreations,
     "CommunityGuidelines": CommunityGuidelines,
     "CommunityGuidelinesEnhanced": CommunityGuidelinesEnhanced,
@@ -679,7 +680,6 @@ export const PAGES = {
     "WorkflowAutomationHub": WorkflowAutomationHub,
     "WorkflowOrchestrationHub": WorkflowOrchestrationHub,
     "World": World,
-    "AutomationsHub": AutomationsHub,
 }
 
 export const pagesConfig = {
