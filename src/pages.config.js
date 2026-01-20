@@ -352,6 +352,7 @@ import World from './pages/World';
 import WorldHubEnhanced from './pages/WorldHubEnhanced';
 import AutomationOrchestrationHub from './pages/AutomationOrchestrationHub';
 import SecurityIntelligenceHub from './pages/SecurityIntelligenceHub';
+import PredictiveIntelligenceHub from './pages/PredictiveIntelligenceHub';
 import __Layout from './Layout.jsx';
 
 
@@ -710,6 +711,7 @@ export const PAGES = {
     "WorldHubEnhanced": WorldHubEnhanced,
     "AutomationOrchestrationHub": AutomationOrchestrationHub,
     "SecurityIntelligenceHub": SecurityIntelligenceHub,
+    "PredictiveIntelligenceHub": PredictiveIntelligenceHub,
 }
 
 export const pagesConfig = {
