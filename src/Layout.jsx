@@ -15,6 +15,8 @@ import IntelligentNavBar from './components/navigation/IntelligentNavBar';
 import GestureControlOverlay from './components/navigation/GestureControlOverlay';
 import SmartBreadcrumbs from './components/navigation/SmartBreadcrumbs';
 import FloatingMiniMap from './components/navigation/FloatingMiniMap';
+import AdaptiveNavigationAI from './components/navigation/AdaptiveNavigationAI';
+import QuickAccessShortcuts from './components/navigation/QuickAccessShortcuts';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -64,6 +66,8 @@ function LayoutContent({ children, currentPageName }) {
       <GestureControlOverlay onGesture={(g) => console.log('Gesture:', g)} />
       <ContextualNavSuggestions />
       <FloatingMiniMap currentPage={currentPageName} hubs={[]} />
+      <AdaptiveNavigationAI />
+      <QuickAccessShortcuts />
       <ImmersivePageTransition>
         <EnhancedMainNavRevamped />
         <BackButton />

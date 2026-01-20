@@ -348,6 +348,7 @@ import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
 import EnhancedOmniCardHub from './pages/EnhancedOmniCardHub';
 import CryptoSwapHub from './pages/CryptoSwapHub';
+import NavigationControl from './pages/NavigationControl';
 import __Layout from './Layout.jsx';
 
 
@@ -702,6 +703,7 @@ export const PAGES = {
     "World": World,
     "EnhancedOmniCardHub": EnhancedOmniCardHub,
     "CryptoSwapHub": CryptoSwapHub,
+    "NavigationControl": NavigationControl,
 }
 
 export const pagesConfig = {
