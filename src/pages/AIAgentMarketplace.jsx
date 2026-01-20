@@ -10,10 +10,12 @@ import AuroraBackground from '../components/omni/AuroraBackground';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import MarketplaceDynamics3D from '../components/marketplace/MarketplaceDynamics3D';
+import AdvancedSpecializationFilters from '../components/marketplace/AdvancedSpecializationFilters';
 
 export default function AIAgentMarketplace() {
   const queryClient = useQueryClient();
   const [taskDesc, setTaskDesc] = useState('Advanced data analysis');
+  const [filters, setFilters] = useState({});
 
   const { data: profiles } = useQuery({
     queryKey: ['marketplace-profiles'],
@@ -48,6 +50,32 @@ export default function AIAgentMarketplace() {
     if (!profiles || profiles.length === 0) return 0;
     return profiles.reduce((sum, p) => sum + (p.pricing_model?.current_price || 0), 0) / profiles.length;
   }, [profiles]);
+
+  const filteredProfiles = React.useMemo(() => {
+    if (!profiles) return [];
+    return profiles.filter(profile => {
+      if (filters.skills?.length > 0) {
+        const hasSkills = filters.skills.some(skill => 
+          profile.specializations?.some(spec => spec.toLowerCase().includes(skill.toLowerCase()))
+        );
+        if (!hasSkills) return false;
+      }
+      if (filters.minProficiency > 0) {
+        const avgProf = profile.skills_profile?.reduce((sum, s) => sum + s.level, 0) / (profile.skills_profile?.length || 1);
+        if (avgProf < filters.minProficiency) return false;
+      }
+      if (filters.minReputation > 0 && (profile.collaboration_score || 0) < filters.minReputation) return false;
+      if (filters.maxPrice < 1000 && (profile.pricing_model?.current_price || 0) > filters.maxPrice) return false;
+      if (filters.availability > 0 && (profile.availability_score || 0) < filters.availability) return false;
+      if (filters.searchTerm) {
+        const searchLower = filters.searchTerm.toLowerCase();
+        const matchesSearch = profile.specializations?.some(s => s.toLowerCase().includes(searchLower)) ||
+          profile.agent_id?.toLowerCase().includes(searchLower);
+        if (!matchesSearch) return false;
+      }
+      return true;
+    });
+  }, [profiles, filters]);
 
   return (
     <AuroraBackground className="min-h-screen py-8 px-4">
@@ -106,8 +134,15 @@ export default function AIAgentMarketplace() {
           </TabsList>
 
           <TabsContent value="browse">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {profiles?.map((profile) => (
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
+              <div className="lg:col-span-1">
+                <AdvancedSpecializationFilters 
+                  onFilterChange={setFilters}
+                  availableSkills={[]}
+                />
+              </div>
+              <div className="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {filteredProfiles?.map((profile) => (
                 <Card key={profile.id} className="bg-white/5 border-white/10">
                   <CardContent className="p-6">
                     <div className="flex items-center justify-between mb-4">
@@ -162,7 +197,13 @@ export default function AIAgentMarketplace() {
                   </CardContent>
                 </Card>
               ))}
+              </div>
             </div>
+            {filteredProfiles?.length === 0 && (
+              <div className="lg:col-span-3 text-center py-12">
+                <p className="text-white/60">No agents match your filters</p>
+              </div>
+            )}
           </TabsContent>
 
           <TabsContent value="recommend">
