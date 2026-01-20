@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { HubRegistry, HubCategories } from './HubRegistry';
 import Hub3DIcon from '../3d/Hub3DIcon';
+import Enhanced3DNavIcon from './Enhanced3DNavIcons';
+import ProfileIcon from './ProfileIcon';
 import { Menu, X, Sparkles, ChevronRight, Zap, Globe } from 'lucide-react';
 import AuroraBackground from '../omni/AuroraBackground';
 import { Canvas } from '@react-three/fiber';
@@ -27,19 +29,31 @@ export default function EnhancedMainNavRevamped() {
 
   return (
     <>
-      {/* Floating Menu Button */}
-      <motion.button
-        onClick={() => setIsOpen(!isOpen)}
-        className="fixed top-4 left-4 z-50 p-3 bg-gradient-to-br from-cyan-500/20 to-purple-500/20 backdrop-blur-xl border border-white/20 rounded-full shadow-2xl"
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.95 }}
-      >
-        {isOpen ? (
-          <X className="w-6 h-6 text-white" />
-        ) : (
-          <Menu className="w-6 h-6 text-white" />
-        )}
-      </motion.button>
+      {/* Top Navigation Bar */}
+      <div className="fixed top-0 left-0 right-0 z-50 bg-black/30 backdrop-blur-xl border-b border-white/10">
+        <div className="container mx-auto px-6 py-3 flex items-center justify-between">
+          <motion.button
+            onClick={() => setIsOpen(!isOpen)}
+            className="p-2 hover:bg-white/10 rounded-lg transition-all"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            {isOpen ? (
+              <X className="w-6 h-6 text-white" />
+            ) : (
+              <Menu className="w-6 h-6 text-white" />
+            )}
+          </motion.button>
+
+          <Link to={createPageUrl('HomeEnhanced')}>
+            <h1 className="text-xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+              OMNI-PRESENT
+            </h1>
+          </Link>
+
+          <ProfileIcon />
+        </div>
+      </div>
 
       {/* Full Screen Navigation Overlay */}
       <AnimatePresence>
@@ -192,12 +206,9 @@ export default function EnhancedMainNavRevamped() {
                                   </Canvas>
                                 </div>
                               ) : (
-                                <Hub3DIcon 
-                                  type={hub.icon3d} 
-                                  color={hub.color}
-                                  isHovered={hoveredHub === hub.id}
-                                  size={100}
-                                />
+                                <div className="flex items-center justify-center">
+                                  <Enhanced3DNavIcon type={hub.icon3d} size={120} />
+                                </div>
                               )}
                             </div>
 
