@@ -20,12 +20,14 @@ import AchievementsAwards from './pages/AchievementsAwards';
 import ActivityLog from './pages/ActivityLog';
 import AdminHome from './pages/AdminHome';
 import AdvancedAgentCapabilities from './pages/AdvancedAgentCapabilities';
+import AdvancedAgentTrainingHub from './pages/AdvancedAgentTrainingHub';
 import AdvancedCollaborationHub from './pages/AdvancedCollaborationHub';
 import AdvancedCommunicationHub from './pages/AdvancedCommunicationHub';
 import AdvancedDeFiHub from './pages/AdvancedDeFiHub';
 import AdvancedDeFiRiskHub from './pages/AdvancedDeFiRiskHub';
 import AdvancedDeFiTrading from './pages/AdvancedDeFiTrading';
 import AdvancedFinancialEcosystem from './pages/AdvancedFinancialEcosystem';
+import AdvancedIntelligenceHub from './pages/AdvancedIntelligenceHub';
 import AdvancedMLHub from './pages/AdvancedMLHub';
 import AdvancedPredictionCenter from './pages/AdvancedPredictionCenter';
 import AdvancedSimulation from './pages/AdvancedSimulation';
@@ -156,16 +158,19 @@ import EmergentBehavior from './pages/EmergentBehavior';
 import EnhancedAIAgentMarketplace from './pages/EnhancedAIAgentMarketplace';
 import EnhancedAgentCreator from './pages/EnhancedAgentCreator';
 import EnhancedAgentMarketplace from './pages/EnhancedAgentMarketplace';
+import EnhancedAgentTrainingHub from './pages/EnhancedAgentTrainingHub';
 import EnhancedAnalyticsHub from './pages/EnhancedAnalyticsHub';
 import EnhancedAnomalyDashboard from './pages/EnhancedAnomalyDashboard';
 import EnhancedBankingHub from './pages/EnhancedBankingHub';
 import EnhancedCollaborationHub from './pages/EnhancedCollaborationHub';
+import EnhancedCollaborationStudio from './pages/EnhancedCollaborationStudio';
 import EnhancedCommunications from './pages/EnhancedCommunications';
 import EnhancedCommunityHub from './pages/EnhancedCommunityHub';
 import EnhancedDashboard from './pages/EnhancedDashboard';
 import EnhancedDeFiHub from './pages/EnhancedDeFiHub';
 import EnhancedDeFiTradingHub from './pages/EnhancedDeFiTradingHub';
 import EnhancedGamificationHub from './pages/EnhancedGamificationHub';
+import EnhancedGovernanceHub from './pages/EnhancedGovernanceHub';
 import EnhancedIntegrationHub from './pages/EnhancedIntegrationHub';
 import EnhancedKnowledgeHub from './pages/EnhancedKnowledgeHub';
 import EnhancedMarketplace from './pages/EnhancedMarketplace';
@@ -268,6 +273,7 @@ import ProactiveMonitoring from './pages/ProactiveMonitoring';
 import ProceduralSimulationStudio from './pages/ProceduralSimulationStudio';
 import Profile from './pages/Profile';
 import ProfileHome from './pages/ProfileHome';
+import QuantumComputingHub from './pages/QuantumComputingHub';
 import RealWorldBudget from './pages/RealWorldBudget';
 import RealtimeDashboard from './pages/RealtimeDashboard';
 import ReferralProgram from './pages/ReferralProgram';
@@ -324,12 +330,7 @@ import WithdrawOmni from './pages/WithdrawOmni';
 import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
-import AdvancedAgentTrainingHub from './pages/AdvancedAgentTrainingHub';
-import EnhancedAgentTrainingHub from './pages/EnhancedAgentTrainingHub';
-import EnhancedGovernanceHub from './pages/EnhancedGovernanceHub';
-import EnhancedCollaborationStudio from './pages/EnhancedCollaborationStudio';
-import QuantumComputingHub from './pages/QuantumComputingHub';
-import AdvancedIntelligenceHub from './pages/AdvancedIntelligenceHub';
+import MetaLearningHub from './pages/MetaLearningHub';
 import __Layout from './Layout.jsx';
 
 
@@ -356,12 +357,14 @@ export const PAGES = {
     "ActivityLog": ActivityLog,
     "AdminHome": AdminHome,
     "AdvancedAgentCapabilities": AdvancedAgentCapabilities,
+    "AdvancedAgentTrainingHub": AdvancedAgentTrainingHub,
     "AdvancedCollaborationHub": AdvancedCollaborationHub,
     "AdvancedCommunicationHub": AdvancedCommunicationHub,
     "AdvancedDeFiHub": AdvancedDeFiHub,
     "AdvancedDeFiRiskHub": AdvancedDeFiRiskHub,
     "AdvancedDeFiTrading": AdvancedDeFiTrading,
     "AdvancedFinancialEcosystem": AdvancedFinancialEcosystem,
+    "AdvancedIntelligenceHub": AdvancedIntelligenceHub,
     "AdvancedMLHub": AdvancedMLHub,
     "AdvancedPredictionCenter": AdvancedPredictionCenter,
     "AdvancedSimulation": AdvancedSimulation,
@@ -492,16 +495,19 @@ export const PAGES = {
     "EnhancedAIAgentMarketplace": EnhancedAIAgentMarketplace,
     "EnhancedAgentCreator": EnhancedAgentCreator,
     "EnhancedAgentMarketplace": EnhancedAgentMarketplace,
+    "EnhancedAgentTrainingHub": EnhancedAgentTrainingHub,
     "EnhancedAnalyticsHub": EnhancedAnalyticsHub,
     "EnhancedAnomalyDashboard": EnhancedAnomalyDashboard,
     "EnhancedBankingHub": EnhancedBankingHub,
     "EnhancedCollaborationHub": EnhancedCollaborationHub,
+    "EnhancedCollaborationStudio": EnhancedCollaborationStudio,
     "EnhancedCommunications": EnhancedCommunications,
     "EnhancedCommunityHub": EnhancedCommunityHub,
     "EnhancedDashboard": EnhancedDashboard,
     "EnhancedDeFiHub": EnhancedDeFiHub,
     "EnhancedDeFiTradingHub": EnhancedDeFiTradingHub,
     "EnhancedGamificationHub": EnhancedGamificationHub,
+    "EnhancedGovernanceHub": EnhancedGovernanceHub,
     "EnhancedIntegrationHub": EnhancedIntegrationHub,
     "EnhancedKnowledgeHub": EnhancedKnowledgeHub,
     "EnhancedMarketplace": EnhancedMarketplace,
@@ -604,6 +610,7 @@ export const PAGES = {
     "ProceduralSimulationStudio": ProceduralSimulationStudio,
     "Profile": Profile,
     "ProfileHome": ProfileHome,
+    "QuantumComputingHub": QuantumComputingHub,
     "RealWorldBudget": RealWorldBudget,
     "RealtimeDashboard": RealtimeDashboard,
     "ReferralProgram": ReferralProgram,
@@ -660,12 +667,7 @@ export const PAGES = {
     "WorkflowAutomationHub": WorkflowAutomationHub,
     "WorkflowOrchestrationHub": WorkflowOrchestrationHub,
     "World": World,
-    "AdvancedAgentTrainingHub": AdvancedAgentTrainingHub,
-    "EnhancedAgentTrainingHub": EnhancedAgentTrainingHub,
-    "EnhancedGovernanceHub": EnhancedGovernanceHub,
-    "EnhancedCollaborationStudio": EnhancedCollaborationStudio,
-    "QuantumComputingHub": QuantumComputingHub,
-    "AdvancedIntelligenceHub": AdvancedIntelligenceHub,
+    "MetaLearningHub": MetaLearningHub,
 }
 
 export const pagesConfig = {
