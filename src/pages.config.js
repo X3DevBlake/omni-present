@@ -332,6 +332,7 @@ import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
 import MetaLearningHub from './pages/MetaLearningHub';
 import NextGenMLHub from './pages/NextGenMLHub';
+import HybridMLHub from './pages/HybridMLHub';
 import __Layout from './Layout.jsx';
 
 
@@ -670,6 +671,7 @@ export const PAGES = {
     "World": World,
     "MetaLearningHub": MetaLearningHub,
     "NextGenMLHub": NextGenMLHub,
+    "HybridMLHub": HybridMLHub,
 }
 
 export const pagesConfig = {
