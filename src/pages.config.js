@@ -75,6 +75,7 @@ import AgentVideoInterface from './pages/AgentVideoInterface';
 import AlertManagementDashboard from './pages/AlertManagementDashboard';
 import AlignmentHub from './pages/AlignmentHub';
 import Analytics from './pages/Analytics';
+import AnalyticsIntelligenceHub from './pages/AnalyticsIntelligenceHub';
 import Architecture from './pages/Architecture';
 import AssetBrowser from './pages/AssetBrowser';
 import AssetUpload from './pages/AssetUpload';
@@ -299,6 +300,7 @@ import SandboxHub from './pages/SandboxHub';
 import SandboxSimulationHub from './pages/SandboxSimulationHub';
 import ScenarioTesting from './pages/ScenarioTesting';
 import Security from './pages/Security';
+import SecurityComplianceHub from './pages/SecurityComplianceHub';
 import SecurityMonitoringHub from './pages/SecurityMonitoringHub';
 import SellOmni from './pages/SellOmni';
 import SensorDataAnalysis from './pages/SensorDataAnalysis';
@@ -334,15 +336,14 @@ import UserRoleManagement from './pages/UserRoleManagement';
 import UserRolesPermissions from './pages/UserRolesPermissions';
 import VirtualClassrooms from './pages/VirtualClassrooms';
 import Wallet from './pages/Wallet';
-import Webhooks from './pages/Webhooks';
 import WebhookManager from './pages/WebhookManager';
+import Webhooks from './pages/Webhooks';
 import WebhooksHub from './pages/WebhooksHub';
 import WithdrawOmni from './pages/WithdrawOmni';
 import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
-import AnalyticsIntelligenceHub from './pages/AnalyticsIntelligenceHub';
-import SecurityComplianceHub from './pages/SecurityComplianceHub';
+import HomeEnhanced from './pages/HomeEnhanced';
 import __Layout from './Layout.jsx';
 
 
@@ -424,6 +425,7 @@ export const PAGES = {
     "AlertManagementDashboard": AlertManagementDashboard,
     "AlignmentHub": AlignmentHub,
     "Analytics": Analytics,
+    "AnalyticsIntelligenceHub": AnalyticsIntelligenceHub,
     "Architecture": Architecture,
     "AssetBrowser": AssetBrowser,
     "AssetUpload": AssetUpload,
@@ -648,6 +650,7 @@ export const PAGES = {
     "SandboxSimulationHub": SandboxSimulationHub,
     "ScenarioTesting": ScenarioTesting,
     "Security": Security,
+    "SecurityComplianceHub": SecurityComplianceHub,
     "SecurityMonitoringHub": SecurityMonitoringHub,
     "SellOmni": SellOmni,
     "SensorDataAnalysis": SensorDataAnalysis,
@@ -683,15 +686,14 @@ export const PAGES = {
     "UserRolesPermissions": UserRolesPermissions,
     "VirtualClassrooms": VirtualClassrooms,
     "Wallet": Wallet,
-    "Webhooks": Webhooks,
     "WebhookManager": WebhookManager,
+    "Webhooks": Webhooks,
     "WebhooksHub": WebhooksHub,
     "WithdrawOmni": WithdrawOmni,
     "WorkflowAutomationHub": WorkflowAutomationHub,
     "WorkflowOrchestrationHub": WorkflowOrchestrationHub,
     "World": World,
-    "AnalyticsIntelligenceHub": AnalyticsIntelligenceHub,
-    "SecurityComplianceHub": SecurityComplianceHub,
+    "HomeEnhanced": HomeEnhanced,
 }
 
 export const pagesConfig = {
