@@ -1,207 +1,214 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Badge } from '@/components/ui/badge';
-import AuroraBackground from '@/components/omni/AuroraBackground';
-import QuantumOptimization3D from '@/components/optimization/QuantumOptimization3D';
-import NeuralArchitectureExplorer3D from '@/components/ml/NeuralArchitectureExplorer3D';
-import FederatedLearningNetwork3D from '@/components/ml/FederatedLearningNetwork3D';
-import { Brain, Cpu, Network, Zap } from 'lucide-react';
+import { Brain, Layers, Network, Sparkles } from 'lucide-react';
+import ContinualLearning3D from '../components/continual/ContinualLearning3D';
+import MultiModal3D from '../components/multimodal/MultiModal3D';
+import GraphNeuralNet3D from '../components/gnn/GraphNeuralNet3D';
+import SelfSupervised3D from '../components/selfsupervised/SelfSupervised3D';
+import AuroraBackground from '../components/omni/AuroraBackground';
 
 export default function AdvancedMLHub() {
-  const [searchTask, setSearchTask] = useState('');
   const queryClient = useQueryClient();
 
-  const { data: quantumConfigs = [] } = useQuery({
-    queryKey: ['quantum-optimizations'],
-    queryFn: () => base44.entities.QuantumOptimizationConfig.list()
+  const { data: continualLearners } = useQuery({
+    queryKey: ['continual-learners'],
+    queryFn: () => base44.entities.ContinualLearner.list('-created_date', 5)
   });
 
-  const { data: nasResults = [] } = useQuery({
-    queryKey: ['neural-architecture-searches'],
-    queryFn: () => base44.entities.NeuralArchitectureSearch.list()
+  const { data: multiModalModels } = useQuery({
+    queryKey: ['multimodal-models'],
+    queryFn: () => base44.entities.MultiModalModel.list('-created_date', 5)
   });
 
-  const { data: federatedNodes = [] } = useQuery({
-    queryKey: ['federated-nodes'],
-    queryFn: () => base44.entities.FederatedLearningNode.list()
+  const { data: gnns } = useQuery({
+    queryKey: ['graph-networks'],
+    queryFn: () => base44.entities.GraphNeuralNet.list('-created_date', 5)
   });
 
-  const runQuantumMutation = useMutation({
+  const { data: sslTasks } = useQuery({
+    queryKey: ['ssl-tasks'],
+    queryFn: () => base44.entities.SelfSupervisedTask.list('-created_date', 5)
+  });
+
+  const trainContinual = useMutation({
     mutationFn: async () => {
-      const response = await base44.functions.invoke('runQuantumOptimization', {
-        optimization_target: 'agent_task_allocation',
-        quantum_algorithm: 'qaoa',
-        parameter_space: {
-          alpha: { min: 0, max: 1 },
-          beta: { min: 0, max: 1 },
-          gamma: { min: 0, max: Math.PI }
-        }
+      const response = await base44.functions.invoke('trainContinualLearner', {
+        learner_name: 'CL_System_v1',
+        learning_strategy: 'EWC',
+        num_tasks: 10
       });
       return response.data;
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries(['quantum-optimizations']);
-    }
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['continual-learners'] })
   });
 
-  const runNASMutation = useMutation({
+  const trainMultiModal = useMutation({
     mutationFn: async () => {
-      const response = await base44.functions.invoke('neuralArchitectureSearch', {
-        search_name: `NAS-${Date.now()}`,
-        target_task: searchTask || 'general_classification',
-        max_iterations: 30
+      const response = await base44.functions.invoke('trainMultiModal', {
+        model_name: 'Unified_AI',
+        modalities: ['vision', 'text', 'audio'],
+        fusion_strategy: 'attention_fusion'
       });
       return response.data;
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries(['neural-architecture-searches']);
-    }
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['multimodal-models'] })
   });
 
-  const runFederatedMutation = useMutation({
+  const buildGNN = useMutation({
     mutationFn: async () => {
-      const response = await base44.functions.invoke('runFederatedLearning', {
-        model_version: 'v1.0',
-        aggregation_rounds: 5
+      const response = await base44.functions.invoke('buildGraphNetwork', {
+        network_name: 'Social_GNN',
+        architecture_type: 'GAT',
+        num_nodes: 100,
+        num_edges: 300
       });
       return response.data;
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries(['federated-nodes']);
-    }
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['graph-networks'] })
+  });
+
+  const trainSSL = useMutation({
+    mutationFn: async () => {
+      const response = await base44.functions.invoke('trainSelfSupervised', {
+        task_name: 'Vision_SSL',
+        pretext_task: 'contrastive',
+        data_size: 100000
+      });
+      return response.data;
+    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['ssl-tasks'] })
   });
 
   return (
     <AuroraBackground className="min-h-screen">
-      <div className="container mx-auto p-6 space-y-6">
-        <div className="text-center space-y-4 mb-8">
-          <h1 className="text-5xl font-bold text-white flex items-center justify-center gap-3">
-            <Brain className="w-12 h-12 text-cyan-400" />
-            Advanced ML Hub
-          </h1>
-          <p className="text-xl text-gray-300">
-            Quantum optimization, neural architecture search & federated learning
-          </p>
+      <div className="max-w-7xl mx-auto p-8">
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold text-white mb-2">Advanced ML Systems</h1>
+          <p className="text-white/70">Continual, multi-modal, graph & self-supervised learning</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <Card className="bg-gradient-to-br from-purple-900/50 to-purple-800/50 border-purple-700">
-            <CardContent className="pt-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-gray-400">Quantum Optimizations</p>
-                  <p className="text-3xl font-bold text-white">{quantumConfigs.length}</p>
-                </div>
-                <Zap className="w-10 h-10 text-purple-400" />
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-gradient-to-br from-blue-900/50 to-blue-800/50 border-blue-700">
-            <CardContent className="pt-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-gray-400">NAS Searches</p>
-                  <p className="text-3xl font-bold text-white">{nasResults.length}</p>
-                </div>
-                <Cpu className="w-10 h-10 text-blue-400" />
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-gradient-to-br from-green-900/50 to-green-800/50 border-green-700">
-            <CardContent className="pt-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-gray-400">FL Nodes</p>
-                  <p className="text-3xl font-bold text-white">{federatedNodes.length}</p>
-                </div>
-                <Network className="w-10 h-10 text-green-400" />
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        <Tabs defaultValue="quantum" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-3 bg-slate-900/50">
-            <TabsTrigger value="quantum">Quantum Optimization</TabsTrigger>
-            <TabsTrigger value="nas">Neural Architecture</TabsTrigger>
-            <TabsTrigger value="federated">Federated Learning</TabsTrigger>
+        <Tabs defaultValue="continual" className="space-y-6">
+          <TabsList className="bg-white/10 border border-white/20">
+            <TabsTrigger value="continual">Continual Learning</TabsTrigger>
+            <TabsTrigger value="multimodal">Multi-Modal</TabsTrigger>
+            <TabsTrigger value="gnn">Graph Networks</TabsTrigger>
+            <TabsTrigger value="ssl">Self-Supervised</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="quantum">
-            <Card className="bg-slate-900/50 border-slate-700 h-[600px]">
+          <TabsContent value="continual" className="space-y-6">
+            <Card className="bg-white/10 border-white/20 backdrop-blur-md">
               <CardHeader>
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-white">Quantum Optimization Landscape</CardTitle>
-                  <Button
-                    onClick={() => runQuantumMutation.mutate()}
-                    disabled={runQuantumMutation.isPending}
-                    className="bg-gradient-to-r from-purple-600 to-pink-600"
-                  >
-                    {runQuantumMutation.isPending ? 'Optimizing...' : 'Run Optimization'}
-                  </Button>
-                </div>
+                <CardTitle className="text-white flex items-center gap-2">
+                  <Brain className="w-5 h-5" />
+                  Lifelong Learning
+                </CardTitle>
               </CardHeader>
-              <CardContent className="h-[500px]">
-                <QuantumOptimization3D config={quantumConfigs[0]} />
+              <CardContent>
+                <Button
+                  onClick={() => trainContinual.mutate()}
+                  disabled={trainContinual.isPending}
+                  className="bg-gradient-to-r from-purple-600 to-pink-600"
+                >
+                  Train Continual Learner
+                </Button>
               </CardContent>
             </Card>
+
+            {continualLearners?.[0] && (
+              <Card className="bg-white/10 border-white/20 backdrop-blur-md">
+                <CardContent className="p-6">
+                  <ContinualLearning3D learner={continualLearners[0]} />
+                </CardContent>
+              </Card>
+            )}
           </TabsContent>
 
-          <TabsContent value="nas">
-            <Card className="bg-slate-900/50 border-slate-700 h-[600px]">
+          <TabsContent value="multimodal" className="space-y-6">
+            <Card className="bg-white/10 border-white/20 backdrop-blur-md">
               <CardHeader>
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-white">Neural Architecture Search</CardTitle>
-                  <div className="flex gap-2">
-                    <Input
-                      value={searchTask}
-                      onChange={(e) => setSearchTask(e.target.value)}
-                      placeholder="Task name..."
-                      className="bg-slate-800 border-slate-600 text-white w-48"
-                    />
-                    <Button
-                      onClick={() => runNASMutation.mutate()}
-                      disabled={runNASMutation.isPending}
-                      className="bg-gradient-to-r from-blue-600 to-purple-600"
-                    >
-                      {runNASMutation.isPending ? 'Searching...' : 'Search'}
-                    </Button>
-                  </div>
-                </div>
+                <CardTitle className="text-white flex items-center gap-2">
+                  <Layers className="w-5 h-5" />
+                  Cross-Modal Intelligence
+                </CardTitle>
               </CardHeader>
-              <CardContent className="h-[500px]">
-                <NeuralArchitectureExplorer3D
-                  architecture={nasResults[0]?.best_architecture}
-                />
+              <CardContent>
+                <Button
+                  onClick={() => trainMultiModal.mutate()}
+                  disabled={trainMultiModal.isPending}
+                  className="bg-gradient-to-r from-blue-600 to-cyan-600"
+                >
+                  Train Multi-Modal Model
+                </Button>
               </CardContent>
             </Card>
+
+            {multiModalModels?.[0] && (
+              <Card className="bg-white/10 border-white/20 backdrop-blur-md">
+                <CardContent className="p-6">
+                  <MultiModal3D model={multiModalModels[0]} />
+                </CardContent>
+              </Card>
+            )}
           </TabsContent>
 
-          <TabsContent value="federated">
-            <Card className="bg-slate-900/50 border-slate-700 h-[600px]">
+          <TabsContent value="gnn" className="space-y-6">
+            <Card className="bg-white/10 border-white/20 backdrop-blur-md">
               <CardHeader>
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-white">Federated Learning Network</CardTitle>
-                  <Button
-                    onClick={() => runFederatedMutation.mutate()}
-                    disabled={runFederatedMutation.isPending}
-                    className="bg-gradient-to-r from-green-600 to-blue-600"
-                  >
-                    {runFederatedMutation.isPending ? 'Training...' : 'Start Training'}
-                  </Button>
-                </div>
+                <CardTitle className="text-white flex items-center gap-2">
+                  <Network className="w-5 h-5" />
+                  Relational Reasoning
+                </CardTitle>
               </CardHeader>
-              <CardContent className="h-[500px]">
-                <FederatedLearningNetwork3D nodes={federatedNodes} />
+              <CardContent>
+                <Button
+                  onClick={() => buildGNN.mutate()}
+                  disabled={buildGNN.isPending}
+                  className="bg-gradient-to-r from-orange-600 to-amber-600"
+                >
+                  Build Graph Neural Network
+                </Button>
               </CardContent>
             </Card>
+
+            {gnns?.[0] && (
+              <Card className="bg-white/10 border-white/20 backdrop-blur-md">
+                <CardContent className="p-6">
+                  <GraphNeuralNet3D network={gnns[0]} />
+                </CardContent>
+              </Card>
+            )}
+          </TabsContent>
+
+          <TabsContent value="ssl" className="space-y-6">
+            <Card className="bg-white/10 border-white/20 backdrop-blur-md">
+              <CardHeader>
+                <CardTitle className="text-white flex items-center gap-2">
+                  <Sparkles className="w-5 h-5" />
+                  Unsupervised Representation Learning
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Button
+                  onClick={() => trainSSL.mutate()}
+                  disabled={trainSSL.isPending}
+                  className="bg-gradient-to-r from-green-600 to-emerald-600"
+                >
+                  Train Self-Supervised
+                </Button>
+              </CardContent>
+            </Card>
+
+            {sslTasks?.[0] && (
+              <Card className="bg-white/10 border-white/20 backdrop-blur-md">
+                <CardContent className="p-6">
+                  <SelfSupervised3D task={sslTasks[0]} />
+                </CardContent>
+              </Card>
+            )}
           </TabsContent>
         </Tabs>
       </div>
