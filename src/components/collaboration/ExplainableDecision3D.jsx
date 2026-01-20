@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, Text, Line, Sphere } from '@react-three/drie';
+import { OrbitControls, Text, Line, Sphere } from '@react-three/drei';
 import * as THREE from 'three';
 
 function ReasoningPath({ chain }) {
