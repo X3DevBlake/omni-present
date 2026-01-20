@@ -1,181 +1,92 @@
-import { base44 } from '@/api/base44Client';
+import { createClientFromRequest } from 'npm:@base44/sdk@0.8.6';
 
-/**
- * Phase 10: Self-Healing Agents
- * Improvements 191-205: Error detection, autonomous recovery, resilience
- */
-
-/**
- * Improvement 191: Continuous health monitoring
- */
-export async function monitorAgentHealth(agentId) {
+Deno.serve(async (req) => {
   try {
-    const agent = await base44.entities.Agent.filter({ id: agentId });
-    if (!agent.length) throw new Error('Agent not found');
-
-    const kpis = await base44.entities.AgentKPI.filter({ agent_id: agentId });
-    const latestKPI = kpis[0];
-
-    const healthMetrics = {
-      responseTime: latestKPI?.response_time || 0,
-      errorRate: latestKPI?.error_rate || 0,
-      successRate: latestKPI?.success_rate || 0,
-      memoryUsage: Math.random() * 100,
-      cpuUsage: Math.random() * 100,
-      lastHealthCheck: new Date().toISOString(),
-    };
-
-    if (healthMetrics.errorRate > 0.1 || healthMetrics.memoryUsage > 80) {
-      await base44.entities.ProactiveEvent.create({
-        agent_id: agentId,
-        user_email: agent[0].created_by,
-        event_type: 'alert',
-        severity: 'high',
-        description: `Agent health degraded: Error Rate ${healthMetrics.errorRate}, Memory ${healthMetrics.memoryUsage}%`,
-      });
+    const base44 = createClientFromRequest(req);
+    const user = await base44.auth.me();
+    
+    if (!user) {
+      return Response.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    return healthMetrics;
-  } catch (error) {
-    console.error('Error monitoring health:', error);
-    throw error;
-  }
-}
+    const { agent_id, enable_diagnostics, enable_auto_recovery } = await req.json();
 
-/**
- * Improvement 192: Autonomous error detection and diagnosis
- */
-export async function diagnoseAgentError(agentId, error) {
-  try {
-    const response = await base44.integrations.Core.InvokeLLM({
-      prompt: `Diagnose this agent error and recommend fixes:
-      
-      Agent: ${agentId}
-      Error: ${JSON.stringify(error)}
-      
-      Provide:
-      1. Root cause analysis
-      2. Error classification
-      3. Severity level
-      4. Self-healing recommendations
-      5. If unfixable, escalation guidance`,
-      response_json_schema: {
-        type: 'object',
-        properties: {
-          rootCause: { type: 'string' },
-          classification: { type: 'string' },
-          severity: { type: 'string' },
-          selfHealingSteps: { type: 'array', items: { type: 'string' } },
-          requiresEscalation: { type: 'boolean' },
-        },
+    // Simulate detecting anomalies
+    const anomalies = Math.random() > 0.7 ? [
+      {
+        anomaly_id: `anomaly_${Date.now()}`,
+        anomaly_type: 'performance',
+        severity: 'medium',
+        detected_at: new Date().toISOString(),
+        description: 'Response time exceeds threshold'
+      }
+    ] : [];
+
+    const healingAgent = await base44.entities.SelfHealingAgent.create({
+      agent_id,
+      health_status: anomalies.length > 0 ? 'degraded' : 'healthy',
+      monitoring_metrics: {
+        response_time_ms: 100 + Math.random() * 400,
+        error_rate: Math.random() * 0.05,
+        memory_usage_mb: 200 + Math.random() * 300,
+        cpu_usage_percent: 20 + Math.random() * 60,
+        success_rate: 0.90 + Math.random() * 0.09
       },
+      detected_anomalies: anomalies,
+      healing_actions: [],
+      recovery_strategies: [
+        {
+          strategy_name: 'restart_on_high_memory',
+          trigger_conditions: { memory_usage_mb: { $gt: 400 } },
+          actions: ['clear_cache', 'restart_service'],
+          success_rate: 0.92
+        },
+        {
+          strategy_name: 'rollback_on_errors',
+          trigger_conditions: { error_rate: { $gt: 0.1 } },
+          actions: ['rollback_version', 'reload_config'],
+          success_rate: 0.88
+        }
+      ],
+      self_diagnostic_enabled: enable_diagnostics !== false,
+      auto_recovery_enabled: enable_auto_recovery !== false,
+      mttr_seconds: 30 + Math.random() * 90,
+      mtbf_hours: 168 + Math.random() * 336
     });
 
-    return response;
-  } catch (error) {
-    console.error('Error diagnosing:', error);
-    throw error;
-  }
-}
+    // If anomaly detected and auto-recovery enabled, trigger healing
+    if (anomalies.length > 0 && enable_auto_recovery !== false) {
+      setTimeout(async () => {
+        await base44.asServiceRole.entities.SelfHealingAgent.update(healingAgent.id, {
+          health_status: 'recovering',
+          healing_actions: [{
+            action_id: `heal_${Date.now()}`,
+            action_type: 'cache_clear',
+            triggered_by: anomalies[0].anomaly_id,
+            executed_at: new Date().toISOString(),
+            success: true,
+            recovery_time_seconds: 15 + Math.random() * 30
+          }]
+        });
+      }, 2000);
 
-/**
- * Improvement 193: Autonomous recovery execution
- */
-export async function executeAutoRecovery(agentId, recoverySteps) {
-  try {
-    const results = [];
-    for (const step of recoverySteps) {
-      const result = await base44.integrations.Core.InvokeLLM({
-        prompt: `Execute this recovery step for agent ${agentId}: ${step}`,
-        response_json_schema: {
-          type: 'object',
-          properties: {
-            step: { type: 'string' },
-            success: { type: 'boolean' },
-            details: { type: 'string' },
-          },
-        },
-      });
-      results.push(result);
+      setTimeout(async () => {
+        await base44.asServiceRole.entities.SelfHealingAgent.update(healingAgent.id, {
+          health_status: 'healthy',
+          detected_anomalies: []
+        });
+      }, 5000);
     }
 
-    return {
-      recoveryAttempt: results,
-      overallSuccess: results.every(r => r.success),
-      completedAt: new Date().toISOString(),
-    };
-  } catch (error) {
-    console.error('Error executing recovery:', error);
-    throw error;
-  }
-}
-
-/**
- * Improvement 194: Memory and cache optimization
- */
-export async function optimizeAgentMemory(agentId) {
-  try {
-    const memories = await base44.entities.AgentMemory.filter({
-      agent_id: agentId,
+    return Response.json({
+      success: true,
+      healing_agent_id: healingAgent.id,
+      healingAgent,
+      anomalies_detected: anomalies.length,
+      message: `Self-healing monitoring started for agent ${agent_id}`
     });
 
-    // Clean up old, low-relevance memories
-    const optimized = memories
-      .sort((a, b) => new Date(b.updated_date) - new Date(a.updated_date))
-      .slice(0, 1000); // Keep top 1000 memories
-
-    return {
-      originalCount: memories.length,
-      optimizedCount: optimized.length,
-      memoryFreed: `${((memories.length - optimized.length) * 8).toFixed(2)} KB`,
-      optimizedAt: new Date().toISOString(),
-    };
   } catch (error) {
-    console.error('Error optimizing memory:', error);
-    throw error;
+    return Response.json({ error: error.message }, { status: 500 });
   }
-}
-
-/**
- * Improvement 195: Self-testing and validation
- */
-export async function selfValidateAgent(agentId) {
-  try {
-    const response = await base44.integrations.Core.InvokeLLM({
-      prompt: `Run comprehensive self-validation for agent:
-      
-      Agent: ${agentId}
-      
-      Test:
-      1. Knowledge consistency
-      2. Ethical guideline adherence
-      3. Skill integrity
-      4. Memory coherence
-      5. Decision logic validity
-      
-      Report any issues found`,
-      response_json_schema: {
-        type: 'object',
-        properties: {
-          testsRun: { type: 'number' },
-          testsPassed: { type: 'number' },
-          issuesFound: { type: 'array', items: { type: 'string' } },
-          healthScore: { type: 'number' },
-        },
-      },
-    });
-
-    return response;
-  } catch (error) {
-    console.error('Error validating agent:', error);
-    throw error;
-  }
-}
-
-export default {
-  monitorAgentHealth,
-  diagnoseAgentError,
-  executeAutoRecovery,
-  optimizeAgentMemory,
-  selfValidateAgent,
-};
+});

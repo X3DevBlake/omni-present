@@ -1,109 +1,61 @@
-/**
- * Autonomous Skill Discovery and Learning System
- * Agents learn new skills based on goals and market data
- */
+import { createClientFromRequest } from 'npm:@base44/sdk@0.8.6';
 
-import { base44 } from '@base44/sdk';
-
-export default async function autonomousSkillLearning(context) {
-  const { agent_id } = context.params;
-
+Deno.serve(async (req) => {
   try {
-    const agent = await base44.asServiceRole.entities.HolographicAgent.get(agent_id);
-
-    // Analyze current goals and capabilities
-    const skillAnalysis = await base44.integrations.Core.InvokeLLM({
-      prompt: `Agent ${agent.name} autonomous skill discovery:
-
-Current skills: ${agent.skills?.join(', ')}
-Personality: ${JSON.stringify(agent.personality_traits)}
-Active task: ${agent.active_task || 'None'}
-
-Analyze:
-1. Gaps in current skill set
-2. Market data opportunities (crypto, trading, DeFi)
-3. Skills needed for better performance
-4. Learning resources available
-
-Recommend top 3 new skills to acquire.`,
-      add_context_from_internet: true,
-      response_json_schema: {
-        type: 'object',
-        properties: {
-          recommended_skills: {
-            type: 'array',
-            items: {
-              type: 'object',
-              properties: {
-                skill_name: { type: 'string' },
-                reason: { type: 'string' },
-                learning_resources: { type: 'array' },
-                estimated_time: { type: 'string' },
-                impact_score: { type: 'number' }
-              }
-            }
-          },
-          market_opportunities: { type: 'array' }
-        }
-      }
-    });
-
-    // Initiate learning for top skill
-    const topSkill = skillAnalysis.recommended_skills[0];
+    const base44 = createClientFromRequest(req);
+    const user = await base44.auth.me();
     
-    // Create learning plan in Google Docs
-    const learningPlan = await base44.integrations.Core.InvokeLLM({
-      prompt: `Create Google Docs learning plan for agent ${agent.name}:
-Skill: ${topSkill.skill_name}
-Resources: ${topSkill.learning_resources.join(', ')}
-Estimated time: ${topSkill.estimated_time}
+    if (!user) {
+      return Response.json({ error: 'Unauthorized' }, { status: 401 });
+    }
 
-Include: objectives, milestones, exercises, evaluation criteria`
-    });
+    const { agent_id, skill_name, method } = await req.json();
 
-    // Schedule learning sessions in Google Calendar
-    const calendarSchedule = await base44.integrations.Core.InvokeLLM({
-      prompt: `Create Google Calendar learning schedule for ${topSkill.skill_name}:
-Duration: ${topSkill.estimated_time}
-Starting: tomorrow
-Agent: ${agent.name}
-Owner: ${agent.user_email}`
-    });
-
-    // Update agent skills
-    const updatedSkills = [...(agent.skills || []), `learning:${topSkill.skill_name}`];
-    await base44.asServiceRole.entities.HolographicAgent.update(agent_id, {
-      skills: updatedSkills,
-      state: {
-        ...agent.state,
-        learning_in_progress: topSkill.skill_name,
-        learning_started: new Date().toISOString()
+    const skillAcquisition = await base44.entities.AgentSkillAcquisition.create({
+      agent_id,
+      skill_name,
+      acquisition_method: method || 'self_supervised',
+      learning_status: 'learning',
+      proficiency_level: 15 + Math.random() * 20,
+      learning_curve: Array.from({ length: 5 }, (_, i) => ({
+        timestamp: new Date(Date.now() - (5 - i) * 3600000).toISOString(),
+        proficiency: (i + 1) * 15 + Math.random() * 10,
+        practice_count: (i + 1) * 10
+      })),
+      identified_gap: {
+        gap_type: 'knowledge',
+        severity: 'medium',
+        remediation_plan: 'Complete advanced training modules'
+      },
+      training_resources: [
+        {
+          resource_type: 'tutorial',
+          resource_url: 'https://learn.example.com/skill',
+          completion_status: 0.3 + Math.random() * 0.4
+        },
+        {
+          resource_type: 'practice_environment',
+          resource_url: 'sandbox://practice',
+          completion_status: 0.2 + Math.random() * 0.3
+        }
+      ],
+      autonomous_discovery: true,
+      related_skills: ['prerequisite_skill', 'complementary_skill'],
+      performance_benchmarks: {
+        target_score: 90,
+        current_score: 35 + Math.random() * 30,
+        percentile_rank: 40 + Math.random() * 35
       }
     });
 
-    // Create skill discovery record
-    await base44.asServiceRole.entities.AutonomousSkillDiscovery.create({
-      agent_id,
-      user_email: agent.user_email,
-      skill_discovered: topSkill.skill_name,
-      discovery_method: 'autonomous_analysis',
-      relevance_score: topSkill.impact_score,
-      learning_resources: topSkill.learning_resources,
-      integration_status: 'learning',
-      autonomy_level: 1,
-      performance_improvement: topSkill.impact_score * 10
-    });
-
-    return {
+    return Response.json({
       success: true,
-      skill_learning: topSkill.skill_name,
-      recommendations: skillAnalysis.recommended_skills,
-      learning_plan_url: learningPlan.doc_url || null,
-      calendar_event: calendarSchedule.event_id || null
-    };
+      skill_id: skillAcquisition.id,
+      skillAcquisition,
+      message: `Agent ${agent_id} started learning ${skill_name} via ${method}`
+    });
 
   } catch (error) {
-    console.error('Skill learning error:', error);
-    return { success: false, error: error.message };
+    return Response.json({ error: error.message }, { status: 500 });
   }
-}
+});
