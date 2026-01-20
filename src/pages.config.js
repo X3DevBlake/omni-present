@@ -19,6 +19,7 @@ import About from './pages/About';
 import AchievementsAwards from './pages/AchievementsAwards';
 import ActivityLog from './pages/ActivityLog';
 import AdminHome from './pages/AdminHome';
+import AdvancedAICapabilitiesHub from './pages/AdvancedAICapabilitiesHub';
 import AdvancedAgentCapabilities from './pages/AdvancedAgentCapabilities';
 import AdvancedAgentTrainingHub from './pages/AdvancedAgentTrainingHub';
 import AdvancedCollaborationHub from './pages/AdvancedCollaborationHub';
@@ -84,6 +85,7 @@ import AutonomousAgentSystem from './pages/AutonomousAgentSystem';
 import AutonomousCollaborationHub from './pages/AutonomousCollaborationHub';
 import AutonomyControlCenter from './pages/AutonomyControlCenter';
 import AvatarCreationHub from './pages/AvatarCreationHub';
+import BackendInfrastructureHub from './pages/BackendInfrastructureHub';
 import BankingCorePhase1 from './pages/BankingCorePhase1';
 import Billing from './pages/Billing';
 import BillingInvoicing from './pages/BillingInvoicing';
@@ -102,13 +104,13 @@ import CloudinaryHub from './pages/CloudinaryHub';
 import CodeEditor from './pages/CodeEditor';
 import CollaborationCommHub from './pages/CollaborationCommHub';
 import CollaborationDashboard from './pages/CollaborationDashboard';
+import CollaborationOrchestrationHub from './pages/CollaborationOrchestrationHub';
 import CollaborativeAgentHub from './pages/CollaborativeAgentHub';
 import CollaborativeSimulationStudio from './pages/CollaborativeSimulationStudio';
 import CollaborativeWorkspace from './pages/CollaborativeWorkspace';
 import CommunicationAnalyticsHub from './pages/CommunicationAnalyticsHub';
 import Communications from './pages/Communications';
 import CommunicationsHub from './pages/CommunicationsHub';
-import Contact from './pages/Contact';
 import Community from './pages/Community';
 import CommunityCreations from './pages/CommunityCreations';
 import CommunityGuidelines from './pages/CommunityGuidelines';
@@ -118,6 +120,7 @@ import CompetitiveArenas from './pages/CompetitiveArenas';
 import Compliance from './pages/Compliance';
 import ComplianceDashboard from './pages/ComplianceDashboard';
 import ComprehensiveFinancialHub from './pages/ComprehensiveFinancialHub';
+import Contact from './pages/Contact';
 import ContextAwareAssistantHub from './pages/ContextAwareAssistantHub';
 import CrossAgentPlanningHub from './pages/CrossAgentPlanningHub';
 import CrossPlatformIntegrationHub from './pages/CrossPlatformIntegrationHub';
@@ -331,16 +334,14 @@ import UserRoleManagement from './pages/UserRoleManagement';
 import UserRolesPermissions from './pages/UserRolesPermissions';
 import VirtualClassrooms from './pages/VirtualClassrooms';
 import Wallet from './pages/Wallet';
-import WebhookManager from './pages/WebhookManager';
 import Webhooks from './pages/Webhooks';
+import WebhookManager from './pages/WebhookManager';
 import WebhooksHub from './pages/WebhooksHub';
 import WithdrawOmni from './pages/WithdrawOmni';
 import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
-import AdvancedAICapabilitiesHub from './pages/AdvancedAICapabilitiesHub';
-import BackendInfrastructureHub from './pages/BackendInfrastructureHub';
-import CollaborationOrchestrationHub from './pages/CollaborationOrchestrationHub';
+import AnalyticsIntelligenceHub from './pages/AnalyticsIntelligenceHub';
 import __Layout from './Layout.jsx';
 
 
@@ -366,6 +367,7 @@ export const PAGES = {
     "AchievementsAwards": AchievementsAwards,
     "ActivityLog": ActivityLog,
     "AdminHome": AdminHome,
+    "AdvancedAICapabilitiesHub": AdvancedAICapabilitiesHub,
     "AdvancedAgentCapabilities": AdvancedAgentCapabilities,
     "AdvancedAgentTrainingHub": AdvancedAgentTrainingHub,
     "AdvancedCollaborationHub": AdvancedCollaborationHub,
@@ -431,6 +433,7 @@ export const PAGES = {
     "AutonomousCollaborationHub": AutonomousCollaborationHub,
     "AutonomyControlCenter": AutonomyControlCenter,
     "AvatarCreationHub": AvatarCreationHub,
+    "BackendInfrastructureHub": BackendInfrastructureHub,
     "BankingCorePhase1": BankingCorePhase1,
     "Billing": Billing,
     "BillingInvoicing": BillingInvoicing,
@@ -449,13 +452,13 @@ export const PAGES = {
     "CodeEditor": CodeEditor,
     "CollaborationCommHub": CollaborationCommHub,
     "CollaborationDashboard": CollaborationDashboard,
+    "CollaborationOrchestrationHub": CollaborationOrchestrationHub,
     "CollaborativeAgentHub": CollaborativeAgentHub,
     "CollaborativeSimulationStudio": CollaborativeSimulationStudio,
     "CollaborativeWorkspace": CollaborativeWorkspace,
     "CommunicationAnalyticsHub": CommunicationAnalyticsHub,
     "Communications": Communications,
     "CommunicationsHub": CommunicationsHub,
-    "Contact": Contact,
     "Community": Community,
     "CommunityCreations": CommunityCreations,
     "CommunityGuidelines": CommunityGuidelines,
@@ -465,6 +468,7 @@ export const PAGES = {
     "Compliance": Compliance,
     "ComplianceDashboard": ComplianceDashboard,
     "ComprehensiveFinancialHub": ComprehensiveFinancialHub,
+    "Contact": Contact,
     "ContextAwareAssistantHub": ContextAwareAssistantHub,
     "CrossAgentPlanningHub": CrossAgentPlanningHub,
     "CrossPlatformIntegrationHub": CrossPlatformIntegrationHub,
@@ -678,16 +682,14 @@ export const PAGES = {
     "UserRolesPermissions": UserRolesPermissions,
     "VirtualClassrooms": VirtualClassrooms,
     "Wallet": Wallet,
-    "WebhookManager": WebhookManager,
     "Webhooks": Webhooks,
+    "WebhookManager": WebhookManager,
     "WebhooksHub": WebhooksHub,
     "WithdrawOmni": WithdrawOmni,
     "WorkflowAutomationHub": WorkflowAutomationHub,
     "WorkflowOrchestrationHub": WorkflowOrchestrationHub,
     "World": World,
-    "AdvancedAICapabilitiesHub": AdvancedAICapabilitiesHub,
-    "BackendInfrastructureHub": BackendInfrastructureHub,
-    "CollaborationOrchestrationHub": CollaborationOrchestrationHub,
+    "AnalyticsIntelligenceHub": AnalyticsIntelligenceHub,
 }
 
 export const pagesConfig = {
