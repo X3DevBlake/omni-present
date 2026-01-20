@@ -9,26 +9,32 @@ import { createPageUrl } from '@/utils';
 import { motion } from 'framer-motion';
 import { 
   Sparkles, Zap, Shield, TrendingUp, Bot, Network, 
-  Coins, Rocket, Globe, Brain, ChevronRight 
+  Coins, Rocket, Globe, Brain, ChevronRight, Radio, Map 
 } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
-import Interactive3DStats from '../components/home/Interactive3DStats';
-import EcosystemMap3D from '../components/home/EcosystemMap3D';
-import OmniTokenEcosystem3D from '../components/3d/OmniTokenEcosystem3D';
-import Tokenomics3DVisualizer from '../components/3d/Tokenomics3DVisualizer';
-import InteractiveGlobe3D from '../components/home/InteractiveGlobe3D';
-import FinancialGalaxy3DEnhanced from '../components/home/FinancialGalaxy3DEnhanced';
-import AIEcosystemNetwork3D from '../components/home/AIEcosystemNetwork3D';
-import RealtimeFeedsWidget from '../components/home/RealtimeFeedsWidget';
-import HomeEnhanced3DSection from '../components/home/HomeEnhanced3DSection';
+import OmniPresent3DLogo from '../components/home/OmniPresent3DLogo';
+import PhysicalAgentShowcase3D from '../components/home/PhysicalAgentShowcase3D';
+import SpatialProjectionCanvas3D from '../components/omnipresence/SpatialProjectionCanvas3D';
 import DraggableFeatureCard from '../components/home/DraggableFeatureCard';
-import RealtimeAgentActivityGlobe3D from '../components/home/RealtimeAgentActivityGlobe3D';
-import EmergentBehaviorVisualizer3D from '../components/home/EmergentBehaviorVisualizer3D';
 import AdaptiveTokenomicsDisplay3D from '../components/home/AdaptiveTokenomicsDisplay3D';
 
 export default function Home() {
   const [activeFeature, setActiveFeature] = useState(0);
   const [features, setFeatures] = useState([
+    {
+      icon: <Radio className="w-8 h-8" />,
+      title: '3D Holographic Agents',
+      description: 'Physical projections that move through your home and interact with your world',
+      color: 'from-cyan-500 to-blue-500',
+      link: '/OmniPresenceControlCenter'
+    },
+    {
+      icon: <Map className="w-8 h-8" />,
+      title: 'Spatial Intelligence',
+      description: 'AI-powered mapping and navigation in your physical environment',
+      color: 'from-purple-500 to-pink-500',
+      link: '/OmniPresenceControlCenter'
+    },
     {
       icon: <Bot className="w-8 h-8" />,
       title: 'Autonomous AI Agents',
@@ -37,18 +43,11 @@ export default function Home() {
       link: '/AIManagement'
     },
     {
-      icon: <Coins className="w-8 h-8" />,
-      title: 'DeFi & Banking',
-      description: 'Next-gen financial ecosystem with AI-driven risk management',
-      color: 'from-green-500 to-emerald-500',
-      link: '/EnhancedBankingHub'
-    },
-    {
       icon: <Network className="w-8 h-8" />,
-      title: 'Cross-Chain Orchestration',
-      description: 'Seamless multi-blockchain operations with intelligent routing',
-      color: 'from-purple-500 to-pink-500',
-      link: '/DecentralizedNetwork'
+      title: 'Multi-Device Coordination',
+      description: 'Seamless agent transitions across all your Omni devices',
+      color: 'from-green-500 to-emerald-500',
+      link: '/OmniPresenceControlCenter'
     },
     {
       icon: <Brain className="w-8 h-8" />,
@@ -59,17 +58,10 @@ export default function Home() {
     },
     {
       icon: <Shield className="w-8 h-8" />,
-      title: 'Decentralized Governance',
-      description: 'AI-driven proposals, voting, and automated enforcement',
+      title: 'Security & Intelligence',
+      description: 'Threat detection, compliance monitoring, and predictive analytics',
       color: 'from-indigo-500 to-blue-500',
-      link: '/AgentGovernance'
-    },
-    {
-      icon: <TrendingUp className="w-8 h-8" />,
-      title: 'Portfolio Analytics',
-      description: 'Comprehensive stress testing and cascading risk analysis',
-      color: 'from-yellow-500 to-orange-500',
-      link: '/DeFiRiskManagementSuite'
+      link: '/SecurityIntelligenceHub'
     }
   ]);
   const [draggedIndex, setDraggedIndex] = useState(null);
@@ -89,6 +81,24 @@ export default function Home() {
   const { data: collaborations = [] } = useQuery({
     queryKey: ['collaborations'],
     queryFn: () => base44.entities.AgentCollaboration.filter({}).limit(50),
+    initialData: []
+  });
+
+  const { data: presences = [] } = useQuery({
+    queryKey: ['agent-presences'],
+    queryFn: () => base44.entities.AgentPhysicalPresence.filter({}).limit(20),
+    initialData: []
+  });
+
+  const { data: devices = [] } = useQuery({
+    queryKey: ['omni-devices'],
+    queryFn: () => base44.entities.OmniDevice.filter({}).limit(20),
+    initialData: []
+  });
+
+  const { data: spatialMaps = [] } = useQuery({
+    queryKey: ['spatial-maps'],
+    queryFn: () => base44.entities.SpatialMap.filter({}).limit(10),
     initialData: []
   });
 
@@ -125,10 +135,10 @@ export default function Home() {
   }, []);
 
   const stats = [
-    { label: 'Active Agents', value: agents.length, icon: <Bot className="w-6 h-6" /> },
-    { label: 'Collaborations', value: collaborations.length, icon: <Network className="w-6 h-6" /> },
-    { label: 'Total Supply', value: '300M', icon: <Coins className="w-6 h-6" /> },
-    { label: 'Platforms', value: '12+', icon: <Globe className="w-6 h-6" /> }
+    { label: 'Physical Projections', value: presences.filter(p => p.projection_status === 'active').length, icon: <Bot className="w-6 h-6" /> },
+    { label: 'Omni Devices', value: devices.filter(d => d.online_status).length, icon: <Radio className="w-6 h-6" /> },
+    { label: 'Spatial Maps', value: spatialMaps.length, icon: <Map className="w-6 h-6" /> },
+    { label: 'Real-World Ready', value: agents.length, icon: <Zap className="w-6 h-6" /> }
   ];
 
   return (
@@ -171,20 +181,88 @@ export default function Home() {
             </div>
           </motion.div>
 
-          {/* 3D Stats */}
+          {/* 3D Logo */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2, duration: 0.8 }}
-            className="mb-20"
+            className="mb-12"
           >
             <Card className="bg-slate-900/60 backdrop-blur-xl border-slate-700">
               <CardContent className="p-0">
-                <div className="h-[500px]">
-                  <Interactive3DStats stats={stats} />
+                <div className="h-[300px]">
+                  <OmniPresent3DLogo />
                 </div>
               </CardContent>
             </Card>
+          </motion.div>
+
+          {/* Physical Agent Showcase */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.3, duration: 0.8 }}
+            className="mb-12"
+          >
+            <h2 className="text-3xl font-bold text-center mb-4 text-white">
+              Agents That Live in Your Space
+            </h2>
+            <p className="text-center text-slate-400 mb-6 text-lg">
+              Watch your AI agents materialize as 3D holograms in your home
+            </p>
+            <Card className="bg-slate-900/60 backdrop-blur-xl border-slate-700">
+              <CardContent className="p-0">
+                <div className="h-[500px]">
+                  <PhysicalAgentShowcase3D />
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          {/* Real-time Spatial Map */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.4, duration: 0.8 }}
+            className="mb-20"
+          >
+            <h2 className="text-3xl font-bold text-center mb-4 text-white">
+              Live Spatial Projection Map
+            </h2>
+            <p className="text-center text-slate-400 mb-6 text-lg">
+              See your agents moving in real-time across your physical environment
+            </p>
+            <Card className="bg-slate-900/60 backdrop-blur-xl border-slate-700">
+              <CardContent className="p-0">
+                <div className="h-[600px]">
+                  <SpatialProjectionCanvas3D
+                    presences={presences}
+                    devices={devices}
+                    spatialMaps={spatialMaps}
+                  />
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          {/* Stats Grid */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+            className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-20"
+          >
+            {stats.map((stat, idx) => (
+              <Card key={idx} className="bg-slate-900/60 border-slate-700">
+                <CardContent className="p-6 text-center">
+                  <div className="flex justify-center mb-3 text-cyan-400">
+                    {stat.icon}
+                  </div>
+                  <p className="text-3xl font-bold text-white mb-1">{stat.value}</p>
+                  <p className="text-slate-400 text-sm">{stat.label}</p>
+                </CardContent>
+              </Card>
+            ))}
           </motion.div>
 
           {/* Features Grid with Drag & Drop */}
@@ -223,32 +301,32 @@ export default function Home() {
             </p>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-              <Card className="bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border-blue-500/30">
+              <Card className="bg-gradient-to-br from-cyan-500/10 to-blue-500/10 border-cyan-500/30">
                 <CardContent className="p-6">
-                  <Bot className="w-12 h-12 text-blue-400 mb-4" />
-                  <h3 className="text-white font-bold text-xl mb-3">AI Agent Creation</h3>
+                  <Radio className="w-12 h-12 text-cyan-400 mb-4" />
+                  <h3 className="text-white font-bold text-xl mb-3">Physical Agent Projection</h3>
                   <p className="text-white/70 text-sm">
-                    Design autonomous agents with customizable personalities, goals, and learning parameters. Train them with your own datasets or use pre-built models.
+                    Deploy agents as 3D holographic projections in your physical space. They navigate autonomously, avoid obstacles, and interact with the real world.
                   </p>
                 </CardContent>
               </Card>
 
               <Card className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 border-purple-500/30">
                 <CardContent className="p-6">
-                  <Network className="w-12 h-12 text-purple-400 mb-4" />
-                  <h3 className="text-white font-bold text-xl mb-3">Multi-Agent Orchestration</h3>
+                  <Map className="w-12 h-12 text-purple-400 mb-4" />
+                  <h3 className="text-white font-bold text-xl mb-3">Spatial Intelligence Mapping</h3>
                   <p className="text-white/70 text-sm">
-                    Build complex workflows where agents collaborate, negotiate, and self-organize to achieve emergent goals without explicit instructions.
+                    Upload 3D scans of your space. AI automatically detects furniture, people, pets, and creates optimal navigation paths for your agents.
                   </p>
                 </CardContent>
               </Card>
 
               <Card className="bg-gradient-to-br from-orange-500/10 to-red-500/10 border-orange-500/30">
                 <CardContent className="p-6">
-                  <Brain className="w-12 h-12 text-orange-400 mb-4" />
-                  <h3 className="text-white font-bold text-xl mb-3">Advanced Simulations</h3>
+                  <Zap className="w-12 h-12 text-orange-400 mb-4" />
+                  <h3 className="text-white font-bold text-xl mb-3">Adaptive Learning Agents</h3>
                   <p className="text-white/70 text-sm">
-                    Run real-time collaborative simulations with physics engines, dynamic events, and what-if analysis tools for predictive modeling.
+                    Agents learn from every interaction, adapting their behavior based on your environment, schedule, and preferences automatically.
                   </p>
                 </CardContent>
               </Card>
@@ -285,7 +363,7 @@ export default function Home() {
             </div>
           </motion.div>
 
-          {/* Ecosystem Map 3D */}
+          {/* Omni Devices Showcase */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -293,18 +371,29 @@ export default function Home() {
             className="mb-20"
           >
             <h2 className="text-4xl font-bold text-center mb-4 text-white">
-              Agent Collaboration Network
+              Your Omni Device Ecosystem
             </h2>
             <p className="text-center text-slate-400 mb-8 text-lg">
-              Visualize how agents interact, share knowledge, and form working groups
+              Connect holographic projectors, AR glasses, smart displays, and more
             </p>
-            <Card className="bg-slate-900/60 backdrop-blur-xl border-slate-700">
-              <CardContent className="p-0">
-                <div className="h-[600px]">
-                  <EcosystemMap3D agents={agents} collaborations={collaborations} />
-                </div>
-              </CardContent>
-            </Card>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {[
+                { type: 'holographic_projector', name: 'Holographic Projector', desc: 'Full 3D agent projection with spatial audio' },
+                { type: 'ar_glasses', name: 'AR Glasses', desc: 'Personal agent visibility wherever you go' },
+                { type: 'smart_tv', name: 'Smart Display', desc: 'Large-scale agent interaction screens' },
+                { type: 'smart_mirror', name: 'Smart Mirror', desc: 'Agents appear beside you in mirrors' },
+                { type: 'projection_drone', name: 'Projection Drone', desc: 'Mobile holographic projection following you' },
+                { type: 'robotic_assistant', name: 'Robotic Platform', desc: 'Agents control physical robot bodies' }
+              ].map((device, idx) => (
+                <Card key={idx} className="bg-gradient-to-br from-slate-900/80 to-slate-800/80 border-cyan-500/30 hover:border-cyan-500 transition-all">
+                  <CardContent className="p-6">
+                    <Radio className="w-10 h-10 text-cyan-400 mb-3" />
+                    <h3 className="text-white font-bold text-lg mb-2">{device.name}</h3>
+                    <p className="text-slate-400 text-sm">{device.desc}</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           </motion.div>
 
           {/* Key Capabilities */}
@@ -410,7 +499,7 @@ export default function Home() {
 
 
 
-          {/* Emergent Behaviors */}
+          {/* How It Works */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -418,18 +507,53 @@ export default function Home() {
             className="mb-20"
           >
             <h2 className="text-4xl font-bold text-center mb-4 text-white">
-              Emergent Behavior Detection
+              How Omni-Present Works
             </h2>
-            <p className="text-center text-slate-400 mb-8 text-lg">
-              Watch agents develop unexpected strategies and collaborative patterns
+            <p className="text-center text-slate-400 mb-12 text-lg">
+              Four simple steps to bring your AI agents to life
             </p>
-            <Card className="bg-slate-900/60 backdrop-blur-xl border-slate-700">
-              <CardContent className="p-0">
-                <div className="h-[600px]">
-                  <EmergentBehaviorVisualizer3D />
-                </div>
-              </CardContent>
-            </Card>
+            
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+              <Card className="bg-slate-900/60 border-cyan-500/30">
+                <CardContent className="p-6 text-center">
+                  <div className="bg-cyan-500/20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                    <span className="text-cyan-400 text-2xl font-bold">1</span>
+                  </div>
+                  <h3 className="text-white font-bold mb-2">Create Agent</h3>
+                  <p className="text-slate-400 text-sm">Design your AI with personality, skills, and goals</p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-slate-900/60 border-purple-500/30">
+                <CardContent className="p-6 text-center">
+                  <div className="bg-purple-500/20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                    <span className="text-purple-400 text-2xl font-bold">2</span>
+                  </div>
+                  <h3 className="text-white font-bold mb-2">Map Your Space</h3>
+                  <p className="text-slate-400 text-sm">Upload 3D scans or let AI auto-map your environment</p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-slate-900/60 border-pink-500/30">
+                <CardContent className="p-6 text-center">
+                  <div className="bg-pink-500/20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                    <span className="text-pink-400 text-2xl font-bold">3</span>
+                  </div>
+                  <h3 className="text-white font-bold mb-2">Deploy Projection</h3>
+                  <p className="text-slate-400 text-sm">Activate holographic projection on your Omni devices</p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-slate-900/60 border-green-500/30">
+                <CardContent className="p-6 text-center">
+                  <div className="bg-green-500/20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                    <span className="text-green-400 text-2xl font-bold">4</span>
+                  </div>
+                  <h3 className="text-white font-bold mb-2">Agent Lives</h3>
+                  <p className="text-slate-400 text-sm">Watch your agent move, learn, and assist in real-time</p>
+                </CardContent>
+              </Card>
+            </div>
           </motion.div>
 
           {/* Tokenomics */}

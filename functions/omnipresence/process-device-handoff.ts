@@ -21,19 +21,28 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'Device not found' }, { status: 404 });
     }
 
-    // Use AI to plan seamless transition
+    // Get nearby devices for shadow projection
+    const allDevices = await base44.entities.OmniDevice.filter({ online_status: true });
+    const nearbyDevices = allDevices.filter(d => 
+      d.id !== source_device_id && d.id !== target_device_id
+    ).slice(0, 3);
+
+    // Use AI to plan seamless transition with shadow projections
     const transitionPlan = await base44.integrations.Core.InvokeLLM({
-      prompt: `Plan seamless agent handoff between devices:
+      prompt: `Plan seamless agent handoff with proactive shadow projections:
       
 Source: ${sourceDevice[0].device_name} (${sourceDevice[0].device_type})
 Target: ${targetDevice[0].device_name} (${targetDevice[0].device_type})
+Nearby devices: ${nearbyDevices.map(d => d.device_name).join(', ')}
 Agent state: ${JSON.stringify(agent_state).substring(0, 200)}
 
-Generate transition plan:
-1. pre_handoff_actions (3 actions to prepare, each with {action, device_id, timing_ms})
-2. handoff_sequence (5 steps with {step_name, description, duration_ms})
-3. post_handoff_validation (3 checks with {check_name, expected_result})
-4. estimated_seamlessness_score (0-100)`,
+Generate advanced transition plan:
+1. shadow_projection_plan ({target_device_id, shadow_start_time_ms (when to start shadow before full handoff), shadow_intensity (0-1), fade_in_duration_ms})
+2. pre_handoff_actions (3 actions to prepare, each with {action, device_id, timing_ms})
+3. handoff_sequence (7 steps including shadow activation with {step_name, description, duration_ms, devices_involved array})
+4. post_handoff_validation (3 checks with {check_name, expected_result})
+5. estimated_seamlessness_score (0-100)
+6. multi_device_presence (array of {device_id, projection_type (full/partial/shadow), start_time_offset_ms})`,
       response_json_schema: {
         type: "object",
         properties: {
@@ -95,7 +104,37 @@ Generate transition plan:
       latency_ms: 50
     });
 
+    // Create shadow projection on target device
+    if (transitionPlan.shadow_projection_plan) {
+      await base44.entities.MultiDeviceProjection.create({
+        projection_session_id: `SHADOW_${Date.now()}`,
+        agent_id,
+        active_devices: [
+          {
+            device_id: source_device_id,
+            projection_portion: 'full',
+            quality_level: 'high',
+            resource_allocation: 80
+          },
+          {
+            device_id: target_device_id,
+            projection_portion: 'shadow',
+            quality_level: 'medium',
+            resource_allocation: 20
+          }
+        ],
+        optimization_strategy: 'quality_priority',
+        seamless_transition_enabled: true,
+        ai_optimization_metrics: {
+          device_utilization_balance: transitionPlan.estimated_seamlessness_score,
+          total_power_consumption_watts: 150,
+          projection_consistency_score: 98
+        }
+      });
+    }
+
     // Update agent presence to new device
+    const presences = await base44.entities.AgentPhysicalPresence.filter({ agent_id });
     if (presences.length) {
       await base44.entities.AgentPhysicalPresence.update(presences[0].id, {
         omni_device_id: target_device_id,
@@ -107,7 +146,9 @@ Generate transition plan:
       success: true,
       communication,
       transition_plan: transitionPlan,
-      estimated_duration_ms: transitionPlan.handoff_sequence.reduce((sum, s) => sum + s.duration_ms, 0)
+      shadow_projection: transitionPlan.shadow_projection_plan,
+      estimated_duration_ms: transitionPlan.handoff_sequence.reduce((sum, s) => sum + s.duration_ms, 0),
+      multi_device_active: true
     });
   } catch (error) {
     return Response.json({ error: error.message }, { status: 500 });

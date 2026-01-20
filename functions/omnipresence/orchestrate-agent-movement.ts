@@ -19,25 +19,39 @@ Deno.serve(async (req) => {
 
     const presence = presences[0];
 
-    // Get spatial map
-    const spatialMaps = await base44.entities.SpatialMap.filter({}).limit(1);
+    // Get spatial map and learned behaviors
+    const [spatialMaps, detections] = await Promise.all([
+      base44.entities.SpatialMap.filter({}).limit(1),
+      base44.entities.DynamicObjectDetection.filter({}).limit(100)
+    ]);
     const spatialMap = spatialMaps[0];
+    
+    // Extract learned avoidance rules
+    const learnedRules = detections
+      .filter(d => d.agent_avoidance_rules?.some(r => r.agent_id === agent_id))
+      .map(d => ({
+        object_type: d.detected_object?.object_type,
+        radius: d.agent_avoidance_rules[0]?.avoidance_radius_meters,
+        position: d.detected_object?.position
+      }));
 
-    // Use AI for pathfinding and behavior
+    // Use AI for pathfinding with learned behaviors
     const movementPlan = await base44.integrations.Core.InvokeLLM({
-      prompt: `Calculate optimal movement path for agent:
+      prompt: `Calculate optimal movement path for agent using learned behaviors:
       
 Current location: ${JSON.stringify(presence.current_location)}
 Target: ${target_coordinates ? JSON.stringify(target_coordinates) : 'autonomous'}
 Goal: ${interaction_goal || 'patrol'}
 Obstacles: ${presence.real_world_obstacles?.length || 0} detected
+Learned avoidance rules: ${learnedRules.length} rules
 Spatial map zones: ${spatialMap?.designated_zones?.length || 0}
 
-Generate:
-1. waypoints (5 points with x,y,z coordinates from current to target, avoiding obstacles)
+Apply learned behaviors to path planning:
+1. waypoints (5 points with x,y,z coordinates, respecting learned avoidance radii)
 2. estimated_time_seconds (total journey time)
-3. sub_goals (3 intermediate objectives like "approach user", "identify object")
-4. interaction_plan (string describing planned interactions along path)`,
+3. sub_goals (3 intermediate objectives applying learned interaction preferences)
+4. interaction_plan (string describing planned interactions using learned patterns)
+5. behavior_adaptations (3 ways agent adapted based on learned_behavior data)`,
       response_json_schema: {
         type: "object",
         properties: {
