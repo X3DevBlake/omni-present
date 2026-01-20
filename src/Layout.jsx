@@ -12,7 +12,7 @@ import VoiceNavigationAssistant from './components/navigation/VoiceNavigationAss
 import GestureNavigationController from './components/navigation/GestureNavigationController';
 import ContextualNavSuggestions from './components/navigation/ContextualNavSuggestions';
 import IntelligentNavBar from './components/navigation/IntelligentNavBar';
-import GestureControlOverlay from './components/home/GestureControlOverlay';
+import GestureControlOverlay from './components/navigation/GestureControlOverlay';
 import SmartBreadcrumbs from './components/navigation/SmartBreadcrumbs';
 import FloatingMiniMap from './components/navigation/FloatingMiniMap';
 
