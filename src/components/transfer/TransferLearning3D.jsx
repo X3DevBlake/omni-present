@@ -55,7 +55,7 @@ function TransferFlow({ start, end, efficiency }) {
   );
 }
 
-export default function TransferLearning3D({ task }) {
+export default function TransferLearning3D({ task, onDomainClick }) {
   const metrics = task?.transfer_metrics || {};
 
   return (

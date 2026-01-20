@@ -50,7 +50,7 @@ function VulnerabilityMarker({ position, severity }) {
   );
 }
 
-export default function AISafety3D({ safetyCheck }) {
+export default function AISafety3D({ safetyCheck, onDimensionClick }) {
   const dimensions = safetyCheck?.safety_dimensions || {};
   const vulnerabilities = safetyCheck?.red_team_results || [];
 

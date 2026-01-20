@@ -16,6 +16,8 @@ import EnhancedAgentOrchestration from '../components/orchestration/EnhancedAgen
 import CICDPipeline3D from '../components/cicd/CICDPipeline3D';
 import PipelineMonitor from '../components/cicd/PipelineMonitor';
 import MLOpsWebhook from '../components/webhooks/MLOpsWebhook';
+import AutomatedTriggers from '../components/cicd/AutomatedTriggers';
+import VizCustomizer from '../components/visualization/VizCustomizer';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import { toast } from 'sonner';
 
@@ -23,6 +25,7 @@ export default function MLOpsHub() {
   const queryClient = useQueryClient();
   const [collaborationSessionId, setCollaborationSessionId] = useState(null);
   const [selectedPipelineId, setSelectedPipelineId] = useState(null);
+  const [vizConfig, setVizConfig] = useState(null);
 
   const handleStageClick = (stage) => {
     toast.info(`${stage.stage_name}: ${stage.status} (${stage.duration_seconds}s)`);
@@ -463,7 +466,17 @@ export default function MLOpsHub() {
               </>
             )}
 
-            <MLOpsWebhook />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <MLOpsWebhook />
+              {monitors?.[0] && deployments?.[0] && (
+                <AutomatedTriggers 
+                  deploymentId={deployments[0].id} 
+                  monitorId={monitors[0].id}
+                />
+              )}
+            </div>
+
+            <VizCustomizer onConfigChange={setVizConfig} />
 
             <div className="grid grid-cols-1 gap-4">
               {pipelines?.slice(0, 5).map((pipe) => (
