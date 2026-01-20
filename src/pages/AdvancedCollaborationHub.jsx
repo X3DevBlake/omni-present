@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { motion } from 'framer-motion';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import TeamDynamicsTimeline3D from '../components/collaboration/TeamDynamicsTimeline3D';
+import CollaborationTimeline from '../components/collaboration/CollaborationTimeline';
 import { Users, Zap, Clock, TrendingUp } from 'lucide-react';
 
 export default function AdvancedCollaborationHub() {
@@ -31,6 +32,14 @@ export default function AdvancedCollaborationHub() {
       : Promise.resolve([]),
     enabled: !!selectedTeam,
     refetchInterval: 5000 // Real-time updates every 5s
+  });
+
+  const { data: teamTasks } = useQuery({
+    queryKey: ['team-tasks', selectedTeam],
+    queryFn: () => selectedTeam
+      ? base44.entities.AgentTaskAssignment.filter({ team_id: selectedTeam }, '', 50)
+      : Promise.resolve([]),
+    enabled: !!selectedTeam
   });
 
   const reallocateTasks = useMutation({
@@ -95,8 +104,9 @@ export default function AdvancedCollaborationHub() {
         </div>
 
         <Tabs defaultValue="proposals" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-3 bg-black/30">
+          <TabsList className="grid w-full grid-cols-4 bg-black/30">
             <TabsTrigger value="proposals">Collaboration Proposals</TabsTrigger>
+            <TabsTrigger value="timeline">Task Timeline</TabsTrigger>
             <TabsTrigger value="dynamics">Team Dynamics 3D</TabsTrigger>
             <TabsTrigger value="reallocations">Task Reallocations</TabsTrigger>
           </TabsList>
@@ -168,6 +178,29 @@ export default function AdvancedCollaborationHub() {
             </div>
           </TabsContent>
 
+          <TabsContent value="timeline">
+            <Card className="bg-black/40 border-white/10">
+              <CardHeader>
+                <CardTitle className="text-white">Team Task Timeline</CardTitle>
+              </CardHeader>
+              <CardContent>
+                {selectedTeam && teamTasks?.length > 0 ? (
+                  <CollaborationTimeline
+                    tasks={teamTasks}
+                    dependencies={teamTasks.flatMap(t => t.dependencies || [])}
+                  />
+                ) : (
+                  <div className="text-center py-12">
+                    <Clock className="w-16 h-16 text-white/40 mx-auto mb-4" />
+                    <p className="text-white/60">
+                      {selectedTeam ? 'No tasks in this team yet' : 'Select a team to view timeline'}
+                    </p>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </TabsContent>
+
           <TabsContent value="dynamics">
             <Card className="bg-black/40 border-white/10">
               <CardHeader>
@@ -202,7 +235,7 @@ export default function AdvancedCollaborationHub() {
                   <>
                     <TeamDynamicsTimeline3D
                       snapshots={snapshots}
-                      tasks={snapshots?.[0]?.team_members?.flatMap(m => m.current_tasks || []) || []}
+                      tasks={teamTasks || []}
                       onTaskClick={(task) => console.log('Task:', task)}
                     />
                     <div className="mt-6 grid grid-cols-3 gap-4">
