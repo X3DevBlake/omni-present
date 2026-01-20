@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
-import { Zap, Radio, Map, Activity, Scan } from 'lucide-react';
+import { Zap, Radio, Map, Activity, Scan, Brain, Network } from 'lucide-react';
 import { motion } from 'framer-motion';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import SpatialProjectionCanvas3D from '../components/omnipresence/SpatialProjectionCanvas3D';
@@ -17,6 +17,9 @@ import SpatialScanUploader from '../components/omnipresence/SpatialScanUploader'
 import DynamicObjectTracker3D from '../components/omnipresence/DynamicObjectTracker3D';
 import DeviceHandoffVisualizer3D from '../components/omnipresence/DeviceHandoffVisualizer3D';
 import Loaded3DModelViewer from '../components/omnipresence/Loaded3DModelViewer';
+import GestureRecognition3D from '../components/omnipresence/GestureRecognition3D';
+import AutonomousActionDashboard from '../components/omnipresence/AutonomousActionDashboard';
+import MultiAgentCollaboration3D from '../components/omnipresence/MultiAgentCollaboration3D';
 import { toast } from 'sonner';
 
 export default function OmniPresenceControlCenter() {
@@ -67,6 +70,24 @@ export default function OmniPresenceControlCenter() {
   const { data: dynamicDetections = [] } = useQuery({
     queryKey: ['dynamic-detections'],
     queryFn: () => base44.entities.DynamicObjectDetection.filter({}).limit(200),
+    initialData: []
+  });
+
+  const { data: physicalInteractions = [] } = useQuery({
+    queryKey: ['physical-interactions'],
+    queryFn: () => base44.entities.PhysicalInteraction.filter({}).limit(100),
+    initialData: []
+  });
+
+  const { data: autonomousActions = [] } = useQuery({
+    queryKey: ['autonomous-actions'],
+    queryFn: () => base44.entities.AutonomousAction.filter({}).limit(50),
+    initialData: []
+  });
+
+  const { data: collaborativeTasks = [] } = useQuery({
+    queryKey: ['collaborative-tasks'],
+    queryFn: () => base44.entities.AgentCollaborativeTask.filter({}).limit(30),
     initialData: []
   });
 
@@ -125,6 +146,31 @@ export default function OmniPresenceControlCenter() {
     onSuccess: (data) => {
       queryClient.invalidateQueries(['dynamic-detections']);
       toast.success(`Detected ${data.objects_detected} objects`);
+    }
+  });
+
+  const approveActionMutation = useMutation({
+    mutationFn: async (actionId) => {
+      await base44.entities.AutonomousAction.update(actionId, {
+        approval_status: 'approved',
+        execution_status: 'in_progress'
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(['autonomous-actions']);
+      toast.success('Action approved and executing');
+    }
+  });
+
+  const rejectActionMutation = useMutation({
+    mutationFn: async (actionId) => {
+      await base44.entities.AutonomousAction.update(actionId, {
+        approval_status: 'rejected'
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(['autonomous-actions']);
+      toast.info('Action rejected');
     }
   });
 
@@ -404,6 +450,72 @@ export default function OmniPresenceControlCenter() {
               presences={presences}
               spatialMaps={spatialMaps}
             />
+          </TabsContent>
+
+          <TabsContent value="gestures">
+            <div className="space-y-6">
+              <Card className="bg-slate-900/60 border-slate-700">
+                <CardHeader>
+                  <CardTitle className="text-white">Gesture Recognition & Control</CardTitle>
+                  <p className="text-slate-400 text-sm">
+                    Control agents with natural hand gestures - point, wave, swipe, and more
+                  </p>
+                </CardHeader>
+                <CardContent>
+                  <div className="h-[500px]">
+                    <GestureRecognition3D interactions={physicalInteractions} />
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="autonomous">
+            <AutonomousActionDashboard
+              actions={autonomousActions}
+              onApprove={(id) => approveActionMutation.mutate(id)}
+              onReject={(id) => rejectActionMutation.mutate(id)}
+            />
+          </TabsContent>
+
+          <TabsContent value="collaboration">
+            <div className="space-y-6">
+              <Card className="bg-slate-900/60 border-slate-700">
+                <CardHeader>
+                  <CardTitle className="text-white">Multi-Agent Collaboration</CardTitle>
+                  <p className="text-slate-400 text-sm">
+                    Watch multiple agents coordinate, share knowledge, and work together
+                  </p>
+                </CardHeader>
+                <CardContent>
+                  <div className="h-[500px]">
+                    <MultiAgentCollaboration3D collaborativeTask={collaborativeTasks[0]} />
+                  </div>
+                  
+                  {collaborativeTasks.length > 0 && (
+                    <div className="mt-6 space-y-3">
+                      {collaborativeTasks.slice(0, 3).map((task) => (
+                        <div key={task.id} className="bg-slate-800/50 rounded-lg p-4">
+                          <div className="flex items-center justify-between mb-2">
+                            <h4 className="text-white font-bold">{task.task_name}</h4>
+                            <Badge className="bg-purple-500/20 text-purple-400">
+                              {task.participating_agents?.length || 0} agents
+                            </Badge>
+                          </div>
+                          <p className="text-slate-400 text-sm mb-2">
+                            Strategy: {task.coordination_strategy}
+                          </p>
+                          <div className="flex items-center gap-4 text-sm">
+                            <span className="text-cyan-400">Progress: {task.progress}%</span>
+                            <span className="text-green-400">Quality: {task.collaboration_quality_score}/100</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
           </TabsContent>
 
           <TabsContent value="logs">

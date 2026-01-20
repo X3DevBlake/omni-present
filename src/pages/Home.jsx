@@ -153,32 +153,33 @@ export default function Home() {
             transition={{ duration: 0.8 }}
             className="text-center mb-16"
           >
-            <Badge className="mb-6 px-6 py-2 text-lg bg-gradient-to-r from-purple-500 to-pink-500">
-              <Sparkles className="w-4 h-4 mr-2 inline" />
-              Next-Generation AI Platform
-            </Badge>
-            <h1 className="text-7xl font-bold mb-6 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-              Omni-Present
-            </h1>
-            <p className="text-2xl text-slate-300 mb-8 max-w-4xl mx-auto leading-relaxed">
-              Where Your AI Agents <span className="text-cyan-400 font-semibold">Come to Life</span>
+            <div className="flex items-center justify-center gap-3 mb-6">
+              <Radio className="w-12 h-12 text-cyan-400" />
+              <h1 className="text-5xl md:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400">
+                Omni-Present
+              </h1>
+            </div>
+            <p className="text-xl md:text-2xl text-white/70 mb-4 max-w-3xl mx-auto">
+              AI Agents That Live in Your World
             </p>
-            <p className="text-lg text-slate-400 mb-8 max-w-4xl mx-auto">
-              Experience the future with autonomous digital projections that physically move and interact within your real-world environment. Design, deploy, and manage your personalized 3D agents as they seamlessly blend with your home or workspace, making your digital world truly Omni-Present.
+            <p className="text-lg text-white/50 mb-8 max-w-2xl mx-auto">
+              Physical 3D holographic projections • Gesture recognition • Autonomous decision-making • Multi-agent collaboration
             </p>
-            <div className="flex gap-4 justify-center">
-              <Link to={createPageUrl('AIManagement')}>
-                <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-lg px-8">
-                  Launch Platform
-                  <Rocket className="w-5 h-5 ml-2" />
-                </Button>
-              </Link>
-              <Link to={createPageUrl('OmniStaking')}>
-                <Button size="lg" variant="outline" className="border-2 border-purple-500 text-purple-300 hover:bg-purple-500/20 text-lg px-8">
-                  Explore Tokenomics
-                  <ChevronRight className="w-5 h-5 ml-2" />
-                </Button>
-              </Link>
+            <div className="flex flex-wrap justify-center gap-4">
+              <Button
+                onClick={() => window.location.href = createPageUrl('OmniPresenceControlCenter')}
+                className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white px-8 py-6 text-lg"
+              >
+                <Radio className="w-5 h-5 mr-2" />
+                Deploy Agent
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => window.location.href = createPageUrl('AIManagement')}
+                className="border-purple-500 text-purple-400 hover:bg-purple-500/10 px-8 py-6 text-lg"
+              >
+                Manage Agents
+              </Button>
             </div>
           </motion.div>
 
