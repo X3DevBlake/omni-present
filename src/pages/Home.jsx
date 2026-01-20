@@ -147,14 +147,13 @@ export default function Home() {
               Next-Generation AI Platform
             </Badge>
             <h1 className="text-7xl font-bold mb-6 bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-              Omni AI Ecosystem
+              Omni-Present
             </h1>
             <p className="text-2xl text-slate-300 mb-8 max-w-4xl mx-auto leading-relaxed">
-              An advanced platform for <span className="text-cyan-400 font-semibold">autonomous AI agents</span> that learn, collaborate, and evolve.
+              Where Your AI Agents <span className="text-cyan-400 font-semibold">Come to Life</span>
             </p>
-            <p className="text-lg text-slate-400 mb-8 max-w-3xl mx-auto">
-              Build intelligent multi-agent systems with emergent behaviors, orchestrate complex workflows, 
-              run immersive simulations, and manage decentralized governance - all powered by cutting-edge AI and blockchain technology.
+            <p className="text-lg text-slate-400 mb-8 max-w-4xl mx-auto">
+              Experience the future with autonomous digital projections that physically move and interact within your real-world environment. Design, deploy, and manage your personalized 3D agents as they seamlessly blend with your home or workspace, making your digital world truly Omni-Present.
             </p>
             <div className="flex gap-4 justify-center">
               <Link to={createPageUrl('AIManagement')}>
