@@ -159,6 +159,7 @@ import DynamicSimulationStudio from './pages/DynamicSimulationStudio';
 import EcosystemDashboard from './pages/EcosystemDashboard';
 import EmergentBehavior from './pages/EmergentBehavior';
 import EnhancedAIAgentMarketplace from './pages/EnhancedAIAgentMarketplace';
+import EnhancedAILabsHub from './pages/EnhancedAILabsHub';
 import EnhancedAgentCreator from './pages/EnhancedAgentCreator';
 import EnhancedAgentMarketplace from './pages/EnhancedAgentMarketplace';
 import EnhancedAgentTrainingHub from './pages/EnhancedAgentTrainingHub';
@@ -337,7 +338,7 @@ import WithdrawOmni from './pages/WithdrawOmni';
 import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
-import EnhancedAILabsHub from './pages/EnhancedAILabsHub';
+import AdvancedAICapabilitiesHub from './pages/AdvancedAICapabilitiesHub';
 import __Layout from './Layout.jsx';
 
 
@@ -503,6 +504,7 @@ export const PAGES = {
     "EcosystemDashboard": EcosystemDashboard,
     "EmergentBehavior": EmergentBehavior,
     "EnhancedAIAgentMarketplace": EnhancedAIAgentMarketplace,
+    "EnhancedAILabsHub": EnhancedAILabsHub,
     "EnhancedAgentCreator": EnhancedAgentCreator,
     "EnhancedAgentMarketplace": EnhancedAgentMarketplace,
     "EnhancedAgentTrainingHub": EnhancedAgentTrainingHub,
@@ -681,7 +683,7 @@ export const PAGES = {
     "WorkflowAutomationHub": WorkflowAutomationHub,
     "WorkflowOrchestrationHub": WorkflowOrchestrationHub,
     "World": World,
-    "EnhancedAILabsHub": EnhancedAILabsHub,
+    "AdvancedAICapabilitiesHub": AdvancedAICapabilitiesHub,
 }
 
 export const pagesConfig = {
