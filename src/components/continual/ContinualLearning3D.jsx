@@ -39,7 +39,7 @@ function TaskNode({ position, task, index }) {
   );
 }
 
-export default function ContinualLearning3D({ learner }) {
+export default function ContinualLearning3D({ learner, onTaskClick }) {
   const tasks = learner?.task_sequence || [];
   const forgettingRate = learner?.catastrophic_forgetting_rate || 15;
 

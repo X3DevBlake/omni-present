@@ -1,6 +1,6 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, Text, Sphere, Torus, Line } from '@react-three/drei';
+import { OrbitControls, Text, Sphere, Torus, Line, Html } from '@react-three/drei';
 import * as THREE from 'three';
 
 function ModalityNode({ position, modality, performance }) {
@@ -39,7 +39,7 @@ function ModalityNode({ position, modality, performance }) {
   );
 }
 
-export default function MultiModal3D({ model }) {
+export default function MultiModal3D({ model, onModalityClick }) {
   const modalities = model?.modalities || [];
   const performance = model?.performance_by_modality || {};
 

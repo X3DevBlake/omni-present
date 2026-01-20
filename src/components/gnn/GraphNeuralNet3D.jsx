@@ -1,6 +1,6 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, Text, Sphere, Line } from '@react-three/drei';
+import { OrbitControls, Text, Sphere, Line, Html } from '@react-three/drei';
 import * as THREE from 'three';
 
 function GraphNode({ position, index }) {
@@ -24,7 +24,7 @@ function GraphNode({ position, index }) {
   );
 }
 
-export default function GraphNeuralNet3D({ network }) {
+export default function GraphNeuralNet3D({ network, onNodeClick }) {
   const numNodes = Math.min(network?.graph_structure?.num_nodes || 20, 30);
   
   const nodes = Array.from({ length: numNodes }, (_, i) => {

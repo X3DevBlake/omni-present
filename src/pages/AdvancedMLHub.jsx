@@ -10,9 +10,22 @@ import MultiModal3D from '../components/multimodal/MultiModal3D';
 import GraphNeuralNet3D from '../components/gnn/GraphNeuralNet3D';
 import SelfSupervised3D from '../components/selfsupervised/SelfSupervised3D';
 import AuroraBackground from '../components/omni/AuroraBackground';
+import { toast } from 'sonner';
 
 export default function AdvancedMLHub() {
   const queryClient = useQueryClient();
+
+  const handleTaskClick = (task) => {
+    toast.success(`Task clicked: ${task?.task_id || 'Unknown'}`);
+  };
+
+  const handleModalityClick = (data) => {
+    toast.info(`${data.modality}: ${(data.performance * 100).toFixed(1)}% performance`);
+  };
+
+  const handleNodeClick = (data) => {
+    toast.success(`Node ${data.nodeId} selected for analysis`);
+  };
 
   const { data: continualLearners } = useQuery({
     queryKey: ['continual-learners'],
@@ -121,7 +134,7 @@ export default function AdvancedMLHub() {
             {continualLearners?.[0] && (
               <Card className="bg-white/10 border-white/20 backdrop-blur-md">
                 <CardContent className="p-6">
-                  <ContinualLearning3D learner={continualLearners[0]} />
+                  <ContinualLearning3D learner={continualLearners[0]} onTaskClick={handleTaskClick} />
                 </CardContent>
               </Card>
             )}
@@ -149,7 +162,7 @@ export default function AdvancedMLHub() {
             {multiModalModels?.[0] && (
               <Card className="bg-white/10 border-white/20 backdrop-blur-md">
                 <CardContent className="p-6">
-                  <MultiModal3D model={multiModalModels[0]} />
+                  <MultiModal3D model={multiModalModels[0]} onModalityClick={handleModalityClick} />
                 </CardContent>
               </Card>
             )}

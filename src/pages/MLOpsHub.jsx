@@ -12,11 +12,21 @@ import ExperimentTracker3D from '../components/experiments/ExperimentTracker3D';
 import MLOpsMonitor3D from '../components/mlops/MLOpsMonitor3D';
 import AgentOrchestration3D from '../components/orchestration/AgentOrchestration3D';
 import RealTimePresence from '../components/collaboration/RealTimePresence';
+import EnhancedAgentOrchestration from '../components/orchestration/EnhancedAgentOrchestration';
+import CICDPipeline3D from '../components/cicd/CICDPipeline3D';
+import PipelineMonitor from '../components/cicd/PipelineMonitor';
+import MLOpsWebhook from '../components/webhooks/MLOpsWebhook';
 import AuroraBackground from '../components/omni/AuroraBackground';
+import { toast } from 'sonner';
 
 export default function MLOpsHub() {
   const queryClient = useQueryClient();
   const [collaborationSessionId, setCollaborationSessionId] = useState(null);
+  const [selectedPipelineId, setSelectedPipelineId] = useState(null);
+
+  const handleStageClick = (stage) => {
+    toast.info(`${stage.stage_name}: ${stage.status} (${stage.duration_seconds}s)`);
+  };
 
   const { data: deployments } = useQuery({
     queryKey: ['deployments'],
@@ -36,6 +46,11 @@ export default function MLOpsHub() {
   const { data: orchestrations } = useQuery({
     queryKey: ['orchestrations'],
     queryFn: () => base44.entities.AgentOrchestration.list('-created_date', 5)
+  });
+
+  const { data: pipelines } = useQuery({
+    queryKey: ['cicd-pipelines'],
+    queryFn: () => base44.entities.CICDPipeline.list('-created_date', 10)
   });
 
   const deployModel = useMutation({
@@ -100,6 +115,19 @@ export default function MLOpsHub() {
     }
   });
 
+  const executePipeline = useMutation({
+    mutationFn: async (data) => {
+      const response = await base44.functions.invoke('executePipeline', {
+        pipeline_name: data.name,
+        model_id: data.modelId,
+        environment: data.environment,
+        trigger_type: data.trigger
+      });
+      return response.data;
+    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['cicd-pipelines'] })
+  });
+
   const [deploymentForm, setDeploymentForm] = useState({
     name: '',
     modelId: 'gpt_model_v1',
@@ -132,6 +160,7 @@ export default function MLOpsHub() {
             <TabsTrigger value="experiments">Experiments</TabsTrigger>
             <TabsTrigger value="monitoring">Monitoring</TabsTrigger>
             <TabsTrigger value="orchestration">Orchestration</TabsTrigger>
+            <TabsTrigger value="cicd">CI/CD</TabsTrigger>
           </TabsList>
 
           <TabsContent value="deployment" className="space-y-6">
@@ -362,7 +391,7 @@ export default function MLOpsHub() {
               <CardHeader>
                 <CardTitle className="text-white flex items-center gap-2">
                   <Users className="w-5 h-5" />
-                  Agent Orchestration
+                  Agent Orchestration & Knowledge Sharing
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -390,13 +419,89 @@ export default function MLOpsHub() {
               </CardContent>
             </Card>
 
-            {orchestrations?.[0] && (
-              <Card className="bg-white/10 border-white/20 backdrop-blur-md">
-                <CardContent className="p-6">
-                  <AgentOrchestration3D orchestration={orchestrations[0]} />
-                </CardContent>
-              </Card>
+            <EnhancedAgentOrchestration orchestrationId={orchestrations?.[0]?.id} />
+          </TabsContent>
+
+          <TabsContent value="cicd" className="space-y-6">
+            <Card className="bg-white/10 border-white/20 backdrop-blur-md">
+              <CardHeader>
+                <CardTitle className="text-white flex items-center gap-2">
+                  <GitBranch className="w-5 h-5" />
+                  CI/CD Pipeline Automation
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <p className="text-white/70 text-sm mb-4">
+                  Automated pipelines for model training, testing, and deployment
+                </p>
+                <Button
+                  onClick={() => executePipeline.mutate({
+                    name: 'AutoDeploy_Pipeline',
+                    modelId: 'model_v1',
+                    environment: 'staging',
+                    trigger: 'drift_detected'
+                  })}
+                  disabled={executePipeline.isPending}
+                  className="w-full bg-gradient-to-r from-green-600 to-emerald-600"
+                >
+                  Execute Pipeline
+                </Button>
+              </CardContent>
+            </Card>
+
+            {pipelines?.[0] && (
+              <>
+                <Card className="bg-white/10 border-white/20 backdrop-blur-md">
+                  <CardContent className="p-6">
+                    <CICDPipeline3D 
+                      pipeline={pipelines[0]} 
+                      onStageClick={handleStageClick}
+                    />
+                  </CardContent>
+                </Card>
+                <PipelineMonitor pipelineId={pipelines[0].id} />
+              </>
             )}
+
+            <MLOpsWebhook />
+
+            <div className="grid grid-cols-1 gap-4">
+              {pipelines?.slice(0, 5).map((pipe) => (
+                <Card key={pipe.id} className="bg-white/10 border-white/20 backdrop-blur-md">
+                  <CardHeader>
+                    <CardTitle className="text-white text-lg">{pipe.pipeline_name}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-2">
+                      {pipe.pipeline_stages?.map((stage, i) => (
+                        <div key={i} className="flex items-center justify-between p-2 bg-white/5 rounded">
+                          <span className="text-white text-sm">{stage.stage_name}</span>
+                          <Badge className={
+                            stage.status === 'success' ? 'bg-green-600' :
+                            stage.status === 'running' ? 'bg-yellow-600' :
+                            stage.status === 'failed' ? 'bg-red-600' : 'bg-gray-600'
+                          }>
+                            {stage.status}
+                          </Badge>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="mt-4 text-sm">
+                      <div className="flex justify-between text-white/70">
+                        <span>Environment:</span>
+                        <span className="text-white">{pipe.environment}</span>
+                      </div>
+                      <div className="flex justify-between text-white/70 mt-2">
+                        <span>Tests:</span>
+                        <span className={pipe.automated_testing?.performance_tests_passed ? 'text-green-400' : 'text-yellow-400'}>
+                          {Object.values(pipe.automated_testing || {}).filter(Boolean).length}/3 Passed
+                        </span>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           </TabsContent>
         </Tabs>
       </div>
