@@ -349,6 +349,7 @@ import World from './pages/World';
 import EnhancedOmniCardHub from './pages/EnhancedOmniCardHub';
 import CryptoSwapHub from './pages/CryptoSwapHub';
 import NavigationControl from './pages/NavigationControl';
+import WorldHubEnhanced from './pages/WorldHubEnhanced';
 import __Layout from './Layout.jsx';
 
 
@@ -704,6 +705,7 @@ export const PAGES = {
     "EnhancedOmniCardHub": EnhancedOmniCardHub,
     "CryptoSwapHub": CryptoSwapHub,
     "NavigationControl": NavigationControl,
+    "WorldHubEnhanced": WorldHubEnhanced,
 }
 
 export const pagesConfig = {
