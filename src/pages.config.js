@@ -82,6 +82,7 @@ import AssetBrowser from './pages/AssetBrowser';
 import AssetUpload from './pages/AssetUpload';
 import AuditLogs from './pages/AuditLogs';
 import AutomatedFinanceHub from './pages/AutomatedFinanceHub';
+import AutomationOrchestrationHub from './pages/AutomationOrchestrationHub';
 import AutomationsHub from './pages/AutomationsHub';
 import AutonomousAgentSystem from './pages/AutonomousAgentSystem';
 import AutonomousCollaborationHub from './pages/AutonomousCollaborationHub';
@@ -215,8 +216,8 @@ import FleetManagement from './pages/FleetManagement';
 import GeminiHub from './pages/GeminiHub';
 import GlobalGovernance from './pages/GlobalGovernance';
 import GlobalMap from './pages/GlobalMap';
-import HolographicAnalytics from './pages/HolographicAnalytics';
 import HolographicWorld from './pages/HolographicWorld';
+import HolographicAnalytics from './pages/HolographicAnalytics';
 import Home from './pages/Home';
 import HomeEnhanced from './pages/HomeEnhanced';
 import HomeHub from './pages/HomeHub';
@@ -285,6 +286,7 @@ import Phase9ImmersiveUX from './pages/Phase9ImmersiveUX';
 import PhysicalWorldIntegration from './pages/PhysicalWorldIntegration';
 import PortfolioRebalancer from './pages/PortfolioRebalancer';
 import PredictiveAnalyticsHub from './pages/PredictiveAnalyticsHub';
+import PredictiveIntelligenceHub from './pages/PredictiveIntelligenceHub';
 import PressReleases from './pages/PressReleases';
 import Privacy from './pages/Privacy';
 import ProactiveMonitoring from './pages/ProactiveMonitoring';
@@ -307,6 +309,7 @@ import SandboxSimulationHub from './pages/SandboxSimulationHub';
 import ScenarioTesting from './pages/ScenarioTesting';
 import Security from './pages/Security';
 import SecurityComplianceHub from './pages/SecurityComplianceHub';
+import SecurityIntelligenceHub from './pages/SecurityIntelligenceHub';
 import SecurityMonitoringHub from './pages/SecurityMonitoringHub';
 import SellOmni from './pages/SellOmni';
 import SensorDataAnalysis from './pages/SensorDataAnalysis';
@@ -350,9 +353,7 @@ import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
 import WorldHubEnhanced from './pages/WorldHubEnhanced';
-import AutomationOrchestrationHub from './pages/AutomationOrchestrationHub';
-import SecurityIntelligenceHub from './pages/SecurityIntelligenceHub';
-import PredictiveIntelligenceHub from './pages/PredictiveIntelligenceHub';
+import OmniPresenceControlCenter from './pages/OmniPresenceControlCenter';
 import __Layout from './Layout.jsx';
 
 
@@ -441,6 +442,7 @@ export const PAGES = {
     "AssetUpload": AssetUpload,
     "AuditLogs": AuditLogs,
     "AutomatedFinanceHub": AutomatedFinanceHub,
+    "AutomationOrchestrationHub": AutomationOrchestrationHub,
     "AutomationsHub": AutomationsHub,
     "AutonomousAgentSystem": AutonomousAgentSystem,
     "AutonomousCollaborationHub": AutonomousCollaborationHub,
@@ -574,8 +576,8 @@ export const PAGES = {
     "GeminiHub": GeminiHub,
     "GlobalGovernance": GlobalGovernance,
     "GlobalMap": GlobalMap,
-    "HolographicAnalytics": HolographicAnalytics,
     "HolographicWorld": HolographicWorld,
+    "HolographicAnalytics": HolographicAnalytics,
     "Home": Home,
     "HomeEnhanced": HomeEnhanced,
     "HomeHub": HomeHub,
@@ -644,6 +646,7 @@ export const PAGES = {
     "PhysicalWorldIntegration": PhysicalWorldIntegration,
     "PortfolioRebalancer": PortfolioRebalancer,
     "PredictiveAnalyticsHub": PredictiveAnalyticsHub,
+    "PredictiveIntelligenceHub": PredictiveIntelligenceHub,
     "PressReleases": PressReleases,
     "Privacy": Privacy,
     "ProactiveMonitoring": ProactiveMonitoring,
@@ -666,6 +669,7 @@ export const PAGES = {
     "ScenarioTesting": ScenarioTesting,
     "Security": Security,
     "SecurityComplianceHub": SecurityComplianceHub,
+    "SecurityIntelligenceHub": SecurityIntelligenceHub,
     "SecurityMonitoringHub": SecurityMonitoringHub,
     "SellOmni": SellOmni,
     "SensorDataAnalysis": SensorDataAnalysis,
@@ -709,9 +713,7 @@ export const PAGES = {
     "WorkflowOrchestrationHub": WorkflowOrchestrationHub,
     "World": World,
     "WorldHubEnhanced": WorldHubEnhanced,
-    "AutomationOrchestrationHub": AutomationOrchestrationHub,
-    "SecurityIntelligenceHub": SecurityIntelligenceHub,
-    "PredictiveIntelligenceHub": PredictiveIntelligenceHub,
+    "OmniPresenceControlCenter": OmniPresenceControlCenter,
 }
 
 export const pagesConfig = {
