@@ -409,27 +409,7 @@ export default function Home() {
             </div>
           </motion.div>
 
-          {/* Ecosystem Map 3D */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.9 }}
-            className="mb-20"
-          >
-            <h2 className="text-4xl font-bold text-center mb-4 text-white">
-              Live Agent Network Visualization
-            </h2>
-            <p className="text-center text-slate-400 mb-8 text-lg">
-              Explore the interconnected web of AI agents and their collaborations in 3D
-            </p>
-            <Card className="bg-slate-900/60 backdrop-blur-xl border-slate-700">
-              <CardContent className="p-0">
-                <div className="h-[600px]">
-                  <EcosystemMap3D agents={agents} collaborations={collaborations} />
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
+
 
           {/* Emergent Behaviors */}
           <motion.div
