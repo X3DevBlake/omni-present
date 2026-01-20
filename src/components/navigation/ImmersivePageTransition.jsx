@@ -79,39 +79,42 @@ export default function ImmersivePageTransition({ children }) {
     }
   };
 
+  // Disable transitions if AnimatePresence is causing issues
+  if (!transitionsEnabled) {
+    return <>{children}</>;
+  }
+
   return (
     <>
-      <AnimatePresence mode="wait">
-        {isTransitioning && transitionsEnabled && (
-          <motion.div
-            key="transition"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-[9999] pointer-events-none"
-          >
-            <Canvas className="w-full h-full">
-              {renderTransition()}
-            </Canvas>
-            
-            {/* Overlay Text */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <motion.div
-                initial={{ scale: 0, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0, opacity: 0 }}
-                transition={{ delay: 0.2, duration: 0.4 }}
-                className="text-white text-4xl font-bold text-center"
-              >
-                <div className="bg-black/50 backdrop-blur-md rounded-2xl px-8 py-4 border border-white/20">
-                  Entering {transitionType?.charAt(0).toUpperCase() + transitionType?.slice(1)}
-                </div>
-              </motion.div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {isTransitioning && (
+        <motion.div
+          key="transition"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3 }}
+          className="fixed inset-0 z-[9999] pointer-events-none"
+        >
+          <Canvas className="w-full h-full">
+            {renderTransition()}
+          </Canvas>
+          
+          {/* Overlay Text */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <motion.div
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0, opacity: 0 }}
+              transition={{ delay: 0.2, duration: 0.4 }}
+              className="text-white text-4xl font-bold text-center"
+            >
+              <div className="bg-black/50 backdrop-blur-md rounded-2xl px-8 py-4 border border-white/20">
+                Entering {transitionType?.charAt(0).toUpperCase() + transitionType?.slice(1)}
+              </div>
+            </motion.div>
+          </div>
+        </motion.div>
+      )}
       {children}
     </>
   );
