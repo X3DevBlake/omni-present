@@ -335,6 +335,7 @@ import NextGenMLHub from './pages/NextGenMLHub';
 import HybridMLHub from './pages/HybridMLHub';
 import AdvancedReasoningHub from './pages/AdvancedReasoningHub';
 import AlignmentHub from './pages/AlignmentHub';
+import MLOpsHub from './pages/MLOpsHub';
 import __Layout from './Layout.jsx';
 
 
@@ -676,6 +677,7 @@ export const PAGES = {
     "HybridMLHub": HybridMLHub,
     "AdvancedReasoningHub": AdvancedReasoningHub,
     "AlignmentHub": AlignmentHub,
+    "MLOpsHub": MLOpsHub,
 }
 
 export const pagesConfig = {
