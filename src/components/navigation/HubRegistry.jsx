@@ -2,8 +2,11 @@
 // This allows autonomous agents to understand the app structure
 
 export const HubRegistry = [
-  // Financial & Banking
+  // Core & Omni-Presence
   { id: 'home', name: 'Home', path: 'Home', category: 'core', icon3d: 'galaxy', color: '#00f5ff' },
+  { id: 'omnipresence', name: 'Omni-Presence', path: 'OmniPresenceControlCenter', category: 'core', icon3d: 'hologram', color: '#00f5ff' },
+  
+  // Financial & Banking
   { id: 'dashboard', name: 'Dashboard', path: 'EnhancedDashboard', category: 'financial', icon3d: 'metrics', color: '#a855f7' },
   { id: 'omnibank', name: 'OmniBank', path: 'EnhancedOmniBank', category: 'financial', icon3d: 'bank', color: '#10b981' },
   { id: 'trading', name: 'Trading Hub', path: 'AutomatedTradingDashboard', category: 'financial', icon3d: 'charts', color: '#3b82f6' },

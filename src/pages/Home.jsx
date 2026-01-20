@@ -15,6 +15,7 @@ import AuroraBackground from '../components/omni/AuroraBackground';
 import OmniPresent3DLogo from '../components/home/OmniPresent3DLogo';
 import PhysicalAgentShowcase3D from '../components/home/PhysicalAgentShowcase3D';
 import SpatialProjectionCanvas3D from '../components/omnipresence/SpatialProjectionCanvas3D';
+import OmniDeviceGrid from '../components/home/OmniDeviceGrid';
 import DraggableFeatureCard from '../components/home/DraggableFeatureCard';
 import AdaptiveTokenomicsDisplay3D from '../components/home/AdaptiveTokenomicsDisplay3D';
 
@@ -576,48 +577,18 @@ export default function Home() {
             </Card>
           </motion.div>
 
-          {/* Use Cases */}
+          {/* Omni Devices */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.2 }}
             className="mb-20"
           >
-            <h2 className="text-4xl font-bold text-center mb-4 text-white">
-              Real-World Applications
-            </h2>
-            <p className="text-center text-slate-400 mb-12 text-lg">
-              See how organizations use Omni to revolutionize their operations
-            </p>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <Card className="bg-black/40 border-cyan-500/30">
-                <CardContent className="p-6">
-                  <h3 className="text-cyan-400 font-bold text-lg mb-3">Financial Services</h3>
-                  <p className="text-white/70 text-sm">
-                    Hedge funds use our autonomous trading agents for 24/7 market monitoring, risk assessment, and portfolio optimization across multiple chains.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-black/40 border-purple-500/30">
-                <CardContent className="p-6">
-                  <h3 className="text-purple-400 font-bold text-lg mb-3">Research & Development</h3>
-                  <p className="text-white/70 text-sm">
-                    Labs leverage our simulation platform to model complex systems, test hypotheses, and predict emergent behaviors before real-world deployment.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-black/40 border-orange-500/30">
-                <CardContent className="p-6">
-                  <h3 className="text-orange-400 font-bold text-lg mb-3">Enterprise Automation</h3>
-                  <p className="text-white/70 text-sm">
-                    Companies deploy agent teams that self-organize to handle customer support, data analysis, and workflow optimization with minimal oversight.
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
+            <Card className="bg-slate-900/60 backdrop-blur-xl border-slate-700">
+              <CardContent className="p-8">
+                <OmniDeviceGrid devices={devices} />
+              </CardContent>
+            </Card>
           </motion.div>
 
           {/* CTA Section */}
