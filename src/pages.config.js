@@ -30,6 +30,7 @@ import AdvancedFinancialEcosystem from './pages/AdvancedFinancialEcosystem';
 import AdvancedIntelligenceHub from './pages/AdvancedIntelligenceHub';
 import AdvancedMLHub from './pages/AdvancedMLHub';
 import AdvancedPredictionCenter from './pages/AdvancedPredictionCenter';
+import AdvancedReasoningHub from './pages/AdvancedReasoningHub';
 import AdvancedSimulation from './pages/AdvancedSimulation';
 import AdvancedSimulationLab from './pages/AdvancedSimulationLab';
 import AdvancedSimulationStudio from './pages/AdvancedSimulationStudio';
@@ -71,6 +72,7 @@ import AgentTrainingCenter from './pages/AgentTrainingCenter';
 import AgentTrainingStudio from './pages/AgentTrainingStudio';
 import AgentVideoInterface from './pages/AgentVideoInterface';
 import AlertManagementDashboard from './pages/AlertManagementDashboard';
+import AlignmentHub from './pages/AlignmentHub';
 import Analytics from './pages/Analytics';
 import Architecture from './pages/Architecture';
 import AssetBrowser from './pages/AssetBrowser';
@@ -106,6 +108,7 @@ import CommunicationAnalyticsHub from './pages/CommunicationAnalyticsHub';
 import Communications from './pages/Communications';
 import CommunicationsHub from './pages/CommunicationsHub';
 import Community from './pages/Community';
+import Contact from './pages/Contact';
 import CommunityCreations from './pages/CommunityCreations';
 import CommunityGuidelines from './pages/CommunityGuidelines';
 import CommunityGuidelinesEnhanced from './pages/CommunityGuidelinesEnhanced';
@@ -114,7 +117,6 @@ import CompetitiveArenas from './pages/CompetitiveArenas';
 import Compliance from './pages/Compliance';
 import ComplianceDashboard from './pages/ComplianceDashboard';
 import ComprehensiveFinancialHub from './pages/ComprehensiveFinancialHub';
-import Contact from './pages/Contact';
 import ContextAwareAssistantHub from './pages/ContextAwareAssistantHub';
 import CrossAgentPlanningHub from './pages/CrossAgentPlanningHub';
 import CrossPlatformIntegrationHub from './pages/CrossPlatformIntegrationHub';
@@ -208,6 +210,7 @@ import HolographicWorld from './pages/HolographicWorld';
 import Home from './pages/Home';
 import HomeHub from './pages/HomeHub';
 import HomepageUpgradePlan from './pages/HomepageUpgradePlan';
+import HybridMLHub from './pages/HybridMLHub';
 import ImmersiveNavigationHub from './pages/ImmersiveNavigationHub';
 import InstructorDirectory from './pages/InstructorDirectory';
 import IntegrationDevelopmentHub from './pages/IntegrationDevelopmentHub';
@@ -226,17 +229,20 @@ import LicenseManagement from './pages/LicenseManagement';
 import LinkBankAccount from './pages/LinkBankAccount';
 import LiquidityPools from './pages/LiquidityPools';
 import LoansAndCredit from './pages/LoansAndCredit';
+import MLOpsHub from './pages/MLOpsHub';
 import MaintenanceSchedule from './pages/MaintenanceSchedule';
 import MarketIntelligenceHub from './pages/MarketIntelligenceHub';
 import Marketplace from './pages/Marketplace';
 import MarketplaceHome from './pages/MarketplaceHome';
 import MentorshipProgramsPage from './pages/MentorshipProgramsPage';
 import MessageBroadcastHub from './pages/MessageBroadcastHub';
+import MetaLearningHub from './pages/MetaLearningHub';
 import MistralHub from './pages/MistralHub';
 import ModelTraining from './pages/ModelTraining';
 import MultiAgentCollaborationHub from './pages/MultiAgentCollaborationHub';
 import MyCreations from './pages/MyCreations';
 import NewsUpdates from './pages/NewsUpdates';
+import NextGenMLHub from './pages/NextGenMLHub';
 import Notifications from './pages/Notifications';
 import NotificationsAndVisualizations from './pages/NotificationsAndVisualizations';
 import ObjectCustomizer from './pages/ObjectCustomizer';
@@ -330,12 +336,7 @@ import WithdrawOmni from './pages/WithdrawOmni';
 import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
-import MetaLearningHub from './pages/MetaLearningHub';
-import NextGenMLHub from './pages/NextGenMLHub';
-import HybridMLHub from './pages/HybridMLHub';
-import AdvancedReasoningHub from './pages/AdvancedReasoningHub';
-import AlignmentHub from './pages/AlignmentHub';
-import MLOpsHub from './pages/MLOpsHub';
+import AutomationsHub from './pages/AutomationsHub';
 import __Layout from './Layout.jsx';
 
 
@@ -372,6 +373,7 @@ export const PAGES = {
     "AdvancedIntelligenceHub": AdvancedIntelligenceHub,
     "AdvancedMLHub": AdvancedMLHub,
     "AdvancedPredictionCenter": AdvancedPredictionCenter,
+    "AdvancedReasoningHub": AdvancedReasoningHub,
     "AdvancedSimulation": AdvancedSimulation,
     "AdvancedSimulationLab": AdvancedSimulationLab,
     "AdvancedSimulationStudio": AdvancedSimulationStudio,
@@ -413,6 +415,7 @@ export const PAGES = {
     "AgentTrainingStudio": AgentTrainingStudio,
     "AgentVideoInterface": AgentVideoInterface,
     "AlertManagementDashboard": AlertManagementDashboard,
+    "AlignmentHub": AlignmentHub,
     "Analytics": Analytics,
     "Architecture": Architecture,
     "AssetBrowser": AssetBrowser,
@@ -448,6 +451,7 @@ export const PAGES = {
     "Communications": Communications,
     "CommunicationsHub": CommunicationsHub,
     "Community": Community,
+    "Contact": Contact,
     "CommunityCreations": CommunityCreations,
     "CommunityGuidelines": CommunityGuidelines,
     "CommunityGuidelinesEnhanced": CommunityGuidelinesEnhanced,
@@ -456,7 +460,6 @@ export const PAGES = {
     "Compliance": Compliance,
     "ComplianceDashboard": ComplianceDashboard,
     "ComprehensiveFinancialHub": ComprehensiveFinancialHub,
-    "Contact": Contact,
     "ContextAwareAssistantHub": ContextAwareAssistantHub,
     "CrossAgentPlanningHub": CrossAgentPlanningHub,
     "CrossPlatformIntegrationHub": CrossPlatformIntegrationHub,
@@ -550,6 +553,7 @@ export const PAGES = {
     "Home": Home,
     "HomeHub": HomeHub,
     "HomepageUpgradePlan": HomepageUpgradePlan,
+    "HybridMLHub": HybridMLHub,
     "ImmersiveNavigationHub": ImmersiveNavigationHub,
     "InstructorDirectory": InstructorDirectory,
     "IntegrationDevelopmentHub": IntegrationDevelopmentHub,
@@ -568,17 +572,20 @@ export const PAGES = {
     "LinkBankAccount": LinkBankAccount,
     "LiquidityPools": LiquidityPools,
     "LoansAndCredit": LoansAndCredit,
+    "MLOpsHub": MLOpsHub,
     "MaintenanceSchedule": MaintenanceSchedule,
     "MarketIntelligenceHub": MarketIntelligenceHub,
     "Marketplace": Marketplace,
     "MarketplaceHome": MarketplaceHome,
     "MentorshipProgramsPage": MentorshipProgramsPage,
     "MessageBroadcastHub": MessageBroadcastHub,
+    "MetaLearningHub": MetaLearningHub,
     "MistralHub": MistralHub,
     "ModelTraining": ModelTraining,
     "MultiAgentCollaborationHub": MultiAgentCollaborationHub,
     "MyCreations": MyCreations,
     "NewsUpdates": NewsUpdates,
+    "NextGenMLHub": NextGenMLHub,
     "Notifications": Notifications,
     "NotificationsAndVisualizations": NotificationsAndVisualizations,
     "ObjectCustomizer": ObjectCustomizer,
@@ -672,12 +679,7 @@ export const PAGES = {
     "WorkflowAutomationHub": WorkflowAutomationHub,
     "WorkflowOrchestrationHub": WorkflowOrchestrationHub,
     "World": World,
-    "MetaLearningHub": MetaLearningHub,
-    "NextGenMLHub": NextGenMLHub,
-    "HybridMLHub": HybridMLHub,
-    "AdvancedReasoningHub": AdvancedReasoningHub,
-    "AlignmentHub": AlignmentHub,
-    "MLOpsHub": MLOpsHub,
+    "AutomationsHub": AutomationsHub,
 }
 
 export const pagesConfig = {
