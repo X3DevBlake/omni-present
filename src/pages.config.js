@@ -325,7 +325,11 @@ import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
 import AdvancedAgentTrainingHub from './pages/AdvancedAgentTrainingHub';
+import EnhancedAgentTrainingHub from './pages/EnhancedAgentTrainingHub';
 import EnhancedGovernanceHub from './pages/EnhancedGovernanceHub';
+import EnhancedCollaborationStudio from './pages/EnhancedCollaborationStudio';
+import QuantumComputingHub from './pages/QuantumComputingHub';
+import AdvancedIntelligenceHub from './pages/AdvancedIntelligenceHub';
 import __Layout from './Layout.jsx';
 
 
@@ -657,7 +661,11 @@ export const PAGES = {
     "WorkflowOrchestrationHub": WorkflowOrchestrationHub,
     "World": World,
     "AdvancedAgentTrainingHub": AdvancedAgentTrainingHub,
+    "EnhancedAgentTrainingHub": EnhancedAgentTrainingHub,
     "EnhancedGovernanceHub": EnhancedGovernanceHub,
+    "EnhancedCollaborationStudio": EnhancedCollaborationStudio,
+    "QuantumComputingHub": QuantumComputingHub,
+    "AdvancedIntelligenceHub": AdvancedIntelligenceHub,
 }
 
 export const pagesConfig = {
