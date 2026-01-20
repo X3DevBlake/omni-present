@@ -267,6 +267,7 @@ import OmniComm from './pages/OmniComm';
 import OmniDashboard from './pages/OmniDashboard';
 import OmniHome from './pages/OmniHome';
 import OmniHub from './pages/OmniHub';
+import OmniPresenceControlCenter from './pages/OmniPresenceControlCenter';
 import OmniStaking from './pages/OmniStaking';
 import OmniWallet from './pages/OmniWallet';
 import OrderManagement from './pages/OrderManagement';
@@ -353,7 +354,6 @@ import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
 import WorldHubEnhanced from './pages/WorldHubEnhanced';
-import OmniPresenceControlCenter from './pages/OmniPresenceControlCenter';
 import __Layout from './Layout.jsx';
 
 
@@ -627,6 +627,7 @@ export const PAGES = {
     "OmniDashboard": OmniDashboard,
     "OmniHome": OmniHome,
     "OmniHub": OmniHub,
+    "OmniPresenceControlCenter": OmniPresenceControlCenter,
     "OmniStaking": OmniStaking,
     "OmniWallet": OmniWallet,
     "OrderManagement": OrderManagement,
@@ -713,7 +714,6 @@ export const PAGES = {
     "WorkflowOrchestrationHub": WorkflowOrchestrationHub,
     "World": World,
     "WorldHubEnhanced": WorldHubEnhanced,
-    "OmniPresenceControlCenter": OmniPresenceControlCenter,
 }
 
 export const pagesConfig = {

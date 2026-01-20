@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
-import { Zap, Radio, Map, Activity, Scan, Brain, Network } from 'lucide-react';
+import { Zap, Radio, Map, Activity, Scan, Brain, Network, Heart } from 'lucide-react';
 import { motion } from 'framer-motion';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import SpatialProjectionCanvas3D from '../components/omnipresence/SpatialProjectionCanvas3D';
@@ -20,6 +20,9 @@ import Loaded3DModelViewer from '../components/omnipresence/Loaded3DModelViewer'
 import GestureRecognition3D from '../components/omnipresence/GestureRecognition3D';
 import AutonomousActionDashboard from '../components/omnipresence/AutonomousActionDashboard';
 import MultiAgentCollaboration3D from '../components/omnipresence/MultiAgentCollaboration3D';
+import EnhancedSpatialMap3D from '../components/omnipresence/EnhancedSpatialMap3D';
+import DeviceCommandVisualizer3D from '../components/omnipresence/DeviceCommandVisualizer3D';
+import EmotionDetectionPanel from '../components/omnipresence/EmotionDetectionPanel';
 import { toast } from 'sonner';
 
 export default function OmniPresenceControlCenter() {
@@ -88,6 +91,30 @@ export default function OmniPresenceControlCenter() {
   const { data: collaborativeTasks = [] } = useQuery({
     queryKey: ['collaborative-tasks'],
     queryFn: () => base44.entities.AgentCollaborativeTask.filter({}).limit(30),
+    initialData: []
+  });
+
+  const { data: deviceCommands = [] } = useQuery({
+    queryKey: ['device-commands'],
+    queryFn: () => base44.entities.DeviceCommand.filter({}).limit(50),
+    initialData: []
+  });
+
+  const { data: agentEmotions = [] } = useQuery({
+    queryKey: ['agent-emotions'],
+    queryFn: () => base44.entities.AgentEmotion.filter({}).limit(30),
+    initialData: []
+  });
+
+  const { data: smartDevices = [] } = useQuery({
+    queryKey: ['smart-device-integrations'],
+    queryFn: () => base44.entities.SmartDeviceIntegration.filter({}).limit(50),
+    initialData: []
+  });
+
+  const { data: taskDelegations = [] } = useQuery({
+    queryKey: ['task-delegations'],
+    queryFn: () => base44.entities.TaskDelegation.filter({}).limit(50),
     initialData: []
   });
 
@@ -171,6 +198,20 @@ export default function OmniPresenceControlCenter() {
     onSuccess: () => {
       queryClient.invalidateQueries(['autonomous-actions']);
       toast.info('Action rejected');
+    }
+  });
+
+  const executeDeviceCommandMutation = useMutation({
+    mutationFn: async (commandId) => {
+      const response = await base44.functions.invoke('control-smart-devices', {
+        command_ids: [commandId],
+        execute_immediately: true
+      });
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(['device-commands']);
+      toast.success('Device command executed');
     }
   });
 
@@ -297,26 +338,38 @@ export default function OmniPresenceControlCenter() {
               <Zap className="w-4 h-4 mr-2" />
               Behavior
             </TabsTrigger>
+            <TabsTrigger value="emotion">
+              <Heart className="w-4 h-4 mr-2" />
+              Emotion
+            </TabsTrigger>
+            <TabsTrigger value="devices">
+              <Zap className="w-4 h-4 mr-2" />
+              Device Commands
+            </TabsTrigger>
+            <TabsTrigger value="smart-home">
+              <Radio className="w-4 h-4 mr-2" />
+              Smart Devices
+            </TabsTrigger>
             <TabsTrigger value="logs">
               <Activity className="w-4 h-4 mr-2" />
               Logs
             </TabsTrigger>
-          </TabsList>
+            </TabsList>
 
           <TabsContent value="spatial">
             <Card className="bg-slate-900/60 border-slate-700">
               <CardHeader>
-                <CardTitle className="text-white">3D Spatial Projection View</CardTitle>
+                <CardTitle className="text-white">Enhanced 3D Spatial Map</CardTitle>
                 <p className="text-slate-400 text-sm">
-                  Real-time visualization of agents in physical space
+                  AI agents, smart devices, and real-time communication visualization
                 </p>
               </CardHeader>
               <CardContent>
                 <div className="h-[700px]">
-                  <SpatialProjectionCanvas3D
-                    presences={presences}
-                    devices={devices}
-                    spatialMaps={spatialMaps}
+                  <EnhancedSpatialMap3D
+                    agents={presences}
+                    devices={smartDevices}
+                    interactions={interactions}
                   />
                 </div>
               </CardContent>
@@ -513,6 +566,66 @@ export default function OmniPresenceControlCenter() {
                       ))}
                     </div>
                   )}
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="emotion">
+            <EmotionDetectionPanel
+              emotions={agentEmotions}
+              recentCommands={deviceCommands}
+            />
+          </TabsContent>
+
+          <TabsContent value="devices">
+            <DeviceCommandVisualizer3D
+              commands={deviceCommands}
+              onExecute={(id) => executeDeviceCommandMutation.mutate(id)}
+            />
+          </TabsContent>
+
+          <TabsContent value="smart-home">
+            <div className="space-y-6">
+              <Card className="bg-slate-900/60 border-slate-700">
+                <CardHeader>
+                  <CardTitle className="text-white">Connected Smart Devices</CardTitle>
+                  <p className="text-slate-400 text-sm">
+                    Integrated smart home appliances and robotic platforms
+                  </p>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {smartDevices.map((device) => (
+                      <div key={device.id} className="bg-slate-800/50 rounded-lg p-4">
+                        <div className="flex items-start justify-between mb-2">
+                          <div>
+                            <h4 className="text-white font-bold">{device.device_name}</h4>
+                            <p className="text-slate-400 text-sm">{device.device_type}</p>
+                          </div>
+                          <Badge className={device.connection_status === 'connected' ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}>
+                            {device.connection_status}
+                          </Badge>
+                        </div>
+                        <div className="text-xs text-slate-400 space-y-1">
+                          <p>Provider: {device.api_provider}</p>
+                          {device.current_state && (
+                            <>
+                              {device.current_state.power_on !== undefined && (
+                                <p>Power: {device.current_state.power_on ? 'ON' : 'OFF'}</p>
+                              )}
+                              {device.current_state.brightness !== undefined && (
+                                <p>Brightness: {device.current_state.brightness}%</p>
+                              )}
+                              {device.current_state.temperature !== undefined && (
+                                <p>Temp: {device.current_state.temperature.toFixed(1)}°</p>
+                              )}
+                            </>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </CardContent>
               </Card>
             </div>
