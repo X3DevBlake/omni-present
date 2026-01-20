@@ -118,6 +118,7 @@ import CryptoTradingHub from './pages/CryptoTradingHub';
 import CurriculumCourses from './pages/CurriculumCourses';
 import CustomDashboard from './pages/CustomDashboard';
 import CustomIntegrations from './pages/CustomIntegrations';
+import DAOGovernanceHub from './pages/DAOGovernanceHub';
 import DEXAggregator from './pages/DEXAggregator';
 import DashboardHome from './pages/DashboardHome';
 import DataAnnotation from './pages/DataAnnotation';
@@ -149,8 +150,10 @@ import Documentation from './pages/Documentation';
 import DynamicSimulationStudio from './pages/DynamicSimulationStudio';
 import EcosystemDashboard from './pages/EcosystemDashboard';
 import EmergentBehavior from './pages/EmergentBehavior';
+import EnhancedAIAgentMarketplace from './pages/EnhancedAIAgentMarketplace';
 import EnhancedAgentCreator from './pages/EnhancedAgentCreator';
 import EnhancedAgentMarketplace from './pages/EnhancedAgentMarketplace';
+import EnhancedAnalyticsHub from './pages/EnhancedAnalyticsHub';
 import EnhancedAnomalyDashboard from './pages/EnhancedAnomalyDashboard';
 import EnhancedBankingHub from './pages/EnhancedBankingHub';
 import EnhancedCollaborationHub from './pages/EnhancedCollaborationHub';
@@ -158,11 +161,20 @@ import EnhancedCommunications from './pages/EnhancedCommunications';
 import EnhancedCommunityHub from './pages/EnhancedCommunityHub';
 import EnhancedDashboard from './pages/EnhancedDashboard';
 import EnhancedDeFiHub from './pages/EnhancedDeFiHub';
+import EnhancedDeFiTradingHub from './pages/EnhancedDeFiTradingHub';
+import EnhancedGamificationHub from './pages/EnhancedGamificationHub';
+import EnhancedIntegrationHub from './pages/EnhancedIntegrationHub';
+import EnhancedKnowledgeHub from './pages/EnhancedKnowledgeHub';
 import EnhancedMarketplace from './pages/EnhancedMarketplace';
 import EnhancedMarketplaceHub from './pages/EnhancedMarketplaceHub';
 import EnhancedMediaHub from './pages/EnhancedMediaHub';
+import EnhancedMonitoringHub from './pages/EnhancedMonitoringHub';
 import EnhancedOmniBank from './pages/EnhancedOmniBank';
+import EnhancedSecurityHub from './pages/EnhancedSecurityHub';
+import EnhancedSimulationLab from './pages/EnhancedSimulationLab';
 import EnhancedVideoIntegrationHub from './pages/EnhancedVideoIntegrationHub';
+import EnhancedVoiceHub from './pages/EnhancedVoiceHub';
+import EnhancedWorkflowHub from './pages/EnhancedWorkflowHub';
 import EnvironmentDesigner from './pages/EnvironmentDesigner';
 import EthicsHub from './pages/EthicsHub';
 import EthicsSafetyHub from './pages/EthicsSafetyHub';
@@ -208,6 +220,7 @@ import LiquidityPools from './pages/LiquidityPools';
 import LoansAndCredit from './pages/LoansAndCredit';
 import MaintenanceSchedule from './pages/MaintenanceSchedule';
 import MarketIntelligenceHub from './pages/MarketIntelligenceHub';
+import OmniComm from './pages/OmniComm';
 import Marketplace from './pages/Marketplace';
 import MarketplaceHome from './pages/MarketplaceHome';
 import MentorshipProgramsPage from './pages/MentorshipProgramsPage';
@@ -224,7 +237,6 @@ import OmniAchievements from './pages/OmniAchievements';
 import OmniBankingHub from './pages/OmniBankingHub';
 import OmniCardManagement from './pages/OmniCardManagement';
 import OmniCardStore from './pages/OmniCardStore';
-import OmniComm from './pages/OmniComm';
 import OmniDashboard from './pages/OmniDashboard';
 import OmniHome from './pages/OmniHome';
 import OmniHub from './pages/OmniHub';
@@ -293,6 +305,7 @@ import TransferLearningHub from './pages/TransferLearningHub';
 import UnifiedAnalytics from './pages/UnifiedAnalytics';
 import UnifiedCommunicationHub from './pages/UnifiedCommunicationHub';
 import UnifiedConversationHub from './pages/UnifiedConversationHub';
+import UnifiedIntelligenceDashboard from './pages/UnifiedIntelligenceDashboard';
 import UnifiedPlatformNavigator from './pages/UnifiedPlatformNavigator';
 import UnifiedVoicePlatform from './pages/UnifiedVoicePlatform';
 import UpgradeTracker from './pages/UpgradeTracker';
@@ -307,19 +320,10 @@ import WithdrawOmni from './pages/WithdrawOmni';
 import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
-import EnhancedAIAgentMarketplace from './pages/EnhancedAIAgentMarketplace';
-import EnhancedSecurityHub from './pages/EnhancedSecurityHub';
-import EnhancedAnalyticsHub from './pages/EnhancedAnalyticsHub';
-import EnhancedKnowledgeHub from './pages/EnhancedKnowledgeHub';
-import EnhancedGamificationHub from './pages/EnhancedGamificationHub';
-import EnhancedIntegrationHub from './pages/EnhancedIntegrationHub';
-import EnhancedDeFiTradingHub from './pages/EnhancedDeFiTradingHub';
-import EnhancedSimulationLab from './pages/EnhancedSimulationLab';
-import EnhancedWorkflowHub from './pages/EnhancedWorkflowHub';
-import EnhancedVoiceHub from './pages/EnhancedVoiceHub';
-import EnhancedMonitoringHub from './pages/EnhancedMonitoringHub';
-import DAOGovernanceHub from './pages/DAOGovernanceHub';
-import UnifiedIntelligenceDashboard from './pages/UnifiedIntelligenceDashboard';
+import AgentTrainingAcademy from './pages/AgentTrainingAcademy';
+import AdvancedMLHub from './pages/AdvancedMLHub';
+import AutonomousCollaborationHub from './pages/AutonomousCollaborationHub';
+import UnifiedIntelligenceCenter from './pages/UnifiedIntelligenceCenter';
 import __Layout from './Layout.jsx';
 
 
@@ -444,6 +448,7 @@ export const PAGES = {
     "CurriculumCourses": CurriculumCourses,
     "CustomDashboard": CustomDashboard,
     "CustomIntegrations": CustomIntegrations,
+    "DAOGovernanceHub": DAOGovernanceHub,
     "DEXAggregator": DEXAggregator,
     "DashboardHome": DashboardHome,
     "DataAnnotation": DataAnnotation,
@@ -475,8 +480,10 @@ export const PAGES = {
     "DynamicSimulationStudio": DynamicSimulationStudio,
     "EcosystemDashboard": EcosystemDashboard,
     "EmergentBehavior": EmergentBehavior,
+    "EnhancedAIAgentMarketplace": EnhancedAIAgentMarketplace,
     "EnhancedAgentCreator": EnhancedAgentCreator,
     "EnhancedAgentMarketplace": EnhancedAgentMarketplace,
+    "EnhancedAnalyticsHub": EnhancedAnalyticsHub,
     "EnhancedAnomalyDashboard": EnhancedAnomalyDashboard,
     "EnhancedBankingHub": EnhancedBankingHub,
     "EnhancedCollaborationHub": EnhancedCollaborationHub,
@@ -484,11 +491,20 @@ export const PAGES = {
     "EnhancedCommunityHub": EnhancedCommunityHub,
     "EnhancedDashboard": EnhancedDashboard,
     "EnhancedDeFiHub": EnhancedDeFiHub,
+    "EnhancedDeFiTradingHub": EnhancedDeFiTradingHub,
+    "EnhancedGamificationHub": EnhancedGamificationHub,
+    "EnhancedIntegrationHub": EnhancedIntegrationHub,
+    "EnhancedKnowledgeHub": EnhancedKnowledgeHub,
     "EnhancedMarketplace": EnhancedMarketplace,
     "EnhancedMarketplaceHub": EnhancedMarketplaceHub,
     "EnhancedMediaHub": EnhancedMediaHub,
+    "EnhancedMonitoringHub": EnhancedMonitoringHub,
     "EnhancedOmniBank": EnhancedOmniBank,
+    "EnhancedSecurityHub": EnhancedSecurityHub,
+    "EnhancedSimulationLab": EnhancedSimulationLab,
     "EnhancedVideoIntegrationHub": EnhancedVideoIntegrationHub,
+    "EnhancedVoiceHub": EnhancedVoiceHub,
+    "EnhancedWorkflowHub": EnhancedWorkflowHub,
     "EnvironmentDesigner": EnvironmentDesigner,
     "EthicsHub": EthicsHub,
     "EthicsSafetyHub": EthicsSafetyHub,
@@ -534,6 +550,7 @@ export const PAGES = {
     "LoansAndCredit": LoansAndCredit,
     "MaintenanceSchedule": MaintenanceSchedule,
     "MarketIntelligenceHub": MarketIntelligenceHub,
+    "OmniComm": OmniComm,
     "Marketplace": Marketplace,
     "MarketplaceHome": MarketplaceHome,
     "MentorshipProgramsPage": MentorshipProgramsPage,
@@ -550,7 +567,6 @@ export const PAGES = {
     "OmniBankingHub": OmniBankingHub,
     "OmniCardManagement": OmniCardManagement,
     "OmniCardStore": OmniCardStore,
-    "OmniComm": OmniComm,
     "OmniDashboard": OmniDashboard,
     "OmniHome": OmniHome,
     "OmniHub": OmniHub,
@@ -619,6 +635,7 @@ export const PAGES = {
     "UnifiedAnalytics": UnifiedAnalytics,
     "UnifiedCommunicationHub": UnifiedCommunicationHub,
     "UnifiedConversationHub": UnifiedConversationHub,
+    "UnifiedIntelligenceDashboard": UnifiedIntelligenceDashboard,
     "UnifiedPlatformNavigator": UnifiedPlatformNavigator,
     "UnifiedVoicePlatform": UnifiedVoicePlatform,
     "UpgradeTracker": UpgradeTracker,
@@ -633,19 +650,10 @@ export const PAGES = {
     "WorkflowAutomationHub": WorkflowAutomationHub,
     "WorkflowOrchestrationHub": WorkflowOrchestrationHub,
     "World": World,
-    "EnhancedAIAgentMarketplace": EnhancedAIAgentMarketplace,
-    "EnhancedSecurityHub": EnhancedSecurityHub,
-    "EnhancedAnalyticsHub": EnhancedAnalyticsHub,
-    "EnhancedKnowledgeHub": EnhancedKnowledgeHub,
-    "EnhancedGamificationHub": EnhancedGamificationHub,
-    "EnhancedIntegrationHub": EnhancedIntegrationHub,
-    "EnhancedDeFiTradingHub": EnhancedDeFiTradingHub,
-    "EnhancedSimulationLab": EnhancedSimulationLab,
-    "EnhancedWorkflowHub": EnhancedWorkflowHub,
-    "EnhancedVoiceHub": EnhancedVoiceHub,
-    "EnhancedMonitoringHub": EnhancedMonitoringHub,
-    "DAOGovernanceHub": DAOGovernanceHub,
-    "UnifiedIntelligenceDashboard": UnifiedIntelligenceDashboard,
+    "AgentTrainingAcademy": AgentTrainingAcademy,
+    "AdvancedMLHub": AdvancedMLHub,
+    "AutonomousCollaborationHub": AutonomousCollaborationHub,
+    "UnifiedIntelligenceCenter": UnifiedIntelligenceCenter,
 }
 
 export const pagesConfig = {
