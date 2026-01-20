@@ -1,319 +1,233 @@
 import React, { useState } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { base44 } from '@/api/base44Client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { base44 } from '@/api/base44Client';
 import { Badge } from '@/components/ui/badge';
+import { Users, Network, Share2, Target, RefreshCw } from 'lucide-react';
 import { motion } from 'framer-motion';
 import AuroraBackground from '../components/omni/AuroraBackground';
-import TeamDynamicsTimeline3D from '../components/collaboration/TeamDynamicsTimeline3D';
-import CollaborationTimeline from '../components/collaboration/CollaborationTimeline';
-import { Users, Zap, Clock, TrendingUp } from 'lucide-react';
+import CollaborationNetwork3D from '../components/collaboration/CollaborationNetwork3D';
+import KnowledgeTransferFlow3D from '../components/collaboration/KnowledgeTransferFlow3D';
+import TaskCoordinationVisualizer3D from '../components/collaboration/TaskCoordinationVisualizer3D';
+import CollaborationHealthDashboard from '../components/collaboration/CollaborationHealthDashboard';
+import { toast } from 'sonner';
 
 export default function AdvancedCollaborationHub() {
   const queryClient = useQueryClient();
-  const [selectedTeam, setSelectedTeam] = useState(null);
 
-  const { data: proposals } = useQuery({
-    queryKey: ['collaboration-proposals'],
-    queryFn: () => base44.entities.CollaborationProposal.list('-created_date', 50)
+  const { data: networks = [] } = useQuery({
+    queryKey: ['collaboration-networks'],
+    queryFn: () => base44.entities.CollaborationNetwork.filter({}).limit(100),
+    initialData: []
   });
 
-  const { data: teams } = useQuery({
-    queryKey: ['working-groups'],
-    queryFn: () => base44.entities.WorkingGroup.list('', 50)
+  const { data: transfers = [] } = useQuery({
+    queryKey: ['knowledge-transfers'],
+    queryFn: () => base44.entities.KnowledgeTransfer.filter({}).limit(100),
+    initialData: []
   });
 
-  const { data: snapshots } = useQuery({
-    queryKey: ['team-snapshots', selectedTeam],
-    queryFn: () => selectedTeam
-      ? base44.entities.TeamDynamicsSnapshot.filter({ team_id: selectedTeam }, '-snapshot_timestamp', 20)
-      : Promise.resolve([]),
-    enabled: !!selectedTeam,
-    refetchInterval: 5000 // Real-time updates every 5s
+  const { data: coordinations = [] } = useQuery({
+    queryKey: ['task-coordinations'],
+    queryFn: () => base44.entities.TaskCoordination.filter({}).limit(50),
+    initialData: []
   });
 
-  const { data: teamTasks } = useQuery({
-    queryKey: ['team-tasks', selectedTeam],
-    queryFn: () => selectedTeam
-      ? base44.entities.AgentTaskAssignment.filter({ team_id: selectedTeam }, '', 50)
-      : Promise.resolve([]),
-    enabled: !!selectedTeam
-  });
-
-  const reallocateTasks = useMutation({
-    mutationFn: async ({ team_id, trigger }) => {
-      const response = await base44.functions.invoke('reallocateTeamTasks', {
-        team_id,
-        trigger_reason: trigger
-      });
+  const orchestrateTaskMutation = useMutation({
+    mutationFn: async (taskData) => {
+      const response = await base44.functions.invoke('orchestrate-multi-agent-task', taskData);
       return response.data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['team-snapshots'] });
+      queryClient.invalidateQueries(['task-coordinations']);
+      toast.success('Task coordination initiated');
     }
   });
 
+  const executeTransferMutation = useMutation({
+    mutationFn: async (transferData) => {
+      const response = await base44.functions.invoke('execute-knowledge-transfer', transferData);
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(['knowledge-transfers']);
+      toast.success('Knowledge transfer completed');
+    }
+  });
+
+  const analyzeHealthMutation = useMutation({
+    mutationFn: async () => {
+      const response = await base44.functions.invoke('analyze-collaboration-health', {});
+      return response.data;
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries(['collaboration-networks']);
+      toast.success(`Health Score: ${Math.round(data.overall_health)}/100`);
+    }
+  });
+
+  const activeNetworks = networks.filter(n => n.network_health > 70);
+  const completedTransfers = transfers.filter(t => t.transfer_status === 'completed');
+  const activeCoordinations = coordinations.filter(c => c.status === 'active');
+
   return (
-    <AuroraBackground className="min-h-screen py-8 px-4">
-      <div className="max-w-7xl mx-auto">
+    <AuroraBackground className="min-h-screen py-8">
+      <div className="container mx-auto px-4 max-w-7xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
         >
-          <h1 className="text-5xl font-bold text-white mb-4">
-            <span className="bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
-              Advanced Collaboration Hub
-            </span>
+          <h1 className="text-4xl font-bold text-white mb-2 flex items-center gap-3">
+            <Users className="w-10 h-10 text-cyan-400" />
+            Advanced Collaboration Hub
           </h1>
-          <p className="text-white/60 text-lg">
-            Autonomous proposals, dynamic task allocation & real-time team dynamics
-          </p>
+          <p className="text-slate-400">Multi-agent coordination and intelligent knowledge sharing</p>
         </motion.div>
 
+        {/* Quick Actions */}
+        <div className="flex flex-wrap gap-3 mb-6">
+          <Button
+            onClick={() => analyzeHealthMutation.mutate()}
+            disabled={analyzeHealthMutation.isPending}
+            className="bg-gradient-to-r from-cyan-600 to-blue-600"
+          >
+            <RefreshCw className={`w-4 h-4 mr-2 ${analyzeHealthMutation.isPending ? 'animate-spin' : ''}`} />
+            Analyze Health
+          </Button>
+        </div>
+
+        {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-          <Card className="bg-gradient-to-br from-cyan-500/20 to-blue-500/20 border-cyan-500/30 p-4">
-            <Users className="w-6 h-6 text-cyan-400 mb-2" />
-            <p className="text-white text-2xl font-bold">{proposals?.length || 0}</p>
-            <p className="text-white/60 text-sm">Active Proposals</p>
+          <Card className="bg-slate-900/60 border-slate-700">
+            <CardContent className="p-4">
+              <div className="flex items-center gap-3">
+                <Network className="w-8 h-8 text-cyan-400" />
+                <div>
+                  <p className="text-slate-400 text-xs">Active Networks</p>
+                  <p className="text-white text-2xl font-bold">{activeNetworks.length}</p>
+                </div>
+              </div>
+            </CardContent>
           </Card>
 
-          <Card className="bg-gradient-to-br from-green-500/20 to-emerald-500/20 border-green-500/30 p-4">
-            <Zap className="w-6 h-6 text-green-400 mb-2" />
-            <p className="text-white text-2xl font-bold">
-              {proposals?.filter(p => p.autonomous_initiation).length || 0}
-            </p>
-            <p className="text-white/60 text-sm">Autonomous</p>
+          <Card className="bg-slate-900/60 border-slate-700">
+            <CardContent className="p-4">
+              <div className="flex items-center gap-3">
+                <Share2 className="w-8 h-8 text-green-400" />
+                <div>
+                  <p className="text-slate-400 text-xs">Knowledge Transfers</p>
+                  <p className="text-white text-2xl font-bold">{completedTransfers.length}</p>
+                </div>
+              </div>
+            </CardContent>
           </Card>
 
-          <Card className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 border-purple-500/30 p-4">
-            <Clock className="w-6 h-6 text-purple-400 mb-2" />
-            <p className="text-white text-2xl font-bold">{teams?.length || 0}</p>
-            <p className="text-white/60 text-sm">Active Teams</p>
+          <Card className="bg-slate-900/60 border-slate-700">
+            <CardContent className="p-4">
+              <div className="flex items-center gap-3">
+                <Target className="w-8 h-8 text-purple-400" />
+                <div>
+                  <p className="text-slate-400 text-xs">Active Coordinations</p>
+                  <p className="text-white text-2xl font-bold">{activeCoordinations.length}</p>
+                </div>
+              </div>
+            </CardContent>
           </Card>
 
-          <Card className="bg-gradient-to-br from-orange-500/20 to-red-500/20 border-orange-500/30 p-4">
-            <TrendingUp className="w-6 h-6 text-orange-400 mb-2" />
-            <p className="text-white text-2xl font-bold">
-              {snapshots?.[0]?.team_velocity?.toFixed(1) || 0}
-            </p>
-            <p className="text-white/60 text-sm">Team Velocity</p>
+          <Card className="bg-slate-900/60 border-slate-700">
+            <CardContent className="p-4">
+              <div className="flex items-center gap-3">
+                <Users className="w-8 h-8 text-yellow-400" />
+                <div>
+                  <p className="text-slate-400 text-xs">Avg Synergy</p>
+                  <p className="text-white text-2xl font-bold">
+                    {Math.round(networks.reduce((acc, n) => acc + (n.collaboration_metrics?.synergy_score || 0), 0) / Math.max(networks.length, 1))}
+                  </p>
+                </div>
+              </div>
+            </CardContent>
           </Card>
         </div>
 
-        <Tabs defaultValue="proposals" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4 bg-black/30">
-            <TabsTrigger value="proposals">Collaboration Proposals</TabsTrigger>
-            <TabsTrigger value="timeline">Task Timeline</TabsTrigger>
-            <TabsTrigger value="dynamics">Team Dynamics 3D</TabsTrigger>
-            <TabsTrigger value="reallocations">Task Reallocations</TabsTrigger>
+        <Tabs defaultValue="networks" className="space-y-6">
+          <TabsList className="bg-slate-900/60">
+            <TabsTrigger value="networks">
+              <Network className="w-4 h-4 mr-2" />
+              Networks
+            </TabsTrigger>
+            <TabsTrigger value="knowledge">
+              <Share2 className="w-4 h-4 mr-2" />
+              Knowledge Transfer
+            </TabsTrigger>
+            <TabsTrigger value="coordination">
+              <Target className="w-4 h-4 mr-2" />
+              Task Coordination
+            </TabsTrigger>
+            <TabsTrigger value="health">
+              <Users className="w-4 h-4 mr-2" />
+              Health Analytics
+            </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="proposals">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-              {proposals?.map(proposal => (
-                <Card key={proposal.id} className="bg-white/5 border-white/10">
-                  <CardHeader>
-                    <div className="flex items-center justify-between">
-                      <CardTitle className="text-white text-lg">{proposal.proposal_name}</CardTitle>
-                      <Badge className={
-                        proposal.proposal_status === 'approved' ? 'bg-green-500' :
-                        proposal.proposal_status === 'pending_approval' ? 'bg-yellow-500' :
-                        'bg-gray-500'
-                      }>
-                        {proposal.proposal_status}
-                      </Badge>
-                    </div>
-                    {proposal.autonomous_initiation && (
-                      <Badge className="bg-purple-500 w-fit">⚡ Autonomous</Badge>
-                    )}
-                  </CardHeader>
-                  <CardContent className="space-y-3">
-                    <div className="bg-black/30 rounded p-3">
-                      <div className="text-white/60 text-xs mb-1">Task Complexity</div>
-                      <div className="flex items-center gap-2">
-                        <div className="flex-1 bg-white/10 rounded-full h-2">
-                          <div
-                            className="bg-gradient-to-r from-cyan-400 to-blue-400 h-2 rounded-full"
-                            style={{ width: `${proposal.task_complexity_analysis?.complexity_score || 0}%` }}
-                          />
-                        </div>
-                        <span className="text-cyan-400 text-sm font-bold">
-                          {proposal.task_complexity_analysis?.complexity_score || 0}
-                        </span>
-                      </div>
-                    </div>
-
-                    {proposal.detected_skill_gaps?.length > 0 && (
-                      <div>
-                        <div className="text-white/60 text-xs mb-2">Skill Gaps Detected</div>
-                        <div className="flex flex-wrap gap-1">
-                          {proposal.detected_skill_gaps.slice(0, 3).map((gap, i) => (
-                            <Badge key={i} className="text-xs bg-red-500/20 text-red-300">
-                              {gap.skill_name}
-                            </Badge>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    {proposal.suggested_team_members?.length > 0 && (
-                      <div>
-                        <div className="text-white/60 text-xs mb-2">Suggested Team ({proposal.suggested_team_members.length})</div>
-                        <div className="grid grid-cols-2 gap-2">
-                          {proposal.suggested_team_members.slice(0, 2).map((member, i) => (
-                            <div key={i} className="bg-purple-500/20 border border-purple-500/30 rounded p-2">
-                              <div className="text-white text-xs font-medium">Agent {member.agent_id?.slice(-6)}</div>
-                              <div className="text-purple-400 text-xs">{member.compatibility_score}% match</div>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </TabsContent>
-
-          <TabsContent value="timeline">
-            <Card className="bg-black/40 border-white/10">
+          <TabsContent value="networks">
+            <Card className="bg-slate-900/60 border-slate-700">
               <CardHeader>
-                <CardTitle className="text-white">Team Task Timeline</CardTitle>
+                <CardTitle className="text-white">Collaboration Network Topology</CardTitle>
+                <p className="text-slate-400 text-sm">
+                  Real-time visualization of agent collaboration networks
+                </p>
               </CardHeader>
               <CardContent>
-                {selectedTeam && teamTasks?.length > 0 ? (
-                  <CollaborationTimeline
-                    tasks={teamTasks}
-                    dependencies={teamTasks.flatMap(t => t.dependencies || [])}
-                  />
-                ) : (
-                  <div className="text-center py-12">
-                    <Clock className="w-16 h-16 text-white/40 mx-auto mb-4" />
-                    <p className="text-white/60">
-                      {selectedTeam ? 'No tasks in this team yet' : 'Select a team to view timeline'}
-                    </p>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="dynamics">
-            <Card className="bg-black/40 border-white/10">
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-white">Real-Time Team Dynamics</CardTitle>
-                  <div className="flex items-center gap-2">
-                    <select
-                      className="bg-white/5 border border-white/10 rounded px-3 py-1 text-white text-sm"
-                      value={selectedTeam || ''}
-                      onChange={(e) => setSelectedTeam(e.target.value)}
-                    >
-                      <option value="">Select Team</option>
-                      {teams?.map(team => (
-                        <option key={team.id} value={team.id}>{team.group_name}</option>
-                      ))}
-                    </select>
-                    {selectedTeam && (
-                      <Button
-                        size="sm"
-                        onClick={() => reallocateTasks.mutate({ team_id: selectedTeam, trigger: 'manual' })}
-                        disabled={reallocateTasks.isPending}
-                        className="bg-orange-600"
-                      >
-                        Optimize Tasks
-                      </Button>
-                    )}
-                  </div>
+                <div className="h-[700px]">
+                  <CollaborationNetwork3D networks={networks} />
                 </div>
-              </CardHeader>
-              <CardContent>
-                {selectedTeam ? (
-                  <>
-                    <TeamDynamicsTimeline3D
-                      snapshots={snapshots}
-                      tasks={teamTasks || []}
-                      onTaskClick={(task) => console.log('Task:', task)}
-                    />
-                    <div className="mt-6 grid grid-cols-3 gap-4">
-                      <div className="bg-blue-500/20 border border-blue-500/30 rounded p-3">
-                        <div className="text-blue-300 text-sm">Collaboration Efficiency</div>
-                        <div className="text-white text-2xl font-bold">
-                          {snapshots?.[0]?.collaboration_efficiency?.toFixed(0) || 0}%
-                        </div>
-                      </div>
-                      <div className="bg-green-500/20 border border-green-500/30 rounded p-3">
-                        <div className="text-green-300 text-sm">Team Velocity</div>
-                        <div className="text-white text-2xl font-bold">
-                          {snapshots?.[0]?.team_velocity?.toFixed(1) || 0}
-                        </div>
-                      </div>
-                      <div className="bg-orange-500/20 border border-orange-500/30 rounded p-3">
-                        <div className="text-orange-300 text-sm">Active Bottlenecks</div>
-                        <div className="text-white text-2xl font-bold">
-                          {snapshots?.[0]?.bottlenecks_detected?.length || 0}
-                        </div>
-                      </div>
-                    </div>
-                  </>
-                ) : (
-                  <div className="text-center py-12">
-                    <Users className="w-16 h-16 text-white/40 mx-auto mb-4" />
-                    <p className="text-white/60">Select a team to visualize dynamics</p>
-                  </div>
-                )}
               </CardContent>
             </Card>
           </TabsContent>
 
-          <TabsContent value="reallocations">
-            <Card className="bg-black/40 border-white/10">
+          <TabsContent value="knowledge">
+            <Card className="bg-slate-900/60 border-slate-700">
               <CardHeader>
-                <CardTitle className="text-white">Dynamic Task Reallocations</CardTitle>
+                <CardTitle className="text-white">Knowledge Transfer Flow</CardTitle>
+                <p className="text-slate-400 text-sm">
+                  Visualize knowledge sharing and skill propagation
+                </p>
               </CardHeader>
               <CardContent>
-                {snapshots?.[0]?.dynamic_reallocation_events?.length > 0 ? (
-                  <div className="space-y-3">
-                    {snapshots[0].dynamic_reallocation_events.slice(0, 10).map((event, i) => (
-                      <div key={i} className="bg-white/5 border border-white/10 rounded p-4">
-                        <div className="flex items-center justify-between mb-2">
-                          <div className="text-white font-medium">Task Reallocation</div>
-                          <Badge className={
-                            event.trigger_type === 'bottleneck' ? 'bg-red-500' :
-                            event.trigger_type === 'performance' ? 'bg-yellow-500' :
-                            'bg-blue-500'
-                          }>
-                            {event.trigger_type}
-                          </Badge>
-                        </div>
-                        <div className="grid grid-cols-3 gap-4 text-sm">
-                          <div>
-                            <div className="text-white/60 text-xs">From</div>
-                            <div className="text-cyan-400">Agent {event.from_agent?.slice(-6)}</div>
-                          </div>
-                          <div>
-                            <div className="text-white/60 text-xs">To</div>
-                            <div className="text-green-400">Agent {event.to_agent?.slice(-6)}</div>
-                          </div>
-                          <div>
-                            <div className="text-white/60 text-xs">Time</div>
-                            <div className="text-white">{new Date(event.timestamp).toLocaleTimeString()}</div>
-                          </div>
-                        </div>
-                        <p className="text-white/60 text-xs mt-2">{event.reason}</p>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="text-center py-12">
-                    <p className="text-white/60">No task reallocations yet</p>
-                  </div>
-                )}
+                <div className="h-[700px]">
+                  <KnowledgeTransferFlow3D transfers={transfers} />
+                </div>
               </CardContent>
             </Card>
+          </TabsContent>
+
+          <TabsContent value="coordination">
+            <Card className="bg-slate-900/60 border-slate-700">
+              <CardHeader>
+                <CardTitle className="text-white">Task Coordination Visualizer</CardTitle>
+                <p className="text-slate-400 text-sm">
+                  Monitor multi-agent task execution and dependencies
+                </p>
+              </CardHeader>
+              <CardContent>
+                <div className="h-[700px]">
+                  <TaskCoordinationVisualizer3D coordinations={coordinations} />
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="health">
+            <CollaborationHealthDashboard
+              networks={networks}
+              transfers={transfers}
+              coordinations={coordinations}
+              onAnalyze={() => analyzeHealthMutation.mutate()}
+              isAnalyzing={analyzeHealthMutation.isPending}
+            />
           </TabsContent>
         </Tabs>
       </div>
