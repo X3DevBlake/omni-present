@@ -36,6 +36,8 @@ import PredictiveInsightCards from '../components/home/PredictiveInsightCards';
 import OmegaConsciousnessNetwork3D from '../components/home/OmegaConsciousnessNetwork3D';
 import AutonomousAgentActivityFeed3D from '../components/home/AutonomousAgentActivityFeed3D';
 import OmegaSentientCoreVisualizer3D from '../components/sentient/OmegaSentientCoreVisualizer3D';
+import MultiLayerConsciousnessVisualizer3D from '../components/home/MultiLayerConsciousnessVisualizer3D';
+import EmergentIntelligenceMatrix3D from '../components/home/EmergentIntelligenceMatrix3D';
 
 export default function Home() {
   const [activeFeature, setActiveFeature] = useState(0);
@@ -468,6 +470,17 @@ export default function Home() {
             className="mb-12"
           >
             <OmegaSentientCoreVisualizer3D />
+          </motion.div>
+
+          {/* Multi-Layer Consciousness & Emergent Intelligence */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.75, duration: 0.8 }}
+            className="mb-12 grid grid-cols-1 lg:grid-cols-2 gap-6"
+          >
+            <MultiLayerConsciousnessVisualizer3D />
+            <EmergentIntelligenceMatrix3D />
           </motion.div>
 
           {/* Features Grid with Drag & Drop */}
