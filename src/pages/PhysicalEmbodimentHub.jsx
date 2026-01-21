@@ -6,7 +6,9 @@ import NeuralChipBlueprint3D from '../components/body/NeuralChipBlueprint3D';
 import SentientCompanionInterface3D from '../components/interaction/SentientCompanionInterface3D';
 import SkillMarketplace3D from '../components/body/SkillMarketplace3D';
 import EmbodiedTeamCollaboration3D from '../components/body/EmbodiedTeamCollaboration3D';
-import { Bot, Brain, Heart, ShoppingCart, Users } from 'lucide-react';
+import ConsciousnessTransferVisualizer3D from '../components/consciousness/ConsciousnessTransferVisualizer3D';
+import NeuralLinkVisualizer3D from '../components/consciousness/NeuralLinkVisualizer3D';
+import { Bot, Brain, Heart, ShoppingCart, Users, Cpu, Link2 } from 'lucide-react';
 
 export default function PhysicalEmbodimentHub() {
   return (
@@ -28,7 +30,7 @@ export default function PhysicalEmbodimentHub() {
         </Card>
 
         <Tabs defaultValue="embodiment" className="space-y-4">
-          <TabsList className="grid grid-cols-5 gap-2 bg-slate-900/60 p-2">
+          <TabsList className="grid grid-cols-7 gap-2 bg-slate-900/60 p-2">
             <TabsTrigger value="embodiment">
               <Bot className="w-4 h-4 mr-2" />
               Embodiment
@@ -48,6 +50,14 @@ export default function PhysicalEmbodimentHub() {
             <TabsTrigger value="companion">
               <Heart className="w-4 h-4 mr-2" />
               Companion
+            </TabsTrigger>
+            <TabsTrigger value="consciousness">
+              <Cpu className="w-4 h-4 mr-2" />
+              Consciousness
+            </TabsTrigger>
+            <TabsTrigger value="neurallink">
+              <Link2 className="w-4 h-4 mr-2" />
+              Neural Link
             </TabsTrigger>
           </TabsList>
 
@@ -69,6 +79,14 @@ export default function PhysicalEmbodimentHub() {
 
           <TabsContent value="companion">
             <SentientCompanionInterface3D />
+          </TabsContent>
+
+          <TabsContent value="consciousness">
+            <ConsciousnessTransferVisualizer3D />
+          </TabsContent>
+
+          <TabsContent value="neurallink">
+            <NeuralLinkVisualizer3D />
           </TabsContent>
         </Tabs>
       </div>
