@@ -203,36 +203,57 @@ function SmartDevice3D({ device, onControl }) {
   );
 }
 
-// Sensor data heatmap overlay
+// Sensor data heatmap overlay (ultra animated)
 function SensorHeatmap3D({ sensorData, type = 'temperature' }) {
   const meshRef = useRef();
+  const pulseRef = useRef();
 
   useFrame((state) => {
     if (meshRef.current) {
-      meshRef.current.material.opacity = 0.2 + Math.sin(state.clock.elapsedTime) * 0.05;
+      const t = state.clock.elapsedTime;
+      meshRef.current.material.opacity = 0.18 + Math.sin(t * 1.2) * 0.06;
+      meshRef.current.scale.setScalar(1 + Math.sin(t * 0.8) * 0.03);
+    }
+    if (pulseRef.current) {
+      pulseRef.current.scale.setScalar(1 + Math.sin(state.clock.elapsedTime * 2) * 0.1);
+      pulseRef.current.material.opacity = 0.12 + Math.sin(state.clock.elapsedTime * 3) * 0.06;
     }
   });
 
   const heatmapColors = {
-    temperature: { cold: '#3b82f6', hot: '#ef4444' },
+    temperature: { low: '#3b82f6', high: '#ef4444' },
     humidity: { low: '#f59e0b', high: '#06b6d4' },
-    light: { dark: '#1e293b', bright: '#fbbf24' }
+    light: { low: '#1e293b', high: '#fbbf24' },
+    air_quality: { low: '#10b981', high: '#ef4444' },
   };
 
-  // Generate heatmap gradient based on sensor data
   const gradientColor = useMemo(() => {
-    const value = sensorData?.value || 50;
-    const normalized = Math.min(100, Math.max(0, value)) / 100;
-    return normalized > 0.5 ? heatmapColors[type]?.hot : heatmapColors[type]?.cold;
+    const value = sensorData?.reading_value ?? sensorData?.value ?? 50;
+    const min = sensorData?.thresholds?.min_normal ?? 0;
+    const max = sensorData?.thresholds?.max_normal ?? 100;
+    const normalized = Math.min(1, Math.max(0, (value - min) / (max - min || 1)));
+    const scale = heatmapColors[type] || heatmapColors.temperature;
+    // simple lerp between low/high
+    return normalized < 0.5 ? scale.low : scale.high;
   }, [sensorData, type]);
 
   if (!sensorData) return null;
 
+  const x = sensorData.position?.x ?? 5;
+  const z = sensorData.position?.z ?? 5;
+
   return (
-    <mesh ref={meshRef} position={[sensorData.position?.x || 5, 0.02, sensorData.position?.z || 5]} rotation={[-Math.PI / 2, 0, 0]}>
-      <circleGeometry args={[2, 32]} />
-      <meshBasicMaterial color={gradientColor} transparent opacity={0.25} />
-    </mesh>
+    <group>
+      <mesh ref={meshRef} position={[x, 0.02, z]} rotation={[-Math.PI / 2, 0, 0]}>
+        <circleGeometry args={[2, 48]} />
+        <meshBasicMaterial color={gradientColor} transparent opacity={0.25} />
+      </mesh>
+      {/* subtle pulse ring */}
+      <mesh ref={pulseRef} position={[x, 0.021, z]} rotation={[-Math.PI / 2, 0, 0]}>
+        <ringGeometry args={[2.1, 2.25, 64]} />
+        <meshBasicMaterial color={gradientColor} transparent opacity={0.15} side={THREE.DoubleSide} />
+      </mesh>
+    </group>
   );
 }
 
@@ -363,8 +384,8 @@ function LiveSensorOverlay3D({ sensors, showValues = true }) {
   );
 }
 
-// Live task progress overlay
-function LiveTaskProgressOverlay3D({ tasks, agents }) {
+// Live task progress overlay with interactive bars
+function LiveTaskProgressOverlay3D({ tasks, agents, color = '#a855f7', showSteps = true }) {
   return (
     <group>
       {tasks.map((task, idx) => {
@@ -383,13 +404,15 @@ function LiveTaskProgressOverlay3D({ tasks, agents }) {
                 <p className="font-bold mb-1">{task.task_name}</p>
                 <div className="w-full h-2 bg-slate-700 rounded overflow-hidden mb-1">
                   <div 
-                    className="h-full bg-gradient-to-r from-purple-500 to-pink-500 transition-all" 
-                    style={{ width: `${task.progress || 0}%` }}
+                    className="h-full transition-all" 
+                    style={{ width: `${task.progress || 0}%`, background: `linear-gradient(90deg, ${color}, #ec4899)` }}
                   />
                 </div>
                 <div className="flex items-center justify-between text-xs">
                   <span className="text-slate-400">{task.progress || 0}%</span>
-                  <span className="text-purple-300">{task.task_decomposition?.filter(t => t.status === 'completed').length || 0}/{task.task_decomposition?.length || 0} steps</span>
+                  {showSteps && (
+                    <span className="text-purple-300">{task.task_decomposition?.filter(t => t.status === 'completed').length || 0}/{task.task_decomposition?.length || 0} steps</span>
+                  )}
                 </div>
               </div>
             </Html>
