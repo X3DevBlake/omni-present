@@ -41,6 +41,13 @@ import DeviceBlueprintViewer3D from '../components/omnipresence/DeviceBlueprintV
 import PredictiveObstacleVisualizer3D from '../components/omnipresence/PredictiveObstacleVisualizer3D';
 import AgentFeedbackLearningPanel from '../components/omnipresence/AgentFeedbackLearningPanel';
 import ComplexTaskOrchestrator from '../components/omnipresence/ComplexTaskOrchestrator';
+import EnhancedOmniLoopLogo3D from '../components/omnipresence/EnhancedOmniLoopLogo3D';
+import EnhancedOmniText3D from '../components/omnipresence/EnhancedOmniText3D';
+import LiveSpatialProjectionMap3D from '../components/omnipresence/LiveSpatialProjectionMap3D';
+import AdvancedAgentPresence3D from '../components/omnipresence/AdvancedAgentPresence3D';
+import ContextAwareAgentVisualizer3D from '../components/omnipresence/ContextAwareAgentVisualizer3D';
+import DynamicPathfindingVisualizer3D from '../components/omnipresence/DynamicPathfindingVisualizer3D';
+import ProjectionDeviceSimulator3D from '../components/omnipresence/ProjectionDeviceSimulator3D';
 import { toast } from 'sonner';
 
 export default function OmniPresenceControlCenter() {
@@ -437,6 +444,34 @@ export default function OmniPresenceControlCenter() {
             <TabsTrigger value="learning">
               <Brain className="w-4 h-4 mr-2" />
               Learning
+            </TabsTrigger>
+            <TabsTrigger value="enhanced-logo">
+              <Zap className="w-4 h-4 mr-2" />
+              Logo
+            </TabsTrigger>
+            <TabsTrigger value="enhanced-text">
+              <Activity className="w-4 h-4 mr-2" />
+              Text
+            </TabsTrigger>
+            <TabsTrigger value="live-spatial">
+              <Map className="w-4 h-4 mr-2" />
+              Live Map
+            </TabsTrigger>
+            <TabsTrigger value="agent-presence">
+              <Brain className="w-4 h-4 mr-2" />
+              Agent Presence
+            </TabsTrigger>
+            <TabsTrigger value="context-aware">
+              <Brain className="w-4 h-4 mr-2" />
+              Context AI
+            </TabsTrigger>
+            <TabsTrigger value="pathfinding">
+              <Network className="w-4 h-4 mr-2" />
+              Pathfinding
+            </TabsTrigger>
+            <TabsTrigger value="projection-sim">
+              <Cpu className="w-4 h-4 mr-2" />
+              Projection Sim
             </TabsTrigger>
             <TabsTrigger value="multi-device">
               <Radio className="w-4 h-4 mr-2" />
@@ -850,6 +885,50 @@ export default function OmniPresenceControlCenter() {
 
           <TabsContent value="learning">
             <AgentFeedbackLearningPanel agents={presences} />
+          </TabsContent>
+
+          <TabsContent value="enhanced-logo">
+            <Card className="bg-slate-900/60 border-slate-700">
+              <CardHeader>
+                <CardTitle className="text-white">Enhanced Omni Logo Loop</CardTitle>
+                <p className="text-slate-400 text-sm">Dynamic, reactive logo with real-time system activity visualization</p>
+              </CardHeader>
+              <CardContent>
+                <EnhancedOmniLoopLogo3D compact={false} />
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="enhanced-text">
+            <Card className="bg-slate-900/60 border-slate-700">
+              <CardHeader>
+                <CardTitle className="text-white">Enhanced Omni Text</CardTitle>
+                <p className="text-slate-400 text-sm">Animated, emotion-aware text with data stream visualization</p>
+              </CardHeader>
+              <CardContent>
+                <EnhancedOmniText3D onLetterClick={(char, idx) => toast.info(`Clicked: ${char}`)} />
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="live-spatial">
+            <LiveSpatialProjectionMap3D />
+          </TabsContent>
+
+          <TabsContent value="agent-presence">
+            <AdvancedAgentPresence3D />
+          </TabsContent>
+
+          <TabsContent value="context-aware">
+            <ContextAwareAgentVisualizer3D />
+          </TabsContent>
+
+          <TabsContent value="pathfinding">
+            <DynamicPathfindingVisualizer3D />
+          </TabsContent>
+
+          <TabsContent value="projection-sim">
+            <ProjectionDeviceSimulator3D />
           </TabsContent>
 
           <TabsContent value="logs">
