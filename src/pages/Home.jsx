@@ -30,6 +30,9 @@ import BiometricAdaptiveVisualizer3D from '../components/augmentations/Biometric
 import OmegaEcosystemStats from '../components/home/OmegaEcosystemStats';
 import LiveCriticalEventsTimeline from '../components/home/LiveCriticalEventsTimeline';
 import RealTimeDataFlowAnimation from '../components/home/RealTimeDataFlowAnimation';
+import SelfHealingDeviceVisualizer3D from '../components/devices/SelfHealingDeviceVisualizer3D';
+import InteractiveEcosystemGlobe3D from '../components/home/InteractiveEcosystemGlobe3D';
+import PredictiveInsightCards from '../components/home/PredictiveInsightCards';
 
 export default function Home() {
   const [activeFeature, setActiveFeature] = useState(0);
@@ -405,6 +408,42 @@ export default function Home() {
                 <RealTimeDataFlowAnimation />
               </CardContent>
             </Card>
+          </motion.div>
+
+          {/* Predictive AI Insights */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.62, duration: 0.8 }}
+            className="mb-12"
+          >
+            <h2 className="text-3xl font-bold text-center mb-6 text-white">
+              Omega Predictive Intelligence
+            </h2>
+            <p className="text-center text-slate-400 mb-8">
+              AI-generated insights and recommendations across your entire ecosystem
+            </p>
+            <PredictiveInsightCards />
+          </motion.div>
+
+          {/* Interactive Ecosystem Globe & Self-Healing Devices */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.65, duration: 0.8 }}
+            className="mb-12 grid grid-cols-1 lg:grid-cols-2 gap-6"
+          >
+            <Card className="bg-slate-900/60 backdrop-blur-xl border-slate-700">
+              <CardHeader>
+                <CardTitle className="text-white">Interactive Ecosystem Globe</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="h-[500px]">
+                  <InteractiveEcosystemGlobe3D />
+                </div>
+              </CardContent>
+            </Card>
+            <SelfHealingDeviceVisualizer3D />
           </motion.div>
 
           {/* Features Grid with Drag & Drop */}

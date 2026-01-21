@@ -17,6 +17,7 @@ import SmartBreadcrumbs from './components/navigation/SmartBreadcrumbs';
 import FloatingMiniMap from './components/navigation/FloatingMiniMap';
 import AdaptiveNavigationAI from './components/navigation/AdaptiveNavigationAI';
 import QuickAccessShortcuts from './components/navigation/QuickAccessShortcuts';
+import PredictiveNavigationSuggestions from './components/navigation/PredictiveNavigationSuggestions';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -68,6 +69,7 @@ function LayoutContent({ children, currentPageName }) {
       <FloatingMiniMap currentPage={currentPageName} hubs={[]} />
       <AdaptiveNavigationAI />
       <QuickAccessShortcuts />
+      <PredictiveNavigationSuggestions />
       <ImmersivePageTransition>
         <EnhancedMainNavRevamped />
         <BackButton />
