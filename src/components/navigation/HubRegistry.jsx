@@ -53,6 +53,9 @@ export const HubRegistry = [
   { id: 'ethics', name: 'Ethics Hub', path: 'EthicsHub', category: 'management', icon3d: 'shield', color: '#f59e0b' },
   
   // New Enhanced Hubs
+  { id: 'omega-intelligence', name: 'Omega Intelligence', path: 'OmegaIntelligenceHub', category: 'ai', icon3d: 'brain', color: '#00ffff' },
+  { id: 'companion-evolution', name: 'Companion Evolution', path: 'CompanionEvolutionHub', category: 'ai', icon3d: 'heart', color: '#ff00ff' },
+  { id: 'advanced-systems', name: 'Advanced Systems', path: 'AdvancedSystemsHub', category: 'core', icon3d: 'settings', color: '#0099ff' },
   { id: 'media', name: 'Media Hub', path: 'EnhancedMediaHub', category: 'core', icon3d: 'galaxy', color: '#ec4899' },
   { id: 'cloudinary', name: 'Cloudinary Hub', path: 'CloudinaryHub', category: 'core', icon3d: 'cube', color: '#3b82f6' },
   { id: 'gemini', name: 'Gemini Hub', path: 'GeminiHub', category: 'core', icon3d: 'brain', color: '#a855f7' },
