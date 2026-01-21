@@ -9,7 +9,10 @@ import CompanionPersonalityEvolution3D from '../components/interaction/Companion
 import HealthScenarioSimulator3D from '../components/body/HealthScenarioSimulator3D';
 import CompanionEmotionalTraining3D from '../components/interaction/CompanionEmotionalTraining3D';
 import ProactiveHealthInterventions3D from '../components/body/ProactiveHealthInterventions3D';
-import { Cpu, Heart, User, Activity, Sparkle, Play, GraduationCap, Shield } from 'lucide-react';
+import BiometricAdaptiveVisualizer3D from '../components/augmentations/BiometricAdaptiveVisualizer3D';
+import EthicalReasoningVisualizer3D from '../components/companions/EthicalReasoningVisualizer3D';
+import SelfHealingDeviceVisualizer3D from '../components/devices/SelfHealingDeviceVisualizer3D';
+import { Cpu, Heart, User, Activity, Sparkle, Play, GraduationCap, Shield, Zap, Brain, Wrench } from 'lucide-react';
 
 export default function AugmentationDesignHub() {
   return (
@@ -31,7 +34,7 @@ export default function AugmentationDesignHub() {
         </Card>
 
         <Tabs defaultValue="studio" className="space-y-4">
-          <TabsList className="grid grid-cols-3 gap-2 bg-slate-900/60 p-2">
+          <TabsList className="grid grid-cols-6 gap-2 bg-slate-900/60 p-2">
             <TabsTrigger value="studio">
               <Cpu className="w-4 h-4 mr-2" />
               Design Studio
@@ -43,6 +46,18 @@ export default function AugmentationDesignHub() {
             <TabsTrigger value="health">
               <Activity className="w-4 h-4 mr-2" />
               Health AI
+            </TabsTrigger>
+            <TabsTrigger value="adaptive">
+              <Zap className="w-4 h-4 mr-2" />
+              Adaptive Bio
+            </TabsTrigger>
+            <TabsTrigger value="ethics">
+              <Brain className="w-4 h-4 mr-2" />
+              Ethics
+            </TabsTrigger>
+            <TabsTrigger value="devices">
+              <Wrench className="w-4 h-4 mr-2" />
+              Self-Healing
             </TabsTrigger>
           </TabsList>
 
@@ -67,6 +82,18 @@ export default function AugmentationDesignHub() {
               <HealthScenarioSimulator3D />
               <ProactiveHealthInterventions3D />
             </div>
+          </TabsContent>
+
+          <TabsContent value="adaptive">
+            <BiometricAdaptiveVisualizer3D />
+          </TabsContent>
+
+          <TabsContent value="ethics">
+            <EthicalReasoningVisualizer3D />
+          </TabsContent>
+
+          <TabsContent value="devices">
+            <SelfHealingDeviceVisualizer3D />
           </TabsContent>
         </Tabs>
       </div>
