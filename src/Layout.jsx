@@ -72,7 +72,6 @@ function LayoutContent({ children, currentPageName }) {
       <QuickAccessShortcuts />
       <PredictiveNavigationSuggestions />
       <AIContextualNavAssistant />
-      <ProactiveInsightCard3D />
       <ImmersivePageTransition>
         <EnhancedMainNavRevamped />
         <BackButton />

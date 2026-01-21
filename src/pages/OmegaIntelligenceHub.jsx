@@ -5,7 +5,6 @@ import { Brain, Network, Lightbulb, Target, Shield, Database, BookOpen } from 'l
 
 import ContextualInfoDisplay from '../components/ai/ContextualInfoDisplay';
 import LearningProgressVisualizer3D from '../components/ai/LearningProgressVisualizer3D';
-import ProactiveInsightCard3D from '../components/ai/ProactiveInsightCard3D';
 import KnowledgeGraphVisualizer3D from '../components/knowledge/KnowledgeGraphVisualizer3D';
 import GoalProgressVisualizer3D from '../components/orchestration/GoalProgressVisualizer3D';
 import ThreatDetectionMonitor3D from '../components/security/ThreatDetectionMonitor3D';
@@ -31,9 +30,6 @@ export default function OmegaIntelligenceHub() {
 
                 {/* Contextual Info Display - Floating */}
                 <ContextualInfoDisplay />
-
-                {/* Proactive Insights - Floating Cards */}
-                <ProactiveInsightCard3D />
 
                 {/* Main Content Tabs */}
                 <Tabs defaultValue="learning" className="w-full">
