@@ -5,7 +5,9 @@ import AugmentationDesignStudio3D from '../components/body/AugmentationDesignStu
 import SentientCompanionInterface3D from '../components/interaction/SentientCompanionInterface3D';
 import BodyAugmentationBlueprint3D from '../components/body/BodyAugmentationBlueprint3D';
 import UnifiedHealthTrajectoryVisualizer3D from '../components/body/UnifiedHealthTrajectoryVisualizer3D';
-import { Cpu, Heart, User, Activity } from 'lucide-react';
+import CompanionPersonalityEvolution3D from '../components/interaction/CompanionPersonalityEvolution3D';
+import HealthScenarioSimulator3D from '../components/body/HealthScenarioSimulator3D';
+import { Cpu, Heart, User, Activity, Sparkle, Play } from 'lucide-react';
 
 export default function AugmentationDesignHub() {
   return (
@@ -27,39 +29,40 @@ export default function AugmentationDesignHub() {
         </Card>
 
         <Tabs defaultValue="studio" className="space-y-4">
-          <TabsList className="grid grid-cols-4 gap-2 bg-slate-900/60 p-2">
+          <TabsList className="grid grid-cols-3 gap-2 bg-slate-900/60 p-2">
             <TabsTrigger value="studio">
               <Cpu className="w-4 h-4 mr-2" />
               Design Studio
             </TabsTrigger>
             <TabsTrigger value="companion">
               <Heart className="w-4 h-4 mr-2" />
-              AI Companion
+              Companion
             </TabsTrigger>
             <TabsTrigger value="health">
               <Activity className="w-4 h-4 mr-2" />
               Health AI
             </TabsTrigger>
-            <TabsTrigger value="blueprint">
-              <User className="w-4 h-4 mr-2" />
-              Blueprints
-            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="studio">
-            <AugmentationDesignStudio3D />
+            <div className="space-y-4">
+              <AugmentationDesignStudio3D />
+              <BodyAugmentationBlueprint3D />
+            </div>
           </TabsContent>
 
           <TabsContent value="companion">
-            <SentientCompanionInterface3D />
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <SentientCompanionInterface3D />
+              <CompanionPersonalityEvolution3D />
+            </div>
           </TabsContent>
 
           <TabsContent value="health">
-            <UnifiedHealthTrajectoryVisualizer3D />
-          </TabsContent>
-
-          <TabsContent value="blueprint">
-            <BodyAugmentationBlueprint3D />
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <UnifiedHealthTrajectoryVisualizer3D />
+              <HealthScenarioSimulator3D />
+            </div>
           </TabsContent>
         </Tabs>
       </div>

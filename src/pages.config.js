@@ -289,6 +289,7 @@ import Phase7IntegrationHub from './pages/Phase7IntegrationHub';
 import Phase8PredictiveIntelligence from './pages/Phase8PredictiveIntelligence';
 import Phase9ImmersiveUX from './pages/Phase9ImmersiveUX';
 import PhysicalAugmentationHub from './pages/PhysicalAugmentationHub';
+import PhysicalEmbodimentHub from './pages/PhysicalEmbodimentHub';
 import PhysicalWorldIntegration from './pages/PhysicalWorldIntegration';
 import PortfolioRebalancer from './pages/PortfolioRebalancer';
 import PredictiveAnalyticsHub from './pages/PredictiveAnalyticsHub';
@@ -359,7 +360,6 @@ import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
 import WorldHubEnhanced from './pages/WorldHubEnhanced';
-import PhysicalEmbodimentHub from './pages/PhysicalEmbodimentHub';
 import __Layout from './Layout.jsx';
 
 
@@ -655,6 +655,7 @@ export const PAGES = {
     "Phase8PredictiveIntelligence": Phase8PredictiveIntelligence,
     "Phase9ImmersiveUX": Phase9ImmersiveUX,
     "PhysicalAugmentationHub": PhysicalAugmentationHub,
+    "PhysicalEmbodimentHub": PhysicalEmbodimentHub,
     "PhysicalWorldIntegration": PhysicalWorldIntegration,
     "PortfolioRebalancer": PortfolioRebalancer,
     "PredictiveAnalyticsHub": PredictiveAnalyticsHub,
@@ -725,7 +726,6 @@ export const PAGES = {
     "WorkflowOrchestrationHub": WorkflowOrchestrationHub,
     "World": World,
     "WorldHubEnhanced": WorldHubEnhanced,
-    "PhysicalEmbodimentHub": PhysicalEmbodimentHub,
 }
 
 export const pagesConfig = {
