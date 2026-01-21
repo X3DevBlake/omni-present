@@ -40,6 +40,7 @@ import MultiLayerConsciousnessVisualizer3D from '../components/home/MultiLayerCo
 import EmergentIntelligenceMatrix3D from '../components/home/EmergentIntelligenceMatrix3D';
 import ProactiveEmotionalSupport3D from '../components/companions/ProactiveEmotionalSupport3D';
 import AutonomousWealthOrchestrator3D from '../components/financial/AutonomousWealthOrchestrator3D';
+import SkillEvolutionTimeline3D from '../components/agents/SkillEvolutionTimeline3D';
 
 export default function Home() {
   const [activeFeature, setActiveFeature] = useState(0);
@@ -494,6 +495,16 @@ export default function Home() {
           >
             <ProactiveEmotionalSupport3D />
             <AutonomousWealthOrchestrator3D />
+          </motion.div>
+
+          {/* Agent Skill Evolution Timeline */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.82, duration: 0.8 }}
+            className="mb-12"
+          >
+            <SkillEvolutionTimeline3D />
           </motion.div>
 
           {/* Features Grid with Drag & Drop */}
