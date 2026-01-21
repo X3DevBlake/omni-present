@@ -56,6 +56,23 @@ export default function SentientDeFiController3D() {
   const queryClient = useQueryClient();
   const [strategyResult, setStrategyResult] = useState(null);
 
+  const adaptiveMutation = useMutation({
+    mutationFn: async () => {
+      const response = await base44.functions.invoke('autonomous-viz-evolution', {
+        hub_context: 'sentient_defi',
+        user_engagement_data: {}
+      });
+      return response.data;
+    }
+  });
+
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      adaptiveMutation.mutate();
+    }, 120000);
+    return () => clearInterval(interval);
+  }, []);
+
   const { data: orchestrator = [] } = useQuery({
     queryKey: ['sentient-defi-orchestrator'],
     queryFn: () => base44.entities.SentientDeFiOrchestrator.list('-created_date', 1),

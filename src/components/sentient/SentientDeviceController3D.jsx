@@ -79,6 +79,23 @@ export default function SentientDeviceController3D() {
   const queryClient = useQueryClient();
   const [selectedDevice, setSelectedDevice] = useState(null);
 
+  const adaptiveMutation = useMutation({
+    mutationFn: async () => {
+      const response = await base44.functions.invoke('autonomous-viz-evolution', {
+        hub_context: 'sentient_devices',
+        user_engagement_data: {}
+      });
+      return response.data;
+    }
+  });
+
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      adaptiveMutation.mutate();
+    }, 120000);
+    return () => clearInterval(interval);
+  }, []);
+
   const { data: omegaDevices = [] } = useQuery({
     queryKey: ['sentient-omega-devices'],
     queryFn: () => base44.entities.OmegaDevice.list('-created_date', 30),

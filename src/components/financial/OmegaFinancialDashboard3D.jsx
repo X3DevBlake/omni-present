@@ -109,6 +109,23 @@ export default function OmegaFinancialDashboard3D() {
   const queryClient = useQueryClient();
   const [adviceResult, setAdviceResult] = useState(null);
 
+  const adaptiveMutation = useMutation({
+    mutationFn: async () => {
+      const response = await base44.functions.invoke('autonomous-viz-evolution', {
+        hub_context: 'omega_financial',
+        user_engagement_data: {}
+      });
+      return response.data;
+    }
+  });
+
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      adaptiveMutation.mutate();
+    }, 120000);
+    return () => clearInterval(interval);
+  }, []);
+
   const { data: intelligence = [] } = useQuery({
     queryKey: ['omega-financial-intelligence'],
     queryFn: () => base44.entities.OmegaFinancialIntelligence.list('-created_date', 1),
