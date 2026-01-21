@@ -229,6 +229,8 @@ export default function OmegaFinancialDashboard3D() {
           </CardContent>
         </Card>
       )}
-    </div>
-  );
-}
+
+      <FinancialEcosystemSimulator3D />
+      </div>
+      );
+      }

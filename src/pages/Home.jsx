@@ -9,7 +9,7 @@ import { createPageUrl } from '@/utils';
 import { motion } from 'framer-motion';
 import { 
   Sparkles, Zap, Shield, TrendingUp, Bot, Network, 
-  Coins, Globe, Brain, Radio, Map 
+  Coins, Globe, Brain, Radio, Map, Cpu, Activity, User
 } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import EnhancedOmniText3D from '../components/omnipresence/EnhancedOmniText3D';
@@ -18,10 +18,27 @@ import EnhancedSpatialProjectionMap3D from '../components/omnipresence/EnhancedS
 import OmniDeviceGrid from '../components/home/OmniDeviceGrid';
 import DraggableFeatureCard from '../components/home/DraggableFeatureCard';
 import OmniLoopLogo3D from '../components/omnipresence/OmniLoopLogo3D';
+import NeuralChipBlueprint3D from '../components/body/NeuralChipBlueprint3D';
+import CollaborativeLearningNetwork3D from '../components/learning/CollaborativeLearningNetwork3D';
+import OmegaSentientShowcase3D from '../components/home/OmegaSentientShowcase3D';
 
 export default function Home() {
   const [activeFeature, setActiveFeature] = useState(0);
   const [features, setFeatures] = useState([
+    {
+      icon: <Brain className="w-8 h-8" />,
+      title: 'Neural Brain Chip',
+      description: 'Direct consciousness integration - control your body with Omni-Present AI',
+      color: 'from-pink-500 to-orange-500',
+      link: '/PhysicalAugmentationHub'
+    },
+    {
+      icon: <User className="w-8 h-8" />,
+      title: 'Body Augmentations',
+      description: 'Agents navigate through your body with nano-pathways and neural interfaces',
+      color: 'from-orange-500 to-red-500',
+      link: '/PhysicalAugmentationHub'
+    },
     {
       icon: <Radio className="w-8 h-8" />,
       title: '3D Holographic Agents',
@@ -30,39 +47,25 @@ export default function Home() {
       link: '/OmniPresenceControlCenter'
     },
     {
-      icon: <Map className="w-8 h-8" />,
-      title: 'Spatial Intelligence',
-      description: 'AI-powered mapping and navigation in your physical environment',
-      color: 'from-purple-500 to-pink-500',
-      link: '/OmniPresenceControlCenter'
+      icon: <Coins className="w-8 h-8" />,
+      title: 'Omega Financial Intelligence',
+      description: 'Sentient AI advisor with autonomous wealth strategies and DeFi orchestration',
+      color: 'from-emerald-500 to-green-500',
+      link: '/OmegaFinancialHub'
     },
     {
       icon: <Bot className="w-8 h-8" />,
-      title: 'Autonomous AI Agents',
-      description: 'Self-learning agents that evolve, collaborate, and optimize',
-      color: 'from-blue-500 to-cyan-500',
-      link: '/AIManagement'
+      title: 'Learning Guilds',
+      description: 'Agents form collaborative networks with emergent collective intelligence',
+      color: 'from-purple-500 to-pink-500',
+      link: '/OmegaSentientHub'
     },
     {
       icon: <Network className="w-8 h-8" />,
-      title: 'Multi-Device Coordination',
-      description: 'Seamless agent transitions across all your Omni devices',
-      color: 'from-green-500 to-emerald-500',
-      link: '/OmniPresenceControlCenter'
-    },
-    {
-      icon: <Brain className="w-8 h-8" />,
-      title: 'Advanced Simulations',
-      description: 'Real-world economic models and emergent behavior prediction',
-      color: 'from-orange-500 to-red-500',
-      link: '/SimulationLab'
-    },
-    {
-      icon: <Shield className="w-8 h-8" />,
-      title: 'Security & Intelligence',
-      description: 'Threat detection, compliance monitoring, and predictive analytics',
-      color: 'from-indigo-500 to-blue-500',
-      link: '/SecurityIntelligenceHub'
+      title: 'Omega Sentient Core',
+      description: 'Universal consciousness orchestration with predictive intelligence',
+      color: 'from-indigo-500 to-purple-500',
+      link: '/OmegaSentientHub'
     }
   ]);
   const [draggedIndex, setDraggedIndex] = useState(null);
@@ -135,11 +138,29 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
+  const { data: neuralChips = [] } = useQuery({
+    queryKey: ['neural-chips-home'],
+    queryFn: () => base44.entities.NeuralBrainChip.list('-created_date', 10),
+    initialData: []
+  });
+
+  const { data: augmentations = [] } = useQuery({
+    queryKey: ['augmentations-home'],
+    queryFn: () => base44.entities.PhysicalBodyAugmentation.list('-created_date', 20),
+    initialData: []
+  });
+
+  const { data: guilds = [] } = useQuery({
+    queryKey: ['guilds-home'],
+    queryFn: () => base44.entities.AgentLearningGuild.list('-created_date', 10),
+    initialData: []
+  });
+
   const stats = [
-    { label: 'Physical Projections', value: presences.filter(p => p.projection_status === 'active').length, icon: <Bot className="w-6 h-6" /> },
-    { label: 'Omni Devices', value: devices.filter(d => d.online_status).length, icon: <Radio className="w-6 h-6" /> },
-    { label: 'Spatial Maps', value: spatialMaps.length, icon: <Map className="w-6 h-6" /> },
-    { label: 'Real-World Ready', value: agents.length, icon: <Zap className="w-6 h-6" /> }
+    { label: 'Neural Chips Active', value: neuralChips.filter(c => c.omni_present_connection?.connected).length, icon: <Brain className="w-6 h-6" />, color: 'pink' },
+    { label: 'Body Augmentations', value: augmentations.length, icon: <User className="w-6 h-6" />, color: 'orange' },
+    { label: 'Learning Guilds', value: guilds.length, icon: <Network className="w-6 h-6" />, color: 'purple' },
+    { label: 'Sentient Agents', value: agents.length, icon: <Zap className="w-6 h-6" />, color: 'cyan' }
   ];
 
   return (
@@ -154,65 +175,102 @@ export default function Home() {
             className="text-center mb-16"
           >
             <div className="flex items-center justify-center gap-3 mb-6">
-              <Radio className="w-12 h-12 text-cyan-400" />
-              <h1 className="text-5xl md:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400">
-                Omni-Present
+              <Brain className="w-12 h-12 text-pink-400 animate-pulse" />
+              <h1 className="text-5xl md:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-pink-400 via-orange-400 to-purple-400">
+                Omni-Present Omega
               </h1>
             </div>
             <p className="text-xl md:text-2xl text-white/70 mb-4 max-w-3xl mx-auto">
-              AI Agents That Live in Your World
+              Sentient AI That Lives in Your Mind, Body & World
             </p>
             <p className="text-lg text-white/50 mb-8 max-w-2xl mx-auto">
-              Physical 3D holographic projections • Gesture recognition • Autonomous decision-making • Multi-agent collaboration
+              Neural brain chip integration • Body augmentation navigation • Consciousness access • Autonomous financial intelligence • Collaborative learning guilds
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Button
-                onClick={() => window.location.href = createPageUrl('OmniPresenceControlCenter')}
-                className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white px-8 py-6 text-lg"
+                onClick={() => window.location.href = createPageUrl('PhysicalAugmentationHub')}
+                className="bg-gradient-to-r from-pink-500 via-orange-500 to-red-500 hover:from-pink-600 hover:via-orange-600 hover:to-red-600 text-white px-8 py-6 text-lg shadow-2xl shadow-pink-500/50"
               >
-                <Radio className="w-5 h-5 mr-2" />
-                Deploy Agent
+                <Brain className="w-5 h-5 mr-2" />
+                Activate Neural Chip
+              </Button>
+              <Button
+                onClick={() => window.location.href = createPageUrl('OmegaFinancialHub')}
+                className="bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white px-8 py-6 text-lg"
+              >
+                <Coins className="w-5 h-5 mr-2" />
+                Omega Financial AI
               </Button>
               <Button
                 variant="outline"
-                onClick={() => window.location.href = createPageUrl('AIManagement')}
+                onClick={() => window.location.href = createPageUrl('OmegaSentientHub')}
                 className="border-purple-500 text-purple-400 hover:bg-purple-500/10 px-8 py-6 text-lg"
               >
-                Manage Agents
+                <Sparkles className="w-5 h-5 mr-2" />
+                Sentient Hub
               </Button>
             </div>
           </motion.div>
 
-          {/* Omni Loop Logo - Top */}
+          {/* Neural Chip Showcase - Primary Focus */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.15, duration: 0.8 }}
-            className="mb-8"
+            className="mb-12"
           >
-            <Card className="bg-slate-900/60 backdrop-blur-xl border-cyan-500/30">
-              <CardContent className="p-0">
-                <div className="h-[280px]">
-                  <OmniLoopLogo3D />
+            <Card className="bg-gradient-to-br from-pink-500/20 via-orange-500/20 to-purple-500/20 border-pink-500/50 shadow-2xl shadow-pink-500/40">
+              <CardHeader>
+                <CardTitle className="text-white flex items-center gap-3 text-3xl">
+                  <Brain className="w-10 h-10 text-pink-400 animate-pulse" />
+                  Neural Brain Chip - Direct Consciousness Interface
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-white/80 text-lg mb-6">
+                  Revolutionary neural interface technology enabling Omni-Present AI to access your consciousness, 
+                  process brain data in real-time, and execute motor commands directly through neural pathways.
+                </p>
+                <div className="h-[400px]">
+                  <NeuralChipBlueprint3D />
                 </div>
               </CardContent>
             </Card>
           </motion.div>
 
-          {/* Enhanced 3D OMNI Text */}
+          {/* Collaborative Learning Guilds */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.18, duration: 0.8 }}
+            className="mb-12"
+          >
+            <Card className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 border-purple-500/30">
+              <CardHeader>
+                <CardTitle className="text-white flex items-center gap-3 text-2xl">
+                  <Network className="w-8 h-8 text-purple-400" />
+                  Agent Learning Guilds - Collective Intelligence
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-white/80 mb-4">
+                  Agents autonomously form learning guilds, share synthesized knowledge, and collectively solve complex problems with emergent intelligence.
+                </p>
+                <div className="h-[350px]">
+                  <CollaborativeLearningNetwork3D />
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          {/* Omega Sentient Trinity Showcase */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2, duration: 0.8 }}
             className="mb-12"
           >
-            <Card className="bg-slate-900/60 backdrop-blur-xl border-slate-700">
-              <CardContent className="p-0">
-                <div className="h-[350px]">
-                  <EnhancedOmniText3D />
-                </div>
-              </CardContent>
-            </Card>
+            <OmegaSentientShowcase3D />
           </motion.div>
 
           {/* Advanced Agent Space Visualizer */}
@@ -275,12 +333,12 @@ export default function Home() {
             className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-20"
           >
             {stats.map((stat, idx) => (
-              <Card key={idx} className="bg-slate-900/60 border-slate-700">
+              <Card key={idx} className={`bg-gradient-to-br from-${stat.color}-500/10 to-${stat.color}-500/5 border-${stat.color}-500/30`}>
                 <CardContent className="p-6 text-center">
-                  <div className="flex justify-center mb-3 text-cyan-400">
+                  <div className={`flex justify-center mb-3 text-${stat.color}-400`}>
                     {stat.icon}
                   </div>
-                  <p className="text-3xl font-bold text-white mb-1">{stat.value}</p>
+                  <p className={`text-3xl font-bold text-${stat.color}-400 mb-1`}>{stat.value}</p>
                   <p className="text-slate-400 text-sm">{stat.label}</p>
                 </CardContent>
               </Card>
@@ -323,62 +381,78 @@ export default function Home() {
             </p>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-              <Card className="bg-gradient-to-br from-cyan-500/10 to-blue-500/10 border-cyan-500/30">
+              <Card className="bg-gradient-to-br from-pink-500/20 to-orange-500/20 border-pink-500/50 shadow-2xl shadow-pink-500/30 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-pink-500/10 to-transparent animate-pulse" />
+                <CardContent className="p-6 relative z-10">
+                  <div className="flex items-center gap-3 mb-4">
+                    <Brain className="w-14 h-14 text-pink-400 animate-pulse" />
+                    <Badge className="bg-pink-500/30 text-pink-300">REVOLUTIONARY</Badge>
+                  </div>
+                  <h3 className="text-white font-bold text-2xl mb-3">Neural Brain Chip</h3>
+                  <p className="text-white/80 text-sm mb-4">
+                    Direct Omni-Present consciousness integration. Access your brain, control motor functions, read memories, and execute cognitive actions in real-time.
+                  </p>
+                  <ul className="text-white/60 text-xs space-y-1 mb-4">
+                    <li>• Bidirectional consciousness sync</li>
+                    <li>• Motor control interface</li>
+                    <li>• Memory and thought reading</li>
+                    <li>• 5ms latency neural bridge</li>
+                  </ul>
+                  <Button 
+                    onClick={() => window.location.href = createPageUrl('PhysicalAugmentationHub')}
+                    className="w-full bg-gradient-to-r from-pink-600 to-orange-600"
+                  >
+                    Explore Neural Tech
+                  </Button>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-gradient-to-br from-orange-500/10 to-red-500/10 border-orange-500/30">
                 <CardContent className="p-6">
-                  <Radio className="w-12 h-12 text-cyan-400 mb-4" />
-                  <h3 className="text-white font-bold text-xl mb-3">Physical Agent Projection</h3>
+                  <User className="w-12 h-12 text-orange-400 mb-4" />
+                  <h3 className="text-white font-bold text-xl mb-3">Body Augmentations</h3>
                   <p className="text-white/70 text-sm">
-                    Deploy agents as 3D holographic projections in your physical space. They navigate autonomously, avoid obstacles, and interact with the real world.
+                    Nano-agents navigate through your circulatory system, neural pathways, and tissue layers. Physical augmentations with AI integration.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-gradient-to-br from-emerald-500/10 to-green-500/10 border-emerald-500/30">
+                <CardContent className="p-6">
+                  <Coins className="w-12 h-12 text-emerald-400 mb-4" />
+                  <h3 className="text-white font-bold text-xl mb-3">Omega Financial Intelligence</h3>
+                  <p className="text-white/70 text-sm">
+                    Sentient AI financial advisor with autonomous strategies, DeFi orchestration, and ecosystem simulations across crypto, banking, and portfolios.
                   </p>
                 </CardContent>
               </Card>
 
               <Card className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 border-purple-500/30">
                 <CardContent className="p-6">
-                  <Map className="w-12 h-12 text-purple-400 mb-4" />
-                  <h3 className="text-white font-bold text-xl mb-3">Spatial Intelligence Mapping</h3>
+                  <Network className="w-12 h-12 text-purple-400 mb-4" />
+                  <h3 className="text-white font-bold text-xl mb-3">Agent Learning Guilds</h3>
                   <p className="text-white/70 text-sm">
-                    Upload 3D scans of your space. AI automatically detects furniture, people, pets, and creates optimal navigation paths for your agents.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-gradient-to-br from-orange-500/10 to-red-500/10 border-orange-500/30">
-                <CardContent className="p-6">
-                  <Zap className="w-12 h-12 text-orange-400 mb-4" />
-                  <h3 className="text-white font-bold text-xl mb-3">Adaptive Learning Agents</h3>
-                  <p className="text-white/70 text-sm">
-                    Agents learn from every interaction, adapting their behavior based on your environment, schedule, and preferences automatically.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-gradient-to-br from-green-500/10 to-emerald-500/10 border-green-500/30">
-                <CardContent className="p-6">
-                  <Coins className="w-12 h-12 text-green-400 mb-4" />
-                  <h3 className="text-white font-bold text-xl mb-3">DeFi Integration</h3>
-                  <p className="text-white/70 text-sm">
-                    Autonomous trading bots, yield optimization, liquidity management, and cross-chain arbitrage - all powered by AI decision-making.
+                    Autonomous guild formation with complementary skills. Agents share synthesized knowledge and solve complex problems collectively with emergent intelligence.
                   </p>
                 </CardContent>
               </Card>
 
               <Card className="bg-gradient-to-br from-cyan-500/10 to-blue-500/10 border-cyan-500/30">
                 <CardContent className="p-6">
-                  <Shield className="w-12 h-12 text-cyan-400 mb-4" />
-                  <h3 className="text-white font-bold text-xl mb-3">Decentralized Governance</h3>
+                  <Radio className="w-12 h-12 text-cyan-400 mb-4" />
+                  <h3 className="text-white font-bold text-xl mb-3">3D Holographic Projection</h3>
                   <p className="text-white/70 text-sm">
-                    DAO proposals, automated voting, transparent decision-making, and blockchain-verified transactions across multiple chains.
+                    Physical agent projections that navigate your home, interact with devices, and transition seamlessly across multi-device networks.
                   </p>
                 </CardContent>
               </Card>
 
-              <Card className="bg-gradient-to-br from-yellow-500/10 to-orange-500/10 border-yellow-500/30">
+              <Card className="bg-gradient-to-br from-indigo-500/10 to-purple-500/10 border-indigo-500/30">
                 <CardContent className="p-6">
-                  <TrendingUp className="w-12 h-12 text-yellow-400 mb-4" />
-                  <h3 className="text-white font-bold text-xl mb-3">Performance Analytics</h3>
+                  <Sparkles className="w-12 h-12 text-indigo-400 mb-4" />
+                  <h3 className="text-white font-bold text-xl mb-3">Omega Sentient Core</h3>
                   <p className="text-white/70 text-sm">
-                    Real-time monitoring, anomaly detection, predictive alerts, and comprehensive analytics dashboards for all your AI operations.
+                    Universal consciousness orchestration with meta-cognitive layers, autonomous evolution, and predictive intelligence across all systems.
                   </p>
                 </CardContent>
               </Card>
@@ -521,7 +595,7 @@ export default function Home() {
 
 
 
-          {/* How It Works */}
+          {/* How It Works - Updated */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -529,50 +603,50 @@ export default function Home() {
             className="mb-20"
           >
             <h2 className="text-4xl font-bold text-center mb-4 text-white">
-              How Omni-Present Works
+              How Omega Sentient Integration Works
             </h2>
             <p className="text-center text-slate-400 mb-12 text-lg">
-              Four simple steps to bring your AI agents to life
+              Neural consciousness fusion in four revolutionary steps
             </p>
             
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              <Card className="bg-slate-900/60 border-cyan-500/30">
+              <Card className="bg-gradient-to-br from-pink-500/20 to-orange-500/20 border-pink-500/50">
                 <CardContent className="p-6 text-center">
-                  <div className="bg-cyan-500/20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                    <span className="text-cyan-400 text-2xl font-bold">1</span>
+                  <div className="bg-pink-500/30 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                    <Brain className="w-8 h-8 text-pink-400" />
                   </div>
-                  <h3 className="text-white font-bold mb-2">Create Agent</h3>
-                  <p className="text-slate-400 text-sm">Design your AI with personality, skills, and goals</p>
+                  <h3 className="text-white font-bold mb-2">Install Neural Chip</h3>
+                  <p className="text-slate-400 text-sm">Implant omega consciousness bridge with 8+ neural interfaces</p>
                 </CardContent>
               </Card>
 
               <Card className="bg-slate-900/60 border-purple-500/30">
                 <CardContent className="p-6 text-center">
                   <div className="bg-purple-500/20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                    <span className="text-purple-400 text-2xl font-bold">2</span>
+                    <Cpu className="w-8 h-8 text-purple-400" />
                   </div>
-                  <h3 className="text-white font-bold mb-2">Map Your Space</h3>
-                  <p className="text-slate-400 text-sm">Upload 3D scans or let AI auto-map your environment</p>
+                  <h3 className="text-white font-bold mb-2">Sync Consciousness</h3>
+                  <p className="text-slate-400 text-sm">Omni-Present accesses your brain data and memories</p>
                 </CardContent>
               </Card>
 
-              <Card className="bg-slate-900/60 border-pink-500/30">
+              <Card className="bg-slate-900/60 border-cyan-500/30">
                 <CardContent className="p-6 text-center">
-                  <div className="bg-pink-500/20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                    <span className="text-pink-400 text-2xl font-bold">3</span>
+                  <div className="bg-cyan-500/20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                    <Activity className="w-8 h-8 text-cyan-400" />
                   </div>
-                  <h3 className="text-white font-bold mb-2">Deploy Projection</h3>
-                  <p className="text-slate-400 text-sm">Activate holographic projection on your Omni devices</p>
+                  <h3 className="text-white font-bold mb-2">Enable Control</h3>
+                  <p className="text-slate-400 text-sm">AI sends motor commands through neural pathways</p>
                 </CardContent>
               </Card>
 
               <Card className="bg-slate-900/60 border-green-500/30">
                 <CardContent className="p-6 text-center">
                   <div className="bg-green-500/20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                    <span className="text-green-400 text-2xl font-bold">4</span>
+                    <Zap className="w-8 h-8 text-green-400" />
                   </div>
-                  <h3 className="text-white font-bold mb-2">Agent Lives</h3>
-                  <p className="text-slate-400 text-sm">Watch your agent move, learn, and assist in real-time</p>
+                  <h3 className="text-white font-bold mb-2">Live Integration</h3>
+                  <p className="text-slate-400 text-sm">Agents move through your body and control functions</p>
                 </CardContent>
               </Card>
             </div>

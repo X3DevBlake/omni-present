@@ -260,6 +260,7 @@ import NextGenMLHub from './pages/NextGenMLHub';
 import Notifications from './pages/Notifications';
 import NotificationsAndVisualizations from './pages/NotificationsAndVisualizations';
 import ObjectCustomizer from './pages/ObjectCustomizer';
+import OmegaFinancialHub from './pages/OmegaFinancialHub';
 import OmegaSentientHub from './pages/OmegaSentientHub';
 import OmniAchievements from './pages/OmniAchievements';
 import OmniBankingHub from './pages/OmniBankingHub';
@@ -286,6 +287,7 @@ import Phase6AgentCognition from './pages/Phase6AgentCognition';
 import Phase7IntegrationHub from './pages/Phase7IntegrationHub';
 import Phase8PredictiveIntelligence from './pages/Phase8PredictiveIntelligence';
 import Phase9ImmersiveUX from './pages/Phase9ImmersiveUX';
+import PhysicalAugmentationHub from './pages/PhysicalAugmentationHub';
 import PhysicalWorldIntegration from './pages/PhysicalWorldIntegration';
 import PortfolioRebalancer from './pages/PortfolioRebalancer';
 import PredictiveAnalyticsHub from './pages/PredictiveAnalyticsHub';
@@ -356,8 +358,6 @@ import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
 import WorldHubEnhanced from './pages/WorldHubEnhanced';
-import OmegaFinancialHub from './pages/OmegaFinancialHub';
-import PhysicalAugmentationHub from './pages/PhysicalAugmentationHub';
 import __Layout from './Layout.jsx';
 
 
@@ -624,6 +624,7 @@ export const PAGES = {
     "Notifications": Notifications,
     "NotificationsAndVisualizations": NotificationsAndVisualizations,
     "ObjectCustomizer": ObjectCustomizer,
+    "OmegaFinancialHub": OmegaFinancialHub,
     "OmegaSentientHub": OmegaSentientHub,
     "OmniAchievements": OmniAchievements,
     "OmniBankingHub": OmniBankingHub,
@@ -650,6 +651,7 @@ export const PAGES = {
     "Phase7IntegrationHub": Phase7IntegrationHub,
     "Phase8PredictiveIntelligence": Phase8PredictiveIntelligence,
     "Phase9ImmersiveUX": Phase9ImmersiveUX,
+    "PhysicalAugmentationHub": PhysicalAugmentationHub,
     "PhysicalWorldIntegration": PhysicalWorldIntegration,
     "PortfolioRebalancer": PortfolioRebalancer,
     "PredictiveAnalyticsHub": PredictiveAnalyticsHub,
@@ -720,8 +722,6 @@ export const PAGES = {
     "WorkflowOrchestrationHub": WorkflowOrchestrationHub,
     "World": World,
     "WorldHubEnhanced": WorldHubEnhanced,
-    "OmegaFinancialHub": OmegaFinancialHub,
-    "PhysicalAugmentationHub": PhysicalAugmentationHub,
 }
 
 export const pagesConfig = {
