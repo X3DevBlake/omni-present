@@ -41,6 +41,9 @@ import DeviceBlueprintViewer3D from '../components/omnipresence/DeviceBlueprintV
 import PredictiveObstacleVisualizer3D from '../components/omnipresence/PredictiveObstacleVisualizer3D';
 import AgentFeedbackLearningPanel from '../components/omnipresence/AgentFeedbackLearningPanel';
 import ComplexTaskOrchestrator from '../components/omnipresence/ComplexTaskOrchestrator';
+import ProjectionDeviceSimulator3D from '../components/omnipresence/ProjectionDeviceSimulator3D';
+import UltraLiveSpatialMap3D from '../components/omnipresence/UltraLiveSpatialMap3D';
+import UltraAgentSpaceVisualizer3D from '../components/omnipresence/UltraAgentSpaceVisualizer3D';
 import { toast } from 'sonner';
 
 export default function OmniPresenceControlCenter() {
@@ -437,6 +440,18 @@ export default function OmniPresenceControlCenter() {
             <TabsTrigger value="learning">
               <Brain className="w-4 h-4 mr-2" />
               Learning
+            </TabsTrigger>
+            <TabsTrigger value="projection-sim">
+              <Radio className="w-4 h-4 mr-2" />
+              Projection Sim
+            </TabsTrigger>
+            <TabsTrigger value="ultra-spatial">
+              <Map className="w-4 h-4 mr-2" />
+              Ultra Spatial
+            </TabsTrigger>
+            <TabsTrigger value="ultra-agents">
+              <Brain className="w-4 h-4 mr-2" />
+              Ultra Agents
             </TabsTrigger>
             <TabsTrigger value="multi-device">
               <Radio className="w-4 h-4 mr-2" />
@@ -850,6 +865,45 @@ export default function OmniPresenceControlCenter() {
 
           <TabsContent value="learning">
             <AgentFeedbackLearningPanel agents={presences} />
+          </TabsContent>
+
+          <TabsContent value="projection-sim">
+            <ProjectionDeviceSimulator3D devices={devices} />
+          </TabsContent>
+
+          <TabsContent value="ultra-spatial">
+            <Card className="bg-slate-900/60 border-slate-700">
+              <CardHeader>
+                <CardTitle className="text-white">Ultra Live Spatial Map</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <UltraLiveSpatialMap3D
+                  semanticGraph={semanticGraphs[0]}
+                  predictiveObstacles={predictiveObstacles}
+                  agents={presences}
+                  devices={[...smartDevices, ...crossPlatformDevices]}
+                />
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="ultra-agents">
+            <Card className="bg-slate-900/60 border-slate-700">
+              <CardHeader>
+                <CardTitle className="text-white">Ultra Agent Space Visualizer</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="h-[600px]">
+                  <UltraAgentSpaceVisualizer3D
+                    agents={presences}
+                    emotions={agentEmotions}
+                    goals={[]}
+                    knowledgeTransfers={[]}
+                    collaborativeTask={collaborativeTasks[0]}
+                  />
+                </div>
+              </CardContent>
+            </Card>
           </TabsContent>
 
           <TabsContent value="logs">

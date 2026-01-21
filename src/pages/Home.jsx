@@ -183,7 +183,7 @@ export default function Home() {
             </div>
           </motion.div>
 
-          {/* Omni Loop Logo - Top */}
+          {/* Ultra Omni Loop Logo - Top */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -191,15 +191,23 @@ export default function Home() {
             className="mb-8"
           >
             <Card className="bg-slate-900/60 backdrop-blur-xl border-cyan-500/30">
+              <CardHeader>
+                <CardTitle className="text-white text-center">Dynamic Omni Core</CardTitle>
+              </CardHeader>
               <CardContent className="p-0">
-                <div className="h-[280px]">
-                  <OmniLoopLogo3D />
+                <div className="h-[380px]">
+                  <UltraOmniLoopLogo3D 
+                    systemActivity={0.7}
+                    agentCount={presences.length || 5}
+                    dataTransferActive={true}
+                    alertLevel={0}
+                  />
                 </div>
               </CardContent>
             </Card>
           </motion.div>
 
-          {/* Enhanced 3D OMNI Text */}
+          {/* Ultra 3D OMNI Text */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -207,15 +215,23 @@ export default function Home() {
             className="mb-12"
           >
             <Card className="bg-slate-900/60 backdrop-blur-xl border-slate-700">
+              <CardHeader>
+                <CardTitle className="text-white text-center">Interactive Intelligence Core</CardTitle>
+              </CardHeader>
               <CardContent className="p-0">
-                <div className="h-[350px]">
-                  <EnhancedOmniText3D />
+                <div className="h-[400px]">
+                  <UltraOmniText3D 
+                    emotionalState="focused"
+                    systemActivity={0.6}
+                    dataProcessing={0.5}
+                    onLetterClick={(letter) => console.log('Letter clicked:', letter)}
+                  />
                 </div>
               </CardContent>
             </Card>
           </motion.div>
 
-          {/* Advanced Agent Space Visualizer */}
+          {/* Ultra Agent Space Visualizer */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -226,22 +242,29 @@ export default function Home() {
               Agents That Live in Your Space
             </h2>
             <p className="text-center text-slate-400 mb-6 text-lg">
-              Holographic AI agents with trails, collaboration beams, and real-time task execution
+              Emotional auras • Learning feedback • Knowledge transfer beams • Goal indicators • Energy levels
             </p>
             <Card className="bg-slate-900/60 backdrop-blur-xl border-slate-700">
               <CardContent className="p-0">
-                <div className="h-[600px]">
-                  <AdvancedAgentSpaceVisualizer3D 
+                <div className="h-[650px]">
+                  <UltraAgentSpaceVisualizer3D 
                     agents={presences}
-                    devices={devices}
-                    collaborations={collaborations}
+                    emotions={[
+                      { agent_id: presences[0]?.agent_id, primary_emotion: 'focused', intensity: 0.8 },
+                      { agent_id: presences[1]?.agent_id, primary_emotion: 'happy', intensity: 0.6 }
+                    ]}
+                    goals={[
+                      { agent_id: presences[0]?.agent_id, type: 'assist', description: 'Help user' }
+                    ]}
+                    knowledgeTransfers={[]}
+                    collaborativeTask={collaborations[0]}
                   />
                 </div>
               </CardContent>
             </Card>
           </motion.div>
 
-          {/* Enhanced Spatial Projection Map */}
+          {/* Ultra Live Spatial Projection Map */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -249,20 +272,34 @@ export default function Home() {
             className="mb-20"
           >
             <h2 className="text-3xl font-bold text-center mb-4 text-white">
-              Live Spatial Projection Map
+              Ultra Live Spatial Projection Map
             </h2>
             <p className="text-center text-slate-400 mb-6 text-lg">
-              Interactive zones, smart devices, and real-time agent tracking in your environment
+              Semantic objects • Predictive obstacle tracking • Sensor heatmaps • Navigation waypoints • Task execution overlays
             </p>
             <Card className="bg-slate-900/60 backdrop-blur-xl border-slate-700">
-              <CardContent className="p-0">
-                <div className="h-[650px]">
-                  <EnhancedSpatialProjectionMap3D
-                    zones={spatialMaps[0]?.designated_zones || []}
-                    devices={devices}
-                    agents={presences}
-                  />
-                </div>
+              <CardContent className="p-4">
+                <UltraLiveSpatialMap3D
+                  semanticGraph={{
+                    nodes: [
+                      { node_id: 'sofa', object_type: 'furniture', label: 'Sofa', position: { x: 3, y: 0, z: 4 }, dimensions: { width: 2.5, height: 0.9, depth: 1.2 }, properties: { interactable: true, semantic_tags: ['seating'] }, confidence: 0.95 },
+                      { node_id: 'table', object_type: 'furniture', label: 'Coffee Table', position: { x: 4, y: 0, z: 5 }, dimensions: { width: 1.2, height: 0.45, depth: 0.6 }, properties: { interactable: true, semantic_tags: ['surface'] }, confidence: 0.92 },
+                      { node_id: 'tv', object_type: 'appliance', label: 'Smart TV', position: { x: 6, y: 1, z: 2 }, dimensions: { width: 1.4, height: 0.8, depth: 0.1 }, properties: { interactable: true, semantic_tags: ['entertainment'] }, confidence: 0.98 },
+                    ],
+                    navigation_mesh: {
+                      waypoints: [
+                        { waypoint_id: 'wp1', position: { x: 2, y: 0, z: 3 }, connected_to: ['wp2'] },
+                        { waypoint_id: 'wp2', position: { x: 5, y: 0, z: 5 }, connected_to: ['wp1', 'wp3'] },
+                        { waypoint_id: 'wp3', position: { x: 8, y: 0, z: 4 }, connected_to: ['wp2'] },
+                      ]
+                    }
+                  }}
+                  predictiveObstacles={[
+                    { obstacle_id: 'person1', obstacle_type: 'person', current_position: { x: 4, y: 0, z: 6 }, velocity: { vx: 0.3, vz: 0.2 }, predicted_trajectory: [{ position: { x: 4.3, y: 0, z: 6.2 }, confidence: 0.9 }, { position: { x: 4.6, y: 0, z: 6.4 }, confidence: 0.7 }], avoidance_buffer_meters: 0.6 }
+                  ]}
+                  agents={presences}
+                  devices={devices}
+                />
               </CardContent>
             </Card>
           </motion.div>
