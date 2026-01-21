@@ -33,6 +33,8 @@ import RealTimeDataFlowAnimation from '../components/home/RealTimeDataFlowAnimat
 import SelfHealingDeviceVisualizer3D from '../components/devices/SelfHealingDeviceVisualizer3D';
 import InteractiveEcosystemGlobe3D from '../components/home/InteractiveEcosystemGlobe3D';
 import PredictiveInsightCards from '../components/home/PredictiveInsightCards';
+import OmegaConsciousnessNetwork3D from '../components/home/OmegaConsciousnessNetwork3D';
+import AutonomousAgentActivityFeed3D from '../components/home/AutonomousAgentActivityFeed3D';
 
 export default function Home() {
   const [activeFeature, setActiveFeature] = useState(0);
@@ -444,6 +446,17 @@ export default function Home() {
               </CardContent>
             </Card>
             <SelfHealingDeviceVisualizer3D />
+          </motion.div>
+
+          {/* Omega Consciousness Network & Agent Activity */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.68, duration: 0.8 }}
+            className="mb-12 grid grid-cols-1 lg:grid-cols-2 gap-6"
+          >
+            <OmegaConsciousnessNetwork3D />
+            <AutonomousAgentActivityFeed3D />
           </motion.div>
 
           {/* Features Grid with Drag & Drop */}
