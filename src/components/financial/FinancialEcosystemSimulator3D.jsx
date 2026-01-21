@@ -7,8 +7,10 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { useMutation } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
-import { Play, Loader2, TrendingUp, DollarSign, AlertTriangle } from 'lucide-react';
+import { Play, Loader2, TrendingUp, DollarSign, AlertTriangle, Users } from 'lucide-react';
 import { toast } from 'sonner';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
 
 // Financial entity orb
 function FinancialEntityOrb3D({ entity, position, type }) {
@@ -88,18 +90,23 @@ export default function FinancialEcosystemSimulator3D() {
     return () => clearInterval(interval);
   }, []);
 
+  const [includeGuilds, setIncludeGuilds] = useState(true);
+
   const simulateMutation = useMutation({
     mutationFn: async () => {
-      const response = await base44.functions.invoke('financial-ecosystem-simulator', {
-        scenario_description: scenario,
-        time_horizon_days: 30,
-        market_conditions: {}
-      });
+      const response = await base44.functions.invoke(
+        includeGuilds ? 'guild-financial-simulation' : 'financial-ecosystem-simulator',
+        {
+          scenario_description: scenario,
+          time_horizon_days: 30,
+          include_guild_learning: includeGuilds
+        }
+      );
       return response.data;
     },
     onSuccess: (data) => {
       setSimulationResult(data.simulation);
-      toast.success('Ecosystem simulation complete');
+      toast.success(includeGuilds ? 'Guild-enhanced simulation complete' : 'Ecosystem simulation complete');
     }
   });
 
@@ -120,13 +127,27 @@ export default function FinancialEcosystemSimulator3D() {
             className="bg-slate-800 border-slate-600 text-white min-h-24"
           />
 
+          <div className="flex items-center gap-3 bg-purple-500/10 border border-purple-500/30 rounded-lg p-3">
+            <Switch
+              checked={includeGuilds}
+              onCheckedChange={setIncludeGuilds}
+              id="guild-mode"
+            />
+            <Label htmlFor="guild-mode" className="text-white flex items-center gap-2 cursor-pointer">
+              <Users className="w-4 h-4 text-purple-400" />
+              Include Agent Learning Guild Intelligence
+            </Label>
+          </div>
+
           <Button
             onClick={() => simulateMutation.mutate()}
             disabled={!scenario || simulateMutation.isPending}
             className="w-full bg-gradient-to-r from-green-600 to-emerald-600 text-lg py-6"
           >
             {simulateMutation.isPending ? (
-              <><Loader2 className="w-5 h-5 mr-2 animate-spin" /> Simulating Ecosystem...</>
+              <><Loader2 className="w-5 h-5 mr-2 animate-spin" /> Simulating...</>
+            ) : includeGuilds ? (
+              <><Users className="w-5 h-5 mr-2" /> Run Guild-Enhanced Simulation</>
             ) : (
               <><Play className="w-5 h-5 mr-2" /> Run Omega Simulation</>
             )}
@@ -150,6 +171,27 @@ export default function FinancialEcosystemSimulator3D() {
                   {((simulationResult.risk_analysis?.predicted_risk_score - simulationResult.risk_analysis?.current_risk_score) * 100)?.toFixed(0)}%
                 </p>
               </div>
+            </div>
+          )}
+
+          {includeGuilds && simulationResult?.guild_enhanced_prediction && (
+            <div className="bg-purple-500/10 border border-purple-500/30 rounded-lg p-4">
+              <div className="flex items-center gap-2 mb-3">
+                <Users className="w-5 h-5 text-purple-400" />
+                <p className="text-white font-bold">Guild Intelligence Bonus</p>
+              </div>
+              <p className="text-3xl font-bold text-purple-400 mb-2">
+                +{simulationResult.guild_enhanced_prediction.synergy_bonus_percentage?.toFixed(1)}%
+              </p>
+              <p className="text-slate-300 text-sm mb-3">Enhanced by collective learning and emergent strategies</p>
+              {simulationResult.guild_enhanced_prediction.emergent_strategies?.length > 0 && (
+                <div>
+                  <p className="text-xs text-purple-300 mb-1">Emergent Strategies:</p>
+                  {simulationResult.guild_enhanced_prediction.emergent_strategies.slice(0, 3).map((strategy, idx) => (
+                    <p key={idx} className="text-xs text-slate-300">✨ {strategy}</p>
+                  ))}
+                </div>
+              )}
             </div>
           )}
         </CardContent>
