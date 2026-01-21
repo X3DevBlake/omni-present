@@ -174,12 +174,92 @@ function GoalIndicator({ goal, position }) {
   );
 }
 
+// Thought bubble visualization
+function ThoughtBubble3D({ thought, position }) {
+  const bubbleRef = useRef();
+
+  useFrame((state) => {
+    if (bubbleRef.current) {
+      bubbleRef.current.position.y = position[1] + Math.sin(state.clock.elapsedTime * 2) * 0.05;
+    }
+  });
+
+  const colorSchemes = {
+    blue: '#00f5ff',
+    green: '#10b981',
+    orange: '#f59e0b',
+    red: '#ef4444',
+    purple: '#a855f7'
+  };
+
+  const color = colorSchemes[thought.visualization_data?.color_scheme] || '#00f5ff';
+
+  return (
+    <group ref={bubbleRef} position={position}>
+      <Sphere args={[0.2, 16, 16]}>
+        <meshBasicMaterial color={color} transparent opacity={0.3} />
+      </Sphere>
+      
+      <Html position={[0, 0, 0]} center>
+        <div 
+          className="bg-black/90 text-white px-3 py-2 rounded-xl text-xs max-w-48"
+          style={{ borderColor: color, borderWidth: 1, borderStyle: 'solid' }}
+        >
+          <p className="font-bold mb-1">{thought.thought_content?.main_thought}</p>
+          {thought.thought_content?.sub_thoughts?.slice(0, 2).map((st, i) => (
+            <p key={i} className="text-slate-400 text-xs">• {st}</p>
+          ))}
+          {thought.confidence_level && (
+            <div className="flex items-center gap-1 mt-2">
+              <div className="w-full h-1 bg-slate-700 rounded overflow-hidden">
+                <div className="h-full bg-cyan-400" style={{ width: `${thought.confidence_level * 100}%` }} />
+              </div>
+              <span className="text-xs text-slate-500">{(thought.confidence_level * 100).toFixed(0)}%</span>
+            </div>
+          )}
+        </div>
+      </Html>
+    </group>
+  );
+}
+
+// Task progress indicator
+function TaskProgressIndicator3D({ taskPlan, position }) {
+  const progressRef = useRef();
+
+  useFrame((state) => {
+    if (progressRef.current) {
+      progressRef.current.rotation.z = state.clock.elapsedTime * 0.5;
+    }
+  });
+
+  const progress = taskPlan?.overall_progress || 0;
+  const activeTasks = taskPlan?.sub_tasks?.filter(t => t.status === 'in_progress').length || 0;
+
+  return (
+    <group position={position}>
+      <mesh ref={progressRef} rotation={[0, 0, 0]}>
+        <ringGeometry args={[0.25, 0.28, 32, 1, 0, (progress / 100) * Math.PI * 2]} />
+        <meshBasicMaterial color="#10b981" transparent opacity={0.8} side={THREE.DoubleSide} />
+      </mesh>
+
+      <Html position={[0, 0, 0]} center>
+        <div className="bg-emerald-500/20 border border-emerald-500/50 px-2 py-1 rounded text-xs text-emerald-300">
+          {progress.toFixed(0)}% • {activeTasks} active
+        </div>
+      </Html>
+    </group>
+  );
+}
+
 // Advanced agent with all features
 function AdvancedAgent3D({ 
   agent, 
   emotion, 
   learningFeedback, 
   currentGoal,
+  thoughts,
+  taskPlan,
   onSelect,
   isSelected 
 }) {
@@ -253,6 +333,16 @@ function AdvancedAgent3D({
           {learningFeedback && (
             <LearningIndicator feedbackData={learningFeedback} position={[0, 0, 0]} />
           )}
+
+          {/* Thought bubbles */}
+          {thoughts?.slice(0, 2).map((thought, idx) => (
+            <ThoughtBubble3D key={thought.thought_id} thought={thought} position={[0.4 + idx * 0.3, 0.8 + idx * 0.2, 0]} />
+          ))}
+
+          {/* Task progress */}
+          {taskPlan && (
+            <TaskProgressIndicator3D taskPlan={taskPlan} position={[-0.4, 0.7, 0]} />
+          )}
         </group>
       </Trail>
 
@@ -322,6 +412,8 @@ function AgentScene({
   feedbacks, 
   goals,
   knowledgeTransfers,
+  thoughts,
+  taskPlans,
   selectedAgent,
   onSelectAgent
 }) {
@@ -329,6 +421,9 @@ function AgentScene({
   const getAgentEmotion = (agentId) => emotions.find(e => e.agent_id === agentId);
   const getAgentFeedback = (agentId) => feedbacks.find(f => f.agent_id === agentId);
   const getAgentGoal = (agentId) => goals.find(g => g.agent_id === agentId);
+  const getAgentThoughts = (agentId) => thoughts.filter(t => t.agent_id === agentId && 
+    Date.now() - new Date(t.timestamp).getTime() < (t.visualization_data?.display_duration_seconds || 5) * 1000);
+  const getAgentTaskPlan = (agentId) => taskPlans.find(tp => tp.agent_id === agentId);
 
   return (
     <group>
@@ -346,6 +441,8 @@ function AgentScene({
           emotion={getAgentEmotion(agent.agent_id)}
           learningFeedback={getAgentFeedback(agent.agent_id)}
           currentGoal={getAgentGoal(agent.agent_id)}
+          thoughts={getAgentThoughts(agent.agent_id)}
+          taskPlan={getAgentTaskPlan(agent.agent_id)}
           isSelected={selectedAgent?.id === agent.id}
           onSelect={onSelectAgent}
         />
@@ -407,6 +504,20 @@ export default function AdvancedAgentPresence3D() {
     initialData: []
   });
 
+  const { data: thoughts = [] } = useQuery({
+    queryKey: ['presence-thoughts'],
+    queryFn: () => base44.entities.AgentThoughtProcess.list('-timestamp', 30),
+    initialData: [],
+    refetchInterval: 2000
+  });
+
+  const { data: taskPlans = [] } = useQuery({
+    queryKey: ['presence-task-plans'],
+    queryFn: () => base44.entities.AutonomousTaskPlan.filter({ plan_status: 'executing' }),
+    initialData: [],
+    refetchInterval: 3000
+  });
+
   const activeAgents = agents.filter(a => a.projection_status === 'active');
   const emotionalAgents = emotions.filter(e => e.emotion_intensity > 0.5);
   const activeTransfers = knowledgeTransfers.filter(kt => kt.transfer_status === 'in_progress');
@@ -457,6 +568,8 @@ export default function AdvancedAgentPresence3D() {
                 feedbacks={feedbacks}
                 goals={goals}
                 knowledgeTransfers={knowledgeTransfers}
+                thoughts={thoughts}
+                taskPlans={taskPlans}
                 selectedAgent={selectedAgent}
                 onSelectAgent={setSelectedAgent}
               />

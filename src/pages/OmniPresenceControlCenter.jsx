@@ -50,6 +50,9 @@ import DynamicPathfindingVisualizer3D from '../components/omnipresence/DynamicPa
 import ProjectionDeviceSimulator3D from '../components/omnipresence/ProjectionDeviceSimulator3D';
 import InteractiveSpatialMap3D from '../components/omnipresence/InteractiveSpatialMap3D';
 import EnhancedObstacleAvoidanceVisualizer3D from '../components/omnipresence/EnhancedObstacleAvoidanceVisualizer3D';
+import AutonomousTaskPlannerVisualizer3D from '../components/omnipresence/AutonomousTaskPlannerVisualizer3D';
+import ProactiveAssistancePanel3D from '../components/omnipresence/ProactiveAssistancePanel3D';
+import EnhancedDeviceBlueprintInteractive3D from '../components/omnipresence/EnhancedDeviceBlueprintInteractive3D';
 import { toast } from 'sonner';
 
 export default function OmniPresenceControlCenter() {
@@ -166,7 +169,8 @@ export default function OmniPresenceControlCenter() {
   const { data: semanticGraphs = [] } = useQuery({
     queryKey: ['semantic-graphs'],
     queryFn: () => base44.entities.EnvironmentSemanticGraph.filter({}).limit(10),
-    initialData: []
+    initialData: [],
+    refetchInterval: 5000
   });
 
   const { data: predictiveObstacles = [] } = useQuery({
@@ -482,6 +486,14 @@ export default function OmniPresenceControlCenter() {
             <TabsTrigger value="avoidance">
               <Network className="w-4 h-4 mr-2" />
               Avoidance
+            </TabsTrigger>
+            <TabsTrigger value="task-planner">
+              <Brain className="w-4 h-4 mr-2" />
+              Task Planner
+            </TabsTrigger>
+            <TabsTrigger value="proactive">
+              <Activity className="w-4 h-4 mr-2" />
+              Proactive AI
             </TabsTrigger>
             <TabsTrigger value="multi-device">
               <Radio className="w-4 h-4 mr-2" />
@@ -802,6 +814,7 @@ export default function OmniPresenceControlCenter() {
                         agents={presences} 
                         devices={[...smartDevices, ...crossPlatformDevices]}
                         collaborations={collaborativeTasks}
+                        semanticGraph={semanticGraphs[0]}
                       />
                     </div>
                   </CardContent>
@@ -879,7 +892,10 @@ export default function OmniPresenceControlCenter() {
           </TabsContent>
 
           <TabsContent value="blueprints">
-            <DeviceBlueprintViewer3D blueprints={enhancedBlueprints} />
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <DeviceBlueprintViewer3D blueprints={enhancedBlueprints} />
+              <EnhancedDeviceBlueprintInteractive3D />
+            </div>
           </TabsContent>
 
           <TabsContent value="predictive">
@@ -947,6 +963,14 @@ export default function OmniPresenceControlCenter() {
 
           <TabsContent value="avoidance">
             <EnhancedObstacleAvoidanceVisualizer3D />
+          </TabsContent>
+
+          <TabsContent value="task-planner">
+            <AutonomousTaskPlannerVisualizer3D />
+          </TabsContent>
+
+          <TabsContent value="proactive">
+            <ProactiveAssistancePanel3D />
           </TabsContent>
 
           <TabsContent value="logs">

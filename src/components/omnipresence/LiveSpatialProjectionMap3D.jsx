@@ -325,6 +325,81 @@ function TaskExecutionOverlay3D({ task, agents, devices }) {
   );
 }
 
+// Real-time sensor overlay
+function LiveSensorOverlay3D({ sensors, showValues = true }) {
+  return (
+    <group>
+      {sensors.map((sensor, idx) => {
+        const pos = sensor.position || { x: 0, y: 0, z: 0 };
+        const sensorColors = {
+          temperature: '#ef4444',
+          humidity: '#06b6d4',
+          light: '#fbbf24',
+          air_quality: '#10b981',
+          motion: '#ec4899'
+        };
+        const color = sensorColors[sensor.sensor_type] || '#64748b';
+        
+        return (
+          <group key={sensor.id || idx} position={[pos.x, 0.5, pos.z]}>
+            <Float speed={2}>
+              <Sphere args={[0.08, 16, 16]}>
+                <meshBasicMaterial color={color} transparent opacity={0.8} />
+              </Sphere>
+            </Float>
+            
+            {showValues && (
+              <Html position={[0, 0.15, 0]} center>
+                <div className="bg-black/80 px-2 py-1 rounded text-xs" style={{ color }}>
+                  {sensor.sensor_type}: {sensor.reading_value?.toFixed(1)}{sensor.unit}
+                  {sensor.trend && <span className="ml-1">{sensor.trend === 'increasing' ? '↑' : sensor.trend === 'decreasing' ? '↓' : '→'}</span>}
+                </div>
+              </Html>
+            )}
+          </group>
+        );
+      })}
+    </group>
+  );
+}
+
+// Live task progress overlay
+function LiveTaskProgressOverlay3D({ tasks, agents }) {
+  return (
+    <group>
+      {tasks.map((task, idx) => {
+        const primaryAgent = agents.find(a => 
+          task.participating_agents?.some(pa => pa.agent_id === a.agent_id)
+        );
+        
+        if (!primaryAgent?.current_location) return null;
+        
+        const pos = primaryAgent.current_location;
+        
+        return (
+          <group key={task.id || idx} position={[pos.x, 1.2, pos.z]}>
+            <Html center>
+              <div className="bg-purple-500/20 border border-purple-500/50 px-3 py-2 rounded-lg text-xs text-white min-w-40">
+                <p className="font-bold mb-1">{task.task_name}</p>
+                <div className="w-full h-2 bg-slate-700 rounded overflow-hidden mb-1">
+                  <div 
+                    className="h-full bg-gradient-to-r from-purple-500 to-pink-500 transition-all" 
+                    style={{ width: `${task.progress || 0}%` }}
+                  />
+                </div>
+                <div className="flex items-center justify-between text-xs">
+                  <span className="text-slate-400">{task.progress || 0}%</span>
+                  <span className="text-purple-300">{task.task_decomposition?.filter(t => t.status === 'completed').length || 0}/{task.task_decomposition?.length || 0} steps</span>
+                </div>
+              </div>
+            </Html>
+          </group>
+        );
+      })}
+    </group>
+  );
+}
+
 // Main scene
 function SpatialScene({ 
   semanticGraph, 
@@ -337,6 +412,8 @@ function SpatialScene({
   showTrajectories,
   showNavigation,
   showHeatmap,
+  showSensors,
+  showTaskProgress,
   onObjectSelect,
   onDeviceControl
 }) {
@@ -419,6 +496,12 @@ function SpatialScene({
           devices={devices}
         />
       ))}
+
+      {/* Live sensor overlays */}
+      {showSensors && <LiveSensorOverlay3D sensors={sensorData} showValues={true} />}
+
+      {/* Live task progress */}
+      {showTaskProgress && <LiveTaskProgressOverlay3D tasks={activeTasks} agents={agents} />}
     </group>
   );
 }
@@ -430,6 +513,8 @@ export default function LiveSpatialProjectionMap3D() {
   const [showTrajectories, setShowTrajectories] = useState(true);
   const [showNavigation, setShowNavigation] = useState(false);
   const [showHeatmap, setShowHeatmap] = useState(false);
+  const [showSensors, setShowSensors] = useState(true);
+  const [showTaskProgress, setShowTaskProgress] = useState(true);
 
   const { data: semanticGraphs = [] } = useQuery({
     queryKey: ['spatial-semantic-graphs'],
@@ -514,6 +599,20 @@ export default function LiveSpatialProjectionMap3D() {
             >
               <Thermometer className="w-4 h-4 mr-1" /> Heatmap
             </Button>
+            <Button
+              size="sm"
+              variant={showSensors ? 'default' : 'outline'}
+              onClick={() => setShowSensors(!showSensors)}
+            >
+              <Sun className="w-4 h-4 mr-1" /> Sensors
+            </Button>
+            <Button
+              size="sm"
+              variant={showTaskProgress ? 'default' : 'outline'}
+              onClick={() => setShowTaskProgress(!showTaskProgress)}
+            >
+              <Activity className="w-4 h-4 mr-1" /> Tasks
+            </Button>
           </div>
 
           <div className="grid grid-cols-4 gap-3">
@@ -556,6 +655,8 @@ export default function LiveSpatialProjectionMap3D() {
                 showTrajectories={showTrajectories}
                 showNavigation={showNavigation}
                 showHeatmap={showHeatmap}
+                showSensors={showSensors}
+                showTaskProgress={showTaskProgress}
                 onObjectSelect={setSelectedObject}
                 onDeviceControl={handleDeviceControl}
               />

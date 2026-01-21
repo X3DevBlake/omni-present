@@ -260,4 +260,98 @@ export default function ProactiveAssistancePanel3D() {
               <p className={`text-xl font-bold ${warnings.length > 0 ? 'text-red-400' : 'text-slate-500'}`}>{warnings.length}</p>
             </div>
             <div className="bg-slate-800/50 rounded-lg p-3">
-              <p className="text-slate-400 text-xs flex items-center gap-1">
+              <p className="text-slate-400 text-xs flex items-center gap-1"><Lightbulb className="w-3 h-3 text-green-400" /> Suggestions</p>
+              <p className={`text-xl font-bold ${suggestions.length > 0 ? 'text-green-400' : 'text-slate-500'}`}>{suggestions.length}</p>
+            </div>
+            <div className="bg-slate-800/50 rounded-lg p-3">
+              <p className="text-slate-400 text-xs flex items-center gap-1"><Thermometer className="w-3 h-3 text-cyan-400" /> Environmental</p>
+              <p className={`text-xl font-bold ${environmental.length > 0 ? 'text-cyan-400' : 'text-slate-500'}`}>{environmental.length}</p>
+            </div>
+            <div className="bg-slate-800/50 rounded-lg p-3">
+              <p className="text-slate-400 text-xs flex items-center gap-1"><Bell className="w-3 h-3 text-purple-400" /> Total Pending</p>
+              <p className="text-purple-400 text-xl font-bold">{pendingAssistances.length}</p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card className="bg-slate-900/60 border-slate-700">
+        <CardHeader>
+          <CardTitle className="text-white">3D Assistance Visualization</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="h-[450px]">
+            <Canvas camera={{ position: [8, 6, 8], fov: 50 }}>
+              <ambientLight intensity={0.25} />
+              <pointLight position={[10, 10, 10]} intensity={1} />
+              <pointLight position={[-5, 5, -5]} intensity={0.5} color="#f59e0b" />
+
+              <AssistanceScene
+                agents={agents}
+                assistances={assistances}
+                onAcceptAssistance={handleAccept}
+                onDismissAssistance={handleDismiss}
+              />
+
+              <OrbitControls enableZoom={true} />
+            </Canvas>
+          </div>
+        </CardContent>
+      </Card>
+
+      {pendingAssistances.length > 0 && (
+        <Card className="bg-slate-900/60 border-slate-700">
+          <CardHeader>
+            <CardTitle className="text-white">Pending Assistances</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-2 max-h-64 overflow-y-auto">
+              {pendingAssistances.map(assistance => {
+                const severityColors = {
+                  critical: 'border-red-500 bg-red-500/10',
+                  warning: 'border-orange-500 bg-orange-500/10',
+                  suggestion: 'border-green-500 bg-green-500/10',
+                  info: 'border-blue-500 bg-blue-500/10'
+                };
+                
+                return (
+                  <div key={assistance.id} className={`border rounded-lg p-3 ${severityColors[assistance.assistance_content?.severity] || 'border-slate-600'}`}>
+                    <div className="flex items-start justify-between mb-2">
+                      <div>
+                        <p className="text-white font-bold text-sm">{assistance.assistance_content?.title}</p>
+                        <p className="text-slate-400 text-xs">{assistance.assistance_content?.message}</p>
+                      </div>
+                      <Badge className="bg-slate-700">
+                        {assistance.assistance_type}
+                      </Badge>
+                    </div>
+                    <div className="flex gap-2 mt-2">
+                      {assistance.assistance_content?.recommended_actions?.slice(0, 2).map((action, idx) => (
+                        <Button
+                          key={idx}
+                          size="sm"
+                          onClick={() => handleAccept(assistance, action)}
+                          className="text-xs"
+                        >
+                          {action.action_name}
+                        </Button>
+                      ))}
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={() => handleDismiss(assistance)}
+                        className="text-xs text-slate-400"
+                      >
+                        Dismiss
+                      </Button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+    </div>
+  );
+}
