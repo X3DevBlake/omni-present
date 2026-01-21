@@ -13,16 +13,38 @@ export default function UltraGestureRecognitionOverlay({ onGestureDetected, cont
   const [handPosition, setHandPosition] = useState({ x: 0, y: 0, z: 0 });
   const trackingRef = useRef(null);
 
+  const nlpEnhanceMutation = useMutation({
+    mutationFn: async (gestureData) => {
+      const response = await base44.functions.invoke('omega-nlp-interpreter', {
+        input_type: 'gesture',
+        raw_input: gestureData.gesture_type,
+        context: gestureData.context
+      });
+      return response.data;
+    }
+  });
+
   const gestureRecognitionMutation = useMutation({
     mutationFn: async (gestureData) => {
-      const response = await base44.functions.invoke('gesture-recognition-engine', gestureData);
+      // First enhance with omega NLP
+      const nlpResponse = await base44.functions.invoke('omega-nlp-interpreter', {
+        input_type: 'gesture',
+        raw_input: gestureData.gesture_type,
+        context: gestureData.context
+      });
+      
+      // Then execute gesture
+      const response = await base44.functions.invoke('gesture-recognition-engine', {
+        ...gestureData,
+        nlp_enhancement: nlpResponse.data.interpretation
+      });
       return response.data;
     },
     onSuccess: (data) => {
       setLastGesture(data);
       onGestureDetected && onGestureDetected(data);
       if (data.success && data.interpretation?.confidence > 0.6) {
-        toast.success(data.feedback || 'Gesture recognized');
+        toast.success(data.feedback || 'Gesture recognized with omega NLP');
       }
     }
   });

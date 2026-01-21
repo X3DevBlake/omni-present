@@ -27,7 +27,7 @@ export default function OmegaSentientHub() {
         </Card>
 
         <Tabs defaultValue="consciousness" className="space-y-4">
-          <TabsList className="grid grid-cols-2 md:grid-cols-4 gap-2 bg-slate-900/60 p-2">
+          <TabsList className="grid grid-cols-2 md:grid-cols-5 gap-2 bg-slate-900/60 p-2">
             <TabsTrigger value="consciousness">
               <Brain className="w-4 h-4 mr-2" />
               Consciousness
@@ -43,6 +43,10 @@ export default function OmegaSentientHub() {
             <TabsTrigger value="learning">
               <TrendingUp className="w-4 h-4 mr-2" />
               Learning
+            </TabsTrigger>
+            <TabsTrigger value="guilds">
+              <Users className="w-4 h-4 mr-2" />
+              Guilds
             </TabsTrigger>
           </TabsList>
 
@@ -60,6 +64,10 @@ export default function OmegaSentientHub() {
 
           <TabsContent value="learning">
             <AgentLearningHub3D />
+          </TabsContent>
+
+          <TabsContent value="guilds">
+            <CollaborativeLearningNetwork3D />
           </TabsContent>
         </Tabs>
       </div>

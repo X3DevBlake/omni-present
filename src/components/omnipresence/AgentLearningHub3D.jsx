@@ -469,6 +469,38 @@ export default function AgentLearningHub3D() {
         </Card>
       )}
 
+      {learningData?.ai_trends && (
+        <Card className="bg-slate-900/60 border-slate-700">
+          <CardHeader>
+            <CardTitle className="text-white flex items-center gap-2">
+              <TrendingUp className="w-5 h-5 text-green-400" />
+              AI Learning Trends
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              {learningData.ai_trends.success_trajectory && (
+                <div className="bg-green-500/10 border border-green-500/30 rounded-lg p-3">
+                  <p className="text-green-300 font-bold mb-1">Success Trajectory: {learningData.ai_trends.success_trajectory.trend}</p>
+                  <p className="text-slate-300 text-sm">Current: {(learningData.ai_trends.success_trajectory.current_rate * 100).toFixed(0)}%</p>
+                  <p className="text-cyan-400 text-sm">7d Prediction: {(learningData.ai_trends.success_trajectory.prediction_7d * 100).toFixed(0)}%</p>
+                </div>
+              )}
+              {learningData.ai_trends.emergent_capabilities?.length > 0 && (
+                <div className="bg-purple-500/10 border border-purple-500/30 rounded-lg p-3">
+                  <p className="text-purple-300 font-bold mb-2">Emergent Capabilities</p>
+                  {learningData.ai_trends.emergent_capabilities.map((cap, idx) => (
+                    <Badge key={idx} className="bg-purple-500/20 text-purple-300 text-xs mr-1 mb-1">{cap}</Badge>
+                  ))}
+                </div>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      <CollaborativeLearningNetwork3D />
+
       {learningData?.recent_thoughts && (
         <Card className="bg-slate-900/60 border-slate-700">
           <CardHeader>

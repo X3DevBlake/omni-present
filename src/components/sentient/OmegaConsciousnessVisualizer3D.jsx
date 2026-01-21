@@ -202,6 +202,28 @@ function ConsciousnessScene({ cores, agents, devices, showConnections }) {
 export default function OmegaConsciousnessVisualizer3D() {
   const queryClient = useQueryClient();
   const [showConnections, setShowConnections] = useState(true);
+  const [vizAdaptations, setVizAdaptations] = useState(null);
+
+  const adaptiveMutation = useMutation({
+    mutationFn: async () => {
+      const response = await base44.functions.invoke('autonomous-viz-evolution', {
+        hub_context: 'omega_consciousness',
+        user_engagement_data: { interactions: 100 }
+      });
+      return response.data;
+    },
+    onSuccess: (data) => {
+      setVizAdaptations(data.evolution);
+      toast.success('Visualization evolved autonomously');
+    }
+  });
+
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      adaptiveMutation.mutate();
+    }, 120000); // Auto-evolve every 2 minutes
+    return () => clearInterval(interval);
+  }, []);
 
   const { data: cores = [] } = useQuery({
     queryKey: ['sentient-cores'],

@@ -89,6 +89,23 @@ export default function OmniscientDataDashboard3D() {
   const queryClient = useQueryClient();
   const [analysisResult, setAnalysisResult] = useState(null);
 
+  const adaptiveMutation = useMutation({
+    mutationFn: async () => {
+      const response = await base44.functions.invoke('autonomous-viz-evolution', {
+        hub_context: 'omniscient_data',
+        user_engagement_data: {}
+      });
+      return response.data;
+    }
+  });
+
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      adaptiveMutation.mutate();
+    }, 120000);
+    return () => clearInterval(interval);
+  }, []);
+
   const analysisMutation = useMutation({
     mutationFn: async () => {
       const response = await base44.functions.invoke('omniscient-data-processor', {

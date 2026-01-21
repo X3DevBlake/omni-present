@@ -4,7 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import OmegaFinancialDashboard3D from '../components/financial/OmegaFinancialDashboard3D';
 import SentientDeFiController3D from '../components/financial/SentientDeFiController3D';
 import UniversalOrchestratorPanel from '../components/sentient/UniversalOrchestratorPanel';
-import { DollarSign, Coins, Brain, Sparkles } from 'lucide-react';
+import FinancialEcosystemSimulator3D from '../components/financial/FinancialEcosystemSimulator3D';
+import { DollarSign, Coins, Brain, Sparkles, TrendingUp } from 'lucide-react';
 
 export default function OmegaFinancialHub() {
   return (
@@ -26,7 +27,7 @@ export default function OmegaFinancialHub() {
         </Card>
 
         <Tabs defaultValue="advisor" className="space-y-4">
-          <TabsList className="grid grid-cols-3 gap-2 bg-slate-900/60 p-2">
+          <TabsList className="grid grid-cols-2 md:grid-cols-4 gap-2 bg-slate-900/60 p-2">
             <TabsTrigger value="advisor">
               <Brain className="w-4 h-4 mr-2" />
               Omega Advisor
@@ -34,6 +35,10 @@ export default function OmegaFinancialHub() {
             <TabsTrigger value="defi">
               <Coins className="w-4 h-4 mr-2" />
               Sentient DeFi
+            </TabsTrigger>
+            <TabsTrigger value="simulator">
+              <TrendingUp className="w-4 h-4 mr-2" />
+              Ecosystem Sim
             </TabsTrigger>
             <TabsTrigger value="orchestrator">
               <Sparkles className="w-4 h-4 mr-2" />
@@ -47,6 +52,10 @@ export default function OmegaFinancialHub() {
 
           <TabsContent value="defi">
             <SentientDeFiController3D />
+          </TabsContent>
+
+          <TabsContent value="simulator">
+            <FinancialEcosystemSimulator3D />
           </TabsContent>
 
           <TabsContent value="orchestrator">
