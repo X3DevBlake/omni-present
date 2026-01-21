@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
-import { Zap, Radio, Map, Activity, Scan, Brain, Network, Heart, Cpu } from 'lucide-react';
+import { Zap, Radio, Map, Activity, Scan, Brain, Network, Heart, Cpu, Loader2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import SpatialProjectionCanvas3D from '../components/omnipresence/SpatialProjectionCanvas3D';
@@ -26,6 +26,9 @@ import EmotionDetectionPanel from '../components/omnipresence/EmotionDetectionPa
 import AdvancedSpatialVisualizer3D from '../components/omnipresence/AdvancedSpatialVisualizer3D';
 import PhysicalTaskExecutor from '../components/omnipresence/PhysicalTaskExecutor';
 import AgentLearningDashboard from '../components/omnipresence/AgentLearningDashboard';
+import ImmersiveRoomScanner3D from '../components/omnipresence/ImmersiveRoomScanner3D';
+import DeviceNetworkTopology3D from '../components/omnipresence/DeviceNetworkTopology3D';
+import RealTimeSpatialHeatmap3D from '../components/omnipresence/RealTimeSpatialHeatmap3D';
 import { toast } from 'sonner';
 
 export default function OmniPresenceControlCenter() {
@@ -120,6 +123,15 @@ export default function OmniPresenceControlCenter() {
     queryFn: () => base44.entities.TaskDelegation.filter({}).limit(50),
     initialData: []
   });
+
+  const { data: spatialZones = [] } = useQuery({
+    queryKey: ['spatial-zones'],
+    queryFn: () => base44.entities.SpatialZone.filter({}).limit(100),
+    initialData: []
+  });
+
+  const [scanning, setScanning] = React.useState(false);
+  const [scanProgress, setScanProgress] = React.useState(0);
 
   const deployAgentMutation = useMutation({
     mutationFn: async ({ agent_id, omni_device_id }) => {
@@ -217,6 +229,23 @@ export default function OmniPresenceControlCenter() {
       toast.success('Device command executed');
     }
   });
+
+  const startEnvironmentScan = () => {
+    setScanning(true);
+    setScanProgress(0);
+    const interval = setInterval(() => {
+      setScanProgress(prev => {
+        if (prev >= 100) {
+          clearInterval(interval);
+          setScanning(false);
+          toast.success('Environment scan complete!');
+          detectObjectsMutation.mutate();
+          return 100;
+        }
+        return prev + 5;
+      });
+    }, 200);
+  };
 
   const activePresences = presences.filter(p => p.projection_status === 'active');
   const onlineDevices = devices.filter(d => d.online_status);
@@ -352,24 +381,62 @@ export default function OmniPresenceControlCenter() {
           </TabsList>
 
           <TabsContent value="spatial">
-            <Card className="bg-slate-900/60 border-slate-700">
-              <CardHeader>
-                <CardTitle className="text-white">Advanced 3D Spatial Visualization</CardTitle>
-                <p className="text-slate-400 text-sm">
-                  AI agents, smart devices, zones, and multi-agent collaboration
-                </p>
-              </CardHeader>
-              <CardContent>
-                <div className="h-[700px]">
-                  <AdvancedSpatialVisualizer3D
-                    agents={presences}
-                    devices={smartDevices}
-                    zones={spatialMaps[0]?.designated_zones || []}
-                    collaborations={collaborativeTasks}
-                  />
-                </div>
-              </CardContent>
-            </Card>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <Card className="bg-slate-900/60 border-slate-700">
+                <CardHeader>
+                  <CardTitle className="text-white">Advanced Spatial Map</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="h-[500px]">
+                    <AdvancedSpatialVisualizer3D
+                      agents={presences}
+                      devices={smartDevices}
+                      zones={spatialZones}
+                      collaborations={collaborativeTasks}
+                    />
+                  </div>
+                </CardContent>
+              </Card>
+
+              <div className="space-y-4">
+                <Card className="bg-slate-900/60 border-slate-700">
+                  <CardHeader>
+                    <CardTitle className="text-white">Environment Scanner</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <Button
+                      onClick={startEnvironmentScan}
+                      disabled={scanning}
+                      className="w-full bg-gradient-to-r from-cyan-600 to-purple-600 mb-4"
+                    >
+                      {scanning ? (
+                        <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Scanning {scanProgress}%</>
+                      ) : (
+                        <><Scan className="w-4 h-4 mr-2" /> Start Environmental Scan</>
+                      )}
+                    </Button>
+                    <div className="h-[300px]">
+                      <ImmersiveRoomScanner3D
+                        scanning={scanning}
+                        detections={dynamicDetections}
+                        scanProgress={scanProgress}
+                      />
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-slate-900/60 border-slate-700">
+                  <CardHeader>
+                    <CardTitle className="text-white">Activity Heatmap</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="h-[300px]">
+                      <RealTimeSpatialHeatmap3D zones={spatialZones} />
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
           </TabsContent>
 
           <TabsContent value="multi-device">
@@ -596,10 +663,18 @@ export default function OmniPresenceControlCenter() {
             <div className="space-y-6">
               <Card className="bg-slate-900/60 border-slate-700">
                 <CardHeader>
+                  <CardTitle className="text-white">Device Network Topology</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="h-[500px]">
+                    <DeviceNetworkTopology3D devices={smartDevices} />
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-slate-900/60 border-slate-700">
+                <CardHeader>
                   <CardTitle className="text-white">Connected Smart Devices</CardTitle>
-                  <p className="text-slate-400 text-sm">
-                    Integrated smart home appliances and robotic platforms
-                  </p>
                 </CardHeader>
                 <CardContent>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
