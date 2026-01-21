@@ -29,6 +29,9 @@ import AgentLearningDashboard from '../components/omnipresence/AgentLearningDash
 import ImmersiveRoomScanner3D from '../components/omnipresence/ImmersiveRoomScanner3D';
 import DeviceNetworkTopology3D from '../components/omnipresence/DeviceNetworkTopology3D';
 import RealTimeSpatialHeatmap3D from '../components/omnipresence/RealTimeSpatialHeatmap3D';
+import EnhancedSpatialProjectionMap3D from '../components/omnipresence/EnhancedSpatialProjectionMap3D';
+import MatterHomeKitControl from '../components/omnipresence/MatterHomeKitControl';
+import LiveAgentProjection3D from '../components/omnipresence/LiveAgentProjection3D';
 import { toast } from 'sonner';
 
 export default function OmniPresenceControlCenter() {
@@ -115,6 +118,12 @@ export default function OmniPresenceControlCenter() {
   const { data: smartDevices = [] } = useQuery({
     queryKey: ['smart-device-integrations'],
     queryFn: () => base44.entities.SmartDeviceIntegration.filter({}).limit(50),
+    initialData: []
+  });
+
+  const { data: crossPlatformDevices = [] } = useQuery({
+    queryKey: ['cross-platform-devices'],
+    queryFn: () => base44.entities.CrossPlatformDevice.filter({}).limit(100),
     initialData: []
   });
 
@@ -366,6 +375,10 @@ export default function OmniPresenceControlCenter() {
               <Radio className="w-4 h-4 mr-2" />
               Smart Devices
             </TabsTrigger>
+            <TabsTrigger value="matter-homekit">
+              <Network className="w-4 h-4 mr-2" />
+              Matter/HomeKit
+            </TabsTrigger>
             <TabsTrigger value="multi-device">
               <Radio className="w-4 h-4 mr-2" />
               Multi-Device
@@ -384,15 +397,17 @@ export default function OmniPresenceControlCenter() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <Card className="bg-slate-900/60 border-slate-700">
                 <CardHeader>
-                  <CardTitle className="text-white">Advanced Spatial Map</CardTitle>
+                  <CardTitle className="text-white">Enhanced Spatial Projection Map</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="h-[500px]">
-                    <AdvancedSpatialVisualizer3D
+                    <EnhancedSpatialProjectionMap3D
                       agents={presences}
-                      devices={smartDevices}
+                      devices={[...smartDevices, ...crossPlatformDevices]}
                       zones={spatialZones}
-                      collaborations={collaborativeTasks}
+                      onZoneClick={(zone) => toast.info(`Zone: ${zone.zone_name} - Heat: ${zone.activity_heat_score}%`)}
+                      onDeviceClick={(device) => toast.info(`Device: ${device.device_name} (${device.protocol || device.api_provider})`)}
+                      onAgentSelect={(agent) => toast.info(`Agent: ${agent.agent_id?.slice(0, 8)}`)}
                     />
                   </div>
                 </CardContent>
@@ -661,23 +676,36 @@ export default function OmniPresenceControlCenter() {
 
           <TabsContent value="smart-home">
             <div className="space-y-6">
-              <Card className="bg-slate-900/60 border-slate-700">
-                <CardHeader>
-                  <CardTitle className="text-white">Device Network Topology</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="h-[500px]">
-                    <DeviceNetworkTopology3D devices={smartDevices} />
-                  </div>
-                </CardContent>
-              </Card>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <Card className="bg-slate-900/60 border-slate-700">
+                  <CardHeader>
+                    <CardTitle className="text-white">Device Network Topology</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="h-[450px]">
+                      <DeviceNetworkTopology3D devices={[...smartDevices, ...crossPlatformDevices]} />
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="bg-slate-900/60 border-slate-700">
+                  <CardHeader>
+                    <CardTitle className="text-white">Live Agent View</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="h-[450px]">
+                      <LiveAgentProjection3D agents={presences} devices={[...smartDevices, ...crossPlatformDevices]} />
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
 
               <Card className="bg-slate-900/60 border-slate-700">
                 <CardHeader>
                   <CardTitle className="text-white">Connected Smart Devices</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {smartDevices.map((device) => (
                       <div key={device.id} className="bg-slate-800/50 rounded-lg p-4">
                         <div className="flex items-start justify-between mb-2">
@@ -711,6 +739,10 @@ export default function OmniPresenceControlCenter() {
                 </CardContent>
               </Card>
             </div>
+          </TabsContent>
+
+          <TabsContent value="matter-homekit">
+            <MatterHomeKitControl devices={crossPlatformDevices} />
           </TabsContent>
 
           <TabsContent value="logs">

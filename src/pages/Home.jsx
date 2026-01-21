@@ -12,12 +12,11 @@ import {
   Coins, Rocket, Globe, Brain, ChevronRight, Radio, Map 
 } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
-import OmniPresent3DLogo from '../components/home/OmniPresent3DLogo';
-import PhysicalAgentShowcase3D from '../components/home/PhysicalAgentShowcase3D';
-import SpatialProjectionCanvas3D from '../components/omnipresence/SpatialProjectionCanvas3D';
+import EnhancedOmniText3D from '../components/omnipresence/EnhancedOmniText3D';
+import LiveAgentProjection3D from '../components/omnipresence/LiveAgentProjection3D';
+import EnhancedSpatialProjectionMap3D from '../components/omnipresence/EnhancedSpatialProjectionMap3D';
 import OmniDeviceGrid from '../components/home/OmniDeviceGrid';
 import DraggableFeatureCard from '../components/home/DraggableFeatureCard';
-import AdaptiveTokenomicsDisplay3D from '../components/home/AdaptiveTokenomicsDisplay3D';
 
 export default function Home() {
   const [activeFeature, setActiveFeature] = useState(0);
@@ -183,7 +182,7 @@ export default function Home() {
             </div>
           </motion.div>
 
-          {/* 3D Logo */}
+          {/* Enhanced 3D OMNI Logo */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -192,14 +191,14 @@ export default function Home() {
           >
             <Card className="bg-slate-900/60 backdrop-blur-xl border-slate-700">
               <CardContent className="p-0">
-                <div className="h-[300px]">
-                  <OmniPresent3DLogo />
+                <div className="h-[350px]">
+                  <EnhancedOmniText3D />
                 </div>
               </CardContent>
             </Card>
           </motion.div>
 
-          {/* Physical Agent Showcase */}
+          {/* Live Agent Projection Showcase */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -210,18 +209,21 @@ export default function Home() {
               Agents That Live in Your Space
             </h2>
             <p className="text-center text-slate-400 mb-6 text-lg">
-              Watch your AI agents materialize as 3D holograms in your home
+              Holographic AI agents that navigate, learn, and interact with your physical environment
             </p>
             <Card className="bg-slate-900/60 backdrop-blur-xl border-slate-700">
               <CardContent className="p-0">
-                <div className="h-[500px]">
-                  <PhysicalAgentShowcase3D />
+                <div className="h-[550px]">
+                  <LiveAgentProjection3D 
+                    agents={presences}
+                    devices={devices}
+                  />
                 </div>
               </CardContent>
             </Card>
           </motion.div>
 
-          {/* Real-time Spatial Map */}
+          {/* Enhanced Spatial Projection Map */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -232,15 +234,15 @@ export default function Home() {
               Live Spatial Projection Map
             </h2>
             <p className="text-center text-slate-400 mb-6 text-lg">
-              See your agents moving in real-time across your physical environment
+              Interactive zones, smart devices, and real-time agent tracking in your environment
             </p>
             <Card className="bg-slate-900/60 backdrop-blur-xl border-slate-700">
               <CardContent className="p-0">
-                <div className="h-[600px]">
-                  <SpatialProjectionCanvas3D
-                    presences={presences}
+                <div className="h-[650px]">
+                  <EnhancedSpatialProjectionMap3D
+                    zones={spatialMaps[0]?.designated_zones || []}
                     devices={devices}
-                    spatialMaps={spatialMaps}
+                    agents={presences}
                   />
                 </div>
               </CardContent>
@@ -556,26 +558,6 @@ export default function Home() {
                 </CardContent>
               </Card>
             </div>
-          </motion.div>
-
-          {/* Tokenomics */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.1 }}
-            className="mb-20"
-          >
-            <h2 className="text-4xl font-bold text-center mb-4 text-white">
-              Omni Token Ecosystem
-            </h2>
-            <p className="text-center text-slate-400 mb-8 text-lg">
-              Stake, govern, and earn rewards in our decentralized economy
-            </p>
-            <Card className="bg-slate-900/60 backdrop-blur-xl border-slate-700">
-              <CardContent className="p-6">
-                <AdaptiveTokenomicsDisplay3D />
-              </CardContent>
-            </Card>
           </motion.div>
 
           {/* Omni Devices */}
