@@ -355,6 +355,7 @@ import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
 import WorldHubEnhanced from './pages/WorldHubEnhanced';
 import AgentLearningHub from './pages/AgentLearningHub';
+import OmegaSentientHub from './pages/OmegaSentientHub';
 import __Layout from './Layout.jsx';
 
 
@@ -716,6 +717,7 @@ export const PAGES = {
     "World": World,
     "WorldHubEnhanced": WorldHubEnhanced,
     "AgentLearningHub": AgentLearningHub,
+    "OmegaSentientHub": OmegaSentientHub,
 }
 
 export const pagesConfig = {
