@@ -21,6 +21,11 @@ import OmniLoopLogo3D from '../components/omnipresence/OmniLoopLogo3D';
 import NeuralChipBlueprint3D from '../components/body/NeuralChipBlueprint3D';
 import CollaborativeLearningNetwork3D from '../components/learning/CollaborativeLearningNetwork3D';
 import OmegaSentientShowcase3D from '../components/home/OmegaSentientShowcase3D';
+import UnifiedEcosystemHologram3D from '../components/ecosystem/UnifiedEcosystemHologram3D';
+import ConsciousnessTransferVisualizer3D from '../components/consciousness/ConsciousnessTransferVisualizer3D';
+import NeuralLinkVisualizer3D from '../components/consciousness/NeuralLinkVisualizer3D';
+import DeviceOptimizationVisualizer3D from '../components/devices/DeviceOptimizationVisualizer3D';
+import EthicalReasoningVisualizer3D from '../components/companions/EthicalReasoningVisualizer3D';
 
 export default function Home() {
   const [activeFeature, setActiveFeature] = useState(0);
@@ -263,11 +268,43 @@ export default function Home() {
             </Card>
           </motion.div>
 
-          {/* Omega Sentient Trinity Showcase */}
+          {/* Unified Omega Ecosystem Hologram - NEW PRIMARY VISUALIZER */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.2, duration: 0.8 }}
+            className="mb-12"
+          >
+            <UnifiedEcosystemHologram3D />
+          </motion.div>
+
+          {/* Consciousness Transfer & Neural Link Visualizers */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.25, duration: 0.8 }}
+            className="mb-12 grid grid-cols-1 lg:grid-cols-2 gap-6"
+          >
+            <ConsciousnessTransferVisualizer3D />
+            <NeuralLinkVisualizer3D />
+          </motion.div>
+
+          {/* Device Optimization & Ethical Reasoning */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.28, duration: 0.8 }}
+            className="mb-12 grid grid-cols-1 lg:grid-cols-2 gap-6"
+          >
+            <DeviceOptimizationVisualizer3D />
+            <EthicalReasoningVisualizer3D />
+          </motion.div>
+
+          {/* Omega Sentient Trinity Showcase */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.3, duration: 0.8 }}
             className="mb-12"
           >
             <OmegaSentientShowcase3D />

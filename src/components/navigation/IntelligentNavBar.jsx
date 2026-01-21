@@ -41,6 +41,7 @@ export default function IntelligentNavBar() {
   });
 
   const navItems = [
+    { name: 'Home', page: 'Home', icon: Sparkles, color: 'text-white' },
     { name: 'AI Labs', page: 'NextGenMLHub', icon: Brain, color: 'text-cyan-400' },
     { name: 'Analytics', page: 'AnalyticsIntelligenceHub', icon: BarChart3, color: 'text-green-400' },
     { name: 'Collaboration', page: 'CollaborationOrchestrationHub', icon: Users, color: 'text-pink-400' },
@@ -60,40 +61,59 @@ export default function IntelligentNavBar() {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-black/40 backdrop-blur-md border-b border-white/10">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-black/60 via-purple-900/30 to-black/60 backdrop-blur-xl border-b border-white/20 shadow-2xl shadow-purple-500/10">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <Link to={createPageUrl('HomeEnhanced')}>
+            <Link to={createPageUrl('Home')}>
               <motion.div
-                whileHover={{ scale: 1.05 }}
-                className="text-2xl font-bold text-white flex items-center gap-2"
+                whileHover={{ scale: 1.05, rotate: [0, -5, 5, 0] }}
+                transition={{ duration: 0.5 }}
+                className="text-2xl font-bold text-white flex items-center gap-3"
               >
-                <Sparkles className="w-7 h-7 text-cyan-400" />
-                AI Platform
+                <div className="relative">
+                  <Sparkles className="w-8 h-8 text-cyan-400 animate-pulse" />
+                  <div className="absolute inset-0 blur-xl bg-cyan-400/50 -z-10" />
+                </div>
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400">
+                  Omni-Present Omega
+                </span>
               </motion.div>
             </Link>
 
-            <div className="hidden lg:flex items-center gap-1">
+            <div className="hidden lg:flex items-center gap-2">
               {navItems.map((item) => {
                 const predicted = isPredicted(item.page);
                 const score = getPredictionScore(item.page);
+                const isActive = currentPath === item.page;
                 
                 return (
                   <Link key={item.page} to={createPageUrl(item.page)}>
-                    <Button
-                      variant="ghost"
-                      className={`text-white hover:bg-white/10 relative ${
-                        currentPath === item.page ? 'bg-white/20' : ''
-                      }`}
+                    <motion.div
+                      whileHover={{ scale: 1.05, y: -2 }}
+                      whileTap={{ scale: 0.95 }}
                     >
-                      <item.icon className={`w-4 h-4 mr-2 ${item.color}`} />
-                      {item.name}
-                      {predicted && (
-                        <Badge className="ml-2 bg-cyan-500 text-xs px-1.5">
-                          {score}%
-                        </Badge>
-                      )}
-                    </Button>
+                      <Button
+                        variant="ghost"
+                        className={`text-white hover:bg-white/20 relative transition-all ${
+                          isActive ? 'bg-gradient-to-r from-purple-500/30 to-cyan-500/30 border border-white/30' : ''
+                        }`}
+                      >
+                        <item.icon className={`w-4 h-4 mr-2 ${item.color}`} />
+                        <span className={isActive ? 'font-semibold' : ''}>{item.name}</span>
+                        {predicted && (
+                          <Badge className="ml-2 bg-cyan-500/80 text-xs px-1.5 animate-pulse">
+                            {score}%
+                          </Badge>
+                        )}
+                        {isActive && (
+                          <motion.div
+                            layoutId="activeTab"
+                            className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-cyan-400 to-purple-400"
+                            transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                          />
+                        )}
+                      </Button>
+                    </motion.div>
                   </Link>
                 );
               })}
