@@ -82,6 +82,7 @@ import Architecture from './pages/Architecture';
 import AssetBrowser from './pages/AssetBrowser';
 import AssetUpload from './pages/AssetUpload';
 import AuditLogs from './pages/AuditLogs';
+import AugmentationDesignHub from './pages/AugmentationDesignHub';
 import AutomatedFinanceHub from './pages/AutomatedFinanceHub';
 import AutomationOrchestrationHub from './pages/AutomationOrchestrationHub';
 import AutomationsHub from './pages/AutomationsHub';
@@ -358,7 +359,7 @@ import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
 import WorldHubEnhanced from './pages/WorldHubEnhanced';
-import AugmentationDesignHub from './pages/AugmentationDesignHub';
+import PhysicalEmbodimentHub from './pages/PhysicalEmbodimentHub';
 import __Layout from './Layout.jsx';
 
 
@@ -447,6 +448,7 @@ export const PAGES = {
     "AssetBrowser": AssetBrowser,
     "AssetUpload": AssetUpload,
     "AuditLogs": AuditLogs,
+    "AugmentationDesignHub": AugmentationDesignHub,
     "AutomatedFinanceHub": AutomatedFinanceHub,
     "AutomationOrchestrationHub": AutomationOrchestrationHub,
     "AutomationsHub": AutomationsHub,
@@ -723,7 +725,7 @@ export const PAGES = {
     "WorkflowOrchestrationHub": WorkflowOrchestrationHub,
     "World": World,
     "WorldHubEnhanced": WorldHubEnhanced,
-    "AugmentationDesignHub": AugmentationDesignHub,
+    "PhysicalEmbodimentHub": PhysicalEmbodimentHub,
 }
 
 export const pagesConfig = {

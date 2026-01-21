@@ -10,6 +10,7 @@ export const HubRegistry = [
   { id: 'agent-learning', name: 'Agent Learning Hub', path: 'AgentLearningHub', category: 'ai', icon3d: 'brain', color: '#8b5cf6' },
   { id: 'physical-augmentation', name: 'Physical Augmentation Hub', path: 'PhysicalAugmentationHub', category: 'core', icon3d: 'user', color: '#f59e0b' },
   { id: 'augmentation-design', name: 'Augmentation Design Hub', path: 'AugmentationDesignHub', category: 'core', icon3d: 'cpu', color: '#a855f7' },
+  { id: 'physical-embodiment', name: 'Physical Embodiment Hub', path: 'PhysicalEmbodimentHub', category: 'core', icon3d: 'bot', color: '#06b6d4' },
   
   // Financial & Banking
   { id: 'dashboard', name: 'Dashboard', path: 'EnhancedDashboard', category: 'financial', icon3d: 'metrics', color: '#a855f7' },
