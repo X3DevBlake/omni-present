@@ -41,19 +41,21 @@ function EmotionalAura({ emotion, intensity = 0.5 }) {
   );
 }
 
-// Learning feedback visualization
+// Ultra learning feedback with skill graph
 function LearningIndicator({ feedbackData, position }) {
   const [particles, setParticles] = useState([]);
   const groupRef = useRef();
+  const graphRef = useRef();
+  const [showGraph, setShowGraph] = useState(false);
 
   useEffect(() => {
     if (feedbackData?.outcome_data?.success) {
-      // Spawn success particles
-      const newParticles = Array.from({ length: 15 }, (_, i) => ({
+      const newParticles = Array.from({ length: 20 }, (_, i) => ({
         id: Date.now() + i,
-        angle: (i / 15) * Math.PI * 2,
-        speed: 0.5 + Math.random() * 0.5,
-        life: 1
+        angle: (i / 20) * Math.PI * 2,
+        speed: 0.6 + Math.random() * 0.6,
+        life: 1,
+        radius: 0.03 + Math.random() * 0.02
       }));
       setParticles(newParticles);
     }
@@ -61,35 +63,65 @@ function LearningIndicator({ feedbackData, position }) {
 
   useFrame((state, delta) => {
     setParticles(prev => 
-      prev.map(p => ({ ...p, life: p.life - delta * 0.5 }))
+      prev.map(p => ({ ...p, life: p.life - delta * 0.4 }))
           .filter(p => p.life > 0)
     );
+
+    if (graphRef.current) {
+      graphRef.current.rotation.y = state.clock.elapsedTime * 0.5;
+    }
   });
 
   const successColor = feedbackData?.outcome_data?.success ? '#10b981' : '#ef4444';
+  const efficiency = feedbackData?.outcome_data?.efficiency_score || 0.5;
 
   return (
     <group ref={groupRef} position={position}>
       {particles.map(particle => (
         <Sphere
           key={particle.id}
-          args={[0.03, 8, 8]}
+          args={[particle.radius, 12, 12]}
           position={[
-            Math.cos(particle.angle) * (1 - particle.life) * 0.5,
-            (1 - particle.life) * 0.8,
-            Math.sin(particle.angle) * (1 - particle.life) * 0.5
+            Math.cos(particle.angle) * (1 - particle.life) * 0.6,
+            (1 - particle.life) * 1,
+            Math.sin(particle.angle) * (1 - particle.life) * 0.6
           ]}
         >
           <meshBasicMaterial color={successColor} transparent opacity={particle.life} />
         </Sphere>
       ))}
 
+      {/* Efficiency ring */}
+      <mesh rotation={[Math.PI / 2, 0, 0]}>
+        <ringGeometry args={[0.2, 0.25, 32, 1, 0, efficiency * Math.PI * 2]} />
+        <meshBasicMaterial color="#00f5ff" transparent opacity={0.7} side={THREE.DoubleSide} />
+      </mesh>
+
       {feedbackData?.learned_patterns?.length > 0 && (
-        <Html position={[0, 0.8, 0]} center>
-          <div className="bg-emerald-500/20 border border-emerald-500/50 px-2 py-1 rounded text-xs text-emerald-300 animate-pulse">
-            +{feedbackData.learned_patterns.length} patterns
+        <Html position={[0, 0.9, 0]} center>
+          <div 
+            className="bg-emerald-500/30 border-2 border-emerald-500/70 px-3 py-1.5 rounded-lg text-xs text-emerald-200 animate-pulse cursor-pointer"
+            onClick={() => setShowGraph(!showGraph)}
+          >
+            <span className="font-bold">+{feedbackData.learned_patterns.length} patterns</span>
+            {feedbackData.behavioral_adjustments?.length > 0 && (
+              <span className="ml-2 text-cyan-300">• {feedbackData.behavioral_adjustments.length} adjustments</span>
+            )}
           </div>
         </Html>
+      )}
+
+      {showGraph && feedbackData?.learned_patterns && (
+        <group ref={graphRef} position={[0, 0.5, 0]}>
+          {feedbackData.learned_patterns.slice(0, 5).map((pattern, idx) => {
+            const angle = (idx / 5) * Math.PI * 2;
+            return (
+              <Sphere key={idx} args={[0.04, 12, 12]} position={[Math.cos(angle) * 0.3, 0, Math.sin(angle) * 0.3]}>
+                <meshBasicMaterial color="#10b981" />
+              </Sphere>
+            );
+          })}
+        </group>
       )}
     </group>
   );
@@ -174,13 +206,25 @@ function GoalIndicator({ goal, position }) {
   );
 }
 
-// Thought bubble visualization
-function ThoughtBubble3D({ thought, position }) {
+// Ultra enhanced thought bubble with progression links
+function ThoughtBubble3D({ thought, position, index = 0, linkedThoughts = [] }) {
   const bubbleRef = useRef();
+  const auraRef = useRef();
+  const [expanded, setExpanded] = useState(false);
 
   useFrame((state) => {
+    const t = state.clock.elapsedTime;
     if (bubbleRef.current) {
-      bubbleRef.current.position.y = position[1] + Math.sin(state.clock.elapsedTime * 2) * 0.05;
+      bubbleRef.current.position.y = position[1] + Math.sin(t * 2.5 + index * 0.5) * 0.08;
+      bubbleRef.current.rotation.y = Math.sin(t * 0.4) * 0.15;
+      
+      const pulse = 1 + (thought.confidence_level || 0.5) * Math.sin(t * 3.5) * 0.12;
+      bubbleRef.current.scale.setScalar(pulse);
+    }
+
+    if (auraRef.current) {
+      auraRef.current.scale.setScalar(1.5 + Math.sin(t * 2) * 0.15);
+      auraRef.current.material.opacity = 0.1 + Math.sin(t * 3) * 0.05;
     }
   });
 
@@ -193,28 +237,75 @@ function ThoughtBubble3D({ thought, position }) {
   };
 
   const color = colorSchemes[thought.visualization_data?.color_scheme] || '#00f5ff';
+  const hasLinks = linkedThoughts.length > 0;
 
   return (
-    <group ref={bubbleRef} position={position}>
-      <Sphere args={[0.2, 16, 16]}>
-        <meshBasicMaterial color={color} transparent opacity={0.3} />
+    <group position={position} onClick={() => setExpanded(!expanded)}>
+      {/* Outer aura */}
+      <Sphere ref={auraRef} args={[0.35, 32, 32]}>
+        <meshBasicMaterial color={color} transparent opacity={0.1} />
       </Sphere>
+
+      {/* Main bubble */}
+      <Float speed={2} floatIntensity={0.3}>
+        <Sphere ref={bubbleRef} args={[0.22, 24, 24]}>
+          <meshStandardMaterial color={color} emissive={color} emissiveIntensity={0.5} transparent opacity={0.4} />
+        </Sphere>
+      </Float>
+
+      {/* Link indicators */}
+      {hasLinks && (
+        <mesh rotation={[Math.PI / 2, 0, 0]}>
+          <ringGeometry args={[0.28, 0.32, 32]} />
+          <meshBasicMaterial color="#a855f7" transparent opacity={0.6} side={THREE.DoubleSide} />
+        </mesh>
+      )}
       
-      <Html position={[0, 0, 0]} center>
+      <Html position={[0.3, 0, 0]} center={false}>
         <div 
-          className="bg-black/90 text-white px-3 py-2 rounded-xl text-xs max-w-48"
-          style={{ borderColor: color, borderWidth: 1, borderStyle: 'solid' }}
+          className={`bg-black/95 text-white rounded-xl shadow-2xl transition-all ${expanded ? 'p-4 min-w-64' : 'p-3 min-w-52'}`}
+          style={{ borderColor: color, borderWidth: 2, borderStyle: 'solid' }}
         >
-          <p className="font-bold mb-1">{thought.thought_content?.main_thought}</p>
-          {thought.thought_content?.sub_thoughts?.slice(0, 2).map((st, i) => (
-            <p key={i} className="text-slate-400 text-xs">• {st}</p>
-          ))}
-          {thought.confidence_level && (
-            <div className="flex items-center gap-1 mt-2">
-              <div className="w-full h-1 bg-slate-700 rounded overflow-hidden">
-                <div className="h-full bg-cyan-400" style={{ width: `${thought.confidence_level * 100}%` }} />
-              </div>
-              <span className="text-xs text-slate-500">{(thought.confidence_level * 100).toFixed(0)}%</span>
+          <div className="flex items-center gap-2 mb-2">
+            <div className="w-2 h-2 rounded-full" style={{ backgroundColor: color }} />
+            <span className="font-bold text-sm">{thought.thought_type}</span>
+            {thought.processing_time_ms && (
+              <span className="text-xs text-slate-500">{thought.processing_time_ms}ms</span>
+            )}
+          </div>
+          <p className="text-slate-300 text-xs mb-2 font-medium">{thought.thought_content?.main_thought}</p>
+          
+          {expanded && (
+            <>
+              {thought.thought_content?.sub_thoughts?.map((st, i) => (
+                <p key={i} className="text-slate-400 text-xs ml-3 mb-1">• {st}</p>
+              ))}
+              {thought.thought_content?.conclusion && (
+                <p className="text-cyan-300 text-xs mt-2 font-medium bg-cyan-500/10 px-2 py-1 rounded">
+                  → {thought.thought_content.conclusion}
+                </p>
+              )}
+              {thought.thought_content?.considerations && (
+                <div className="mt-2">
+                  <p className="text-xs text-slate-500 mb-1">Considerations:</p>
+                  {thought.thought_content.considerations.slice(0, 3).map((c, i) => (
+                    <p key={i} className="text-xs text-slate-400">• {c.factor}</p>
+                  ))}
+                </div>
+              )}
+            </>
+          )}
+          
+          <div className="flex items-center gap-2 mt-2">
+            <div className="flex-1 h-1.5 bg-slate-700 rounded overflow-hidden">
+              <div className="h-full transition-all" style={{ width: `${(thought.confidence_level || 0) * 100}%`, backgroundColor: color }} />
+            </div>
+            <span className="text-xs text-slate-500">{((thought.confidence_level || 0) * 100).toFixed(0)}%</span>
+          </div>
+
+          {hasLinks && expanded && (
+            <div className="mt-2 pt-2 border-t border-slate-700">
+              <p className="text-xs text-purple-400">🔗 {linkedThoughts.length} linked thoughts</p>
             </div>
           )}
         </div>
@@ -454,10 +545,21 @@ function AdvancedAgent3D({
             <LearningIndicator feedbackData={learningFeedback} position={[0, 0, 0]} />
           )}
 
-          {/* Thought bubbles */}
-          {thoughts?.slice(0, 2).map((thought, idx) => (
-            <ThoughtBubble3D key={thought.thought_id} thought={thought} position={[0.4 + idx * 0.3, 0.8 + idx * 0.2, 0]} />
-          ))}
+          {/* Ultra thought bubbles with links */}
+          {thoughts?.slice(0, 2).map((thought, idx) => {
+            const linkedThoughts = thoughts.filter(t => 
+              thought.related_entities?.some(e => e.entity_id === t.thought_id)
+            );
+            return (
+              <ThoughtBubble3D 
+                key={thought.thought_id} 
+                thought={thought} 
+                position={[0.4 + idx * 0.35, 0.8 + idx * 0.25, 0]} 
+                index={idx}
+                linkedThoughts={linkedThoughts}
+              />
+            );
+          })}
 
           {/* Task progress */}
           {taskPlan && (

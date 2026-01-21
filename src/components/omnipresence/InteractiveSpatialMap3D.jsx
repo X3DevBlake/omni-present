@@ -276,6 +276,8 @@ export default function InteractiveSpatialMap3D() {
   const [taskMarker, setTaskMarker] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [interactionMode, setInteractionMode] = useState('select'); // select, move, interact
+  const [gestureMode, setGestureMode] = useState(false);
+  const [lastGesture, setLastGesture] = useState(null);
 
   const { data: semanticGraphs = [] } = useQuery({
     queryKey: ['interactive-semantic-graphs'],
@@ -353,17 +355,37 @@ export default function InteractiveSpatialMap3D() {
 
   const interactableObjects = currentGraph?.nodes?.filter(n => n.properties?.interactable) || [];
 
+  const handleGestureDetected = (gestureData) => {
+    setLastGesture(gestureData);
+    if (gestureData.interpretation?.command_type === 'select' && gestureData.interpretation.target_type === 'object') {
+      const obj = interactableObjects.find(o => o.node_id === gestureData.interpretation.target_id);
+      if (obj) setSelectedObject(obj);
+    } else if (gestureData.interpretation?.command_type === 'assign_task' && gestureData.interpretation.target_type === 'agent') {
+      const agent = agents.find(a => a.agent_id === gestureData.interpretation.target_id);
+      if (agent) setSelectedAgent(agent);
+    }
+  };
+
   return (
     <div className="space-y-4">
       <Card className="bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border-blue-500/30">
         <CardHeader>
           <CardTitle className="text-white flex items-center gap-2">
             <Hand className="w-5 h-5 text-blue-400" />
-            Interactive Spatial Map
+            Ultra Interactive Spatial Map
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex items-center gap-3 flex-wrap">
+            <Button
+              variant={gestureMode ? 'default' : 'outline'}
+              onClick={() => setGestureMode(!gestureMode)}
+              size="sm"
+              className={gestureMode ? 'bg-gradient-to-r from-purple-600 to-pink-600' : ''}
+            >
+              <Hand className="w-4 h-4 mr-2" />
+              {gestureMode ? 'Gesture Active' : 'Enable Gestures'}
+            </Button>
             <Button
               variant={editMode ? 'default' : 'outline'}
               onClick={() => setEditMode(!editMode)}
@@ -406,7 +428,7 @@ export default function InteractiveSpatialMap3D() {
             )}
           </div>
 
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             <div className="bg-slate-800/50 rounded-lg p-3">
               <p className="text-slate-400 text-xs">Interactable Objects</p>
               <p className="text-white text-xl font-bold">{interactableObjects.length}</p>
@@ -419,7 +441,20 @@ export default function InteractiveSpatialMap3D() {
               <p className="text-slate-400 text-xs">Selected Agent</p>
               <p className="text-purple-400 text-sm font-medium">{selectedAgent?.agent_id?.slice(0, 8) || 'None'}</p>
             </div>
+            <div className="bg-slate-800/50 rounded-lg p-3">
+              <p className="text-slate-400 text-xs">Gesture Mode</p>
+              <p className={`text-sm font-medium ${gestureMode ? 'text-pink-400' : 'text-slate-500'}`}>
+                {gestureMode ? 'Active' : 'Inactive'}
+              </p>
+            </div>
           </div>
+
+          {gestureMode && lastGesture?.interpretation && (
+            <div className="bg-purple-500/10 border border-purple-500/30 rounded-lg p-3">
+              <p className="text-purple-300 text-sm font-bold mb-1">Last Gesture: {lastGesture.interpretation.command_type}</p>
+              <p className="text-slate-400 text-xs">{lastGesture.feedback}</p>
+            </div>
+          )}
         </CardContent>
       </Card>
 

@@ -57,6 +57,11 @@ import ProjectionControlPanel from '../components/omnipresence/ProjectionControl
 import EnhancedProjectionControlPanel from '../components/omnipresence/EnhancedProjectionControlPanel';
 import DirectManipulationOverlay3D from '../components/omnipresence/DirectManipulationOverlay3D';
 import UltraOmniText3D from '../components/omnipresence/UltraOmniText3D';
+import UltraLiveSpatialProjectionMap3D from '../components/omnipresence/UltraLiveSpatialProjectionMap3D';
+import UltraProactiveAssistancePanel3D from '../components/omnipresence/UltraProactiveAssistancePanel3D';
+import UltraGestureRecognitionOverlay from '../components/omnipresence/UltraGestureRecognitionOverlay';
+import PredictiveEnvironmentSimulator from '../components/omnipresence/PredictiveEnvironmentSimulator';
+import AgentLearningHub3D from '../components/omnipresence/AgentLearningHub3D';
 import { toast } from 'sonner';
 
 export default function OmniPresenceControlCenter() {
@@ -506,6 +511,22 @@ export default function OmniPresenceControlCenter() {
             <TabsTrigger value="manipulation">
               <Network className="w-4 h-4 mr-2" />
               Manipulation
+            </TabsTrigger>
+            <TabsTrigger value="ultra-spatial">
+              <Zap className="w-4 h-4 mr-2" />
+              Ultra Spatial
+            </TabsTrigger>
+            <TabsTrigger value="gestures">
+              <Hand className="w-4 h-4 mr-2" />
+              Gestures
+            </TabsTrigger>
+            <TabsTrigger value="prediction">
+              <TrendingUp className="w-4 h-4 mr-2" />
+              Prediction
+            </TabsTrigger>
+            <TabsTrigger value="learning">
+              <Brain className="w-4 h-4 mr-2" />
+              Learning
             </TabsTrigger>
             <TabsTrigger value="multi-device">
               <Radio className="w-4 h-4 mr-2" />
@@ -982,7 +1003,26 @@ export default function OmniPresenceControlCenter() {
           </TabsContent>
 
           <TabsContent value="proactive">
-            <ProactiveAssistancePanel3D />
+            <UltraProactiveAssistancePanel3D />
+          </TabsContent>
+
+          <TabsContent value="ultra-spatial">
+            <UltraLiveSpatialProjectionMap3D />
+          </TabsContent>
+
+          <TabsContent value="gestures">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <UltraGestureRecognitionOverlay context={{ view: 'spatial_map' }} />
+              <DirectManipulationOverlay3D />
+            </div>
+          </TabsContent>
+
+          <TabsContent value="prediction">
+            <PredictiveEnvironmentSimulator />
+          </TabsContent>
+
+          <TabsContent value="learning">
+            <AgentLearningHub3D />
           </TabsContent>
 
           <TabsContent value="projection-control">
