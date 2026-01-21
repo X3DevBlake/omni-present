@@ -26,6 +26,10 @@ import ConsciousnessTransferVisualizer3D from '../components/consciousness/Consc
 import NeuralLinkVisualizer3D from '../components/consciousness/NeuralLinkVisualizer3D';
 import DeviceOptimizationVisualizer3D from '../components/devices/DeviceOptimizationVisualizer3D';
 import EthicalReasoningVisualizer3D from '../components/companions/EthicalReasoningVisualizer3D';
+import BiometricAdaptiveVisualizer3D from '../components/augmentations/BiometricAdaptiveVisualizer3D';
+import OmegaEcosystemStats from '../components/home/OmegaEcosystemStats';
+import LiveCriticalEventsTimeline from '../components/home/LiveCriticalEventsTimeline';
+import RealTimeDataFlowAnimation from '../components/home/RealTimeDataFlowAnimation';
 
 export default function Home() {
   const [activeFeature, setActiveFeature] = useState(0);
@@ -362,24 +366,45 @@ export default function Home() {
             </Card>
           </motion.div>
 
-          {/* Stats Grid */}
+          {/* Omega Ecosystem Stats - Enhanced */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
-            className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-20"
+            className="mb-20"
           >
-            {stats.map((stat, idx) => (
-              <Card key={idx} className={`bg-gradient-to-br from-${stat.color}-500/10 to-${stat.color}-500/5 border-${stat.color}-500/30`}>
-                <CardContent className="p-6 text-center">
-                  <div className={`flex justify-center mb-3 text-${stat.color}-400`}>
-                    {stat.icon}
-                  </div>
-                  <p className={`text-3xl font-bold text-${stat.color}-400 mb-1`}>{stat.value}</p>
-                  <p className="text-slate-400 text-sm">{stat.label}</p>
-                </CardContent>
-              </Card>
-            ))}
+            <h2 className="text-3xl font-bold text-center mb-6 text-white">
+              Real-Time Ecosystem Intelligence
+            </h2>
+            <OmegaEcosystemStats />
+          </motion.div>
+
+          {/* Biometric Adaptive Augmentation System */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.55, duration: 0.8 }}
+            className="mb-12"
+          >
+            <BiometricAdaptiveVisualizer3D />
+          </motion.div>
+
+          {/* Critical Events & Data Flow */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.58, duration: 0.8 }}
+            className="mb-12 grid grid-cols-1 lg:grid-cols-2 gap-6"
+          >
+            <LiveCriticalEventsTimeline />
+            <Card className="bg-slate-900/60 backdrop-blur-xl border-slate-700">
+              <CardHeader>
+                <CardTitle className="text-white">Real-Time Data Flow</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <RealTimeDataFlowAnimation />
+              </CardContent>
+            </Card>
           </motion.div>
 
           {/* Features Grid with Drag & Drop */}
