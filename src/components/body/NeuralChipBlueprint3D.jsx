@@ -136,6 +136,23 @@ export default function NeuralChipBlueprint3D() {
   const [explodedView, setExplodedView] = useState(false);
   const [showPathways, setShowPathways] = useState(false);
 
+  const adaptiveMutation = useMutation({
+    mutationFn: async () => {
+      const response = await base44.functions.invoke('autonomous-viz-evolution', {
+        hub_context: 'neural_chip',
+        user_engagement_data: {}
+      });
+      return response.data;
+    }
+  });
+
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      adaptiveMutation.mutate();
+    }, 120000);
+    return () => clearInterval(interval);
+  }, []);
+
   const { data: chips = [] } = useQuery({
     queryKey: ['neural-chips'],
     queryFn: () => base44.entities.NeuralBrainChip.list('-created_date', 5),

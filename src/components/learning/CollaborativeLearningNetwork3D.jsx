@@ -156,6 +156,23 @@ export default function CollaborativeLearningNetwork3D() {
   const queryClient = useQueryClient();
   const [selectedAgents, setSelectedAgents] = useState([]);
 
+  const adaptiveMutation = useMutation({
+    mutationFn: async () => {
+      const response = await base44.functions.invoke('autonomous-viz-evolution', {
+        hub_context: 'learning_guilds',
+        user_engagement_data: {}
+      });
+      return response.data;
+    }
+  });
+
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      adaptiveMutation.mutate();
+    }, 120000);
+    return () => clearInterval(interval);
+  }, []);
+
   const { data: guilds = [] } = useQuery({
     queryKey: ['learning-guilds'],
     queryFn: () => base44.entities.AgentLearningGuild.list('-created_date', 10),

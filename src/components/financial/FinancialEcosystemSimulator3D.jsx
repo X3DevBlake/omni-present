@@ -71,6 +71,23 @@ export default function FinancialEcosystemSimulator3D() {
   const [scenario, setScenario] = useState('');
   const [simulationResult, setSimulationResult] = useState(null);
 
+  const adaptiveMutation = useMutation({
+    mutationFn: async () => {
+      const response = await base44.functions.invoke('autonomous-viz-evolution', {
+        hub_context: 'financial_ecosystem',
+        user_engagement_data: {}
+      });
+      return response.data;
+    }
+  });
+
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      adaptiveMutation.mutate();
+    }, 120000);
+    return () => clearInterval(interval);
+  }, []);
+
   const simulateMutation = useMutation({
     mutationFn: async () => {
       const response = await base44.functions.invoke('financial-ecosystem-simulator', {

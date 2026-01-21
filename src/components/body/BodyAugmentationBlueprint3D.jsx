@@ -5,9 +5,10 @@ import * as THREE from 'three';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
-import { User, Cpu, Activity, Navigation } from 'lucide-react';
+import { User, Cpu, Activity, Navigation, Heart, AlertTriangle, Loader2 } from 'lucide-react';
+import { toast } from 'sonner';
 
 // Humanoid body model
 function HumanoidBody3D({ augmentations, showAgentPaths = false }) {
@@ -133,6 +134,26 @@ function AugmentationMarker3D({ augmentation }) {
 export default function BodyAugmentationBlueprint3D() {
   const [showAgentPaths, setShowAgentPaths] = useState(false);
   const [viewMode, setViewMode] = useState('chip'); // chip, body, full
+  const [healthInsights, setHealthInsights] = useState(null);
+
+  const healthMonitorMutation = useMutation({
+    mutationFn: async () => {
+      const response = await base44.functions.invoke('proactive-health-monitor', {});
+      return response.data;
+    },
+    onSuccess: (data) => {
+      setHealthInsights(data.health_analysis);
+      toast.success(`Health scan complete - ${data.adjustments_executed} auto-adjustments made`);
+    }
+  });
+
+  React.useEffect(() => {
+    // Auto-monitor every 5 minutes
+    const interval = setInterval(() => {
+      healthMonitorMutation.mutate();
+    }, 300000);
+    return () => clearInterval(interval);
+  }, []);
 
   const { data: augmentations = [] } = useQuery({
     queryKey: ['body-augmentations'],
@@ -180,7 +201,7 @@ export default function BodyAugmentationBlueprint3D() {
             </div>
           </div>
 
-          <div className="flex gap-2">
+          <div className="flex gap-2 flex-wrap">
             <Button
               variant={viewMode === 'chip' ? 'default' : 'outline'}
               onClick={() => setViewMode('chip')}
@@ -202,7 +223,60 @@ export default function BodyAugmentationBlueprint3D() {
             >
               Agent Paths
             </Button>
+            <Button
+              onClick={() => healthMonitorMutation.mutate()}
+              disabled={healthMonitorMutation.isPending}
+              className="bg-gradient-to-r from-pink-600 to-red-600"
+              size="sm"
+            >
+              {healthMonitorMutation.isPending ? <Loader2 className="w-3 h-3 mr-1 animate-spin" /> : <Heart className="w-3 h-3 mr-1" />}
+              Health Scan
+            </Button>
           </div>
+
+          {healthInsights && (
+            <div className="mt-4 space-y-3">
+              <div className="bg-gradient-to-br from-pink-500/20 to-purple-500/20 border border-pink-500/40 rounded-lg p-4">
+                <div className="flex items-center gap-2 mb-3">
+                  <Heart className="w-5 h-5 text-pink-400" />
+                  <p className="text-white font-bold">Consciousness State</p>
+                </div>
+                <div className="grid grid-cols-2 gap-2 text-sm">
+                  <div>
+                    <p className="text-slate-400">Cognitive Load</p>
+                    <p className="text-white font-bold">{(healthInsights.consciousness_analysis?.cognitive_load * 100).toFixed(0)}%</p>
+                  </div>
+                  <div>
+                    <p className="text-slate-400">Mental Clarity</p>
+                    <p className="text-cyan-400 font-bold">{(healthInsights.consciousness_analysis?.mental_clarity * 100).toFixed(0)}%</p>
+                  </div>
+                  <div>
+                    <p className="text-slate-400">Stress Level</p>
+                    <p className="text-orange-400 font-bold">{(healthInsights.consciousness_analysis?.stress_level * 100).toFixed(0)}%</p>
+                  </div>
+                  <div>
+                    <p className="text-slate-400">Emotion</p>
+                    <p className="text-purple-400 font-bold">{healthInsights.consciousness_analysis?.emotional_state}</p>
+                  </div>
+                </div>
+              </div>
+
+              {healthInsights.predicted_issues?.length > 0 && (
+                <div className="bg-orange-500/10 border border-orange-500/30 rounded-lg p-3">
+                  <div className="flex items-center gap-2 mb-2">
+                    <AlertTriangle className="w-4 h-4 text-orange-400" />
+                    <p className="text-orange-300 font-bold text-sm">Predicted Issues</p>
+                  </div>
+                  {healthInsights.predicted_issues.map((issue, idx) => (
+                    <div key={idx} className="mb-2 text-xs">
+                      <p className="text-white">{issue.issue_type} - {issue.severity}</p>
+                      <p className="text-slate-400">In {issue.time_to_onset_hours}h ({(issue.probability * 100).toFixed(0)}%)</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
         </CardContent>
       </Card>
 
