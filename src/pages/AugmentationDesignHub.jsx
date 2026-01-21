@@ -7,7 +7,9 @@ import BodyAugmentationBlueprint3D from '../components/body/BodyAugmentationBlue
 import UnifiedHealthTrajectoryVisualizer3D from '../components/body/UnifiedHealthTrajectoryVisualizer3D';
 import CompanionPersonalityEvolution3D from '../components/interaction/CompanionPersonalityEvolution3D';
 import HealthScenarioSimulator3D from '../components/body/HealthScenarioSimulator3D';
-import { Cpu, Heart, User, Activity, Sparkle, Play } from 'lucide-react';
+import CompanionEmotionalTraining3D from '../components/interaction/CompanionEmotionalTraining3D';
+import ProactiveHealthInterventions3D from '../components/body/ProactiveHealthInterventions3D';
+import { Cpu, Heart, User, Activity, Sparkle, Play, GraduationCap, Shield } from 'lucide-react';
 
 export default function AugmentationDesignHub() {
   return (
@@ -52,16 +54,18 @@ export default function AugmentationDesignHub() {
           </TabsContent>
 
           <TabsContent value="companion">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
               <SentientCompanionInterface3D />
               <CompanionPersonalityEvolution3D />
+              <CompanionEmotionalTraining3D />
             </div>
           </TabsContent>
 
           <TabsContent value="health">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
               <UnifiedHealthTrajectoryVisualizer3D />
               <HealthScenarioSimulator3D />
+              <ProactiveHealthInterventions3D />
             </div>
           </TabsContent>
         </Tabs>

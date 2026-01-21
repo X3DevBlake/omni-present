@@ -5,7 +5,8 @@ import PhysicalEmbodimentVisualizer3D from '../components/body/PhysicalEmbodimen
 import NeuralChipBlueprint3D from '../components/body/NeuralChipBlueprint3D';
 import SentientCompanionInterface3D from '../components/interaction/SentientCompanionInterface3D';
 import SkillMarketplace3D from '../components/body/SkillMarketplace3D';
-import { Bot, Brain, Heart, ShoppingCart } from 'lucide-react';
+import EmbodiedTeamCollaboration3D from '../components/body/EmbodiedTeamCollaboration3D';
+import { Bot, Brain, Heart, ShoppingCart, Users } from 'lucide-react';
 
 export default function PhysicalEmbodimentHub() {
   return (
@@ -27,14 +28,18 @@ export default function PhysicalEmbodimentHub() {
         </Card>
 
         <Tabs defaultValue="embodiment" className="space-y-4">
-          <TabsList className="grid grid-cols-4 gap-2 bg-slate-900/60 p-2">
+          <TabsList className="grid grid-cols-5 gap-2 bg-slate-900/60 p-2">
             <TabsTrigger value="embodiment">
               <Bot className="w-4 h-4 mr-2" />
               Embodiment
             </TabsTrigger>
+            <TabsTrigger value="team">
+              <Users className="w-4 h-4 mr-2" />
+              Team
+            </TabsTrigger>
             <TabsTrigger value="skills">
               <ShoppingCart className="w-4 h-4 mr-2" />
-              Skill Market
+              Skills
             </TabsTrigger>
             <TabsTrigger value="neural">
               <Brain className="w-4 h-4 mr-2" />
@@ -48,6 +53,10 @@ export default function PhysicalEmbodimentHub() {
 
           <TabsContent value="embodiment">
             <PhysicalEmbodimentVisualizer3D />
+          </TabsContent>
+
+          <TabsContent value="team">
+            <EmbodiedTeamCollaboration3D />
           </TabsContent>
 
           <TabsContent value="skills">
