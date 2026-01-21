@@ -9,14 +9,15 @@ import { createPageUrl } from '@/utils';
 import { motion } from 'framer-motion';
 import { 
   Sparkles, Zap, Shield, TrendingUp, Bot, Network, 
-  Coins, Rocket, Globe, Brain, ChevronRight, Radio, Map 
+  Coins, Globe, Brain, Radio, Map 
 } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import EnhancedOmniText3D from '../components/omnipresence/EnhancedOmniText3D';
-import LiveAgentProjection3D from '../components/omnipresence/LiveAgentProjection3D';
+import AdvancedAgentSpaceVisualizer3D from '../components/omnipresence/AdvancedAgentSpaceVisualizer3D';
 import EnhancedSpatialProjectionMap3D from '../components/omnipresence/EnhancedSpatialProjectionMap3D';
 import OmniDeviceGrid from '../components/home/OmniDeviceGrid';
 import DraggableFeatureCard from '../components/home/DraggableFeatureCard';
+import OmniLoopLogo3D from '../components/omnipresence/OmniLoopLogo3D';
 
 export default function Home() {
   const [activeFeature, setActiveFeature] = useState(0);
@@ -182,7 +183,23 @@ export default function Home() {
             </div>
           </motion.div>
 
-          {/* Enhanced 3D OMNI Logo */}
+          {/* Omni Loop Logo - Top */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.15, duration: 0.8 }}
+            className="mb-8"
+          >
+            <Card className="bg-slate-900/60 backdrop-blur-xl border-cyan-500/30">
+              <CardContent className="p-0">
+                <div className="h-[280px]">
+                  <OmniLoopLogo3D />
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          {/* Enhanced 3D OMNI Text */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -198,7 +215,7 @@ export default function Home() {
             </Card>
           </motion.div>
 
-          {/* Live Agent Projection Showcase */}
+          {/* Advanced Agent Space Visualizer */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -209,14 +226,15 @@ export default function Home() {
               Agents That Live in Your Space
             </h2>
             <p className="text-center text-slate-400 mb-6 text-lg">
-              Holographic AI agents that navigate, learn, and interact with your physical environment
+              Holographic AI agents with trails, collaboration beams, and real-time task execution
             </p>
             <Card className="bg-slate-900/60 backdrop-blur-xl border-slate-700">
               <CardContent className="p-0">
-                <div className="h-[550px]">
-                  <LiveAgentProjection3D 
+                <div className="h-[600px]">
+                  <AdvancedAgentSpaceVisualizer3D 
                     agents={presences}
                     devices={devices}
+                    collaborations={collaborations}
                   />
                 </div>
               </CardContent>
@@ -574,39 +592,6 @@ export default function Home() {
             </Card>
           </motion.div>
 
-          {/* CTA Section */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 1.3 }}
-            className="text-center"
-          >
-            <Card className="bg-gradient-to-br from-purple-900/40 to-blue-900/40 backdrop-blur-xl border-purple-500/50">
-              <CardContent className="py-16">
-                <Zap className="w-16 h-16 mx-auto mb-6 text-yellow-400" />
-                <h2 className="text-4xl font-bold mb-4 text-white">
-                  Start Building with Omni Today
-                </h2>
-                <p className="text-xl text-slate-300 mb-8 max-w-2xl mx-auto">
-                  Create your first autonomous agent, design custom simulations, or explore our AI Labs - all with no-code tools and enterprise-grade infrastructure.
-                </p>
-                <div className="flex gap-4 justify-center">
-                  <Link to={createPageUrl('AIManagement')}>
-                    <Button size="lg" className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-lg px-12">
-                      Launch Platform
-                      <Rocket className="w-5 h-5 ml-2" />
-                    </Button>
-                  </Link>
-                  <Link to={createPageUrl('AgentOrchestrationHub')}>
-                    <Button size="lg" variant="outline" className="border-2 border-cyan-500 text-cyan-300 hover:bg-cyan-500/20 text-lg px-12">
-                      View Orchestration
-                      <ChevronRight className="w-5 h-5 ml-2" />
-                    </Button>
-                  </Link>
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
         </div>
       </div>
     </AuroraBackground>

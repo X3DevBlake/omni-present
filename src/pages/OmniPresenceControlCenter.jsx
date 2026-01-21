@@ -32,6 +32,10 @@ import RealTimeSpatialHeatmap3D from '../components/omnipresence/RealTimeSpatial
 import EnhancedSpatialProjectionMap3D from '../components/omnipresence/EnhancedSpatialProjectionMap3D';
 import MatterHomeKitControl from '../components/omnipresence/MatterHomeKitControl';
 import LiveAgentProjection3D from '../components/omnipresence/LiveAgentProjection3D';
+import AdvancedAgentSpaceVisualizer3D from '../components/omnipresence/AdvancedAgentSpaceVisualizer3D';
+import PhysicalTaskActionVisualizer3D from '../components/omnipresence/PhysicalTaskActionVisualizer3D';
+import MultiAgentCollaborationVisualizer3D from '../components/omnipresence/MultiAgentCollaborationVisualizer3D';
+import LiDARSpatialScanner3D from '../components/omnipresence/LiDARSpatialScanner3D';
 import { toast } from 'sonner';
 
 export default function OmniPresenceControlCenter() {
@@ -379,6 +383,18 @@ export default function OmniPresenceControlCenter() {
               <Network className="w-4 h-4 mr-2" />
               Matter/HomeKit
             </TabsTrigger>
+            <TabsTrigger value="physical-tasks">
+              <Zap className="w-4 h-4 mr-2" />
+              Physical Tasks
+            </TabsTrigger>
+            <TabsTrigger value="collaboration">
+              <Activity className="w-4 h-4 mr-2" />
+              Multi-Agent
+            </TabsTrigger>
+            <TabsTrigger value="lidar">
+              <Scan className="w-4 h-4 mr-2" />
+              LiDAR Scanner
+            </TabsTrigger>
             <TabsTrigger value="multi-device">
               <Radio className="w-4 h-4 mr-2" />
               Multi-Device
@@ -690,11 +706,15 @@ export default function OmniPresenceControlCenter() {
 
                 <Card className="bg-slate-900/60 border-slate-700">
                   <CardHeader>
-                    <CardTitle className="text-white">Live Agent View</CardTitle>
+                    <CardTitle className="text-white">Advanced Agent Space</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="h-[450px]">
-                      <LiveAgentProjection3D agents={presences} devices={[...smartDevices, ...crossPlatformDevices]} />
+                      <AdvancedAgentSpaceVisualizer3D 
+                        agents={presences} 
+                        devices={[...smartDevices, ...crossPlatformDevices]}
+                        collaborations={collaborativeTasks}
+                      />
                     </div>
                   </CardContent>
                 </Card>
@@ -743,6 +763,27 @@ export default function OmniPresenceControlCenter() {
 
           <TabsContent value="matter-homekit">
             <MatterHomeKitControl devices={crossPlatformDevices} />
+          </TabsContent>
+
+          <TabsContent value="physical-tasks">
+            <PhysicalTaskActionVisualizer3D 
+              agents={presences} 
+              devices={[...smartDevices, ...crossPlatformDevices]} 
+            />
+          </TabsContent>
+
+          <TabsContent value="collaboration">
+            <MultiAgentCollaborationVisualizer3D 
+              agents={presences} 
+              collaborativeTasks={collaborativeTasks} 
+            />
+          </TabsContent>
+
+          <TabsContent value="lidar">
+            <LiDARSpatialScanner3D 
+              spatialZones={spatialZones} 
+              detections={dynamicDetections} 
+            />
           </TabsContent>
 
           <TabsContent value="logs">
