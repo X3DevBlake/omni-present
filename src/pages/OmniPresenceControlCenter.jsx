@@ -36,6 +36,11 @@ import AdvancedAgentSpaceVisualizer3D from '../components/omnipresence/AdvancedA
 import PhysicalTaskActionVisualizer3D from '../components/omnipresence/PhysicalTaskActionVisualizer3D';
 import MultiAgentCollaborationVisualizer3D from '../components/omnipresence/MultiAgentCollaborationVisualizer3D';
 import LiDARSpatialScanner3D from '../components/omnipresence/LiDARSpatialScanner3D';
+import SemanticSceneGraph3D from '../components/omnipresence/SemanticSceneGraph3D';
+import DeviceBlueprintViewer3D from '../components/omnipresence/DeviceBlueprintViewer3D';
+import PredictiveObstacleVisualizer3D from '../components/omnipresence/PredictiveObstacleVisualizer3D';
+import AgentFeedbackLearningPanel from '../components/omnipresence/AgentFeedbackLearningPanel';
+import ComplexTaskOrchestrator from '../components/omnipresence/ComplexTaskOrchestrator';
 import { toast } from 'sonner';
 
 export default function OmniPresenceControlCenter() {
@@ -140,6 +145,24 @@ export default function OmniPresenceControlCenter() {
   const { data: spatialZones = [] } = useQuery({
     queryKey: ['spatial-zones'],
     queryFn: () => base44.entities.SpatialZone.filter({}).limit(100),
+    initialData: []
+  });
+
+  const { data: enhancedBlueprints = [] } = useQuery({
+    queryKey: ['enhanced-blueprints'],
+    queryFn: () => base44.entities.DeviceBlueprintEnhanced.filter({}).limit(20),
+    initialData: []
+  });
+
+  const { data: semanticGraphs = [] } = useQuery({
+    queryKey: ['semantic-graphs'],
+    queryFn: () => base44.entities.EnvironmentSemanticGraph.filter({}).limit(10),
+    initialData: []
+  });
+
+  const { data: predictiveObstacles = [] } = useQuery({
+    queryKey: ['predictive-obstacles'],
+    queryFn: () => base44.entities.PredictiveObstacle.filter({}).limit(50),
     initialData: []
   });
 
@@ -394,6 +417,26 @@ export default function OmniPresenceControlCenter() {
             <TabsTrigger value="lidar">
               <Scan className="w-4 h-4 mr-2" />
               LiDAR Scanner
+            </TabsTrigger>
+            <TabsTrigger value="semantic">
+              <Network className="w-4 h-4 mr-2" />
+              Scene Graph
+            </TabsTrigger>
+            <TabsTrigger value="blueprints">
+              <Cpu className="w-4 h-4 mr-2" />
+              Blueprints
+            </TabsTrigger>
+            <TabsTrigger value="predictive">
+              <Activity className="w-4 h-4 mr-2" />
+              Predictive
+            </TabsTrigger>
+            <TabsTrigger value="orchestration">
+              <Brain className="w-4 h-4 mr-2" />
+              Orchestration
+            </TabsTrigger>
+            <TabsTrigger value="learning">
+              <Brain className="w-4 h-4 mr-2" />
+              Learning
             </TabsTrigger>
             <TabsTrigger value="multi-device">
               <Radio className="w-4 h-4 mr-2" />
@@ -784,6 +827,29 @@ export default function OmniPresenceControlCenter() {
               spatialZones={spatialZones} 
               detections={dynamicDetections} 
             />
+          </TabsContent>
+
+          <TabsContent value="semantic">
+            <SemanticSceneGraph3D />
+          </TabsContent>
+
+          <TabsContent value="blueprints">
+            <DeviceBlueprintViewer3D blueprints={enhancedBlueprints} />
+          </TabsContent>
+
+          <TabsContent value="predictive">
+            <PredictiveObstacleVisualizer3D agents={presences} />
+          </TabsContent>
+
+          <TabsContent value="orchestration">
+            <ComplexTaskOrchestrator 
+              agents={presences} 
+              devices={[...smartDevices, ...crossPlatformDevices]} 
+            />
+          </TabsContent>
+
+          <TabsContent value="learning">
+            <AgentFeedbackLearningPanel agents={presences} />
           </TabsContent>
 
           <TabsContent value="logs">
