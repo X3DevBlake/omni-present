@@ -53,6 +53,8 @@ import EnhancedObstacleAvoidanceVisualizer3D from '../components/omnipresence/En
 import AutonomousTaskPlannerVisualizer3D from '../components/omnipresence/AutonomousTaskPlannerVisualizer3D';
 import ProactiveAssistancePanel3D from '../components/omnipresence/ProactiveAssistancePanel3D';
 import EnhancedDeviceBlueprintInteractive3D from '../components/omnipresence/EnhancedDeviceBlueprintInteractive3D';
+import ProjectionControlPanel from '../components/omnipresence/ProjectionControlPanel';
+import DirectManipulationOverlay3D from '../components/omnipresence/DirectManipulationOverlay3D';
 import { toast } from 'sonner';
 
 export default function OmniPresenceControlCenter() {
@@ -494,6 +496,14 @@ export default function OmniPresenceControlCenter() {
             <TabsTrigger value="proactive">
               <Activity className="w-4 h-4 mr-2" />
               Proactive AI
+            </TabsTrigger>
+            <TabsTrigger value="projection-control">
+              <Cpu className="w-4 h-4 mr-2" />
+              Projection
+            </TabsTrigger>
+            <TabsTrigger value="manipulation">
+              <Network className="w-4 h-4 mr-2" />
+              Manipulation
             </TabsTrigger>
             <TabsTrigger value="multi-device">
               <Radio className="w-4 h-4 mr-2" />
@@ -971,6 +981,17 @@ export default function OmniPresenceControlCenter() {
 
           <TabsContent value="proactive">
             <ProactiveAssistancePanel3D />
+          </TabsContent>
+
+          <TabsContent value="projection-control">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <ProjectionControlPanel />
+              <LiveSpatialProjectionMap3D />
+            </div>
+          </TabsContent>
+
+          <TabsContent value="manipulation">
+            <DirectManipulationOverlay3D />
           </TabsContent>
 
           <TabsContent value="logs">
