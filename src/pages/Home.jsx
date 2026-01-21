@@ -38,6 +38,8 @@ import AutonomousAgentActivityFeed3D from '../components/home/AutonomousAgentAct
 import OmegaSentientCoreVisualizer3D from '../components/sentient/OmegaSentientCoreVisualizer3D';
 import MultiLayerConsciousnessVisualizer3D from '../components/home/MultiLayerConsciousnessVisualizer3D';
 import EmergentIntelligenceMatrix3D from '../components/home/EmergentIntelligenceMatrix3D';
+import ProactiveEmotionalSupport3D from '../components/companions/ProactiveEmotionalSupport3D';
+import AutonomousWealthOrchestrator3D from '../components/financial/AutonomousWealthOrchestrator3D';
 
 export default function Home() {
   const [activeFeature, setActiveFeature] = useState(0);
@@ -481,6 +483,17 @@ export default function Home() {
           >
             <MultiLayerConsciousnessVisualizer3D />
             <EmergentIntelligenceMatrix3D />
+          </motion.div>
+
+          {/* Proactive Emotional Support & Wealth Orchestrator */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.78, duration: 0.8 }}
+            className="mb-12 grid grid-cols-1 lg:grid-cols-2 gap-6"
+          >
+            <ProactiveEmotionalSupport3D />
+            <AutonomousWealthOrchestrator3D />
           </motion.div>
 
           {/* Features Grid with Drag & Drop */}
