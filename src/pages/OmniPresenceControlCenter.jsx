@@ -48,6 +48,8 @@ import AdvancedAgentPresence3D from '../components/omnipresence/AdvancedAgentPre
 import ContextAwareAgentVisualizer3D from '../components/omnipresence/ContextAwareAgentVisualizer3D';
 import DynamicPathfindingVisualizer3D from '../components/omnipresence/DynamicPathfindingVisualizer3D';
 import ProjectionDeviceSimulator3D from '../components/omnipresence/ProjectionDeviceSimulator3D';
+import InteractiveSpatialMap3D from '../components/omnipresence/InteractiveSpatialMap3D';
+import EnhancedObstacleAvoidanceVisualizer3D from '../components/omnipresence/EnhancedObstacleAvoidanceVisualizer3D';
 import { toast } from 'sonner';
 
 export default function OmniPresenceControlCenter() {
@@ -472,6 +474,14 @@ export default function OmniPresenceControlCenter() {
             <TabsTrigger value="projection-sim">
               <Cpu className="w-4 h-4 mr-2" />
               Projection Sim
+            </TabsTrigger>
+            <TabsTrigger value="interactive-map">
+              <Map className="w-4 h-4 mr-2" />
+              Interactive
+            </TabsTrigger>
+            <TabsTrigger value="avoidance">
+              <Network className="w-4 h-4 mr-2" />
+              Avoidance
             </TabsTrigger>
             <TabsTrigger value="multi-device">
               <Radio className="w-4 h-4 mr-2" />
@@ -929,6 +939,14 @@ export default function OmniPresenceControlCenter() {
 
           <TabsContent value="projection-sim">
             <ProjectionDeviceSimulator3D />
+          </TabsContent>
+
+          <TabsContent value="interactive-map">
+            <InteractiveSpatialMap3D />
+          </TabsContent>
+
+          <TabsContent value="avoidance">
+            <EnhancedObstacleAvoidanceVisualizer3D />
           </TabsContent>
 
           <TabsContent value="logs">
