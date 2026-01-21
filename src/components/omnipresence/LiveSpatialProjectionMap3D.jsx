@@ -550,11 +550,20 @@ export default function LiveSpatialProjectionMap3D() {
 
   const currentGraph = semanticGraphs[0];
 
-  // Simulated sensor data
-  const sensorData = useMemo(() => [
-    { position: { x: 3, z: 4 }, value: 72, type: 'temperature' },
-    { position: { x: 8, z: 6 }, value: 68, type: 'temperature' }
-  ], []);
+  // Real sensor data
+  const { data: sensorData = [] } = useQuery({
+    queryKey: ['live-spatial-sensors'],
+    queryFn: () => base44.entities.SensorData.list('-reading_timestamp', 30),
+    initialData: [],
+    refetchInterval: 3000
+  });
+
+  const { data: taskPlans = [] } = useQuery({
+    queryKey: ['live-spatial-task-plans'],
+    queryFn: () => base44.entities.AutonomousTaskPlan.filter({ plan_status: 'executing' }),
+    initialData: [],
+    refetchInterval: 3000
+  });
 
   const handleDeviceControl = async (device) => {
     toast.info(`Device: ${device.device_name} - Click to toggle`);
@@ -615,22 +624,30 @@ export default function LiveSpatialProjectionMap3D() {
             </Button>
           </div>
 
-          <div className="grid grid-cols-4 gap-3">
+          <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
             <div className="bg-slate-800/50 rounded-lg p-3">
               <p className="text-slate-400 text-xs">Objects</p>
               <p className="text-white text-xl font-bold">{currentGraph?.nodes?.length || 0}</p>
             </div>
             <div className="bg-slate-800/50 rounded-lg p-3">
               <p className="text-slate-400 text-xs">Moving</p>
-              <p className="text-white text-xl font-bold">{obstacles.length}</p>
+              <p className="text-orange-400 text-xl font-bold">{obstacles.length}</p>
             </div>
             <div className="bg-slate-800/50 rounded-lg p-3">
               <p className="text-slate-400 text-xs">Devices</p>
-              <p className="text-white text-xl font-bold">{devices.length}</p>
+              <p className="text-green-400 text-xl font-bold">{devices.length}</p>
             </div>
             <div className="bg-slate-800/50 rounded-lg p-3">
               <p className="text-slate-400 text-xs">Agents</p>
               <p className="text-white text-xl font-bold">{agents.length}</p>
+            </div>
+            <div className="bg-slate-800/50 rounded-lg p-3">
+              <p className="text-slate-400 text-xs">Sensors</p>
+              <p className="text-cyan-400 text-xl font-bold">{sensorData.length}</p>
+            </div>
+            <div className="bg-slate-800/50 rounded-lg p-3">
+              <p className="text-slate-400 text-xs">Task Plans</p>
+              <p className="text-purple-400 text-xl font-bold">{taskPlans.length}</p>
             </div>
           </div>
         </CardContent>

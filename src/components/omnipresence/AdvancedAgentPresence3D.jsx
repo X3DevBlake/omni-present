@@ -252,6 +252,122 @@ function TaskProgressIndicator3D({ taskPlan, position }) {
   );
 }
 
+// Proactive assistance bubble
+function ProactiveAssistanceBubble3D({ assistance, position, onAccept, onDismiss }) {
+  const bubbleRef = useRef();
+
+  useFrame((state) => {
+    if (bubbleRef.current) {
+      bubbleRef.current.position.y = position[1] + Math.sin(state.clock.elapsedTime * 3) * 0.08;
+      if (assistance.assistance_content?.severity === 'critical') {
+        bubbleRef.current.scale.setScalar(1 + Math.sin(state.clock.elapsedTime * 6) * 0.1);
+      }
+    }
+  });
+
+  const severityColors = {
+    info: '#3b82f6',
+    suggestion: '#10b981',
+    warning: '#f59e0b',
+    critical: '#ef4444'
+  };
+
+  const typeIcons = {
+    warning: '⚠️',
+    suggestion: '💡',
+    delegation: '👥',
+    environmental: '🌡️',
+    safety: '🛡️'
+  };
+
+  const color = severityColors[assistance.assistance_content?.severity] || '#64748b';
+
+  return (
+    <group ref={bubbleRef} position={position}>
+      <Float speed={2}>
+        <Sphere args={[0.12, 16, 16]}>
+          <meshBasicMaterial color={color} transparent opacity={0.4} />
+        </Sphere>
+      </Float>
+
+      <Html position={[0.2, 0, 0]} center={false}>
+        <div 
+          className="bg-black/95 text-white px-3 py-2 rounded-lg text-xs min-w-44 shadow-xl"
+          style={{ borderColor: color, borderWidth: 1, borderStyle: 'solid' }}
+        >
+          <div className="flex items-center gap-2 mb-1">
+            <span>{typeIcons[assistance.assistance_type] || '📢'}</span>
+            <span className="font-bold">{assistance.assistance_content?.title}</span>
+          </div>
+          <p className="text-slate-400 text-xs mb-2">{assistance.assistance_content?.message?.slice(0, 80)}</p>
+          
+          {assistance.prediction_data?.confidence && (
+            <div className="flex items-center gap-1 mb-2">
+              <div className="w-full h-1 bg-slate-700 rounded overflow-hidden">
+                <div className="h-full" style={{ width: `${assistance.prediction_data.confidence * 100}%`, backgroundColor: color }} />
+              </div>
+              <span className="text-xs text-slate-500">{(assistance.prediction_data.confidence * 100).toFixed(0)}%</span>
+            </div>
+          )}
+
+          <div className="flex gap-1">
+            {assistance.assistance_content?.recommended_actions?.slice(0, 1).map((action, idx) => (
+              <button
+                key={idx}
+                onClick={() => onAccept && onAccept(assistance, action)}
+                className="px-2 py-1 rounded text-xs hover:opacity-80"
+                style={{ backgroundColor: color }}
+              >
+                {action.action_name}
+              </button>
+            ))}
+            <button
+              onClick={() => onDismiss && onDismiss(assistance)}
+              className="px-2 py-1 rounded text-xs text-slate-400 hover:text-white"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+      </Html>
+    </group>
+  );
+}
+
+// Sensor data overlay near agent
+function AgentSensorOverlay3D({ sensorData, position }) {
+  if (!sensorData || sensorData.length === 0) return null;
+
+  const sensorIcons = {
+    temperature: '🌡️',
+    humidity: '💧',
+    light: '☀️',
+    air_quality: '🌬️',
+    motion: '👁️'
+  };
+
+  return (
+    <group position={position}>
+      <Html center>
+        <div className="flex gap-1">
+          {sensorData.slice(0, 3).map((sensor, idx) => {
+            const isAlert = sensor.alert_triggered || sensor.reading_value > (sensor.thresholds?.max_normal || 100);
+            return (
+              <div 
+                key={idx}
+                className={`px-2 py-1 rounded text-xs ${isAlert ? 'bg-red-500/30 border-red-500' : 'bg-slate-800/80 border-slate-600'} border`}
+              >
+                <span>{sensorIcons[sensor.sensor_type] || '📊'}</span>
+                <span className="ml-1">{sensor.reading_value?.toFixed(0)}{sensor.unit || ''}</span>
+              </div>
+            );
+          })}
+        </div>
+      </Html>
+    </group>
+  );
+}
+
 // Advanced agent with all features
 function AdvancedAgent3D({ 
   agent, 
@@ -260,7 +376,11 @@ function AdvancedAgent3D({
   currentGoal,
   thoughts,
   taskPlan,
+  proactiveAssistances,
+  nearbySensorData,
   onSelect,
+  onAcceptAssistance,
+  onDismissAssistance,
   isSelected 
 }) {
   const agentRef = useRef();
@@ -343,6 +463,22 @@ function AdvancedAgent3D({
           {taskPlan && (
             <TaskProgressIndicator3D taskPlan={taskPlan} position={[-0.4, 0.7, 0]} />
           )}
+
+          {/* Proactive assistance bubbles */}
+          {proactiveAssistances?.slice(0, 2).map((assistance, idx) => (
+            <ProactiveAssistanceBubble3D
+              key={assistance.id || idx}
+              assistance={assistance}
+              position={[0.5, 1 + idx * 0.4, 0.3]}
+              onAccept={onAcceptAssistance}
+              onDismiss={onDismissAssistance}
+            />
+          ))}
+
+          {/* Nearby sensor data */}
+          {nearbySensorData?.length > 0 && (
+            <AgentSensorOverlay3D sensorData={nearbySensorData} position={[0, 1.3, 0]} />
+          )}
         </group>
       </Trail>
 
@@ -414,16 +550,33 @@ function AgentScene({
   knowledgeTransfers,
   thoughts,
   taskPlans,
+  proactiveAssistances,
+  sensorData,
   selectedAgent,
-  onSelectAgent
+  onSelectAgent,
+  onAcceptAssistance,
+  onDismissAssistance
 }) {
-  // Match emotions and goals to agents
+  // Match data to agents
   const getAgentEmotion = (agentId) => emotions.find(e => e.agent_id === agentId);
   const getAgentFeedback = (agentId) => feedbacks.find(f => f.agent_id === agentId);
   const getAgentGoal = (agentId) => goals.find(g => g.agent_id === agentId);
   const getAgentThoughts = (agentId) => thoughts.filter(t => t.agent_id === agentId && 
     Date.now() - new Date(t.timestamp).getTime() < (t.visualization_data?.display_duration_seconds || 5) * 1000);
   const getAgentTaskPlan = (agentId) => taskPlans.find(tp => tp.agent_id === agentId);
+  const getAgentAssistances = (agentId) => proactiveAssistances.filter(a => a.agent_id === agentId && a.status === 'pending');
+  
+  const getNearbySensors = (agentId, agentPos) => {
+    if (!agentPos) return [];
+    return sensorData.filter(s => {
+      if (!s.position) return false;
+      const dist = Math.sqrt(
+        Math.pow((s.position.x || 0) - agentPos.x, 2) +
+        Math.pow((s.position.z || 0) - agentPos.z, 2)
+      );
+      return dist < 3;
+    });
+  };
 
   return (
     <group>
@@ -443,8 +596,12 @@ function AgentScene({
           currentGoal={getAgentGoal(agent.agent_id)}
           thoughts={getAgentThoughts(agent.agent_id)}
           taskPlan={getAgentTaskPlan(agent.agent_id)}
+          proactiveAssistances={getAgentAssistances(agent.agent_id)}
+          nearbySensorData={getNearbySensors(agent.agent_id, agent.current_location)}
           isSelected={selectedAgent?.id === agent.id}
           onSelect={onSelectAgent}
+          onAcceptAssistance={onAcceptAssistance}
+          onDismissAssistance={onDismissAssistance}
         />
       ))}
 
@@ -518,7 +675,45 @@ export default function AdvancedAgentPresence3D() {
     refetchInterval: 3000
   });
 
+  const { data: proactiveAssistances = [] } = useQuery({
+    queryKey: ['presence-assistances'],
+    queryFn: () => base44.entities.ProactiveAssistance.filter({ status: 'pending' }),
+    initialData: [],
+    refetchInterval: 3000
+  });
+
+  const { data: sensorData = [] } = useQuery({
+    queryKey: ['presence-sensors'],
+    queryFn: () => base44.entities.SensorData.list('-reading_timestamp', 30),
+    initialData: [],
+    refetchInterval: 5000
+  });
+
+  const queryClient = useQueryClient();
+
+  const handleAcceptAssistance = async (assistance, action) => {
+    await base44.entities.ProactiveAssistance.update(assistance.id, {
+      status: 'accepted',
+      user_response: {
+        accepted: true,
+        action_taken: action.action_id,
+        responded_at: new Date().toISOString()
+      }
+    });
+    toast.success(`Executing: ${action.action_name}`);
+    queryClient.invalidateQueries(['presence-assistances']);
+  };
+
+  const handleDismissAssistance = async (assistance) => {
+    await base44.entities.ProactiveAssistance.update(assistance.id, {
+      status: 'dismissed',
+      user_response: { accepted: false, responded_at: new Date().toISOString() }
+    });
+    queryClient.invalidateQueries(['presence-assistances']);
+  };
+
   const activeAgents = agents.filter(a => a.projection_status === 'active');
+  const pendingAssistances = proactiveAssistances.filter(a => a.status === 'pending');
   const emotionalAgents = emotions.filter(e => e.emotion_intensity > 0.5);
   const activeTransfers = knowledgeTransfers.filter(kt => kt.transfer_status === 'in_progress');
 
@@ -532,7 +727,7 @@ export default function AdvancedAgentPresence3D() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-4 gap-3">
+          <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
             <div className="bg-slate-800/50 rounded-lg p-3">
               <p className="text-slate-400 text-xs flex items-center gap-1"><User className="w-3 h-3" /> Active</p>
               <p className="text-white text-xl font-bold">{activeAgents.length}</p>
@@ -542,12 +737,20 @@ export default function AdvancedAgentPresence3D() {
               <p className="text-white text-xl font-bold">{emotionalAgents.length}</p>
             </div>
             <div className="bg-slate-800/50 rounded-lg p-3">
-              <p className="text-slate-400 text-xs flex items-center gap-1"><Brain className="w-3 h-3" /> Learning</p>
-              <p className="text-white text-xl font-bold">{feedbacks.length}</p>
+              <p className="text-slate-400 text-xs flex items-center gap-1"><Brain className="w-3 h-3" /> Thoughts</p>
+              <p className="text-white text-xl font-bold">{thoughts.length}</p>
             </div>
             <div className="bg-slate-800/50 rounded-lg p-3">
               <p className="text-slate-400 text-xs flex items-center gap-1"><Sparkles className="w-3 h-3" /> Transfers</p>
               <p className="text-white text-xl font-bold">{activeTransfers.length}</p>
+            </div>
+            <div className="bg-slate-800/50 rounded-lg p-3">
+              <p className="text-slate-400 text-xs flex items-center gap-1"><MessageSquare className="w-3 h-3" /> Alerts</p>
+              <p className={`text-xl font-bold ${pendingAssistances.length > 0 ? 'text-orange-400' : 'text-slate-500'}`}>{pendingAssistances.length}</p>
+            </div>
+            <div className="bg-slate-800/50 rounded-lg p-3">
+              <p className="text-slate-400 text-xs flex items-center gap-1"><Zap className="w-3 h-3" /> Sensors</p>
+              <p className="text-white text-xl font-bold">{sensorData.length}</p>
             </div>
           </div>
         </CardContent>
@@ -570,8 +773,12 @@ export default function AdvancedAgentPresence3D() {
                 knowledgeTransfers={knowledgeTransfers}
                 thoughts={thoughts}
                 taskPlans={taskPlans}
+                proactiveAssistances={proactiveAssistances}
+                sensorData={sensorData}
                 selectedAgent={selectedAgent}
                 onSelectAgent={setSelectedAgent}
+                onAcceptAssistance={handleAcceptAssistance}
+                onDismissAssistance={handleDismissAssistance}
               />
 
               <OrbitControls enableZoom={true} maxPolarAngle={Math.PI / 2.1} />
