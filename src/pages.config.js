@@ -354,7 +354,6 @@ import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
 import WorldHubEnhanced from './pages/WorldHubEnhanced';
-import DeviceBlueprintHub from './pages/DeviceBlueprintHub';
 import __Layout from './Layout.jsx';
 
 
@@ -715,7 +714,6 @@ export const PAGES = {
     "WorkflowOrchestrationHub": WorkflowOrchestrationHub,
     "World": World,
     "WorldHubEnhanced": WorldHubEnhanced,
-    "DeviceBlueprintHub": DeviceBlueprintHub,
 }
 
 export const pagesConfig = {
