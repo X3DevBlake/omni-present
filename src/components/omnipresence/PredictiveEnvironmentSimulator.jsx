@@ -9,7 +9,7 @@ import { Slider } from '@/components/ui/slider';
 import { useMutation } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { toast } from 'sonner';
-import { Play, Loader2, Thermometer, Wind, Sun, Activity, TrendingUp, AlertTriangle } from 'lucide-react';
+import { Play, Loader2, Thermometer, Wind, Sun, Activity, TrendingUp, AlertTriangle, Sparkles, Brain, Zap } from 'lucide-react';
 
 // Temporal heatmap (showing future state)
 function TemporalHeatmap3D({ sensorPrediction, timeOffset = 0 }) {
@@ -122,9 +122,45 @@ export default function PredictiveEnvironmentSimulator() {
       });
       return response.data;
     },
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       setPrediction(data.prediction);
       toast.success('Simulation complete');
+      
+      // Auto-trigger ML enhancement
+      const mlResponse = await base44.functions.invoke('ml-prediction-enhancer', {
+        current_state: data.current_state,
+        time_horizon_minutes: timeHorizon
+      });
+      setPrediction(prev => ({ ...prev, ml_enhanced: mlResponse.data.ml_prediction }));
+      
+      // Auto-generate intervention suggestions
+      interventionMutation.mutate({ simulation_result: data.prediction });
+    }
+  });
+
+  const interventionMutation = useMutation({
+    mutationFn: async ({ simulation_result }) => {
+      const response = await base44.functions.invoke('optimal-intervention-suggester', {
+        simulation_result,
+        desired_outcomes: { task_success: 0.9, safety: 0.95, comfort: 0.85 }
+      });
+      return response.data;
+    },
+    onSuccess: (data) => {
+      setPrediction(prev => ({ ...prev, interventions: data.interventions }));
+      toast.success('Optimal interventions suggested');
+    }
+  });
+
+  const autoScenarioMutation = useMutation({
+    mutationFn: async () => {
+      const response = await base44.functions.invoke('auto-scenario-generator', {
+        scenario_count: 5
+      });
+      return response.data;
+    },
+    onSuccess: (data) => {
+      toast.success(`${data.scenarios_created} scenarios auto-generated`);
     }
   });
 
@@ -186,17 +222,27 @@ export default function PredictiveEnvironmentSimulator() {
             </div>
           </div>
 
-          <Button
-            onClick={() => simulateMutation.mutate()}
-            disabled={!scenario || simulateMutation.isPending}
-            className="w-full bg-gradient-to-r from-emerald-600 to-teal-600"
-          >
-            {simulateMutation.isPending ? (
-              <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Simulating</>
-            ) : (
-              <><Play className="w-4 h-4 mr-2" /> Run Simulation</>
-            )}
-          </Button>
+          <div className="flex gap-2">
+            <Button
+              onClick={() => simulateMutation.mutate()}
+              disabled={!scenario || simulateMutation.isPending}
+              className="flex-1 bg-gradient-to-r from-emerald-600 to-teal-600"
+            >
+              {simulateMutation.isPending ? (
+                <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Simulating</>
+              ) : (
+                <><Play className="w-4 h-4 mr-2" /> Run ML Simulation</>
+              )}
+            </Button>
+            <Button
+              onClick={() => autoScenarioMutation.mutate()}
+              disabled={autoScenarioMutation.isPending}
+              className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600"
+            >
+              {autoScenarioMutation.isPending ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Sparkles className="w-4 h-4 mr-2" />}
+              Auto-Generate
+            </Button>
+          </div>
         </CardContent>
       </Card>
 
@@ -259,10 +305,49 @@ export default function PredictiveEnvironmentSimulator() {
             </CardContent>
           </Card>
 
+          {prediction.interventions?.length > 0 && (
+            <Card className="bg-slate-900/60 border-slate-700">
+              <CardHeader>
+                <CardTitle className="text-white flex items-center gap-2">
+                  <Brain className="w-5 h-5 text-purple-400" />
+                  AI-Optimized Interventions
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2">
+                  {prediction.interventions.slice(0, 5).map((intervention, idx) => (
+                    <div key={idx} className="bg-purple-500/10 border border-purple-500/30 rounded-lg p-4">
+                      <div className="flex items-center justify-between mb-2">
+                        <p className="text-white font-bold text-sm">{intervention.intervention_type}</p>
+                        <Badge className="bg-green-500/30">Priority: {intervention.priority}</Badge>
+                      </div>
+                      <p className="text-slate-300 text-xs mb-3">{intervention.description}</p>
+                      
+                      {intervention.predicted_impact && (
+                        <div className="grid grid-cols-2 gap-2 mb-2">
+                          <div className="bg-slate-700/50 rounded p-2">
+                            <p className="text-xs text-slate-400">Task Success</p>
+                            <p className="text-green-400 font-bold">+{(intervention.predicted_impact.task_success_change * 100).toFixed(0)}%</p>
+                          </div>
+                          <div className="bg-slate-700/50 rounded p-2">
+                            <p className="text-xs text-slate-400">Safety</p>
+                            <p className="text-cyan-400 font-bold">+{(intervention.predicted_impact.safety_change * 100).toFixed(0)}%</p>
+                          </div>
+                        </div>
+                      )}
+                      
+                      <p className="text-xs text-slate-400">Effort: {intervention.implementation_effort}</p>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
           {prediction.recommended_interventions?.length > 0 && (
             <Card className="bg-slate-900/60 border-slate-700">
               <CardHeader>
-                <CardTitle className="text-white">Recommended Interventions</CardTitle>
+                <CardTitle className="text-white">Basic Interventions</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-2">

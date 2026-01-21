@@ -55,6 +55,7 @@ import AgentGovernance from './pages/AgentGovernance';
 import AgentGovernanceHub from './pages/AgentGovernanceHub';
 import AgentKnowledge from './pages/AgentKnowledge';
 import AgentKnowledgeBase from './pages/AgentKnowledgeBase';
+import AgentLearningHub from './pages/AgentLearningHub';
 import AgentLogsHub from './pages/AgentLogsHub';
 import AgentManagement from './pages/AgentManagement';
 import AgentManagementHub from './pages/AgentManagementHub';
@@ -216,8 +217,8 @@ import FleetManagement from './pages/FleetManagement';
 import GeminiHub from './pages/GeminiHub';
 import GlobalGovernance from './pages/GlobalGovernance';
 import GlobalMap from './pages/GlobalMap';
-import HolographicWorld from './pages/HolographicWorld';
 import HolographicAnalytics from './pages/HolographicAnalytics';
+import HolographicWorld from './pages/HolographicWorld';
 import Home from './pages/Home';
 import HomeEnhanced from './pages/HomeEnhanced';
 import HomeHub from './pages/HomeHub';
@@ -259,6 +260,7 @@ import NextGenMLHub from './pages/NextGenMLHub';
 import Notifications from './pages/Notifications';
 import NotificationsAndVisualizations from './pages/NotificationsAndVisualizations';
 import ObjectCustomizer from './pages/ObjectCustomizer';
+import OmegaSentientHub from './pages/OmegaSentientHub';
 import OmniAchievements from './pages/OmniAchievements';
 import OmniBankingHub from './pages/OmniBankingHub';
 import OmniCardManagement from './pages/OmniCardManagement';
@@ -354,8 +356,7 @@ import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
 import WorldHubEnhanced from './pages/WorldHubEnhanced';
-import AgentLearningHub from './pages/AgentLearningHub';
-import OmegaSentientHub from './pages/OmegaSentientHub';
+import OmegaFinancialHub from './pages/OmegaFinancialHub';
 import __Layout from './Layout.jsx';
 
 
@@ -417,6 +418,7 @@ export const PAGES = {
     "AgentGovernanceHub": AgentGovernanceHub,
     "AgentKnowledge": AgentKnowledge,
     "AgentKnowledgeBase": AgentKnowledgeBase,
+    "AgentLearningHub": AgentLearningHub,
     "AgentLogsHub": AgentLogsHub,
     "AgentManagement": AgentManagement,
     "AgentManagementHub": AgentManagementHub,
@@ -578,8 +580,8 @@ export const PAGES = {
     "GeminiHub": GeminiHub,
     "GlobalGovernance": GlobalGovernance,
     "GlobalMap": GlobalMap,
-    "HolographicWorld": HolographicWorld,
     "HolographicAnalytics": HolographicAnalytics,
+    "HolographicWorld": HolographicWorld,
     "Home": Home,
     "HomeEnhanced": HomeEnhanced,
     "HomeHub": HomeHub,
@@ -621,6 +623,7 @@ export const PAGES = {
     "Notifications": Notifications,
     "NotificationsAndVisualizations": NotificationsAndVisualizations,
     "ObjectCustomizer": ObjectCustomizer,
+    "OmegaSentientHub": OmegaSentientHub,
     "OmniAchievements": OmniAchievements,
     "OmniBankingHub": OmniBankingHub,
     "OmniCardManagement": OmniCardManagement,
@@ -716,8 +719,7 @@ export const PAGES = {
     "WorkflowOrchestrationHub": WorkflowOrchestrationHub,
     "World": World,
     "WorldHubEnhanced": WorldHubEnhanced,
-    "AgentLearningHub": AgentLearningHub,
-    "OmegaSentientHub": OmegaSentientHub,
+    "OmegaFinancialHub": OmegaFinancialHub,
 }
 
 export const pagesConfig = {

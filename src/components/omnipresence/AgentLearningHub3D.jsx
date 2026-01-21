@@ -231,12 +231,67 @@ export default function AgentLearningHub3D() {
     onSuccess: (data) => {
       setLearningData(data);
       toast.success('Learning analytics loaded');
+      // Auto-trigger AI trend analysis
+      trendAnalysisMutation.mutate(selectedAgent.agent_id);
+    }
+  });
+
+  const trendAnalysisMutation = useMutation({
+    mutationFn: async (agentId) => {
+      const response = await base44.functions.invoke('ai-learning-trend-analyzer', {
+        agent_id: agentId,
+        analysis_window_days: 7
+      });
+      return response.data;
+    },
+    onSuccess: (data) => {
+      setLearningData(prev => ({ ...prev, ai_trends: data.trends }));
+    }
+  });
+
+  const pathOptimizerMutation = useMutation({
+    mutationFn: async (agentId) => {
+      const response = await base44.functions.invoke('omega-learning-path-optimizer', {
+        agent_id: agentId
+      });
+      return response.data;
+    },
+    onSuccess: (data) => {
+      setLearningData(prev => ({ ...prev, optimized_path: data.optimization }));
+      toast.success('Omega learning path generated');
+    }
+  });
+
+  const scenarioMutation = useMutation({
+    mutationFn: async (agentId) => {
+      const response = await base44.functions.invoke('hypothetical-capability-predictor', {
+        agent_id: agentId,
+        scenario_count: 5,
+        time_horizon_days: 30
+      });
+      return response.data;
+    },
+    onSuccess: (data) => {
+      setLearningData(prev => ({ ...prev, scenarios: data.scenarios }));
+      toast.success('Hypothetical scenarios generated');
     }
   });
 
   const handleSelectAgent = (agent) => {
     setSelectedAgent(agent);
     analyticsMutation.mutate(agent.agent_id);
+  };
+
+  const handleOptimizePath = () => {
+    if (selectedAgent) {
+      pathOptimizerMutation.mutate(selectedAgent.agent_id);
+    }
+  };
+
+  const handleGenerateScenarios = () => {
+    if (selectedAgent) {
+      scenarioMutation.mutate(selectedAgent.agent_id);
+    }
   };
 
   return (
@@ -262,6 +317,29 @@ export default function AgentLearningHub3D() {
               </Button>
             ))}
           </div>
+
+          {selectedAgent && (
+            <div className="flex gap-2 mb-4">
+              <Button
+                size="sm"
+                onClick={handleOptimizePath}
+                disabled={pathOptimizerMutation.isPending}
+                className="bg-gradient-to-r from-purple-600 to-pink-600"
+              >
+                {pathOptimizerMutation.isPending ? <Loader2 className="w-3 h-3 mr-1 animate-spin" /> : <Zap className="w-3 h-3 mr-1" />}
+                Optimize Path
+              </Button>
+              <Button
+                size="sm"
+                onClick={handleGenerateScenarios}
+                disabled={scenarioMutation.isPending}
+                className="bg-gradient-to-r from-cyan-600 to-blue-600"
+              >
+                {scenarioMutation.isPending ? <Loader2 className="w-3 h-3 mr-1 animate-spin" /> : <Brain className="w-3 h-3 mr-1" />}
+                Predict Scenarios
+              </Button>
+            </div>
+          )}
 
           {learningData && (
             <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
@@ -320,6 +398,72 @@ export default function AgentLearningHub3D() {
 
                 <OrbitControls enableZoom={true} />
               </Canvas>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {learningData?.optimized_path && (
+        <Card className="bg-slate-900/60 border-slate-700">
+          <CardHeader>
+            <CardTitle className="text-white flex items-center gap-2">
+              <TrendingUp className="w-5 h-5 text-purple-400" />
+              AI-Optimized Learning Path
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-2 max-h-64 overflow-y-auto">
+              {learningData.optimized_path?.optimized_path?.map((path, idx) => (
+                <div key={idx} className="bg-purple-500/10 border border-purple-500/30 rounded-lg p-3">
+                  <div className="flex items-center justify-between mb-2">
+                    <p className="text-white font-bold">{path.skill_name}</p>
+                    <Badge className="bg-purple-500/30">Priority: {path.priority}</Badge>
+                  </div>
+                  <p className="text-slate-300 text-sm mb-2">Method: {path.learning_method}</p>
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-slate-400">{path.estimated_hours}h</span>
+                    <span className="text-cyan-400">Dependencies: {path.dependencies?.length || 0}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {learningData?.scenarios && (
+        <Card className="bg-slate-900/60 border-slate-700">
+          <CardHeader>
+            <CardTitle className="text-white flex items-center gap-2">
+              <Sparkles className="w-5 h-5 text-cyan-400" />
+              Hypothetical Capability Scenarios
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              {learningData.scenarios.map((scenario, idx) => (
+                <div key={idx} className="bg-cyan-500/10 border border-cyan-500/30 rounded-lg p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <p className="text-white font-bold">{scenario.scenario_name}</p>
+                    <Badge className="bg-green-500/30">{(scenario.success_probability * 100).toFixed(0)}% Success</Badge>
+                  </div>
+                  <p className="text-slate-300 text-sm mb-3">{scenario.scenario_description}</p>
+                  <div className="space-y-2">
+                    <div>
+                      <p className="text-xs text-slate-400 mb-1">Predicted Capabilities:</p>
+                      <div className="flex flex-wrap gap-1">
+                        {scenario.predicted_capabilities?.slice(0, 4).map((cap, i) => (
+                          <Badge key={i} className="bg-purple-500/20 text-purple-300 text-xs">{cap}</Badge>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="text-slate-400">Timeline: {scenario.timeline_days} days</span>
+                      <span className="text-orange-400">Impact: {scenario.transformative_impact}</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </CardContent>
         </Card>

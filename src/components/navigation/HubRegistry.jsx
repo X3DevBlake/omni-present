@@ -6,6 +6,7 @@ export const HubRegistry = [
   { id: 'home', name: 'Home', path: 'Home', category: 'core', icon3d: 'galaxy', color: '#00f5ff' },
   { id: 'omnipresence', name: 'Omni-Presence', path: 'OmniPresenceControlCenter', category: 'core', icon3d: 'hologram', color: '#00f5ff' },
   { id: 'omega-sentient', name: 'Omega Sentient Hub', path: 'OmegaSentientHub', category: 'core', icon3d: 'brain', color: '#ec4899' },
+  { id: 'omega-financial', name: 'Omega Financial Hub', path: 'OmegaFinancialHub', category: 'financial', icon3d: 'coins', color: '#10b981' },
   { id: 'agent-learning', name: 'Agent Learning Hub', path: 'AgentLearningHub', category: 'ai', icon3d: 'brain', color: '#8b5cf6' },
   
   // Financial & Banking
