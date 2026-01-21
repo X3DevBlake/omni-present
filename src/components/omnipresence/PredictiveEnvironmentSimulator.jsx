@@ -1,5 +1,5 @@
-import React, { useState, useMemo } from 'react';
-import { Canvas, useFrame, useRef } from '@react-three/fiber';
+import React, { useState, useMemo, useRef } from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Sphere, Box, Html, Line } from '@react-three/drei';
 import * as THREE from 'three';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
