@@ -12,12 +12,12 @@ import {
   Coins, Globe, Brain, Radio, Map 
 } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
-import EnhancedOmniText3D from '../components/omnipresence/EnhancedOmniText3D';
-import AdvancedAgentSpaceVisualizer3D from '../components/omnipresence/AdvancedAgentSpaceVisualizer3D';
-import EnhancedSpatialProjectionMap3D from '../components/omnipresence/EnhancedSpatialProjectionMap3D';
+import UltraOmniText3D from '../components/omnipresence/UltraOmniText3D';
+import UltraAgentSpaceVisualizer3D from '../components/omnipresence/UltraAgentSpaceVisualizer3D';
+import UltraLiveSpatialMap3D from '../components/omnipresence/UltraLiveSpatialMap3D';
 import OmniDeviceGrid from '../components/home/OmniDeviceGrid';
 import DraggableFeatureCard from '../components/home/DraggableFeatureCard';
-import OmniLoopLogo3D from '../components/omnipresence/OmniLoopLogo3D';
+import UltraOmniLoopLogo3D from '../components/omnipresence/UltraOmniLoopLogo3D';
 
 export default function Home() {
   const [activeFeature, setActiveFeature] = useState(0);
