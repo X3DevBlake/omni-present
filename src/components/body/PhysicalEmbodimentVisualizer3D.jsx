@@ -199,6 +199,21 @@ export default function PhysicalEmbodimentVisualizer3D() {
     }
   });
 
+  const learningMutation = useMutation({
+    mutationFn: async (task) => {
+      const response = await base44.functions.invoke('autonomous-embodiment-learning', {
+        embodiment_id: embodiments[0]?.embodiment_id,
+        task_to_learn: task,
+        learning_method: 'reinforcement_learning'
+      });
+      return response.data;
+    },
+    onSuccess: (data) => {
+      setExecutionPlan(data.learning_plan);
+      toast.success(`Learning initiated - ${data.estimated_mastery_hours}h to master`);
+    }
+  });
+
   return (
     <div className="space-y-4">
       <Card className="bg-gradient-to-br from-cyan-500/10 to-blue-500/10 border-cyan-500/30">
@@ -249,44 +264,75 @@ export default function PhysicalEmbodimentVisualizer3D() {
           )}
 
           {embodiments.length > 0 && (
-            <div className="space-y-2">
-              <p className="text-slate-300 text-sm">Command physical task:</p>
-              <div className="flex gap-2">
-                <Input
-                  value={taskCommand}
-                  onChange={(e) => setTaskCommand(e.target.value)}
-                  placeholder="E.g., 'Pick up the red cube and place it on the table'"
-                  className="bg-slate-800 border-slate-600 text-white flex-1"
-                />
-                <Button
-                  onClick={() => executeTaskMutation.mutate()}
-                  disabled={!taskCommand || executeTaskMutation.isPending}
-                  className="bg-gradient-to-r from-cyan-600 to-blue-600"
-                >
-                  {executeTaskMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Play className="w-4 h-4" />}
-                </Button>
+            <div className="space-y-3">
+              <div>
+                <p className="text-slate-300 text-sm mb-2">Execute physical task:</p>
+                <div className="flex gap-2">
+                  <Input
+                    value={taskCommand}
+                    onChange={(e) => setTaskCommand(e.target.value)}
+                    placeholder="E.g., 'Pick up the red cube and place it on the table'"
+                    className="bg-slate-800 border-slate-600 text-white flex-1"
+                  />
+                  <Button
+                    onClick={() => executeTaskMutation.mutate()}
+                    disabled={!taskCommand || executeTaskMutation.isPending}
+                    className="bg-gradient-to-r from-cyan-600 to-blue-600"
+                  >
+                    {executeTaskMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Play className="w-4 h-4" />}
+                  </Button>
+                </div>
               </div>
+
+              <Button
+                onClick={() => learningMutation.mutate(taskCommand)}
+                disabled={!taskCommand || learningMutation.isPending}
+                size="sm"
+                className="w-full bg-gradient-to-r from-purple-600 to-pink-600"
+              >
+                {learningMutation.isPending ? <Loader2 className="w-3 h-3 mr-2 animate-spin" /> : <Brain className="w-3 h-3 mr-2" />}
+                Learn Task Autonomously
+              </Button>
             </div>
           )}
 
           {executionPlan && (
-            <div className="bg-green-500/10 border border-green-500/30 rounded-lg p-3">
-              <div className="flex items-center justify-between mb-2">
-                <p className="text-green-300 font-bold text-sm">Task Execution Plan</p>
-                <Badge className="bg-green-500/30">
-                  Success: {(executionPlan.success_probability * 100).toFixed(0)}%
-                </Badge>
+            <div className="space-y-3">
+              <div className="bg-green-500/10 border border-green-500/30 rounded-lg p-3">
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-green-300 font-bold text-sm">Task Execution Plan</p>
+                  <Badge className="bg-green-500/30">
+                    Success: {(executionPlan.success_probability * 100).toFixed(0)}%
+                  </Badge>
+                </div>
+                <p className="text-slate-300 text-xs mb-2">
+                  {executionPlan.action_sequence?.length} steps • {executionPlan.estimated_completion_minutes} min
+                </p>
+                <div className="space-y-1">
+                  {executionPlan.action_sequence?.slice(0, 4).map((action, idx) => (
+                    <p key={idx} className="text-xs text-slate-400">
+                      {idx + 1}. {action.step} ({action.duration_seconds}s)
+                    </p>
+                  ))}
+                </div>
               </div>
-              <p className="text-slate-300 text-xs mb-2">
-                {executionPlan.action_sequence?.length} steps • {executionPlan.estimated_completion_minutes} min
-              </p>
-              <div className="space-y-1">
-                {executionPlan.action_sequence?.slice(0, 4).map((action, idx) => (
-                  <p key={idx} className="text-xs text-slate-400">
-                    {idx + 1}. {action.step} ({action.duration_seconds}s)
-                  </p>
-                ))}
-              </div>
+
+              {executionPlan.dexterity_training?.length > 0 && (
+                <div className="bg-purple-500/10 border border-purple-500/30 rounded-lg p-3">
+                  <p className="text-purple-300 font-bold text-sm mb-2">Dexterity Learning</p>
+                  {executionPlan.dexterity_training.slice(0, 3).map((skill, idx) => (
+                    <div key={idx} className="mb-2">
+                      <p className="text-white text-xs">{skill.micro_skill}</p>
+                      <div className="h-1.5 bg-slate-800 rounded-full overflow-hidden mt-1">
+                        <div 
+                          className="h-full bg-gradient-to-r from-purple-500 to-pink-500"
+                          style={{ width: `${skill.target_proficiency * 100}%` }}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           )}
         </CardContent>

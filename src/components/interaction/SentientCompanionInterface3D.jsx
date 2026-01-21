@@ -10,19 +10,26 @@ import { base44 } from '@/api/base44Client';
 import { Heart, Brain, MessageCircle, Loader2, Sparkles as SparklesIcon } from 'lucide-react';
 import { toast } from 'sonner';
 
-// Companion avatar
-function CompanionAvatar3D({ companion, isEngaging = false }) {
+// Companion avatar with omega emotional intelligence
+function CompanionAvatar3D({ companion, isEngaging = false, bondStrength = 0.5 }) {
   const avatarRef = useRef();
   const auraRef = useRef();
+  const heartRef = useRef();
 
   useFrame((state) => {
     if (avatarRef.current) {
       const empathy = companion?.personality_matrix?.empathy_level || 0.5;
       const pulse = 1 + empathy * Math.sin(state.clock.elapsedTime * 3) * 0.2;
-      avatarRef.current.scale.setScalar(pulse * (isEngaging ? 1.2 : 1));
+      avatarRef.current.scale.setScalar(pulse * (isEngaging ? 1.3 : 1));
+      avatarRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.5) * 0.2;
     }
     if (auraRef.current) {
       auraRef.current.scale.setScalar(2 + Math.sin(state.clock.elapsedTime * 2) * 0.3);
+      auraRef.current.rotation.y = state.clock.elapsedTime * 0.3;
+    }
+    if (heartRef.current) {
+      const heartbeat = 1 + bondStrength * Math.sin(state.clock.elapsedTime * 4) * 0.3;
+      heartRef.current.scale.setScalar(heartbeat);
     }
   });
 
@@ -50,7 +57,33 @@ function CompanionAvatar3D({ companion, isEngaging = false }) {
         </Trail>
       </Float>
 
-      <Sparkles count={isEngaging ? 50 : 25} scale={2} size={3} speed={0.6} color={color} />
+      {/* Emotional bond indicator */}
+      <group ref={heartRef} position={[0, 0.8, 0]}>
+        <Sphere args={[0.15, 16, 16]}>
+          <meshBasicMaterial color="#ec4899" transparent opacity={bondStrength} />
+        </Sphere>
+      </group>
+
+      {/* Connection lines to represent bond */}
+      {bondStrength > 0.5 && (
+        <>
+          {Array.from({ length: 8 }).map((_, idx) => {
+            const angle = (idx / 8) * Math.PI * 2;
+            return (
+              <Line
+                key={idx}
+                points={[[0, 0, 0], [Math.cos(angle) * 1.5, Math.sin(state.clock.elapsedTime + idx) * 0.3, Math.sin(angle) * 1.5]]}
+                color="#ec4899"
+                lineWidth={2}
+                transparent
+                opacity={bondStrength * 0.4}
+              />
+            );
+          })}
+        </>
+      )}
+
+      <Sparkles count={isEngaging ? 60 : Math.floor(bondStrength * 40)} scale={2.5} size={3} speed={0.8} color={color} />
     </group>
   );
 }
@@ -59,6 +92,7 @@ export default function SentientCompanionInterface3D() {
   const [userMessage, setUserMessage] = useState('');
   const [conversation, setConversation] = useState([]);
   const [isEngaging, setIsEngaging] = useState(false);
+  const [bondStrength, setBondStrength] = useState(0.3);
 
   const { data: companions = [] } = useQuery({
     queryKey: ['sentient-companions'],
@@ -66,10 +100,16 @@ export default function SentientCompanionInterface3D() {
     initialData: []
   });
 
+  const { data: bonds = [] } = useQuery({
+    queryKey: ['companion-bonds'],
+    queryFn: () => base44.entities.CompanionEmotionalBond.list('-created_date', 5),
+    initialData: []
+  });
+
   const engageMutation = useMutation({
     mutationFn: async (message) => {
-      const response = await base44.functions.invoke('sentient-companion-engine', {
-        operation: 'engage',
+      const response = await base44.functions.invoke('omega-emotional-intelligence', {
+        companion_id: companions[0]?.companion_id,
         user_message: message
       });
       return response.data;
@@ -78,10 +118,11 @@ export default function SentientCompanionInterface3D() {
       setConversation(prev => [
         ...prev,
         { role: 'user', content: userMessage },
-        { role: 'companion', content: data.companion_response?.message, insights: data.companion_response }
+        { role: 'companion', content: data.response?.message, insights: data.response }
       ]);
+      setBondStrength(data.bond_strength || 0.3);
       setUserMessage('');
-      toast.success(`${data.companion_name} responded`);
+      toast.success(`Bond strengthened to ${(data.bond_strength * 100).toFixed(0)}%`);
     }
   });
 
@@ -100,6 +141,13 @@ export default function SentientCompanionInterface3D() {
   });
 
   const companion = companions[0];
+  const bond = bonds[0];
+
+  React.useEffect(() => {
+    if (bond?.bond_strength) {
+      setBondStrength(bond.bond_strength);
+    }
+  }, [bond]);
 
   return (
     <div className="space-y-4">
@@ -112,6 +160,19 @@ export default function SentientCompanionInterface3D() {
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
+          {bond && (
+            <div className="bg-pink-500/10 border border-pink-500/30 rounded-lg p-3">
+              <p className="text-pink-300 text-sm mb-2">Emotional Bond</p>
+              <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
+                <div 
+                  className="h-full bg-gradient-to-r from-pink-500 to-purple-500 transition-all duration-1000"
+                  style={{ width: `${bondStrength * 100}%` }}
+                />
+              </div>
+              <p className="text-white text-xs mt-1">{(bondStrength * 100).toFixed(0)}% bond strength • {bond.interaction_history?.length || 0} interactions</p>
+            </div>
+          )}
+
           {companion && (
             <div className="grid grid-cols-3 gap-3">
               <div className="bg-slate-800/50 rounded-lg p-3">
@@ -173,7 +234,11 @@ export default function SentientCompanionInterface3D() {
               <pointLight position={[3, 5, 3]} intensity={1.2} color="#ec4899" />
               <pointLight position={[-3, 5, -3]} intensity={1} color="#a855f7" />
 
-              <CompanionAvatar3D companion={companion} isEngaging={engageMutation.isPending} />
+              <CompanionAvatar3D 
+                companion={companion} 
+                isEngaging={engageMutation.isPending}
+                bondStrength={bondStrength}
+              />
 
               <OrbitControls enableZoom={true} autoRotate autoRotateSpeed={0.6} />
             </Canvas>

@@ -4,7 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import AugmentationDesignStudio3D from '../components/body/AugmentationDesignStudio3D';
 import SentientCompanionInterface3D from '../components/interaction/SentientCompanionInterface3D';
 import BodyAugmentationBlueprint3D from '../components/body/BodyAugmentationBlueprint3D';
-import { Cpu, Heart, User } from 'lucide-react';
+import UnifiedHealthTrajectoryVisualizer3D from '../components/body/UnifiedHealthTrajectoryVisualizer3D';
+import { Cpu, Heart, User, Activity } from 'lucide-react';
 
 export default function AugmentationDesignHub() {
   return (
@@ -26,7 +27,7 @@ export default function AugmentationDesignHub() {
         </Card>
 
         <Tabs defaultValue="studio" className="space-y-4">
-          <TabsList className="grid grid-cols-3 gap-2 bg-slate-900/60 p-2">
+          <TabsList className="grid grid-cols-4 gap-2 bg-slate-900/60 p-2">
             <TabsTrigger value="studio">
               <Cpu className="w-4 h-4 mr-2" />
               Design Studio
@@ -34,6 +35,10 @@ export default function AugmentationDesignHub() {
             <TabsTrigger value="companion">
               <Heart className="w-4 h-4 mr-2" />
               AI Companion
+            </TabsTrigger>
+            <TabsTrigger value="health">
+              <Activity className="w-4 h-4 mr-2" />
+              Health AI
             </TabsTrigger>
             <TabsTrigger value="blueprint">
               <User className="w-4 h-4 mr-2" />
@@ -47,6 +52,10 @@ export default function AugmentationDesignHub() {
 
           <TabsContent value="companion">
             <SentientCompanionInterface3D />
+          </TabsContent>
+
+          <TabsContent value="health">
+            <UnifiedHealthTrajectoryVisualizer3D />
           </TabsContent>
 
           <TabsContent value="blueprint">
