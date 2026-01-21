@@ -316,48 +316,40 @@ export default function OmniPresenceControlCenter() {
         </div>
 
         <Tabs defaultValue="spatial" className="space-y-6">
-          <TabsList className="bg-slate-900/60">
+          <TabsList className="bg-slate-900/60 flex-wrap">
             <TabsTrigger value="spatial">
               <Map className="w-4 h-4 mr-2" />
-              Spatial View
+              Spatial
             </TabsTrigger>
-            <TabsTrigger value="multi-device">
-              <Radio className="w-4 h-4 mr-2" />
-              Multi-Device
+            <TabsTrigger value="physical-tasks">
+              <Cpu className="w-4 h-4 mr-2" />
+              Physical Tasks
             </TabsTrigger>
-            <TabsTrigger value="scans">
-              <Scan className="w-4 h-4 mr-2" />
-              3D Scans
-            </TabsTrigger>
-            <TabsTrigger value="objects">
-              <Activity className="w-4 h-4 mr-2" />
-              Objects
-            </TabsTrigger>
-            <TabsTrigger value="devices">
-              <Radio className="w-4 h-4 mr-2" />
-              Devices
-            </TabsTrigger>
-            <TabsTrigger value="behavior">
-              <Zap className="w-4 h-4 mr-2" />
-              Behavior
+            <TabsTrigger value="collaboration">
+              <Network className="w-4 h-4 mr-2" />
+              Multi-Agent
             </TabsTrigger>
             <TabsTrigger value="emotion">
               <Heart className="w-4 h-4 mr-2" />
               Emotion
             </TabsTrigger>
-            <TabsTrigger value="devices">
-              <Zap className="w-4 h-4 mr-2" />
-              Device Commands
-            </TabsTrigger>
             <TabsTrigger value="smart-home">
               <Radio className="w-4 h-4 mr-2" />
               Smart Devices
+            </TabsTrigger>
+            <TabsTrigger value="multi-device">
+              <Radio className="w-4 h-4 mr-2" />
+              Multi-Device
+            </TabsTrigger>
+            <TabsTrigger value="objects">
+              <Activity className="w-4 h-4 mr-2" />
+              Objects
             </TabsTrigger>
             <TabsTrigger value="logs">
               <Activity className="w-4 h-4 mr-2" />
               Logs
             </TabsTrigger>
-            </TabsList>
+          </TabsList>
 
           <TabsContent value="spatial">
             <Card className="bg-slate-900/60 border-slate-700">
