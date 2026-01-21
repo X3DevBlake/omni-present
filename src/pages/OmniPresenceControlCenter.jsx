@@ -54,7 +54,9 @@ import AutonomousTaskPlannerVisualizer3D from '../components/omnipresence/Autono
 import ProactiveAssistancePanel3D from '../components/omnipresence/ProactiveAssistancePanel3D';
 import EnhancedDeviceBlueprintInteractive3D from '../components/omnipresence/EnhancedDeviceBlueprintInteractive3D';
 import ProjectionControlPanel from '../components/omnipresence/ProjectionControlPanel';
+import EnhancedProjectionControlPanel from '../components/omnipresence/EnhancedProjectionControlPanel';
 import DirectManipulationOverlay3D from '../components/omnipresence/DirectManipulationOverlay3D';
+import UltraOmniText3D from '../components/omnipresence/UltraOmniText3D';
 import { toast } from 'sonner';
 
 export default function OmniPresenceControlCenter() {
@@ -984,9 +986,12 @@ export default function OmniPresenceControlCenter() {
           </TabsContent>
 
           <TabsContent value="projection-control">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <ProjectionControlPanel />
-              <LiveSpatialProjectionMap3D />
+            <div className="space-y-6">
+              <UltraOmniText3D />
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <EnhancedProjectionControlPanel />
+                <LiveSpatialProjectionMap3D />
+              </div>
             </div>
           </TabsContent>
 
