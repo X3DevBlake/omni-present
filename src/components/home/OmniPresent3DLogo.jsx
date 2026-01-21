@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Text3D, Center, Float } from '@react-three/drei';
+import { Text, Float, Sphere } from '@react-three/drei';
 import * as THREE from 'three';
 
 function AnimatedLogo() {
@@ -15,27 +15,20 @@ function AnimatedLogo() {
   return (
     <Float speed={2} rotationIntensity={0.5} floatIntensity={0.5}>
       <group ref={groupRef}>
-        <Center>
-          <Text3D
-            font="/fonts/helvetiker_bold.typeface.json"
-            size={0.8}
-            height={0.2}
-            curveSegments={12}
-            bevelEnabled
-            bevelThickness={0.02}
-            bevelSize={0.02}
-            bevelSegments={5}
-          >
-            OMNI
-            <meshStandardMaterial
-              color="#00f5ff"
-              emissive="#00f5ff"
-              emissiveIntensity={0.5}
-              metalness={0.9}
-              roughness={0.1}
-            />
-          </Text3D>
-        </Center>
+        <Text
+          fontSize={1.2}
+          color="#00f5ff"
+          anchorX="center"
+          anchorY="middle"
+          font={undefined}
+        >
+          OMNI
+          <meshStandardMaterial
+            color="#00f5ff"
+            emissive="#00f5ff"
+            emissiveIntensity={0.5}
+          />
+        </Text>
       </group>
     </Float>
   );
@@ -68,6 +61,28 @@ function HologramRings() {
   );
 }
 
+function CoreSphere() {
+  const sphereRef = useRef();
+
+  useFrame((state) => {
+    if (sphereRef.current) {
+      sphereRef.current.scale.setScalar(1 + Math.sin(state.clock.elapsedTime * 2) * 0.1);
+    }
+  });
+
+  return (
+    <Sphere ref={sphereRef} args={[0.3, 32, 32]} position={[0, 0, -0.5]}>
+      <meshStandardMaterial
+        color="#00f5ff"
+        emissive="#00f5ff"
+        emissiveIntensity={1}
+        transparent
+        opacity={0.7}
+      />
+    </Sphere>
+  );
+}
+
 export default function OmniPresent3DLogo() {
   return (
     <Canvas camera={{ position: [0, 0, 5], fov: 60 }}>
@@ -77,6 +92,7 @@ export default function OmniPresent3DLogo() {
       
       <AnimatedLogo />
       <HologramRings />
+      <CoreSphere />
     </Canvas>
   );
 }

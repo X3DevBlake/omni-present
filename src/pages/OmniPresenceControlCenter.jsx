@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
-import { Zap, Radio, Map, Activity, Scan, Brain, Network, Heart } from 'lucide-react';
+import { Zap, Radio, Map, Activity, Scan, Brain, Network, Heart, Cpu } from 'lucide-react';
 import { motion } from 'framer-motion';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import SpatialProjectionCanvas3D from '../components/omnipresence/SpatialProjectionCanvas3D';
@@ -23,6 +23,9 @@ import MultiAgentCollaboration3D from '../components/omnipresence/MultiAgentColl
 import EnhancedSpatialMap3D from '../components/omnipresence/EnhancedSpatialMap3D';
 import DeviceCommandVisualizer3D from '../components/omnipresence/DeviceCommandVisualizer3D';
 import EmotionDetectionPanel from '../components/omnipresence/EmotionDetectionPanel';
+import AdvancedSpatialVisualizer3D from '../components/omnipresence/AdvancedSpatialVisualizer3D';
+import PhysicalTaskExecutor from '../components/omnipresence/PhysicalTaskExecutor';
+import AgentLearningDashboard from '../components/omnipresence/AgentLearningDashboard';
 import { toast } from 'sonner';
 
 export default function OmniPresenceControlCenter() {
@@ -359,17 +362,18 @@ export default function OmniPresenceControlCenter() {
           <TabsContent value="spatial">
             <Card className="bg-slate-900/60 border-slate-700">
               <CardHeader>
-                <CardTitle className="text-white">Enhanced 3D Spatial Map</CardTitle>
+                <CardTitle className="text-white">Advanced 3D Spatial Visualization</CardTitle>
                 <p className="text-slate-400 text-sm">
-                  AI agents, smart devices, and real-time communication visualization
+                  AI agents, smart devices, zones, and multi-agent collaboration
                 </p>
               </CardHeader>
               <CardContent>
                 <div className="h-[700px]">
-                  <EnhancedSpatialMap3D
+                  <AdvancedSpatialVisualizer3D
                     agents={presences}
                     devices={smartDevices}
-                    interactions={interactions}
+                    zones={spatialMaps[0]?.designated_zones || []}
+                    collaborations={collaborativeTasks}
                   />
                 </div>
               </CardContent>
@@ -532,42 +536,53 @@ export default function OmniPresenceControlCenter() {
           </TabsContent>
 
           <TabsContent value="collaboration">
-            <div className="space-y-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <Card className="bg-slate-900/60 border-slate-700">
                 <CardHeader>
                   <CardTitle className="text-white">Multi-Agent Collaboration</CardTitle>
-                  <p className="text-slate-400 text-sm">
-                    Watch multiple agents coordinate, share knowledge, and work together
-                  </p>
                 </CardHeader>
                 <CardContent>
-                  <div className="h-[500px]">
+                  <div className="h-[400px]">
                     <MultiAgentCollaboration3D collaborativeTask={collaborativeTasks[0]} />
                   </div>
-                  
-                  {collaborativeTasks.length > 0 && (
-                    <div className="mt-6 space-y-3">
-                      {collaborativeTasks.slice(0, 3).map((task) => (
-                        <div key={task.id} className="bg-slate-800/50 rounded-lg p-4">
-                          <div className="flex items-center justify-between mb-2">
-                            <h4 className="text-white font-bold">{task.task_name}</h4>
-                            <Badge className="bg-purple-500/20 text-purple-400">
-                              {task.participating_agents?.length || 0} agents
-                            </Badge>
-                          </div>
-                          <p className="text-slate-400 text-sm mb-2">
-                            Strategy: {task.coordination_strategy}
-                          </p>
-                          <div className="flex items-center gap-4 text-sm">
-                            <span className="text-cyan-400">Progress: {task.progress}%</span>
-                            <span className="text-green-400">Quality: {task.collaboration_quality_score}/100</span>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
                 </CardContent>
               </Card>
+
+              <div className="space-y-4">
+                {collaborativeTasks.slice(0, 3).map((task) => (
+                  <Card key={task.id} className="bg-slate-800/50 border-slate-700">
+                    <CardContent className="p-4">
+                      <div className="flex items-center justify-between mb-2">
+                        <h4 className="text-white font-bold">{task.task_name}</h4>
+                        <Badge className="bg-purple-500/20 text-purple-400">
+                          {task.participating_agents?.length || 0} agents
+                        </Badge>
+                      </div>
+                      <p className="text-slate-400 text-sm mb-2">
+                        Strategy: {task.coordination_strategy}
+                      </p>
+                      <div className="flex items-center gap-4 text-sm">
+                        <span className="text-cyan-400">Progress: {task.progress}%</span>
+                        <span className="text-green-400">Quality: {task.collaboration_quality_score}/100</span>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="physical-tasks">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <PhysicalTaskExecutor 
+                agentId={presences[0]?.agent_id} 
+                userContext={{ detected_emotion: agentEmotions[0]?.primary_emotion }}
+              />
+              <AgentLearningDashboard
+                agentId={presences[0]?.agent_id}
+                interactions={physicalInteractions}
+                emotions={agentEmotions}
+              />
             </div>
           </TabsContent>
 
