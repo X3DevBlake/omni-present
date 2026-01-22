@@ -41,6 +41,12 @@ import EmergentIntelligenceMatrix3D from '../components/home/EmergentIntelligenc
 import ProactiveEmotionalSupport3D from '../components/companions/ProactiveEmotionalSupport3D';
 import AutonomousWealthOrchestrator3D from '../components/financial/AutonomousWealthOrchestrator3D';
 import SkillEvolutionTimeline3D from '../components/agents/SkillEvolutionTimeline3D';
+import AdvancedNeuralPathwayVisualizer3D from '../components/neural/AdvancedNeuralPathwayVisualizer3D';
+import NanoAgentSwarmVisualizer3D from '../components/augmentation/NanoAgentSwarmVisualizer3D';
+import HolographicAgentProjector3D from '../components/holographic/HolographicAgentProjector3D';
+import RealTimePortfolioGalaxy3D from '../components/wealth/RealTimePortfolioGalaxy3D';
+import EmergentIntelligenceVisualizer3D from '../components/learning/EmergentIntelligenceVisualizer3D';
+import ThoughtCommandVisualizer3D from '../components/consciousness/ThoughtCommandVisualizer3D';
 
 export default function Home() {
   const [activeFeature, setActiveFeature] = useState(0);
@@ -176,6 +182,48 @@ export default function Home() {
     initialData: []
   });
 
+  const { data: neuralMaps = [] } = useQuery({
+    queryKey: ['neural-maps'],
+    queryFn: () => base44.entities.NeuralPathwayMap.list('-created_date', 5),
+    initialData: []
+  });
+
+  const { data: nanoSwarms = [] } = useQuery({
+    queryKey: ['nano-swarms'],
+    queryFn: () => base44.entities.NanoAgentSwarm.list('-created_date', 5),
+    initialData: []
+  });
+
+  const { data: holographicSessions = [] } = useQuery({
+    queryKey: ['holographic-sessions'],
+    queryFn: () => base44.entities.HolographicProjectionSession.filter({ session_status: 'active' }),
+    initialData: []
+  });
+
+  const { data: marketSignals = [] } = useQuery({
+    queryKey: ['market-signals'],
+    queryFn: () => base44.entities.RealTimeMarketSignal.list('-created_date', 10),
+    initialData: []
+  });
+
+  const { data: wealthStrategies = [] } = useQuery({
+    queryKey: ['wealth-strategies'],
+    queryFn: () => base44.entities.WealthAutomationStrategy.filter({ is_active: true }),
+    initialData: []
+  });
+
+  const { data: emergentEvents = [] } = useQuery({
+    queryKey: ['emergent-events'],
+    queryFn: () => base44.entities.EmergentIntelligenceEvent.list('-created_date', 10),
+    initialData: []
+  });
+
+  const { data: thoughtCommands = [] } = useQuery({
+    queryKey: ['thought-commands'],
+    queryFn: () => base44.entities.ThoughtCommandLog.list('-created_date', 20),
+    initialData: []
+  });
+
   const stats = [
     { label: 'Neural Chips Active', value: neuralChips.filter(c => c.omni_present_connection?.connected).length, icon: <Brain className="w-6 h-6" />, color: 'pink' },
     { label: 'Body Augmentations', value: augmentations.length, icon: <User className="w-6 h-6" />, color: 'orange' },
@@ -232,11 +280,31 @@ export default function Home() {
             </div>
           </motion.div>
 
-          {/* Neural Chip Showcase - Primary Focus */}
+          {/* Advanced Neural Pathway Network - NEW PRIMARY VISUALIZER */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.15, duration: 0.8 }}
+            className="mb-12"
+          >
+            <AdvancedNeuralPathwayVisualizer3D pathwayMap={neuralMaps[0]} />
+          </motion.div>
+
+          {/* Thought Command Pipeline - Real-Time Thought Processing */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.17, duration: 0.8 }}
+            className="mb-12"
+          >
+            <ThoughtCommandVisualizer3D commands={thoughtCommands} />
+          </motion.div>
+
+          {/* Neural Chip Blueprint - Original */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.19, duration: 0.8 }}
             className="mb-12"
           >
             <Card className="bg-gradient-to-br from-pink-500/20 via-orange-500/20 to-purple-500/20 border-pink-500/50 shadow-2xl shadow-pink-500/40">
@@ -258,11 +326,31 @@ export default function Home() {
             </Card>
           </motion.div>
 
-          {/* Collaborative Learning Guilds */}
+          {/* Nano-Agent Swarm Intelligence - Body Augmentation */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.18, duration: 0.8 }}
+            transition={{ delay: 0.21, duration: 0.8 }}
+            className="mb-12"
+          >
+            <NanoAgentSwarmVisualizer3D swarmData={nanoSwarms[0]} />
+          </motion.div>
+
+          {/* Emergent Collective Intelligence - Learning Guilds Evolution */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.23, duration: 0.8 }}
+            className="mb-12"
+          >
+            <EmergentIntelligenceVisualizer3D events={emergentEvents} />
+          </motion.div>
+
+          {/* Collaborative Learning Guilds - Original */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.25, duration: 0.8 }}
             className="mb-12"
           >
             <Card className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 border-purple-500/30">
@@ -281,6 +369,30 @@ export default function Home() {
                 </div>
               </CardContent>
             </Card>
+          </motion.div>
+
+          {/* Holographic Agent Projection System */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.27, duration: 0.8 }}
+            className="mb-12"
+          >
+            <HolographicAgentProjector3D session={holographicSessions[0]} />
+          </motion.div>
+
+          {/* Real-Time Autonomous Wealth Galaxy */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.29, duration: 0.8 }}
+            className="mb-12"
+          >
+            <RealTimePortfolioGalaxy3D 
+              portfolioData={{ assets: [] }}
+              signals={marketSignals}
+              strategies={wealthStrategies}
+            />
           </motion.div>
 
           {/* Unified Omega Ecosystem Hologram - NEW PRIMARY VISUALIZER */}
