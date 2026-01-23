@@ -60,7 +60,14 @@ export const HubRegistry = [
   { id: 'cloudinary', name: 'Cloudinary Hub', path: 'CloudinaryHub', category: 'core', icon3d: 'cube', color: '#3b82f6' },
   { id: 'gemini', name: 'Gemini Hub', path: 'GeminiHub', category: 'core', icon3d: 'brain', color: '#a855f7' },
   { id: 'enhanced-comms', name: 'Enhanced Comms', path: 'EnhancedCommunications', category: 'core', icon3d: 'chat', color: '#ec4899' },
-  { id: 'unified-hub', name: 'Conversation Hub', path: 'UnifiedConversationHub', category: 'core', icon3d: 'network', color: '#8b5cf6' }
+  { id: 'unified-hub', name: 'Conversation Hub', path: 'UnifiedConversationHub', category: 'core', icon3d: 'network', color: '#8b5cf6' },
+  { id: 'developer-portal', name: 'Developer Portal', path: 'DeveloperPortal', category: 'system', icon3d: 'book', color: '#00dddd' },
+  { id: 'ecosystem-monitor', name: 'Ecosystem Monitor', path: 'EcosystemMonitoringDashboard', category: 'system', icon3d: 'activity', color: '#00ffaa' },
+  { id: 'behavior-studio', name: 'Behavior Studio', path: 'AgentBehaviorStudio', category: 'ai', icon3d: 'wand', color: '#aa00ff' },
+  { id: 'agent-enhancement', name: 'Agent Enhancement', path: 'AgentEnhancementHub', category: 'ai', icon3d: 'zap', color: '#00ff88' },
+  { id: 'consciousness-mirror', name: 'Consciousness Mirror', path: 'ConsciousnessMirrorHub', category: 'core', icon3d: 'eye', color: '#0088ff' },
+  { id: 'marketplace-hub', name: 'Marketplace Hub', path: 'OmegaMarketplaceHub', category: 'ai', icon3d: 'store', color: '#6600ff' },
+  { id: 'security-intel', name: 'Security Intelligence', path: 'SecurityIntelligenceHub', category: 'system', icon3d: 'shield', color: '#ff0044' }
 ];
 
 export const HubCategories = {
