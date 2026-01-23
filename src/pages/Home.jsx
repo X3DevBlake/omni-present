@@ -47,6 +47,11 @@ import HolographicAgentProjector3D from '../components/holographic/HolographicAg
 import RealTimePortfolioGalaxy3D from '../components/wealth/RealTimePortfolioGalaxy3D';
 import EmergentIntelligenceVisualizer3D from '../components/learning/EmergentIntelligenceVisualizer3D';
 import ThoughtCommandVisualizer3D from '../components/consciousness/ThoughtCommandVisualizer3D';
+import BiometricHealthDashboard3D from '../components/biometric/BiometricHealthDashboard3D';
+import AutonomousAgentCollaboration3D from '../components/collaboration/AutonomousAgentCollaboration3D';
+import ThreatIntelligenceMatrix3D from '../components/security/ThreatIntelligenceMatrix3D';
+import UnifiedEcosystemHealth3D from '../components/ecosystem/UnifiedEcosystemHealth3D';
+import AdaptiveLearningPath3D from '../components/learning/AdaptiveLearningPath3D';
 
 export default function Home() {
   const [activeFeature, setActiveFeature] = useState(0);
@@ -224,6 +229,36 @@ export default function Home() {
     initialData: []
   });
 
+  const { data: biometricData = [] } = useQuery({
+    queryKey: ['biometric-streams'],
+    queryFn: () => base44.entities.BiometricDataStream.list('-created_date', 5),
+    initialData: []
+  });
+
+  const { data: agentCollaborations = [] } = useQuery({
+    queryKey: ['agent-collaborations'],
+    queryFn: () => base44.entities.AutonomousAgentCollaboration.filter({ collaboration_status: 'active' }),
+    initialData: []
+  });
+
+  const { data: threatIntel = [] } = useQuery({
+    queryKey: ['threat-intelligence'],
+    queryFn: () => base44.entities.SecurityThreatIntelligence.list('-created_date', 15),
+    initialData: []
+  });
+
+  const { data: ecosystemMetrics = [] } = useQuery({
+    queryKey: ['ecosystem-metrics'],
+    queryFn: () => base44.entities.EcosystemHealthMetrics.list('-created_date', 1),
+    initialData: []
+  });
+
+  const { data: learningPaths = [] } = useQuery({
+    queryKey: ['learning-paths'],
+    queryFn: () => base44.entities.AdaptiveLearningPath.filter({ path_status: 'active' }),
+    initialData: []
+  });
+
   const stats = [
     { label: 'Neural Chips Active', value: neuralChips.filter(c => c.omni_present_connection?.connected).length, icon: <Brain className="w-6 h-6" />, color: 'pink' },
     { label: 'Body Augmentations', value: augmentations.length, icon: <User className="w-6 h-6" />, color: 'orange' },
@@ -393,6 +428,56 @@ export default function Home() {
               signals={marketSignals}
               strategies={wealthStrategies}
             />
+          </motion.div>
+
+          {/* Biometric Health Matrix - Real-Time Body Monitoring */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.31, duration: 0.8 }}
+            className="mb-12"
+          >
+            <BiometricHealthDashboard3D biometricData={biometricData[0]} />
+          </motion.div>
+
+          {/* Autonomous Agent Collaboration Network */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.33, duration: 0.8 }}
+            className="mb-12"
+          >
+            <AutonomousAgentCollaboration3D collaboration={agentCollaborations[0]} />
+          </motion.div>
+
+          {/* AI Threat Intelligence Matrix */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.35, duration: 0.8 }}
+            className="mb-12"
+          >
+            <ThreatIntelligenceMatrix3D threats={threatIntel} />
+          </motion.div>
+
+          {/* Unified Ecosystem Health Monitor */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.37, duration: 0.8 }}
+            className="mb-12"
+          >
+            <UnifiedEcosystemHealth3D metrics={ecosystemMetrics[0]} />
+          </motion.div>
+
+          {/* Adaptive Learning Path Visualizer */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.39, duration: 0.8 }}
+            className="mb-12"
+          >
+            <AdaptiveLearningPath3D learningPath={learningPaths[0]} />
           </motion.div>
 
           {/* Unified Omega Ecosystem Hologram - NEW PRIMARY VISUALIZER */}
