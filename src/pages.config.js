@@ -42,6 +42,7 @@ import Agent from './pages/Agent';
 import AgentAudio from './pages/AgentAudio';
 import AgentAutonomy from './pages/AgentAutonomy';
 import AgentAutonomyDashboard from './pages/AgentAutonomyDashboard';
+import AgentBehaviorStudio from './pages/AgentBehaviorStudio';
 import AgentBudget from './pages/AgentBudget';
 import AgentCardSettings from './pages/AgentCardSettings';
 import AgentCollaborationDashboard from './pages/AgentCollaborationDashboard';
@@ -156,6 +157,7 @@ import DeploymentReadiness from './pages/DeploymentReadiness';
 import DepositETH from './pages/DepositETH';
 import DepositOmni from './pages/DepositOmni';
 import DepositUSDT from './pages/DepositUSDT';
+import DeveloperEcosystemHub from './pages/DeveloperEcosystemHub';
 import DeveloperHome from './pages/DeveloperHome';
 import DeviceHealth from './pages/DeviceHealth';
 import DeviceHome from './pages/DeviceHome';
@@ -213,11 +215,11 @@ import FAQ from './pages/FAQ';
 import FeatureDetail from './pages/FeatureDetail';
 import FeatureFlagManager from './pages/FeatureFlagManager';
 import Features from './pages/Features';
-import FeedbackDashboard from './pages/FeedbackDashboard';
 import FiatDeposit from './pages/FiatDeposit';
-import FirmwareUpdates from './pages/FirmwareUpdates';
+import FeedbackDashboard from './pages/FeedbackDashboard';
 import FinancialAdvisorHub from './pages/FinancialAdvisorHub';
 import FinancialCoachingHub from './pages/FinancialCoachingHub';
+import FirmwareUpdates from './pages/FirmwareUpdates';
 import FleetManagement from './pages/FleetManagement';
 import GeminiHub from './pages/GeminiHub';
 import GlobalGovernance from './pages/GlobalGovernance';
@@ -366,8 +368,7 @@ import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
 import WorldHubEnhanced from './pages/WorldHubEnhanced';
-import DeveloperEcosystemHub from './pages/DeveloperEcosystemHub';
-import AgentBehaviorStudio from './pages/AgentBehaviorStudio';
+import DeveloperPortal from './pages/DeveloperPortal';
 import __Layout from './Layout.jsx';
 
 
@@ -416,6 +417,7 @@ export const PAGES = {
     "AgentAudio": AgentAudio,
     "AgentAutonomy": AgentAutonomy,
     "AgentAutonomyDashboard": AgentAutonomyDashboard,
+    "AgentBehaviorStudio": AgentBehaviorStudio,
     "AgentBudget": AgentBudget,
     "AgentCardSettings": AgentCardSettings,
     "AgentCollaborationDashboard": AgentCollaborationDashboard,
@@ -530,6 +532,7 @@ export const PAGES = {
     "DepositETH": DepositETH,
     "DepositOmni": DepositOmni,
     "DepositUSDT": DepositUSDT,
+    "DeveloperEcosystemHub": DeveloperEcosystemHub,
     "DeveloperHome": DeveloperHome,
     "DeviceHealth": DeviceHealth,
     "DeviceHome": DeviceHome,
@@ -587,11 +590,11 @@ export const PAGES = {
     "FeatureDetail": FeatureDetail,
     "FeatureFlagManager": FeatureFlagManager,
     "Features": Features,
-    "FeedbackDashboard": FeedbackDashboard,
     "FiatDeposit": FiatDeposit,
-    "FirmwareUpdates": FirmwareUpdates,
+    "FeedbackDashboard": FeedbackDashboard,
     "FinancialAdvisorHub": FinancialAdvisorHub,
     "FinancialCoachingHub": FinancialCoachingHub,
+    "FirmwareUpdates": FirmwareUpdates,
     "FleetManagement": FleetManagement,
     "GeminiHub": GeminiHub,
     "GlobalGovernance": GlobalGovernance,
@@ -740,8 +743,7 @@ export const PAGES = {
     "WorkflowOrchestrationHub": WorkflowOrchestrationHub,
     "World": World,
     "WorldHubEnhanced": WorldHubEnhanced,
-    "DeveloperEcosystemHub": DeveloperEcosystemHub,
-    "AgentBehaviorStudio": AgentBehaviorStudio,
+    "DeveloperPortal": DeveloperPortal,
 }
 
 export const pagesConfig = {

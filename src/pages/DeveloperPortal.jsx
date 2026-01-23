@@ -1,0 +1,176 @@
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Code, Book, Rocket, Shield } from 'lucide-react';
+import SDKDocumentation from '../components/developer/SDKDocumentation';
+import { Badge } from '@/components/ui/badge';
+
+export default function DeveloperPortal() {
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-cyan-950 to-slate-950 p-6">
+      <div className="max-w-7xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-8"
+        >
+          <h1 className="text-5xl font-bold text-white mb-3 flex items-center gap-4">
+            <Code className="w-12 h-12 text-cyan-400 animate-pulse" />
+            Developer Portal
+          </h1>
+          <p className="text-white/60 text-lg">
+            Comprehensive documentation, SDKs, tutorials, and API reference for Omega integration
+          </p>
+        </motion.div>
+
+        <div className="grid grid-cols-4 gap-4 mb-6">
+          <Card className="bg-gradient-to-br from-cyan-500/20 to-blue-500/20 border-cyan-500/50">
+            <CardContent className="pt-6">
+              <Code className="w-8 h-8 text-cyan-400 mb-2" />
+              <div className="text-2xl font-bold text-white">2</div>
+              <div className="text-white/60 text-sm">SDKs Available</div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-gradient-to-br from-purple-500/20 to-fuchsia-500/20 border-purple-500/50">
+            <CardContent className="pt-6">
+              <Book className="w-8 h-8 text-purple-400 mb-2" />
+              <div className="text-2xl font-bold text-white">50+</div>
+              <div className="text-white/60 text-sm">API Endpoints</div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-gradient-to-br from-green-500/20 to-emerald-500/20 border-green-500/50">
+            <CardContent className="pt-6">
+              <Rocket className="w-8 h-8 text-green-400 mb-2" />
+              <div className="text-2xl font-bold text-white">15+</div>
+              <div className="text-white/60 text-sm">Tutorials</div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-gradient-to-br from-orange-500/20 to-red-500/20 border-orange-500/50">
+            <CardContent className="pt-6">
+              <Shield className="w-8 h-8 text-orange-400 mb-2" />
+              <div className="text-2xl font-bold text-white">99.9%</div>
+              <div className="text-white/60 text-sm">API Uptime</div>
+            </CardContent>
+          </Card>
+        </div>
+
+        <Tabs defaultValue="docs" className="w-full">
+          <TabsList className="grid w-full grid-cols-4 bg-black/60 border-cyan-500/30">
+            <TabsTrigger value="docs">Documentation</TabsTrigger>
+            <TabsTrigger value="tutorials">Tutorials</TabsTrigger>
+            <TabsTrigger value="examples">Examples</TabsTrigger>
+            <TabsTrigger value="support">Support</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="docs" className="mt-6">
+            <SDKDocumentation />
+          </TabsContent>
+
+          <TabsContent value="tutorials" className="mt-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {[
+                { title: 'Getting Started', desc: 'Set up your first Omega integration in 5 minutes', difficulty: 'Beginner' },
+                { title: 'Agent Creation', desc: 'Build and deploy custom AI agents', difficulty: 'Intermediate' },
+                { title: 'Neural Chip Integration', desc: 'Connect to consciousness data streams', difficulty: 'Advanced' },
+                { title: 'Marketplace Publishing', desc: 'List your augmentations on Omega Marketplace', difficulty: 'Intermediate' },
+                { title: 'Webhook Configuration', desc: 'Real-time event notifications', difficulty: 'Intermediate' },
+                { title: 'Advanced Security', desc: 'Implement OAuth and encryption', difficulty: 'Advanced' }
+              ].map((tutorial, idx) => (
+                <Card key={idx} className="bg-black/40 border-cyan-500/30 hover:border-cyan-500/60 transition-all cursor-pointer">
+                  <CardContent className="pt-6">
+                    <div className="flex items-center justify-between mb-3">
+                      <h3 className="text-white font-bold">{tutorial.title}</h3>
+                      <Badge className={
+                        tutorial.difficulty === 'Beginner' ? 'bg-green-500/30 text-green-300' :
+                        tutorial.difficulty === 'Intermediate' ? 'bg-yellow-500/30 text-yellow-300' :
+                        'bg-red-500/30 text-red-300'
+                      }>
+                        {tutorial.difficulty}
+                      </Badge>
+                    </div>
+                    <p className="text-white/70 text-sm">{tutorial.desc}</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </TabsContent>
+
+          <TabsContent value="examples" className="mt-6">
+            <Card className="bg-black/40 border-cyan-500/50">
+              <CardHeader>
+                <CardTitle className="text-white">Code Examples</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <h3 className="text-cyan-400 font-bold mb-2">Create and Train Agent</h3>
+                  <div className="bg-black/80 p-4 rounded-lg border border-cyan-500/30">
+                    <pre className="text-green-400 text-sm overflow-x-auto">
+{`const agent = await omega.agents.create({
+  name: 'Financial Advisor',
+  personality: 'analytical',
+  capabilities: ['portfolio_analysis', 'risk_assessment']
+});
+
+await omega.agents.train(agent.id, {
+  dataset: 'financial_scenarios_v2',
+  epochs: 100,
+  learning_rate: 0.001
+});`}
+                    </pre>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="text-purple-400 font-bold mb-2">Access Consciousness Data</h3>
+                  <div className="bg-black/80 p-4 rounded-lg border border-purple-500/30">
+                    <pre className="text-green-400 text-sm overflow-x-auto">
+{`const snapshot = await omega.consciousness.getLatest(userId);
+
+console.log(snapshot.cognitive_state.focus_level);
+console.log(snapshot.emotional_state.primary_emotion);
+
+await omega.consciousness.sendCommand(userId, {
+  type: 'motor_control',
+  action: 'gesture_wave'
+});`}
+                    </pre>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="support" className="mt-6">
+            <Card className="bg-black/40 border-cyan-500/50">
+              <CardHeader>
+                <CardTitle className="text-white">Developer Support</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="bg-cyan-500/20 border border-cyan-500/50 p-4 rounded-lg">
+                    <h3 className="text-cyan-400 font-bold mb-2">Community Discord</h3>
+                    <p className="text-white/80 text-sm">Join 5,000+ developers building on Omega</p>
+                  </div>
+
+                  <div className="bg-purple-500/20 border border-purple-500/50 p-4 rounded-lg">
+                    <h3 className="text-purple-400 font-bold mb-2">Stack Overflow</h3>
+                    <p className="text-white/80 text-sm">Tag: omega-ecosystem</p>
+                  </div>
+
+                  <div className="bg-green-500/20 border border-green-500/50 p-4 rounded-lg">
+                    <h3 className="text-green-400 font-bold mb-2">GitHub Discussions</h3>
+                    <p className="text-white/80 text-sm">github.com/omega-ecosystem/discussions</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
+      </div>
+    </div>
+  );
+}

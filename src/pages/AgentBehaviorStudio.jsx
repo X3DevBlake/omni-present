@@ -6,10 +6,11 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Wand2, Save, Upload, Download, GitFork, Sparkles, History } from 'lucide-react';
+import { Wand2, Save, Upload, Download, GitFork, Sparkles, History, Play } from 'lucide-react';
 import AgentCustomizationStudio3D from '../components/agents/AgentCustomizationStudio3D';
 import AIBehaviorSuggestions3D from '../components/agents/AIBehaviorSuggestions3D';
 import TemplateForkManager from '../components/agents/TemplateForkManager';
+import ScenarioSimulator3D from '../components/agents/ScenarioSimulator3D';
 import { toast } from 'sonner';
 
 export default function AgentBehaviorStudio() {
@@ -20,6 +21,7 @@ export default function AgentBehaviorStudio() {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [showVersionHistory, setShowVersionHistory] = useState(false);
   const [selectedTemplateId, setSelectedTemplateId] = useState(null);
+  const [showScenarioTest, setShowScenarioTest] = useState(false);
 
   const { data: templates = [] } = useQuery({
     queryKey: ['behavior-templates'],
@@ -56,6 +58,16 @@ export default function AgentBehaviorStudio() {
         template_id: selectedTemplateId
       });
       return response.data.versions || [];
+    },
+    enabled: !!selectedTemplateId,
+    initialData: []
+  });
+
+  const { data: scenarioTests = [] } = useQuery({
+    queryKey: ['scenario-tests', selectedTemplateId],
+    queryFn: async () => {
+      if (!selectedTemplateId) return [];
+      return await base44.entities.BehaviorScenarioTest.filter({ template_id: selectedTemplateId });
     },
     enabled: !!selectedTemplateId,
     initialData: []
@@ -99,6 +111,23 @@ export default function AgentBehaviorStudio() {
     }
   });
 
+  const runScenarioMutation = useMutation({
+    mutationFn: async () => {
+      if (!selectedTemplateId) return;
+      const response = await base44.functions.invoke('scenarioSimulator', {
+        action: 'run_scenario',
+        template_id: selectedTemplateId,
+        scenario_type: 'ethical_dilemma',
+        complexity: 'high'
+      });
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['scenario-tests'] });
+      toast.success('Scenario test completed!');
+    }
+  });
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950 p-6">
       <div className="max-w-7xl mx-auto">
@@ -124,6 +153,13 @@ export default function AgentBehaviorStudio() {
             <Sparkles className="w-4 h-4 mr-2" />
             {showSuggestions ? 'Hide' : 'Show'} AI Suggestions
           </Button>
+          <Button
+            onClick={() => setShowScenarioTest(!showScenarioTest)}
+            className="bg-indigo-600 hover:bg-indigo-700"
+          >
+            <Play className="w-4 h-4 mr-2" />
+            {showScenarioTest ? 'Hide' : 'Show'} Scenario Testing
+          </Button>
         </div>
 
         {showSuggestions && currentConfig && (
@@ -133,6 +169,15 @@ export default function AgentBehaviorStudio() {
               onApplySuggestion={(s) => {
                 toast.success(`Applied: ${s.recommendation}`);
               }}
+            />
+          </div>
+        )}
+
+        {showScenarioTest && selectedTemplateId && (
+          <div className="mb-6">
+            <ScenarioSimulator3D
+              test={scenarioTests[0]}
+              onRunScenario={() => runScenarioMutation.mutate()}
             />
           </div>
         )}

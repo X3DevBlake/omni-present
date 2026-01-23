@@ -6,8 +6,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Code, Key, Package, Shield, Activity, Copy } from 'lucide-react';
+import { Code, Key, Package, Shield, Activity, Copy, Beaker, Book } from 'lucide-react';
 import DeveloperAPIConsole3D from '../components/developer/DeveloperAPIConsole3D';
+import SandboxTester3D from '../components/developer/SandboxTester3D';
+import SDKDocumentation from '../components/developer/SDKDocumentation';
 import { Badge } from '@/components/ui/badge';
 import { toast } from 'sonner';
 
@@ -36,6 +38,18 @@ export default function DeveloperEcosystemHub() {
       });
       return response.data.integrations || [];
     },
+    initialData: []
+  });
+
+  const { data: sandboxes = [] } = useQuery({
+    queryKey: ['sandboxes'],
+    queryFn: () => base44.entities.SandboxEnvironment.filter({ sandbox_status: 'active' }),
+    initialData: []
+  });
+
+  const { data: gatewayLogs = [] } = useQuery({
+    queryKey: ['gateway-logs'],
+    queryFn: () => base44.entities.APIGatewayLog.list('-created_date', 100),
     initialData: []
   });
 
@@ -70,6 +84,21 @@ export default function DeveloperEcosystemHub() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['api-keys'] });
       toast.success('API key revoked');
+    }
+  });
+
+  const createSandboxMutation = useMutation({
+    mutationFn: async () => {
+      const response = await base44.functions.invoke('sandboxManager', {
+        action: 'create_sandbox',
+        environment_name: 'Test Environment',
+        integration_id: 'test_integration'
+      });
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['sandboxes'] });
+      toast.success('Sandbox environment created!');
     }
   });
 
@@ -146,9 +175,11 @@ export default function DeveloperEcosystemHub() {
         </div>
 
         <Tabs defaultValue="api" className="w-full">
-          <TabsList className="grid w-full grid-cols-3 bg-black/60 border-cyan-500/30">
+          <TabsList className="grid w-full grid-cols-5 bg-black/60 border-cyan-500/30">
             <TabsTrigger value="api">API Console</TabsTrigger>
             <TabsTrigger value="keys">API Keys</TabsTrigger>
+            <TabsTrigger value="sandbox">Sandbox</TabsTrigger>
+            <TabsTrigger value="docs">Docs</TabsTrigger>
             <TabsTrigger value="integrations">Integrations</TabsTrigger>
           </TabsList>
 
@@ -238,6 +269,41 @@ export default function DeveloperEcosystemHub() {
                 </Card>
               ))}
             </div>
+          </TabsContent>
+
+          <TabsContent value="sandbox" className="mt-6">
+            <div className="mb-6">
+              <Button onClick={() => createSandboxMutation.mutate()} className="bg-green-600 hover:bg-green-700">
+                <Beaker className="w-4 h-4 mr-2" />
+                Create New Sandbox
+              </Button>
+            </div>
+
+            {sandboxes[0] && (
+              <SandboxTester3D
+                sandbox={sandboxes[0]}
+                onRunTest={() => toast.success('Running test...')}
+              />
+            )}
+
+            <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+              {sandboxes.map((sandbox) => (
+                <Card key={sandbox.id} className="bg-black/40 border-green-500/30">
+                  <CardContent className="pt-6">
+                    <div className="text-white font-bold mb-2">{sandbox.environment_name}</div>
+                    <Badge className="bg-green-500/30 text-green-300 mb-3">{sandbox.sandbox_status}</Badge>
+                    <div className="text-white/60 text-xs">
+                      Tests: {sandbox.test_results?.length || 0} | 
+                      API Calls: {sandbox.resource_limits?.max_api_calls}
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </TabsContent>
+
+          <TabsContent value="docs" className="mt-6">
+            <SDKDocumentation />
           </TabsContent>
 
           <TabsContent value="integrations" className="mt-6">

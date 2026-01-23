@@ -11,6 +11,8 @@ import BiometricHealthDashboard3D from '../components/biometric/BiometricHealthD
 import CognitiveGoalSetter3D from '../components/consciousness/CognitiveGoalSetter3D';
 import EthicalFrameworkEditor from '../components/consciousness/EthicalFrameworkEditor';
 import AIGoalRecommendations3D from '../components/consciousness/AIGoalRecommendations3D';
+import ConsciousnessAugmentationPathway3D from '../components/consciousness/ConsciousnessAugmentationPathway3D';
+import QuantumConsciousnessVisualizer3D from '../components/quantum/QuantumConsciousnessVisualizer3D';
 import { Badge } from '@/components/ui/badge';
 
 export default function ConsciousnessMirrorHub() {
@@ -57,6 +59,18 @@ export default function ConsciousnessMirrorHub() {
       });
       return response.data.frameworks || [];
     },
+    initialData: []
+  });
+
+  const { data: augmentationPathways = [] } = useQuery({
+    queryKey: ['augmentation-pathways'],
+    queryFn: () => base44.entities.ConsciousnessAugmentationPathway.filter({ pathway_status: 'active' }),
+    initialData: []
+  });
+
+  const { data: quantumStates = [] } = useQuery({
+    queryKey: ['quantum-states'],
+    queryFn: () => base44.entities.QuantumConsciousnessState.list('-created_date', 10),
     initialData: []
   });
 
@@ -126,6 +140,20 @@ export default function ConsciousnessMirrorHub() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['ethical-frameworks'] });
       toast.success('Ethical framework created with AI enhancements!');
+    }
+  });
+
+  const generatePathwayMutation = useMutation({
+    mutationFn: async (targetState) => {
+      const response = await base44.functions.invoke('consciousnessAugmentationEngine', {
+        action: 'generate_pathway',
+        target_state: targetState
+      });
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['augmentation-pathways'] });
+      toast.success('Consciousness augmentation pathway created!');
     }
   });
 
@@ -228,10 +256,12 @@ export default function ConsciousnessMirrorHub() {
         </div>
 
         <Tabs defaultValue="mirror" className="w-full">
-          <TabsList className="grid w-full grid-cols-5 bg-black/60 border-blue-500/30">
+          <TabsList className="grid w-full grid-cols-7 bg-black/60 border-blue-500/30 text-xs">
             <TabsTrigger value="mirror">Mirror</TabsTrigger>
             <TabsTrigger value="biometric">Biometric</TabsTrigger>
             <TabsTrigger value="goals">Goals</TabsTrigger>
+            <TabsTrigger value="pathways">Pathways</TabsTrigger>
+            <TabsTrigger value="quantum">Quantum</TabsTrigger>
             <TabsTrigger value="ethics">Ethics</TabsTrigger>
             <TabsTrigger value="adaptations">UI</TabsTrigger>
           </TabsList>
@@ -280,6 +310,33 @@ export default function ConsciousnessMirrorHub() {
                 </div>
               </CardContent>
             </Card>
+          </TabsContent>
+
+          <TabsContent value="pathways" className="mt-6">
+            <div className="mb-6">
+              <div className="flex gap-2 mb-4">
+                <Button onClick={() => generatePathwayMutation.mutate('flow_state')} className="bg-cyan-600 hover:bg-cyan-700">
+                  Flow State
+                </Button>
+                <Button onClick={() => generatePathwayMutation.mutate('enhanced_creativity')} className="bg-purple-600 hover:bg-purple-700">
+                  Enhanced Creativity
+                </Button>
+                <Button onClick={() => generatePathwayMutation.mutate('deep_focus')} className="bg-blue-600 hover:bg-blue-700">
+                  Deep Focus
+                </Button>
+              </div>
+            </div>
+
+            {augmentationPathways[0] && (
+              <ConsciousnessAugmentationPathway3D 
+                pathway={augmentationPathways[0]}
+                onStartActivity={(activity) => toast.success(`Starting: ${activity.activity_name}`)}
+              />
+            )}
+          </TabsContent>
+
+          <TabsContent value="quantum" className="mt-6">
+            <QuantumConsciousnessVisualizer3D quantumStates={quantumStates} />
           </TabsContent>
 
           <TabsContent value="ethics" className="mt-6">
