@@ -7,8 +7,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { GraduationCap, Brain, Target, TrendingUp } from 'lucide-react';
 import AgentTrainingModule3D from '../components/training/AgentTrainingModule3D';
 import EthicalDilemmaTrainer3D from '../components/agents/EthicalDilemmaTrainer3D';
+import { Button } from '@/components/ui/button';
+import { base44 } from '@/api/base44Client';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
 
 export default function AITrainingAcademy() {
+  const queryClient = useQueryClient();
+
   const { data: scenarios = [] } = useQuery({
     queryKey: ['training-scenarios'],
     queryFn: () => base44.entities.AgentTrainingScenario.list('-created_date', 20),
@@ -18,6 +24,20 @@ export default function AITrainingAcademy() {
   const avgScore = scenarios.length > 0
     ? scenarios.reduce((sum, s) => sum + (s.ai_feedback?.overall_score || 0), 0) / scenarios.length
     : 0;
+
+  const analyzeTrainingMutation = useMutation({
+    mutationFn: async (scenario_id) => {
+      const response = await base44.functions.invoke('agentTrainingOrchestrator', {
+        action: 'analyze_training_results',
+        scenario_id
+      });
+      return response.data;
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ['training-scenarios'] });
+      toast.success(`Analysis complete! Score: ${(data.ethical_score * 100).toFixed(0)}%`);
+    }
+  });
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950 p-6">
@@ -72,6 +92,29 @@ export default function AITrainingAcademy() {
               <div className="text-white/60 text-sm">Skills Acquired</div>
             </CardContent>
           </Card>
+        </div>
+
+        <div className="mb-6">
+          {scenarios.slice(0, 3).map((scenario) => (
+            <Card key={scenario.id} className="bg-black/40 border-purple-500/30 mb-3">
+              <CardContent className="pt-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <div className="text-white font-bold">{scenario.scenario_name}</div>
+                    <div className="text-white/60 text-xs">Complexity: {scenario.complexity_level}/10</div>
+                  </div>
+                  <Button
+                    onClick={() => analyzeTrainingMutation.mutate(scenario.scenario_id)}
+                    disabled={analyzeTrainingMutation.isPending}
+                    size="sm"
+                    className="bg-purple-600 hover:bg-purple-700"
+                  >
+                    Analyze Results
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
         </div>
 
         <Tabs defaultValue="training" className="w-full">

@@ -336,33 +336,36 @@ export default function ConsciousnessMirrorHub() {
           </TabsContent>
 
           <TabsContent value="quantum" className="mt-6">
-            {quantumStates[0] ? (
-              <QuantumConsciousnessVisualizer3D 
-                quantumData={quantumStates[0]}
-                onExploreState={async () => {
-                  const response = await base44.functions.invoke('quantumConsciousnessEngine', {
-                    action: 'collapse_state',
-                    state_id: quantumStates[0].state_id
-                  });
-                  toast.success('Quantum state explored!');
-                }}
-              />
-            ) : (
-              <Card className="bg-black/40 border-fuchsia-500/50">
-                <CardContent className="pt-6 text-center">
-                  <div className="text-white/60 mb-4">No quantum consciousness states yet</div>
-                  <Button onClick={async () => {
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {quantumStates[0] ? (
+                <QuantumConsciousnessVisualizer3D 
+                  quantumData={quantumStates[0]}
+                  onExploreState={async () => {
                     const response = await base44.functions.invoke('quantumConsciousnessEngine', {
-                      action: 'generate_quantum_state'
+                      action: 'collapse_state',
+                      state_id: quantumStates[0].state_id
                     });
-                    queryClient.invalidateQueries({ queryKey: ['quantum-states'] });
-                    toast.success('Quantum state generated!');
-                  }} className="bg-fuchsia-600 hover:bg-fuchsia-700">
-                    Generate Quantum State
-                  </Button>
-                </CardContent>
-              </Card>
-            )}
+                    toast.success('Quantum state explored!');
+                  }}
+                />
+              ) : (
+                <Card className="bg-black/40 border-fuchsia-500/50">
+                  <CardContent className="pt-6 text-center">
+                    <div className="text-white/60 mb-4">No quantum consciousness states yet</div>
+                    <Button onClick={async () => {
+                      const response = await base44.functions.invoke('quantumConsciousnessEngine', {
+                        action: 'generate_quantum_state'
+                      });
+                      queryClient.invalidateQueries({ queryKey: ['quantum-states'] });
+                      toast.success('Quantum state generated!');
+                    }} className="bg-fuchsia-600 hover:bg-fuchsia-700">
+                      Generate Quantum State
+                    </Button>
+                  </CardContent>
+                </Card>
+              )}
+              <QuantumStateHarmonizer3D quantumStates={quantumStates} />
+            </div>
           </TabsContent>
 
           <TabsContent value="ethics" className="mt-6">

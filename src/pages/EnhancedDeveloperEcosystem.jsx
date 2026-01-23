@@ -8,7 +8,10 @@ import { Code, Rocket, TestTube, Brain, Book } from 'lucide-react';
 import JavaScriptSDKDocs from '../components/developer/JavaScriptSDKDocs';
 import PythonSDKDocs from '../components/developer/PythonSDKDocs';
 import InteractiveSandbox from '../components/developer/InteractiveSandbox';
+import InteractiveTutorialPlayer from '../components/developer/InteractiveTutorialPlayer';
+import SearchableAPIReference from '../components/developer/SearchableAPIReference';
 import OmniPresentSentientCore3D from '../components/sentient/OmniPresentSentientCore3D';
+import AnimationShowcase3D from '../components/animations/AnimationShowcase3D';
 
 export default function EnhancedDeveloperEcosystem() {
   const { data: integrations = [] } = useQuery({
@@ -83,11 +86,13 @@ export default function EnhancedDeveloperEcosystem() {
         </div>
 
         <Tabs defaultValue="sdks" className="w-full">
-          <TabsList className="grid w-full grid-cols-4 bg-black/60 border-cyan-500/30">
+          <TabsList className="grid w-full grid-cols-6 bg-black/60 border-cyan-500/30">
             <TabsTrigger value="sdks">SDKs</TabsTrigger>
             <TabsTrigger value="sandbox">Sandbox</TabsTrigger>
-            <TabsTrigger value="core">Sentient Core</TabsTrigger>
             <TabsTrigger value="tutorials">Tutorials</TabsTrigger>
+            <TabsTrigger value="api">API Reference</TabsTrigger>
+            <TabsTrigger value="animations">Animations</TabsTrigger>
+            <TabsTrigger value="core">Sentient Core</TabsTrigger>
           </TabsList>
 
           <TabsContent value="sdks" className="mt-6">
@@ -98,7 +103,31 @@ export default function EnhancedDeveloperEcosystem() {
           </TabsContent>
 
           <TabsContent value="sandbox" className="mt-6">
-            <InteractiveSandbox />
+            <div className="grid grid-cols-1 gap-6">
+              <InteractiveSandbox />
+              
+              <Card className="bg-black/40 border-green-500/50">
+                <CardHeader>
+                  <CardTitle className="text-white">Mock Data Available</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-3 gap-3">
+                    <div className="bg-green-500/20 border border-green-500/50 p-3 rounded-lg">
+                      <div className="text-green-400 font-bold text-sm mb-1">Mock Agents</div>
+                      <div className="text-white/70 text-xs">Pre-configured AI agents with various capabilities</div>
+                    </div>
+                    <div className="bg-cyan-500/20 border border-cyan-500/50 p-3 rounded-lg">
+                      <div className="text-cyan-400 font-bold text-sm mb-1">Consciousness Data</div>
+                      <div className="text-white/70 text-xs">Simulated neural and biometric streams</div>
+                    </div>
+                    <div className="bg-purple-500/20 border border-purple-500/50 p-3 rounded-lg">
+                      <div className="text-purple-400 font-bold text-sm mb-1">Market Data</div>
+                      <div className="text-white/70 text-xs">Real-time crypto and financial data</div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
           </TabsContent>
 
           <TabsContent value="core" className="mt-6">
@@ -112,26 +141,15 @@ export default function EnhancedDeveloperEcosystem() {
           </TabsContent>
 
           <TabsContent value="tutorials" className="mt-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {[
-                { title: 'Quick Start Guide', difficulty: 'Beginner', time: '10 min' },
-                { title: 'Agent Creation', difficulty: 'Intermediate', time: '30 min' },
-                { title: 'Consciousness Integration', difficulty: 'Advanced', time: '60 min' },
-                { title: 'Multi-Agent Systems', difficulty: 'Advanced', time: '90 min' },
-                { title: 'Swarm Intelligence', difficulty: 'Expert', time: '120 min' },
-                { title: 'Quantum Consciousness', difficulty: 'Expert', time: '180 min' }
-              ].map((tutorial, idx) => (
-                <Card key={idx} className="bg-black/40 border-cyan-500/30 hover:border-cyan-500/60 transition-all cursor-pointer">
-                  <CardContent className="pt-6">
-                    <h3 className="text-white font-bold mb-2">{tutorial.title}</h3>
-                    <div className="flex gap-2">
-                      <div className="text-cyan-400 text-xs">{tutorial.difficulty}</div>
-                      <div className="text-white/60 text-xs">• {tutorial.time}</div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+            <InteractiveTutorialPlayer />
+          </TabsContent>
+
+          <TabsContent value="api" className="mt-6">
+            <SearchableAPIReference />
+          </TabsContent>
+
+          <TabsContent value="animations" className="mt-6">
+            <AnimationShowcase3D animationCount={700} />
           </TabsContent>
         </Tabs>
       </div>
