@@ -661,6 +661,13 @@ export default function Home() {
                     <Brain className="w-6 h-6 mr-3" />
                     Sentient Core
                   </Button>
+                  <Button 
+                    onClick={() => window.location.href = createPageUrl('AnimationStudio')}
+                    className="bg-indigo-600 hover:bg-indigo-700 h-20 text-lg"
+                  >
+                    <Sparkles className="w-6 h-6 mr-3" />
+                    Animation Studio
+                  </Button>
                 </div>
               </CardContent>
             </Card>

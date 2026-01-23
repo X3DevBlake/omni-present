@@ -72,7 +72,8 @@ export const HubRegistry = [
   { id: 'agent-collab-hub', name: 'Agent Collaboration Hub', path: 'AgentCollaborationHub', category: 'ai', icon3d: 'users', color: '#6644ff' },
   { id: 'ai-training-academy', name: 'AI Training Academy', path: 'AITrainingAcademy', category: 'ai', icon3d: 'graduation-cap', color: '#aa44ff' },
   { id: 'enhanced-dev-ecosystem', name: 'Enhanced Developer Ecosystem', path: 'EnhancedDeveloperEcosystem', category: 'management', icon3d: 'rocket', color: '#00ccff' },
-  { id: 'omni-core-hub', name: 'Omni-Present Core Hub', path: 'OmniPresentCoreHub', category: 'core', icon3d: 'brain', color: '#ff00ff' }
+  { id: 'omni-core-hub', name: 'Omni-Present Core Hub', path: 'OmniPresentCoreHub', category: 'core', icon3d: 'brain', color: '#ff00ff' },
+  { id: 'animation-studio', name: 'Animation Studio', path: 'AnimationStudio', category: 'management', icon3d: 'sparkles', color: '#aa44ff' }
 ];
 
 export const HubCategories = {

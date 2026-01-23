@@ -1,110 +1,108 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Loader2, CheckCircle, XCircle, AlertCircle, Info } from 'lucide-react';
 
-export const AnimatedButton = ({ children, onClick, variant = 'default', ...props }) => (
+export const ButtonClickAnimation = ({ children, onClick, variant = 'default' }) => (
   <motion.button
-    onClick={onClick}
-    whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(139, 92, 246, 0.5)' }}
+    whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(99, 102, 241, 0.5)' }}
     whileTap={{ scale: 0.95 }}
-    transition={{ type: 'spring', stiffness: 400, damping: 17 }}
-    {...props}
+    onClick={onClick}
+    className={`px-4 py-2 rounded-lg ${variant === 'primary' ? 'bg-indigo-600' : 'bg-gray-700'}`}
   >
     {children}
   </motion.button>
 );
 
-export const AnimatedCard = ({ children, delay = 0, ...props }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ delay, duration: 0.5 }}
-    whileHover={{ y: -5, boxShadow: '0 10px 30px rgba(0, 0, 0, 0.3)' }}
-    {...props}
-  >
-    {children}
-  </motion.div>
-);
-
-export const AnimatedInput = ({ children, ...props }) => (
-  <motion.div
-    whileFocus={{ scale: 1.02, borderColor: '#8b5cf6' }}
-    transition={{ duration: 0.2 }}
-    {...props}
-  >
-    {children}
-  </motion.div>
-);
+export const LoadingSpinner = ({ size = 'md' }) => {
+  const sizeMap = { sm: 16, md: 24, lg: 32 };
+  return (
+    <motion.div
+      animate={{ rotate: 360 }}
+      transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+    >
+      <Loader2 size={sizeMap[size]} className="text-indigo-400" />
+    </motion.div>
+  );
+};
 
 export const SuccessCheckmark = () => (
   <motion.div
     initial={{ scale: 0, rotate: -180 }}
     animate={{ scale: 1, rotate: 0 }}
-    transition={{ type: 'spring', stiffness: 200, damping: 15 }}
-    className="inline-block"
+    transition={{ type: 'spring', stiffness: 200 }}
   >
-    <svg className="w-16 h-16 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <motion.path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={3}
-        d="M5 13l4 4L19 7"
-        initial={{ pathLength: 0 }}
-        animate={{ pathLength: 1 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-      />
-    </svg>
+    <CheckCircle className="w-12 h-12 text-green-400" />
   </motion.div>
 );
 
-export const LoadingSpinner = ({ size = 'md' }) => {
-  const sizeClasses = { sm: 'w-4 h-4', md: 'w-8 h-8', lg: 'w-12 h-12' };
+export const ErrorCross = () => (
+  <motion.div
+    initial={{ scale: 0, rotate: 180 }}
+    animate={{ scale: 1, rotate: 0 }}
+    transition={{ type: 'spring', stiffness: 200 }}
+  >
+    <XCircle className="w-12 h-12 text-red-400" />
+  </motion.div>
+);
+
+export const PulsingAlert = ({ type = 'warning' }) => {
+  const Icon = type === 'warning' ? AlertCircle : Info;
+  const color = type === 'warning' ? 'text-yellow-400' : 'text-blue-400';
   
   return (
     <motion.div
-      animate={{ rotate: 360 }}
-      transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-      className={`${sizeClasses[size]} border-4 border-purple-500 border-t-transparent rounded-full`}
-    />
+      animate={{ scale: [1, 1.2, 1], opacity: [1, 0.7, 1] }}
+      transition={{ duration: 2, repeat: Infinity }}
+    >
+      <Icon className={`w-6 h-6 ${color}`} />
+    </motion.div>
   );
 };
 
-export const PulseRing = ({ color = '#8b5cf6' }) => (
+export const InputFocusGlow = ({ children, focused }) => (
   <motion.div
-    className="absolute inset-0 rounded-full"
-    style={{ border: `2px solid ${color}` }}
     animate={{
-      scale: [1, 1.5, 1.5],
-      opacity: [0.8, 0, 0]
+      boxShadow: focused
+        ? '0 0 20px rgba(99, 102, 241, 0.6), 0 0 40px rgba(99, 102, 241, 0.3)'
+        : '0 0 0px rgba(99, 102, 241, 0)'
     }}
-    transition={{
-      duration: 2,
-      repeat: Infinity,
-      ease: 'easeOut'
-    }}
-  />
+    transition={{ duration: 0.3 }}
+    className="rounded-lg"
+  >
+    {children}
+  </motion.div>
 );
 
-export const FloatingParticles = ({ count = 20 }) => (
-  <>
-    {Array.from({ length: count }).map((_, i) => (
-      <motion.div
-        key={i}
-        className="absolute w-1 h-1 bg-purple-400 rounded-full"
-        style={{
-          left: `${Math.random() * 100}%`,
-          top: `${Math.random() * 100}%`
-        }}
-        animate={{
-          y: [0, -30, 0],
-          opacity: [0, 1, 0],
-          scale: [0, 1, 0]
-        }}
-        transition={{
-          duration: 3 + Math.random() * 2,
-          repeat: Infinity,
-          delay: Math.random() * 2
-        }}
-      />
-    ))}
-  </>
+export const ToggleSwitch = ({ enabled, onToggle }) => (
+  <motion.div
+    onClick={onToggle}
+    className={`w-14 h-7 rounded-full cursor-pointer ${enabled ? 'bg-indigo-600' : 'bg-gray-600'}`}
+    animate={{ backgroundColor: enabled ? '#4f46e5' : '#4b5563' }}
+  >
+    <motion.div
+      className="w-5 h-5 bg-white rounded-full mt-1"
+      animate={{ x: enabled ? 32 : 4 }}
+      transition={{ type: 'spring', stiffness: 300 }}
+    />
+  </motion.div>
 );
+
+export const NotificationSlide = ({ message, type = 'info' }) => {
+  const colors = {
+    success: 'from-green-500 to-emerald-500',
+    error: 'from-red-500 to-rose-500',
+    warning: 'from-yellow-500 to-orange-500',
+    info: 'from-blue-500 to-cyan-500'
+  };
+
+  return (
+    <motion.div
+      initial={{ x: 400, opacity: 0 }}
+      animate={{ x: 0, opacity: 1 }}
+      exit={{ x: 400, opacity: 0 }}
+      className={`bg-gradient-to-r ${colors[type]} p-4 rounded-lg shadow-xl`}
+    >
+      <p className="text-white font-bold">{message}</p>
+    </motion.div>
+  );
+};
