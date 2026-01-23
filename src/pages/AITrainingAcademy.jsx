@@ -8,7 +8,6 @@ import { GraduationCap, Brain, Target, TrendingUp } from 'lucide-react';
 import AgentTrainingModule3D from '../components/training/AgentTrainingModule3D';
 import EthicalDilemmaTrainer3D from '../components/agents/EthicalDilemmaTrainer3D';
 import { Button } from '@/components/ui/button';
-import { base44 } from '@/api/base44Client';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 

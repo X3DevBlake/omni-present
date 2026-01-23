@@ -373,7 +373,6 @@ import WorldHubEnhanced from './pages/WorldHubEnhanced';
 import AITrainingAcademy from './pages/AITrainingAcademy';
 import EnhancedDeveloperEcosystem from './pages/EnhancedDeveloperEcosystem';
 import OmniPresentCoreHub from './pages/OmniPresentCoreHub';
-import AnimationStudio from './pages/AnimationStudio';
 import __Layout from './Layout.jsx';
 
 
@@ -753,7 +752,6 @@ export const PAGES = {
     "AITrainingAcademy": AITrainingAcademy,
     "EnhancedDeveloperEcosystem": EnhancedDeveloperEcosystem,
     "OmniPresentCoreHub": OmniPresentCoreHub,
-    "AnimationStudio": AnimationStudio,
 }
 
 export const pagesConfig = {
