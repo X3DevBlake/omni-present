@@ -52,6 +52,10 @@ import AutonomousAgentCollaboration3D from '../components/collaboration/Autonomo
 import ThreatIntelligenceMatrix3D from '../components/security/ThreatIntelligenceMatrix3D';
 import UnifiedEcosystemHealth3D from '../components/ecosystem/UnifiedEcosystemHealth3D';
 import AdaptiveLearningPath3D from '../components/learning/AdaptiveLearningPath3D';
+import AgentSelfHealingVisualizer3D from '../components/agents/AgentSelfHealingVisualizer3D';
+import ConsciousnessEvolutionVisualizer3D from '../components/agents/ConsciousnessEvolutionVisualizer3D';
+import ConsciousnessMirrorVisualizer3D from '../components/consciousness/ConsciousnessMirrorVisualizer3D';
+import OmegaMarketplace3D from '../components/marketplace/OmegaMarketplace3D';
 
 export default function Home() {
   const [activeFeature, setActiveFeature] = useState(0);
@@ -256,6 +260,30 @@ export default function Home() {
   const { data: learningPaths = [] } = useQuery({
     queryKey: ['learning-paths'],
     queryFn: () => base44.entities.AdaptiveLearningPath.filter({ path_status: 'active' }),
+    initialData: []
+  });
+
+  const { data: selfHealingLogs = [] } = useQuery({
+    queryKey: ['self-healing-logs'],
+    queryFn: () => base44.entities.AgentSelfHealingLog.list('-created_date', 15),
+    initialData: []
+  });
+
+  const { data: consciousnessEvolutions = [] } = useQuery({
+    queryKey: ['consciousness-evolutions'],
+    queryFn: () => base44.entities.ConsciousnessEvolutionEvent.list('-created_date', 10),
+    initialData: []
+  });
+
+  const { data: consciousnessMirror = [] } = useQuery({
+    queryKey: ['consciousness-mirror'],
+    queryFn: () => base44.entities.ConsciousnessMirrorSnapshot.list('-created_date', 10),
+    initialData: []
+  });
+
+  const { data: marketplaceListings = [] } = useQuery({
+    queryKey: ['marketplace-listings'],
+    queryFn: () => base44.entities.OmegaMarketplaceListing.filter({ listing_status: 'active' }),
     initialData: []
   });
 
@@ -478,6 +506,46 @@ export default function Home() {
             className="mb-12"
           >
             <AdaptiveLearningPath3D learningPath={learningPaths[0]} />
+          </motion.div>
+
+          {/* Agent Self-Healing System */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.41, duration: 0.8 }}
+            className="mb-12"
+          >
+            <AgentSelfHealingVisualizer3D healingLogs={selfHealingLogs} />
+          </motion.div>
+
+          {/* Consciousness Evolution Engine */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.43, duration: 0.8 }}
+            className="mb-12"
+          >
+            <ConsciousnessEvolutionVisualizer3D evolutionEvents={consciousnessEvolutions} />
+          </motion.div>
+
+          {/* Consciousness Mirror - Real-Time Mind State */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.45, duration: 0.8 }}
+            className="mb-12"
+          >
+            <ConsciousnessMirrorVisualizer3D snapshots={consciousnessMirror} />
+          </motion.div>
+
+          {/* Omega Marketplace */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.47, duration: 0.8 }}
+            className="mb-12"
+          >
+            <OmegaMarketplace3D listings={marketplaceListings} />
           </motion.div>
 
           {/* Unified Omega Ecosystem Hologram - NEW PRIMARY VISUALIZER */}
