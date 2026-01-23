@@ -13,7 +13,9 @@ import EthicalFrameworkEditor from '../components/consciousness/EthicalFramework
 import AIGoalRecommendations3D from '../components/consciousness/AIGoalRecommendations3D';
 import ConsciousnessAugmentationPathway3D from '../components/consciousness/ConsciousnessAugmentationPathway3D';
 import QuantumConsciousnessVisualizer3D from '../components/quantum/QuantumConsciousnessVisualizer3D';
+import QuantumStateHarmonizer3D from '../components/quantum/QuantumStateHarmonizer3D';
 import { Badge } from '@/components/ui/badge';
+import { toast } from 'sonner';
 
 export default function ConsciousnessMirrorHub() {
   const queryClient = useQueryClient();

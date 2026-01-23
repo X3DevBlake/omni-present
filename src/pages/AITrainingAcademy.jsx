@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { GraduationCap, Brain, Target, TrendingUp } from 'lucide-react';
 import AgentTrainingModule3D from '../components/training/AgentTrainingModule3D';
 import EthicalDilemmaTrainer3D from '../components/agents/EthicalDilemmaTrainer3D';
+import MultiAgentSimulation3D from '../components/training/MultiAgentSimulation3D';
 import { Button } from '@/components/ui/button';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
@@ -17,6 +18,12 @@ export default function AITrainingAcademy() {
   const { data: scenarios = [] } = useQuery({
     queryKey: ['training-scenarios'],
     queryFn: () => base44.entities.AgentTrainingScenario.list('-created_date', 20),
+    initialData: []
+  });
+
+  const { data: multiAgentSessions = [] } = useQuery({
+    queryKey: ['multi-agent-sessions'],
+    queryFn: () => base44.entities.MultiAgentTrainingSession.list('-created_date', 10),
     initialData: []
   });
 
@@ -117,13 +124,39 @@ export default function AITrainingAcademy() {
         </div>
 
         <Tabs defaultValue="training" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 bg-black/60 border-purple-500/30">
+          <TabsList className="grid w-full grid-cols-3 bg-black/60 border-purple-500/30">
             <TabsTrigger value="training">Training Module</TabsTrigger>
+            <TabsTrigger value="multiagent">Multi-Agent</TabsTrigger>
             <TabsTrigger value="ethical">Ethical Dilemmas</TabsTrigger>
           </TabsList>
 
           <TabsContent value="training" className="mt-6">
             <AgentTrainingModule3D />
+          </TabsContent>
+
+          <TabsContent value="multiagent" className="mt-6">
+            {multiAgentSessions[0] ? (
+              <MultiAgentSimulation3D session={multiAgentSessions[0]} />
+            ) : (
+              <Card className="bg-black/40 border-purple-500/50">
+                <CardContent className="pt-6 text-center">
+                  <div className="text-white/60 mb-4">No multi-agent sessions yet</div>
+                  <Button onClick={async () => {
+                    const agents = await base44.entities.Agent.list('-created_date', 5);
+                    const response = await base44.functions.invoke('multiAgentTrainingOrchestrator', {
+                      action: 'create_session',
+                      scenario_name: 'Collaborative Problem Solving',
+                      agent_ids: agents.slice(0, 4).map(a => a.id),
+                      complexity: 6
+                    });
+                    queryClient.invalidateQueries({ queryKey: ['multi-agent-sessions'] });
+                    toast.success('Multi-agent session created!');
+                  }} className="bg-purple-600 hover:bg-purple-700">
+                    Create Multi-Agent Session
+                  </Button>
+                </CardContent>
+              </Card>
+            )}
           </TabsContent>
 
           <TabsContent value="ethical" className="mt-6">

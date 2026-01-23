@@ -25,10 +25,11 @@ export default function JavaScriptSDKDocs() {
       </CardHeader>
       <CardContent>
         <Tabs defaultValue="installation" className="w-full">
-          <TabsList className="grid w-full grid-cols-4 bg-black/60">
+          <TabsList className="grid w-full grid-cols-5 bg-black/60">
             <TabsTrigger value="installation">Installation</TabsTrigger>
             <TabsTrigger value="quickstart">Quick Start</TabsTrigger>
             <TabsTrigger value="examples">Examples</TabsTrigger>
+            <TabsTrigger value="streaming">Streaming</TabsTrigger>
             <TabsTrigger value="api">API Reference</TabsTrigger>
           </TabsList>
 
@@ -168,11 +169,158 @@ stream.on('state_change', (data) => {
             </div>
           </TabsContent>
 
+          <TabsContent value="streaming" className="mt-4 space-y-4">
+            <div>
+              <h4 className="text-white font-bold mb-2">Real-Time Agent Status Streaming</h4>
+              <div className="bg-gray-900 p-4 rounded-lg relative">
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  className="absolute top-2 right-2"
+                  onClick={() => copyCode(`// Subscribe to agent status updates
+const agentStream = client.agents.stream(agentId);
+
+agentStream.on('status_change', (data) => {
+  console.log('Agent Status:', data.status);
+  console.log('Current Task:', data.current_task);
+  console.log('Performance:', data.performance_metrics);
+});
+
+agentStream.on('error', (error) => {
+  console.error('Stream error:', error);
+});
+
+// Cleanup
+agentStream.close();`, 'streaming1')}
+                >
+                  {copiedSection === 'streaming1' ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
+                </Button>
+                <pre className="text-green-400 text-xs overflow-x-auto">
+                  <code>{`// Subscribe to agent status updates
+const agentStream = client.agents.stream(agentId);
+
+agentStream.on('status_change', (data) => {
+  console.log('Agent Status:', data.status);
+  console.log('Current Task:', data.current_task);
+  console.log('Performance:', data.performance_metrics);
+});
+
+agentStream.on('error', (error) => {
+  console.error('Stream error:', error);
+});
+
+// Cleanup
+agentStream.close();`}</code>
+                </pre>
+              </div>
+            </div>
+
+            <div>
+              <h4 className="text-white font-bold mb-2">Advanced AI Model Integration</h4>
+              <div className="bg-gray-900 p-4 rounded-lg relative">
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  className="absolute top-2 right-2"
+                  onClick={() => copyCode(`// Integrate custom AI model
+const customModel = await client.ai.registerModel({
+  name: 'MyCustomModel',
+  type: 'transformer',
+  endpoint: 'https://my-model-api.com',
+  apiKey: process.env.MODEL_API_KEY
+});
+
+// Use model for agent enhancement
+const enhancedAgent = await client.agents.enhance({
+  agent_id: agentId,
+  ai_model: customModel.id,
+  capabilities: ['reasoning', 'prediction']
+});`, 'streaming2')}
+                >
+                  {copiedSection === 'streaming2' ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
+                </Button>
+                <pre className="text-green-400 text-xs overflow-x-auto">
+                  <code>{`// Integrate custom AI model
+const customModel = await client.ai.registerModel({
+  name: 'MyCustomModel',
+  type: 'transformer',
+  endpoint: 'https://my-model-api.com',
+  apiKey: process.env.MODEL_API_KEY
+});
+
+// Use model for agent enhancement
+const enhancedAgent = await client.agents.enhance({
+  agent_id: agentId,
+  ai_model: customModel.id,
+  capabilities: ['reasoning', 'prediction']
+});`}</code>
+                </pre>
+              </div>
+            </div>
+
+            <div>
+              <h4 className="text-white font-bold mb-2">Enhanced Error Handling & Debugging</h4>
+              <div className="bg-gray-900 p-4 rounded-lg relative">
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  className="absolute top-2 right-2"
+                  onClick={() => copyCode(`// Enable debug mode
+client.setDebugMode(true);
+
+try {
+  const result = await client.agents.execute(task);
+} catch (error) {
+  // Detailed error information
+  console.error('Error Code:', error.code);
+  console.error('Details:', error.details);
+  console.error('Stack Trace:', error.stackTrace);
+  console.error('Request ID:', error.requestId);
+  
+  // Automatic retry with exponential backoff
+  if (error.retryable) {
+    const retryResult = await client.retry(error.requestId);
+  }
+}`, 'streaming3')}
+                >
+                  {copiedSection === 'streaming3' ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
+                </Button>
+                <pre className="text-green-400 text-xs overflow-x-auto">
+                  <code>{`// Enable debug mode
+client.setDebugMode(true);
+
+try {
+  const result = await client.agents.execute(task);
+} catch (error) {
+  // Detailed error information
+  console.error('Error Code:', error.code);
+  console.error('Details:', error.details);
+  console.error('Stack Trace:', error.stackTrace);
+  console.error('Request ID:', error.requestId);
+  
+  // Automatic retry with exponential backoff
+  if (error.retryable) {
+    const retryResult = await client.retry(error.requestId);
+  }
+}`}</code>
+                </pre>
+              </div>
+            </div>
+          </TabsContent>
+
           <TabsContent value="api" className="mt-4">
             <div className="space-y-3">
               <div className="bg-black/60 p-3 rounded-lg border border-yellow-500/30">
                 <div className="text-yellow-400 font-bold mb-1">client.agents.create(config)</div>
                 <div className="text-white/70 text-sm">Creates a new AI agent with specified capabilities</div>
+              </div>
+              <div className="bg-black/60 p-3 rounded-lg border border-yellow-500/30">
+                <div className="text-yellow-400 font-bold mb-1">client.agents.stream(agentId)</div>
+                <div className="text-white/70 text-sm">Streams real-time agent status and performance updates</div>
+              </div>
+              <div className="bg-black/60 p-3 rounded-lg border border-yellow-500/30">
+                <div className="text-yellow-400 font-bold mb-1">client.ai.registerModel(config)</div>
+                <div className="text-white/70 text-sm">Integrates custom AI models for agent enhancement</div>
               </div>
               <div className="bg-black/60 p-3 rounded-lg border border-yellow-500/30">
                 <div className="text-yellow-400 font-bold mb-1">client.swarms.execute(swarmId)</div>
@@ -181,6 +329,10 @@ stream.on('state_change', (data) => {
               <div className="bg-black/60 p-3 rounded-lg border border-yellow-500/30">
                 <div className="text-yellow-400 font-bold mb-1">client.consciousness.subscribe(userId)</div>
                 <div className="text-white/70 text-sm">Subscribes to real-time consciousness updates</div>
+              </div>
+              <div className="bg-black/60 p-3 rounded-lg border border-yellow-500/30">
+                <div className="text-yellow-400 font-bold mb-1">client.setDebugMode(enabled)</div>
+                <div className="text-white/70 text-sm">Enables detailed error tracking and debugging information</div>
               </div>
             </div>
           </TabsContent>
