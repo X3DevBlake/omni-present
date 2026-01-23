@@ -9,7 +9,7 @@ import { createPageUrl } from '@/utils';
 import { motion } from 'framer-motion';
 import { 
   Sparkles, Zap, Shield, TrendingUp, Bot, Network, 
-  Coins, Globe, Brain, Radio, Map, Cpu, Activity, User
+  Coins, Globe, Brain, Radio, Map, Cpu, Activity, User, ShoppingCart, Eye
 } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import EnhancedOmniText3D from '../components/omnipresence/EnhancedOmniText3D';
