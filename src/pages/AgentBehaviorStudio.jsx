@@ -6,8 +6,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Wand2, Save, Upload, Download } from 'lucide-react';
+import { Wand2, Save, Upload, Download, GitFork, Sparkles, History } from 'lucide-react';
 import AgentCustomizationStudio3D from '../components/agents/AgentCustomizationStudio3D';
+import AIBehaviorSuggestions3D from '../components/agents/AIBehaviorSuggestions3D';
+import TemplateForkManager from '../components/agents/TemplateForkManager';
 import { toast } from 'sonner';
 
 export default function AgentBehaviorStudio() {
@@ -15,6 +17,9 @@ export default function AgentBehaviorStudio() {
   const [templateName, setTemplateName] = useState('');
   const [archetype, setArchetype] = useState('balanced');
   const [currentConfig, setCurrentConfig] = useState(null);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [showVersionHistory, setShowVersionHistory] = useState(false);
+  const [selectedTemplateId, setSelectedTemplateId] = useState(null);
 
   const { data: templates = [] } = useQuery({
     queryKey: ['behavior-templates'],
@@ -25,6 +30,34 @@ export default function AgentBehaviorStudio() {
       });
       return response.data.templates || [];
     },
+    initialData: []
+  });
+
+  const { data: suggestions = [] } = useQuery({
+    queryKey: ['ai-suggestions', currentConfig],
+    queryFn: async () => {
+      if (!currentConfig) return [];
+      const response = await base44.functions.invoke('behaviorAISuggester', {
+        action: 'generate_suggestions',
+        current_config: currentConfig
+      });
+      return response.data.suggestions || [];
+    },
+    enabled: !!currentConfig,
+    initialData: []
+  });
+
+  const { data: versions = [] } = useQuery({
+    queryKey: ['template-versions', selectedTemplateId],
+    queryFn: async () => {
+      if (!selectedTemplateId) return [];
+      const response = await base44.functions.invoke('behaviorVersionController', {
+        action: 'get_version_history',
+        template_id: selectedTemplateId
+      });
+      return response.data.versions || [];
+    },
+    enabled: !!selectedTemplateId,
     initialData: []
   });
 
@@ -51,6 +84,21 @@ export default function AgentBehaviorStudio() {
     }
   });
 
+  const forkTemplateMutation = useMutation({
+    mutationFn: async (template) => {
+      const response = await base44.functions.invoke('behaviorAISuggester', {
+        action: 'fork_template',
+        template_id: template.template_id,
+        new_name: `${template.template_name} (My Fork)`
+      });
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['behavior-templates'] });
+      toast.success('Template forked successfully!');
+    }
+  });
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950 p-6">
       <div className="max-w-7xl mx-auto">
@@ -67,6 +115,27 @@ export default function AgentBehaviorStudio() {
             Train and customize specific agent behaviors, ethical frameworks, and personality archetypes
           </p>
         </motion.div>
+
+        <div className="flex gap-4 mb-6">
+          <Button
+            onClick={() => setShowSuggestions(!showSuggestions)}
+            className="bg-purple-600 hover:bg-purple-700"
+          >
+            <Sparkles className="w-4 h-4 mr-2" />
+            {showSuggestions ? 'Hide' : 'Show'} AI Suggestions
+          </Button>
+        </div>
+
+        {showSuggestions && currentConfig && (
+          <div className="mb-6">
+            <AIBehaviorSuggestions3D
+              suggestions={suggestions}
+              onApplySuggestion={(s) => {
+                toast.success(`Applied: ${s.recommendation}`);
+              }}
+            />
+          </div>
+        )}
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
           <Card className="lg:col-span-2 bg-black/40 border-purple-500/50">
@@ -120,25 +189,39 @@ export default function AgentBehaviorStudio() {
               </Button>
 
               <div className="border-t border-white/10 pt-4 mt-4">
-                <div className="text-white/60 text-sm mb-3">Saved Templates ({templates.length})</div>
-                <div className="space-y-2 max-h-60 overflow-y-auto">
-                  {templates.map((template) => (
-                    <div
-                      key={template.id}
-                      className="bg-black/60 p-3 rounded-lg border border-purple-500/20"
-                    >
-                      <div className="text-white text-sm font-bold">{template.template_name}</div>
-                      <div className="text-white/60 text-xs">{template.personality_archetype}</div>
-                      <div className="text-white/50 text-xs mt-1">
-                        Used {template.usage_stats?.times_applied || 0} times
+                <div className="text-white/60 text-sm mb-3">Version History</div>
+                {selectedTemplateId && versions.length > 0 ? (
+                  <div className="space-y-2 max-h-40 overflow-y-auto">
+                    {versions.map((version) => (
+                      <div key={version.id} className="bg-black/60 p-2 rounded border border-purple-500/20">
+                        <div className="text-white text-xs font-bold">v{version.version_number}</div>
+                        <div className="text-white/60 text-xs">{version.ai_diff_summary}</div>
                       </div>
-                    </div>
-                  ))}
-                </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-white/50 text-xs">Select a template to view versions</div>
+                )}
               </div>
             </CardContent>
           </Card>
         </div>
+
+        <TemplateForkManager
+          templates={templates}
+          onFork={(template) => forkTemplateMutation.mutate(template)}
+          onLoadTemplate={(template) => {
+            setSelectedTemplateId(template.template_id);
+            setCurrentConfig({
+              proactiveness: template.behavioral_traits?.proactiveness || 0.7,
+              creativity: 0.8,
+              empathy: 0.75,
+              risk_tolerance: template.behavioral_traits?.risk_preference || 0.5,
+              autonomy: 0.6
+            });
+            toast.success('Template loaded!');
+          }}
+        />
       </div>
     </div>
   );

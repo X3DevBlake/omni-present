@@ -5,9 +5,12 @@ import { motion } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Eye, Brain, Heart, Activity, TrendingUp, Palette } from 'lucide-react';
+import { Eye, Brain, Heart, Activity, TrendingUp, Palette, Target, Shield } from 'lucide-react';
 import ConsciousnessMirrorVisualizer3D from '../components/consciousness/ConsciousnessMirrorVisualizer3D';
 import BiometricHealthDashboard3D from '../components/biometric/BiometricHealthDashboard3D';
+import CognitiveGoalSetter3D from '../components/consciousness/CognitiveGoalSetter3D';
+import EthicalFrameworkEditor from '../components/consciousness/EthicalFrameworkEditor';
+import AIGoalRecommendations3D from '../components/consciousness/AIGoalRecommendations3D';
 import { Badge } from '@/components/ui/badge';
 
 export default function ConsciousnessMirrorHub() {
@@ -37,6 +40,23 @@ export default function ConsciousnessMirrorHub() {
   const { data: neuralStrategies = [] } = useQuery({
     queryKey: ['neural-strategies'],
     queryFn: () => base44.entities.NeuralAugmentationStrategy.filter({ strategy_status: 'active' }),
+    initialData: []
+  });
+
+  const { data: cognitiveGoals = [] } = useQuery({
+    queryKey: ['cognitive-goals'],
+    queryFn: () => base44.entities.CognitiveGoal.filter({ goal_status: 'active' }),
+    initialData: []
+  });
+
+  const { data: ethicalFrameworks = [] } = useQuery({
+    queryKey: ['ethical-frameworks'],
+    queryFn: async () => {
+      const response = await base44.functions.invoke('ethicalFrameworkGenerator', {
+        action: 'get_frameworks'
+      });
+      return response.data.frameworks || [];
+    },
     initialData: []
   });
 
@@ -74,6 +94,38 @@ export default function ConsciousnessMirrorHub() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['ui-adaptations'] });
+    }
+  });
+
+  const createGoalMutation = useMutation({
+    mutationFn: async (goalData) => {
+      const response = await base44.functions.invoke('cognitiveGoalOptimizer', {
+        action: 'create_goal',
+        goal_type: goalData.goalType,
+        target_level: goalData.targetLevel,
+        timeline_days: goalData.timeline
+      });
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['cognitive-goals'] });
+      toast.success('Cognitive goal created with AI recommendations!');
+    }
+  });
+
+  const createFrameworkMutation = useMutation({
+    mutationFn: async (frameworkData) => {
+      const response = await base44.functions.invoke('ethicalFrameworkGenerator', {
+        action: 'create_framework',
+        framework_name: frameworkData.frameworkName,
+        principles: frameworkData.principles,
+        forbidden_actions: frameworkData.forbiddenActions
+      });
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['ethical-frameworks'] });
+      toast.success('Ethical framework created with AI enhancements!');
     }
   });
 
@@ -176,10 +228,12 @@ export default function ConsciousnessMirrorHub() {
         </div>
 
         <Tabs defaultValue="mirror" className="w-full">
-          <TabsList className="grid w-full grid-cols-3 bg-black/60 border-blue-500/30">
-            <TabsTrigger value="mirror">Consciousness Mirror</TabsTrigger>
-            <TabsTrigger value="biometric">Biometric Health</TabsTrigger>
-            <TabsTrigger value="adaptations">UI Adaptations</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-5 bg-black/60 border-blue-500/30">
+            <TabsTrigger value="mirror">Mirror</TabsTrigger>
+            <TabsTrigger value="biometric">Biometric</TabsTrigger>
+            <TabsTrigger value="goals">Goals</TabsTrigger>
+            <TabsTrigger value="ethics">Ethics</TabsTrigger>
+            <TabsTrigger value="adaptations">UI</TabsTrigger>
           </TabsList>
 
           <TabsContent value="mirror" className="mt-6">
@@ -188,6 +242,74 @@ export default function ConsciousnessMirrorHub() {
 
           <TabsContent value="biometric" className="mt-6">
             <BiometricHealthDashboard3D biometricData={latestBiometric} />
+          </TabsContent>
+
+          <TabsContent value="goals" className="mt-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+              <CognitiveGoalSetter3D onCreateGoal={(data) => createGoalMutation.mutate(data)} />
+              <AIGoalRecommendations3D
+                recommendations={cognitiveGoals[0]?.ai_recommendations || []}
+                onApply={(rec) => toast.success(`Applied: ${rec.recommendation}`)}
+              />
+            </div>
+
+            <Card className="bg-black/40 border-blue-500/50">
+              <CardHeader>
+                <CardTitle className="text-white">Active Goals</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  {cognitiveGoals.map((goal, idx) => (
+                    <div key={goal.id} className="bg-black/60 p-4 rounded-lg border border-blue-500/30">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-white font-bold">{goal.goal_type.replace(/_/g, ' ').toUpperCase()}</span>
+                        <Badge className={
+                          goal.goal_status === 'achieved' ? 'bg-green-500/30 text-green-300' :
+                          goal.goal_status === 'in_progress' ? 'bg-blue-500/30 text-blue-300' :
+                          'bg-orange-500/30 text-orange-300'
+                        }>
+                          {goal.goal_status}
+                        </Badge>
+                      </div>
+                      <div className="text-white/60 text-sm">
+                        Timeline: {goal.timeline_days} days | 
+                        Progress: {goal.progress_tracking?.length || 0} checkpoints
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="ethics" className="mt-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <EthicalFrameworkEditor onSave={(data) => createFrameworkMutation.mutate(data)} />
+
+              <Card className="bg-black/40 border-green-500/50">
+                <CardHeader>
+                  <CardTitle className="text-white">Your Ethical Frameworks</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    {ethicalFrameworks.map((framework) => (
+                      <div key={framework.id} className="bg-black/60 p-4 rounded-lg border border-green-500/30">
+                        <div className="text-white font-bold mb-2">{framework.framework_name}</div>
+                        <div className="text-white/60 text-xs mb-2">
+                          {framework.core_principles?.length || 0} principles | 
+                          {framework.forbidden_actions?.length || 0} forbidden actions
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Badge className="bg-green-500/30 text-green-300">
+                            Applied to {framework.applied_to_agents?.length || 0} agents
+                          </Badge>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
           </TabsContent>
 
           <TabsContent value="adaptations" className="mt-6">
