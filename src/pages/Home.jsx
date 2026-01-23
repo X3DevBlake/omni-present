@@ -9,7 +9,7 @@ import { createPageUrl } from '@/utils';
 import { motion } from 'framer-motion';
 import { 
   Sparkles, Zap, Shield, TrendingUp, Bot, Network, 
-  Coins, Globe, Brain, Radio, Map, Cpu, Activity, User, ShoppingCart, Eye, Code, Wand2, Book
+  Coins, Globe, Brain, Radio, Map, Cpu, Activity, User, ShoppingCart, Eye, Code, Wand2, Book, Atom
 } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import EnhancedOmniText3D from '../components/omnipresence/EnhancedOmniText3D';
@@ -626,6 +626,13 @@ export default function Home() {
                     <Activity className="w-6 h-6 mr-3" />
                     Ecosystem Monitor
                   </Button>
+                  <Button 
+                    onClick={() => window.location.href = createPageUrl('AdvancedCollaborationHub')}
+                    className="bg-indigo-600 hover:bg-indigo-700 h-20 text-lg"
+                  >
+                    <Network className="w-6 h-6 mr-3" />
+                    Advanced Collaboration
+                  </Button>
                 </div>
               </CardContent>
             </Card>
@@ -983,6 +990,26 @@ export default function Home() {
                   <h3 className="text-white font-bold text-xl mb-3">Ecosystem Monitoring</h3>
                   <p className="text-white/70 text-sm">
                     Real-time monitoring dashboard with API gateway metrics, integration health, security threat intelligence, and system performance analytics.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-gradient-to-br from-purple-500/10 to-indigo-500/10 border-purple-500/30">
+                <CardContent className="p-6">
+                  <Network className="w-12 h-12 text-purple-400 mb-4" />
+                  <h3 className="text-white font-bold text-xl mb-3">Swarm Intelligence</h3>
+                  <p className="text-white/70 text-sm">
+                    Advanced multi-agent collaboration with dynamic swarm optimization, sophisticated negotiation frameworks, and emergent collective behavior analysis.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-gradient-to-br from-fuchsia-500/10 to-pink-500/10 border-fuchsia-500/30">
+                <CardContent className="p-6">
+                  <Atom className="w-12 h-12 text-fuchsia-400 mb-4" />
+                  <h3 className="text-white font-bold text-xl mb-3">Quantum Consciousness</h3>
+                  <p className="text-white/70 text-sm">
+                    Explore quantum superposition states, entangled cognitive pathways, parallel reasoning capabilities, and enhanced intuitive problem-solving.
                   </p>
                 </CardContent>
               </Card>
