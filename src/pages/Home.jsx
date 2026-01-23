@@ -9,7 +9,7 @@ import { createPageUrl } from '@/utils';
 import { motion } from 'framer-motion';
 import { 
   Sparkles, Zap, Shield, TrendingUp, Bot, Network, 
-  Coins, Globe, Brain, Radio, Map, Cpu, Activity, User, ShoppingCart, Eye
+  Coins, Globe, Brain, Radio, Map, Cpu, Activity, User, ShoppingCart, Eye, Code, Wand2
 } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import EnhancedOmniText3D from '../components/omnipresence/EnhancedOmniText3D';
@@ -562,7 +562,7 @@ export default function Home() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-3 gap-4">
                   <Button 
                     onClick={() => window.location.href = createPageUrl('AgentEnhancementHub')}
                     className="bg-green-600 hover:bg-green-700 h-20 text-lg"
@@ -590,6 +590,20 @@ export default function Home() {
                   >
                     <Shield className="w-6 h-6 mr-3" />
                     Security Intelligence
+                  </Button>
+                  <Button 
+                    onClick={() => window.location.href = createPageUrl('DeveloperEcosystemHub')}
+                    className="bg-cyan-600 hover:bg-cyan-700 h-20 text-lg"
+                  >
+                    <Code className="w-6 h-6 mr-3" />
+                    Developer API
+                  </Button>
+                  <Button 
+                    onClick={() => window.location.href = createPageUrl('AgentBehaviorStudio')}
+                    className="bg-purple-600 hover:bg-purple-700 h-20 text-lg"
+                  >
+                    <Wand2 className="w-6 h-6 mr-3" />
+                    Behavior Studio
                   </Button>
                 </div>
               </CardContent>

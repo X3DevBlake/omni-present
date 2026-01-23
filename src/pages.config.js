@@ -52,6 +52,7 @@ import AgentCustomizationStudio from './pages/AgentCustomizationStudio';
 import AgentDebugger from './pages/AgentDebugger';
 import AgentDetail from './pages/AgentDetail';
 import AgentECommerceSettings from './pages/AgentECommerceSettings';
+import AgentEnhancementHub from './pages/AgentEnhancementHub';
 import AgentGovernance from './pages/AgentGovernance';
 import AgentGovernanceHub from './pages/AgentGovernanceHub';
 import AgentKnowledge from './pages/AgentKnowledge';
@@ -127,6 +128,7 @@ import CompetitiveArenas from './pages/CompetitiveArenas';
 import Compliance from './pages/Compliance';
 import ComplianceDashboard from './pages/ComplianceDashboard';
 import ComprehensiveFinancialHub from './pages/ComprehensiveFinancialHub';
+import ConsciousnessMirrorHub from './pages/ConsciousnessMirrorHub';
 import Contact from './pages/Contact';
 import ContextAwareAssistantHub from './pages/ContextAwareAssistantHub';
 import CrossAgentPlanningHub from './pages/CrossAgentPlanningHub';
@@ -213,16 +215,16 @@ import FeatureFlagManager from './pages/FeatureFlagManager';
 import Features from './pages/Features';
 import FeedbackDashboard from './pages/FeedbackDashboard';
 import FiatDeposit from './pages/FiatDeposit';
+import FirmwareUpdates from './pages/FirmwareUpdates';
 import FinancialAdvisorHub from './pages/FinancialAdvisorHub';
 import FinancialCoachingHub from './pages/FinancialCoachingHub';
-import Home from './pages/Home';
-import FirmwareUpdates from './pages/FirmwareUpdates';
 import FleetManagement from './pages/FleetManagement';
 import GeminiHub from './pages/GeminiHub';
 import GlobalGovernance from './pages/GlobalGovernance';
 import GlobalMap from './pages/GlobalMap';
 import HolographicAnalytics from './pages/HolographicAnalytics';
 import HolographicWorld from './pages/HolographicWorld';
+import Home from './pages/Home';
 import HomeEnhanced from './pages/HomeEnhanced';
 import HomeHub from './pages/HomeHub';
 import HomepageUpgradePlan from './pages/HomepageUpgradePlan';
@@ -265,6 +267,7 @@ import NotificationsAndVisualizations from './pages/NotificationsAndVisualizatio
 import ObjectCustomizer from './pages/ObjectCustomizer';
 import OmegaFinancialHub from './pages/OmegaFinancialHub';
 import OmegaIntelligenceHub from './pages/OmegaIntelligenceHub';
+import OmegaMarketplaceHub from './pages/OmegaMarketplaceHub';
 import OmegaSentientHub from './pages/OmegaSentientHub';
 import OmniAchievements from './pages/OmniAchievements';
 import OmniBankingHub from './pages/OmniBankingHub';
@@ -363,9 +366,8 @@ import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
 import WorldHubEnhanced from './pages/WorldHubEnhanced';
-import AgentEnhancementHub from './pages/AgentEnhancementHub';
-import ConsciousnessMirrorHub from './pages/ConsciousnessMirrorHub';
-import OmegaMarketplaceHub from './pages/OmegaMarketplaceHub';
+import DeveloperEcosystemHub from './pages/DeveloperEcosystemHub';
+import AgentBehaviorStudio from './pages/AgentBehaviorStudio';
 import __Layout from './Layout.jsx';
 
 
@@ -424,6 +426,7 @@ export const PAGES = {
     "AgentDebugger": AgentDebugger,
     "AgentDetail": AgentDetail,
     "AgentECommerceSettings": AgentECommerceSettings,
+    "AgentEnhancementHub": AgentEnhancementHub,
     "AgentGovernance": AgentGovernance,
     "AgentGovernanceHub": AgentGovernanceHub,
     "AgentKnowledge": AgentKnowledge,
@@ -499,6 +502,7 @@ export const PAGES = {
     "Compliance": Compliance,
     "ComplianceDashboard": ComplianceDashboard,
     "ComprehensiveFinancialHub": ComprehensiveFinancialHub,
+    "ConsciousnessMirrorHub": ConsciousnessMirrorHub,
     "Contact": Contact,
     "ContextAwareAssistantHub": ContextAwareAssistantHub,
     "CrossAgentPlanningHub": CrossAgentPlanningHub,
@@ -585,16 +589,16 @@ export const PAGES = {
     "Features": Features,
     "FeedbackDashboard": FeedbackDashboard,
     "FiatDeposit": FiatDeposit,
+    "FirmwareUpdates": FirmwareUpdates,
     "FinancialAdvisorHub": FinancialAdvisorHub,
     "FinancialCoachingHub": FinancialCoachingHub,
-    "Home": Home,
-    "FirmwareUpdates": FirmwareUpdates,
     "FleetManagement": FleetManagement,
     "GeminiHub": GeminiHub,
     "GlobalGovernance": GlobalGovernance,
     "GlobalMap": GlobalMap,
     "HolographicAnalytics": HolographicAnalytics,
     "HolographicWorld": HolographicWorld,
+    "Home": Home,
     "HomeEnhanced": HomeEnhanced,
     "HomeHub": HomeHub,
     "HomepageUpgradePlan": HomepageUpgradePlan,
@@ -637,6 +641,7 @@ export const PAGES = {
     "ObjectCustomizer": ObjectCustomizer,
     "OmegaFinancialHub": OmegaFinancialHub,
     "OmegaIntelligenceHub": OmegaIntelligenceHub,
+    "OmegaMarketplaceHub": OmegaMarketplaceHub,
     "OmegaSentientHub": OmegaSentientHub,
     "OmniAchievements": OmniAchievements,
     "OmniBankingHub": OmniBankingHub,
@@ -735,9 +740,8 @@ export const PAGES = {
     "WorkflowOrchestrationHub": WorkflowOrchestrationHub,
     "World": World,
     "WorldHubEnhanced": WorldHubEnhanced,
-    "AgentEnhancementHub": AgentEnhancementHub,
-    "ConsciousnessMirrorHub": ConsciousnessMirrorHub,
-    "OmegaMarketplaceHub": OmegaMarketplaceHub,
+    "DeveloperEcosystemHub": DeveloperEcosystemHub,
+    "AgentBehaviorStudio": AgentBehaviorStudio,
 }
 
 export const pagesConfig = {
