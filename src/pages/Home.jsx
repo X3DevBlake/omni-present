@@ -9,7 +9,7 @@ import { createPageUrl } from '@/utils';
 import { motion } from 'framer-motion';
 import { 
   Sparkles, Zap, Shield, TrendingUp, Bot, Network, 
-  Coins, Globe, Brain, Radio, Map, Cpu, Activity, User, ShoppingCart, Eye, Code, Wand2
+  Coins, Globe, Brain, Radio, Map, Cpu, Activity, User, ShoppingCart, Eye, Code, Wand2, Book
 } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import EnhancedOmniText3D from '../components/omnipresence/EnhancedOmniText3D';
@@ -340,6 +340,13 @@ export default function Home() {
                 <Sparkles className="w-5 h-5 mr-2" />
                 Sentient Hub
               </Button>
+              <Button
+                onClick={() => window.location.href = createPageUrl('EcosystemMonitoringDashboard')}
+                className="bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-600 hover:to-teal-600 text-white px-8 py-6 text-lg"
+              >
+                <Activity className="w-5 h-5 mr-2" />
+                Ecosystem Monitor
+              </Button>
             </div>
           </motion.div>
 
@@ -604,6 +611,20 @@ export default function Home() {
                   >
                     <Wand2 className="w-6 h-6 mr-3" />
                     Behavior Studio
+                  </Button>
+                  <Button 
+                    onClick={() => window.location.href = createPageUrl('DeveloperPortal')}
+                    className="bg-teal-600 hover:bg-teal-700 h-20 text-lg"
+                  >
+                    <Book className="w-6 h-6 mr-3" />
+                    Developer Portal
+                  </Button>
+                  <Button 
+                    onClick={() => window.location.href = createPageUrl('EcosystemMonitoringDashboard')}
+                    className="bg-emerald-600 hover:bg-emerald-700 h-20 text-lg"
+                  >
+                    <Activity className="w-6 h-6 mr-3" />
+                    Ecosystem Monitor
                   </Button>
                 </div>
               </CardContent>
@@ -942,6 +963,26 @@ export default function Home() {
                   <h3 className="text-white font-bold text-xl mb-3">Omega Sentient Core</h3>
                   <p className="text-white/70 text-sm">
                     Universal consciousness orchestration with meta-cognitive layers, autonomous evolution, and predictive intelligence across all systems.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-gradient-to-br from-cyan-500/10 to-teal-500/10 border-cyan-500/30">
+                <CardContent className="p-6">
+                  <Code className="w-12 h-12 text-cyan-400 mb-4" />
+                  <h3 className="text-white font-bold text-xl mb-3">Developer Ecosystem</h3>
+                  <p className="text-white/70 text-sm">
+                    Secure API gateway, SDKs for JavaScript and Python, sandbox testing environments, and comprehensive integration marketplace.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-gradient-to-br from-teal-500/10 to-green-500/10 border-teal-500/30">
+                <CardContent className="p-6">
+                  <Activity className="w-12 h-12 text-teal-400 mb-4" />
+                  <h3 className="text-white font-bold text-xl mb-3">Ecosystem Monitoring</h3>
+                  <p className="text-white/70 text-sm">
+                    Real-time monitoring dashboard with API gateway metrics, integration health, security threat intelligence, and system performance analytics.
                   </p>
                 </CardContent>
               </Card>

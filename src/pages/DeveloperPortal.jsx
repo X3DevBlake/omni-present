@@ -2,11 +2,39 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Code, Book, Rocket, Shield } from 'lucide-react';
+import { Code, Book, Rocket, Shield, Beaker } from 'lucide-react';
 import SDKDocumentation from '../components/developer/SDKDocumentation';
+import SandboxTester3D from '../components/developer/SandboxTester3D';
 import { Badge } from '@/components/ui/badge';
+import { base44 } from '@/api/base44Client';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { Button } from '@/components/ui/button';
+import { toast } from 'sonner';
 
 export default function DeveloperPortal() {
+  const queryClient = useQueryClient();
+
+  const { data: sandboxes = [] } = useQuery({
+    queryKey: ['sandboxes-portal'],
+    queryFn: () => base44.entities.SandboxEnvironment.filter({ sandbox_status: 'active' }),
+    initialData: []
+  });
+
+  const createSandboxMutation = useMutation({
+    mutationFn: async () => {
+      const response = await base44.functions.invoke('sandboxManager', {
+        action: 'create_sandbox',
+        environment_name: 'Test Environment',
+        integration_id: 'test_integration'
+      });
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['sandboxes-portal'] });
+      toast.success('Sandbox created!');
+    }
+  });
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-cyan-950 to-slate-950 p-6">
       <div className="max-w-7xl mx-auto">
@@ -59,8 +87,9 @@ export default function DeveloperPortal() {
         </div>
 
         <Tabs defaultValue="docs" className="w-full">
-          <TabsList className="grid w-full grid-cols-4 bg-black/60 border-cyan-500/30">
+          <TabsList className="grid w-full grid-cols-5 bg-black/60 border-cyan-500/30">
             <TabsTrigger value="docs">Documentation</TabsTrigger>
+            <TabsTrigger value="sandbox">Sandbox</TabsTrigger>
             <TabsTrigger value="tutorials">Tutorials</TabsTrigger>
             <TabsTrigger value="examples">Examples</TabsTrigger>
             <TabsTrigger value="support">Support</TabsTrigger>
@@ -68,6 +97,42 @@ export default function DeveloperPortal() {
 
           <TabsContent value="docs" className="mt-6">
             <SDKDocumentation />
+          </TabsContent>
+
+          <TabsContent value="sandbox" className="mt-6">
+            <div className="mb-6">
+              <Button onClick={() => createSandboxMutation.mutate()} className="bg-green-600 hover:bg-green-700">
+                <Beaker className="w-4 h-4 mr-2" />
+                Create Sandbox Environment
+              </Button>
+            </div>
+
+            {sandboxes[0] && (
+              <SandboxTester3D
+                sandbox={sandboxes[0]}
+                onRunTest={() => toast.success('Running test in sandbox...')}
+              />
+            )}
+
+            <div className="mt-6">
+              <Card className="bg-black/40 border-green-500/50">
+                <CardHeader>
+                  <CardTitle className="text-white">About Sandbox Testing</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3 text-white/80 text-sm">
+                    <p>Sandbox environments provide isolated testing with:</p>
+                    <ul className="list-disc ml-5 space-y-1">
+                      <li>Mock agents, augmentations, and user data</li>
+                      <li>Resource limits (1,000 API calls, 300 compute seconds)</li>
+                      <li>Automatic cleanup after 24 hours</li>
+                      <li>Full API access in isolated environment</li>
+                      <li>Detailed test result logging and analysis</li>
+                    </ul>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
           </TabsContent>
 
           <TabsContent value="tutorials" className="mt-6">

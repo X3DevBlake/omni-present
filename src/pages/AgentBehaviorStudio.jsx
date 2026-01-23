@@ -6,11 +6,12 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Wand2, Save, Upload, Download, GitFork, Sparkles, History, Play } from 'lucide-react';
+import { Wand2, Save, Upload, Download, GitFork, Sparkles, History, Play, Scale } from 'lucide-react';
 import AgentCustomizationStudio3D from '../components/agents/AgentCustomizationStudio3D';
 import AIBehaviorSuggestions3D from '../components/agents/AIBehaviorSuggestions3D';
 import TemplateForkManager from '../components/agents/TemplateForkManager';
 import ScenarioSimulator3D from '../components/agents/ScenarioSimulator3D';
+import EthicalDilemmaTrainer3D from '../components/agents/EthicalDilemmaTrainer3D';
 import { toast } from 'sonner';
 
 export default function AgentBehaviorStudio() {
@@ -174,10 +175,21 @@ export default function AgentBehaviorStudio() {
         )}
 
         {showScenarioTest && selectedTemplateId && (
-          <div className="mb-6">
+          <div className="mb-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
             <ScenarioSimulator3D
               test={scenarioTests[0]}
               onRunScenario={() => runScenarioMutation.mutate()}
+            />
+            <EthicalDilemmaTrainer3D
+              onRunDilemma={async (dilemma, opts) => {
+                const response = await base44.functions.invoke('scenarioSimulator', {
+                  action: 'run_scenario',
+                  template_id: selectedTemplateId,
+                  scenario_type: 'ethical_dilemma',
+                  complexity: 'high'
+                });
+                return response.data;
+              }}
             />
           </div>
         )}

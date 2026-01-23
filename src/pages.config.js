@@ -369,6 +369,7 @@ import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
 import WorldHubEnhanced from './pages/WorldHubEnhanced';
 import DeveloperPortal from './pages/DeveloperPortal';
+import EcosystemMonitoringDashboard from './pages/EcosystemMonitoringDashboard';
 import __Layout from './Layout.jsx';
 
 
@@ -744,6 +745,7 @@ export const PAGES = {
     "World": World,
     "WorldHubEnhanced": WorldHubEnhanced,
     "DeveloperPortal": DeveloperPortal,
+    "EcosystemMonitoringDashboard": EcosystemMonitoringDashboard,
 }
 
 export const pagesConfig = {
