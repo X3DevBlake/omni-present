@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import UniversalHolographicOverlay from '../components/holographic/UniversalHolographicOverlay';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
@@ -295,7 +296,12 @@ export default function Home() {
   ];
 
   return (
-    <AuroraBackground className="min-h-screen">
+    <>
+      <UniversalHolographicOverlay 
+        enabled={true}
+        contentTypes={['data_visualization', 'ui_element']}
+      />
+      <AuroraBackground className="min-h-screen">
       <div className="relative z-10">
         {/* Hero Section */}
         <div className="container mx-auto px-4 py-20">
@@ -1281,5 +1287,6 @@ export default function Home() {
         </div>
       </div>
     </AuroraBackground>
+    </>
   );
 }

@@ -48,7 +48,12 @@ export default function AITrainingAcademy() {
   });
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950 p-6">
+    <>
+      <UniversalHolographicOverlay 
+        enabled={true}
+        contentTypes={['agent_avatar', 'data_visualization']}
+      />
+      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950 p-6">
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -133,7 +138,10 @@ export default function AITrainingAcademy() {
           </TabsList>
 
           <TabsContent value="training" className="mt-6">
-            <AgentTrainingModule3D />
+            <PersonalityTraitNetwork3D agentId="training_agent_001" />
+            <div className="mt-6">
+              <AgentTrainingModule3D />
+            </div>
           </TabsContent>
 
           <TabsContent value="multiagent" className="mt-6">

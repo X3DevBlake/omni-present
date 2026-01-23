@@ -165,8 +165,19 @@ export default function ConsciousnessMirrorHub() {
   const latestSnapshot = consciousnessMirror[0];
   const latestBiometric = biometricData[0];
 
+  const dataStreams = [
+    { name: 'Consciousness Data', active: true, update_frequency_hz: 10, color: '#FF00FF' },
+    { name: 'Biometric Stream', active: true, update_frequency_hz: 5, color: '#00FFFF' },
+    { name: 'Neural Signals', active: true, update_frequency_hz: 20, color: '#FFFF00' }
+  ];
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-950 p-6">
+    <>
+      <UniversalHolographicOverlay 
+        enabled={true}
+        contentTypes={['data_visualization', 'agent_avatar']}
+      />
+      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-950 p-6">
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -272,7 +283,13 @@ export default function ConsciousnessMirrorHub() {
           </TabsList>
 
           <TabsContent value="mirror" className="mt-6">
-            <ConsciousnessMirrorVisualizer3D snapshots={consciousnessMirror} />
+            <HolographicDataStream3D 
+              streams={dataStreams}
+              title="Consciousness Data Streams"
+            />
+            <div className="mt-6">
+              <ConsciousnessMirrorVisualizer3D snapshots={consciousnessMirror} />
+            </div>
           </TabsContent>
 
           <TabsContent value="biometric" className="mt-6">
