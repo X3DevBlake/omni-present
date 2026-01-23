@@ -67,7 +67,8 @@ export const HubRegistry = [
   { id: 'agent-enhancement', name: 'Agent Enhancement', path: 'AgentEnhancementHub', category: 'ai', icon3d: 'zap', color: '#00ff88' },
   { id: 'consciousness-mirror', name: 'Consciousness Mirror', path: 'ConsciousnessMirrorHub', category: 'core', icon3d: 'eye', color: '#0088ff' },
   { id: 'marketplace-hub', name: 'Marketplace Hub', path: 'OmegaMarketplaceHub', category: 'ai', icon3d: 'store', color: '#6600ff' },
-  { id: 'security-intel', name: 'Security Intelligence', path: 'SecurityIntelligenceHub', category: 'system', icon3d: 'shield', color: '#ff0044' }
+  { id: 'security-intel', name: 'Security Intelligence', path: 'SecurityIntelligenceHub', category: 'system', icon3d: 'shield', color: '#ff0044' },
+  { id: 'advanced-collab', name: 'Advanced Collaboration', path: 'AdvancedCollaborationHub', category: 'ai', icon3d: 'network', color: '#aa44ff' }
 ];
 
 export const HubCategories = {
