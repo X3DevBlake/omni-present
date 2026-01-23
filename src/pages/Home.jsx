@@ -548,6 +548,54 @@ export default function Home() {
             <OmegaMarketplace3D listings={marketplaceListings} />
           </motion.div>
 
+          {/* Call-to-Action: Explore Advanced Hubs */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.8 }}
+            className="mb-12"
+          >
+            <Card className="bg-gradient-to-br from-purple-500/20 via-pink-500/20 to-orange-500/20 border-purple-500/50">
+              <CardHeader>
+                <CardTitle className="text-white text-3xl text-center">
+                  Explore Advanced Intelligence Hubs
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-2 gap-4">
+                  <Button 
+                    onClick={() => window.location.href = createPageUrl('AgentEnhancementHub')}
+                    className="bg-green-600 hover:bg-green-700 h-20 text-lg"
+                  >
+                    <Brain className="w-6 h-6 mr-3" />
+                    Agent Enhancement Hub
+                  </Button>
+                  <Button 
+                    onClick={() => window.location.href = createPageUrl('ConsciousnessMirrorHub')}
+                    className="bg-blue-600 hover:bg-blue-700 h-20 text-lg"
+                  >
+                    <Eye className="w-6 h-6 mr-3" />
+                    Consciousness Mirror Hub
+                  </Button>
+                  <Button 
+                    onClick={() => window.location.href = createPageUrl('OmegaMarketplaceHub')}
+                    className="bg-indigo-600 hover:bg-indigo-700 h-20 text-lg"
+                  >
+                    <ShoppingCart className="w-6 h-6 mr-3" />
+                    Omega Marketplace
+                  </Button>
+                  <Button 
+                    onClick={() => window.location.href = createPageUrl('SecurityIntelligenceHub')}
+                    className="bg-red-600 hover:bg-red-700 h-20 text-lg"
+                  >
+                    <Shield className="w-6 h-6 mr-3" />
+                    Security Intelligence
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+
           {/* Unified Omega Ecosystem Hologram - NEW PRIMARY VISUALIZER */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}

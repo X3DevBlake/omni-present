@@ -363,6 +363,9 @@ import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
 import WorldHubEnhanced from './pages/WorldHubEnhanced';
+import AgentEnhancementHub from './pages/AgentEnhancementHub';
+import ConsciousnessMirrorHub from './pages/ConsciousnessMirrorHub';
+import OmegaMarketplaceHub from './pages/OmegaMarketplaceHub';
 import __Layout from './Layout.jsx';
 
 
@@ -732,6 +735,9 @@ export const PAGES = {
     "WorkflowOrchestrationHub": WorkflowOrchestrationHub,
     "World": World,
     "WorldHubEnhanced": WorldHubEnhanced,
+    "AgentEnhancementHub": AgentEnhancementHub,
+    "ConsciousnessMirrorHub": ConsciousnessMirrorHub,
+    "OmegaMarketplaceHub": OmegaMarketplaceHub,
 }
 
 export const pagesConfig = {
