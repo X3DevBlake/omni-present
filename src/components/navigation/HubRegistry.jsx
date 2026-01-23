@@ -70,7 +70,9 @@ export const HubRegistry = [
   { id: 'security-intel', name: 'Security Intelligence', path: 'SecurityIntelligenceHub', category: 'system', icon3d: 'shield', color: '#ff0044' },
   { id: 'advanced-collab', name: 'Advanced Collaboration', path: 'AdvancedCollaborationHub', category: 'ai', icon3d: 'network', color: '#aa44ff' },
   { id: 'agent-collab-hub', name: 'Agent Collaboration Hub', path: 'AgentCollaborationHub', category: 'ai', icon3d: 'users', color: '#6644ff' },
-  { id: 'ai-training-academy', name: 'AI Training Academy', path: 'AITrainingAcademy', category: 'ai', icon3d: 'graduation-cap', color: '#aa44ff' }
+  { id: 'ai-training-academy', name: 'AI Training Academy', path: 'AITrainingAcademy', category: 'ai', icon3d: 'graduation-cap', color: '#aa44ff' },
+  { id: 'enhanced-dev-ecosystem', name: 'Enhanced Developer Ecosystem', path: 'EnhancedDeveloperEcosystem', category: 'management', icon3d: 'rocket', color: '#00ccff' },
+  { id: 'omni-core-hub', name: 'Omni-Present Core Hub', path: 'OmniPresentCoreHub', category: 'core', icon3d: 'brain', color: '#ff00ff' }
 ];
 
 export const HubCategories = {

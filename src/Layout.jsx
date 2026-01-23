@@ -3,6 +3,8 @@ import EnhancedMainNavRevamped from './components/navigation/EnhancedMainNavReva
 import BackButton from './components/navigation/BackButton';
 import { GamificationProvider } from './components/gamification/GamificationContext';
 import { PersonalizationProvider } from './components/personalization/PersonalizationContext';
+import { AnimationProvider } from './components/animations/AnimationContext';
+import GlobalAnimationPlayer from './components/animations/GlobalAnimationPlayer';
 import PageTransitionLoader from './components/ui/PageTransitionLoader';
 import { usePageTransition } from './components/hooks/usePageTransition';
 import ImmersivePageTransition from './components/navigation/ImmersivePageTransition';
@@ -94,12 +96,15 @@ function LayoutContent({ children, currentPageName }) {
 export default function Layout({ children, currentPageName }) {
   return (
     <ErrorBoundary>
-      <PersonalizationProvider>
-        <GamificationProvider>
-          <PerformanceMonitor />
-          <LayoutContent currentPageName={currentPageName}>{children}</LayoutContent>
-        </GamificationProvider>
-      </PersonalizationProvider>
+      <AnimationProvider>
+        <PersonalizationProvider>
+          <GamificationProvider>
+            <PerformanceMonitor />
+            <GlobalAnimationPlayer />
+            <LayoutContent currentPageName={currentPageName}>{children}</LayoutContent>
+          </GamificationProvider>
+        </PersonalizationProvider>
+      </AnimationProvider>
     </ErrorBoundary>
   );
 }

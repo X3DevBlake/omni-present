@@ -99,43 +99,42 @@ export default function DeveloperPortal() {
           </TabsList>
 
           <TabsContent value="docs" className="mt-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+              <JavaScriptSDKDocs />
+              <PythonSDKDocs />
+            </div>
             <SDKDocumentation />
           </TabsContent>
 
           <TabsContent value="sandbox" className="mt-6">
-            <div className="mb-6">
-              <Button onClick={() => createSandboxMutation.mutate()} className="bg-green-600 hover:bg-green-700">
-                <Beaker className="w-4 h-4 mr-2" />
-                Create Sandbox Environment
-              </Button>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+              <InteractiveSandbox />
+              {sandboxes[0] && (
+                <SandboxTester3D
+                  sandbox={sandboxes[0]}
+                  onRunTest={() => toast.success('Running test in sandbox...')}
+                />
+              )}
             </div>
 
-            {sandboxes[0] && (
-              <SandboxTester3D
-                sandbox={sandboxes[0]}
-                onRunTest={() => toast.success('Running test in sandbox...')}
-              />
-            )}
-
-            <div className="mt-6">
-              <Card className="bg-black/40 border-green-500/50">
-                <CardHeader>
-                  <CardTitle className="text-white">About Sandbox Testing</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3 text-white/80 text-sm">
-                    <p>Sandbox environments provide isolated testing with:</p>
-                    <ul className="list-disc ml-5 space-y-1">
-                      <li>Mock agents, augmentations, and user data</li>
-                      <li>Resource limits (1,000 API calls, 300 compute seconds)</li>
-                      <li>Automatic cleanup after 24 hours</li>
-                      <li>Full API access in isolated environment</li>
-                      <li>Detailed test result logging and analysis</li>
-                    </ul>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
+            <Card className="bg-black/40 border-green-500/50">
+              <CardHeader>
+                <CardTitle className="text-white">Sandbox Capabilities</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3 text-white/80 text-sm">
+                  <p>Secure, isolated testing environment with:</p>
+                  <ul className="list-disc ml-5 space-y-1">
+                    <li>Complete mock data ecosystem (agents, consciousness, market data)</li>
+                    <li>Resource limits: 1,000 API calls, 300s compute, 100MB storage</li>
+                    <li>Real-time performance logging and metrics</li>
+                    <li>Automated integration testing with detailed reports</li>
+                    <li>Full isolation from production environment</li>
+                    <li>Automatic cleanup after 24 hours</li>
+                  </ul>
+                </div>
+              </CardContent>
+            </Card>
           </TabsContent>
 
           <TabsContent value="tutorials" className="mt-6">

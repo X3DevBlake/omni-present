@@ -371,6 +371,8 @@ import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
 import WorldHubEnhanced from './pages/WorldHubEnhanced';
 import AITrainingAcademy from './pages/AITrainingAcademy';
+import EnhancedDeveloperEcosystem from './pages/EnhancedDeveloperEcosystem';
+import OmniPresentCoreHub from './pages/OmniPresentCoreHub';
 import __Layout from './Layout.jsx';
 
 
@@ -748,6 +750,8 @@ export const PAGES = {
     "World": World,
     "WorldHubEnhanced": WorldHubEnhanced,
     "AITrainingAcademy": AITrainingAcademy,
+    "EnhancedDeveloperEcosystem": EnhancedDeveloperEcosystem,
+    "OmniPresentCoreHub": OmniPresentCoreHub,
 }
 
 export const pagesConfig = {

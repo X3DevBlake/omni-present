@@ -9,7 +9,7 @@ import { createPageUrl } from '@/utils';
 import { motion } from 'framer-motion';
 import { 
   Sparkles, Zap, Shield, TrendingUp, Bot, Network, 
-  Coins, Globe, Brain, Radio, Map, Cpu, Activity, User, ShoppingCart, Eye, Code, Wand2, Book, Atom, Users
+  Coins, Globe, Brain, Radio, Map, Cpu, Activity, User, ShoppingCart, Eye, Code, Wand2, Book, Atom, Users, GraduationCap
 } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import EnhancedOmniText3D from '../components/omnipresence/EnhancedOmniText3D';
@@ -640,6 +640,27 @@ export default function Home() {
                     <Users className="w-6 h-6 mr-3" />
                     Collaboration Hub
                   </Button>
+                  <Button 
+                    onClick={() => window.location.href = createPageUrl('AITrainingAcademy')}
+                    className="bg-purple-600 hover:bg-purple-700 h-20 text-lg"
+                  >
+                    <GraduationCap className="w-6 h-6 mr-3" />
+                    Training Academy
+                  </Button>
+                  <Button 
+                    onClick={() => window.location.href = createPageUrl('EnhancedDeveloperEcosystem')}
+                    className="bg-cyan-600 hover:bg-cyan-700 h-20 text-lg"
+                  >
+                    <Code className="w-6 h-6 mr-3" />
+                    Dev Ecosystem
+                  </Button>
+                  <Button 
+                    onClick={() => window.location.href = createPageUrl('OmniPresentCoreHub')}
+                    className="bg-fuchsia-600 hover:bg-fuchsia-700 h-20 text-lg"
+                  >
+                    <Brain className="w-6 h-6 mr-3" />
+                    Sentient Core
+                  </Button>
                 </div>
               </CardContent>
             </Card>
@@ -1017,6 +1038,26 @@ export default function Home() {
                   <h3 className="text-white font-bold text-xl mb-3">Quantum Consciousness</h3>
                   <p className="text-white/70 text-sm">
                     Explore quantum superposition states, entangled cognitive pathways, parallel reasoning capabilities, and enhanced intuitive problem-solving.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-gradient-to-br from-yellow-500/10 to-orange-500/10 border-yellow-500/30">
+                <CardContent className="p-6">
+                  <Code className="w-12 h-12 text-yellow-400 mb-4" />
+                  <h3 className="text-white font-bold text-xl mb-3">Developer SDKs</h3>
+                  <p className="text-white/70 text-sm">
+                    Robust JavaScript and Python SDKs with comprehensive documentation, interactive tutorials, and secure sandbox testing environments.
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-gradient-to-br from-purple-500/10 to-indigo-500/10 border-purple-500/30">
+                <CardContent className="p-6">
+                  <Brain className="w-12 h-12 text-purple-400 mb-4" />
+                  <h3 className="text-white font-bold text-xl mb-3">AI Training Academy</h3>
+                  <p className="text-white/70 text-sm">
+                    Train agents with complex scenarios, ethical dilemmas, and decision-making tests with real-time AI feedback and 3D progress visualization.
                   </p>
                 </CardContent>
               </Card>
