@@ -68,7 +68,8 @@ export const HubRegistry = [
   { id: 'consciousness-mirror', name: 'Consciousness Mirror', path: 'ConsciousnessMirrorHub', category: 'core', icon3d: 'eye', color: '#0088ff' },
   { id: 'marketplace-hub', name: 'Marketplace Hub', path: 'OmegaMarketplaceHub', category: 'ai', icon3d: 'store', color: '#6600ff' },
   { id: 'security-intel', name: 'Security Intelligence', path: 'SecurityIntelligenceHub', category: 'system', icon3d: 'shield', color: '#ff0044' },
-  { id: 'advanced-collab', name: 'Advanced Collaboration', path: 'AdvancedCollaborationHub', category: 'ai', icon3d: 'network', color: '#aa44ff' }
+  { id: 'advanced-collab', name: 'Advanced Collaboration', path: 'AdvancedCollaborationHub', category: 'ai', icon3d: 'network', color: '#aa44ff' },
+  { id: 'agent-collab-hub', name: 'Agent Collaboration Hub', path: 'AgentCollaborationHub', category: 'ai', icon3d: 'users', color: '#6644ff' }
 ];
 
 export const HubCategories = {

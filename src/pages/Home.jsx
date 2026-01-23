@@ -9,7 +9,7 @@ import { createPageUrl } from '@/utils';
 import { motion } from 'framer-motion';
 import { 
   Sparkles, Zap, Shield, TrendingUp, Bot, Network, 
-  Coins, Globe, Brain, Radio, Map, Cpu, Activity, User, ShoppingCart, Eye, Code, Wand2, Book, Atom
+  Coins, Globe, Brain, Radio, Map, Cpu, Activity, User, ShoppingCart, Eye, Code, Wand2, Book, Atom, Users
 } from 'lucide-react';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import EnhancedOmniText3D from '../components/omnipresence/EnhancedOmniText3D';
@@ -632,6 +632,13 @@ export default function Home() {
                   >
                     <Network className="w-6 h-6 mr-3" />
                     Advanced Collaboration
+                  </Button>
+                  <Button 
+                    onClick={() => window.location.href = createPageUrl('AgentCollaborationHub')}
+                    className="bg-violet-600 hover:bg-violet-700 h-20 text-lg"
+                  >
+                    <Users className="w-6 h-6 mr-3" />
+                    Collaboration Hub
                   </Button>
                 </div>
               </CardContent>

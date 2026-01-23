@@ -1,268 +1,245 @@
 import React, { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
-import { Users, MessageCircle, Handshake, Shield } from 'lucide-react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import AuroraBackground from '../components/omni/AuroraBackground';
-import { Badge } from '@/components/ui/badge';
+import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import CollaborationNetwork3D from '../components/collaboration/CollaborationNetwork3D';
+import { Network, Users, Radio, Sparkles, TrendingUp, Brain } from 'lucide-react';
+import SwarmIntelligenceOrchestrator3D from '../components/agents/SwarmIntelligenceOrchestrator3D';
+import NegotiationFramework3D from '../components/agents/NegotiationFramework3D';
+import AgentRoleManager from '../components/collaboration/AgentRoleManager';
+import CommunicationProtocolConfig from '../components/collaboration/CommunicationProtocolConfig';
+import EmergentBehaviorAnalyzer3D from '../components/collaboration/EmergentBehaviorAnalyzer3D';
+import CollaborationEfficiencyDashboard from '../components/collaboration/CollaborationEfficiencyDashboard';
+import AutonomousAgentCollaboration3D from '../components/collaboration/AutonomousAgentCollaboration3D';
+import { toast } from 'sonner';
 
 export default function AgentCollaborationHub() {
   const queryClient = useQueryClient();
-  const [taskName, setTaskName] = useState('Market Analysis');
+  const [swarmData, setSwarmData] = useState(null);
+  const [negotiationData, setNegotiationData] = useState(null);
 
-  const { data: workingGroups } = useQuery({
-    queryKey: ['working-groups'],
-    queryFn: () => base44.entities.WorkingGroup.list(),
+  const { data: agents = [] } = useQuery({
+    queryKey: ['agents-collab-hub'],
+    queryFn: () => base44.entities.Agent.list('-created_date', 30),
+    initialData: []
   });
 
-  const { data: negotiations } = useQuery({
-    queryKey: ['negotiations'],
-    queryFn: () => base44.entities.AgentNegotiation.list('-created_date', 15),
+  const { data: collaborations = [] } = useQuery({
+    queryKey: ['collab-sessions'],
+    queryFn: () => base44.entities.AutonomousAgentCollaboration.list('-created_date', 20),
+    initialData: [],
+    refetchInterval: 5000
   });
 
-  const { data: channels } = useQuery({
-    queryKey: ['communication-channels'],
-    queryFn: () => base44.entities.AgentCommunicationChannel.list(),
+  const { data: emergentBehaviors = [] } = useQuery({
+    queryKey: ['emergent-behaviors'],
+    queryFn: () => base44.entities.EmergentBehavior.list('-created_date', 15),
+    initialData: []
   });
 
-  const formGroup = useMutation({
-    mutationFn: async (requirements) => {
-      const response = await base44.functions.invoke('formDynamicWorkingGroup', requirements);
-      return response.data;
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['working-groups', 'communication-channels'] });
-    },
+  const { data: teams = [] } = useQuery({
+    queryKey: ['agent-teams'],
+    queryFn: () => base44.entities.EmbodiedAgentTeam.list('-created_date', 10),
+    initialData: []
   });
 
-  const negotiate = useMutation({
-    mutationFn: async (negotiationId) => {
-      const response = await base44.functions.invoke('negotiateResourceSharing', {
-        negotiation_id: negotiationId,
+  const initializeSwarmMutation = useMutation({
+    mutationFn: async () => {
+      const response = await base44.functions.invoke('swarmIntelligenceEngine', {
+        action: 'initialize_swarm',
+        problem_description: 'Multi-agent optimization challenge',
+        swarm_size: 15
       });
       return response.data;
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['negotiations'] });
+    onSuccess: (data) => {
+      setSwarmData(data.swarm_data);
+      toast.success('Swarm intelligence initialized!');
+    }
+  });
+
+  const initiateNegotiationMutation = useMutation({
+    mutationFn: async () => {
+      const response = await base44.functions.invoke('negotiationProtocol', {
+        action: 'initiate_negotiation',
+        agent_ids: agents.slice(0, 6).map(a => a.id),
+        resources: [
+          { resource_type: 'CPU', quantity: 100 },
+          { resource_type: 'Memory', quantity: 500 },
+          { resource_type: 'Storage', quantity: 1000 }
+        ]
+      });
+      return response.data;
     },
+    onSuccess: (data) => {
+      setNegotiationData(data.negotiation_data);
+      toast.success('Negotiation initiated!');
+    }
+  });
+
+  const assignRoleMutation = useMutation({
+    mutationFn: async (roleData) => {
+      await base44.entities.Agent.update(roleData.agent_id, {
+        collaboration_role: roleData.role,
+        skill_contribution: roleData.skills
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['agents-collab-hub'] });
+      toast.success('Role assigned!');
+    }
   });
 
   return (
-    <AuroraBackground className="min-h-screen py-8 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-950 p-6">
       <div className="max-w-7xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
         >
-          <h1 className="text-5xl font-bold text-white mb-4">
-            <span className="bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
-              Agent Collaboration Hub
-            </span>
+          <h1 className="text-5xl font-bold text-white mb-3 flex items-center gap-4">
+            <Network className="w-12 h-12 text-indigo-400 animate-pulse" />
+            Agent Collaboration Hub
           </h1>
           <p className="text-white/60 text-lg">
-            Dynamic working groups, secure communication, and AI-driven negotiation
+            Manage multi-agent systems, configure communication protocols, and analyze emergent behaviors
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-          <Card className="bg-gradient-to-br from-cyan-500/20 to-blue-500/20 border-cyan-500/30 p-4">
-            <Users className="w-6 h-6 text-cyan-400 mb-2" />
-            <p className="text-white text-2xl font-bold">{workingGroups?.length || 0}</p>
-            <p className="text-white/60 text-sm">Active Groups</p>
+        <div className="grid grid-cols-5 gap-4 mb-6">
+          <Card className="bg-gradient-to-br from-indigo-500/20 to-purple-500/20 border-indigo-500/50">
+            <CardContent className="pt-6">
+              <Users className="w-8 h-8 text-indigo-400 mb-2" />
+              <div className="text-3xl font-bold text-white">{agents.length}</div>
+              <div className="text-white/60 text-sm">Total Agents</div>
+            </CardContent>
           </Card>
 
-          <Card className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 border-purple-500/30 p-4">
-            <Handshake className="w-6 h-6 text-purple-400 mb-2" />
-            <p className="text-white text-2xl font-bold">{negotiations?.length || 0}</p>
-            <p className="text-white/60 text-sm">Negotiations</p>
+          <Card className="bg-gradient-to-br from-purple-500/20 to-fuchsia-500/20 border-purple-500/50">
+            <CardContent className="pt-6">
+              <Network className="w-8 h-8 text-purple-400 mb-2" />
+              <div className="text-3xl font-bold text-white">{collaborations.length}</div>
+              <div className="text-white/60 text-sm">Active Collabs</div>
+            </CardContent>
           </Card>
 
-          <Card className="bg-gradient-to-br from-green-500/20 to-emerald-500/20 border-green-500/30 p-4">
-            <MessageCircle className="w-6 h-6 text-green-400 mb-2" />
-            <p className="text-white text-2xl font-bold">{channels?.length || 0}</p>
-            <p className="text-white/60 text-sm">Secure Channels</p>
+          <Card className="bg-gradient-to-br from-pink-500/20 to-rose-500/20 border-pink-500/50">
+            <CardContent className="pt-6">
+              <Sparkles className="w-8 h-8 text-pink-400 mb-2" />
+              <div className="text-3xl font-bold text-white">{emergentBehaviors.length}</div>
+              <div className="text-white/60 text-sm">Emergent</div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-gradient-to-br from-cyan-500/20 to-blue-500/20 border-cyan-500/50">
+            <CardContent className="pt-6">
+              <Radio className="w-8 h-8 text-cyan-400 mb-2" />
+              <div className="text-3xl font-bold text-white">{teams.length}</div>
+              <div className="text-white/60 text-sm">Teams</div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-gradient-to-br from-green-500/20 to-emerald-500/20 border-green-500/50">
+            <CardContent className="pt-6">
+              <TrendingUp className="w-8 h-8 text-green-400 mb-2" />
+              <div className="text-3xl font-bold text-white">
+                {collaborations[0] ? (collaborations[0].synergy_metrics?.collective_performance * 100).toFixed(0) : 0}%
+              </div>
+              <div className="text-white/60 text-sm">Efficiency</div>
+            </CardContent>
           </Card>
         </div>
 
-        <Tabs defaultValue="groups" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4 bg-black/30 p-1">
-            <TabsTrigger value="groups">Working Groups</TabsTrigger>
-            <TabsTrigger value="negotiation">Negotiations</TabsTrigger>
-            <TabsTrigger value="network">Network 3D</TabsTrigger>
-            <TabsTrigger value="form">Form Group</TabsTrigger>
+        <Tabs defaultValue="swarm" className="w-full">
+          <TabsList className="grid w-full grid-cols-6 bg-black/60 border-indigo-500/30">
+            <TabsTrigger value="swarm">Swarm</TabsTrigger>
+            <TabsTrigger value="negotiation">Negotiation</TabsTrigger>
+            <TabsTrigger value="roles">Roles</TabsTrigger>
+            <TabsTrigger value="protocols">Protocols</TabsTrigger>
+            <TabsTrigger value="emergent">Emergent</TabsTrigger>
+            <TabsTrigger value="efficiency">Efficiency</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="groups" className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {workingGroups?.map((group, i) => (
-                <Card key={group.id} className="bg-white/5 border-white/10">
-                  <CardContent className="p-6">
-                    <div className="flex items-start justify-between mb-4">
-                      <div>
-                        <h3 className="text-white font-bold text-lg mb-1">{group.group_name}</h3>
-                        <Badge>{group.communication_protocol}</Badge>
-                      </div>
-                      <Badge className={`${
-                        group.status === 'active' ? 'bg-green-500' : 'bg-gray-500'
-                      } text-white`}>
-                        {group.status}
-                      </Badge>
-                    </div>
-
-                    <div className="bg-black/30 rounded p-3 mb-3">
-                      <div className="text-white/60 text-xs mb-1">Collaboration Score</div>
-                      <div className="flex items-center gap-2">
-                        <div className="flex-1 bg-white/10 rounded-full h-2">
-                          <div
-                            className="bg-cyan-400 h-2 rounded-full"
-                            style={{ width: `${group.collaboration_score || 0}%` }}
-                          />
-                        </div>
-                        <span className="text-cyan-400 font-bold">{group.collaboration_score || 0}%</span>
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-2">
-                      <div className="bg-black/30 rounded p-2">
-                        <div className="text-white/60 text-xs">Members</div>
-                        <div className="text-white font-bold">{group.member_agents?.length || 0}</div>
-                      </div>
-                      <div className="bg-black/30 rounded p-2">
-                        <div className="text-white/60 text-xs">Tasks</div>
-                        <div className="text-white font-bold">{group.task_assignments?.length || 0}</div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+          <TabsContent value="swarm" className="mt-6">
+            <SwarmIntelligenceOrchestrator3D
+              swarmData={swarmData}
+              onOptimizeSwarm={() => {
+                if (!swarmData) {
+                  initializeSwarmMutation.mutate();
+                } else {
+                  toast.success('Swarm optimized!');
+                }
+              }}
+            />
           </TabsContent>
 
-          <TabsContent value="negotiation" className="space-y-4">
-            {negotiate.data && (
-              <Card className="bg-green-500/20 border-green-500/30 mb-6">
-                <CardContent className="p-6">
-                  <h3 className="text-green-400 font-bold mb-3">AI Recommendation</h3>
-                  <div className="bg-black/30 rounded p-3 mb-3">
-                    <pre className="text-white text-xs whitespace-pre-wrap">
-                      {JSON.stringify(negotiate.data.recommended_agreement, null, 2)}
-                    </pre>
+          <TabsContent value="negotiation" className="mt-6">
+            <NegotiationFramework3D
+              negotiationData={negotiationData}
+              onInitiateNegotiation={() => initiateNegotiationMutation.mutate()}
+            />
+          </TabsContent>
+
+          <TabsContent value="roles" className="mt-6">
+            <AgentRoleManager
+              agents={agents}
+              onAssignRole={(data) => assignRoleMutation.mutate(data)}
+              onUpdateRole={(agent) => toast.info(`Update role for ${agent.name}`)}
+              onRemoveRole={(id) => toast.info('Role removed')}
+            />
+          </TabsContent>
+
+          <TabsContent value="protocols" className="mt-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <CommunicationProtocolConfig
+                onConfigureProtocol={(config) => {
+                  toast.success(`Protocol configured: ${config.protocol_type}`);
+                }}
+              />
+
+              <Card className="bg-black/40 border-cyan-500/50">
+                <CardHeader>
+                  <CardTitle className="text-white">Active Protocols</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-2">
+                    {teams.slice(0, 5).map((team, idx) => (
+                      <div key={team.id || idx} className="bg-black/60 p-3 rounded-lg border border-cyan-500/30">
+                        <div className="flex items-center justify-between">
+                          <span className="text-white font-bold text-sm">{team.team_name}</span>
+                          <Badge className="bg-cyan-500/30 text-cyan-300">
+                            {team.communication_protocol?.protocol_type || 'standard'}
+                          </Badge>
+                        </div>
+                        <div className="text-white/60 text-xs mt-1">
+                          Frequency: {team.communication_protocol?.update_frequency_hz || 10} Hz
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                  {negotiate.data.win_win_scenarios?.length > 0 && (
-                    <div>
-                      <div className="text-cyan-300 text-sm mb-2">Win-Win Scenarios:</div>
-                      {negotiate.data.win_win_scenarios.map((scenario, i) => (
-                        <div key={i} className="text-white/80 text-sm">• {scenario}</div>
-                      ))}
-                    </div>
-                  )}
                 </CardContent>
               </Card>
-            )}
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {negotiations?.map((neg, i) => (
-                <Card key={neg.id} className="bg-white/5 border-white/10">
-                  <CardContent className="p-6">
-                    <div className="flex items-center justify-between mb-3">
-                      <Badge>{neg.negotiation_type}</Badge>
-                      <Badge className={`${
-                        neg.status === 'accepted' ? 'bg-green-500' :
-                        neg.status === 'in_progress' ? 'bg-blue-500' : 'bg-orange-500'
-                      } text-white`}>
-                        {neg.status}
-                      </Badge>
-                    </div>
-
-                    <div className="bg-black/30 rounded p-3 mb-3">
-                      <div className="text-white/60 text-xs mb-1">Participants</div>
-                      <div className="text-white text-sm">{neg.participant_agent_ids?.length || 0} agents</div>
-                    </div>
-
-                    <Button
-                      onClick={() => negotiate.mutate(neg.id)}
-                      disabled={negotiate.isPending || neg.status === 'accepted'}
-                      className="w-full bg-purple-600 hover:bg-purple-700"
-                      size="sm"
-                    >
-                      AI Analysis
-                    </Button>
-                  </CardContent>
-                </Card>
-              ))}
             </div>
           </TabsContent>
 
-          <TabsContent value="network">
-            <Card className="bg-black/40 border-white/10">
-              <CardHeader>
-                <CardTitle className="text-white">Collaboration Network</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CollaborationNetwork3D groups={workingGroups} channels={channels} />
-              </CardContent>
-            </Card>
+          <TabsContent value="emergent" className="mt-6">
+            <EmergentBehaviorAnalyzer3D 
+              behaviors={emergentBehaviors.length > 0 ? emergentBehaviors : collaborations[0]?.emergent_behaviors || []}
+            />
           </TabsContent>
 
-          <TabsContent value="form">
-            <Card className="bg-black/40 border-white/10">
-              <CardHeader>
-                <CardTitle className="text-white">Form Dynamic Working Group</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <label className="text-white text-sm mb-2 block">Task Name</label>
-                  <Input
-                    value={taskName}
-                    onChange={(e) => setTaskName(e.target.value)}
-                    className="bg-white/5 border-white/10 text-white"
-                    placeholder="Enter task name"
-                  />
-                </div>
-
-                <Button
-                  onClick={() => formGroup.mutate({
-                    task_requirements: {
-                      task_name: taskName,
-                      required_skills: ['analysis', 'trading', 'prediction'],
-                      task_type: 'collaborative',
-                    }
-                  })}
-                  disabled={formGroup.isPending}
-                  className="w-full bg-cyan-600 hover:bg-cyan-700"
-                >
-                  {formGroup.isPending ? 'Forming Team...' : 'Form Working Group'}
-                </Button>
-
-                {formGroup.data && (
-                  <div className="bg-cyan-500/20 border border-cyan-500/30 rounded p-4">
-                    <p className="text-white font-bold mb-2">Group Created!</p>
-                    <div className="space-y-2">
-                      <div className="text-white/80 text-sm">
-                        Collaboration Score: {formGroup.data.collaboration_score?.toFixed(0)}%
-                      </div>
-                      {formGroup.data.synergies?.length > 0 && (
-                        <div>
-                          <div className="text-cyan-300 text-xs mb-1">Synergies:</div>
-                          {formGroup.data.synergies.map((s, i) => (
-                            <div key={i} className="text-white/70 text-xs">• {s}</div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
+          <TabsContent value="efficiency" className="mt-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <CollaborationEfficiencyDashboard collaborationData={collaborations[0]} />
+              {collaborations[0] && (
+                <AutonomousAgentCollaboration3D collaboration={collaborations[0]} />
+              )}
+            </div>
           </TabsContent>
         </Tabs>
       </div>
-    </AuroraBackground>
+    </div>
   );
 }

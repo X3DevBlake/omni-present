@@ -159,6 +159,7 @@ import DepositOmni from './pages/DepositOmni';
 import DepositUSDT from './pages/DepositUSDT';
 import DeveloperEcosystemHub from './pages/DeveloperEcosystemHub';
 import DeveloperHome from './pages/DeveloperHome';
+import DeveloperPortal from './pages/DeveloperPortal';
 import DeviceHealth from './pages/DeviceHealth';
 import DeviceHome from './pages/DeviceHome';
 import DeviceIntegrationHub from './pages/DeviceIntegrationHub';
@@ -172,6 +173,7 @@ import DiscountsRebates from './pages/DiscountsRebates';
 import Documentation from './pages/Documentation';
 import DynamicSimulationStudio from './pages/DynamicSimulationStudio';
 import EcosystemDashboard from './pages/EcosystemDashboard';
+import EcosystemMonitoringDashboard from './pages/EcosystemMonitoringDashboard';
 import EmergentBehavior from './pages/EmergentBehavior';
 import EnhancedAIAgentMarketplace from './pages/EnhancedAIAgentMarketplace';
 import EnhancedAILabsHub from './pages/EnhancedAILabsHub';
@@ -215,8 +217,8 @@ import FAQ from './pages/FAQ';
 import FeatureDetail from './pages/FeatureDetail';
 import FeatureFlagManager from './pages/FeatureFlagManager';
 import Features from './pages/Features';
-import FiatDeposit from './pages/FiatDeposit';
 import FeedbackDashboard from './pages/FeedbackDashboard';
+import FiatDeposit from './pages/FiatDeposit';
 import FinancialAdvisorHub from './pages/FinancialAdvisorHub';
 import FinancialCoachingHub from './pages/FinancialCoachingHub';
 import FirmwareUpdates from './pages/FirmwareUpdates';
@@ -368,8 +370,6 @@ import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
 import WorldHubEnhanced from './pages/WorldHubEnhanced';
-import DeveloperPortal from './pages/DeveloperPortal';
-import EcosystemMonitoringDashboard from './pages/EcosystemMonitoringDashboard';
 import __Layout from './Layout.jsx';
 
 
@@ -535,6 +535,7 @@ export const PAGES = {
     "DepositUSDT": DepositUSDT,
     "DeveloperEcosystemHub": DeveloperEcosystemHub,
     "DeveloperHome": DeveloperHome,
+    "DeveloperPortal": DeveloperPortal,
     "DeviceHealth": DeviceHealth,
     "DeviceHome": DeviceHome,
     "DeviceIntegrationHub": DeviceIntegrationHub,
@@ -548,6 +549,7 @@ export const PAGES = {
     "Documentation": Documentation,
     "DynamicSimulationStudio": DynamicSimulationStudio,
     "EcosystemDashboard": EcosystemDashboard,
+    "EcosystemMonitoringDashboard": EcosystemMonitoringDashboard,
     "EmergentBehavior": EmergentBehavior,
     "EnhancedAIAgentMarketplace": EnhancedAIAgentMarketplace,
     "EnhancedAILabsHub": EnhancedAILabsHub,
@@ -591,8 +593,8 @@ export const PAGES = {
     "FeatureDetail": FeatureDetail,
     "FeatureFlagManager": FeatureFlagManager,
     "Features": Features,
-    "FiatDeposit": FiatDeposit,
     "FeedbackDashboard": FeedbackDashboard,
+    "FiatDeposit": FiatDeposit,
     "FinancialAdvisorHub": FinancialAdvisorHub,
     "FinancialCoachingHub": FinancialCoachingHub,
     "FirmwareUpdates": FirmwareUpdates,
@@ -744,8 +746,6 @@ export const PAGES = {
     "WorkflowOrchestrationHub": WorkflowOrchestrationHub,
     "World": World,
     "WorldHubEnhanced": WorldHubEnhanced,
-    "DeveloperPortal": DeveloperPortal,
-    "EcosystemMonitoringDashboard": EcosystemMonitoringDashboard,
 }
 
 export const pagesConfig = {
