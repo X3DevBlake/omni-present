@@ -336,7 +336,7 @@ export default function ConsciousnessMirrorHub() {
           </TabsContent>
 
           <TabsContent value="quantum" className="mt-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
               {quantumStates[0] ? (
                 <QuantumConsciousnessVisualizer3D 
                   quantumData={quantumStates[0]}
@@ -364,7 +364,8 @@ export default function ConsciousnessMirrorHub() {
                   </CardContent>
                 </Card>
               )}
-              <QuantumStateHarmonizer3D quantumStates={quantumStates} />
+
+              <QuantumStateHarmonizer3D states={quantumStates} />
             </div>
           </TabsContent>
 
