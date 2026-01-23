@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Eye, Brain, Heart, Activity, TrendingUp, Palette, Target, Shield } from 'lucide-react';
+import { Eye, Brain, Heart, Activity, TrendingUp, Palette, Target, Shield, Zap } from 'lucide-react';
 import ConsciousnessMirrorVisualizer3D from '../components/consciousness/ConsciousnessMirrorVisualizer3D';
 import BiometricHealthDashboard3D from '../components/biometric/BiometricHealthDashboard3D';
 import CognitiveGoalSetter3D from '../components/consciousness/CognitiveGoalSetter3D';
