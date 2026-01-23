@@ -1,155 +1,119 @@
 import React from 'react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Card, CardContent } from '@/components/ui/card';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
-import { motion } from 'framer-motion';
-import { Card, CardContent } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Code, Rocket, TestTube, Brain, Book } from 'lucide-react';
-import JavaScriptSDKDocs from '../components/developer/JavaScriptSDKDocs';
-import PythonSDKDocs from '../components/developer/PythonSDKDocs';
-import InteractiveSandbox from '../components/developer/InteractiveSandbox';
-import InteractiveTutorialPlayer from '../components/developer/InteractiveTutorialPlayer';
-import SearchableAPIReference from '../components/developer/SearchableAPIReference';
-import OmniPresentSentientCore3D from '../components/sentient/OmniPresentSentientCore3D';
-import AnimationShowcase3D from '../components/animations/AnimationShowcase3D';
+import { Code, BookOpen, Package, Bug, Sparkles } from 'lucide-react';
+
+import AICodeGenerationStudio from '../components/developer/AICodeGenerationStudio';
+import LivingDocumentationHub from '../components/documentation/LivingDocumentationHub';
+import AISkillMarketplace from '../components/marketplace/AISkillMarketplace';
+import SpatialSDKDebugger3D from '../components/developer/SpatialSDKDebugger3D';
 
 export default function EnhancedDeveloperEcosystem() {
-  const { data: integrations = [] } = useQuery({
-    queryKey: ['sdk-integrations'],
-    queryFn: () => base44.entities.SDKIntegration.list('-created_date', 20),
-    initialData: []
+  const { data: codeRequests = [] } = useQuery({
+    queryKey: ['code-requests'],
+    queryFn: () => base44.entities.CodeGenerationRequest.list()
   });
 
-  const { data: sandboxes = [] } = useQuery({
-    queryKey: ['sandboxes'],
-    queryFn: () => base44.entities.SandboxEnvironment.filter({ sandbox_status: 'active' }),
-    initialData: []
+  const { data: skills = [] } = useQuery({
+    queryKey: ['ai-skills'],
+    queryFn: () => base44.entities.AISkillModule.list()
   });
+
+  const { data: docs = [] } = useQuery({
+    queryKey: ['documentation'],
+    queryFn: () => base44.entities.DocumentationArticle.list()
+  });
+
+  const stats = {
+    codeGenerated: codeRequests.length,
+    skillsAvailable: skills.length,
+    docsArticles: docs.length,
+    aiGenDocs: docs.filter(d => d.ai_generated).length
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-950 p-6">
-      <div className="max-w-7xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
-        >
-          <h1 className="text-5xl font-bold text-white mb-3 flex items-center gap-4">
-            <Rocket className="w-12 h-12 text-cyan-400 animate-pulse" />
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-indigo-950 to-purple-950 p-6">
+      <div className="max-w-7xl mx-auto space-y-6">
+        <div>
+          <h1 className="text-4xl font-bold text-white mb-2 flex items-center gap-3">
+            <Code className="w-10 h-10 text-indigo-400" />
             Enhanced Developer Ecosystem
           </h1>
-          <p className="text-white/60 text-lg">
-            Robust SDKs, comprehensive documentation, and secure sandbox testing
+          <p className="text-slate-400">
+            AI-assisted code generation • Living documentation • Skill marketplace • Spatial debugging
           </p>
-        </motion.div>
+        </div>
 
-        <div className="grid grid-cols-5 gap-4 mb-6">
-          <Card className="bg-gradient-to-br from-yellow-500/20 to-orange-500/20 border-yellow-500/50">
-            <CardContent className="pt-6">
-              <Code className="w-8 h-8 text-yellow-400 mb-2" />
-              <div className="text-3xl font-bold text-white">5</div>
-              <div className="text-white/60 text-sm">SDK Languages</div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <Card className="bg-slate-900/50 backdrop-blur border-slate-700">
+            <CardContent className="pt-6 text-center">
+              <Sparkles className="w-6 h-6 text-yellow-400 mx-auto mb-2" />
+              <div className="text-2xl font-bold text-white">{stats.codeGenerated}</div>
+              <div className="text-xs text-slate-400">Code Generated</div>
             </CardContent>
           </Card>
 
-          <Card className="bg-gradient-to-br from-blue-500/20 to-cyan-500/20 border-blue-500/50">
-            <CardContent className="pt-6">
-              <Book className="w-8 h-8 text-blue-400 mb-2" />
-              <div className="text-3xl font-bold text-white">100+</div>
-              <div className="text-white/60 text-sm">API Methods</div>
+          <Card className="bg-slate-900/50 backdrop-blur border-slate-700">
+            <CardContent className="pt-6 text-center">
+              <Package className="w-6 h-6 text-indigo-400 mx-auto mb-2" />
+              <div className="text-2xl font-bold text-white">{stats.skillsAvailable}</div>
+              <div className="text-xs text-slate-400">Skills Available</div>
             </CardContent>
           </Card>
 
-          <Card className="bg-gradient-to-br from-green-500/20 to-emerald-500/20 border-green-500/50">
-            <CardContent className="pt-6">
-              <TestTube className="w-8 h-8 text-green-400 mb-2" />
-              <div className="text-3xl font-bold text-white">{sandboxes.length}</div>
-              <div className="text-white/60 text-sm">Active Sandboxes</div>
+          <Card className="bg-slate-900/50 backdrop-blur border-slate-700">
+            <CardContent className="pt-6 text-center">
+              <BookOpen className="w-6 h-6 text-green-400 mx-auto mb-2" />
+              <div className="text-2xl font-bold text-white">{stats.docsArticles}</div>
+              <div className="text-xs text-slate-400">Documentation</div>
             </CardContent>
           </Card>
 
-          <Card className="bg-gradient-to-br from-purple-500/20 to-fuchsia-500/20 border-purple-500/50">
-            <CardContent className="pt-6">
-              <Brain className="w-8 h-8 text-purple-400 mb-2" />
-              <div className="text-3xl font-bold text-white">{integrations.length}</div>
-              <div className="text-white/60 text-sm">Integrations</div>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-gradient-to-br from-pink-500/20 to-rose-500/20 border-pink-500/50">
-            <CardContent className="pt-6">
-              <Rocket className="w-8 h-8 text-pink-400 mb-2" />
-              <div className="text-3xl font-bold text-white">99.9%</div>
-              <div className="text-white/60 text-sm">Uptime</div>
+          <Card className="bg-slate-900/50 backdrop-blur border-slate-700">
+            <CardContent className="pt-6 text-center">
+              <Sparkles className="w-6 h-6 text-purple-400 mx-auto mb-2" />
+              <div className="text-2xl font-bold text-white">{stats.aiGenDocs}</div>
+              <div className="text-xs text-slate-400">AI Generated</div>
             </CardContent>
           </Card>
         </div>
 
-        <Tabs defaultValue="sdks" className="w-full">
-          <TabsList className="grid w-full grid-cols-6 bg-black/60 border-cyan-500/30">
-            <TabsTrigger value="sdks">SDKs</TabsTrigger>
-            <TabsTrigger value="sandbox">Sandbox</TabsTrigger>
-            <TabsTrigger value="tutorials">Tutorials</TabsTrigger>
-            <TabsTrigger value="api">API Reference</TabsTrigger>
-            <TabsTrigger value="animations">Animations</TabsTrigger>
-            <TabsTrigger value="core">Sentient Core</TabsTrigger>
+        <Tabs defaultValue="codegen" className="space-y-6">
+          <TabsList className="bg-slate-900 border border-slate-700 p-1">
+            <TabsTrigger value="codegen" className="gap-2">
+              <Code className="w-4 h-4" />
+              Code Generation
+            </TabsTrigger>
+            <TabsTrigger value="debugger" className="gap-2">
+              <Bug className="w-4 h-4" />
+              Spatial Debugger
+            </TabsTrigger>
+            <TabsTrigger value="marketplace" className="gap-2">
+              <Package className="w-4 h-4" />
+              Skill Marketplace
+            </TabsTrigger>
+            <TabsTrigger value="docs" className="gap-2">
+              <BookOpen className="w-4 h-4" />
+              Documentation
+            </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="sdks" className="mt-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <JavaScriptSDKDocs />
-              <PythonSDKDocs />
-            </div>
+          <TabsContent value="codegen">
+            <AICodeGenerationStudio />
           </TabsContent>
 
-          <TabsContent value="sandbox" className="mt-6">
-            <div className="grid grid-cols-1 gap-6">
-              <InteractiveSandbox />
-              
-              <Card className="bg-black/40 border-green-500/50">
-                <CardHeader>
-                  <CardTitle className="text-white">Mock Data Available</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-3 gap-3">
-                    <div className="bg-green-500/20 border border-green-500/50 p-3 rounded-lg">
-                      <div className="text-green-400 font-bold text-sm mb-1">Mock Agents</div>
-                      <div className="text-white/70 text-xs">Pre-configured AI agents with various capabilities</div>
-                    </div>
-                    <div className="bg-cyan-500/20 border border-cyan-500/50 p-3 rounded-lg">
-                      <div className="text-cyan-400 font-bold text-sm mb-1">Consciousness Data</div>
-                      <div className="text-white/70 text-xs">Simulated neural and biometric streams</div>
-                    </div>
-                    <div className="bg-purple-500/20 border border-purple-500/50 p-3 rounded-lg">
-                      <div className="text-purple-400 font-bold text-sm mb-1">Market Data</div>
-                      <div className="text-white/70 text-xs">Real-time crypto and financial data</div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
+          <TabsContent value="debugger">
+            <SpatialSDKDebugger3D />
           </TabsContent>
 
-          <TabsContent value="core" className="mt-6">
-            <OmniPresentSentientCore3D
-              coreStatus={{
-                intelligence_level: 9.5,
-                consciousness_coherence: 0.96,
-                autonomy_score: 0.91
-              }}
-            />
+          <TabsContent value="marketplace">
+            <AISkillMarketplace />
           </TabsContent>
 
-          <TabsContent value="tutorials" className="mt-6">
-            <InteractiveTutorialPlayer />
-          </TabsContent>
-
-          <TabsContent value="api" className="mt-6">
-            <SearchableAPIReference />
-          </TabsContent>
-
-          <TabsContent value="animations" className="mt-6">
-            <AnimationShowcase3D animationCount={700} />
+          <TabsContent value="docs">
+            <LivingDocumentationHub />
           </TabsContent>
         </Tabs>
       </div>

@@ -1,144 +1,219 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
 import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { motion } from 'framer-motion';
-import { Card, CardContent } from '@/components/ui/card';
-import { Network, Handshake, Zap, Users } from 'lucide-react';
-import SwarmIntelligenceOrchestrator3D from '../components/agents/SwarmIntelligenceOrchestrator3D';
-import NegotiationFramework3D from '../components/agents/NegotiationFramework3D';
+import { Users, Layers, Shield, Activity, Plus } from 'lucide-react';
 import { toast } from 'sonner';
 
+import CollaborativeHolographicWorkspace3D from '../components/collaboration/CollaborativeHolographicWorkspace3D';
+import RealTimeSpatialSync3D from '../components/collaboration/RealTimeSpatialSync3D';
+import PersonalityEvolutionDashboard3D from '../components/personality/PersonalityEvolutionDashboard3D';
+import DecentralizedVaultManager3D from '../components/security/DecentralizedVaultManager3D';
+
 export default function AdvancedCollaborationHub() {
+  const [workspaceName, setWorkspaceName] = useState('');
+  const [selectedWorkspaceId, setSelectedWorkspaceId] = useState(null);
   const queryClient = useQueryClient();
 
-  const [swarmData, setSwarmData] = React.useState(null);
-  const [negotiationData, setNegotiationData] = React.useState(null);
+  const { data: workspaces = [] } = useQuery({
+    queryKey: ['holographic-workspaces'],
+    queryFn: () => base44.entities.HolographicCollaborativeWorkspace.list(),
+    refetchInterval: 5000
+  });
+
+  const { data: sessions = [] } = useQuery({
+    queryKey: ['spatial-sessions'],
+    queryFn: () => base44.entities.MultiUserSpatialSession.list(),
+    refetchInterval: 2000
+  });
 
   const { data: agents = [] } = useQuery({
-    queryKey: ['agents-collab'],
-    queryFn: () => base44.entities.Agent.list('-created_date', 20),
-    initialData: []
+    queryKey: ['agents-with-personality'],
+    queryFn: () => base44.entities.Agent.list()
   });
 
-  const initializeSwarmMutation = useMutation({
+  const createWorkspaceMutation = useMutation({
     mutationFn: async () => {
-      const response = await base44.functions.invoke('swarmIntelligenceEngine', {
-        action: 'initialize_swarm',
-        problem_description: 'Complex multi-dimensional optimization',
-        swarm_size: 12
+      const response = await base44.functions.invoke('holographicWorkspaceOrchestrator', {
+        action: 'create_workspace',
+        data: {
+          name: workspaceName || 'New Workspace',
+          device_type: 'desktop'
+        }
       });
       return response.data;
     },
     onSuccess: (data) => {
-      setSwarmData(data.swarm_data);
-      toast.success('Swarm intelligence initialized!');
+      queryClient.invalidateQueries({ queryKey: ['holographic-workspaces'] });
+      setSelectedWorkspaceId(data.workspace.workspace_id);
+      toast.success('Workspace created!');
+      setWorkspaceName('');
     }
   });
 
-  const optimizeSwarmMutation = useMutation({
-    mutationFn: async () => {
-      const response = await base44.functions.invoke('swarmIntelligenceEngine', {
-        action: 'optimize_swarm'
-      });
-      return response.data;
-    },
-    onSuccess: () => {
-      toast.success('Swarm optimized!');
-    }
-  });
-
-  const initiateNegotiationMutation = useMutation({
-    mutationFn: async () => {
-      const response = await base44.functions.invoke('negotiationProtocol', {
-        action: 'initiate_negotiation',
-        agent_ids: agents.slice(0, 5).map(a => a.id),
-        resources: [
-          { resource_type: 'CPU', quantity: 100 },
-          { resource_type: 'Memory', quantity: 500 }
-        ]
-      });
-      return response.data;
-    },
-    onSuccess: (data) => {
-      setNegotiationData(data.negotiation_data);
-      toast.success('Negotiation initiated!');
-    }
-  });
+  const stats = {
+    totalWorkspaces: workspaces.length,
+    activeParticipants: workspaces.reduce((sum, w) => sum + (w.active_participants?.length || 0), 0),
+    activeSessions: sessions.length,
+    evolvingAgents: agents.length
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950 p-6">
-      <div className="max-w-7xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
-        >
-          <h1 className="text-5xl font-bold text-white mb-3 flex items-center gap-4">
-            <Network className="w-12 h-12 text-purple-400 animate-pulse" />
-            Advanced Multi-Agent Collaboration
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-cyan-950 p-6">
+      <div className="max-w-7xl mx-auto space-y-6">
+        <div>
+          <h1 className="text-4xl font-bold text-white mb-2 flex items-center gap-3">
+            <Users className="w-10 h-10 text-cyan-400" />
+            Advanced Collaboration Hub
           </h1>
-          <p className="text-white/60 text-lg">
-            Swarm intelligence, negotiation protocols, and emergent collective behavior
+          <p className="text-slate-400">
+            Multi-user holographic workspaces • AI personality evolution • Decentralized security
           </p>
-        </motion.div>
+        </div>
 
-        <div className="grid grid-cols-4 gap-4 mb-6">
-          <Card className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 border-purple-500/50">
-            <CardContent className="pt-6">
-              <Network className="w-8 h-8 text-purple-400 mb-2" />
-              <div className="text-3xl font-bold text-white">{agents.length}</div>
-              <div className="text-white/60 text-sm">Active Agents</div>
+        {/* Stats */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <Card className="bg-slate-900/50 backdrop-blur border-slate-700">
+            <CardContent className="pt-6 text-center">
+              <Layers className="w-6 h-6 text-cyan-400 mx-auto mb-2" />
+              <div className="text-2xl font-bold text-white">{stats.totalWorkspaces}</div>
+              <div className="text-xs text-slate-400">Workspaces</div>
             </CardContent>
           </Card>
 
-          <Card className="bg-gradient-to-br from-cyan-500/20 to-blue-500/20 border-cyan-500/50">
-            <CardContent className="pt-6">
-              <Zap className="w-8 h-8 text-cyan-400 mb-2" />
-              <div className="text-3xl font-bold text-white">
-                {swarmData?.agents?.length || 0}
-              </div>
-              <div className="text-white/60 text-sm">Swarm Agents</div>
+          <Card className="bg-slate-900/50 backdrop-blur border-slate-700">
+            <CardContent className="pt-6 text-center">
+              <Users className="w-6 h-6 text-green-400 mx-auto mb-2" />
+              <div className="text-2xl font-bold text-white">{stats.activeParticipants}</div>
+              <div className="text-xs text-slate-400">Participants</div>
             </CardContent>
           </Card>
 
-          <Card className="bg-gradient-to-br from-blue-500/20 to-teal-500/20 border-blue-500/50">
-            <CardContent className="pt-6">
-              <Handshake className="w-8 h-8 text-blue-400 mb-2" />
-              <div className="text-3xl font-bold text-white">
-                {negotiationData?.participating_agents?.length || 0}
-              </div>
-              <div className="text-white/60 text-sm">Negotiating</div>
+          <Card className="bg-slate-900/50 backdrop-blur border-slate-700">
+            <CardContent className="pt-6 text-center">
+              <Activity className="w-6 h-6 text-purple-400 mx-auto mb-2" />
+              <div className="text-2xl font-bold text-white">{stats.activeSessions}</div>
+              <div className="text-xs text-slate-400">Live Sessions</div>
             </CardContent>
           </Card>
 
-          <Card className="bg-gradient-to-br from-teal-500/20 to-green-500/20 border-teal-500/50">
-            <CardContent className="pt-6">
-              <Users className="w-8 h-8 text-teal-400 mb-2" />
-              <div className="text-3xl font-bold text-white">
-                {swarmData?.emergent_behaviors?.length || 0}
-              </div>
-              <div className="text-white/60 text-sm">Emergent Patterns</div>
+          <Card className="bg-slate-900/50 backdrop-blur border-slate-700">
+            <CardContent className="pt-6 text-center">
+              <Shield className="w-6 h-6 text-emerald-400 mx-auto mb-2" />
+              <div className="text-2xl font-bold text-white">{stats.evolvingAgents}</div>
+              <div className="text-xs text-slate-400">Evolving AIs</div>
             </CardContent>
           </Card>
         </div>
 
-        <div className="space-y-6">
-          <SwarmIntelligenceOrchestrator3D
-            swarmData={swarmData}
-            onOptimizeSwarm={() => {
-              if (!swarmData) {
-                initializeSwarmMutation.mutate();
-              } else {
-                optimizeSwarmMutation.mutate();
-              }
-            }}
-          />
+        {/* Create Workspace */}
+        <Card className="bg-slate-900/80 backdrop-blur border-slate-700">
+          <CardContent className="pt-6">
+            <div className="flex gap-2">
+              <Input
+                value={workspaceName}
+                onChange={(e) => setWorkspaceName(e.target.value)}
+                placeholder="New workspace name..."
+                className="flex-1 bg-slate-800 text-white border-slate-700"
+              />
+              <Button
+                onClick={() => createWorkspaceMutation.mutate()}
+                disabled={createWorkspaceMutation.isPending}
+                className="bg-cyan-600 hover:bg-cyan-700"
+              >
+                <Plus className="w-4 h-4 mr-2" />
+                Create Workspace
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
 
-          <NegotiationFramework3D
-            negotiationData={negotiationData}
-            onInitiateNegotiation={() => initiateNegotiationMutation.mutate()}
-          />
-        </div>
+        {/* Main Content */}
+        <Tabs defaultValue="workspaces" className="space-y-6">
+          <TabsList className="bg-slate-900 border border-slate-700 p-1">
+            <TabsTrigger value="workspaces" className="gap-2">
+              <Layers className="w-4 h-4" />
+              Holographic Workspaces
+            </TabsTrigger>
+            <TabsTrigger value="sync" className="gap-2">
+              <Activity className="w-4 h-4" />
+              Spatial Sync
+            </TabsTrigger>
+            <TabsTrigger value="personality" className="gap-2">
+              <Users className="w-4 h-4" />
+              AI Personalities
+            </TabsTrigger>
+            <TabsTrigger value="security" className="gap-2">
+              <Shield className="w-4 h-4" />
+              Data Vaults
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="workspaces" className="space-y-4">
+            {workspaces.length === 0 ? (
+              <Card className="bg-slate-900 border-slate-700">
+                <CardContent className="py-12 text-center">
+                  <Layers className="w-16 h-16 text-slate-600 mx-auto mb-4" />
+                  <p className="text-slate-400">No workspaces yet</p>
+                  <p className="text-sm text-slate-500 mt-2">Create one to get started</p>
+                </CardContent>
+              </Card>
+            ) : (
+              <div className="grid grid-cols-1 gap-4">
+                {workspaces.map(workspace => (
+                  <CollaborativeHolographicWorkspace3D
+                    key={workspace.id}
+                    workspaceId={workspace.workspace_id}
+                  />
+                ))}
+              </div>
+            )}
+          </TabsContent>
+
+          <TabsContent value="sync" className="space-y-4">
+            {sessions.length === 0 ? (
+              <Card className="bg-slate-900 border-slate-700">
+                <CardContent className="py-12 text-center">
+                  <Activity className="w-16 h-16 text-slate-600 mx-auto mb-4" />
+                  <p className="text-slate-400">No active sync sessions</p>
+                </CardContent>
+              </Card>
+            ) : (
+              sessions.map(session => (
+                <RealTimeSpatialSync3D
+                  key={session.id}
+                  sessionId={session.session_id}
+                />
+              ))
+            )}
+          </TabsContent>
+
+          <TabsContent value="personality" className="space-y-4">
+            {agents.length === 0 ? (
+              <Card className="bg-slate-900 border-slate-700">
+                <CardContent className="py-12 text-center">
+                  <Users className="w-16 h-16 text-slate-600 mx-auto mb-4" />
+                  <p className="text-slate-400">No agents found</p>
+                </CardContent>
+              </Card>
+            ) : (
+              agents.slice(0, 3).map(agent => (
+                <PersonalityEvolutionDashboard3D
+                  key={agent.id}
+                  agentId={agent.agent_id || agent.id}
+                />
+              ))
+            )}
+          </TabsContent>
+
+          <TabsContent value="security" className="space-y-4">
+            <DecentralizedVaultManager3D />
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );
