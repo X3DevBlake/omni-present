@@ -14,6 +14,7 @@ import AIGoalRecommendations3D from '../components/consciousness/AIGoalRecommend
 import ConsciousnessAugmentationPathway3D from '../components/consciousness/ConsciousnessAugmentationPathway3D';
 import QuantumConsciousnessVisualizer3D from '../components/quantum/QuantumConsciousnessVisualizer3D';
 import QuantumStateHarmonizer3D from '../components/quantum/QuantumStateHarmonizer3D';
+import AdaptivePathwayGenerator3D from '../components/consciousness/AdaptivePathwayGenerator3D';
 import { Badge } from '@/components/ui/badge';
 import { toast } from 'sonner';
 
@@ -315,26 +316,42 @@ export default function ConsciousnessMirrorHub() {
           </TabsContent>
 
           <TabsContent value="pathways" className="mt-6">
-            <div className="mb-6">
-              <div className="flex gap-2 mb-4">
-                <Button onClick={() => generatePathwayMutation.mutate('flow_state')} className="bg-cyan-600 hover:bg-cyan-700">
-                  Flow State
-                </Button>
-                <Button onClick={() => generatePathwayMutation.mutate('enhanced_creativity')} className="bg-purple-600 hover:bg-purple-700">
-                  Enhanced Creativity
-                </Button>
-                <Button onClick={() => generatePathwayMutation.mutate('deep_focus')} className="bg-blue-600 hover:bg-blue-700">
-                  Deep Focus
-                </Button>
-              </div>
-            </div>
-
-            {augmentationPathways[0] && (
-              <ConsciousnessAugmentationPathway3D 
-                pathway={augmentationPathways[0]}
-                onStartActivity={(activity) => toast.success(`Starting: ${activity.activity_name}`)}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+              <AdaptivePathwayGenerator3D
+                currentState={latestSnapshot?.cognitive_state}
+                selectedGoal="enhanced_creativity"
+                biometricFeedback={latestBiometric?.vital_signs}
+                onPathwayGenerated={async (pathway) => {
+                  const response = await base44.functions.invoke('adaptivePathwayEngine', {
+                    action: 'generate_adaptive_pathway',
+                    cognitive_state: latestSnapshot?.cognitive_state,
+                    emotional_state: latestSnapshot?.emotional_state,
+                    goal_type: 'enhanced_creativity',
+                    biometric_data: latestBiometric?.vital_signs
+                  });
+                  queryClient.invalidateQueries({ queryKey: ['augmentation-pathways'] });
+                  toast.success('AI pathway generated!');
+                }}
+                onExerciseComplete={async (exercise, score) => {
+                  if (augmentationPathways[0]) {
+                    await base44.functions.invoke('adaptivePathwayEngine', {
+                      action: 'adapt_pathway_realtime',
+                      pathway_id: augmentationPathways[0].pathway_id,
+                      biometric_data: latestBiometric?.vital_signs,
+                      exercise_completed: exercise.name
+                    });
+                    queryClient.invalidateQueries({ queryKey: ['augmentation-pathways'] });
+                  }
+                }}
               />
-            )}
+
+              {augmentationPathways[0] && (
+                <ConsciousnessAugmentationPathway3D 
+                  pathway={augmentationPathways[0]}
+                  onStartActivity={(activity) => toast.success(`Starting: ${activity.activity_name}`)}
+                />
+              )}
+            </div>
           </TabsContent>
 
           <TabsContent value="quantum" className="mt-6">

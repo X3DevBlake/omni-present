@@ -11,6 +11,7 @@ import AIManagement from './pages/AIManagement';
 import AIModelDeployment from './pages/AIModelDeployment';
 import AIPlayground from './pages/AIPlayground';
 import AIPortfolioManager from './pages/AIPortfolioManager';
+import AITrainingAcademy from './pages/AITrainingAcademy';
 import AITrainingCenter from './pages/AITrainingCenter';
 import APIDocumentation from './pages/APIDocumentation';
 import APIExplorer from './pages/APIExplorer';
@@ -81,6 +82,7 @@ import AlertManagementDashboard from './pages/AlertManagementDashboard';
 import AlignmentHub from './pages/AlignmentHub';
 import Analytics from './pages/Analytics';
 import AnalyticsIntelligenceHub from './pages/AnalyticsIntelligenceHub';
+import AnimationStudio from './pages/AnimationStudio';
 import Architecture from './pages/Architecture';
 import AssetBrowser from './pages/AssetBrowser';
 import AssetUpload from './pages/AssetUpload';
@@ -190,6 +192,7 @@ import EnhancedCommunityHub from './pages/EnhancedCommunityHub';
 import EnhancedDashboard from './pages/EnhancedDashboard';
 import EnhancedDeFiHub from './pages/EnhancedDeFiHub';
 import EnhancedDeFiTradingHub from './pages/EnhancedDeFiTradingHub';
+import EnhancedDeveloperEcosystem from './pages/EnhancedDeveloperEcosystem';
 import EnhancedGamificationHub from './pages/EnhancedGamificationHub';
 import EnhancedGovernanceHub from './pages/EnhancedGovernanceHub';
 import EnhancedIntegrationHub from './pages/EnhancedIntegrationHub';
@@ -211,9 +214,9 @@ import EthicsHub from './pages/EthicsHub';
 import EthicsSafetyHub from './pages/EthicsSafetyHub';
 import EventsCalendar from './pages/EventsCalendar';
 import EvolutionDashboardPage from './pages/EvolutionDashboardPage';
+import FAQ from './pages/FAQ';
 import ExchangeListings from './pages/ExchangeListings';
 import ExperimentTracking from './pages/ExperimentTracking';
-import FAQ from './pages/FAQ';
 import FeatureDetail from './pages/FeatureDetail';
 import FeatureFlagManager from './pages/FeatureFlagManager';
 import Features from './pages/Features';
@@ -282,6 +285,7 @@ import OmniDashboard from './pages/OmniDashboard';
 import OmniHome from './pages/OmniHome';
 import OmniHub from './pages/OmniHub';
 import OmniPresenceControlCenter from './pages/OmniPresenceControlCenter';
+import OmniPresentCoreHub from './pages/OmniPresentCoreHub';
 import OmniStaking from './pages/OmniStaking';
 import OmniWallet from './pages/OmniWallet';
 import OrderManagement from './pages/OrderManagement';
@@ -370,10 +374,6 @@ import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
 import WorldHubEnhanced from './pages/WorldHubEnhanced';
-import AITrainingAcademy from './pages/AITrainingAcademy';
-import EnhancedDeveloperEcosystem from './pages/EnhancedDeveloperEcosystem';
-import OmniPresentCoreHub from './pages/OmniPresentCoreHub';
-import AnimationStudio from './pages/AnimationStudio';
 import __Layout from './Layout.jsx';
 
 
@@ -391,6 +391,7 @@ export const PAGES = {
     "AIModelDeployment": AIModelDeployment,
     "AIPlayground": AIPlayground,
     "AIPortfolioManager": AIPortfolioManager,
+    "AITrainingAcademy": AITrainingAcademy,
     "AITrainingCenter": AITrainingCenter,
     "APIDocumentation": APIDocumentation,
     "APIExplorer": APIExplorer,
@@ -461,6 +462,7 @@ export const PAGES = {
     "AlignmentHub": AlignmentHub,
     "Analytics": Analytics,
     "AnalyticsIntelligenceHub": AnalyticsIntelligenceHub,
+    "AnimationStudio": AnimationStudio,
     "Architecture": Architecture,
     "AssetBrowser": AssetBrowser,
     "AssetUpload": AssetUpload,
@@ -570,6 +572,7 @@ export const PAGES = {
     "EnhancedDashboard": EnhancedDashboard,
     "EnhancedDeFiHub": EnhancedDeFiHub,
     "EnhancedDeFiTradingHub": EnhancedDeFiTradingHub,
+    "EnhancedDeveloperEcosystem": EnhancedDeveloperEcosystem,
     "EnhancedGamificationHub": EnhancedGamificationHub,
     "EnhancedGovernanceHub": EnhancedGovernanceHub,
     "EnhancedIntegrationHub": EnhancedIntegrationHub,
@@ -591,9 +594,9 @@ export const PAGES = {
     "EthicsSafetyHub": EthicsSafetyHub,
     "EventsCalendar": EventsCalendar,
     "EvolutionDashboardPage": EvolutionDashboardPage,
+    "FAQ": FAQ,
     "ExchangeListings": ExchangeListings,
     "ExperimentTracking": ExperimentTracking,
-    "FAQ": FAQ,
     "FeatureDetail": FeatureDetail,
     "FeatureFlagManager": FeatureFlagManager,
     "Features": Features,
@@ -662,6 +665,7 @@ export const PAGES = {
     "OmniHome": OmniHome,
     "OmniHub": OmniHub,
     "OmniPresenceControlCenter": OmniPresenceControlCenter,
+    "OmniPresentCoreHub": OmniPresentCoreHub,
     "OmniStaking": OmniStaking,
     "OmniWallet": OmniWallet,
     "OrderManagement": OrderManagement,
@@ -750,10 +754,6 @@ export const PAGES = {
     "WorkflowOrchestrationHub": WorkflowOrchestrationHub,
     "World": World,
     "WorldHubEnhanced": WorldHubEnhanced,
-    "AITrainingAcademy": AITrainingAcademy,
-    "EnhancedDeveloperEcosystem": EnhancedDeveloperEcosystem,
-    "OmniPresentCoreHub": OmniPresentCoreHub,
-    "AnimationStudio": AnimationStudio,
 }
 
 export const pagesConfig = {

@@ -1,171 +1,267 @@
-import React, { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import React, { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { motion } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
-import { motion } from 'framer-motion';
-import { Users, Network, Lightbulb, CheckCircle2, Clock, AlertCircle, Plus } from 'lucide-react';
-import AuroraBackground from '../components/omni/AuroraBackground';
-import CollaborationWorkingGroupsPanel from '../components/collaboration/CollaborationWorkingGroupsPanel';
-import CollaborationTasksPanel from '../components/collaboration/CollaborationTasksPanel';
-import SharedInsightsPanel from '../components/collaboration/SharedInsightsPanel';
-import CollaborationVisualization from '../components/collaboration/CollaborationVisualization';
-import CollaborationChat from '../components/collaboration/CollaborationChat';
-import TaskDependencyBuilder from '../components/collaboration/TaskDependencyBuilder';
-import AIInsightSuggestions from '../components/collaboration/AIInsightSuggestions';
+import { Users, Brain, TrendingUp, Zap, MessageCircle, Award, AlertCircle } from 'lucide-react';
+import SwarmInteractionVisualizer3D from '../components/collaboration/SwarmInteractionVisualizer3D';
+import CollectiveDecisionMaker3D from '../components/collaboration/CollectiveDecisionMaker3D';
+import EmergentBehaviorDetector3D from '../components/collaboration/EmergentBehaviorDetector3D';
+import TeamDynamicsAnalyzer from '../components/collaboration/TeamDynamicsAnalyzer';
+import { toast } from 'sonner';
 
 export default function AgentCollaborationDashboard() {
-  const [selectedGroup, setSelectedGroup] = useState(null);
-  const [selectedTask, setSelectedTask] = useState(null);
-  const [showCreateGroup, setShowCreateGroup] = useState(false);
+  const queryClient = useQueryClient();
+  const [selectedSwarm, setSelectedSwarm] = useState(null);
+  const [realTimeEnabled, setRealTimeEnabled] = useState(true);
 
-  const { data: workingGroups = [] } = useQuery({
-    queryKey: ['workingGroups'],
-    queryFn: () => base44.entities.WorkingGroup.list('-created_date', 100),
+  const { data: collaborations = [] } = useQuery({
+    queryKey: ['agent-collaborations'],
+    queryFn: () => base44.entities.AutonomousAgentCollaboration.list('-created_date', 20),
+    initialData: [],
+    refetchInterval: realTimeEnabled ? 3000 : false
+  });
+
+  const { data: emergentBehaviors = [] } = useQuery({
+    queryKey: ['emergent-behaviors'],
+    queryFn: () => base44.entities.EmergentBehavior.list('-created_date', 15),
+    initialData: [],
+    refetchInterval: realTimeEnabled ? 5000 : false
+  });
+
+  const { data: teamOrchestrations = [] } = useQuery({
+    queryKey: ['team-orchestrations'],
+    queryFn: () => base44.entities.TeamOrchestration.list('-created_date', 10),
     initialData: []
   });
 
-  const { data: collaborationTasks = [] } = useQuery({
-    queryKey: ['collaborationTasks'],
-    queryFn: () => base44.entities.CollaborationTask.list('-created_date', 100),
-    initialData: []
+  const { data: aiAnalysis, refetch: refetchAnalysis } = useQuery({
+    queryKey: ['collaboration-analysis', selectedSwarm?.id],
+    queryFn: async () => {
+      if (!selectedSwarm) return null;
+      const response = await base44.functions.invoke('swarmCollaborationAnalyzer', {
+        action: 'analyze_team_dynamics',
+        collaboration_id: selectedSwarm.collaboration_id
+      });
+      return response.data;
+    },
+    enabled: !!selectedSwarm,
+    initialData: null
   });
 
-  const { data: sharedInsights = [] } = useQuery({
-    queryKey: ['sharedInsights'],
-    queryFn: () => base44.entities.SharedInsight.list('-created_date', 50),
-    initialData: []
+  const analyzeSwarmMutation = useMutation({
+    mutationFn: async (collaboration_id) => {
+      const response = await base44.functions.invoke('swarmCollaborationAnalyzer', {
+        action: 'analyze_team_dynamics',
+        collaboration_id
+      });
+      return response.data;
+    },
+    onSuccess: (data) => {
+      toast.success(`Analysis complete! Team synergy: ${(data.team_synergy * 100).toFixed(0)}%`);
+      refetchAnalysis();
+    }
   });
 
-  const stats = [
-    { label: 'Active Groups', value: workingGroups.filter(g => g.status === 'active').length, icon: <Users className="w-5 h-5" />, color: 'from-blue-500 to-cyan-500' },
-    { label: 'Total Agents', value: workingGroups.reduce((acc, g) => acc + (g.agent_members?.length || 0), 0), icon: <Network className="w-5 h-5" />, color: 'from-purple-500 to-pink-500' },
-    { label: 'Tasks In Progress', value: collaborationTasks.filter(t => t.status === 'in_progress').length, icon: <Clock className="w-5 h-5" />, color: 'from-yellow-500 to-orange-500' },
-    { label: 'Insights Shared', value: sharedInsights.length, icon: <Lightbulb className="w-5 h-5" />, color: 'from-green-500 to-emerald-500' }
-  ];
+  const optimizeCollaborationMutation = useMutation({
+    mutationFn: async (collaboration_id) => {
+      const response = await base44.functions.invoke('swarmCollaborationAnalyzer', {
+        action: 'optimize_collaboration',
+        collaboration_id
+      });
+      return response.data;
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ['agent-collaborations'] });
+      toast.success(`Optimization applied! ${data.improvements_made} improvements made`);
+    }
+  });
+
+  const avgSynergy = collaborations.length > 0
+    ? collaborations.reduce((sum, c) => sum + (c.collaboration_metrics?.synergy_score || 0), 0) / collaborations.length
+    : 0;
+
+  const totalInteractions = collaborations.reduce((sum, c) => 
+    sum + (c.interaction_history?.length || 0), 0
+  );
 
   return (
-    <AuroraBackground className="min-h-screen py-12 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-950 p-6">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-12">
-          <h1 className="text-5xl font-bold text-white mb-2 flex items-center gap-3">
-            <Network className="w-12 h-12 text-cyan-400" />
-            <span className="bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
-              Agent Collaboration Hub
-            </span>
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-8"
+        >
+          <h1 className="text-5xl font-bold text-white mb-3 flex items-center gap-4">
+            <Users className="w-12 h-12 text-indigo-400 animate-pulse" />
+            AI Agent Collaboration Dashboard
           </h1>
-          <p className="text-white/60 text-lg">Cross-hub agent coordination, shared knowledge, and collaborative problem-solving</p>
+          <p className="text-white/60 text-lg">
+            Real-time monitoring of swarm intelligence, collective decisions, and emergent behaviors
+          </p>
         </motion.div>
 
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          {stats.map((stat, idx) => (
-            <motion.div key={idx} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.1 }}>
-              <Card className="bg-slate-900/60 border-slate-700 backdrop-blur-xl">
-                <CardContent className="p-6">
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <p className="text-slate-400 text-sm mb-1">{stat.label}</p>
-                      <p className="text-3xl font-bold text-white">{stat.value}</p>
-                    </div>
-                    <div className={`p-3 rounded-lg bg-gradient-to-br ${stat.color} text-white`}>
-                      {stat.icon}
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
+        <div className="grid grid-cols-5 gap-4 mb-6">
+          <Card className="bg-gradient-to-br from-indigo-500/20 to-purple-500/20 border-indigo-500/50">
+            <CardContent className="pt-6">
+              <Users className="w-8 h-8 text-indigo-400 mb-2" />
+              <div className="text-3xl font-bold text-white">{collaborations.length}</div>
+              <div className="text-white/60 text-sm">Active Swarms</div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 border-purple-500/50">
+            <CardContent className="pt-6">
+              <Brain className="w-8 h-8 text-purple-400 mb-2" />
+              <div className="text-3xl font-bold text-white">{(avgSynergy * 100).toFixed(0)}%</div>
+              <div className="text-white/60 text-sm">Avg Synergy</div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-gradient-to-br from-pink-500/20 to-orange-500/20 border-pink-500/50">
+            <CardContent className="pt-6">
+              <MessageCircle className="w-8 h-8 text-pink-400 mb-2" />
+              <div className="text-3xl font-bold text-white">{totalInteractions}</div>
+              <div className="text-white/60 text-sm">Interactions</div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-gradient-to-br from-orange-500/20 to-yellow-500/20 border-orange-500/50">
+            <CardContent className="pt-6">
+              <Zap className="w-8 h-8 text-orange-400 mb-2" />
+              <div className="text-3xl font-bold text-white">{emergentBehaviors.length}</div>
+              <div className="text-white/60 text-sm">Emergent</div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-gradient-to-br from-green-500/20 to-emerald-500/20 border-green-500/50">
+            <CardContent className="pt-6">
+              <Award className="w-8 h-8 text-green-400 mb-2" />
+              <div className="text-3xl font-bold text-white">{teamOrchestrations.length}</div>
+              <div className="text-white/60 text-sm">Orchestrations</div>
+            </CardContent>
+          </Card>
         </div>
 
-        {/* Main Tabs */}
-        <Tabs defaultValue="visualization" className="space-y-6">
-          <TabsList className="bg-black/40 border border-white/10">
-            <TabsTrigger value="visualization">Collaboration Network</TabsTrigger>
-            <TabsTrigger value="groups">Working Groups</TabsTrigger>
-            <TabsTrigger value="tasks">Collaborative Tasks</TabsTrigger>
-            <TabsTrigger value="chat">Chat & Dependencies</TabsTrigger>
-            <TabsTrigger value="insights">Shared Insights</TabsTrigger>
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex gap-2">
+            <Badge className={realTimeEnabled ? 'bg-green-500/30 text-green-300' : 'bg-gray-500/30 text-gray-300'}>
+              {realTimeEnabled ? 'Real-time Monitoring Active' : 'Real-time Paused'}
+            </Badge>
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => setRealTimeEnabled(!realTimeEnabled)}
+            >
+              {realTimeEnabled ? 'Pause' : 'Resume'} Monitoring
+            </Button>
+          </div>
+
+          {selectedSwarm && (
+            <Button
+              onClick={() => optimizeCollaborationMutation.mutate(selectedSwarm.collaboration_id)}
+              disabled={optimizeCollaborationMutation.isPending}
+              className="bg-indigo-600 hover:bg-indigo-700"
+            >
+              <TrendingUp className="w-4 h-4 mr-2" />
+              Optimize Selected Swarm
+            </Button>
+          )}
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
+          <Card className="lg:col-span-2 bg-black/40 border-indigo-500/50">
+            <CardHeader>
+              <CardTitle className="text-white">Active Swarms</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-2 max-h-64 overflow-y-auto">
+                {collaborations.map((collab) => (
+                  <motion.button
+                    key={collab.id}
+                    whileHover={{ scale: 1.02 }}
+                    onClick={() => {
+                      setSelectedSwarm(collab);
+                      analyzeSwarmMutation.mutate(collab.collaboration_id);
+                    }}
+                    className={`w-full p-4 rounded-lg border transition-all text-left ${
+                      selectedSwarm?.id === collab.id
+                        ? 'bg-indigo-500/30 border-indigo-400'
+                        : 'bg-black/60 border-indigo-500/30 hover:bg-indigo-500/10'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="text-white font-bold">{collab.collaboration_id}</div>
+                      <Badge className="bg-indigo-500/30 text-indigo-300">
+                        {collab.participating_agents?.length || 0} Agents
+                      </Badge>
+                    </div>
+                    <div className="text-white/60 text-xs mb-2">
+                      Goal: {collab.collective_goal || 'Collaborative Task'}
+                    </div>
+                    <div className="flex gap-2">
+                      <Badge variant="outline" className="text-xs">
+                        Synergy: {((collab.collaboration_metrics?.synergy_score || 0) * 100).toFixed(0)}%
+                      </Badge>
+                      <Badge variant="outline" className="text-xs">
+                        Decisions: {collab.decision_history?.length || 0}
+                      </Badge>
+                    </div>
+                  </motion.button>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          <TeamDynamicsAnalyzer 
+            analysis={aiAnalysis}
+            collaboration={selectedSwarm}
+            onRefresh={() => selectedSwarm && analyzeSwarmMutation.mutate(selectedSwarm.collaboration_id)}
+          />
+        </div>
+
+        <Tabs defaultValue="swarm" className="w-full">
+          <TabsList className="grid w-full grid-cols-3 bg-black/60 border-indigo-500/30">
+            <TabsTrigger value="swarm">Swarm Interactions</TabsTrigger>
+            <TabsTrigger value="decisions">Collective Decisions</TabsTrigger>
+            <TabsTrigger value="emergent">Emergent Behaviors</TabsTrigger>
           </TabsList>
 
-          {/* Visualization Tab */}
-          <TabsContent value="visualization">
-            <Card className="bg-slate-900/60 border-slate-700 backdrop-blur-xl">
-              <CardHeader>
-                <CardTitle className="text-white flex items-center gap-2">
-                  <Network className="w-5 h-5" />
-                  Real-time Collaboration Network
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="h-[600px] rounded-lg overflow-hidden">
-                  <CollaborationVisualization workingGroups={workingGroups} tasks={collaborationTasks} />
-                </div>
-              </CardContent>
-            </Card>
+          <TabsContent value="swarm" className="mt-6">
+            {selectedSwarm ? (
+              <SwarmInteractionVisualizer3D collaboration={selectedSwarm} />
+            ) : (
+              <Card className="bg-black/40 border-indigo-500/50">
+                <CardContent className="pt-12 pb-12 text-center">
+                  <AlertCircle className="w-12 h-12 text-indigo-400 mx-auto mb-4" />
+                  <div className="text-white/60">Select a swarm to visualize interactions</div>
+                </CardContent>
+              </Card>
+            )}
           </TabsContent>
 
-          {/* Working Groups Tab */}
-          <TabsContent value="groups">
-            <div className="flex justify-end mb-4">
-              <Button onClick={() => setShowCreateGroup(true)} className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700">
-                <Plus className="w-4 h-4 mr-2" />
-                Create Working Group
-              </Button>
-            </div>
-            <CollaborationWorkingGroupsPanel groups={workingGroups} selectedGroup={selectedGroup} onSelectGroup={setSelectedGroup} />
+          <TabsContent value="decisions" className="mt-6">
+            {selectedSwarm ? (
+              <CollectiveDecisionMaker3D collaboration={selectedSwarm} />
+            ) : (
+              <Card className="bg-black/40 border-purple-500/50">
+                <CardContent className="pt-12 pb-12 text-center">
+                  <AlertCircle className="w-12 h-12 text-purple-400 mx-auto mb-4" />
+                  <div className="text-white/60">Select a swarm to view collective decisions</div>
+                </CardContent>
+              </Card>
+            )}
           </TabsContent>
 
-          {/* Tasks Tab */}
-          <TabsContent value="tasks">
-            <CollaborationTasksPanel 
-              tasks={collaborationTasks} 
-              groups={workingGroups}
-              onSelectTask={setSelectedTask}
-            />
-          </TabsContent>
-
-          {/* Chat & Dependencies Tab */}
-          <TabsContent value="chat" className="space-y-6">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              {selectedTask ? (
-                <>
-                  <div className="lg:col-span-2">
-                    <CollaborationChat 
-                      taskId={selectedTask.id}
-                      groupId={selectedTask.working_group_id}
-                      title={`Chat: ${selectedTask.task_name}`}
-                    />
-                  </div>
-                  <div>
-                    <AIInsightSuggestions 
-                      taskContext={selectedTask}
-                      groupContext={selectedGroup}
-                      onApply={(suggestion) => console.log('Applied:', suggestion)}
-                    />
-                  </div>
-                </>
-              ) : (
-                <div className="lg:col-span-3 p-8 text-center text-slate-400">
-                  Select a task from the Collaborative Tasks tab to start chatting
-                </div>
-              )}
-            </div>
-            <TaskDependencyBuilder 
-              tasks={collaborationTasks} 
-              onDependencyCreate={() => console.log('Dependency created')}
-            />
-          </TabsContent>
-
-          {/* Insights Tab */}
-          <TabsContent value="insights">
-            <SharedInsightsPanel insights={sharedInsights} />
+          <TabsContent value="emergent" className="mt-6">
+            <EmergentBehaviorDetector3D behaviors={emergentBehaviors} />
           </TabsContent>
         </Tabs>
       </div>
-    </AuroraBackground>
+    </div>
   );
 }

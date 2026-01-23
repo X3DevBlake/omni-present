@@ -4,6 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { Copy, Check, Code2 } from 'lucide-react';
 import { toast } from 'sonner';
+import InteractiveSDKDebugger from './InteractiveSDKDebugger';
 
 export default function PythonSDKDocs() {
   const [copiedSection, setCopiedSection] = useState('');
@@ -25,12 +26,13 @@ export default function PythonSDKDocs() {
       </CardHeader>
       <CardContent>
         <Tabs defaultValue="installation" className="w-full">
-          <TabsList className="grid w-full grid-cols-5 bg-black/60">
-            <TabsTrigger value="installation">Installation</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-6 bg-black/60 text-xs">
+            <TabsTrigger value="installation">Install</TabsTrigger>
             <TabsTrigger value="quickstart">Quick Start</TabsTrigger>
             <TabsTrigger value="examples">Examples</TabsTrigger>
             <TabsTrigger value="streaming">Streaming</TabsTrigger>
-            <TabsTrigger value="api">API Reference</TabsTrigger>
+            <TabsTrigger value="debugger">Debugger</TabsTrigger>
+            <TabsTrigger value="api">API</TabsTrigger>
           </TabsList>
 
           <TabsContent value="installation" className="mt-4">
@@ -307,6 +309,10 @@ except OmniPresentError as e:
                 </pre>
               </div>
             </div>
+          </TabsContent>
+
+          <TabsContent value="debugger" className="mt-4">
+            <InteractiveSDKDebugger />
           </TabsContent>
 
           <TabsContent value="api" className="mt-4">
