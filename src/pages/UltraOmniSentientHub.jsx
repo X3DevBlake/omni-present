@@ -25,6 +25,9 @@ import SpatialSDKDebugger3D from '../components/developer/SpatialSDKDebugger3D';
 import BiometricAdaptiveUI from '../components/assistant/BiometricAdaptiveUI';
 import MultiModalController from '../components/interaction/MultiModalController';
 import AISkillMarketplace from '../components/marketplace/AISkillMarketplace';
+import HolographicAgentPresence3D from '../components/holographic/HolographicAgentPresence3D';
+import PersonalityTraitNetwork3D from '../components/personality/PersonalityTraitNetwork3D';
+import BlockchainIntegrityVisualizer3D from '../components/security/BlockchainIntegrityVisualizer3D';
 
 export default function UltraOmniSentientHub() {
   const [refreshInterval, setRefreshInterval] = useState(5000);
@@ -62,6 +65,17 @@ export default function UltraOmniSentientHub() {
   const { data: biometricEvents = [] } = useQuery({
     queryKey: ['biometric-events'],
     queryFn: () => base44.entities.BiometricAdaptationEvent.list()
+  });
+
+  const { data: personalityEvolutions = [] } = useQuery({
+    queryKey: ['personality-evolutions'],
+    queryFn: () => base44.entities.AgentPersonalityEvolution.list()
+  });
+
+  const { data: holographicProjections = [] } = useQuery({
+    queryKey: ['holographic-projections'],
+    queryFn: () => base44.entities.HolographicProjection.list(),
+    refetchInterval: 3000
   });
 
   const handleAcceptInsight = async (insight, action) => {
@@ -256,6 +270,20 @@ export default function UltraOmniSentientHub() {
               <LivingDocumentationHub />
             </TabsContent>
           </Tabs>
+
+          {/* Holographic Agent Presence */}
+          {personalityEvolutions.length > 0 && (
+            <HolographicAgentPresence3D
+              agent={{ name: 'Omni Assistant' }}
+              personality={personalityEvolutions[0]}
+            />
+          )}
+
+          {/* Additional Visualizations */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <PersonalityTraitNetwork3D agentId="omni_assistant_001" />
+            <BlockchainIntegrityVisualizer3D />
+          </div>
         </div>
       </div>
     </BiometricAdaptiveUI>

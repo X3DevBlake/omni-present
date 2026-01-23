@@ -1,4 +1,6 @@
 import React from 'react';
+import UniversalHolographicOverlay from '../components/holographic/UniversalHolographicOverlay';
+import PersonalityTraitNetwork3D from '../components/personality/PersonalityTraitNetwork3D';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
@@ -165,5 +167,6 @@ export default function AITrainingAcademy() {
         </Tabs>
       </div>
     </div>
+    </>
   );
 }

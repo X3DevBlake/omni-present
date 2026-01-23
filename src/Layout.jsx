@@ -4,6 +4,7 @@ import BackButton from './components/navigation/BackButton';
 import { GamificationProvider } from './components/gamification/GamificationContext';
 import { PersonalizationProvider } from './components/personalization/PersonalizationContext';
 import { AnimationProvider } from './components/animations/AnimationContext';
+import { HolographicProvider } from './components/holographic/GlobalHolographicController';
 import GlobalAnimationPlayer from './components/animations/GlobalAnimationPlayer';
 import PageTransitionLoader from './components/ui/PageTransitionLoader';
 import { usePageTransition } from './components/hooks/usePageTransition';
@@ -96,15 +97,17 @@ function LayoutContent({ children, currentPageName }) {
 export default function Layout({ children, currentPageName }) {
   return (
     <ErrorBoundary>
-      <AnimationProvider>
-        <PersonalizationProvider>
-          <GamificationProvider>
+      <HolographicProvider>
+        <AnimationProvider>
+          <PersonalizationProvider>
+            <GamificationProvider>
             <PerformanceMonitor />
             <GlobalAnimationPlayer />
             <LayoutContent currentPageName={currentPageName}>{children}</LayoutContent>
-          </GamificationProvider>
-        </PersonalizationProvider>
-      </AnimationProvider>
+            </GamificationProvider>
+          </PersonalizationProvider>
+        </AnimationProvider>
+      </HolographicProvider>
     </ErrorBoundary>
   );
 }
