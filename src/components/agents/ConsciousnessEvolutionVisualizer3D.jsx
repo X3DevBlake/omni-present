@@ -3,7 +3,7 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Text, Sphere, Line, Torus } from '@react-three/drei';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Brain, Sparkles, TrendingUp, Eye } from 'lucide-react';
+import { Brain, Sparkles, TrendingUp, Eye, Zap } from 'lucide-react';
 
 function ConsciousnessLevel({ level, label, position, color }) {
   const meshRef = useRef();
