@@ -6,10 +6,26 @@ import CognitiveHandshakeVisualizer3D from '../components/omega/CognitiveHandsha
 import AetherDisplayController3D from '../components/omega/AetherDisplayController3D';
 import SentientFinanceEngine3D from '../components/omega/SentientFinanceEngine3D';
 import NeuralManifoldAlignmentVisualizer3D from '../components/omega/NeuralManifoldAlignmentVisualizer3D';
+import ProactiveAnomalyDetector3D from '../components/omega/ProactiveAnomalyDetector3D';
+import GeopoliticalPredictor3D from '../components/omega/GeopoliticalPredictor3D';
+import UnifiedNotificationCenter from '../components/omega/UnifiedNotificationCenter';
+import CustomDashboardBuilder from '../components/omega/CustomDashboardBuilder';
+import InteractiveOnboarding from '../components/omega/InteractiveOnboarding';
+import OMLTransactionInterface from '../components/omega/OMLTransactionInterface';
 
 export default function OmegaCollaborationHub() {
+  const [showOnboarding, setShowOnboarding] = useState(false);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-950 via-purple-950 to-blue-950">
+      {showOnboarding && (
+        <InteractiveOnboarding onComplete={() => setShowOnboarding(false)} />
+      )}
+
+      {/* Notification Center - Fixed Position */}
+      <div className="fixed top-20 right-6 z-40 w-80">
+        <UnifiedNotificationCenter />
+      </div>
       {/* Hero Section */}
       <section className="max-w-7xl mx-auto px-6 pt-24 pb-12">
         <motion.div
@@ -77,11 +93,14 @@ export default function OmegaCollaborationHub() {
       {/* Collaboration Interfaces */}
       <section className="max-w-7xl mx-auto px-6 pb-16">
         <Tabs defaultValue="handshake" className="w-full">
-          <TabsList className="grid w-full grid-cols-4 bg-black/60 backdrop-blur-xl mb-8">
-            <TabsTrigger value="handshake">Cognitive Handshake</TabsTrigger>
-            <TabsTrigger value="neural">Neural Alignment</TabsTrigger>
-            <TabsTrigger value="finance">Financial Strategy</TabsTrigger>
-            <TabsTrigger value="aether">Aether Display</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-7 bg-black/60 backdrop-blur-xl mb-8 text-xs">
+            <TabsTrigger value="handshake">Handshake</TabsTrigger>
+            <TabsTrigger value="neural">Neural</TabsTrigger>
+            <TabsTrigger value="finance">Finance</TabsTrigger>
+            <TabsTrigger value="aether">Aether</TabsTrigger>
+            <TabsTrigger value="anomaly">Anomaly</TabsTrigger>
+            <TabsTrigger value="geo">Geopolitical</TabsTrigger>
+            <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
           </TabsList>
 
           <TabsContent value="handshake">
@@ -171,6 +190,46 @@ export default function OmegaCollaborationHub() {
                     <div className="text-white text-sm">POT physics & stabilization</div>
                   </div>
                 </div>
+              </div>
+            </motion.div>
+          </TabsContent>
+
+          <TabsContent value="anomaly">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <ProactiveAnomalyDetector3D />
+            </motion.div>
+          </TabsContent>
+
+          <TabsContent value="geo">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="grid grid-cols-2 gap-6"
+            >
+              <GeopoliticalPredictor3D />
+              <OMLTransactionInterface agentId="demo_agent_001" />
+            </motion.div>
+          </TabsContent>
+
+          <TabsContent value="dashboard">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <CustomDashboardBuilder />
+              
+              <div className="mt-6">
+                <Button
+                  onClick={() => setShowOnboarding(true)}
+                  variant="outline"
+                  className="w-full border-purple-500/50 text-purple-300"
+                >
+                  <Sparkles className="w-4 h-4 mr-2" />
+                  Restart Interactive Tutorial
+                </Button>
               </div>
             </motion.div>
           </TabsContent>
