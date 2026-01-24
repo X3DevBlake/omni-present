@@ -7,36 +7,63 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Users, Video, Mic, Share2, Activity, Bot, Send, BookOpen, Lightbulb, MessageSquare } from 'lucide-react';
+import { Users, Video, Mic, Share2, Activity, Bot, Send, BookOpen, Lightbulb, MessageSquare, Sparkles } from 'lucide-react';
 import * as THREE from 'three';
 import { base44 } from '@/api/base44Client';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import LiveSimulatorPanel from './LiveSimulatorPanel';
+import CollaborativeAnnotationTool from './CollaborativeAnnotationTool';
 
-const HolographicContent = ({ position, contentType, data }) => {
+const HolographicContent = ({ position, contentType, data, onManipulate }) => {
   const meshRef = useRef();
+  const [isDragging, setIsDragging] = useState(false);
+  const [scale, setScale] = useState(1);
+  const [rotation, setRotation] = useState([0, 0, 0]);
 
   useFrame((state) => {
-    if (meshRef.current) {
-      meshRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.5) * 0.2;
+    if (meshRef.current && !isDragging) {
+      meshRef.current.rotation.y = rotation[1] + Math.sin(state.clock.elapsedTime * 0.5) * 0.2;
       meshRef.current.position.y = position[1] + Math.sin(state.clock.elapsedTime * 2) * 0.1;
     }
   });
 
+  const handlePointerDown = () => setIsDragging(true);
+  const handlePointerUp = () => {
+    setIsDragging(false);
+    if (onManipulate) {
+      onManipulate({ scale, rotation, position: meshRef.current.position.toArray() });
+    }
+  };
+
   if (contentType === 'model') {
     return (
-      <group position={position} ref={meshRef}>
+      <group 
+        position={position} 
+        ref={meshRef}
+        scale={scale}
+        rotation={rotation}
+        onPointerDown={handlePointerDown}
+        onPointerUp={handlePointerUp}
+      >
         <Sphere args={[1.5, 64, 64]}>
           <meshStandardMaterial
-            color="#3b82f6"
-            emissive="#3b82f6"
-            emissiveIntensity={0.5}
+            color={isDragging ? '#10b981' : '#3b82f6'}
+            emissive={isDragging ? '#10b981' : '#3b82f6'}
+            emissiveIntensity={isDragging ? 0.9 : 0.5}
             transparent
             opacity={0.6}
             wireframe
           />
         </Sphere>
+        {isDragging && (
+          <Html distanceFactor={6}>
+            <div className="bg-green-500 text-white px-3 py-1 rounded text-xs font-bold">
+              MANIPULATING
+            </div>
+          </Html>
+        )}
         <Text position={[0, -2, 0]} fontSize={0.3} color="white" anchorX="center">
-          {data?.title || '3D Model'}
+          {data?.title || '3D Model'} {isDragging ? '(Drag to move)' : ''}
         </Text>
       </group>
     );
@@ -140,8 +167,37 @@ const AIInstructorHologram = ({ position, mood }) => {
   );
 };
 
-const InteractiveWhiteboard = ({ position, drawings, onDraw }) => {
+const InteractiveWhiteboard = ({ position, drawings, onDraw, sessionId }) => {
   const meshRef = useRef();
+  const [drawingMode, setDrawingMode] = useState(false);
+  const [brushColor, setBrushColor] = useState('#3b82f6');
+  const [localDrawings, setLocalDrawings] = useState(drawings);
+
+  // Real-time sync simulation
+  useEffect(() => {
+    setLocalDrawings(drawings);
+  }, [drawings]);
+
+  const addDrawing = (content) => {
+    const newDrawing = { 
+      author: 'You', 
+      content, 
+      timestamp: Date.now(),
+      color: brushColor 
+    };
+    setLocalDrawings([...localDrawings, newDrawing]);
+    onDraw(newDrawing);
+    
+    // Sync to backend
+    if (sessionId) {
+      base44.functions.invoke('holographicSessionOrchestrator', {
+        action: 'collaborate_whiteboard',
+        session_id: sessionId,
+        drawing_data: newDrawing,
+        author_id: 'current_user'
+      }).catch(console.error);
+    }
+  };
 
   return (
     <group position={position}>
@@ -149,25 +205,60 @@ const InteractiveWhiteboard = ({ position, drawings, onDraw }) => {
         <meshStandardMaterial color="#0f172a" transparent opacity={0.95} />
       </Box>
       <Html distanceFactor={10} transform>
-        <div className="w-[600px] h-[400px] bg-gradient-to-br from-slate-900 to-slate-800 rounded-lg p-4 border border-blue-500/30">
-          <div className="text-white text-sm font-bold mb-2">Collaborative Board</div>
-          <div className="bg-black/60 rounded h-[300px] mb-2 p-4 overflow-y-auto">
-            {drawings.map((draw, idx) => (
-              <div key={idx} className="text-gray-300 mb-2 text-sm">
-                <span className="text-blue-400">{draw.author}:</span> {draw.content}
+        <div className="w-[700px] h-[500px] bg-gradient-to-br from-slate-900 to-slate-800 rounded-lg p-4 border border-blue-500/30">
+          <div className="flex items-center justify-between mb-2">
+            <div className="text-white text-sm font-bold">Collaborative Board</div>
+            <div className="flex gap-2">
+              {['#3b82f6', '#10b981', '#ef4444', '#fbbf24', '#8b5cf6'].map(color => (
+                <button
+                  key={color}
+                  onClick={() => setBrushColor(color)}
+                  className={`w-6 h-6 rounded-full border-2 ${brushColor === color ? 'border-white' : 'border-transparent'}`}
+                  style={{ backgroundColor: color }}
+                />
+              ))}
+            </div>
+          </div>
+          <div className="bg-black/60 rounded h-[360px] mb-2 p-4 overflow-y-auto">
+            {localDrawings.map((draw, idx) => (
+              <div 
+                key={idx} 
+                className="mb-2 text-sm animate-in fade-in slide-in-from-bottom-2"
+                style={{ 
+                  borderLeft: `3px solid ${draw.color || '#3b82f6'}`,
+                  paddingLeft: '8px'
+                }}
+              >
+                <span className="text-blue-400 font-semibold">{draw.author}:</span>{' '}
+                <span className="text-gray-300">{draw.content}</span>
+                {draw.timestamp && (
+                  <span className="text-gray-500 text-xs ml-2">
+                    {new Date(draw.timestamp).toLocaleTimeString()}
+                  </span>
+                )}
               </div>
             ))}
           </div>
-          <Input 
-            placeholder="Add annotation..." 
-            className="bg-white/10 border-white/20 text-white text-sm"
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' && e.target.value) {
-                onDraw({ author: 'You', content: e.target.value });
-                e.target.value = '';
-              }
-            }}
-          />
+          <div className="flex gap-2">
+            <Input 
+              placeholder="Add annotation or sketch description..." 
+              className="bg-white/10 border-white/20 text-white text-sm flex-1"
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && e.target.value) {
+                  addDrawing(e.target.value);
+                  e.target.value = '';
+                }
+              }}
+            />
+            <button
+              onClick={() => setDrawingMode(!drawingMode)}
+              className={`px-3 py-2 rounded text-xs font-semibold ${
+                drawingMode ? 'bg-green-600' : 'bg-gray-700'
+              } text-white`}
+            >
+              {drawingMode ? 'Drawing' : 'Draw'}
+            </button>
+          </div>
         </div>
       </Html>
     </group>
@@ -188,10 +279,16 @@ export default function EnhancedHolographicClassroom3D({ sessionId, courseId, mo
     data: { formula: 'Φ = min_P EMD(M, ∏P)', description: 'Integrated Information (IIT 4.0)' }
   });
   const [drawings, setDrawings] = useState([
-    { author: 'Instructor', content: 'Key concept: Phi measures consciousness as irreducible information' }
+    { author: 'Instructor', content: 'Key concept: Phi measures consciousness as irreducible information', color: '#8b5cf6' }
   ]);
   const [aiInsights, setAiInsights] = useState([]);
   const [questionInput, setQuestionInput] = useState('');
+  const [embeddedSimulator, setEmbeddedSimulator] = useState(null);
+  const [simulatorParams, setSimulatorParams] = useState({
+    temperature: 0.7,
+    learningRate: 0.001,
+    coherence: 0.8
+  });
 
   const studentPositions = [
     [-4, 0, 3], [-1.5, 0, 3], [1.5, 0, 3], [4, 0, 3]
@@ -278,6 +375,7 @@ export default function EnhancedHolographicClassroom3D({ sessionId, courseId, mo
           position={[0, 2, -7]} 
           drawings={drawings}
           onDraw={(drawing) => setDrawings([...drawings, drawing])}
+          sessionId={sessionId}
         />
 
         {/* Holographic Content Display */}
@@ -285,6 +383,14 @@ export default function EnhancedHolographicClassroom3D({ sessionId, courseId, mo
           position={[5, 3, -4]}
           contentType={holographicContent.type}
           data={holographicContent.data}
+          onManipulate={(transform) => {
+            console.log('Content manipulated:', transform);
+            setDrawings([...drawings, { 
+              author: 'System', 
+              content: `3D model repositioned to (${transform.position.map(p => p.toFixed(1)).join(', ')})`,
+              color: '#10b981'
+            }]);
+          }}
         />
 
         {/* Student Avatars */}
@@ -375,12 +481,16 @@ export default function EnhancedHolographicClassroom3D({ sessionId, courseId, mo
             </TabsContent>
 
             <TabsContent value="notes" className="p-4">
-              <div className="bg-white/5 rounded-lg p-3 h-72 overflow-y-auto text-sm">
-                <h4 className="font-bold mb-2 text-purple-300">Auto-Generated Notes:</h4>
-                {drawings.map((draw, idx) => (
-                  <p key={idx} className="text-gray-300 mb-2">• {draw.content}</p>
-                ))}
-              </div>
+              <CollaborativeAnnotationTool
+                sessionId={sessionId}
+                onAnnotationAdded={(ann) => {
+                  setDrawings([...drawings, {
+                    author: 'Collaborator',
+                    content: ann.annotation_content,
+                    color: ann.metadata?.color || '#3b82f6'
+                  }]);
+                }}
+              />
             </TabsContent>
 
             <TabsContent value="insights" className="p-4">
@@ -403,11 +513,11 @@ export default function EnhancedHolographicClassroom3D({ sessionId, courseId, mo
       <motion.div
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
-        className="absolute bottom-4 left-4 z-10"
+        className="absolute bottom-4 left-4 z-10 max-w-xs"
       >
         <Card className="bg-black/70 backdrop-blur-2xl border-white/20 p-4">
           <h4 className="text-white font-bold mb-3 text-sm">Holographic Content</h4>
-          <div className="space-y-2">
+          <div className="space-y-2 mb-4">
             <Button
               size="sm"
               onClick={() => setHolographicContent({
@@ -429,8 +539,61 @@ export default function EnhancedHolographicClassroom3D({ sessionId, courseId, mo
               Show Formula
             </Button>
           </div>
+
+          <h4 className="text-white font-bold mb-3 text-sm border-t border-white/10 pt-3">
+            Embedded Simulators
+          </h4>
+          <div className="space-y-2">
+            <Button
+              size="sm"
+              onClick={() => setEmbeddedSimulator('quantum')}
+              className={`w-full ${embeddedSimulator === 'quantum' ? 'bg-indigo-700' : 'bg-indigo-600 hover:bg-indigo-700'}`}
+            >
+              <Sparkles className="w-3 h-3 mr-2" />
+              Quantum Circuit
+            </Button>
+            <Button
+              size="sm"
+              onClick={() => setEmbeddedSimulator('neural')}
+              className={`w-full ${embeddedSimulator === 'neural' ? 'bg-pink-700' : 'bg-pink-600 hover:bg-pink-700'}`}
+            >
+              <Sparkles className="w-3 h-3 mr-2" />
+              Neural Designer
+            </Button>
+            <Button
+              size="sm"
+              onClick={() => setEmbeddedSimulator('phi')}
+              className={`w-full ${embeddedSimulator === 'phi' ? 'bg-purple-700' : 'bg-purple-600 hover:bg-purple-700'}`}
+            >
+              <Sparkles className="w-3 h-3 mr-2" />
+              IIT Phi Calculator
+            </Button>
+          </div>
         </Card>
       </motion.div>
+
+      {/* Live Simulator Panel */}
+      {embeddedSimulator && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="absolute top-20 left-1/2 -translate-x-1/2 z-20 w-[800px]"
+        >
+          <LiveSimulatorPanel
+            simulatorType={embeddedSimulator}
+            params={simulatorParams}
+            onParamsChange={(newParams, results) => {
+              setSimulatorParams(newParams);
+              setDrawings([...drawings, {
+                author: 'System',
+                content: `Experiment completed: Loss=${results.metrics.loss.toFixed(3)}, Acc=${(results.metrics.accuracy * 100).toFixed(1)}%`,
+                color: '#10b981'
+              }]);
+            }}
+            sessionId={sessionId}
+          />
+        </motion.div>
+      )}
     </div>
   );
 }
