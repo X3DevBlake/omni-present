@@ -48,10 +48,6 @@ import AIMissionCommanderViz3D from '../components/haas/AIMissionCommanderViz3D'
 import InterstellarNetworkViz3D from '../components/interstellar/InterstellarNetworkViz3D';
 import EthicalCouncilViz3D from '../components/ethics/EthicalCouncilViz3D';
 import EthicalEvolutionPathViz3D from '../components/ethics/EthicalEvolutionPathViz3D';
-import AIMissionCommanderDashboard3D from '../components/haas/AIMissionCommanderDashboard3D';
-import InterstellarNetworkTopology3D from '../components/interstellar/InterstellarNetworkTopology3D';
-import AIEthicalCouncilChamber3D from '../components/ethics/AIEthicalCouncilChamber3D';
-import DynamicEthicalLandscape3D from '../components/ethics/DynamicEthicalLandscape3D';
 
 export default function OmegaIntelligenceHub() {
   return (
@@ -180,11 +176,11 @@ export default function OmegaIntelligenceHub() {
               animate={{ opacity: 1, y: 0 }}
             >
               <div className="space-y-6">
+                <AIMissionCommanderViz3D />
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   <RecursiveHAASMonitor3D />
                   <SwarmOrchestrationLayer3D />
                 </div>
-                <AIMissionCommanderDashboard3D />
               </div>
             </motion.div>
           </TabsContent>
@@ -304,12 +300,12 @@ export default function OmegaIntelligenceHub() {
             >
               <div className="space-y-6">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  <EthicalFrameworkEvolutionSimulator3D />
-                  <EthicalLandscapeExplorer3D />
+                  <EthicalCouncilViz3D />
+                  <EthicalEvolutionPathViz3D />
                 </div>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  <AIEthicalCouncilChamber3D />
-                  <DynamicEthicalLandscape3D />
+                  <EthicalFrameworkEvolutionSimulator3D />
+                  <EthicalLandscapeExplorer3D />
                 </div>
                 <ComplianceSimulationModule3D />
               </div>
@@ -327,7 +323,7 @@ export default function OmegaIntelligenceHub() {
                   <InterplanetarySolarSystemViz3D />
                 </div>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  <InterstellarNetworkTopology3D />
+                  <InterstellarNetworkViz3D />
                   <RedCommDeviceBlueprint3D />
                 </div>
               </div>
