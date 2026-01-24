@@ -48,13 +48,14 @@ import AIMissionCommanderViz3D from '../components/haas/AIMissionCommanderViz3D'
 import InterstellarNetworkViz3D from '../components/interstellar/InterstellarNetworkViz3D';
 import EthicalCouncilViz3D from '../components/ethics/EthicalCouncilViz3D';
 import EthicalEvolutionPathViz3D from '../components/ethics/EthicalEvolutionPathViz3D';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import UnifiedCommandCenterViz3D from '../components/omega/UnifiedCommandCenterViz3D';
 import RealTimeSystemSync from '../components/omega/RealTimeSystemSync';
 import IntegratedSystemDashboard from '../components/omega/IntegratedSystemDashboard';
 import InterstellarSimulationStudio3D from '../components/interstellar/InterstellarSimulationStudio3D';
 import GovernancePolicyVisualizer3D from '../components/planetary/GovernancePolicyVisualizer3D';
 import DynamicEthicalLandscapeViz3D from '../components/ethics/DynamicEthicalLandscapeViz3D';
+import MissionSimulationViz3D from '../components/haas/MissionSimulationViz3D';
+import AdaptiveModulationViz3D from '../components/interstellar/AdaptiveModulationViz3D';
 
 export default function OmegaIntelligenceHub() {
   return (
@@ -73,43 +74,6 @@ export default function OmegaIntelligenceHub() {
           <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
             Advanced AI capabilities: emergent goals, ethics monitoring, and causal reasoning
           </p>
-        </motion.div>
-
-        {/* Tabbed Interface */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.8 }}
-        >
-          <Tabs defaultValue="command" className="w-full">
-            <TabsList className="grid w-full grid-cols-5 bg-gray-900/50 border border-purple-500/30">
-              <TabsTrigger value="command">Command Center</TabsTrigger>
-              <TabsTrigger value="interstellar">Interstellar Sim</TabsTrigger>
-              <TabsTrigger value="governance">Governance AI</TabsTrigger>
-              <TabsTrigger value="ethics">Ethical Landscape</TabsTrigger>
-              <TabsTrigger value="integrated">Integrated</TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="command" className="mt-6">
-              <UnifiedCommandCenterViz3D />
-            </TabsContent>
-
-            <TabsContent value="interstellar" className="mt-6">
-              <InterstellarSimulationStudio3D />
-            </TabsContent>
-
-            <TabsContent value="governance" className="mt-6">
-              <GovernancePolicyVisualizer3D />
-            </TabsContent>
-
-            <TabsContent value="ethics" className="mt-6">
-              <DynamicEthicalLandscapeViz3D />
-            </TabsContent>
-
-            <TabsContent value="integrated" className="mt-6">
-              <IntegratedSystemDashboard />
-            </TabsContent>
-          </Tabs>
         </motion.div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
@@ -179,6 +143,8 @@ export default function OmegaIntelligenceHub() {
             <TabsTrigger value="audit">Audit</TabsTrigger>
             <TabsTrigger value="compliance">Compliance</TabsTrigger>
             <TabsTrigger value="interplanetary">Inter-Planetary</TabsTrigger>
+            <TabsTrigger value="governance">Governance AI</TabsTrigger>
+            <TabsTrigger value="interstellar">Interstellar</TabsTrigger>
             <TabsTrigger value="upgrade">Auto-Upgrade</TabsTrigger>
           </TabsList>
 
@@ -375,6 +341,24 @@ export default function OmegaIntelligenceHub() {
                   <RedCommDeviceBlueprint3D />
                 </div>
               </div>
+            </motion.div>
+          </TabsContent>
+
+          <TabsContent value="governance">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <GovernancePolicyVisualizer3D />
+            </motion.div>
+          </TabsContent>
+
+          <TabsContent value="interstellar">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <InterstellarSimulationStudio3D />
             </motion.div>
           </TabsContent>
 
