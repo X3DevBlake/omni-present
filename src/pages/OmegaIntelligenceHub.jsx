@@ -17,6 +17,10 @@ import DashboardWidgetManager from '../components/omega/DashboardWidgetManager';
 import InteractiveKnowledgeGraph3D from '../components/omega/InteractiveKnowledgeGraph3D';
 import CommunicationTopology3D from '../components/omega/CommunicationTopology3D';
 import CounterfactualSimulator3D from '../components/omega/CounterfactualSimulator3D';
+import MultiAgentSimulationEnvironment3D from '../components/omega/MultiAgentSimulationEnvironment3D';
+import CollectiveIntelligenceVisualizer3D from '../components/omega/CollectiveIntelligenceVisualizer3D';
+import AIPersonalizationEngine from '../components/omega/AIPersonalizationEngine';
+import ExternalIntegrationsPanel from '../components/omega/ExternalIntegrationsPanel';
 
 export default function OmegaIntelligenceHub() {
   return (
@@ -85,17 +89,19 @@ export default function OmegaIntelligenceHub() {
 
       <section className="max-w-7xl mx-auto px-6">
         <Tabs defaultValue="overview" className="w-full">
-          <TabsList className="grid w-full grid-cols-5 lg:grid-cols-10 bg-black/60 backdrop-blur-xl mb-8 text-xs">
+          <TabsList className="grid w-full grid-cols-6 lg:grid-cols-12 bg-black/60 backdrop-blur-xl mb-8 text-[10px] lg:text-xs">
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
             <TabsTrigger value="haas">HAAS</TabsTrigger>
+            <TabsTrigger value="simulation">Simulation</TabsTrigger>
+            <TabsTrigger value="collective">Collective</TabsTrigger>
             <TabsTrigger value="goals">Goals</TabsTrigger>
             <TabsTrigger value="teams">Teams</TabsTrigger>
             <TabsTrigger value="planning">Planning</TabsTrigger>
             <TabsTrigger value="ethics">Ethics</TabsTrigger>
             <TabsTrigger value="framework">Framework</TabsTrigger>
-            <TabsTrigger value="dilemmas">Dilemmas</TabsTrigger>
-            <TabsTrigger value="causal">Causal</TabsTrigger>
+            <TabsTrigger value="integrations">APIs</TabsTrigger>
+            <TabsTrigger value="personalize">Personalize</TabsTrigger>
           </TabsList>
 
           <TabsContent value="overview">
@@ -125,6 +131,24 @@ export default function OmegaIntelligenceHub() {
               animate={{ opacity: 1, y: 0 }}
             >
               <RecursiveHAASMonitor3D />
+            </motion.div>
+          </TabsContent>
+
+          <TabsContent value="simulation">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <MultiAgentSimulationEnvironment3D />
+            </motion.div>
+          </TabsContent>
+
+          <TabsContent value="collective">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <CollectiveIntelligenceVisualizer3D />
             </motion.div>
           </TabsContent>
 
@@ -182,15 +206,21 @@ export default function OmegaIntelligenceHub() {
             </motion.div>
           </TabsContent>
 
-          <TabsContent value="causal">
+          <TabsContent value="integrations">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
             >
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <CausalReasoningEngine3D />
-                <CounterfactualSimulator3D />
-              </div>
+              <ExternalIntegrationsPanel />
+            </motion.div>
+          </TabsContent>
+
+          <TabsContent value="personalize">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <AIPersonalizationEngine />
             </motion.div>
           </TabsContent>
         </Tabs>
@@ -204,9 +234,14 @@ export default function OmegaIntelligenceHub() {
           >
             Advanced Data Stream Visualizations
           </motion.h2>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
             <CommunicationTopology3D />
             <InteractiveKnowledgeGraph3D />
+            <CounterfactualSimulator3D />
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <MultiAgentSimulationEnvironment3D />
+            <CollectiveIntelligenceVisualizer3D />
           </div>
         </section>
       </section>
