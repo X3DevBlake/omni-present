@@ -376,6 +376,8 @@ import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
 import WorldHubEnhanced from './pages/WorldHubEnhanced';
 import AcademyDashboard from './pages/AcademyDashboard';
+import ResearchHub from './pages/ResearchHub';
+import DocumentsHub from './pages/DocumentsHub';
 import __Layout from './Layout.jsx';
 
 
@@ -758,6 +760,8 @@ export const PAGES = {
     "World": World,
     "WorldHubEnhanced": WorldHubEnhanced,
     "AcademyDashboard": AcademyDashboard,
+    "ResearchHub": ResearchHub,
+    "DocumentsHub": DocumentsHub,
 }
 
 export const pagesConfig = {
