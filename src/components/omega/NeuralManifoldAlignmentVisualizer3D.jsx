@@ -9,6 +9,7 @@ import * as THREE from 'three';
 import { Brain, Zap, Activity } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import { motion } from 'framer-motion';
+import { NeuralTrajectory, StateInertiaIndicator, TelepathyBeam } from './NeuralDynamicsVisualizer3D';
 
 const ManifoldPoint = ({ position, color, label, isAligned }) => {
   const meshRef = useRef();
@@ -276,6 +277,33 @@ export default function NeuralManifoldAlignmentVisualizer3D() {
               />
             ))}
 
+            {/* Neural trajectory visualization */}
+            {neuralHistory.length > 1 && (
+              <NeuralTrajectory history={neuralHistory} color="#3b82f6" />
+            )}
+
+            {/* State inertia indicator */}
+            <StateInertiaIndicator
+              position={[-3, -3, 0]}
+              inertia={neuralInertia}
+              isActive={isDecoding}
+            />
+
+            {/* Synthetic telepathy beams */}
+            {syntheticTelepathy && (
+              <>
+                <TelepathyBeam
+                  from={[0, 0, 0]}
+                  to={[3, 0, 0]}
+                  active={true}
+                  bidirectional={syntheticTelepathy.holographic_to_neural.causal_coupling}
+                />
+                <Text position={[3, 0.5, 0]} fontSize={0.12} color="#ec4899" anchorX="center">
+                  Holographic
+                </Text>
+              </>
+            )}
+
             {/* Central workspace indicator */}
             <group position={[0, 0, 0]}>
               <Sphere args={[0.3, 32, 32]}>
@@ -287,6 +315,9 @@ export default function NeuralManifoldAlignmentVisualizer3D() {
                   opacity={0.3}
                 />
               </Sphere>
+              <Text position={[0, -0.5, 0]} fontSize={0.12} color="#10b981" anchorX="center">
+                Neural
+              </Text>
             </group>
 
             <OrbitControls enableZoom />
@@ -332,9 +363,57 @@ export default function NeuralManifoldAlignmentVisualizer3D() {
                 <div className="text-gray-300">Confidence: {(alignmentResult.confidence * 100).toFixed(1)}%</div>
                 <div className="text-gray-300">Φ (Phi): {alignmentResult.phi_value?.toFixed(3)}</div>
                 <div className="text-gray-300">Loss: {alignmentResult.loss?.toFixed(4)}</div>
+                <div className="text-gray-300">Neural Inertia: {neuralInertia}ms window</div>
                 <Badge className={alignmentResult.is_communicative_intent ? 'bg-green-600' : 'bg-red-600'}>
                   {alignmentResult.is_communicative_intent ? 'Genuine Intent' : 'Intrusive Thought'}
                 </Badge>
+              </div>
+            </motion.div>
+          )}
+          
+          {phiCalculation && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="bg-black/60 rounded-lg p-4 border border-indigo-500/30"
+            >
+              <div className="text-indigo-400 text-sm font-bold mb-2">Φ (Phi) Computation - IIT 4.0</div>
+              <div className="space-y-1 text-xs">
+                <div className="text-gray-300">Integrated Information: {phiCalculation.phi.toFixed(4)}</div>
+                <div className="text-gray-300">EMD: {phiCalculation.emd.toFixed(4)}</div>
+                <Badge className={phiCalculation.is_irreducible ? 'bg-green-600' : 'bg-gray-600'}>
+                  {phiCalculation.is_irreducible ? 'Irreducible (Φ > 0.5)' : 'Reducible'}
+                </Badge>
+              </div>
+            </motion.div>
+          )}
+          
+          {syntheticTelepathy && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="bg-black/60 rounded-lg p-4 border border-pink-500/30"
+            >
+              <div className="text-pink-400 text-sm font-bold mb-2">⚡ Synthetic Telepathy Active</div>
+              <div className="space-y-2 text-xs">
+                <div>
+                  <div className="text-gray-400">Neural → Holographic:</div>
+                  <div className="text-white ml-2">
+                    Intent: {syntheticTelepathy.neural_to_holographic.intent}
+                  </div>
+                  <div className="text-gray-400 ml-2">
+                    Latency: {syntheticTelepathy.neural_to_holographic.latency_ms.toFixed(1)}ms
+                  </div>
+                </div>
+                <div>
+                  <div className="text-gray-400">Holographic → Neural:</div>
+                  <div className="text-white ml-2">
+                    Feedback: {syntheticTelepathy.holographic_to_neural.feedback_signal}
+                  </div>
+                  <Badge className={syntheticTelepathy.holographic_to_neural.causal_coupling ? 'bg-green-600' : 'bg-gray-600'}>
+                    {syntheticTelepathy.holographic_to_neural.causal_coupling ? 'Causal Coupling Active' : 'Feed-forward Only'}
+                  </Badge>
+                </div>
               </div>
             </motion.div>
           )}
