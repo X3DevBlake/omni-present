@@ -73,6 +73,8 @@ export default function SentientFinanceEngine3D() {
   const [contractDrafts, setContractDrafts] = useState([]);
   const [omlTokenization, setOmlTokenization] = useState(null);
   const [recursiveGrowth, setRecursiveGrowth] = useState([]);
+  const [geopoliticalRisk, setGeopoliticalRisk] = useState(null);
+  const [recursiveLearning, setRecursiveLearning] = useState(null);
 
   const activateInference = async () => {
     setActiveInference(true);
@@ -141,6 +143,33 @@ export default function SentientFinanceEngine3D() {
       growth.push({ month: i + 1, capital });
     }
     setRecursiveGrowth(growth);
+    
+    // Simulate geopolitical risk analysis
+    const geoRisk = {
+      risk_regions: [
+        { region: 'Eastern Europe', risk_level: 0.65, partition: true },
+        { region: 'Middle East', risk_level: 0.42, partition: false },
+        { region: 'Asia Pacific', risk_level: 0.18, partition: false }
+      ],
+      portfolio_adjustments: [
+        { asset: 'European Bonds', from: 25, to: 15, reason: 'High regional risk' },
+        { asset: 'Asian Equities', from: 15, to: 20, reason: 'Low risk, growth opportunity' },
+        { asset: 'Crypto Assets', from: 20, to: 30, reason: 'Decentralized hedge' }
+      ]
+    };
+    setGeopoliticalRisk(geoRisk);
+    
+    // Simulate recursive learning
+    const learning = {
+      iteration: 5,
+      patterns_learned: [
+        'EUR/USD momentum reversal at 1.08 resistance',
+        'BTC volatility clusters correlate with equity VIX',
+        'Optimal Kelly criterion: 0.25 for current regime'
+      ],
+      performance_delta: 0.032
+    };
+    setRecursiveLearning(learning);
   };
 
   const wealthNodes = [
@@ -520,6 +549,56 @@ export default function SentientFinanceEngine3D() {
                   <span>M1</span>
                   <span>M6</span>
                   <span>M12: ${(recursiveGrowth[11].capital / 1000000).toFixed(2)}M</span>
+                </div>
+              </div>
+            )}
+
+            {geopoliticalRisk && (
+              <div className="bg-black/60 rounded-lg p-4 border border-red-500/30">
+                <div className="text-red-400 text-sm font-bold mb-3">Geopolitical Risk Analysis (RedComm XG)</div>
+                <div className="space-y-2 mb-3">
+                  {geopoliticalRisk.risk_regions.map((region, idx) => (
+                    <div key={idx} className="flex items-center justify-between">
+                      <span className="text-gray-300 text-xs">{region.region}</span>
+                      <div className="flex items-center gap-2">
+                        <div className="w-20 bg-gray-800 rounded-full h-1.5">
+                          <div
+                            className={`h-full ${region.risk_level > 0.5 ? 'bg-red-500' : 'bg-amber-500'}`}
+                            style={{ width: `${region.risk_level * 100}%` }}
+                          />
+                        </div>
+                        {region.partition && <Badge className="bg-red-600 text-[9px] h-3">⚠️ Partition</Badge>}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="text-gray-400 text-[10px] mb-1">Portfolio Adjustments:</div>
+                {geopoliticalRisk.portfolio_adjustments.map((adj, idx) => (
+                  <div key={idx} className="text-xs text-white mb-1">
+                    {adj.asset}: {adj.from}% → {adj.to}%
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {recursiveLearning && (
+              <div className="bg-black/60 rounded-lg p-4 border border-indigo-500/30">
+                <div className="text-indigo-400 text-sm font-bold mb-3">Recursive Learning Loop</div>
+                <div className="space-y-2">
+                  <div className="flex justify-between text-xs">
+                    <span className="text-gray-400">Iteration:</span>
+                    <span className="text-white">#{recursiveLearning.iteration}</span>
+                  </div>
+                  <div className="flex justify-between text-xs">
+                    <span className="text-gray-400">Performance Δ:</span>
+                    <span className="text-green-400">+{(recursiveLearning.performance_delta * 100).toFixed(2)}%</span>
+                  </div>
+                  <div className="mt-2">
+                    <div className="text-gray-400 text-[10px] mb-1">Learned Patterns:</div>
+                    {recursiveLearning.patterns_learned.map((pattern, idx) => (
+                      <div key={idx} className="text-white text-[10px] mb-1">• {pattern}</div>
+                    ))}
+                  </div>
                 </div>
               </div>
             )}
