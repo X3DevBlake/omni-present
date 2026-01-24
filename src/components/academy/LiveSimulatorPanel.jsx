@@ -5,7 +5,7 @@ import { Slider } from '@/components/ui/slider';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { motion } from 'framer-motion';
-import { Play, Pause, RotateCcw, Zap, TrendingUp, Settings } from 'lucide-react';
+import { Play, Pause, RotateCcw, Zap, TrendingUp, Settings, Activity } from 'lucide-react';
 import QuantumCircuitBuilder3D from './QuantumCircuitBuilder3D';
 import NeuralArchitectureStudio3D from './NeuralArchitectureStudio3D';
 import IITPhiVisualizer3D from '../consciousness/IITPhiVisualizer3D';

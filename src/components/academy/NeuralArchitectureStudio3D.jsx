@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import * as THREE from 'three';
-import { Brain, Play, Download, Zap, TrendingUp, Activity, Layers } from 'lucide-react';
+import { Brain, Play, Download, Zap, TrendingUp, Activity, Layers, Save, Plus, Minus } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import { useMutation } from '@tanstack/react-query';
 import ExperimentComparator from './ExperimentComparator';

@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import * as THREE from 'three';
-import { Cpu, Play, RotateCcw, Layers } from 'lucide-react';
+import { Cpu, Play, RotateCcw, Layers, Save, Download } from 'lucide-react';
 
 const QuantumGate = ({ position, gate, isActive }) => {
   const meshRef = useRef();
@@ -322,7 +322,9 @@ export default function QuantumCircuitBuilder3D() {
             <Play className="w-4 h-4 mr-2" />
             {isExecuting ? `Executing Step ${executionStep + 1}/${circuit.length}` : 'Execute Circuit'}
           </Button>
-          <Button onClick={saveState} className="bg-blue-600 hover:bg-blue-700">Save</Button>
+          <Button onClick={saveState} className="bg-blue-600 hover:bg-blue-700">
+            <Save className="w-4 h-4" />
+          </Button>
           <Button
             onClick={() => {
               setCircuit([]);
