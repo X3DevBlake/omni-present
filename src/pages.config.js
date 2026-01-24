@@ -354,6 +354,7 @@ import Technology from './pages/Technology';
 import Terms from './pages/Terms';
 import Tokenomics from './pages/Tokenomics';
 import TransferLearningHub from './pages/TransferLearningHub';
+import UltraOmniSentientHub from './pages/UltraOmniSentientHub';
 import UnifiedAnalytics from './pages/UnifiedAnalytics';
 import UnifiedCommunicationHub from './pages/UnifiedCommunicationHub';
 import UnifiedConversationHub from './pages/UnifiedConversationHub';
@@ -374,7 +375,7 @@ import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
 import WorldHubEnhanced from './pages/WorldHubEnhanced';
-import UltraOmniSentientHub from './pages/UltraOmniSentientHub';
+import AcademyDashboard from './pages/AcademyDashboard';
 import __Layout from './Layout.jsx';
 
 
@@ -735,6 +736,7 @@ export const PAGES = {
     "Terms": Terms,
     "Tokenomics": Tokenomics,
     "TransferLearningHub": TransferLearningHub,
+    "UltraOmniSentientHub": UltraOmniSentientHub,
     "UnifiedAnalytics": UnifiedAnalytics,
     "UnifiedCommunicationHub": UnifiedCommunicationHub,
     "UnifiedConversationHub": UnifiedConversationHub,
@@ -755,7 +757,7 @@ export const PAGES = {
     "WorkflowOrchestrationHub": WorkflowOrchestrationHub,
     "World": World,
     "WorldHubEnhanced": WorldHubEnhanced,
-    "UltraOmniSentientHub": UltraOmniSentientHub,
+    "AcademyDashboard": AcademyDashboard,
 }
 
 export const pagesConfig = {
