@@ -29,6 +29,12 @@ import IntegratedCommunicationHub from '../components/omega/IntegratedCommunicat
 import SharedKnowledgeRepository3D from '../components/omega/SharedKnowledgeRepository3D';
 import EthicalComplianceDashboard from '../components/omega/EthicalComplianceDashboard';
 import EthicalAuditTrail from '../components/omega/EthicalAuditTrail';
+import ThreatSimulationModule3D from '../components/omega/ThreatSimulationModule3D';
+import DecentralizedKnowledgeNetwork3D from '../components/omega/DecentralizedKnowledgeNetwork3D';
+import ProactiveEthicalDriftMonitor3D from '../components/omega/ProactiveEthicalDriftMonitor3D';
+import AgentPersonalizationVisualizer3D from '../components/omega/AgentPersonalizationVisualizer3D';
+import KnowledgeFusionLandscape3D from '../components/omega/KnowledgeFusionLandscape3D';
+import EthicalFrameworkEvolutionSimulator3D from '../components/omega/EthicalFrameworkEvolutionSimulator3D';
 
 export default function OmegaIntelligenceHub() {
   return (
@@ -97,19 +103,23 @@ export default function OmegaIntelligenceHub() {
 
       <section className="max-w-7xl mx-auto px-6">
         <Tabs defaultValue="overview" className="w-full">
-          <TabsList className="grid w-full grid-cols-6 lg:grid-cols-12 bg-black/60 backdrop-blur-xl mb-8 text-[10px] lg:text-xs">
+          <TabsList className="grid w-full grid-cols-3 lg:grid-cols-6 bg-black/60 backdrop-blur-xl mb-8 text-[10px] lg:text-xs h-auto">
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="analytics">Analytics</TabsTrigger>
             <TabsTrigger value="metrics">Metrics</TabsTrigger>
             <TabsTrigger value="haas">HAAS</TabsTrigger>
+            <TabsTrigger value="threats">Threats</TabsTrigger>
+            <TabsTrigger value="personalization">Personalize</TabsTrigger>
             <TabsTrigger value="simulation">Simulation</TabsTrigger>
             <TabsTrigger value="teams">Teams</TabsTrigger>
             <TabsTrigger value="collab">Collaborate</TabsTrigger>
             <TabsTrigger value="knowledge">Knowledge</TabsTrigger>
+            <TabsTrigger value="fusion">Fusion</TabsTrigger>
             <TabsTrigger value="ethics">Ethics</TabsTrigger>
-            <TabsTrigger value="audit">Audit Trail</TabsTrigger>
+            <TabsTrigger value="drift">Drift</TabsTrigger>
+            <TabsTrigger value="evolution">Evolution</TabsTrigger>
+            <TabsTrigger value="audit">Audit</TabsTrigger>
             <TabsTrigger value="compliance">Compliance</TabsTrigger>
-            <TabsTrigger value="personalize">Personalize</TabsTrigger>
           </TabsList>
 
           <TabsContent value="overview">
@@ -151,6 +161,24 @@ export default function OmegaIntelligenceHub() {
               animate={{ opacity: 1, y: 0 }}
             >
               <RecursiveHAASMonitor3D />
+            </motion.div>
+          </TabsContent>
+
+          <TabsContent value="threats">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <ThreatSimulationModule3D />
+            </motion.div>
+          </TabsContent>
+
+          <TabsContent value="personalization">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <AgentPersonalizationVisualizer3D />
             </motion.div>
           </TabsContent>
 
@@ -207,7 +235,19 @@ export default function OmegaIntelligenceHub() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
             >
-              <SharedKnowledgeRepository3D />
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <SharedKnowledgeRepository3D />
+                <DecentralizedKnowledgeNetwork3D />
+              </div>
+            </motion.div>
+          </TabsContent>
+
+          <TabsContent value="fusion">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <KnowledgeFusionLandscape3D />
             </motion.div>
           </TabsContent>
 
@@ -217,6 +257,24 @@ export default function OmegaIntelligenceHub() {
               animate={{ opacity: 1, y: 0 }}
             >
               <EthicsMonitorDashboard />
+            </motion.div>
+          </TabsContent>
+
+          <TabsContent value="drift">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <ProactiveEthicalDriftMonitor3D />
+            </motion.div>
+          </TabsContent>
+
+          <TabsContent value="evolution">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <EthicalFrameworkEvolutionSimulator3D />
             </motion.div>
           </TabsContent>
 
@@ -241,23 +299,7 @@ export default function OmegaIntelligenceHub() {
             </motion.div>
           </TabsContent>
 
-          <TabsContent value="integrations">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-            >
-              <ExternalIntegrationsPanel />
-            </motion.div>
-          </TabsContent>
 
-          <TabsContent value="personalize">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-            >
-              <AIPersonalizationEngine />
-            </motion.div>
-          </TabsContent>
         </Tabs>
 
         {/* Advanced Visualizations Section */}
