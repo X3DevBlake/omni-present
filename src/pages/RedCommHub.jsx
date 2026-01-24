@@ -1,10 +1,15 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import RedCommNetworkTopology3D from '../components/redcomm/RedCommNetworkTopology3D';
 import RedCommSignalFlow3D from '../components/redcomm/RedCommSignalFlow3D';
 import RedCommControlPanel from '../components/redcomm/RedCommControlPanel';
 import RedCommMessageStream3D from '../components/redcomm/RedCommMessageStream3D';
 import RedCommAnalyticsDashboard from '../components/redcomm/RedCommAnalyticsDashboard';
+import OmegaSentientDashboard3D from '../components/redcomm/OmegaSentientDashboard3D';
+import ProtocolEvolutionVisualizer3D from '../components/redcomm/ProtocolEvolutionVisualizer3D';
+import RedCommSimulationStudio3D from '../components/redcomm/RedCommSimulationStudio3D';
+import DeviceManagementInterface3D from '../components/redcomm/DeviceManagementInterface3D';
 import EnhancedRedCommVisualizer3D from '../components/network/EnhancedRedCommVisualizer3D';
 import { Radio, Satellite, Network } from 'lucide-react';
 
@@ -37,63 +42,50 @@ export default function RedCommHub() {
           </div>
         </motion.div>
 
-        {/* Control Panel */}
+        {/* Main Tabbed Interface */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1, duration: 0.8 }}
-          className="mb-8"
         >
-          <RedCommControlPanel />
-        </motion.div>
+          <Tabs defaultValue="control" className="w-full">
+            <TabsList className="grid w-full grid-cols-6 bg-gray-900/50 border border-indigo-500/30">
+              <TabsTrigger value="control">Control</TabsTrigger>
+              <TabsTrigger value="network">Network</TabsTrigger>
+              <TabsTrigger value="devices">Devices</TabsTrigger>
+              <TabsTrigger value="simulation">Simulation</TabsTrigger>
+              <TabsTrigger value="sentient">Sentient AI</TabsTrigger>
+              <TabsTrigger value="evolution">Evolution</TabsTrigger>
+            </TabsList>
 
-        {/* Network Topology */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.8 }}
-          className="mb-8"
-        >
-          <RedCommNetworkTopology3D />
-        </motion.div>
+            <TabsContent value="control" className="space-y-8 mt-6">
+              <RedCommControlPanel />
+              <RedCommAnalyticsDashboard />
+            </TabsContent>
 
-        {/* Signal Flow Visualization */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.8 }}
-          className="mb-8"
-        >
-          <RedCommSignalFlow3D />
-        </motion.div>
+            <TabsContent value="network" className="space-y-8 mt-6">
+              <RedCommNetworkTopology3D />
+              <RedCommSignalFlow3D />
+              <RedCommMessageStream3D />
+            </TabsContent>
 
-        {/* Message Stream Visualization */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4, duration: 0.8 }}
-          className="mb-8"
-        >
-          <RedCommMessageStream3D />
-        </motion.div>
+            <TabsContent value="devices" className="space-y-8 mt-6">
+              <DeviceManagementInterface3D />
+              <EnhancedRedCommVisualizer3D />
+            </TabsContent>
 
-        {/* Analytics Dashboard */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.8 }}
-          className="mb-8"
-        >
-          <RedCommAnalyticsDashboard />
-        </motion.div>
+            <TabsContent value="simulation" className="mt-6">
+              <RedCommSimulationStudio3D />
+            </TabsContent>
 
-        {/* Enhanced RedComm Visualizer */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6, duration: 0.8 }}
-        >
-          <EnhancedRedCommVisualizer3D />
+            <TabsContent value="sentient" className="mt-6">
+              <OmegaSentientDashboard3D />
+            </TabsContent>
+
+            <TabsContent value="evolution" className="mt-6">
+              <ProtocolEvolutionVisualizer3D />
+            </TabsContent>
+          </Tabs>
         </motion.div>
       </section>
     </div>
