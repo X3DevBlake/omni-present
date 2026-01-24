@@ -8,9 +8,10 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import * as THREE from 'three';
-import { Brain, Play, Download, Zap, TrendingUp, Activity } from 'lucide-react';
+import { Brain, Play, Download, Zap, TrendingUp, Activity, Layers } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import { useMutation } from '@tanstack/react-query';
+import ExperimentComparator from './ExperimentComparator';
 
 const Neuron3D = ({ position, activation, layer, onClick, isSelected }) => {
   const meshRef = useRef();
@@ -102,6 +103,11 @@ export default function NeuralArchitectureStudio3D() {
   const [learningRate, setLearningRate] = useState(0.001);
   const [showGradients, setShowGradients] = useState(false);
   const [selectedNeuron, setSelectedNeuron] = useState(null);
+  const [batchSize, setBatchSize] = useState(32);
+  const [dropoutRate, setDropoutRate] = useState(0.2);
+  const [experimentHistory, setExperimentHistory] = useState([]);
+  const [savedArchitectures, setSavedArchitectures] = useState([]);
+  const [gradientMagnitudes, setGradientMagnitudes] = useState([]);
 
   const trainNetworkMutation = useMutation({
     mutationFn: async (config) => {
@@ -125,8 +131,66 @@ export default function NeuralArchitectureStudio3D() {
 
   const handleTrain = () => {
     setIsTraining(true);
-    trainNetworkMutation.mutate({ architecture, learningRate });
-    setTimeout(() => setIsTraining(false), 3000);
+    const config = { architecture, learningRate, batchSize, dropoutRate };
+    trainNetworkMutation.mutate(config);
+    
+    // Simulate gradient flow
+    const newGradients = neurons.filter(n => n.layer === 'hidden').map(() => Math.random());
+    setGradientMagnitudes(newGradients);
+    
+    setTimeout(() => {
+      const newLoss = trainingLoss * (0.9 + Math.random() * 0.1);
+      setTrainingLoss(newLoss);
+      setEpoch(epoch + 1);
+      
+      // Record experiment
+      setExperimentHistory([{
+        epoch: epoch + 1,
+        loss: newLoss,
+        architecture: { ...architecture },
+        params: { learningRate, batchSize, dropoutRate },
+        timestamp: Date.now()
+      }, ...experimentHistory.slice(0, 19)]);
+      
+      setIsTraining(false);
+    }, 3000);
+  };
+
+  const addHiddenLayer = () => {
+    setArchitecture({
+      ...architecture,
+      hiddenLayers: [...architecture.hiddenLayers, 4]
+    });
+  };
+
+  const removeHiddenLayer = (index) => {
+    if (architecture.hiddenLayers.length > 1) {
+      setArchitecture({
+        ...architecture,
+        hiddenLayers: architecture.hiddenLayers.filter((_, i) => i !== index)
+      });
+    }
+  };
+
+  const updateLayerSize = (layerIndex, newSize) => {
+    const newHiddenLayers = [...architecture.hiddenLayers];
+    newHiddenLayers[layerIndex] = newSize;
+    setArchitecture({ ...architecture, hiddenLayers: newHiddenLayers });
+  };
+
+  const saveArchitecture = () => {
+    setSavedArchitectures([...savedArchitectures, {
+      name: `Arch ${savedArchitectures.length + 1}`,
+      architecture: { ...architecture },
+      performance: { loss: trainingLoss, epoch },
+      timestamp: Date.now()
+    }]);
+  };
+
+  const loadArchitecture = (saved) => {
+    setArchitecture(saved.architecture);
+    setTrainingLoss(saved.performance.loss);
+    setEpoch(saved.performance.epoch);
   };
 
   // Generate neuron positions
@@ -220,11 +284,11 @@ export default function NeuralArchitectureStudio3D() {
             ))}
 
             {/* Gradient flows during training */}
-            {showGradients && isTraining && neurons.filter(n => n.layer === 'hidden').map((neuron, idx) => (
+            {showGradients && neurons.filter(n => n.layer === 'hidden').map((neuron, idx) => (
               <GradientFlow
                 key={`grad-${idx}`}
                 position={neuron.position}
-                magnitude={Math.random() * 0.5}
+                magnitude={gradientMagnitudes[idx] || Math.random() * 0.5}
               />
             ))}
 
@@ -258,12 +322,44 @@ export default function NeuralArchitectureStudio3D() {
           <div>
             <label className="text-white text-sm mb-2 block">Dropout Rate</label>
             <Slider
-              defaultValue={[20]}
+              value={[dropoutRate * 100]}
+              onValueChange={(v) => setDropoutRate(v[0] / 100)}
               min={0}
               max={50}
               step={5}
             />
-            <div className="text-gray-400 text-xs mt-1">0.20</div>
+            <div className="text-gray-400 text-xs mt-1">{dropoutRate.toFixed(2)}</div>
+          </div>
+        </div>
+
+        <div className="mb-4">
+          <label className="text-white text-sm mb-2 block">Hidden Layers Architecture</label>
+          <div className="flex gap-2 items-center">
+            {architecture.hiddenLayers.map((size, idx) => (
+              <div key={idx} className="flex gap-1 items-center">
+                <Input
+                  type="number"
+                  value={size}
+                  onChange={(e) => updateLayerSize(idx, parseInt(e.target.value) || 4)}
+                  className="w-16 bg-white/10 border-white/20 text-white text-center"
+                />
+                <Button
+                  size="sm"
+                  onClick={() => removeHiddenLayer(idx)}
+                  variant="outline"
+                  className="border-red-500/50 text-red-400 hover:bg-red-600"
+                >
+                  ×
+                </Button>
+              </div>
+            ))}
+            <Button
+              size="sm"
+              onClick={addHiddenLayer}
+              className="bg-green-600 hover:bg-green-700"
+            >
+              + Layer
+            </Button>
           </div>
         </div>
 
@@ -282,30 +378,62 @@ export default function NeuralArchitectureStudio3D() {
           </div>
         </div>
 
-        <div className="flex gap-2">
+        <div className="flex gap-2 mb-4">
           <Button
             onClick={handleTrain}
             disabled={isTraining}
             className="flex-1 bg-green-600 hover:bg-green-700"
           >
             <Zap className="w-4 h-4 mr-2" />
-            {isTraining ? 'Training...' : 'Train Network'}
+            {isTraining ? `Training Epoch ${epoch}...` : 'Train Network'}
           </Button>
           <Button
             onClick={() => setShowGradients(!showGradients)}
-            variant="outline"
-            className="border-white/20 text-white"
+            className={showGradients ? 'bg-amber-600' : 'bg-gray-700'}
           >
             <TrendingUp className="w-4 h-4 mr-2" />
-            {showGradients ? 'Hide' : 'Show'} Gradients
+            Gradients
           </Button>
-          <Button
-            variant="outline"
-            className="border-white/20 text-white"
-          >
-            <Download className="w-4 h-4" />
+          <Button onClick={saveArchitecture} className="bg-blue-600 hover:bg-blue-700">
+            <Download className="w-4 h-4 mr-2" />
+            Save
           </Button>
         </div>
+
+        {/* Experiment Comparison */}
+        {experimentHistory.length > 0 && (
+          <div className="bg-black/40 rounded-lg p-3">
+            <h4 className="text-white text-xs font-bold mb-2">Training History:</h4>
+            <div className="space-y-1 max-h-40 overflow-y-auto">
+              {experimentHistory.slice(0, 5).map((exp, idx) => (
+                <div key={idx} className="flex items-center justify-between text-xs bg-white/5 rounded p-2">
+                  <span className="text-gray-400">Epoch {exp.epoch}</span>
+                  <Badge className={exp.loss < 0.1 ? 'bg-green-500' : 'bg-blue-500'}>
+                    Loss: {exp.loss.toFixed(4)}
+                  </Badge>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {savedArchitectures.length > 0 && (
+          <div className="mt-3">
+            <h4 className="text-white text-xs font-bold mb-2">Saved Architectures:</h4>
+            <div className="flex gap-2 flex-wrap">
+              {savedArchitectures.map((saved, idx) => (
+                <Button
+                  key={idx}
+                  size="sm"
+                  onClick={() => loadArchitecture(saved)}
+                  className="bg-purple-600 hover:bg-purple-700 text-xs"
+                >
+                  {saved.name} ({saved.architecture.hiddenLayers.join('-')})
+                </Button>
+              ))}
+            </div>
+          </div>
+        )}
       </CardContent>
     </Card>
   );

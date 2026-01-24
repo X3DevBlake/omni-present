@@ -102,24 +102,74 @@ export default function QuantumCircuitBuilder3D() {
     { qubit: 1, gate: { type: 'X' }, position: 2 }
   ]);
 
-  const [qubitCount] = useState(3);
+  const [qubitCount, setQubitCount] = useState(3);
   const [isExecuting, setIsExecuting] = useState(false);
+  const [executionStep, setExecutionStep] = useState(0);
   const [qubitStates, setQubitStates] = useState(['0', '0', '0']);
   const [measurementResult, setMeasurementResult] = useState(null);
+  const [savedStates, setSavedStates] = useState([]);
+  const [experimentResults, setExperimentResults] = useState([]);
+  const [selectedQubit, setSelectedQubit] = useState(0);
+  const [draggedGate, setDraggedGate] = useState(null);
 
   const executeCircuit = () => {
     setIsExecuting(true);
-    // Simulate quantum computation
-    setTimeout(() => {
-      const result = qubitStates.map(() => Math.random() > 0.5 ? '1' : '0');
-      setQubitStates(result);
-      setMeasurementResult(result);
-      setIsExecuting(false);
-    }, 2000);
+    setExecutionStep(0);
+    
+    // Step-by-step execution visualization
+    const stepInterval = setInterval(() => {
+      setExecutionStep(step => {
+        if (step >= circuit.length) {
+          clearInterval(stepInterval);
+          const result = qubitStates.map(() => Math.random() > 0.5 ? '1' : '0');
+          setQubitStates(result);
+          setMeasurementResult(result);
+          
+          // Record experiment
+          const experimentData = {
+            circuit: circuit.map(c => c.gate.type).join('-'),
+            result: result.join(''),
+            timestamp: Date.now(),
+            parameters: { qubitCount, gateCount: circuit.length }
+          };
+          setExperimentResults([experimentData, ...experimentResults.slice(0, 9)]);
+          
+          setIsExecuting(false);
+          return 0;
+        }
+        return step + 1;
+      });
+    }, 500);
   };
 
   const addGate = (qubit, gateType) => {
-    setCircuit([...circuit, { qubit, gate: { type: gateType }, position: circuit.length }]);
+    const newGate = { 
+      qubit: qubit !== undefined ? qubit : selectedQubit, 
+      gate: { type: gateType }, 
+      position: circuit.length 
+    };
+    setCircuit([...circuit, newGate]);
+  };
+
+  const removeGate = (index) => {
+    setCircuit(circuit.filter((_, i) => i !== index));
+  };
+
+  const saveState = () => {
+    const state = {
+      name: `Circuit ${savedStates.length + 1}`,
+      circuit: [...circuit],
+      qubitCount,
+      timestamp: Date.now()
+    };
+    setSavedStates([...savedStates, state]);
+  };
+
+  const loadState = (state) => {
+    setCircuit(state.circuit);
+    setQubitCount(state.qubitCount);
+    setQubitStates(Array(state.qubitCount).fill('0'));
+    setMeasurementResult(null);
   };
 
   return (
@@ -158,39 +208,41 @@ export default function QuantumCircuitBuilder3D() {
                 {circuit.map((op, idx) => {
                   const x = -5 + op.position * 2.5;
                   const y = 3 - op.qubit * 1.5;
+                  const isCurrentStep = isExecuting && idx === executionStep;
 
                   if (op.gate.type === 'CNOT') {
                     return (
-                      <group key={idx}>
+                      <group key={idx} onClick={() => removeGate(idx)}>
                         <QuantumGate
                           position={[x, 3 - op.gate.control * 1.5, 0]}
                           gate={{ type: '●' }}
-                          isActive={isExecuting}
+                          isActive={isCurrentStep}
                         />
                         <QuantumGate
                           position={[x, 3 - op.gate.target * 1.5, 0]}
                           gate={{ type: '⊕' }}
-                          isActive={isExecuting}
+                          isActive={isCurrentStep}
                         />
                         <Line
                           points={[
                             new THREE.Vector3(x, 3 - op.gate.control * 1.5, 0),
                             new THREE.Vector3(x, 3 - op.gate.target * 1.5, 0)
                           ]}
-                          color="#f59e0b"
-                          lineWidth={2}
+                          color={isCurrentStep ? '#10b981' : '#f59e0b'}
+                          lineWidth={isCurrentStep ? 4 : 2}
                         />
                       </group>
                     );
                   }
 
                   return (
-                    <QuantumGate
-                      key={idx}
-                      position={[x, y, 0]}
-                      gate={op.gate}
-                      isActive={isExecuting}
-                    />
+                    <group key={idx} onClick={() => removeGate(idx)}>
+                      <QuantumGate
+                        position={[x, y, 0]}
+                        gate={op.gate}
+                        isActive={isCurrentStep}
+                      />
+                    </group>
                   );
                 })}
 
@@ -268,13 +320,15 @@ export default function QuantumCircuitBuilder3D() {
             className="flex-1 bg-green-600 hover:bg-green-700"
           >
             <Play className="w-4 h-4 mr-2" />
-            {isExecuting ? 'Executing...' : 'Execute Circuit'}
+            {isExecuting ? `Executing Step ${executionStep + 1}/${circuit.length}` : 'Execute Circuit'}
           </Button>
+          <Button onClick={saveState} className="bg-blue-600 hover:bg-blue-700">Save</Button>
           <Button
             onClick={() => {
               setCircuit([]);
               setQubitStates(Array(qubitCount).fill('0'));
               setMeasurementResult(null);
+              setExecutionStep(0);
             }}
             variant="outline"
             className="border-white/20 text-white"
@@ -283,16 +337,78 @@ export default function QuantumCircuitBuilder3D() {
           </Button>
         </div>
 
+        <div className="mt-4">
+          <label className="text-white text-sm mb-2 block">Selected Qubit: {selectedQubit}</label>
+          <div className="flex gap-1 mb-2">
+            {Array.from({ length: qubitCount }).map((_, i) => (
+              <Button
+                key={i}
+                size="sm"
+                onClick={() => setSelectedQubit(i)}
+                className={selectedQubit === i ? 'bg-blue-600' : 'bg-gray-700'}
+              >
+                q{i}
+              </Button>
+            ))}
+            <Button
+              size="sm"
+              onClick={() => {
+                setQubitCount(qubitCount + 1);
+                setQubitStates([...qubitStates, '0']);
+              }}
+              className="bg-green-600 hover:bg-green-700"
+            >
+              + Qubit
+            </Button>
+          </div>
+        </div>
+
         <div className="mt-4 grid grid-cols-3 gap-2">
-          <Button size="sm" onClick={() => addGate(0, 'H')} className="bg-blue-600">H</Button>
-          <Button size="sm" onClick={() => addGate(0, 'X')} className="bg-red-600">X</Button>
-          <Button size="sm" onClick={() => addGate(0, 'Y')} className="bg-green-600">Y</Button>
-          <Button size="sm" onClick={() => addGate(0, 'Z')} className="bg-purple-600">Z</Button>
+          <Button size="sm" onClick={() => addGate(selectedQubit, 'H')} className="bg-blue-600">H</Button>
+          <Button size="sm" onClick={() => addGate(selectedQubit, 'X')} className="bg-red-600">X</Button>
+          <Button size="sm" onClick={() => addGate(selectedQubit, 'Y')} className="bg-green-600">Y</Button>
+          <Button size="sm" onClick={() => addGate(selectedQubit, 'Z')} className="bg-purple-600">Z</Button>
           <Button size="sm" onClick={() => setCircuit([...circuit, { qubit: 0, gate: { type: 'CNOT', control: 0, target: 1 }, position: circuit.length }])} className="bg-amber-600">
             CNOT
           </Button>
-          <Button size="sm" onClick={() => addGate(0, 'T')} className="bg-pink-600">T</Button>
+          <Button size="sm" onClick={() => addGate(selectedQubit, 'T')} className="bg-pink-600">T</Button>
         </div>
+
+        {/* Saved States & Experiment Comparison */}
+        {(savedStates.length > 0 || experimentResults.length > 0) && (
+          <div className="mt-4 pt-4 border-t border-white/10">
+            {savedStates.length > 0 && (
+              <div className="mb-3">
+                <h4 className="text-white text-xs font-bold mb-2">Saved States:</h4>
+                <div className="flex gap-2 flex-wrap">
+                  {savedStates.map((state, idx) => (
+                    <Button
+                      key={idx}
+                      size="sm"
+                      onClick={() => loadState(state)}
+                      className="bg-purple-600 hover:bg-purple-700 text-xs"
+                    >
+                      {state.name}
+                    </Button>
+                  ))}
+                </div>
+              </div>
+            )}
+            {experimentResults.length > 0 && (
+              <div>
+                <h4 className="text-white text-xs font-bold mb-2">Experiment History:</h4>
+                <div className="space-y-1 max-h-32 overflow-y-auto">
+                  {experimentResults.map((exp, idx) => (
+                    <div key={idx} className="bg-black/40 rounded p-2 text-xs">
+                      <div className="text-gray-400">{exp.circuit}</div>
+                      <div className="text-white font-mono">Result: |{exp.result}⟩</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
       </CardContent>
     </Card>
   );
