@@ -50,9 +50,7 @@ import EthicalCouncilViz3D from '../components/ethics/EthicalCouncilViz3D';
 import EthicalEvolutionPathViz3D from '../components/ethics/EthicalEvolutionPathViz3D';
 import UnifiedCommandCenterViz3D from '../components/omega/UnifiedCommandCenterViz3D';
 import RealTimeSystemSync from '../components/omega/RealTimeSystemSync';
-import MissionSimulationViz3D from '../components/haas/MissionSimulationViz3D';
-import AdaptiveModulationViz3D from '../components/interstellar/AdaptiveModulationViz3D';
-import DynamicEthicalLandscapeViz3D from '../components/ethics/DynamicEthicalLandscapeViz3D';
+import IntegratedSystemDashboard from '../components/omega/IntegratedSystemDashboard';
 
 export default function OmegaIntelligenceHub() {
   return (
