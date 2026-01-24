@@ -23,7 +23,6 @@ import BayesianFusionVisualizer3D from '../components/academy/BayesianFusionVisu
 import LearningPathVisualizer3D from '../components/academy/LearningPathVisualizer3D';
 import IITPhiVisualizer3D from '../components/consciousness/IITPhiVisualizer3D';
 import { Link } from 'react-router-dom';
-import { createPageUrl } from './utils';
 import GWTIgnitionVisualizer3D from '../components/consciousness/GWTIgnitionVisualizer3D';
 import RedCommMeshVisualizer3D from '../components/network/RedCommMeshVisualizer3D';
 import TFLNModulatorVisualizer3D from '../components/photonics/TFLNModulatorVisualizer3D';
@@ -83,7 +82,7 @@ export default function OmniPresentAcademy() {
         <p className="text-xl text-gray-300 max-w-4xl mx-auto mb-6">
           Master the convergence of Neural Isomorphism, Volumetric Sentience, and Recursive Autonomy
         </p>
-        <Link to={createPageUrl('HolographicClassroomHub')}>
+        <Link to="/HolographicClassroomHub">
           <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
             <Video className="w-5 h-5 mr-2" />
             Enter Holographic Classrooms
