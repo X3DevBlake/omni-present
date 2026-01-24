@@ -21,6 +21,14 @@ import MultiAgentSimulationEnvironment3D from '../components/omega/MultiAgentSim
 import CollectiveIntelligenceVisualizer3D from '../components/omega/CollectiveIntelligenceVisualizer3D';
 import AIPersonalizationEngine from '../components/omega/AIPersonalizationEngine';
 import ExternalIntegrationsPanel from '../components/omega/ExternalIntegrationsPanel';
+import SwarmPredictiveAnalytics3D from '../components/omega/SwarmPredictiveAnalytics3D';
+import SwarmRootCauseAnalyzer3D from '../components/omega/SwarmRootCauseAnalyzer3D';
+import SwarmMetricsDashboard from '../components/omega/SwarmMetricsDashboard';
+import CollaborativeScenarioEditor from '../components/omega/CollaborativeScenarioEditor';
+import IntegratedCommunicationHub from '../components/omega/IntegratedCommunicationHub';
+import SharedKnowledgeRepository3D from '../components/omega/SharedKnowledgeRepository3D';
+import EthicalComplianceDashboard from '../components/omega/EthicalComplianceDashboard';
+import EthicalAuditTrail from '../components/omega/EthicalAuditTrail';
 
 export default function OmegaIntelligenceHub() {
   return (
@@ -91,16 +99,16 @@ export default function OmegaIntelligenceHub() {
         <Tabs defaultValue="overview" className="w-full">
           <TabsList className="grid w-full grid-cols-6 lg:grid-cols-12 bg-black/60 backdrop-blur-xl mb-8 text-[10px] lg:text-xs">
             <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
+            <TabsTrigger value="analytics">Analytics</TabsTrigger>
+            <TabsTrigger value="metrics">Metrics</TabsTrigger>
             <TabsTrigger value="haas">HAAS</TabsTrigger>
             <TabsTrigger value="simulation">Simulation</TabsTrigger>
-            <TabsTrigger value="collective">Collective</TabsTrigger>
-            <TabsTrigger value="goals">Goals</TabsTrigger>
             <TabsTrigger value="teams">Teams</TabsTrigger>
-            <TabsTrigger value="planning">Planning</TabsTrigger>
+            <TabsTrigger value="collab">Collaborate</TabsTrigger>
+            <TabsTrigger value="knowledge">Knowledge</TabsTrigger>
             <TabsTrigger value="ethics">Ethics</TabsTrigger>
-            <TabsTrigger value="framework">Framework</TabsTrigger>
-            <TabsTrigger value="integrations">APIs</TabsTrigger>
+            <TabsTrigger value="audit">Audit Trail</TabsTrigger>
+            <TabsTrigger value="compliance">Compliance</TabsTrigger>
             <TabsTrigger value="personalize">Personalize</TabsTrigger>
           </TabsList>
 
@@ -116,12 +124,24 @@ export default function OmegaIntelligenceHub() {
             </motion.div>
           </TabsContent>
 
-          <TabsContent value="dashboard">
+          <TabsContent value="analytics">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
             >
-              <DashboardWidgetManager componentType="sentient_finance" />
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <SwarmPredictiveAnalytics3D />
+                <SwarmRootCauseAnalyzer3D />
+              </div>
+            </motion.div>
+          </TabsContent>
+
+          <TabsContent value="metrics">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <SwarmMetricsDashboard />
             </motion.div>
           </TabsContent>
 
@@ -170,12 +190,24 @@ export default function OmegaIntelligenceHub() {
             </motion.div>
           </TabsContent>
 
-          <TabsContent value="planning">
+          <TabsContent value="collab">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
             >
-              <CrossAgentPlanner3D />
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <CollaborativeScenarioEditor scenarioId="omega_collab_001" />
+                <IntegratedCommunicationHub contextId="omega_intel_hub" />
+              </div>
+            </motion.div>
+          </TabsContent>
+
+          <TabsContent value="knowledge">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <SharedKnowledgeRepository3D />
             </motion.div>
           </TabsContent>
 
@@ -188,16 +220,26 @@ export default function OmegaIntelligenceHub() {
             </motion.div>
           </TabsContent>
 
-          <TabsContent value="framework">
+          <TabsContent value="audit">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
             >
-              <EthicalFrameworkGenerator />
+              <EthicalAuditTrail />
             </motion.div>
           </TabsContent>
 
-          <TabsContent value="dilemmas">
+          <TabsContent value="compliance">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <EthicalComplianceDashboard />
+                <EthicalFrameworkGenerator />
+              </div>
+            </motion.div>
+          </TabsContent>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
