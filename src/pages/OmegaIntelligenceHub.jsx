@@ -8,6 +8,8 @@ import AgentCommunicationFlow3D from '../components/omega/AgentCommunicationFlow
 import CausalReasoningEngine3D from '../components/omega/CausalReasoningEngine3D';
 import EthicsMonitorDashboard from '../components/omega/EthicsMonitorDashboard';
 import RecursiveHAASMonitor3D from '../components/omega/RecursiveHAASMonitor3D';
+import CrossAgentPlanner3D from '../components/omega/CrossAgentPlanner3D';
+import EthicalDilemmaSimulator3D from '../components/omega/EthicalDilemmaSimulator3D';
 
 export default function OmegaIntelligenceHub() {
   return (
@@ -76,13 +78,15 @@ export default function OmegaIntelligenceHub() {
 
       <section className="max-w-7xl mx-auto px-6">
         <Tabs defaultValue="haas" className="w-full">
-          <TabsList className="grid w-full grid-cols-6 bg-black/60 backdrop-blur-xl mb-8">
-            <TabsTrigger value="haas">HAAS Swarm</TabsTrigger>
-            <TabsTrigger value="goals">Emergent Goals</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-4 lg:grid-cols-8 bg-black/60 backdrop-blur-xl mb-8 text-xs lg:text-sm">
+            <TabsTrigger value="haas">HAAS</TabsTrigger>
+            <TabsTrigger value="goals">Goals</TabsTrigger>
+            <TabsTrigger value="planning">Planning</TabsTrigger>
             <TabsTrigger value="ethics">Ethics</TabsTrigger>
-            <TabsTrigger value="knowledge">Knowledge Graph</TabsTrigger>
-            <TabsTrigger value="comms">Communications</TabsTrigger>
-            <TabsTrigger value="causal">Causal Reasoning</TabsTrigger>
+            <TabsTrigger value="dilemmas">Dilemmas</TabsTrigger>
+            <TabsTrigger value="knowledge">Knowledge</TabsTrigger>
+            <TabsTrigger value="comms">Comms</TabsTrigger>
+            <TabsTrigger value="causal">Causal</TabsTrigger>
           </TabsList>
 
           <TabsContent value="haas">
@@ -103,12 +107,30 @@ export default function OmegaIntelligenceHub() {
             </motion.div>
           </TabsContent>
 
+          <TabsContent value="planning">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <CrossAgentPlanner3D />
+            </motion.div>
+          </TabsContent>
+
           <TabsContent value="ethics">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
             >
               <EthicsMonitorDashboard />
+            </motion.div>
+          </TabsContent>
+
+          <TabsContent value="dilemmas">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <EthicalDilemmaSimulator3D />
             </motion.div>
           </TabsContent>
 

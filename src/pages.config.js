@@ -275,6 +275,7 @@ import NextGenMLHub from './pages/NextGenMLHub';
 import Notifications from './pages/Notifications';
 import NotificationsAndVisualizations from './pages/NotificationsAndVisualizations';
 import ObjectCustomizer from './pages/ObjectCustomizer';
+import OmegaCollaborationHub from './pages/OmegaCollaborationHub';
 import OmegaFinancialHub from './pages/OmegaFinancialHub';
 import OmegaIntelligenceHub from './pages/OmegaIntelligenceHub';
 import OmegaMarketplaceHub from './pages/OmegaMarketplaceHub';
@@ -380,7 +381,6 @@ import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
 import WorldHubEnhanced from './pages/WorldHubEnhanced';
-import OmegaCollaborationHub from './pages/OmegaCollaborationHub';
 import __Layout from './Layout.jsx';
 
 
@@ -662,6 +662,7 @@ export const PAGES = {
     "Notifications": Notifications,
     "NotificationsAndVisualizations": NotificationsAndVisualizations,
     "ObjectCustomizer": ObjectCustomizer,
+    "OmegaCollaborationHub": OmegaCollaborationHub,
     "OmegaFinancialHub": OmegaFinancialHub,
     "OmegaIntelligenceHub": OmegaIntelligenceHub,
     "OmegaMarketplaceHub": OmegaMarketplaceHub,
@@ -767,7 +768,6 @@ export const PAGES = {
     "WorkflowOrchestrationHub": WorkflowOrchestrationHub,
     "World": World,
     "WorldHubEnhanced": WorldHubEnhanced,
-    "OmegaCollaborationHub": OmegaCollaborationHub,
 }
 
 export const pagesConfig = {
