@@ -55,6 +55,7 @@ import IntegratedSystemDashboard from '../components/omega/IntegratedSystemDashb
 export default function OmegaIntelligenceHub() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-950 via-indigo-950 to-purple-950 pb-16">
+      <RealTimeSystemSync />
       <section className="max-w-7xl mx-auto px-6 pt-24 pb-12">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -65,9 +66,20 @@ export default function OmegaIntelligenceHub() {
           <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
             Omega Intelligence Hub
           </h1>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
             Advanced AI capabilities: emergent goals, ethics monitoring, and causal reasoning
           </p>
+        </motion.div>
+
+        <UnifiedCommandCenterViz3D />
+
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3, duration: 0.8 }}
+          className="mt-8"
+        >
+          <IntegratedSystemDashboard />
         </motion.div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
