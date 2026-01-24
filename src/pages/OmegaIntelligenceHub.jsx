@@ -44,6 +44,10 @@ import PlanetaryOperationsDashboard3D from '../components/interplanetary/Planeta
 import InterplanetarySolarSystemViz3D from '../components/interplanetary/InterplanetarySolarSystemViz3D';
 import SystemEvolutionDashboard3D from '../components/interplanetary/SystemEvolutionDashboard3D';
 import RedCommDeviceBlueprint3D from '../components/interplanetary/RedCommDeviceBlueprint3D';
+import AIMissionCommanderViz3D from '../components/haas/AIMissionCommanderViz3D';
+import InterstellarNetworkViz3D from '../components/interstellar/InterstellarNetworkViz3D';
+import EthicalCouncilViz3D from '../components/ethics/EthicalCouncilViz3D';
+import EthicalEvolutionPathViz3D from '../components/ethics/EthicalEvolutionPathViz3D';
 import AIMissionCommanderDashboard3D from '../components/haas/AIMissionCommanderDashboard3D';
 import InterstellarNetworkTopology3D from '../components/interstellar/InterstellarNetworkTopology3D';
 import AIEthicalCouncilChamber3D from '../components/ethics/AIEthicalCouncilChamber3D';
