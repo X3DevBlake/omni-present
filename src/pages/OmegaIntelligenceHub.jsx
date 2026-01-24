@@ -14,6 +14,9 @@ import SystemHealthOverview from '../components/omega/SystemHealthOverview';
 import DynamicTeamVisualizer3D from '../components/omega/DynamicTeamVisualizer3D';
 import EthicalFrameworkGenerator from '../components/omega/EthicalFrameworkGenerator';
 import DashboardWidgetManager from '../components/omega/DashboardWidgetManager';
+import InteractiveKnowledgeGraph3D from '../components/omega/InteractiveKnowledgeGraph3D';
+import CommunicationTopology3D from '../components/omega/CommunicationTopology3D';
+import CounterfactualSimulator3D from '../components/omega/CounterfactualSimulator3D';
 
 export default function OmegaIntelligenceHub() {
   return (
@@ -102,10 +105,7 @@ export default function OmegaIntelligenceHub() {
             >
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <SystemHealthOverview />
-                <div className="grid grid-cols-2 gap-4">
-                  <KnowledgeGraph3DBuilder />
-                  <AgentCommunicationFlow3D />
-                </div>
+                <InteractiveKnowledgeGraph3D />
               </div>
             </motion.div>
           </TabsContent>
@@ -187,10 +187,28 @@ export default function OmegaIntelligenceHub() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
             >
-              <CausalReasoningEngine3D />
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <CausalReasoningEngine3D />
+                <CounterfactualSimulator3D />
+              </div>
             </motion.div>
           </TabsContent>
         </Tabs>
+
+        {/* Advanced Visualizations Section */}
+        <section className="mt-16">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-3xl font-bold text-white mb-8 text-center"
+          >
+            Advanced Data Stream Visualizations
+          </motion.h2>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <CommunicationTopology3D />
+            <InteractiveKnowledgeGraph3D />
+          </div>
+        </section>
       </section>
     </div>
   );
