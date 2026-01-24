@@ -434,6 +434,12 @@ export default function NeuralArchitectureStudio3D() {
             </div>
           </div>
         )}
+
+        {experimentHistory.length > 0 && (
+          <div className="mt-4">
+            <ExperimentComparator experiments={experimentHistory} metric="loss" />
+          </div>
+        )}
       </CardContent>
     </Card>
   );
