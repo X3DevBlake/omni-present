@@ -40,6 +40,10 @@ import EnhancedKnowledgeNetwork3D from '../components/omega/EnhancedKnowledgeNet
 import EthicalLandscapeExplorer3D from '../components/omega/EthicalLandscapeExplorer3D';
 import AdvancedKnowledgeGraph3D from '../components/omega/AdvancedKnowledgeGraph3D';
 import ComplianceSimulationModule3D from '../components/omega/ComplianceSimulationModule3D';
+import PlanetaryOperationsDashboard3D from '../components/interplanetary/PlanetaryOperationsDashboard3D';
+import InterplanetarySolarSystemViz3D from '../components/interplanetary/InterplanetarySolarSystemViz3D';
+import SystemEvolutionDashboard3D from '../components/interplanetary/SystemEvolutionDashboard3D';
+import RedCommDeviceBlueprint3D from '../components/interplanetary/RedCommDeviceBlueprint3D';
 
 export default function OmegaIntelligenceHub() {
   return (
@@ -292,6 +296,30 @@ export default function OmegaIntelligenceHub() {
                 </div>
                 <ComplianceSimulationModule3D />
               </div>
+            </motion.div>
+          </TabsContent>
+
+          <TabsContent value="interplanetary">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <div className="space-y-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <PlanetaryOperationsDashboard3D />
+                  <InterplanetarySolarSystemViz3D />
+                </div>
+                <RedCommDeviceBlueprint3D />
+              </div>
+            </motion.div>
+          </TabsContent>
+
+          <TabsContent value="upgrade">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <SystemEvolutionDashboard3D />
             </motion.div>
           </TabsContent>
 
