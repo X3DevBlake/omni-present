@@ -127,7 +127,7 @@ export default function IITPhiVisualizer3D() {
               <Sphere args={[phiValue * 1.5, 64, 64]}>
                 <meshStandardMaterial
                   color="#8b5cf6"
-                  emissive="#8b5cf6"}
+                  emissive="#8b5cf6"
                   emissiveIntensity={phiValue}
                   transparent
                   opacity={0.2}
