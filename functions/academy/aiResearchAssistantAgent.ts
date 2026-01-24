@@ -231,6 +231,166 @@ Deno.serve(async (req) => {
         });
       }
 
+      case 'analyze_research_data': {
+        const { project_id, query } = await req.json();
+        
+        const projects = await base44.entities.ResearchProject.filter({ project_id });
+        const project = projects[0];
+
+        const analysisPrompt = `Perform real-time data analysis for research project:
+        ${project.title}
+        
+        Query: ${query}
+        
+        Provide:
+        1. Statistical analysis approach
+        2. Visualization recommendations (3D coordinates for data points)
+        3. Key insights and patterns
+        4. Anomalies or outliers
+        5. Next steps for deeper investigation`;
+
+        const analysis = await base44.integrations.Core.InvokeLLM({
+          prompt: analysisPrompt,
+          response_json_schema: {
+            type: "object",
+            properties: {
+              analysis_approach: { type: "string" },
+              visualization_points: {
+                type: "array",
+                items: {
+                  type: "object",
+                  properties: {
+                    x: { type: "number" },
+                    y: { type: "number" },
+                    z: { type: "number" },
+                    value: { type: "number" },
+                    label: { type: "string" }
+                  }
+                }
+              },
+              insights: { type: "array", items: { type: "string" } },
+              anomalies: { type: "array", items: { type: "string" } },
+              recommendations: { type: "array", items: { type: "string" } }
+            }
+          }
+        });
+
+        return Response.json({ success: true, ...analysis });
+      }
+
+      case 'generate_data_visualization': {
+        const { data_points, visualization_type } = await req.json();
+
+        const vizPrompt = `Generate an advanced 3D data visualization configuration:
+        
+        Data Points: ${JSON.stringify(data_points)}
+        Visualization Type: ${visualization_type || 'interactive_scatter'}
+        
+        Provide detailed configuration for rendering in React Three Fiber.`;
+
+        const vizConfig = await base44.integrations.Core.InvokeLLM({
+          prompt: vizPrompt,
+          response_json_schema: {
+            type: "object",
+            properties: {
+              scene_config: { type: "object" },
+              camera_position: { type: "object" },
+              lighting_setup: { type: "array" },
+              interactive_elements: { type: "array" }
+            }
+          }
+        });
+
+        return Response.json({ success: true, visualization_config: vizConfig });
+      }
+
+      case 'contextual_assistance': {
+        const { content, user_progress } = await req.json();
+
+        const assistPrompt = `You are an AI academic advisor. Based on this learning content:
+        
+        ${content}
+        
+        Student Progress: ${JSON.stringify(user_progress)}
+        
+        Provide 3 proactive suggestions or clarifications that would help the student understand better.`;
+
+        const suggestions = await base44.integrations.Core.InvokeLLM({
+          prompt: assistPrompt,
+          response_json_schema: {
+            type: "object",
+            properties: {
+              suggestions: { type: "array", items: { type: "string" } }
+            }
+          }
+        });
+
+        return Response.json({ success: true, ...suggestions });
+      }
+
+      case 'parse_complex_research_question': {
+        const { research_question } = await req.json();
+
+        const parsePrompt = `Parse and refine this complex research question using advanced NLP:
+        
+        "${research_question}"
+        
+        Provide:
+        1. Refined, clearer version of the question
+        2. Key concepts identified
+        3. Variables and relationships
+        4. Suggested hypotheses
+        5. Recommended research methods`;
+
+        const parsed = await base44.integrations.Core.InvokeLLM({
+          prompt: parsePrompt,
+          response_json_schema: {
+            type: "object",
+            properties: {
+              refined_question: { type: "string" },
+              key_concepts: { type: "array", items: { type: "string" } },
+              variables: { type: "array", items: { type: "string" } },
+              relationships: { type: "array", items: { type: "string" } },
+              hypotheses: { type: "array", items: { type: "string" } },
+              methods: { type: "array", items: { type: "string" } }
+            }
+          }
+        });
+
+        return Response.json({ success: true, ...parsed });
+      }
+
+      case 'chat': {
+        const { message, agent_id } = await req.json();
+
+        // Get agent personality for context
+        const traits = await base44.entities.AgentPersonalityTrait.filter({ agent_id });
+        
+        const chatPrompt = `You are an AI academic advisor with these personality traits:
+        ${traits.map(t => `${t.trait_name}: ${t.strength}`).join(', ')}
+        
+        Student message: ${message}
+        
+        Provide helpful, personalized academic guidance.`;
+
+        const response = await base44.integrations.Core.InvokeLLM({
+          prompt: chatPrompt
+        });
+
+        // Record conversation
+        await base44.entities.AIConversation.create({
+          conversation_id: `conv_${Date.now()}`,
+          agent_id,
+          user_id: user_id,
+          messages: [
+            { role: 'user', content: message, timestamp: new Date().toISOString() },
+            { role: 'assistant', content: response, timestamp: new Date().toISOString() }
+          ]
+        });
+
+        return Response.json({ success: true, response });
+      }
+
       default:
         return Response.json({ error: 'Invalid action' }, { status: 400 });
     }
