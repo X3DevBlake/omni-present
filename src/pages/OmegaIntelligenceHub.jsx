@@ -59,6 +59,8 @@ import AdaptiveModulationViz3D from '../components/interstellar/AdaptiveModulati
 import EthicalDriftMonitorDashboard3D from '../components/ethics/EthicalDriftMonitorDashboard3D';
 import AutonomousAgentDashboard3D from '../components/interstellar/AutonomousAgentDashboard3D';
 import AdaptiveGovernanceLearning3D from '../components/planetary/AdaptiveGovernanceLearning3D';
+import ProtocolProposalVisualizer3D from '../components/interstellar/ProtocolProposalVisualizer3D';
+import LongTermImpactDashboard3D from '../components/planetary/LongTermImpactDashboard3D';
 
 export default function OmegaIntelligenceHub() {
   return (
@@ -357,7 +359,10 @@ export default function OmegaIntelligenceHub() {
             >
               <div className="space-y-6">
                 <GovernancePolicyVisualizer3D />
-                <AdaptiveGovernanceLearning3D />
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <AdaptiveGovernanceLearning3D />
+                  <LongTermImpactDashboard3D />
+                </div>
               </div>
             </motion.div>
           </TabsContent>
@@ -369,7 +374,10 @@ export default function OmegaIntelligenceHub() {
             >
               <div className="space-y-6">
                 <InterstellarSimulationStudio3D />
-                <AutonomousAgentDashboard3D />
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <AutonomousAgentDashboard3D />
+                  <ProtocolProposalVisualizer3D />
+                </div>
               </div>
             </motion.div>
           </TabsContent>
