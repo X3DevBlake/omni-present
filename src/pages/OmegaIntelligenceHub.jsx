@@ -129,6 +129,8 @@ export default function OmegaIntelligenceHub() {
             <TabsTrigger value="evolution">Evolution</TabsTrigger>
             <TabsTrigger value="audit">Audit</TabsTrigger>
             <TabsTrigger value="compliance">Compliance</TabsTrigger>
+            <TabsTrigger value="interplanetary">Inter-Planetary</TabsTrigger>
+            <TabsTrigger value="upgrade">Auto-Upgrade</TabsTrigger>
           </TabsList>
 
           <TabsContent value="overview">
