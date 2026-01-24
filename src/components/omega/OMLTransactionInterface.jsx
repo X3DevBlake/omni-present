@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { DollarSign, Lock, Send } from 'lucide-react';
+import { CircleDollarSign, Lock, Send } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { base44 } from '@/api/base44Client';
 
@@ -38,7 +38,7 @@ export default function OMLTransactionInterface({ agentId }) {
     <Card className="bg-gradient-to-br from-emerald-950/90 to-green-950/90 backdrop-blur-xl border-emerald-500/30">
       <CardHeader>
         <CardTitle className="text-white flex items-center gap-3">
-          <DollarSign className="w-6 h-6 text-emerald-400" />
+          <CircleDollarSign className="w-6 h-6 text-emerald-400" />
           OML Transaction Interface
         </CardTitle>
         <p className="text-gray-300 text-sm">Secure blockchain transactions with loyalty verification</p>
