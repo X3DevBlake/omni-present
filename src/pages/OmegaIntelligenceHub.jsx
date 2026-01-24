@@ -48,6 +48,11 @@ import AIMissionCommanderViz3D from '../components/haas/AIMissionCommanderViz3D'
 import InterstellarNetworkViz3D from '../components/interstellar/InterstellarNetworkViz3D';
 import EthicalCouncilViz3D from '../components/ethics/EthicalCouncilViz3D';
 import EthicalEvolutionPathViz3D from '../components/ethics/EthicalEvolutionPathViz3D';
+import UnifiedCommandCenterViz3D from '../components/omega/UnifiedCommandCenterViz3D';
+import RealTimeSystemSync from '../components/omega/RealTimeSystemSync';
+import MissionSimulationViz3D from '../components/haas/MissionSimulationViz3D';
+import AdaptiveModulationViz3D from '../components/interstellar/AdaptiveModulationViz3D';
+import DynamicEthicalLandscapeViz3D from '../components/ethics/DynamicEthicalLandscapeViz3D';
 
 export default function OmegaIntelligenceHub() {
   return (
@@ -176,6 +181,7 @@ export default function OmegaIntelligenceHub() {
               animate={{ opacity: 1, y: 0 }}
             >
               <div className="space-y-6">
+                <MissionSimulationViz3D />
                 <AIMissionCommanderViz3D />
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   <RecursiveHAASMonitor3D />
@@ -299,6 +305,7 @@ export default function OmegaIntelligenceHub() {
               animate={{ opacity: 1, y: 0 }}
             >
               <div className="space-y-6">
+                <DynamicEthicalLandscapeViz3D />
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   <EthicalCouncilViz3D />
                   <EthicalEvolutionPathViz3D />
@@ -322,6 +329,7 @@ export default function OmegaIntelligenceHub() {
                   <PlanetaryOperationsDashboard3D />
                   <InterplanetarySolarSystemViz3D />
                 </div>
+                <AdaptiveModulationViz3D />
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   <InterstellarNetworkViz3D />
                   <RedCommDeviceBlueprint3D />
