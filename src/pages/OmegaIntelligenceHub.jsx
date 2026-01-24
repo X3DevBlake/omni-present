@@ -61,6 +61,10 @@ import AdaptiveGovernanceLearning3D from '../components/planetary/AdaptiveGovern
 import ProtocolProposalVisualizer3D from '../components/interstellar/ProtocolProposalVisualizer3D';
 import LongTermImpactDashboard3D from '../components/planetary/LongTermImpactDashboard3D';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import SentientEthicalAdvisorDashboard3D from '../components/ethics/SentientEthicalAdvisorDashboard3D';
+import AgentCollaborationNetwork3D from '../components/interstellar/AgentCollaborationNetwork3D';
+import PolicyImpactSimulator3D from '../components/planetary/PolicyImpactSimulator3D';
+import GovernanceEthicalAuditTrail3D from '../components/planetary/GovernanceEthicalAuditTrail3D';
 
 export default function OmegaIntelligenceHub() {
   return (
@@ -307,6 +311,7 @@ export default function OmegaIntelligenceHub() {
               animate={{ opacity: 1, y: 0 }}
             >
               <div className="space-y-6">
+                <SentientEthicalAdvisorDashboard3D />
                 <EthicalDriftMonitorDashboard3D />
                 <ProactiveEthicalDriftMonitor3D />
               </div>
@@ -360,6 +365,10 @@ export default function OmegaIntelligenceHub() {
               <div className="space-y-6">
                 <GovernancePolicyVisualizer3D />
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <PolicyImpactSimulator3D />
+                  <GovernanceEthicalAuditTrail3D />
+                </div>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   <AdaptiveGovernanceLearning3D />
                   <LongTermImpactDashboard3D />
                 </div>
@@ -378,6 +387,7 @@ export default function OmegaIntelligenceHub() {
                   <AutonomousAgentDashboard3D />
                   <ProtocolProposalVisualizer3D />
                 </div>
+                <AgentCollaborationNetwork3D />
               </div>
             </motion.div>
           </TabsContent>
