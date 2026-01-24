@@ -10,6 +10,10 @@ import EthicsMonitorDashboard from '../components/omega/EthicsMonitorDashboard';
 import RecursiveHAASMonitor3D from '../components/omega/RecursiveHAASMonitor3D';
 import CrossAgentPlanner3D from '../components/omega/CrossAgentPlanner3D';
 import EthicalDilemmaSimulator3D from '../components/omega/EthicalDilemmaSimulator3D';
+import SystemHealthOverview from '../components/omega/SystemHealthOverview';
+import DynamicTeamVisualizer3D from '../components/omega/DynamicTeamVisualizer3D';
+import EthicalFrameworkGenerator from '../components/omega/EthicalFrameworkGenerator';
+import DashboardWidgetManager from '../components/omega/DashboardWidgetManager';
 
 export default function OmegaIntelligenceHub() {
   return (
@@ -77,17 +81,43 @@ export default function OmegaIntelligenceHub() {
       </section>
 
       <section className="max-w-7xl mx-auto px-6">
-        <Tabs defaultValue="haas" className="w-full">
-          <TabsList className="grid w-full grid-cols-4 lg:grid-cols-8 bg-black/60 backdrop-blur-xl mb-8 text-xs lg:text-sm">
+        <Tabs defaultValue="overview" className="w-full">
+          <TabsList className="grid w-full grid-cols-5 lg:grid-cols-10 bg-black/60 backdrop-blur-xl mb-8 text-xs">
+            <TabsTrigger value="overview">Overview</TabsTrigger>
+            <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
             <TabsTrigger value="haas">HAAS</TabsTrigger>
             <TabsTrigger value="goals">Goals</TabsTrigger>
+            <TabsTrigger value="teams">Teams</TabsTrigger>
             <TabsTrigger value="planning">Planning</TabsTrigger>
             <TabsTrigger value="ethics">Ethics</TabsTrigger>
+            <TabsTrigger value="framework">Framework</TabsTrigger>
             <TabsTrigger value="dilemmas">Dilemmas</TabsTrigger>
-            <TabsTrigger value="knowledge">Knowledge</TabsTrigger>
-            <TabsTrigger value="comms">Comms</TabsTrigger>
             <TabsTrigger value="causal">Causal</TabsTrigger>
           </TabsList>
+
+          <TabsContent value="overview">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <SystemHealthOverview />
+                <div className="grid grid-cols-2 gap-4">
+                  <KnowledgeGraph3DBuilder />
+                  <AgentCommunicationFlow3D />
+                </div>
+              </div>
+            </motion.div>
+          </TabsContent>
+
+          <TabsContent value="dashboard">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <DashboardWidgetManager componentType="sentient_finance" />
+            </motion.div>
+          </TabsContent>
 
           <TabsContent value="haas">
             <motion.div
@@ -104,6 +134,15 @@ export default function OmegaIntelligenceHub() {
               animate={{ opacity: 1, y: 0 }}
             >
               <EmergentGoalVisualizer3D />
+            </motion.div>
+          </TabsContent>
+
+          <TabsContent value="teams">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <DynamicTeamVisualizer3D />
             </motion.div>
           </TabsContent>
 
@@ -125,30 +164,21 @@ export default function OmegaIntelligenceHub() {
             </motion.div>
           </TabsContent>
 
+          <TabsContent value="framework">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <EthicalFrameworkGenerator />
+            </motion.div>
+          </TabsContent>
+
           <TabsContent value="dilemmas">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
             >
               <EthicalDilemmaSimulator3D />
-            </motion.div>
-          </TabsContent>
-
-          <TabsContent value="knowledge">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-            >
-              <KnowledgeGraph3DBuilder />
-            </motion.div>
-          </TabsContent>
-
-          <TabsContent value="comms">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-            >
-              <AgentCommunicationFlow3D />
             </motion.div>
           </TabsContent>
 
