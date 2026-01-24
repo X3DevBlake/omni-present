@@ -36,12 +36,26 @@ export default function OmniPresentAcademy() {
     )
   });
 
-  const { data: researchDocs = [] } = useQuery({
-    queryKey: ['opo-research-docs'],
-    queryFn: () => base44.entities.MediaAsset.filter({
-      asset_id: { $in: ['opo_master_plan', 'opo_repository_analysis'] }
-    })
+  const { data: user } = useQuery({
+    queryKey: ['current-user'],
+    queryFn: () => base44.auth.me()
   });
+
+  // Create media assets for research documents
+  const researchDocs = [
+    {
+      title: "Omni-Present Omega Master Plan",
+      description: "Neural Isomorphism, Volumetric Sentience, and Recursive Autonomy",
+      file_url: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6961e531be883da86dc6fd53/ad191faed_Omni-PresentOmegaMasterPlan.pdf",
+      tags: ["neural-isomorphism", "BCI", "volumetric-holography", "agent-swarms"]
+    },
+    {
+      title: "Omni-Present Repository Analysis",
+      description: "Distributed, Multimodal, and Persistent Agentic Systems",
+      file_url: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6961e531be883da86dc6fd53/b4b756b99_Omni-PresentRepositoryAnalysisandReport.pdf",
+      tags: ["distributed-systems", "CRDTs", "multimodal-ai", "bayesian-fusion"]
+    }
+  ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950 p-6">
@@ -249,6 +263,17 @@ export default function OmniPresentAcademy() {
           )}
         </TabsContent>
       </Tabs>
+
+      {/* Personalized Learning Path */}
+      {user && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-12"
+        >
+          <LearningPathVisualizer3D userId={user.id} />
+        </motion.div>
+      )}
 
       {/* Learning Paths */}
       <motion.div
