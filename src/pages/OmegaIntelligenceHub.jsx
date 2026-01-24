@@ -1,7 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Brain, Network, GitBranch, Shield, Target, Users } from 'lucide-react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import EmergentGoalVisualizer3D from '../components/omega/EmergentGoalVisualizer3D';
 import KnowledgeGraph3DBuilder from '../components/omega/KnowledgeGraph3DBuilder';
 import AgentCommunicationFlow3D from '../components/omega/AgentCommunicationFlow3D';
@@ -61,6 +60,7 @@ import AutonomousAgentDashboard3D from '../components/interstellar/AutonomousAge
 import AdaptiveGovernanceLearning3D from '../components/planetary/AdaptiveGovernanceLearning3D';
 import ProtocolProposalVisualizer3D from '../components/interstellar/ProtocolProposalVisualizer3D';
 import LongTermImpactDashboard3D from '../components/planetary/LongTermImpactDashboard3D';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export default function OmegaIntelligenceHub() {
   return (
