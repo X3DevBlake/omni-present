@@ -48,10 +48,13 @@ import AIMissionCommanderViz3D from '../components/haas/AIMissionCommanderViz3D'
 import InterstellarNetworkViz3D from '../components/interstellar/InterstellarNetworkViz3D';
 import EthicalCouncilViz3D from '../components/ethics/EthicalCouncilViz3D';
 import EthicalEvolutionPathViz3D from '../components/ethics/EthicalEvolutionPathViz3D';
+import UnifiedCommandCenterViz3D from '../components/omega/UnifiedCommandCenterViz3D';
+import RealTimeSystemSync from '../components/omega/RealTimeSystemSync';
 
 export default function OmegaIntelligenceHub() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-950 via-indigo-950 to-purple-950 pb-16">
+      <RealTimeSystemSync />
       <section className="max-w-7xl mx-auto px-6 pt-24 pb-12">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -62,9 +65,10 @@ export default function OmegaIntelligenceHub() {
           <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
             Omega Intelligence Hub
           </h1>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
             Advanced AI capabilities: emergent goals, ethics monitoring, and causal reasoning
           </p>
+          <UnifiedCommandCenterViz3D />
         </motion.div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
