@@ -144,12 +144,30 @@ export default function CollaborationNebula3D({ projectId }) {
     return [Math.cos(angle) * radius, Math.sin(angle) * radius, (Math.random() - 0.5) * 2];
   });
 
+  // Vault connections for data sharing visualization
+  const { data: vaultConnections = [] } = useQuery({
+    queryKey: ['vault-connections', projectId],
+    queryFn: async () => {
+      const connections = [];
+      for (let i = 0; i < aiAgents.length - 1; i++) {
+        connections.push({
+          from: i,
+          to: i + 1,
+          dataFlow: Math.random() > 0.5
+        });
+      }
+      return connections;
+    },
+    enabled: aiAgents.length > 1
+  });
+
   return (
     <div className="w-full h-[700px] relative">
       <Canvas camera={{ position: [0, 0, 18], fov: 60 }}>
         <ambientLight intensity={0.5} />
         <pointLight position={[10, 10, 10]} intensity={1} color="#3b82f6" />
         <pointLight position={[-10, -10, -10]} intensity={0.5} color="#8b5cf6" />
+        <fog attach="fog" args={['#000000', 10, 30]} />
 
         {/* Central Research Core */}
         <Sphere args={[1.5, 64, 64]} position={[0, 0, 0]}>
@@ -206,6 +224,37 @@ export default function CollaborationNebula3D({ projectId }) {
             finding={finding}
           />
         ))}
+
+        {/* Data vault sharing visualization */}
+        {vaultConnections.map((conn, idx) => {
+          if (agentPositions[conn.from] && agentPositions[conn.to]) {
+            return (
+              <group key={`vault-${idx}`}>
+                <KnowledgeStream
+                  start={agentPositions[conn.from]}
+                  end={agentPositions[conn.to]}
+                  dataFlow={conn.dataFlow}
+                  active={conn.dataFlow}
+                />
+                {conn.dataFlow && (
+                  <mesh position={[
+                    (agentPositions[conn.from][0] + agentPositions[conn.to][0]) / 2,
+                    (agentPositions[conn.from][1] + agentPositions[conn.to][1]) / 2,
+                    0
+                  ]}>
+                    <sphereGeometry args={[0.1, 16, 16]} />
+                    <meshStandardMaterial
+                      color="#10b981"
+                      emissive="#10b981"
+                      emissiveIntensity={1}
+                    />
+                  </mesh>
+                )}
+              </group>
+            );
+          }
+          return null;
+        })}
 
         <OrbitControls enableZoom enablePan />
       </Canvas>

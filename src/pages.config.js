@@ -18,6 +18,7 @@ import APIExplorer from './pages/APIExplorer';
 import APIIntegrations from './pages/APIIntegrations';
 import APIKeys from './pages/APIKeys';
 import About from './pages/About';
+import AcademyDashboard from './pages/AcademyDashboard';
 import AchievementsAwards from './pages/AchievementsAwards';
 import ActivityLog from './pages/ActivityLog';
 import AdminHome from './pages/AdminHome';
@@ -173,6 +174,7 @@ import DeviceTelemetry from './pages/DeviceTelemetry';
 import DevicesHub from './pages/DevicesHub';
 import DiscountsRebates from './pages/DiscountsRebates';
 import Documentation from './pages/Documentation';
+import DocumentsHub from './pages/DocumentsHub';
 import DynamicSimulationStudio from './pages/DynamicSimulationStudio';
 import EcosystemDashboard from './pages/EcosystemDashboard';
 import EcosystemMonitoringDashboard from './pages/EcosystemMonitoringDashboard';
@@ -214,9 +216,9 @@ import EthicsHub from './pages/EthicsHub';
 import EthicsSafetyHub from './pages/EthicsSafetyHub';
 import EventsCalendar from './pages/EventsCalendar';
 import EvolutionDashboardPage from './pages/EvolutionDashboardPage';
-import FAQ from './pages/FAQ';
 import ExchangeListings from './pages/ExchangeListings';
 import ExperimentTracking from './pages/ExperimentTracking';
+import FAQ from './pages/FAQ';
 import FeatureDetail from './pages/FeatureDetail';
 import FeatureFlagManager from './pages/FeatureFlagManager';
 import Features from './pages/Features';
@@ -320,6 +322,7 @@ import RealtimeDashboard from './pages/RealtimeDashboard';
 import ReferralProgram from './pages/ReferralProgram';
 import RepairRequest from './pages/RepairRequest';
 import ReportingAnalytics from './pages/ReportingAnalytics';
+import ResearchHub from './pages/ResearchHub';
 import ResourceLibrary from './pages/ResourceLibrary';
 import ResourceManagementHub from './pages/ResourceManagementHub';
 import Roadmap from './pages/Roadmap';
@@ -375,9 +378,6 @@ import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
 import WorldHubEnhanced from './pages/WorldHubEnhanced';
-import AcademyDashboard from './pages/AcademyDashboard';
-import ResearchHub from './pages/ResearchHub';
-import DocumentsHub from './pages/DocumentsHub';
 import __Layout from './Layout.jsx';
 
 
@@ -402,6 +402,7 @@ export const PAGES = {
     "APIIntegrations": APIIntegrations,
     "APIKeys": APIKeys,
     "About": About,
+    "AcademyDashboard": AcademyDashboard,
     "AchievementsAwards": AchievementsAwards,
     "ActivityLog": ActivityLog,
     "AdminHome": AdminHome,
@@ -557,6 +558,7 @@ export const PAGES = {
     "DevicesHub": DevicesHub,
     "DiscountsRebates": DiscountsRebates,
     "Documentation": Documentation,
+    "DocumentsHub": DocumentsHub,
     "DynamicSimulationStudio": DynamicSimulationStudio,
     "EcosystemDashboard": EcosystemDashboard,
     "EcosystemMonitoringDashboard": EcosystemMonitoringDashboard,
@@ -598,9 +600,9 @@ export const PAGES = {
     "EthicsSafetyHub": EthicsSafetyHub,
     "EventsCalendar": EventsCalendar,
     "EvolutionDashboardPage": EvolutionDashboardPage,
-    "FAQ": FAQ,
     "ExchangeListings": ExchangeListings,
     "ExperimentTracking": ExperimentTracking,
+    "FAQ": FAQ,
     "FeatureDetail": FeatureDetail,
     "FeatureFlagManager": FeatureFlagManager,
     "Features": Features,
@@ -704,6 +706,7 @@ export const PAGES = {
     "ReferralProgram": ReferralProgram,
     "RepairRequest": RepairRequest,
     "ReportingAnalytics": ReportingAnalytics,
+    "ResearchHub": ResearchHub,
     "ResourceLibrary": ResourceLibrary,
     "ResourceManagementHub": ResourceManagementHub,
     "Roadmap": Roadmap,
@@ -759,9 +762,6 @@ export const PAGES = {
     "WorkflowOrchestrationHub": WorkflowOrchestrationHub,
     "World": World,
     "WorldHubEnhanced": WorldHubEnhanced,
-    "AcademyDashboard": AcademyDashboard,
-    "ResearchHub": ResearchHub,
-    "DocumentsHub": DocumentsHub,
 }
 
 export const pagesConfig = {

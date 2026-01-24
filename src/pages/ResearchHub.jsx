@@ -12,7 +12,8 @@ import DecentralizedVaultManager3D from '../components/security/DecentralizedVau
 import CollaborationNebula3D from '../components/academy/CollaborationNebula3D';
 import MultiAgentResearchDialogue from '../components/academy/MultiAgentResearchDialogue';
 import ProactiveCollaboratorSuggester from '../components/academy/ProactiveCollaboratorSuggester';
-import { FlaskConical, Users, Shield, Sparkles, Plus, FileText } from 'lucide-react';
+import CertificationViewer3D from '../components/academy/CertificationViewer3D';
+import { FlaskConical, Users, Shield, Sparkles, Plus, FileText, Award } from 'lucide-react';
 import { toast } from 'sonner';
 
 export default function ResearchHub() {
@@ -222,6 +223,25 @@ export default function ResearchHub() {
           <ProactiveCollaboratorSuggester projectId={myProjects[0].project_id} />
         </motion.div>
       )}
+
+      {/* Blockchain-Verified Credentials */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="mb-8"
+      >
+        <Card className="bg-white/10 backdrop-blur-xl border-white/20">
+          <CardHeader>
+            <CardTitle className="text-white flex items-center gap-2">
+              <Award className="w-6 h-6 text-amber-400" />
+              Blockchain-Verified Academic Credentials
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <CertificationViewer3D userId={user?.id} />
+          </CardContent>
+        </Card>
+      </motion.div>
 
       {/* Blockchain Integrity Visualization */}
       <motion.div

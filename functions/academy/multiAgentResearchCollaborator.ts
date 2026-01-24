@@ -87,23 +87,66 @@ Deno.serve(async (req) => {
       case 'refine_hypothesis_dialogue': {
         const { current_hypothesis, agent_perspectives } = await req.json();
 
-        // Multi-agent dialogue to refine hypothesis
-        const refinementPrompt = `Multiple AI research agents are collaborating to refine a hypothesis:
+        // Multi-agent consensus mechanism
+        const consensusRounds = [];
+        let currentHypothesis = current_hypothesis;
         
-        Current Hypothesis: "${current_hypothesis}"
-        
-        Agent Perspectives:
-        ${agent_perspectives.map((p, i) => `Agent ${i + 1}: ${p}`).join('\n')}
-        
-        Synthesize these perspectives into:
-        1. A refined, more robust hypothesis
-        2. Identified strengths from agent inputs
-        3. Addressed weaknesses or gaps
-        4. Suggested validation approaches
-        5. Next research steps`;
+        // Round 1: Initial perspectives
+        for (let round = 0; round < 3; round++) {
+          const roundPrompt = `Consensus Round ${round + 1}:
+          
+          Current Hypothesis: "${currentHypothesis}"
+          
+          Previous Agent Perspectives:
+          ${agent_perspectives.map((p, i) => `Agent ${i + 1}: ${p}`).join('\n')}
+          
+          Evaluate:
+          1. Level of agreement (0-100%)
+          2. Key points of consensus
+          3. Outstanding disagreements
+          4. Proposed refinements
+          5. Confidence in current hypothesis`;
 
-        const refinement = await base44.integrations.Core.InvokeLLM({
-          prompt: refinementPrompt,
+          const roundResult = await base44.integrations.Core.InvokeLLM({
+            prompt: roundPrompt,
+            response_json_schema: {
+              type: "object",
+              properties: {
+                agreement_level: { type: "number" },
+                consensus_points: { type: "array", items: { type: "string" } },
+                disagreements: { type: "array", items: { type: "string" } },
+                proposed_refinements: { type: "array", items: { type: "string" } },
+                confidence: { type: "number" }
+              }
+            }
+          });
+
+          consensusRounds.push(roundResult);
+
+          // If high consensus reached, stop
+          if (roundResult.agreement_level >= 85) {
+            break;
+          }
+
+          // Refine hypothesis based on round
+          if (roundResult.proposed_refinements?.length > 0) {
+            currentHypothesis = roundResult.proposed_refinements[0];
+          }
+        }
+
+        // Final synthesis
+        const finalRefinement = await base44.integrations.Core.InvokeLLM({
+          prompt: `Synthesize final refined hypothesis from multi-agent consensus:
+          
+          Original: "${current_hypothesis}"
+          Consensus Rounds: ${JSON.stringify(consensusRounds)}
+          
+          Create:
+          1. Final refined hypothesis
+          2. Strengths from consensus
+          3. Validation approaches
+          4. Next research steps
+          5. Overall consensus score`,
           response_json_schema: {
             type: "object",
             properties: {
@@ -112,22 +155,26 @@ Deno.serve(async (req) => {
               addressed_gaps: { type: "array", items: { type: "string" } },
               validation_methods: { type: "array", items: { type: "string" } },
               next_steps: { type: "array", items: { type: "string" } },
-              consensus_score: { type: "number" }
+              consensus_score: { type: "number" },
+              consensus_rounds: { type: "integer" }
             }
           }
         });
 
-        // Record the dialogue
+        finalRefinement.consensus_rounds = consensusRounds.length;
+        finalRefinement.consensus_history = consensusRounds;
+
+        // Record the dialogue with consensus
         await base44.asServiceRole.entities.AgentCommunication.create({
           communication_id: `dialogue_${Date.now()}`,
           sender_agent_id: 'multi_agent_system',
-          message_type: 'hypothesis_refinement',
-          content: JSON.stringify(refinement),
+          message_type: 'hypothesis_refinement_consensus',
+          content: JSON.stringify(finalRefinement),
           timestamp: new Date().toISOString(),
-          metadata: { project_id, original_hypothesis: current_hypothesis }
+          metadata: { project_id, original_hypothesis: current_hypothesis, consensus_rounds: consensusRounds.length }
         });
 
-        return Response.json({ success: true, ...refinement });
+        return Response.json({ success: true, ...finalRefinement });
       }
 
       case 'co_author_section': {
