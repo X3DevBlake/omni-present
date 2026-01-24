@@ -17,6 +17,17 @@ import InfoNCEVisualizer3D from '../components/academy/InfoNCEVisualizer3D';
 import PhotophoreticTrapSimulator3D from '../components/academy/PhotophoreticTrapSimulator3D';
 import CRDTLatticeVisualizer3D from '../components/academy/CRDTLatticeVisualizer3D';
 import AttentionMechanismVisualizer3D from '../components/academy/AttentionMechanismVisualizer3D';
+import HAASSwarmVisualizer3D from '../components/academy/HAASSwarmVisualizer3D';
+import Sim2RealVisualizer3D from '../components/academy/Sim2RealVisualizer3D';
+import BayesianFusionVisualizer3D from '../components/academy/BayesianFusionVisualizer3D';
+import LearningPathVisualizer3D from '../components/academy/LearningPathVisualizer3D';
+import IITPhiVisualizer3D from '../components/consciousness/IITPhiVisualizer3D';
+import GWTIgnitionVisualizer3D from '../components/consciousness/GWTIgnitionVisualizer3D';
+import RedCommMeshVisualizer3D from '../components/network/RedCommMeshVisualizer3D';
+import TFLNModulatorVisualizer3D from '../components/photonics/TFLNModulatorVisualizer3D';
+import SCIONPathVisualizer3D from '../components/network/SCIONPathVisualizer3D';
+import DeepBlueUnderwaterPod3D from '../components/ecosystem/DeepBlueUnderwaterPod3D';
+import InterplanetaryDTNVisualizer3D from '../components/space/InterplanetaryDTNVisualizer3D';
 
 export default function OmniPresentAcademy() {
   const [selectedCourse, setSelectedCourse] = useState(null);
@@ -246,6 +257,22 @@ export default function OmniPresentAcademy() {
                 <AttentionMechanismVisualizer3D />
               </CardContent>
             </Card>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+            <HAASSwarmVisualizer3D />
+            <Sim2RealVisualizer3D />
+            <BayesianFusionVisualizer3D />
+            <IITPhiVisualizer3D />
+            <GWTIgnitionVisualizer3D />
+            <TFLNModulatorVisualizer3D />
+          </div>
+
+          <div className="grid grid-cols-1 gap-6 mt-6">
+            <RedCommMeshVisualizer3D />
+            <SCIONPathVisualizer3D />
+            <DeepBlueUnderwaterPod3D />
+            <InterplanetaryDTNVisualizer3D />
           </div>
         </TabsContent>
 
