@@ -41,21 +41,15 @@ export default function OmniPresentAcademy() {
     queryFn: () => base44.auth.me()
   });
 
-  // Create media assets for research documents
-  const researchDocs = [
-    {
-      title: "Omni-Present Omega Master Plan",
-      description: "Neural Isomorphism, Volumetric Sentience, and Recursive Autonomy",
-      file_url: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6961e531be883da86dc6fd53/ad191faed_Omni-PresentOmegaMasterPlan.pdf",
-      tags: ["neural-isomorphism", "BCI", "volumetric-holography", "agent-swarms"]
-    },
-    {
-      title: "Omni-Present Repository Analysis",
-      description: "Distributed, Multimodal, and Persistent Agentic Systems",
-      file_url: "https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/6961e531be883da86dc6fd53/b4b756b99_Omni-PresentRepositoryAnalysisandReport.pdf",
-      tags: ["distributed-systems", "CRDTs", "multimodal-ai", "bayesian-fusion"]
-    }
-  ];
+  const { data: researchDocs = [] } = useQuery({
+    queryKey: ['opo-research-docs'],
+    queryFn: () => base44.entities.MediaAsset.filter({
+      tags: { $contains: 'research' }
+    }),
+    select: (data) => data.filter(d => 
+      d.title?.includes('Omni-Present')
+    )
+  });
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950 p-6">
@@ -111,7 +105,7 @@ export default function OmniPresentAcademy() {
                         <div className="flex gap-2">
                           <Button 
                             size="sm"
-                            onClick={() => window.open(doc.file_url, '_blank')}
+                            onClick={() => window.open(doc.url, '_blank')}
                             className="bg-blue-600 hover:bg-blue-700"
                           >
                             <ExternalLink className="w-3 h-3 mr-2" />
@@ -120,6 +114,12 @@ export default function OmniPresentAcademy() {
                           <Button 
                             size="sm" 
                             variant="outline"
+                            onClick={() => {
+                              const a = document.createElement('a');
+                              a.href = doc.url;
+                              a.download = doc.title + '.pdf';
+                              a.click();
+                            }}
                             className="border-white/20 text-white hover:bg-white/10"
                           >
                             <Download className="w-3 h-3 mr-2" />
