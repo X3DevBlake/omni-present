@@ -240,13 +240,6 @@ export default function OmegaIntelligenceHub() {
               </div>
             </motion.div>
           </TabsContent>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-            >
-              <EthicalDilemmaSimulator3D />
-            </motion.div>
-          </TabsContent>
 
           <TabsContent value="integrations">
             <motion.div
