@@ -35,6 +35,9 @@ import ProactiveEthicalDriftMonitor3D from '../components/omega/ProactiveEthical
 import AgentPersonalizationVisualizer3D from '../components/omega/AgentPersonalizationVisualizer3D';
 import KnowledgeFusionLandscape3D from '../components/omega/KnowledgeFusionLandscape3D';
 import EthicalFrameworkEvolutionSimulator3D from '../components/omega/EthicalFrameworkEvolutionSimulator3D';
+import SwarmOrchestrationLayer3D from '../components/omega/SwarmOrchestrationLayer3D';
+import EnhancedKnowledgeNetwork3D from '../components/omega/EnhancedKnowledgeNetwork3D';
+import EthicalLandscapeExplorer3D from '../components/omega/EthicalLandscapeExplorer3D';
 
 export default function OmegaIntelligenceHub() {
   return (
@@ -160,7 +163,10 @@ export default function OmegaIntelligenceHub() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
             >
-              <RecursiveHAASMonitor3D />
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <RecursiveHAASMonitor3D />
+                <SwarmOrchestrationLayer3D />
+              </div>
             </motion.div>
           </TabsContent>
 
@@ -237,7 +243,7 @@ export default function OmegaIntelligenceHub() {
             >
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <SharedKnowledgeRepository3D />
-                <DecentralizedKnowledgeNetwork3D />
+                <EnhancedKnowledgeNetwork3D />
               </div>
             </motion.div>
           </TabsContent>
@@ -274,7 +280,10 @@ export default function OmegaIntelligenceHub() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
             >
-              <EthicalFrameworkEvolutionSimulator3D />
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <EthicalFrameworkEvolutionSimulator3D />
+                <EthicalLandscapeExplorer3D />
+              </div>
             </motion.div>
           </TabsContent>
 
