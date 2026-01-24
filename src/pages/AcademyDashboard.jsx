@@ -10,6 +10,8 @@ import BookVisualizer3D from '../components/academy/BookVisualizer3D';
 import UniversalHolographicOverlay from '../components/holographic/UniversalHolographicOverlay';
 import HolographicAgentPresence3D from '../components/holographic/HolographicAgentPresence3D';
 import LearningPathVisualizer3D from '../components/academy/LearningPathVisualizer3D';
+import DynamicCourseEnvironment3D from '../components/academy/DynamicCourseEnvironment3D';
+import AIAdvisorHologram from '../components/academy/AIAdvisorHologram';
 import { 
   BookOpen, FlaskConical, Award, Brain, 
   TrendingUp, Users, Sparkles 
@@ -107,9 +109,9 @@ export default function AcademyDashboard() {
           animate={{ opacity: 1, scale: 1 }}
           className="mb-8"
         >
-          <HolographicAgentPresence3D
+          <AIAdvisorHologram 
             agentId={profile.ai_advisor_agent_id}
-            compact={true}
+            userId={user?.id}
           />
         </motion.div>
       )}

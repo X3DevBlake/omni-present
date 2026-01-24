@@ -1,11 +1,15 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, Text, Line, Sphere } from '@react-three/drei';
-import { useQuery } from '@tanstack/react-query';
+import { OrbitControls, Text, Line, Sphere, Html } from '@react-three/drei';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
-import { Card } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { motion } from 'framer-motion';
+import { TrendingUp, AlertCircle, CheckCircle, Lightbulb, Zap } from 'lucide-react';
 import * as THREE from 'three';
+import { toast } from 'sonner';
 
 const PathNode = ({ position, stage, isActive, isCurrent }) => {
   const meshRef = useRef();

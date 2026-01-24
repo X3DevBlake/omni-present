@@ -12,6 +12,8 @@ import {
   Bot, Lightbulb, Activity, Zap, Play, Code
 } from 'lucide-react';
 import * as THREE from 'three';
+import QuantumResearchSimulator3D from './QuantumResearchSimulator3D';
+import NeuralNetworkDesigner3D from './NeuralNetworkDesigner3D';
 
 const Page3D = ({ position, rotation, content, isActive }) => {
   const meshRef = useRef();
@@ -41,6 +43,20 @@ const Page3D = ({ position, rotation, content, isActive }) => {
 
 const InteractiveSimulation = ({ simulationId, moduleData }) => {
   const [isRunning, setIsRunning] = useState(false);
+  const [simulationData, setSimulationData] = useState(null);
+
+  useEffect(() => {
+    if (simulationId && isRunning) {
+      const interval = setInterval(() => {
+        setSimulationData({
+          rotation: Math.random() * Math.PI,
+          position: [Math.random() - 0.5, Math.random() - 0.5, 0],
+          color: `hsl(${Math.random() * 360}, 70%, 50%)`
+        });
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [isRunning, simulationId]);
 
   return (
     <div className="bg-gradient-to-br from-blue-50 to-purple-50 p-6 rounded-lg border-2 border-blue-200 my-4">
@@ -53,9 +69,15 @@ const InteractiveSimulation = ({ simulationId, moduleData }) => {
         <Canvas camera={{ position: [0, 0, 5] }}>
           <ambientLight intensity={0.5} />
           <pointLight position={[10, 10, 10]} />
-          <mesh rotation={[0, isRunning ? Math.PI / 4 : 0, 0]}>
+          <mesh 
+            rotation={[0, simulationData?.rotation || 0, 0]}
+            position={simulationData?.position || [0, 0, 0]}
+          >
             <boxGeometry args={[2, 2, 2]} />
-            <meshStandardMaterial color="#3b82f6" wireframe />
+            <meshStandardMaterial 
+              color={simulationData?.color || "#3b82f6"} 
+              wireframe 
+            />
           </mesh>
           <OrbitControls />
         </Canvas>
@@ -353,11 +375,21 @@ export default function BookVisualizer3D({ courseId, moduleIds }) {
                   </ReactMarkdown>
                 </div>
 
-                {/* Embedded Simulation */}
-                <InteractiveSimulation
-                  simulationId={currentModule?.simulation_environments?.[0]}
-                  moduleData={currentModule}
-                />
+                {/* Embedded Simulations - Dynamic based on module type */}
+                {currentModule?.title?.toLowerCase().includes('quantum') && (
+                  <QuantumResearchSimulator3D />
+                )}
+                
+                {currentModule?.title?.toLowerCase().includes('neural') && (
+                  <NeuralNetworkDesigner3D />
+                )}
+
+                {currentModule?.simulation_environments?.[0] && (
+                  <InteractiveSimulation
+                    simulationId={currentModule.simulation_environments[0]}
+                    moduleData={currentModule}
+                  />
+                )}
 
                 {/* AI Contextual Assistant */}
                 <AIContextualAssistant

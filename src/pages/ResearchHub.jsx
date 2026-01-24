@@ -9,6 +9,9 @@ import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import BlockchainIntegrityVisualizer3D from '../components/security/BlockchainIntegrityVisualizer3D';
 import DecentralizedVaultManager3D from '../components/security/DecentralizedVaultManager3D';
+import CollaborationNebula3D from '../components/academy/CollaborationNebula3D';
+import MultiAgentResearchDialogue from '../components/academy/MultiAgentResearchDialogue';
+import ProactiveCollaboratorSuggester from '../components/academy/ProactiveCollaboratorSuggester';
 import { FlaskConical, Users, Shield, Sparkles, Plus, FileText } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -186,6 +189,39 @@ export default function ResearchHub() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Multi-Agent Collaboration Nebula */}
+      {myProjects.length > 0 && myProjects[0].ai_assistants?.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-8"
+        >
+          <CollaborationNebula3D projectId={myProjects[0].project_id} />
+        </motion.div>
+      )}
+
+      {/* Multi-Agent Research Dialogue */}
+      {myProjects.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-8"
+        >
+          <MultiAgentResearchDialogue projectId={myProjects[0].project_id} />
+        </motion.div>
+      )}
+
+      {/* Proactive Collaborator Suggestions */}
+      {myProjects.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-8"
+        >
+          <ProactiveCollaboratorSuggester projectId={myProjects[0].project_id} />
+        </motion.div>
+      )}
 
       {/* Blockchain Integrity Visualization */}
       <motion.div
