@@ -10,6 +10,7 @@ import OmegaSentientDashboard3D from '../components/redcomm/OmegaSentientDashboa
 import ProtocolEvolutionVisualizer3D from '../components/redcomm/ProtocolEvolutionVisualizer3D';
 import RedCommSimulationStudio3D from '../components/redcomm/RedCommSimulationStudio3D';
 import DeviceManagementInterface3D from '../components/redcomm/DeviceManagementInterface3D';
+import SecurityThreatDashboard3D from '../components/redcomm/SecurityThreatDashboard3D';
 import EnhancedRedCommVisualizer3D from '../components/network/EnhancedRedCommVisualizer3D';
 import { Radio, Satellite, Network } from 'lucide-react';
 
@@ -49,10 +50,11 @@ export default function RedCommHub() {
           transition={{ delay: 0.1, duration: 0.8 }}
         >
           <Tabs defaultValue="control" className="w-full">
-            <TabsList className="grid w-full grid-cols-6 bg-gray-900/50 border border-indigo-500/30">
+            <TabsList className="grid w-full grid-cols-7 bg-gray-900/50 border border-indigo-500/30">
               <TabsTrigger value="control">Control</TabsTrigger>
               <TabsTrigger value="network">Network</TabsTrigger>
               <TabsTrigger value="devices">Devices</TabsTrigger>
+              <TabsTrigger value="security">Security</TabsTrigger>
               <TabsTrigger value="simulation">Simulation</TabsTrigger>
               <TabsTrigger value="sentient">Sentient AI</TabsTrigger>
               <TabsTrigger value="evolution">Evolution</TabsTrigger>
@@ -72,6 +74,10 @@ export default function RedCommHub() {
             <TabsContent value="devices" className="space-y-8 mt-6">
               <DeviceManagementInterface3D />
               <EnhancedRedCommVisualizer3D />
+            </TabsContent>
+
+            <TabsContent value="security" className="mt-6">
+              <SecurityThreatDashboard3D />
             </TabsContent>
 
             <TabsContent value="simulation" className="mt-6">

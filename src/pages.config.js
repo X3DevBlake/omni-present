@@ -322,6 +322,7 @@ import ProfileHome from './pages/ProfileHome';
 import QuantumComputingHub from './pages/QuantumComputingHub';
 import RealWorldBudget from './pages/RealWorldBudget';
 import RealtimeDashboard from './pages/RealtimeDashboard';
+import RedCommHub from './pages/RedCommHub';
 import ReferralProgram from './pages/ReferralProgram';
 import RepairRequest from './pages/RepairRequest';
 import ReportingAnalytics from './pages/ReportingAnalytics';
@@ -381,7 +382,6 @@ import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
 import WorldHubEnhanced from './pages/WorldHubEnhanced';
-import RedCommHub from './pages/RedCommHub';
 import __Layout from './Layout.jsx';
 
 
@@ -710,6 +710,7 @@ export const PAGES = {
     "QuantumComputingHub": QuantumComputingHub,
     "RealWorldBudget": RealWorldBudget,
     "RealtimeDashboard": RealtimeDashboard,
+    "RedCommHub": RedCommHub,
     "ReferralProgram": ReferralProgram,
     "RepairRequest": RepairRequest,
     "ReportingAnalytics": ReportingAnalytics,
@@ -769,7 +770,6 @@ export const PAGES = {
     "WorkflowOrchestrationHub": WorkflowOrchestrationHub,
     "World": World,
     "WorldHubEnhanced": WorldHubEnhanced,
-    "RedCommHub": RedCommHub,
 }
 
 export const pagesConfig = {
