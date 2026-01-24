@@ -232,6 +232,7 @@ import GeminiHub from './pages/GeminiHub';
 import GlobalGovernance from './pages/GlobalGovernance';
 import GlobalMap from './pages/GlobalMap';
 import HolographicAnalytics from './pages/HolographicAnalytics';
+import HolographicClassroomHub from './pages/HolographicClassroomHub';
 import HolographicWorld from './pages/HolographicWorld';
 import Home from './pages/Home';
 import HomeEnhanced from './pages/HomeEnhanced';
@@ -379,7 +380,6 @@ import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
 import WorldHubEnhanced from './pages/WorldHubEnhanced';
-import HolographicClassroomHub from './pages/HolographicClassroomHub';
 import __Layout from './Layout.jsx';
 
 
@@ -618,6 +618,7 @@ export const PAGES = {
     "GlobalGovernance": GlobalGovernance,
     "GlobalMap": GlobalMap,
     "HolographicAnalytics": HolographicAnalytics,
+    "HolographicClassroomHub": HolographicClassroomHub,
     "HolographicWorld": HolographicWorld,
     "Home": Home,
     "HomeEnhanced": HomeEnhanced,
@@ -765,7 +766,6 @@ export const PAGES = {
     "WorkflowOrchestrationHub": WorkflowOrchestrationHub,
     "World": World,
     "WorldHubEnhanced": WorldHubEnhanced,
-    "HolographicClassroomHub": HolographicClassroomHub,
 }
 
 export const pagesConfig = {

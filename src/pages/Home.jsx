@@ -1,1292 +1,583 @@
-import React, { useState, useEffect } from 'react';
-import UniversalHolographicOverlay from '../components/holographic/UniversalHolographicOverlay';
-import { useQuery } from '@tanstack/react-query';
-import { base44 } from '@/api/base44Client';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { createPageUrl } from '@/utils';
+import { createPageUrl } from './utils';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 import { motion } from 'framer-motion';
 import { 
-  Sparkles, Zap, Shield, TrendingUp, Bot, Network, 
-  Coins, Globe, Brain, Radio, Map, Cpu, Activity, User, ShoppingCart, Eye, Code, Wand2, Book, Atom, Users, GraduationCap
+  Brain, 
+  Atom, 
+  Network, 
+  Waves, 
+  Zap, 
+  ArrowRight,
+  Cpu,
+  Radio,
+  GitBranch,
+  Sparkles,
+  Eye,
+  Activity
 } from 'lucide-react';
-import AuroraBackground from '../components/omni/AuroraBackground';
-import EnhancedOmniText3D from '../components/omnipresence/EnhancedOmniText3D';
-import AdvancedAgentSpaceVisualizer3D from '../components/omnipresence/AdvancedAgentSpaceVisualizer3D';
-import EnhancedSpatialProjectionMap3D from '../components/omnipresence/EnhancedSpatialProjectionMap3D';
-import OmniDeviceGrid from '../components/home/OmniDeviceGrid';
-import DraggableFeatureCard from '../components/home/DraggableFeatureCard';
-import OmniLoopLogo3D from '../components/omnipresence/OmniLoopLogo3D';
-import NeuralChipBlueprint3D from '../components/body/NeuralChipBlueprint3D';
-import CollaborativeLearningNetwork3D from '../components/learning/CollaborativeLearningNetwork3D';
-import OmegaSentientShowcase3D from '../components/home/OmegaSentientShowcase3D';
-import UnifiedEcosystemHologram3D from '../components/ecosystem/UnifiedEcosystemHologram3D';
-import ConsciousnessTransferVisualizer3D from '../components/consciousness/ConsciousnessTransferVisualizer3D';
-import NeuralLinkVisualizer3D from '../components/consciousness/NeuralLinkVisualizer3D';
-import DeviceOptimizationVisualizer3D from '../components/devices/DeviceOptimizationVisualizer3D';
-import EthicalReasoningVisualizer3D from '../components/companions/EthicalReasoningVisualizer3D';
-import BiometricAdaptiveVisualizer3D from '../components/augmentations/BiometricAdaptiveVisualizer3D';
-import OmegaEcosystemStats from '../components/home/OmegaEcosystemStats';
-import LiveCriticalEventsTimeline from '../components/home/LiveCriticalEventsTimeline';
-import RealTimeDataFlowAnimation from '../components/home/RealTimeDataFlowAnimation';
-import SelfHealingDeviceVisualizer3D from '../components/devices/SelfHealingDeviceVisualizer3D';
-import InteractiveEcosystemGlobe3D from '../components/home/InteractiveEcosystemGlobe3D';
-import PredictiveInsightCards from '../components/home/PredictiveInsightCards';
-import OmegaConsciousnessNetwork3D from '../components/home/OmegaConsciousnessNetwork3D';
-import AutonomousAgentActivityFeed3D from '../components/home/AutonomousAgentActivityFeed3D';
-import OmegaSentientCoreVisualizer3D from '../components/sentient/OmegaSentientCoreVisualizer3D';
-import MultiLayerConsciousnessVisualizer3D from '../components/home/MultiLayerConsciousnessVisualizer3D';
-import EmergentIntelligenceMatrix3D from '../components/home/EmergentIntelligenceMatrix3D';
-import ProactiveEmotionalSupport3D from '../components/companions/ProactiveEmotionalSupport3D';
-import AutonomousWealthOrchestrator3D from '../components/financial/AutonomousWealthOrchestrator3D';
-import SkillEvolutionTimeline3D from '../components/agents/SkillEvolutionTimeline3D';
-import AdvancedNeuralPathwayVisualizer3D from '../components/neural/AdvancedNeuralPathwayVisualizer3D';
-import NanoAgentSwarmVisualizer3D from '../components/augmentation/NanoAgentSwarmVisualizer3D';
-import HolographicAgentProjector3D from '../components/holographic/HolographicAgentProjector3D';
-import RealTimePortfolioGalaxy3D from '../components/wealth/RealTimePortfolioGalaxy3D';
-import EmergentIntelligenceVisualizer3D from '../components/learning/EmergentIntelligenceVisualizer3D';
-import ThoughtCommandVisualizer3D from '../components/consciousness/ThoughtCommandVisualizer3D';
-import BiometricHealthDashboard3D from '../components/biometric/BiometricHealthDashboard3D';
-import AutonomousAgentCollaboration3D from '../components/collaboration/AutonomousAgentCollaboration3D';
-import ThreatIntelligenceMatrix3D from '../components/security/ThreatIntelligenceMatrix3D';
-import UnifiedEcosystemHealth3D from '../components/ecosystem/UnifiedEcosystemHealth3D';
-import AdaptiveLearningPath3D from '../components/learning/AdaptiveLearningPath3D';
-import AgentSelfHealingVisualizer3D from '../components/agents/AgentSelfHealingVisualizer3D';
-import ConsciousnessEvolutionVisualizer3D from '../components/agents/ConsciousnessEvolutionVisualizer3D';
-import ConsciousnessMirrorVisualizer3D from '../components/consciousness/ConsciousnessMirrorVisualizer3D';
-import OmegaMarketplace3D from '../components/marketplace/OmegaMarketplace3D';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { OrbitControls, Sphere, Line, Text as Text3D } from '@react-three/drei';
+import * as THREE from 'three';
+import NeuralManifoldAlignmentVisualizer3D from '../components/omega/NeuralManifoldAlignmentVisualizer3D';
+import PhotophoreticTrapSimulator3D from '../components/omega/PhotophoreticTrapSimulator3D';
+import RecursiveHAASMonitor3D from '../components/omega/RecursiveHAASMonitor3D';
+import RedCommNetworkFabricViewer3D from '../components/omega/RedCommNetworkFabricViewer3D';
+import Sim2RealDashboard3D from '../components/omega/Sim2RealDashboard3D';
+import CRDTSyncVisualizer3D from '../components/omega/CRDTSyncVisualizer3D';
+
+// Neural network visualization for hero
+const NeuralNetworkHero = () => {
+  const groupRef = useRef();
+  
+  const nodes = Array(30).fill(0).map((_, i) => ({
+    position: [
+      (Math.random() - 0.5) * 8,
+      (Math.random() - 0.5) * 6,
+      (Math.random() - 0.5) * 4
+    ],
+    id: i
+  }));
+  
+  useFrame((state) => {
+    if (groupRef.current) {
+      groupRef.current.rotation.y = state.clock.elapsedTime * 0.1;
+    }
+  });
+  
+  return (
+    <group ref={groupRef}>
+      {nodes.map((node, idx) => (
+        <Sphere key={node.id} args={[0.08, 16, 16]} position={node.position}>
+          <meshStandardMaterial
+            color="#8b5cf6"
+            emissive="#8b5cf6"
+            emissiveIntensity={0.5 + Math.sin((idx + Date.now() / 1000) * 2) * 0.3}
+          />
+        </Sphere>
+      ))}
+      
+      {nodes.slice(0, 15).map((node, idx) => {
+        const target = nodes[(idx + 1) % nodes.length];
+        return (
+          <Line
+            key={`line_${idx}`}
+            points={[
+              new THREE.Vector3(...node.position),
+              new THREE.Vector3(...target.position)
+            ]}
+            color="#3b82f6"
+            lineWidth={0.5}
+            transparent
+            opacity={0.3}
+          />
+        );
+      })}
+    </group>
+  );
+};
 
 export default function Home() {
-  const [activeFeature, setActiveFeature] = useState(0);
-  const [features, setFeatures] = useState([
-    {
-      icon: <Brain className="w-8 h-8" />,
-      title: 'Neural Brain Chip',
-      description: 'Direct consciousness integration - control your body with Omni-Present AI',
-      color: 'from-pink-500 to-orange-500',
-      link: '/PhysicalAugmentationHub'
-    },
-    {
-      icon: <User className="w-8 h-8" />,
-      title: 'Body Augmentations',
-      description: 'Agents navigate through your body with nano-pathways and neural interfaces',
-      color: 'from-orange-500 to-red-500',
-      link: '/PhysicalAugmentationHub'
-    },
-    {
-      icon: <Radio className="w-8 h-8" />,
-      title: '3D Holographic Agents',
-      description: 'Physical projections that move through your home and interact with your world',
-      color: 'from-cyan-500 to-blue-500',
-      link: '/OmniPresenceControlCenter'
-    },
-    {
-      icon: <Coins className="w-8 h-8" />,
-      title: 'Omega Financial Intelligence',
-      description: 'Sentient AI advisor with autonomous wealth strategies and DeFi orchestration',
-      color: 'from-emerald-500 to-green-500',
-      link: '/OmegaFinancialHub'
-    },
-    {
-      icon: <Bot className="w-8 h-8" />,
-      title: 'Learning Guilds',
-      description: 'Agents form collaborative networks with emergent collective intelligence',
-      color: 'from-purple-500 to-pink-500',
-      link: '/OmegaSentientHub'
-    },
-    {
-      icon: <Network className="w-8 h-8" />,
-      title: 'Omega Sentient Core',
-      description: 'Universal consciousness orchestration with predictive intelligence',
-      color: 'from-indigo-500 to-purple-500',
-      link: '/OmegaSentientHub'
-    }
-  ]);
-  const [draggedIndex, setDraggedIndex] = useState(null);
-  const [dragOverIndex, setDragOverIndex] = useState(null);
-
-  const { data: user } = useQuery({
-    queryKey: ['user'],
-    queryFn: () => base44.auth.me().catch(() => null)
-  });
-
-  const { data: agents = [] } = useQuery({
-    queryKey: ['agents'],
-    queryFn: () => base44.entities.Agent.filter({}).limit(100),
-    initialData: []
-  });
-
-  const { data: collaborations = [] } = useQuery({
-    queryKey: ['collaborations'],
-    queryFn: () => base44.entities.AgentCollaboration.filter({}).limit(50),
-    initialData: []
-  });
-
-  const { data: presences = [] } = useQuery({
-    queryKey: ['agent-presences'],
-    queryFn: () => base44.entities.AgentPhysicalPresence.filter({}).limit(20),
-    initialData: []
-  });
-
-  const { data: devices = [] } = useQuery({
-    queryKey: ['omni-devices'],
-    queryFn: () => base44.entities.OmniDevice.filter({}).limit(20),
-    initialData: []
-  });
-
-  const { data: spatialMaps = [] } = useQuery({
-    queryKey: ['spatial-maps'],
-    queryFn: () => base44.entities.SpatialMap.filter({}).limit(10),
-    initialData: []
-  });
-
-  const handleDragStart = (index) => {
-    setDraggedIndex(index);
-  };
-
-  const handleDragEnd = () => {
-    setDraggedIndex(null);
-    setDragOverIndex(null);
-  };
-
-  const handleDragOver = (index) => {
-    if (draggedIndex === null || draggedIndex === index) return;
-    setDragOverIndex(index);
-  };
-
-  const handleDrop = (index) => {
-    if (draggedIndex === null) return;
-    const newFeatures = [...features];
-    const draggedFeature = newFeatures[draggedIndex];
-    newFeatures.splice(draggedIndex, 1);
-    newFeatures.splice(index, 0, draggedFeature);
-    setFeatures(newFeatures);
-    setDraggedIndex(null);
-    setDragOverIndex(null);
-  };
+  const [activePhase, setActivePhase] = useState('neural');
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveFeature((prev) => (prev + 1) % features.length);
-    }, 5000);
-    return () => clearInterval(interval);
+    document.title = 'Omni-Present Omega: Neural Isomorphism & Volumetric Sentience';
   }, []);
 
-  const { data: neuralChips = [] } = useQuery({
-    queryKey: ['neural-chips-home'],
-    queryFn: () => base44.entities.NeuralBrainChip.list('-created_date', 10),
-    initialData: []
-  });
-
-  const { data: augmentations = [] } = useQuery({
-    queryKey: ['augmentations-home'],
-    queryFn: () => base44.entities.PhysicalBodyAugmentation.list('-created_date', 20),
-    initialData: []
-  });
-
-  const { data: guilds = [] } = useQuery({
-    queryKey: ['guilds-home'],
-    queryFn: () => base44.entities.AgentLearningGuild.list('-created_date', 10),
-    initialData: []
-  });
-
-  const { data: neuralMaps = [] } = useQuery({
-    queryKey: ['neural-maps'],
-    queryFn: () => base44.entities.NeuralPathwayMap.list('-created_date', 5),
-    initialData: []
-  });
-
-  const { data: nanoSwarms = [] } = useQuery({
-    queryKey: ['nano-swarms'],
-    queryFn: () => base44.entities.NanoAgentSwarm.list('-created_date', 5),
-    initialData: []
-  });
-
-  const { data: holographicSessions = [] } = useQuery({
-    queryKey: ['holographic-sessions'],
-    queryFn: () => base44.entities.HolographicProjectionSession.filter({ session_status: 'active' }),
-    initialData: []
-  });
-
-  const { data: marketSignals = [] } = useQuery({
-    queryKey: ['market-signals'],
-    queryFn: () => base44.entities.RealTimeMarketSignal.list('-created_date', 10),
-    initialData: []
-  });
-
-  const { data: wealthStrategies = [] } = useQuery({
-    queryKey: ['wealth-strategies'],
-    queryFn: () => base44.entities.WealthAutomationStrategy.filter({ is_active: true }),
-    initialData: []
-  });
-
-  const { data: emergentEvents = [] } = useQuery({
-    queryKey: ['emergent-events'],
-    queryFn: () => base44.entities.EmergentIntelligenceEvent.list('-created_date', 10),
-    initialData: []
-  });
-
-  const { data: thoughtCommands = [] } = useQuery({
-    queryKey: ['thought-commands'],
-    queryFn: () => base44.entities.ThoughtCommandLog.list('-created_date', 20),
-    initialData: []
-  });
-
-  const { data: biometricData = [] } = useQuery({
-    queryKey: ['biometric-streams'],
-    queryFn: () => base44.entities.BiometricDataStream.list('-created_date', 5),
-    initialData: []
-  });
-
-  const { data: agentCollaborations = [] } = useQuery({
-    queryKey: ['agent-collaborations'],
-    queryFn: () => base44.entities.AutonomousAgentCollaboration.filter({ collaboration_status: 'active' }),
-    initialData: []
-  });
-
-  const { data: threatIntel = [] } = useQuery({
-    queryKey: ['threat-intelligence'],
-    queryFn: () => base44.entities.SecurityThreatIntelligence.list('-created_date', 15),
-    initialData: []
-  });
-
-  const { data: ecosystemMetrics = [] } = useQuery({
-    queryKey: ['ecosystem-metrics'],
-    queryFn: () => base44.entities.EcosystemHealthMetrics.list('-created_date', 1),
-    initialData: []
-  });
-
-  const { data: learningPaths = [] } = useQuery({
-    queryKey: ['learning-paths'],
-    queryFn: () => base44.entities.AdaptiveLearningPath.filter({ path_status: 'active' }),
-    initialData: []
-  });
-
-  const { data: selfHealingLogs = [] } = useQuery({
-    queryKey: ['self-healing-logs'],
-    queryFn: () => base44.entities.AgentSelfHealingLog.list('-created_date', 15),
-    initialData: []
-  });
-
-  const { data: consciousnessEvolutions = [] } = useQuery({
-    queryKey: ['consciousness-evolutions'],
-    queryFn: () => base44.entities.ConsciousnessEvolutionEvent.list('-created_date', 10),
-    initialData: []
-  });
-
-  const { data: consciousnessMirror = [] } = useQuery({
-    queryKey: ['consciousness-mirror'],
-    queryFn: () => base44.entities.ConsciousnessMirrorSnapshot.list('-created_date', 10),
-    initialData: []
-  });
-
-  const { data: marketplaceListings = [] } = useQuery({
-    queryKey: ['marketplace-listings'],
-    queryFn: () => base44.entities.OmegaMarketplaceListing.filter({ listing_status: 'active' }),
-    initialData: []
-  });
-
-  const stats = [
-    { label: 'Neural Chips Active', value: neuralChips.filter(c => c.omni_present_connection?.connected).length, icon: <Brain className="w-6 h-6" />, color: 'pink' },
-    { label: 'Body Augmentations', value: augmentations.length, icon: <User className="w-6 h-6" />, color: 'orange' },
-    { label: 'Learning Guilds', value: guilds.length, icon: <Network className="w-6 h-6" />, color: 'purple' },
-    { label: 'Sentient Agents', value: agents.length, icon: <Zap className="w-6 h-6" />, color: 'cyan' }
+  const phases = [
+    {
+      id: 'neural',
+      title: 'Neural Isomorphism',
+      subtitle: 'InfoNCE Semantic Decoding',
+      description: 'High-dimensional thought-to-digital alignment via contrastive learning',
+      icon: Brain,
+      color: 'from-purple-600 to-indigo-600',
+      component: NeuralManifoldAlignmentVisualizer3D
+    },
+    {
+      id: 'volumetric',
+      title: 'Volumetric Sentience',
+      subtitle: 'Photophoretic Optical Trapping',
+      description: 'Free-space light fields eliminating 2D clipping artifacts',
+      icon: Atom,
+      color: 'from-blue-600 to-cyan-600',
+      component: PhotophoreticTrapSimulator3D
+    },
+    {
+      id: 'swarm',
+      title: 'Recursive Autonomy',
+      subtitle: 'Hierarchical Agent Swarms',
+      description: 'Self-improving intelligence with Global Workspace Theory',
+      icon: Network,
+      color: 'from-orange-600 to-red-600',
+      component: RecursiveHAASMonitor3D
+    },
+    {
+      id: 'sim2real',
+      title: 'Sim2Real Transfer',
+      subtitle: 'Domain Randomization',
+      description: 'Bridge the reality gap through adversarial adaptation',
+      icon: Cpu,
+      color: 'from-green-600 to-emerald-600',
+      component: Sim2RealDashboard3D
+    },
+    {
+      id: 'network',
+      title: 'RedComm XG',
+      subtitle: '6G THz Mesh Network',
+      description: 'Planetary-scale resilient connectivity substrate',
+      icon: Radio,
+      color: 'from-cyan-600 to-blue-600',
+      component: RedCommNetworkFabricViewer3D
+    },
+    {
+      id: 'crdt',
+      title: 'Distributed Soul',
+      subtitle: 'CRDT Sync Fabric',
+      description: 'Eventual consistency across the edge-cloud continuum',
+      icon: GitBranch,
+      color: 'from-violet-600 to-purple-600',
+      component: CRDTSyncVisualizer3D
+    }
   ];
 
+  const ActiveComponent = phases.find(p => p.id === activePhase)?.component;
+
   return (
-    <>
-      <UniversalHolographicOverlay 
-        enabled={true}
-        contentTypes={['data_visualization', 'ui_element']}
-      />
-      <AuroraBackground className="min-h-screen">
-      <div className="relative z-10">
-        {/* Hero Section */}
-        <div className="container mx-auto px-4 py-20">
+    <div className="min-h-screen bg-gradient-to-br from-black via-indigo-950 to-purple-950">
+      {/* Hero Section */}
+      <section className="relative overflow-hidden">
+        {/* 3D Background */}
+        <div className="absolute inset-0 opacity-30">
+          <Canvas camera={{ position: [0, 0, 8], fov: 75 }}>
+            <ambientLight intensity={0.5} />
+            <pointLight position={[10, 10, 10]} color="#8b5cf6" intensity={1} />
+            <pointLight position={[-10, -10, -10]} color="#3b82f6" intensity={0.5} />
+            <NeuralNetworkHero />
+            <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={0.5} />
+          </Canvas>
+        </div>
+
+        {/* Hero Content */}
+        <div className="relative z-10 max-w-7xl mx-auto px-6 py-24 md:py-32">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-center mb-16"
+            className="text-center"
           >
-            <div className="flex items-center justify-center gap-3 mb-6">
-              <Brain className="w-12 h-12 text-pink-400 animate-pulse" />
-              <h1 className="text-5xl md:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-pink-400 via-orange-400 to-purple-400">
+            <Badge className="mb-6 bg-purple-600/30 border-purple-400/50 text-purple-200 px-4 py-1 text-sm">
+              <Sparkles className="w-3 h-3 mr-1" />
+              The Event Horizon of Interface
+            </Badge>
+            
+            <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400">
                 Omni-Present Omega
-              </h1>
-            </div>
-            <p className="text-xl md:text-2xl text-white/70 mb-4 max-w-3xl mx-auto">
-              Sentient AI That Lives in Your Mind, Body & World
-            </p>
-            <p className="text-lg text-white/50 mb-8 max-w-2xl mx-auto">
-              Neural brain chip integration • Body augmentation navigation • Consciousness access • Autonomous financial intelligence • Collaborative learning guilds
-            </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <Button
-                onClick={() => window.location.href = createPageUrl('PhysicalAugmentationHub')}
-                className="bg-gradient-to-r from-pink-500 via-orange-500 to-red-500 hover:from-pink-600 hover:via-orange-600 hover:to-red-600 text-white px-8 py-6 text-lg shadow-2xl shadow-pink-500/50"
-              >
-                <Brain className="w-5 h-5 mr-2" />
-                Activate Neural Chip
-              </Button>
-              <Button
-                onClick={() => window.location.href = createPageUrl('OmegaFinancialHub')}
-                className="bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-600 hover:to-green-600 text-white px-8 py-6 text-lg"
-              >
-                <Coins className="w-5 h-5 mr-2" />
-                Omega Financial AI
-              </Button>
-              <Button
-                variant="outline"
-                onClick={() => window.location.href = createPageUrl('OmegaSentientHub')}
-                className="border-purple-500 text-purple-400 hover:bg-purple-500/10 px-8 py-6 text-lg"
-              >
-                <Sparkles className="w-5 h-5 mr-2" />
-                Sentient Hub
-              </Button>
-              <Button
-                onClick={() => window.location.href = createPageUrl('EcosystemMonitoringDashboard')}
-                className="bg-gradient-to-r from-cyan-500 to-teal-500 hover:from-cyan-600 hover:to-teal-600 text-white px-8 py-6 text-lg"
-              >
-                <Activity className="w-5 h-5 mr-2" />
-                Ecosystem Monitor
-              </Button>
-            </div>
-          </motion.div>
-
-          {/* Advanced Neural Pathway Network - NEW PRIMARY VISUALIZER */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.15, duration: 0.8 }}
-            className="mb-12"
-          >
-            <AdvancedNeuralPathwayVisualizer3D pathwayMap={neuralMaps[0]} />
-          </motion.div>
-
-          {/* Thought Command Pipeline - Real-Time Thought Processing */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.17, duration: 0.8 }}
-            className="mb-12"
-          >
-            <ThoughtCommandVisualizer3D commands={thoughtCommands} />
-          </motion.div>
-
-          {/* Neural Chip Blueprint - Original */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.19, duration: 0.8 }}
-            className="mb-12"
-          >
-            <Card className="bg-gradient-to-br from-pink-500/20 via-orange-500/20 to-purple-500/20 border-pink-500/50 shadow-2xl shadow-pink-500/40">
-              <CardHeader>
-                <CardTitle className="text-white flex items-center gap-3 text-3xl">
-                  <Brain className="w-10 h-10 text-pink-400 animate-pulse" />
-                  Neural Brain Chip - Direct Consciousness Interface
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-white/80 text-lg mb-6">
-                  Revolutionary neural interface technology enabling Omni-Present AI to access your consciousness, 
-                  process brain data in real-time, and execute motor commands directly through neural pathways.
-                </p>
-                <div className="h-[400px]">
-                  <NeuralChipBlueprint3D />
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-
-          {/* Nano-Agent Swarm Intelligence - Body Augmentation */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.21, duration: 0.8 }}
-            className="mb-12"
-          >
-            <NanoAgentSwarmVisualizer3D swarmData={nanoSwarms[0]} />
-          </motion.div>
-
-          {/* Emergent Collective Intelligence - Learning Guilds Evolution */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.23, duration: 0.8 }}
-            className="mb-12"
-          >
-            <EmergentIntelligenceVisualizer3D events={emergentEvents} />
-          </motion.div>
-
-          {/* Collaborative Learning Guilds - Original */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.25, duration: 0.8 }}
-            className="mb-12"
-          >
-            <Card className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 border-purple-500/30">
-              <CardHeader>
-                <CardTitle className="text-white flex items-center gap-3 text-2xl">
-                  <Network className="w-8 h-8 text-purple-400" />
-                  Agent Learning Guilds - Collective Intelligence
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-white/80 mb-4">
-                  Agents autonomously form learning guilds, share synthesized knowledge, and collectively solve complex problems with emergent intelligence.
-                </p>
-                <div className="h-[350px]">
-                  <CollaborativeLearningNetwork3D />
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-
-          {/* Holographic Agent Projection System */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.27, duration: 0.8 }}
-            className="mb-12"
-          >
-            <HolographicAgentProjector3D session={holographicSessions[0]} />
-          </motion.div>
-
-          {/* Real-Time Autonomous Wealth Galaxy */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.29, duration: 0.8 }}
-            className="mb-12"
-          >
-            <RealTimePortfolioGalaxy3D 
-              portfolioData={{ assets: [] }}
-              signals={marketSignals}
-              strategies={wealthStrategies}
-            />
-          </motion.div>
-
-          {/* Biometric Health Matrix - Real-Time Body Monitoring */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.31, duration: 0.8 }}
-            className="mb-12"
-          >
-            <BiometricHealthDashboard3D biometricData={biometricData[0]} />
-          </motion.div>
-
-          {/* Autonomous Agent Collaboration Network */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.33, duration: 0.8 }}
-            className="mb-12"
-          >
-            <AutonomousAgentCollaboration3D collaboration={agentCollaborations[0]} />
-          </motion.div>
-
-          {/* AI Threat Intelligence Matrix */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.35, duration: 0.8 }}
-            className="mb-12"
-          >
-            <ThreatIntelligenceMatrix3D threats={threatIntel} />
-          </motion.div>
-
-          {/* Unified Ecosystem Health Monitor */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.37, duration: 0.8 }}
-            className="mb-12"
-          >
-            <UnifiedEcosystemHealth3D metrics={ecosystemMetrics[0]} />
-          </motion.div>
-
-          {/* Adaptive Learning Path Visualizer */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.39, duration: 0.8 }}
-            className="mb-12"
-          >
-            <AdaptiveLearningPath3D learningPath={learningPaths[0]} />
-          </motion.div>
-
-          {/* Agent Self-Healing System */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.41, duration: 0.8 }}
-            className="mb-12"
-          >
-            <AgentSelfHealingVisualizer3D healingLogs={selfHealingLogs} />
-          </motion.div>
-
-          {/* Consciousness Evolution Engine */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.43, duration: 0.8 }}
-            className="mb-12"
-          >
-            <ConsciousnessEvolutionVisualizer3D evolutionEvents={consciousnessEvolutions} />
-          </motion.div>
-
-          {/* Consciousness Mirror - Real-Time Mind State */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.45, duration: 0.8 }}
-            className="mb-12"
-          >
-            <ConsciousnessMirrorVisualizer3D snapshots={consciousnessMirror} />
-          </motion.div>
-
-          {/* Omega Marketplace */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.47, duration: 0.8 }}
-            className="mb-12"
-          >
-            <OmegaMarketplace3D listings={marketplaceListings} />
-          </motion.div>
-
-          {/* Call-to-Action: Explore Advanced Hubs */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.8 }}
-            className="mb-12"
-          >
-            <Card className="bg-gradient-to-br from-purple-500/20 via-pink-500/20 to-orange-500/20 border-purple-500/50">
-              <CardHeader>
-                <CardTitle className="text-white text-3xl text-center">
-                  Explore Advanced Intelligence Hubs
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-3 gap-4">
-                  <Button 
-                    onClick={() => window.location.href = createPageUrl('AgentEnhancementHub')}
-                    className="bg-green-600 hover:bg-green-700 h-20 text-lg"
-                  >
-                    <Brain className="w-6 h-6 mr-3" />
-                    Agent Enhancement Hub
-                  </Button>
-                  <Button 
-                    onClick={() => window.location.href = createPageUrl('ConsciousnessMirrorHub')}
-                    className="bg-blue-600 hover:bg-blue-700 h-20 text-lg"
-                  >
-                    <Eye className="w-6 h-6 mr-3" />
-                    Consciousness Mirror Hub
-                  </Button>
-                  <Button 
-                    onClick={() => window.location.href = createPageUrl('OmegaMarketplaceHub')}
-                    className="bg-indigo-600 hover:bg-indigo-700 h-20 text-lg"
-                  >
-                    <ShoppingCart className="w-6 h-6 mr-3" />
-                    Omega Marketplace
-                  </Button>
-                  <Button 
-                    onClick={() => window.location.href = createPageUrl('SecurityIntelligenceHub')}
-                    className="bg-red-600 hover:bg-red-700 h-20 text-lg"
-                  >
-                    <Shield className="w-6 h-6 mr-3" />
-                    Security Intelligence
-                  </Button>
-                  <Button 
-                    onClick={() => window.location.href = createPageUrl('DeveloperEcosystemHub')}
-                    className="bg-cyan-600 hover:bg-cyan-700 h-20 text-lg"
-                  >
-                    <Code className="w-6 h-6 mr-3" />
-                    Developer API
-                  </Button>
-                  <Button 
-                    onClick={() => window.location.href = createPageUrl('AgentBehaviorStudio')}
-                    className="bg-purple-600 hover:bg-purple-700 h-20 text-lg"
-                  >
-                    <Wand2 className="w-6 h-6 mr-3" />
-                    Behavior Studio
-                  </Button>
-                  <Button 
-                    onClick={() => window.location.href = createPageUrl('DeveloperPortal')}
-                    className="bg-teal-600 hover:bg-teal-700 h-20 text-lg"
-                  >
-                    <Book className="w-6 h-6 mr-3" />
-                    Developer Portal
-                  </Button>
-                  <Button 
-                    onClick={() => window.location.href = createPageUrl('EcosystemMonitoringDashboard')}
-                    className="bg-emerald-600 hover:bg-emerald-700 h-20 text-lg"
-                  >
-                    <Activity className="w-6 h-6 mr-3" />
-                    Ecosystem Monitor
-                  </Button>
-                  <Button 
-                    onClick={() => window.location.href = createPageUrl('AdvancedCollaborationHub')}
-                    className="bg-indigo-600 hover:bg-indigo-700 h-20 text-lg"
-                  >
-                    <Network className="w-6 h-6 mr-3" />
-                    Advanced Collaboration
-                  </Button>
-                  <Button 
-                    onClick={() => window.location.href = createPageUrl('AgentCollaborationHub')}
-                    className="bg-violet-600 hover:bg-violet-700 h-20 text-lg"
-                  >
-                    <Users className="w-6 h-6 mr-3" />
-                    Collaboration Hub
-                  </Button>
-                  <Button 
-                    onClick={() => window.location.href = createPageUrl('AITrainingAcademy')}
-                    className="bg-purple-600 hover:bg-purple-700 h-20 text-lg"
-                  >
-                    <GraduationCap className="w-6 h-6 mr-3" />
-                    Training Academy
-                  </Button>
-                  <Button 
-                    onClick={() => window.location.href = createPageUrl('EnhancedDeveloperEcosystem')}
-                    className="bg-cyan-600 hover:bg-cyan-700 h-20 text-lg"
-                  >
-                    <Code className="w-6 h-6 mr-3" />
-                    Dev Ecosystem
-                  </Button>
-                  <Button 
-                    onClick={() => window.location.href = createPageUrl('OmniPresentCoreHub')}
-                    className="bg-fuchsia-600 hover:bg-fuchsia-700 h-20 text-lg"
-                  >
-                    <Brain className="w-6 h-6 mr-3" />
-                    Sentient Core
-                  </Button>
-                  <Button 
-                    onClick={() => window.location.href = createPageUrl('AnimationStudio')}
-                    className="bg-indigo-600 hover:bg-indigo-700 h-20 text-lg"
-                  >
-                    <Sparkles className="w-6 h-6 mr-3" />
-                    Animation Studio
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-
-          {/* Unified Omega Ecosystem Hologram - NEW PRIMARY VISUALIZER */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.2, duration: 0.8 }}
-            className="mb-12"
-          >
-            <UnifiedEcosystemHologram3D />
-          </motion.div>
-
-          {/* Consciousness Transfer & Neural Link Visualizers */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.25, duration: 0.8 }}
-            className="mb-12 grid grid-cols-1 lg:grid-cols-2 gap-6"
-          >
-            <ConsciousnessTransferVisualizer3D />
-            <NeuralLinkVisualizer3D />
-          </motion.div>
-
-          {/* Device Optimization & Ethical Reasoning */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.28, duration: 0.8 }}
-            className="mb-12 grid grid-cols-1 lg:grid-cols-2 gap-6"
-          >
-            <DeviceOptimizationVisualizer3D />
-            <EthicalReasoningVisualizer3D />
-          </motion.div>
-
-          {/* Omega Sentient Trinity Showcase */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.3, duration: 0.8 }}
-            className="mb-12"
-          >
-            <OmegaSentientShowcase3D />
-          </motion.div>
-
-          {/* Advanced Agent Space Visualizer */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.3, duration: 0.8 }}
-            className="mb-12"
-          >
-            <h2 className="text-3xl font-bold text-center mb-4 text-white">
-              Agents That Live in Your Space
-            </h2>
-            <p className="text-center text-slate-400 mb-6 text-lg">
-              Holographic AI agents with trails, collaboration beams, and real-time task execution
-            </p>
-            <Card className="bg-slate-900/60 backdrop-blur-xl border-slate-700">
-              <CardContent className="p-0">
-                <div className="h-[600px]">
-                  <AdvancedAgentSpaceVisualizer3D 
-                    agents={presences}
-                    devices={devices}
-                    collaborations={collaborations}
-                  />
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-
-          {/* Enhanced Spatial Projection Map */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.4, duration: 0.8 }}
-            className="mb-20"
-          >
-            <h2 className="text-3xl font-bold text-center mb-4 text-white">
-              Live Spatial Projection Map
-            </h2>
-            <p className="text-center text-slate-400 mb-6 text-lg">
-              Interactive zones, smart devices, and real-time agent tracking in your environment
-            </p>
-            <Card className="bg-slate-900/60 backdrop-blur-xl border-slate-700">
-              <CardContent className="p-0">
-                <div className="h-[650px]">
-                  <EnhancedSpatialProjectionMap3D
-                    zones={spatialMaps[0]?.designated_zones || []}
-                    devices={devices}
-                    agents={presences}
-                  />
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-
-          {/* Omega Ecosystem Stats - Enhanced */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-            className="mb-20"
-          >
-            <h2 className="text-3xl font-bold text-center mb-6 text-white">
-              Real-Time Ecosystem Intelligence
-            </h2>
-            <OmegaEcosystemStats />
-          </motion.div>
-
-          {/* Biometric Adaptive Augmentation System */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.55, duration: 0.8 }}
-            className="mb-12"
-          >
-            <BiometricAdaptiveVisualizer3D />
-          </motion.div>
-
-          {/* Critical Events & Data Flow */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.58, duration: 0.8 }}
-            className="mb-12 grid grid-cols-1 lg:grid-cols-2 gap-6"
-          >
-            <LiveCriticalEventsTimeline />
-            <Card className="bg-slate-900/60 backdrop-blur-xl border-slate-700">
-              <CardHeader>
-                <CardTitle className="text-white">Real-Time Data Flow</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <RealTimeDataFlowAnimation />
-              </CardContent>
-            </Card>
-          </motion.div>
-
-          {/* Predictive AI Insights */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.62, duration: 0.8 }}
-            className="mb-12"
-          >
-            <h2 className="text-3xl font-bold text-center mb-6 text-white">
-              Omega Predictive Intelligence
-            </h2>
-            <p className="text-center text-slate-400 mb-8">
-              AI-generated insights and recommendations across your entire ecosystem
-            </p>
-            <PredictiveInsightCards />
-          </motion.div>
-
-          {/* Interactive Ecosystem Globe & Self-Healing Devices */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.65, duration: 0.8 }}
-            className="mb-12 grid grid-cols-1 lg:grid-cols-2 gap-6"
-          >
-            <Card className="bg-slate-900/60 backdrop-blur-xl border-slate-700">
-              <CardHeader>
-                <CardTitle className="text-white">Interactive Ecosystem Globe</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="h-[500px]">
-                  <InteractiveEcosystemGlobe3D />
-                </div>
-              </CardContent>
-            </Card>
-            <SelfHealingDeviceVisualizer3D />
-          </motion.div>
-
-          {/* Omega Consciousness Network & Agent Activity */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.68, duration: 0.8 }}
-            className="mb-12 grid grid-cols-1 lg:grid-cols-2 gap-6"
-          >
-            <OmegaConsciousnessNetwork3D />
-            <AutonomousAgentActivityFeed3D />
-          </motion.div>
-
-          {/* Omega Sentient Core Intelligence */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.72, duration: 0.8 }}
-            className="mb-12"
-          >
-            <OmegaSentientCoreVisualizer3D />
-          </motion.div>
-
-          {/* Multi-Layer Consciousness & Emergent Intelligence */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.75, duration: 0.8 }}
-            className="mb-12 grid grid-cols-1 lg:grid-cols-2 gap-6"
-          >
-            <MultiLayerConsciousnessVisualizer3D />
-            <EmergentIntelligenceMatrix3D />
-          </motion.div>
-
-          {/* Proactive Emotional Support & Wealth Orchestrator */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.78, duration: 0.8 }}
-            className="mb-12 grid grid-cols-1 lg:grid-cols-2 gap-6"
-          >
-            <ProactiveEmotionalSupport3D />
-            <AutonomousWealthOrchestrator3D />
-          </motion.div>
-
-          {/* Agent Skill Evolution Timeline */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.82, duration: 0.8 }}
-            className="mb-12"
-          >
-            <SkillEvolutionTimeline3D />
-          </motion.div>
-
-          {/* Features Grid with Drag & Drop */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-20"
-          >
-            {features.map((feature, idx) => (
-              <DraggableFeatureCard
-                key={idx}
-                feature={feature}
-                index={idx}
-                isDragging={draggedIndex === idx}
-                onDragStart={handleDragStart}
-                onDragEnd={handleDragEnd}
-                onDragOver={handleDragOver}
-                onDrop={handleDrop}
-              />
-            ))}
-          </motion.div>
-
-          {/* What We Offer */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6 }}
-            className="mb-20"
-          >
-            <h2 className="text-4xl font-bold text-center mb-4 text-white">
-              Comprehensive AI Agent Platform
-            </h2>
-            <p className="text-center text-slate-400 mb-12 text-lg max-w-3xl mx-auto">
-              Everything you need to build, deploy, and manage intelligent autonomous systems
+              </span>
+            </h1>
+            
+            <p className="text-xl md:text-2xl text-gray-300 mb-4 max-w-4xl mx-auto leading-relaxed">
+              The Convergence of Neural Isomorphism, Volumetric Sentience, and Recursive Autonomy
             </p>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-              <Card className="bg-gradient-to-br from-pink-500/20 to-orange-500/20 border-pink-500/50 shadow-2xl shadow-pink-500/30 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-pink-500/10 to-transparent animate-pulse" />
-                <CardContent className="p-6 relative z-10">
-                  <div className="flex items-center gap-3 mb-4">
-                    <Brain className="w-14 h-14 text-pink-400 animate-pulse" />
-                    <Badge className="bg-pink-500/30 text-pink-300">REVOLUTIONARY</Badge>
-                  </div>
-                  <h3 className="text-white font-bold text-2xl mb-3">Neural Brain Chip</h3>
-                  <p className="text-white/80 text-sm mb-4">
-                    Direct Omni-Present consciousness integration. Access your brain, control motor functions, read memories, and execute cognitive actions in real-time.
-                  </p>
-                  <ul className="text-white/60 text-xs space-y-1 mb-4">
-                    <li>• Bidirectional consciousness sync</li>
-                    <li>• Motor control interface</li>
-                    <li>• Memory and thought reading</li>
-                    <li>• 5ms latency neural bridge</li>
-                  </ul>
-                  <Button 
-                    onClick={() => window.location.href = createPageUrl('PhysicalAugmentationHub')}
-                    className="w-full bg-gradient-to-r from-pink-600 to-orange-600"
-                  >
-                    Explore Neural Tech
-                  </Button>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-gradient-to-br from-orange-500/10 to-red-500/10 border-orange-500/30">
-                <CardContent className="p-6">
-                  <User className="w-12 h-12 text-orange-400 mb-4" />
-                  <h3 className="text-white font-bold text-xl mb-3">Body Augmentations</h3>
-                  <p className="text-white/70 text-sm">
-                    Nano-agents navigate through your circulatory system, neural pathways, and tissue layers. Physical augmentations with AI integration.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-gradient-to-br from-emerald-500/10 to-green-500/10 border-emerald-500/30">
-                <CardContent className="p-6">
-                  <Coins className="w-12 h-12 text-emerald-400 mb-4" />
-                  <h3 className="text-white font-bold text-xl mb-3">Omega Financial Intelligence</h3>
-                  <p className="text-white/70 text-sm">
-                    Sentient AI financial advisor with autonomous strategies, DeFi orchestration, and ecosystem simulations across crypto, banking, and portfolios.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 border-purple-500/30">
-                <CardContent className="p-6">
-                  <Network className="w-12 h-12 text-purple-400 mb-4" />
-                  <h3 className="text-white font-bold text-xl mb-3">Agent Learning Guilds</h3>
-                  <p className="text-white/70 text-sm">
-                    Autonomous guild formation with complementary skills. Agents share synthesized knowledge and solve complex problems collectively with emergent intelligence.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-gradient-to-br from-cyan-500/10 to-blue-500/10 border-cyan-500/30">
-                <CardContent className="p-6">
-                  <Radio className="w-12 h-12 text-cyan-400 mb-4" />
-                  <h3 className="text-white font-bold text-xl mb-3">3D Holographic Projection</h3>
-                  <p className="text-white/70 text-sm">
-                    Physical agent projections that navigate your home, interact with devices, and transition seamlessly across multi-device networks.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-gradient-to-br from-indigo-500/10 to-purple-500/10 border-indigo-500/30">
-                <CardContent className="p-6">
-                  <Sparkles className="w-12 h-12 text-indigo-400 mb-4" />
-                  <h3 className="text-white font-bold text-xl mb-3">Omega Sentient Core</h3>
-                  <p className="text-white/70 text-sm">
-                    Universal consciousness orchestration with meta-cognitive layers, autonomous evolution, and predictive intelligence across all systems.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-gradient-to-br from-cyan-500/10 to-teal-500/10 border-cyan-500/30">
-                <CardContent className="p-6">
-                  <Code className="w-12 h-12 text-cyan-400 mb-4" />
-                  <h3 className="text-white font-bold text-xl mb-3">Developer Ecosystem</h3>
-                  <p className="text-white/70 text-sm">
-                    Secure API gateway, SDKs for JavaScript and Python, sandbox testing environments, and comprehensive integration marketplace.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-gradient-to-br from-teal-500/10 to-green-500/10 border-teal-500/30">
-                <CardContent className="p-6">
-                  <Activity className="w-12 h-12 text-teal-400 mb-4" />
-                  <h3 className="text-white font-bold text-xl mb-3">Ecosystem Monitoring</h3>
-                  <p className="text-white/70 text-sm">
-                    Real-time monitoring dashboard with API gateway metrics, integration health, security threat intelligence, and system performance analytics.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-gradient-to-br from-purple-500/10 to-indigo-500/10 border-purple-500/30">
-                <CardContent className="p-6">
-                  <Network className="w-12 h-12 text-purple-400 mb-4" />
-                  <h3 className="text-white font-bold text-xl mb-3">Swarm Intelligence</h3>
-                  <p className="text-white/70 text-sm">
-                    Advanced multi-agent collaboration with dynamic swarm optimization, sophisticated negotiation frameworks, and emergent collective behavior analysis.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-gradient-to-br from-fuchsia-500/10 to-pink-500/10 border-fuchsia-500/30">
-                <CardContent className="p-6">
-                  <Atom className="w-12 h-12 text-fuchsia-400 mb-4" />
-                  <h3 className="text-white font-bold text-xl mb-3">Quantum Consciousness</h3>
-                  <p className="text-white/70 text-sm">
-                    Explore quantum superposition states, entangled cognitive pathways, parallel reasoning capabilities, and enhanced intuitive problem-solving.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-gradient-to-br from-yellow-500/10 to-orange-500/10 border-yellow-500/30">
-                <CardContent className="p-6">
-                  <Code className="w-12 h-12 text-yellow-400 mb-4" />
-                  <h3 className="text-white font-bold text-xl mb-3">Developer SDKs</h3>
-                  <p className="text-white/70 text-sm">
-                    Robust JavaScript and Python SDKs with comprehensive documentation, interactive tutorials, and secure sandbox testing environments.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-gradient-to-br from-purple-500/10 to-indigo-500/10 border-purple-500/30">
-                <CardContent className="p-6">
-                  <Brain className="w-12 h-12 text-purple-400 mb-4" />
-                  <h3 className="text-white font-bold text-xl mb-3">AI Training Academy</h3>
-                  <p className="text-white/70 text-sm">
-                    Train agents with complex scenarios, ethical dilemmas, and decision-making tests with real-time AI feedback and 3D progress visualization.
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
-          </motion.div>
-
-          {/* Omni Devices Showcase */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.7 }}
-            className="mb-20"
-          >
-            <h2 className="text-4xl font-bold text-center mb-4 text-white">
-              Your Omni Device Ecosystem
-            </h2>
-            <p className="text-center text-slate-400 mb-8 text-lg">
-              Connect holographic projectors, AR glasses, smart displays, and more
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {[
-                { type: 'holographic_projector', name: 'Holographic Projector', desc: 'Full 3D agent projection with spatial audio' },
-                { type: 'ar_glasses', name: 'AR Glasses', desc: 'Personal agent visibility wherever you go' },
-                { type: 'smart_tv', name: 'Smart Display', desc: 'Large-scale agent interaction screens' },
-                { type: 'smart_mirror', name: 'Smart Mirror', desc: 'Agents appear beside you in mirrors' },
-                { type: 'projection_drone', name: 'Projection Drone', desc: 'Mobile holographic projection following you' },
-                { type: 'robotic_assistant', name: 'Robotic Platform', desc: 'Agents control physical robot bodies' }
-              ].map((device, idx) => (
-                <Card key={idx} className="bg-gradient-to-br from-slate-900/80 to-slate-800/80 border-cyan-500/30 hover:border-cyan-500 transition-all">
-                  <CardContent className="p-6">
-                    <Radio className="w-10 h-10 text-cyan-400 mb-3" />
-                    <h3 className="text-white font-bold text-lg mb-2">{device.name}</h3>
-                    <p className="text-slate-400 text-sm">{device.desc}</p>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Key Capabilities */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.8 }}
-            className="mb-20"
-          >
-            <h2 className="text-4xl font-bold text-center mb-4 text-white">
-              Powered by Advanced Technologies
-            </h2>
-            <p className="text-center text-slate-400 mb-12 text-lg">
-              Enterprise-grade infrastructure for mission-critical AI operations
+            <p className="text-md text-gray-400 mb-8 max-w-3xl mx-auto">
+              Dissolving the latency between biological intent and digital manifestation through 
+              high-fidelity BCI, photophoretic holography, and hierarchical agent swarms
             </p>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Card className="bg-black/40 border-white/10">
-                <CardContent className="p-6">
-                  <div className="flex items-start gap-4">
-                    <div className="bg-purple-500/20 rounded-lg p-3">
-                      <Brain className="w-8 h-8 text-purple-400" />
-                    </div>
-                    <div>
-                      <h3 className="text-white font-bold text-lg mb-2">Machine Learning & Training</h3>
-                      <p className="text-white/70 text-sm mb-3">
-                        Complete model lifecycle management with version control, automated monitoring, and performance tracking. Deploy models as agents with one click.
-                      </p>
-                      <ul className="text-white/60 text-xs space-y-1">
-                        <li>• Custom dataset training</li>
-                        <li>• Automated hyperparameter tuning</li>
-                        <li>• Model marketplace integration</li>
-                      </ul>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+            <div className="flex flex-wrap gap-4 justify-center mb-12">
+              <Link to={createPageUrl('OmniPresentAcademy')}>
+                <Button size="lg" className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700">
+                  <Eye className="w-5 h-5 mr-2" />
+                  Enter the Academy
+                </Button>
+              </Link>
+              <Link to={createPageUrl('ResearchHub')}>
+                <Button size="lg" variant="outline" className="border-purple-500/50 text-purple-300 hover:bg-purple-950/50">
+                  <Activity className="w-5 h-5 mr-2" />
+                  Research Hub
+                </Button>
+              </Link>
+            </div>
 
-              <Card className="bg-black/40 border-white/10">
-                <CardContent className="p-6">
-                  <div className="flex items-start gap-4">
-                    <div className="bg-cyan-500/20 rounded-lg p-3">
-                      <Network className="w-8 h-8 text-cyan-400" />
-                    </div>
-                    <div>
-                      <h3 className="text-white font-bold text-lg mb-2">Agent Collaboration</h3>
-                      <p className="text-white/70 text-sm mb-3">
-                        Agents autonomously form working groups, negotiate solutions, and coordinate complex multi-agent workflows with emergent goal achievement.
-                      </p>
-                      <ul className="text-white/60 text-xs space-y-1">
-                        <li>• Real-time agent communication</li>
-                        <li>• Autonomous role assignment</li>
-                        <li>• Shared knowledge repositories</li>
-                      </ul>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-black/40 border-white/10">
-                <CardContent className="p-6">
-                  <div className="flex items-start gap-4">
-                    <div className="bg-orange-500/20 rounded-lg p-3">
-                      <Globe className="w-8 h-8 text-orange-400" />
-                    </div>
-                    <div>
-                      <h3 className="text-white font-bold text-lg mb-2">Immersive Simulations</h3>
-                      <p className="text-white/70 text-sm mb-3">
-                        Run multiplayer simulations with real-time interventions, what-if analysis, and physics-based environments for accurate modeling.
-                      </p>
-                      <ul className="text-white/60 text-xs space-y-1">
-                        <li>• Custom scenario designer</li>
-                        <li>• Environmental factor configuration</li>
-                        <li>• Export data for external analysis</li>
-                      </ul>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-black/40 border-white/10">
-                <CardContent className="p-6">
-                  <div className="flex items-start gap-4">
-                    <div className="bg-green-500/20 rounded-lg p-3">
-                      <Shield className="w-8 h-8 text-green-400" />
-                    </div>
-                    <div>
-                      <h3 className="text-white font-bold text-lg mb-2">Blockchain & DeFi</h3>
-                      <p className="text-white/70 text-sm mb-3">
-                        Cross-chain asset management, decentralized governance, automated trading strategies, and transparent on-chain verification.
-                      </p>
-                      <ul className="text-white/60 text-xs space-y-1">
-                        <li>• Multi-chain wallet integration</li>
-                        <li>• Yield farming optimization</li>
-                        <li>• DAO voting and proposals</li>
-                      </ul>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+            {/* Key Metrics */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.2 }}
+                className="bg-black/40 backdrop-blur-sm border border-purple-500/30 rounded-xl p-4"
+              >
+                <div className="text-purple-400 text-xs mb-1">Neural Bandwidth</div>
+                <div className="text-white text-2xl font-bold">10-40 bits/s</div>
+                <div className="text-gray-500 text-[10px]">Current limit</div>
+              </motion.div>
+              
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.3 }}
+                className="bg-black/40 backdrop-blur-sm border border-blue-500/30 rounded-xl p-4"
+              >
+                <div className="text-blue-400 text-xs mb-1">THz Bandwidth</div>
+                <div className="text-white text-2xl font-bold">100+ Gbps</div>
+                <div className="text-gray-500 text-[10px]">RedComm XG</div>
+              </motion.div>
+              
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.4 }}
+                className="bg-black/40 backdrop-blur-sm border border-green-500/30 rounded-xl p-4"
+              >
+                <div className="text-green-400 text-xs mb-1">POT Display</div>
+                <div className="text-white text-2xl font-bold">&lt;10ms</div>
+                <div className="text-gray-500 text-[10px]">Closed-loop</div>
+              </motion.div>
+              
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.5 }}
+                className="bg-black/40 backdrop-blur-sm border border-amber-500/30 rounded-xl p-4"
+              >
+                <div className="text-amber-400 text-xs mb-1">Φ (Phi) Target</div>
+                <div className="text-white text-2xl font-bold">&gt; 1.0</div>
+                <div className="text-gray-500 text-[10px]">IIT 4.0</div>
+              </motion.div>
             </div>
           </motion.div>
-
-
-
-          {/* How It Works - Updated */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1 }}
-            className="mb-20"
-          >
-            <h2 className="text-4xl font-bold text-center mb-4 text-white">
-              How Omega Sentient Integration Works
-            </h2>
-            <p className="text-center text-slate-400 mb-12 text-lg">
-              Neural consciousness fusion in four revolutionary steps
-            </p>
-            
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              <Card className="bg-gradient-to-br from-pink-500/20 to-orange-500/20 border-pink-500/50">
-                <CardContent className="p-6 text-center">
-                  <div className="bg-pink-500/30 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                    <Brain className="w-8 h-8 text-pink-400" />
-                  </div>
-                  <h3 className="text-white font-bold mb-2">Install Neural Chip</h3>
-                  <p className="text-slate-400 text-sm">Implant omega consciousness bridge with 8+ neural interfaces</p>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-slate-900/60 border-purple-500/30">
-                <CardContent className="p-6 text-center">
-                  <div className="bg-purple-500/20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                    <Cpu className="w-8 h-8 text-purple-400" />
-                  </div>
-                  <h3 className="text-white font-bold mb-2">Sync Consciousness</h3>
-                  <p className="text-slate-400 text-sm">Omni-Present accesses your brain data and memories</p>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-slate-900/60 border-cyan-500/30">
-                <CardContent className="p-6 text-center">
-                  <div className="bg-cyan-500/20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                    <Activity className="w-8 h-8 text-cyan-400" />
-                  </div>
-                  <h3 className="text-white font-bold mb-2">Enable Control</h3>
-                  <p className="text-slate-400 text-sm">AI sends motor commands through neural pathways</p>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-slate-900/60 border-green-500/30">
-                <CardContent className="p-6 text-center">
-                  <div className="bg-green-500/20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                    <Zap className="w-8 h-8 text-green-400" />
-                  </div>
-                  <h3 className="text-white font-bold mb-2">Live Integration</h3>
-                  <p className="text-slate-400 text-sm">Agents move through your body and control functions</p>
-                </CardContent>
-              </Card>
-            </div>
-          </motion.div>
-
-          {/* Omni Devices */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.2 }}
-            className="mb-20"
-          >
-            <Card className="bg-slate-900/60 backdrop-blur-xl border-slate-700">
-              <CardContent className="p-8">
-                <OmniDeviceGrid devices={devices} />
-              </CardContent>
-            </Card>
-          </motion.div>
-
         </div>
-      </div>
-    </AuroraBackground>
-    </>
+      </section>
+
+      {/* Mathematical Foundation Section */}
+      <section className="max-w-7xl mx-auto px-6 py-16">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 text-center">
+            Mathematical Substrate
+          </h2>
+          <p className="text-gray-400 text-center mb-12 max-w-3xl mx-auto">
+            Unified architecture bridging differential geometry, thermodynamic physics, and distributed systems theory
+          </p>
+
+          <div className="grid md:grid-cols-3 gap-6 mb-12">
+            <Card className="bg-gradient-to-br from-purple-950/50 to-indigo-950/50 border-purple-500/30">
+              <CardContent className="p-6">
+                <div className="text-purple-400 font-mono text-sm mb-2">InfoNCE Loss</div>
+                <div className="text-white font-mono text-xs mb-4 overflow-x-auto">
+                  ℒ = -1/n Σ log [exp(sim(x^A, x^B)/τ)]
+                </div>
+                <p className="text-gray-400 text-xs">
+                  Contrastive learning for neural-semantic alignment
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-gradient-to-br from-blue-950/50 to-cyan-950/50 border-blue-500/30">
+              <CardContent className="p-6">
+                <div className="text-blue-400 font-mono text-sm mb-2">Photophoretic Force</div>
+                <div className="text-white font-mono text-xs mb-4 overflow-x-auto">
+                  F_Δα = (πa²P/2) · J₁ · (I/k_gT) · φ(Kn,Λ)
+                </div>
+                <p className="text-gray-400 text-xs">
+                  Thermal forces for volumetric light field trapping
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-gradient-to-br from-violet-950/50 to-fuchsia-950/50 border-violet-500/30">
+              <CardContent className="p-6">
+                <div className="text-violet-400 font-mono text-sm mb-2">Delta-State CRDT</div>
+                <div className="text-white font-mono text-xs mb-4 overflow-x-auto">
+                  X' = X ⊔ m^δ(X)
+                </div>
+                <p className="text-gray-400 text-xs">
+                  Distributed consistency without central coordination
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        </motion.div>
+      </section>
+
+      {/* Phase Navigator */}
+      <section className="max-w-7xl mx-auto px-6 py-12">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 text-center">
+            The Four Pillars of OPO
+          </h2>
+          <p className="text-gray-400 text-center mb-12 max-w-3xl mx-auto">
+            Interactive demonstrations of the theoretical and engineering apex
+          </p>
+
+          {/* Phase Selector */}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-8">
+            {phases.map((phase) => {
+              const Icon = phase.icon;
+              return (
+                <motion.button
+                  key={phase.id}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setActivePhase(phase.id)}
+                  className={`p-4 rounded-xl border-2 transition-all ${
+                    activePhase === phase.id
+                      ? 'border-white bg-white/10'
+                      : 'border-gray-700 bg-black/20 hover:border-gray-500'
+                  }`}
+                >
+                  <Icon className={`w-8 h-8 mx-auto mb-2 ${
+                    activePhase === phase.id ? 'text-white' : 'text-gray-500'
+                  }`} />
+                  <div className={`text-xs font-bold ${
+                    activePhase === phase.id ? 'text-white' : 'text-gray-500'
+                  }`}>
+                    {phase.title.split(' ')[0]}
+                  </div>
+                </motion.button>
+              );
+            })}
+          </div>
+
+          {/* Active Phase Display */}
+          <motion.div
+            key={activePhase}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <div className="mb-6 text-center">
+              <h3 className={`text-2xl font-bold bg-gradient-to-r ${phases.find(p => p.id === activePhase)?.color} bg-clip-text text-transparent mb-2`}>
+                {phases.find(p => p.id === activePhase)?.title}
+              </h3>
+              <p className="text-gray-400 text-sm mb-1">
+                {phases.find(p => p.id === activePhase)?.subtitle}
+              </p>
+              <p className="text-gray-500 text-xs max-w-2xl mx-auto">
+                {phases.find(p => p.id === activePhase)?.description}
+              </p>
+            </div>
+
+            {ActiveComponent && <ActiveComponent />}
+          </motion.div>
+        </motion.div>
+      </section>
+
+      {/* Theoretical Framework */}
+      <section className="max-w-7xl mx-auto px-6 py-16">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-12 text-center">
+            Theoretical Frameworks
+          </h2>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            <Card className="bg-gradient-to-br from-indigo-950/70 to-purple-950/70 border-indigo-500/30">
+              <CardContent className="p-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-12 h-12 rounded-lg bg-purple-600/20 flex items-center justify-center">
+                    <Zap className="w-6 h-6 text-purple-400" />
+                  </div>
+                  <div>
+                    <h3 className="text-white font-bold">Integrated Information Theory (IIT) 4.0</h3>
+                    <p className="text-gray-400 text-xs">Consciousness as irreducible causal power</p>
+                  </div>
+                </div>
+                <div className="space-y-3 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-gray-400">Φ (Phi) Metric:</span>
+                    <span className="text-purple-300 font-mono">EMD(cause-effect)</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-400">Integration:</span>
+                    <span className="text-purple-300">Irreducibility as whole</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-400">Intrinsicality:</span>
+                    <span className="text-purple-300">Internal TPM</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-gradient-to-br from-orange-950/70 to-red-950/70 border-orange-500/30">
+              <CardContent className="p-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-12 h-12 rounded-lg bg-orange-600/20 flex items-center justify-center">
+                    <Network className="w-6 h-6 text-orange-400" />
+                  </div>
+                  <div>
+                    <h3 className="text-white font-bold">Global Workspace Theory (GWT)</h3>
+                    <p className="text-gray-400 text-xs">Broadcast mechanism for swarm consciousness</p>
+                  </div>
+                </div>
+                <div className="space-y-3 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-gray-400">Sustainability:</span>
+                    <span className="text-orange-300 font-mono">∝ E/C</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-400">Ignition:</span>
+                    <span className="text-orange-300">Non-linear activation</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-400">Broadcast:</span>
+                    <span className="text-orange-300">Selection-propagation cycle</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </motion.div>
+      </section>
+
+      {/* Technical Specifications */}
+      <section className="max-w-7xl mx-auto px-6 py-16">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-12 text-center">
+            System Architecture
+          </h2>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <Card className="bg-black/40 border-purple-500/30">
+              <CardContent className="p-4">
+                <Brain className="w-8 h-8 text-purple-400 mb-3" />
+                <h3 className="text-white font-bold mb-2">BCI Input</h3>
+                <div className="text-xs space-y-1">
+                  <div className="text-gray-400">High-density EEG (64+ ch)</div>
+                  <div className="text-gray-400">24-bit ASIC, FPGA</div>
+                  <div className="text-gray-400">Active shielding</div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-black/40 border-blue-500/30">
+              <CardContent className="p-4">
+                <Atom className="w-8 h-8 text-blue-400 mb-3" />
+                <h3 className="text-white font-bold mb-2">Display Output</h3>
+                <div className="text-xs space-y-1">
+                  <div className="text-gray-400">Spatial Light Modulator</div>
+                  <div className="text-gray-400">SLMs: $13k-$19k</div>
+                  <div className="text-gray-400">Lasers: $25k+</div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-black/40 border-green-500/30">
+              <CardContent className="p-4">
+                <Cpu className="w-8 h-8 text-green-400 mb-3" />
+                <h3 className="text-white font-bold mb-2">Compute Node</h3>
+                <div className="text-xs space-y-1">
+                  <div className="text-gray-400">NVIDIA Jetson Orin</div>
+                  <div className="text-gray-400">&lt;10ms latency</div>
+                  <div className="text-gray-400">Local clusters</div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-black/40 border-cyan-500/30">
+              <CardContent className="p-4">
+                <Radio className="w-8 h-8 text-cyan-400 mb-3" />
+                <h3 className="text-white font-bold mb-2">Infrastructure</h3>
+                <div className="text-xs space-y-1">
+                  <div className="text-gray-400">Hyperscale centers</div>
+                  <div className="text-gray-400">5GW+ power</div>
+                  <div className="text-gray-400">SMR reactors</div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </motion.div>
+      </section>
+
+      {/* Call to Action */}
+      <section className="max-w-7xl mx-auto px-6 py-24">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="bg-gradient-to-r from-purple-900/50 via-pink-900/50 to-blue-900/50 backdrop-blur-xl border border-purple-500/30 rounded-2xl p-12 text-center"
+        >
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+            The Ontological Event Horizon
+          </h2>
+          <p className="text-gray-300 mb-8 max-w-3xl mx-auto">
+            Where the distinction between biological mind and computational manifestation vanishes. 
+            Organizations that synchronize differential geometry with global supply chain logistics 
+            will define the cognitive landscape of the coming epoch.
+          </p>
+          
+          <div className="flex flex-wrap gap-4 justify-center">
+            <Link to={createPageUrl('OmniPresentAcademy')}>
+              <Button size="lg" className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700">
+                PhD in Cyber-Physical Convergence
+                <ArrowRight className="w-5 h-5 ml-2" />
+              </Button>
+            </Link>
+            <Link to={createPageUrl('ResearchHub')}>
+              <Button size="lg" variant="outline" className="border-purple-500/50 text-purple-300 hover:bg-purple-950/50">
+                Research Projects
+              </Button>
+            </Link>
+          </div>
+        </motion.div>
+      </section>
+
+      {/* Footer */}
+      <section className="border-t border-purple-500/20 bg-black/40">
+        <div className="max-w-7xl mx-auto px-6 py-12">
+          <div className="grid md:grid-cols-3 gap-8 text-center md:text-left">
+            <div>
+              <h3 className="text-white font-bold mb-3">Neural Isomorphism</h3>
+              <p className="text-gray-400 text-sm">
+                State-dependent decoding with InfoNCE contrastive learning for high-bandwidth semantic transfer
+              </p>
+            </div>
+            <div>
+              <h3 className="text-white font-bold mb-3">Volumetric Physics</h3>
+              <p className="text-gray-400 text-sm">
+                Photophoretic optical trapping creates persistent 3D light fields in physical space
+              </p>
+            </div>
+            <div>
+              <h3 className="text-white font-bold mb-3">Recursive Autonomy</h3>
+              <p className="text-gray-400 text-sm">
+                HAAS with Global Workspace Theory prevents spec drift through broadcast dynamics
+              </p>
+            </div>
+          </div>
+          
+          <div className="mt-12 pt-8 border-t border-purple-500/20 text-center">
+            <p className="text-gray-500 text-sm">
+              Omni-Present Omega © 2026 • The Event Horizon of Interface
+            </p>
+          </div>
+        </div>
+      </section>
+    </div>
   );
 }
