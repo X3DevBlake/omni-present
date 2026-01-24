@@ -56,6 +56,9 @@ import GovernancePolicyVisualizer3D from '../components/planetary/GovernancePoli
 import DynamicEthicalLandscapeViz3D from '../components/ethics/DynamicEthicalLandscapeViz3D';
 import MissionSimulationViz3D from '../components/haas/MissionSimulationViz3D';
 import AdaptiveModulationViz3D from '../components/interstellar/AdaptiveModulationViz3D';
+import EthicalDriftMonitorDashboard3D from '../components/ethics/EthicalDriftMonitorDashboard3D';
+import AutonomousAgentDashboard3D from '../components/interstellar/AutonomousAgentDashboard3D';
+import AdaptiveGovernanceLearning3D from '../components/planetary/AdaptiveGovernanceLearning3D';
 
 export default function OmegaIntelligenceHub() {
   return (
@@ -301,7 +304,10 @@ export default function OmegaIntelligenceHub() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
             >
-              <ProactiveEthicalDriftMonitor3D />
+              <div className="space-y-6">
+                <EthicalDriftMonitorDashboard3D />
+                <ProactiveEthicalDriftMonitor3D />
+              </div>
             </motion.div>
           </TabsContent>
 
@@ -349,7 +355,10 @@ export default function OmegaIntelligenceHub() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
             >
-              <GovernancePolicyVisualizer3D />
+              <div className="space-y-6">
+                <GovernancePolicyVisualizer3D />
+                <AdaptiveGovernanceLearning3D />
+              </div>
             </motion.div>
           </TabsContent>
 
@@ -358,7 +367,10 @@ export default function OmegaIntelligenceHub() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
             >
-              <InterstellarSimulationStudio3D />
+              <div className="space-y-6">
+                <InterstellarSimulationStudio3D />
+                <AutonomousAgentDashboard3D />
+              </div>
             </motion.div>
           </TabsContent>
 
