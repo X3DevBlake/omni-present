@@ -86,6 +86,10 @@ export default function NeuralManifoldAlignmentVisualizer3D() {
   const [alignmentResult, setAlignmentResult] = useState(null);
   const [neuralPoints, setNeuralPoints] = useState([]);
   const [semanticPoints, setSemanticPoints] = useState([]);
+  const [neuralHistory, setNeuralHistory] = useState([]);
+  const [phiCalculation, setPhiCalculation] = useState(null);
+  const [syntheticTelepathy, setSyntheticTelepathy] = useState(null);
+  const [neuralInertia, setNeuralInertia] = useState(150);
 
   const initializeManifolds = () => {
     // Generate neural manifold points
@@ -124,13 +128,55 @@ export default function NeuralManifoldAlignmentVisualizer3D() {
     setIsDecoding(true);
     
     try {
+      // Simulate state-dependent neural dynamics
+      const currentActivity = Array(512).fill(0).map(() => Math.random());
+      const temporalHistory = neuralHistory.slice(-5);
+      const stateDependent_a = [...currentActivity, ...temporalHistory.flat()];
+      
       const response = await base44.functions.invoke('neuralIntentDecoder', {
         neural_stream_id: 'simulated_stream',
-        signal_window: Array(512).fill(0).map(() => Math.random()),
+        signal_window: currentActivity,
         semantic_targets: ['move_forward', 'rotate_left', 'display_data', 'rest_state']
       });
 
       setAlignmentResult(response.data);
+      setNeuralHistory([...neuralHistory, currentActivity].slice(-10));
+      
+      // Calculate Phi (Φ) - Integrated Information
+      const unconstrained_repertoire = Array(8).fill(0).map(() => Math.random());
+      const cause_effect_repertoire = Array(8).fill(0).map(() => Math.random());
+      
+      // Earth Mover's Distance (simplified)
+      const emd = unconstrained_repertoire.reduce((sum, val, idx) => 
+        sum + Math.abs(val - cause_effect_repertoire[idx]), 0
+      ) / 8;
+      
+      const phi_value = Math.max(0, 1 - emd);
+      
+      setPhiCalculation({
+        phi: phi_value,
+        unconstrained: unconstrained_repertoire,
+        cause_effect: cause_effect_repertoire,
+        emd,
+        is_irreducible: phi_value > 0.5
+      });
+      
+      // Simulate synthetic telepathy (bidirectional)
+      if (response.data.is_communicative_intent) {
+        const telepathy = {
+          neural_to_holographic: {
+            intent: response.data.decoded_intent,
+            confidence: response.data.confidence,
+            latency_ms: Math.random() * 50 + 10
+          },
+          holographic_to_neural: {
+            feedback_signal: 'projection_stable',
+            sensory_integration: 0.85,
+            causal_coupling: phi_value > 0.5
+          }
+        };
+        setSyntheticTelepathy(telepathy);
+      }
       
       // Animate alignment - move semantic points closer to neural
       const aligned_semantic = semanticPoints.map((point, i) => ({
@@ -259,6 +305,19 @@ export default function NeuralManifoldAlignmentVisualizer3D() {
               className="mb-2"
             />
             <p className="text-xs text-gray-400">Controls sharpness of probability distribution</p>
+          </div>
+          
+          <div>
+            <label className="text-white text-sm mb-2 block">Neural Inertia: {neuralInertia}ms</label>
+            <Slider
+              value={[neuralInertia]}
+              onValueChange={(val) => setNeuralInertia(val[0])}
+              min={50}
+              max={300}
+              step={10}
+              className="mb-2"
+            />
+            <p className="text-xs text-gray-400">Temporal history window (hysteresis)</p>
           </div>
           
           {alignmentResult && (

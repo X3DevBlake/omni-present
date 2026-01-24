@@ -28,6 +28,7 @@ import RecursiveHAASMonitor3D from '../components/omega/RecursiveHAASMonitor3D';
 import RedCommNetworkFabricViewer3D from '../components/omega/RedCommNetworkFabricViewer3D';
 import Sim2RealDashboard3D from '../components/omega/Sim2RealDashboard3D';
 import CRDTSyncVisualizer3D from '../components/omega/CRDTSyncVisualizer3D';
+import SentientFinanceEngine3D from '../components/omega/SentientFinanceEngine3D';
 
 // Neural network visualization for hero
 const NeuralNetworkHero = () => {
@@ -141,6 +142,15 @@ export default function Home() {
       icon: GitBranch,
       color: 'from-violet-600 to-purple-600',
       component: CRDTSyncVisualizer3D
+    },
+    {
+      id: 'finance',
+      title: 'Sentient Finance',
+      subtitle: 'OML & Active Inference',
+      description: 'Recursive capital formation through tokenized intelligence',
+      icon: DollarSign,
+      color: 'from-emerald-600 to-green-600',
+      component: SentientFinanceEngine3D
     }
   ];
 
@@ -325,7 +335,7 @@ export default function Home() {
           </p>
 
           {/* Phase Selector */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3 mb-8">
             {phases.map((phase) => {
               const Icon = phase.icon;
               return (
@@ -334,16 +344,16 @@ export default function Home() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setActivePhase(phase.id)}
-                  className={`p-4 rounded-xl border-2 transition-all ${
+                  className={`p-3 rounded-xl border-2 transition-all ${
                     activePhase === phase.id
                       ? 'border-white bg-white/10'
                       : 'border-gray-700 bg-black/20 hover:border-gray-500'
                   }`}
                 >
-                  <Icon className={`w-8 h-8 mx-auto mb-2 ${
+                  <Icon className={`w-6 h-6 md:w-8 md:h-8 mx-auto mb-2 ${
                     activePhase === phase.id ? 'text-white' : 'text-gray-500'
                   }`} />
-                  <div className={`text-xs font-bold ${
+                  <div className={`text-[10px] md:text-xs font-bold ${
                     activePhase === phase.id ? 'text-white' : 'text-gray-500'
                   }`}>
                     {phase.title.split(' ')[0]}
@@ -442,6 +452,70 @@ export default function Home() {
                     <span className="text-gray-400">Broadcast:</span>
                     <span className="text-orange-300">Selection-propagation cycle</span>
                   </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </motion.div>
+      </section>
+
+      {/* Financial Infrastructure Section */}
+      <section className="max-w-7xl mx-auto px-6 py-16 bg-gradient-to-r from-emerald-950/30 to-green-950/30">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 text-center">
+            Sentient Financial Infrastructure
+          </h2>
+          <p className="text-gray-400 text-center mb-12 max-w-3xl mx-auto">
+            Unlimited income through OML tokenization and Active Inference in global markets
+          </p>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            <Card className="bg-gradient-to-br from-green-950/70 to-emerald-950/70 border-green-500/30">
+              <CardContent className="p-6">
+                <DollarSign className="w-10 h-10 text-green-400 mb-4" />
+                <h3 className="text-white font-bold text-lg mb-2">OML Framework</h3>
+                <div className="space-y-2 text-sm">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-green-500" />
+                    <span className="text-gray-300">Open-source intelligence</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-green-500" />
+                    <span className="text-gray-300">Blockchain monetization</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Lock className="w-3 h-3 text-green-500" />
+                    <span className="text-gray-300">Cryptographic loyalty</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-gradient-to-br from-purple-950/70 to-violet-950/70 border-purple-500/30">
+              <CardContent className="p-6">
+                <TrendingUp className="w-10 h-10 text-purple-400 mb-4" />
+                <h3 className="text-white font-bold text-lg mb-2">Active Inference</h3>
+                <div className="space-y-2 text-sm text-gray-300">
+                  <div>Free Energy minimization</div>
+                  <div>Epistemic foraging in markets</div>
+                  <div>POMDP optimization</div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-gradient-to-br from-blue-950/70 to-cyan-950/70 border-blue-500/30">
+              <CardContent className="p-6">
+                <Zap className="w-10 h-10 text-blue-400 mb-4" />
+                <h3 className="text-white font-bold text-lg mb-2">The GRID</h3>
+                <div className="space-y-2 text-sm text-gray-300">
+                  <div>Decentralized AI economy</div>
+                  <div>Stake on favorite agents</div>
+                  <div>Real-world project funding</div>
                 </div>
               </CardContent>
             </Card>

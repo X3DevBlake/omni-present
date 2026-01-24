@@ -87,23 +87,41 @@ export default function PhotophoreticTrapSimulator3D() {
   const [isSimulating, setIsSimulating] = useState(false);
   const [trapResult, setTrapResult] = useState(null);
   const [particlePosition, setParticlePosition] = useState([0, 0, 0]);
+  const [particleCount, setParticleCount] = useState(1);
+  const [focalDepth, setFocalDepth] = useState(1.5);
+  const [multiParticles, setMultiParticles] = useState([]);
+  const [dragForceActive, setDragForceActive] = useState(false);
 
   const runSimulation = async () => {
     setIsSimulating(true);
+    setDragForceActive(laserIntensity > 100);
     
     try {
+      // Generate multi-particle positions
+      const particles = Array(particleCount).fill(0).map((_, i) => {
+        const angle = (i / particleCount) * Math.PI * 2;
+        const radius = 0.5;
+        return {
+          x: Math.cos(angle) * radius,
+          y: Math.sin(angle) * radius,
+          z: (i - particleCount / 2) * 0.2
+        };
+      });
+      
       const response = await base44.functions.invoke('photophoreticTrapController', {
         particle_type: 'cellulose',
         particle_radius_um: particleRadius,
         laser_intensity_W_mm2: laserIntensity,
-        target_positions: [
-          {x: 0, y: 0, z: 0},
-          {x: 0.5, y: 0.5, z: 0},
-          {x: -0.5, y: 0.5, z: 0}
-        ]
+        target_positions: particles
       });
 
       setTrapResult(response.data);
+      setMultiParticles(particles.map((p, i) => ({
+        ...p,
+        id: i,
+        stable: response.data.stability.is_stable,
+        vaporizing: response.data.stability.vaporization_risk > 0.7
+      })));
     } catch (error) {
       console.error('Simulation failed:', error);
     } finally {
@@ -134,12 +152,23 @@ export default function PhotophoreticTrapSimulator3D() {
             {/* Vortex laser beam */}
             <VortexBeam position={[0, -1.5, 0]} intensity={laserIntensity} />
 
-            {/* Trapped particle */}
-            <TrappedParticle
-              position={particlePosition}
-              isTrapped={isTrapped}
-              vaporizing={vaporizing}
-            />
+            {/* Multi-particle system */}
+            {multiParticles.length > 0 ? (
+              multiParticles.map((particle, idx) => (
+                <TrappedParticle
+                  key={particle.id}
+                  position={[particle.x, particle.y, particle.z]}
+                  isTrapped={particle.stable}
+                  vaporizing={particle.vaporizing}
+                />
+              ))
+            ) : (
+              <TrappedParticle
+                position={particlePosition}
+                isTrapped={isTrapped}
+                vaporizing={vaporizing}
+              />
+            )}
 
             {/* Force indicators */}
             {trapResult && (
@@ -192,6 +221,9 @@ export default function PhotophoreticTrapSimulator3D() {
               max={150}
               step={5}
             />
+            {laserIntensity > 100 && (
+              <p className="text-amber-400 text-xs mt-1">⚠️ High drag forces active</p>
+            )}
           </div>
           
           <div>
@@ -205,6 +237,34 @@ export default function PhotophoreticTrapSimulator3D() {
               max={20}
               step={1}
             />
+          </div>
+          
+          <div>
+            <label className="text-white text-sm mb-2 block">
+              Particle Count: {particleCount}
+            </label>
+            <Slider
+              value={[particleCount]}
+              onValueChange={(val) => setParticleCount(val[0])}
+              min={1}
+              max={8}
+              step={1}
+            />
+            <p className="text-xs text-gray-400">Multi-particle hologram complexity</p>
+          </div>
+          
+          <div>
+            <label className="text-white text-sm mb-2 block">
+              Focal Depth: {focalDepth.toFixed(1)}m
+            </label>
+            <Slider
+              value={[focalDepth]}
+              onValueChange={(val) => setFocalDepth(val[0])}
+              min={0.5}
+              max={3.0}
+              step={0.1}
+            />
+            <p className="text-xs text-gray-400">Variable z-axis trapping range</p>
           </div>
         </div>
 
