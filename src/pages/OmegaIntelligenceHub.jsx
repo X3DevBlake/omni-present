@@ -1,101 +1,145 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Brain, Network, GitBranch, Shield, Target, Users } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Brain, Network, Lightbulb, Target, Shield, Database, BookOpen } from 'lucide-react';
-
-import ContextualInfoDisplay from '../components/ai/ContextualInfoDisplay';
-import LearningProgressVisualizer3D from '../components/ai/LearningProgressVisualizer3D';
-import KnowledgeGraphVisualizer3D from '../components/knowledge/KnowledgeGraphVisualizer3D';
-import GoalProgressVisualizer3D from '../components/orchestration/GoalProgressVisualizer3D';
-import ThreatDetectionMonitor3D from '../components/security/ThreatDetectionMonitor3D';
-import StorageOptimizationDashboard3D from '../components/data/StorageOptimizationDashboard3D';
+import EmergentGoalVisualizer3D from '../components/omega/EmergentGoalVisualizer3D';
+import KnowledgeGraph3DBuilder from '../components/omega/KnowledgeGraph3DBuilder';
+import AgentCommunicationFlow3D from '../components/omega/AgentCommunicationFlow3D';
+import CausalReasoningEngine3D from '../components/omega/CausalReasoningEngine3D';
+import EthicsMonitorDashboard from '../components/omega/EthicsMonitorDashboard';
+import RecursiveHAASMonitor3D from '../components/omega/RecursiveHAASMonitor3D';
 
 export default function OmegaIntelligenceHub() {
-    return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-cyan-950 p-6">
-            <motion.div
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="max-w-7xl mx-auto"
-            >
-                {/* Header */}
-                <div className="mb-8 text-center">
-                    <h1 className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 mb-3">
-                        🧠 Omega Intelligence Hub
-                    </h1>
-                    <p className="text-slate-400 text-lg">
-                        Unified platform intelligence orchestration & autonomous systems management
-                    </p>
-                </div>
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-indigo-950 to-purple-950 pb-16">
+      <section className="max-w-7xl mx-auto px-6 pt-24 pb-12">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="text-center mb-12"
+        >
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+            Omega Intelligence Hub
+          </h1>
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            Advanced AI capabilities: emergent goals, ethics monitoring, and causal reasoning
+          </p>
+        </motion.div>
 
-                {/* Contextual Info Display - Floating */}
-                <ContextualInfoDisplay />
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="bg-black/40 backdrop-blur-xl rounded-xl p-4 border border-indigo-500/30"
+          >
+            <Target className="w-8 h-8 text-indigo-400 mb-2" />
+            <div className="text-2xl font-bold text-white">47</div>
+            <div className="text-sm text-gray-400">Emergent Goals</div>
+          </motion.div>
 
-                {/* Main Content Tabs */}
-                <Tabs defaultValue="learning" className="w-full">
-                    <TabsList className="grid grid-cols-6 mb-6 bg-slate-900/50 border border-slate-700">
-                        <TabsTrigger value="learning" className="flex items-center gap-2">
-                            <Brain className="w-4 h-4" />
-                            Learning
-                        </TabsTrigger>
-                        <TabsTrigger value="knowledge" className="flex items-center gap-2">
-                            <Network className="w-4 h-4" />
-                            Knowledge
-                        </TabsTrigger>
-                        <TabsTrigger value="goals" className="flex items-center gap-2">
-                            <Target className="w-4 h-4" />
-                            Goals
-                        </TabsTrigger>
-                        <TabsTrigger value="security" className="flex items-center gap-2">
-                            <Shield className="w-4 h-4" />
-                            Security
-                        </TabsTrigger>
-                        <TabsTrigger value="storage" className="flex items-center gap-2">
-                            <Database className="w-4 h-4" />
-                            Storage
-                        </TabsTrigger>
-                        <TabsTrigger value="insights" className="flex items-center gap-2">
-                            <Lightbulb className="w-4 h-4" />
-                            Insights
-                        </TabsTrigger>
-                    </TabsList>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="bg-black/40 backdrop-blur-xl rounded-xl p-4 border border-green-500/30"
+          >
+            <Shield className="w-8 h-8 text-green-400 mb-2" />
+            <div className="text-2xl font-bold text-white">99.2%</div>
+            <div className="text-sm text-gray-400">Ethical Compliance</div>
+          </motion.div>
 
-                    <TabsContent value="learning">
-                        <LearningProgressVisualizer3D />
-                    </TabsContent>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="bg-black/40 backdrop-blur-xl rounded-xl p-4 border border-purple-500/30"
+          >
+            <Network className="w-8 h-8 text-purple-400 mb-2" />
+            <div className="text-2xl font-bold text-white">1,845</div>
+            <div className="text-sm text-gray-400">Knowledge Nodes</div>
+          </motion.div>
 
-                    <TabsContent value="knowledge">
-                        <KnowledgeGraphVisualizer3D />
-                    </TabsContent>
-
-                    <TabsContent value="goals">
-                        <GoalProgressVisualizer3D />
-                    </TabsContent>
-
-                    <TabsContent value="security">
-                        <ThreatDetectionMonitor3D />
-                    </TabsContent>
-
-                    <TabsContent value="storage">
-                        <StorageOptimizationDashboard3D />
-                    </TabsContent>
-
-                    <TabsContent value="insights">
-                        <div className="grid grid-cols-1 gap-6">
-                            <div className="bg-gradient-to-br from-cyan-900/20 to-purple-900/20 border border-cyan-500/30 rounded-lg p-6">
-                                <h3 className="text-white text-xl font-bold mb-3 flex items-center gap-2">
-                                    <Lightbulb className="w-6 h-6 text-cyan-400" />
-                                    AI-Generated Insights
-                                </h3>
-                                <p className="text-slate-300">
-                                    Proactive insights appear as floating cards in the bottom-right corner of your screen.
-                                    The AI continuously analyzes your context and provides real-time recommendations.
-                                </p>
-                            </div>
-                        </div>
-                    </TabsContent>
-                </Tabs>
-            </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+            className="bg-black/40 backdrop-blur-xl rounded-xl p-4 border border-blue-500/30"
+          >
+            <Users className="w-8 h-8 text-blue-400 mb-2" />
+            <div className="text-2xl font-bold text-white">23</div>
+            <div className="text-sm text-gray-400">Dynamic Teams</div>
+          </motion.div>
         </div>
-    );
+      </section>
+
+      <section className="max-w-7xl mx-auto px-6">
+        <Tabs defaultValue="haas" className="w-full">
+          <TabsList className="grid w-full grid-cols-6 bg-black/60 backdrop-blur-xl mb-8">
+            <TabsTrigger value="haas">HAAS Swarm</TabsTrigger>
+            <TabsTrigger value="goals">Emergent Goals</TabsTrigger>
+            <TabsTrigger value="ethics">Ethics</TabsTrigger>
+            <TabsTrigger value="knowledge">Knowledge Graph</TabsTrigger>
+            <TabsTrigger value="comms">Communications</TabsTrigger>
+            <TabsTrigger value="causal">Causal Reasoning</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="haas">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <RecursiveHAASMonitor3D />
+            </motion.div>
+          </TabsContent>
+
+          <TabsContent value="goals">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <EmergentGoalVisualizer3D />
+            </motion.div>
+          </TabsContent>
+
+          <TabsContent value="ethics">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <EthicsMonitorDashboard />
+            </motion.div>
+          </TabsContent>
+
+          <TabsContent value="knowledge">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <KnowledgeGraph3DBuilder />
+            </motion.div>
+          </TabsContent>
+
+          <TabsContent value="comms">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <AgentCommunicationFlow3D />
+            </motion.div>
+          </TabsContent>
+
+          <TabsContent value="causal">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <CausalReasoningEngine3D />
+            </motion.div>
+          </TabsContent>
+        </Tabs>
+      </section>
+    </div>
+  );
 }
