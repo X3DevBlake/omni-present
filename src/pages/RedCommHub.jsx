@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import RedCommNetworkTopology3D from '../components/redcomm/RedCommNetworkTopology3D';
 import RedCommSignalFlow3D from '../components/redcomm/RedCommSignalFlow3D';
 import RedCommControlPanel from '../components/redcomm/RedCommControlPanel';
+import RedCommMessageStream3D from '../components/redcomm/RedCommMessageStream3D';
+import RedCommAnalyticsDashboard from '../components/redcomm/RedCommAnalyticsDashboard';
 import EnhancedRedCommVisualizer3D from '../components/network/EnhancedRedCommVisualizer3D';
 import { Radio, Satellite, Network } from 'lucide-react';
 
@@ -65,11 +67,31 @@ export default function RedCommHub() {
           <RedCommSignalFlow3D />
         </motion.div>
 
-        {/* Enhanced RedComm Visualizer */}
+        {/* Message Stream Visualization */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 0.8 }}
+          className="mb-8"
+        >
+          <RedCommMessageStream3D />
+        </motion.div>
+
+        {/* Analytics Dashboard */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5, duration: 0.8 }}
+          className="mb-8"
+        >
+          <RedCommAnalyticsDashboard />
+        </motion.div>
+
+        {/* Enhanced RedComm Visualizer */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6, duration: 0.8 }}
         >
           <EnhancedRedCommVisualizer3D />
         </motion.div>
