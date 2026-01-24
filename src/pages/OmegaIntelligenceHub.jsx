@@ -47,7 +47,6 @@ import AIMissionCommanderViz3D from '../components/haas/AIMissionCommanderViz3D'
 import InterstellarNetworkViz3D from '../components/interstellar/InterstellarNetworkViz3D';
 import EthicalCouncilViz3D from '../components/ethics/EthicalCouncilViz3D';
 import EthicalEvolutionPathViz3D from '../components/ethics/EthicalEvolutionPathViz3D';
-import UnifiedCommandCenterViz3D from '../components/omega/UnifiedCommandCenterViz3D';
 import RealTimeSystemSync from '../components/omega/RealTimeSystemSync';
 import IntegratedSystemDashboard from '../components/omega/IntegratedSystemDashboard';
 import InterstellarSimulationStudio3D from '../components/interstellar/InterstellarSimulationStudio3D';
