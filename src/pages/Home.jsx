@@ -29,10 +29,12 @@ import RedCommNetworkFabricViewer3D from '../components/omega/RedCommNetworkFabr
 import Sim2RealDashboard3D from '../components/omega/Sim2RealDashboard3D';
 import CRDTSyncVisualizer3D from '../components/omega/CRDTSyncVisualizer3D';
 import SentientFinanceEngine3D from '../components/omega/SentientFinanceEngine3D';
+import EnhancedRedCommVisualizer3D from '../components/network/EnhancedRedCommVisualizer3D';
+import NeuralEnhancementVisualizer3D from '../components/augmentation/NeuralEnhancementVisualizer3D';
 
 // Neural network visualization for hero
 const NeuralNetworkHero = () => {
-  const groupRef = useRef();
+  const groupRef = React.useRef();
   
   const nodes = Array(30).fill(0).map((_, i) => ({
     position: [
@@ -148,9 +150,27 @@ export default function Home() {
       title: 'Sentient Finance',
       subtitle: 'OML & Active Inference',
       description: 'Recursive capital formation through tokenized intelligence',
-      icon: DollarSign,
+      icon: Zap,
       color: 'from-emerald-600 to-green-600',
       component: SentientFinanceEngine3D
+    },
+    {
+      id: 'redcomm',
+      title: 'RedComm Enhanced',
+      subtitle: 'Inter-Planetary Mesh',
+      description: 'THz resilient communication fabric',
+      icon: Radio,
+      color: 'from-cyan-600 to-blue-600',
+      component: EnhancedRedCommVisualizer3D
+    },
+    {
+      id: 'neural',
+      title: 'Neural Enhancement',
+      subtitle: 'Augmentation Network',
+      description: 'Dynamic neural pathway optimization',
+      icon: Brain,
+      color: 'from-purple-600 to-pink-600',
+      component: NeuralEnhancementVisualizer3D
     }
   ];
 
@@ -477,7 +497,7 @@ export default function Home() {
           <div className="grid md:grid-cols-3 gap-6">
             <Card className="bg-gradient-to-br from-green-950/70 to-emerald-950/70 border-green-500/30">
               <CardContent className="p-6">
-                <DollarSign className="w-10 h-10 text-green-400 mb-4" />
+                <Zap className="w-10 h-10 text-green-400 mb-4" />
                 <h3 className="text-white font-bold text-lg mb-2">OML Framework</h3>
                 <div className="space-y-2 text-sm">
                   <div className="flex items-center gap-2">
@@ -489,7 +509,7 @@ export default function Home() {
                     <span className="text-gray-300">Blockchain monetization</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Lock className="w-3 h-3 text-green-500" />
+                    <Shield className="w-3 h-3 text-green-500" />
                     <span className="text-gray-300">Cryptographic loyalty</span>
                   </div>
                 </div>

@@ -38,6 +38,8 @@ import EthicalFrameworkEvolutionSimulator3D from '../components/omega/EthicalFra
 import SwarmOrchestrationLayer3D from '../components/omega/SwarmOrchestrationLayer3D';
 import EnhancedKnowledgeNetwork3D from '../components/omega/EnhancedKnowledgeNetwork3D';
 import EthicalLandscapeExplorer3D from '../components/omega/EthicalLandscapeExplorer3D';
+import AdvancedKnowledgeGraph3D from '../components/omega/AdvancedKnowledgeGraph3D';
+import ComplianceSimulationModule3D from '../components/omega/ComplianceSimulationModule3D';
 
 export default function OmegaIntelligenceHub() {
   return (
@@ -253,7 +255,10 @@ export default function OmegaIntelligenceHub() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
             >
-              <KnowledgeFusionLandscape3D />
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <KnowledgeFusionLandscape3D />
+                <AdvancedKnowledgeGraph3D />
+              </div>
             </motion.div>
           </TabsContent>
 
@@ -280,9 +285,12 @@ export default function OmegaIntelligenceHub() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
             >
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <EthicalFrameworkEvolutionSimulator3D />
-                <EthicalLandscapeExplorer3D />
+              <div className="space-y-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <EthicalFrameworkEvolutionSimulator3D />
+                  <EthicalLandscapeExplorer3D />
+                </div>
+                <ComplianceSimulationModule3D />
               </div>
             </motion.div>
           </TabsContent>
