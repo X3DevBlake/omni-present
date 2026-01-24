@@ -8,7 +8,6 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import BlockchainIntegrityVisualizer3D from '../components/security/BlockchainIntegrityVisualizer3D';
-import MultiAgentCollaboration3D from '../components/collaboration/MultiAgentCollaboration3D';
 import DecentralizedVaultManager3D from '../components/security/DecentralizedVaultManager3D';
 import { FlaskConical, Users, Shield, Sparkles, Plus, FileText } from 'lucide-react';
 import { toast } from 'sonner';
@@ -283,15 +282,6 @@ export default function ResearchHub() {
           </motion.div>
         ))}
       </div>
-
-      {/* Multi-Agent Collaboration Visualization */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="mb-8"
-      >
-        <MultiAgentCollaboration3D />
-      </motion.div>
 
       {/* Decentralized Vault Manager */}
       <motion.div
