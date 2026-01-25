@@ -669,10 +669,10 @@ export default function Home() {
               transition={{ delay: 0.9 }}
             >
               {[
-                { label: 'Neural Bandwidth', value: '10-40 bits/s', sublabel: 'Current limit', color: 'purple', icon: Brain },
-                { label: 'THz Bandwidth', value: '100+ Gbps', sublabel: 'RedComm XG', color: 'blue', icon: Radio },
-                { label: 'POT Display', value: '<10ms', sublabel: 'Closed-loop', color: 'green', icon: Atom },
-                { label: 'Φ (Phi) Target', value: '> 1.0', sublabel: 'IIT 4.0', color: 'amber', icon: Zap }
+                { label: 'Neural Bandwidth', value: '10-40 bits/s', sublabel: 'Current limit', glowColor: '#8b5cf6', borderColor: 'border-purple-500/60', bgColor: 'bg-purple-500/30', textColor: 'text-purple-400', icon: Brain },
+                { label: 'THz Bandwidth', value: '100+ Gbps', sublabel: 'RedComm XG', glowColor: '#3b82f6', borderColor: 'border-blue-500/60', bgColor: 'bg-blue-500/30', textColor: 'text-blue-400', icon: Radio },
+                { label: 'POT Display', value: '<10ms', sublabel: 'Closed-loop', glowColor: '#10b981', borderColor: 'border-green-500/60', bgColor: 'bg-green-500/30', textColor: 'text-green-400', icon: Atom },
+                { label: 'Φ (Phi) Target', value: '> 1.0', sublabel: 'IIT 4.0', glowColor: '#f59e0b', borderColor: 'border-amber-500/60', bgColor: 'bg-amber-500/30', textColor: 'text-amber-400', icon: Zap }
               ].map((metric, idx) => {
                 const Icon = metric.icon;
                 return (
@@ -684,15 +684,15 @@ export default function Home() {
                     transition={{ delay: 0.2 + idx * 0.1 }}
                     className="relative group cursor-pointer"
                   >
-                    <div className="absolute inset-0 bg-purple-500/30 rounded-2xl blur-xl group-hover:blur-2xl transition-all opacity-0 group-hover:opacity-100" />
-                    <div className="relative bg-black/80 backdrop-blur-xl border-2 border-purple-500/60 rounded-2xl p-6 shadow-2xl shadow-purple-500/20">
+                    <div className={`absolute inset-0 ${metric.bgColor} rounded-2xl blur-xl group-hover:blur-2xl transition-all opacity-0 group-hover:opacity-100`} />
+                    <div className={`relative bg-black/80 backdrop-blur-xl border-2 ${metric.borderColor} rounded-2xl p-6 shadow-2xl`}>
                       <motion.div
                         animate={{ rotate: 360 }}
                         transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
                       >
-                        <Icon className="w-8 h-8 text-purple-400 mb-3 mx-auto drop-shadow-[0_0_10px_rgba(139,92,246,0.8)]" />
+                        <Icon className={`w-8 h-8 ${metric.textColor} mb-3 mx-auto`} style={{ filter: `drop-shadow(0 0 10px ${metric.glowColor})` }} />
                       </motion.div>
-                      <div className="text-purple-400 text-sm mb-2 font-semibold drop-shadow-[0_0_5px_rgba(139,92,246,0.5)]">{metric.label}</div>
+                      <div className={`${metric.textColor} text-sm mb-2 font-semibold`} style={{ filter: `drop-shadow(0 0 5px ${metric.glowColor})` }}>{metric.label}</div>
                       <div className="text-white text-3xl font-bold mb-1 drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]">{metric.value}</div>
                       <div className="text-gray-400 text-xs">{metric.sublabel}</div>
                     </div>
@@ -1119,10 +1119,10 @@ export default function Home() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { icon: Brain, title: 'BCI Input', specs: ['High-density EEG (64+ ch)', '24-bit ASIC, FPGA', 'Active shielding'], color: 'purple' },
-              { icon: Atom, title: 'Display Output', specs: ['Spatial Light Modulator', 'SLMs: $13k-$19k', 'Lasers: $25k+'], color: 'blue' },
-              { icon: Cpu, title: 'Compute Node', specs: ['NVIDIA Jetson Orin', '<10ms latency', 'Local clusters'], color: 'green' },
-              { icon: Radio, title: 'Infrastructure', specs: ['Hyperscale centers', '5GW+ power', 'SMR reactors'], color: 'cyan' }
+              { icon: Brain, title: 'BCI Input', specs: ['High-density EEG (64+ ch)', '24-bit ASIC, FPGA', 'Active shielding'], glowColor: '#8b5cf6', borderColor: 'border-purple-500/60', bgColor: 'bg-purple-500/30', textColor: 'text-purple-400' },
+              { icon: Atom, title: 'Display Output', specs: ['Spatial Light Modulator', 'SLMs: $13k-$19k', 'Lasers: $25k+'], glowColor: '#3b82f6', borderColor: 'border-blue-500/60', bgColor: 'bg-blue-500/30', textColor: 'text-blue-400' },
+              { icon: Cpu, title: 'Compute Node', specs: ['NVIDIA Jetson Orin', '<10ms latency', 'Local clusters'], glowColor: '#10b981', borderColor: 'border-green-500/60', bgColor: 'bg-green-500/30', textColor: 'text-green-400' },
+              { icon: Radio, title: 'Infrastructure', specs: ['Hyperscale centers', '5GW+ power', 'SMR reactors'], glowColor: '#22d3ee', borderColor: 'border-cyan-500/60', bgColor: 'bg-cyan-500/30', textColor: 'text-cyan-400' }
             ].map((arch, idx) => {
               const Icon = arch.icon;
               return (
@@ -1135,14 +1135,14 @@ export default function Home() {
                   transition={{ delay: idx * 0.1 }}
                   className="relative group"
                 >
-                  <div className="absolute inset-0 bg-cyan-500/30 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-all" />
-                  <Card className="relative bg-black/80 border-2 border-cyan-500/60 backdrop-blur-xl h-full shadow-xl shadow-cyan-500/20">
+                  <div className={`absolute inset-0 ${arch.bgColor} rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-all`} />
+                  <Card className={`relative bg-black/80 border-2 ${arch.borderColor} backdrop-blur-xl h-full shadow-xl`}>
                     <CardContent className="p-6">
                       <motion.div 
                         whileHover={{ scale: 1.3, rotate: 360 }} 
                         transition={{ duration: 0.7 }}
                       >
-                        <Icon className="w-12 h-12 text-cyan-400 mb-4 drop-shadow-[0_0_10px_rgba(34,211,238,0.8)]" />
+                        <Icon className={`w-12 h-12 ${arch.textColor} mb-4`} style={{ filter: `drop-shadow(0 0 10px ${arch.glowColor})` }} />
                       </motion.div>
                       <h3 className="text-white font-bold text-xl mb-4 drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">{arch.title}</h3>
                       <div className="space-y-2">

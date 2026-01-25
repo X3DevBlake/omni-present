@@ -147,12 +147,12 @@ export default function OmniPresentAcademy() {
           {/* Stats Dashboard */}
           <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
             {[
-              { icon: BookOpen, label: 'Courses', value: stats.totalCourses, color: 'purple' },
-              { icon: Trophy, label: 'Completed', value: stats.coursesCompleted, color: 'green' },
-              { icon: FlaskConical, label: 'Research', value: stats.researchProjects, color: 'cyan' },
-              { icon: Award, label: 'Certificates', value: stats.certificates, color: 'amber' },
-              { icon: TrendingUp, label: 'Hours', value: stats.totalHours, color: 'blue' },
-              { icon: Zap, label: 'Streak', value: `${stats.currentStreak}d`, color: 'pink' }
+              { icon: BookOpen, label: 'Courses', value: stats.totalCourses, textColor: 'text-purple-400', borderColor: 'border-purple-500/40' },
+              { icon: Trophy, label: 'Completed', value: stats.coursesCompleted, textColor: 'text-green-400', borderColor: 'border-green-500/40' },
+              { icon: FlaskConical, label: 'Research', value: stats.researchProjects, textColor: 'text-cyan-400', borderColor: 'border-cyan-500/40' },
+              { icon: Award, label: 'Certificates', value: stats.certificates, textColor: 'text-amber-400', borderColor: 'border-amber-500/40' },
+              { icon: TrendingUp, label: 'Hours', value: stats.totalHours, textColor: 'text-blue-400', borderColor: 'border-blue-500/40' },
+              { icon: Zap, label: 'Streak', value: `${stats.currentStreak}d`, textColor: 'text-pink-400', borderColor: 'border-pink-500/40' }
             ].map((stat, idx) => {
               const Icon = stat.icon;
               return (
@@ -163,9 +163,9 @@ export default function OmniPresentAcademy() {
                   transition={{ delay: idx * 0.1 }}
                   whileHover={{ scale: 1.05, y: -5 }}
                 >
-                  <Card className="bg-black/60 border-2 border-purple-500/40 backdrop-blur-xl">
+                  <Card className={`bg-black/60 border-2 ${stat.borderColor} backdrop-blur-xl`}>
                     <CardContent className="p-4">
-                      <Icon className="w-6 h-6 text-purple-400 mb-2" />
+                      <Icon className={`w-6 h-6 ${stat.textColor} mb-2`} />
                       <div className="text-white text-2xl font-bold">{stat.value}</div>
                       <div className="text-gray-400 text-xs">{stat.label}</div>
                     </CardContent>
