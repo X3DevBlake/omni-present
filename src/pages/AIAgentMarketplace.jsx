@@ -11,6 +11,9 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import MarketplaceDynamics3D from '../components/marketplace/MarketplaceDynamics3D';
 import SpecializationFilters from '../components/marketplace/SpecializationFilters';
+import AgentAnalytics3D from '../components/marketplace/AgentAnalytics3D';
+import AgentCollaborationHub from '../components/marketplace/AgentCollaborationHub';
+import AutomatedOnboarding from '../components/marketplace/AutomatedOnboarding';
 
 export default function AIAgentMarketplace() {
   const queryClient = useQueryClient();
@@ -140,12 +143,15 @@ export default function AIAgentMarketplace() {
         </div>
 
         <Tabs defaultValue="browse" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-5 bg-black/30 p-1">
+          <TabsList className="grid w-full grid-cols-4 lg:grid-cols-8 bg-black/30 p-1 text-xs">
             <TabsTrigger value="browse">Browse</TabsTrigger>
             <TabsTrigger value="filters">Filters</TabsTrigger>
             <TabsTrigger value="recommend">AI Recommendations</TabsTrigger>
             <TabsTrigger value="pricing">Dynamic Pricing</TabsTrigger>
             <TabsTrigger value="3d">Market Dynamics</TabsTrigger>
+            <TabsTrigger value="analytics">Analytics</TabsTrigger>
+            <TabsTrigger value="collaboration">Collaboration</TabsTrigger>
+            <TabsTrigger value="onboarding">Onboarding</TabsTrigger>
           </TabsList>
 
           <TabsContent value="browse">
@@ -339,6 +345,18 @@ export default function AIAgentMarketplace() {
                 <MarketplaceDynamics3D profiles={profiles} />
               </CardContent>
             </Card>
+          </TabsContent>
+
+          <TabsContent value="analytics">
+            <AgentAnalytics3D agentId={agents?.[0]?.id} />
+          </TabsContent>
+
+          <TabsContent value="collaboration">
+            <AgentCollaborationHub />
+          </TabsContent>
+
+          <TabsContent value="onboarding">
+            <AutomatedOnboarding />
           </TabsContent>
         </Tabs>
       </div>
