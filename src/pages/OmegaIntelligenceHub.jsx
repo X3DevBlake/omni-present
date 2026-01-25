@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Brain, Network, GitBranch, Shield, Target, Users } from 'lucide-react';
+import { Brain, Network, GitBranch, ShieldCheck, Target, Users } from 'lucide-react';
 import EmergentGoalVisualizer3D from '../components/omega/EmergentGoalVisualizer3D';
 import KnowledgeGraph3DBuilder from '../components/omega/KnowledgeGraph3DBuilder';
 import AgentCommunicationFlow3D from '../components/omega/AgentCommunicationFlow3D';
@@ -102,7 +102,7 @@ export default function OmegaIntelligenceHub() {
             transition={{ delay: 0.3 }}
             className="bg-black/40 backdrop-blur-xl rounded-xl p-4 border border-green-500/30"
           >
-            <Shield className="w-8 h-8 text-green-400 mb-2" />
+            <ShieldCheck className="w-8 h-8 text-green-400 mb-2" />
             <div className="text-2xl font-bold text-white">99.2%</div>
             <div className="text-sm text-gray-400">Ethical Compliance</div>
           </motion.div>
