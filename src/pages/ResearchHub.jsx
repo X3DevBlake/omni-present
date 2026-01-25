@@ -1,351 +1,249 @@
 import React, { useState } from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { base44 } from '@/api/base44Client';
 import { motion } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Badge } from '@/components/ui/badge';
-import BlockchainIntegrityVisualizer3D from '../components/security/BlockchainIntegrityVisualizer3D';
-import DecentralizedVaultManager3D from '../components/security/DecentralizedVaultManager3D';
-import CollaborationNebula3D from '../components/academy/CollaborationNebula3D';
-import MultiAgentResearchDialogue from '../components/academy/MultiAgentResearchDialogue';
-import ProactiveCollaboratorSuggester from '../components/academy/ProactiveCollaboratorSuggester';
-import CertificationViewer3D from '../components/academy/CertificationViewer3D';
-import { FlaskConical, Users, Shield, Sparkles, Plus, FileText, Award } from 'lucide-react';
-import { toast } from 'sonner';
+import { 
+  FlaskConical, FileText, Users, TrendingUp, Sparkles, Atom, Brain, 
+  Code, Plus, Search, Filter, BookOpen, Award, Rocket
+} from 'lucide-react';
+import { base44 } from '@/api/base44Client';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import InteractiveResearchVisualizer3D from '../components/academy/InteractiveResearchVisualizer3D';
 
 export default function ResearchHub() {
-  const [showCreateForm, setShowCreateForm] = useState(false);
-  const [newProject, setNewProject] = useState({
-    title: '',
-    abstract: '',
-    research_type: 'experimental'
-  });
+  const [activeTab, setActiveTab] = useState('projects');
+  const [newProject, setNewProject] = useState({ title: '', description: '', field: 'ai' });
+  const [user, setUser] = useState(null);
   const queryClient = useQueryClient();
 
-  const { data: user } = useQuery({
-    queryKey: ['current-user'],
-    queryFn: () => base44.auth.me()
-  });
+  React.useEffect(() => {
+    base44.auth.me().then(setUser).catch(() => {});
+  }, []);
 
-  const { data: myProjects = [] } = useQuery({
-    queryKey: ['my-research-projects'],
-    queryFn: () => base44.entities.ResearchProject.filter({ principal_investigator: user.id }),
-    enabled: !!user
-  });
-
-  const { data: allProjects = [] } = useQuery({
-    queryKey: ['all-research-projects'],
+  const { data: projects = [] } = useQuery({
+    queryKey: ['researchProjects'],
     queryFn: () => base44.entities.ResearchProject.list()
   });
 
-  const { data: collaborativeProjects = [] } = useQuery({
-    queryKey: ['collaborative-projects'],
-    queryFn: async () => {
-      const projects = await base44.entities.ResearchProject.list();
-      return projects.filter(p => p.collaborators?.includes(user.id));
-    },
-    enabled: !!user
+  const { data: publications = [] } = useQuery({
+    queryKey: ['publications'],
+    queryFn: () => base44.entities.ResearchProject.filter({ status: 'published' })
   });
 
   const createProjectMutation = useMutation({
-    mutationFn: async (projectData) => {
-      const response = await base44.functions.invoke('academicOrchestrator', {
-        action: 'create_research_project',
-        ...projectData
-      });
-      return response.data;
-    },
+    mutationFn: (projectData) => base44.entities.ResearchProject.create({
+      ...projectData,
+      created_by: user?.email,
+      status: 'planning',
+      team_size: 1,
+      progress: 0
+    }),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['my-research-projects'] });
-      setShowCreateForm(false);
-      setNewProject({ title: '', abstract: '', research_type: 'experimental' });
-      toast.success('Research project created with blockchain-secured data vault!');
+      queryClient.invalidateQueries({ queryKey: ['researchProjects'] });
+      setNewProject({ title: '', description: '', field: 'ai' });
     }
   });
 
-  const requestLiteratureReview = useMutation({
-    mutationFn: async (query) => {
-      const response = await base44.functions.invoke('aiResearchAssistantAgent', {
-        action: 'literature_review',
-        query
-      });
-      return response.data;
-    },
-    onSuccess: (data) => {
-      toast.success('Literature review completed!');
-    }
-  });
-
-  const handleCreateProject = () => {
-    createProjectMutation.mutate(newProject);
-  };
+  const activeProjects = projects.filter(p => p.status === 'active');
+  const completedProjects = projects.filter(p => p.status === 'completed');
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-blue-950 p-6">
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="mb-8"
-      >
-        <div className="flex items-start justify-between">
-          <div>
-            <h1 className="text-4xl font-bold text-white mb-2">Research Hub</h1>
-            <p className="text-gray-300">Blockchain-secured collaborative research</p>
-          </div>
-          <Button
-            onClick={() => setShowCreateForm(!showCreateForm)}
-            className="bg-blue-600 hover:bg-blue-700"
-          >
-            <Plus className="w-4 h-4 mr-2" />
-            New Research Project
-          </Button>
-        </div>
-      </motion.div>
-
-      {/* Create Project Form */}
-      {showCreateForm && (
+    <div className="min-h-screen bg-gradient-to-br from-black via-cyan-950 to-blue-950 p-6">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="mb-8"
         >
-          <Card className="bg-white/10 backdrop-blur-xl border-white/20 p-6">
-            <h3 className="text-xl font-bold text-white mb-4">Create Research Project</h3>
-            <div className="space-y-4">
-              <Input
-                placeholder="Project Title"
-                value={newProject.title}
-                onChange={(e) => setNewProject({ ...newProject, title: e.target.value })}
-                className="bg-white/10 border-white/20 text-white"
-              />
-              <Textarea
-                placeholder="Abstract"
-                value={newProject.abstract}
-                onChange={(e) => setNewProject({ ...newProject, abstract: e.target.value })}
-                className="bg-white/10 border-white/20 text-white h-32"
-              />
-              <select
-                value={newProject.research_type}
-                onChange={(e) => setNewProject({ ...newProject, research_type: e.target.value })}
-                className="w-full bg-white/10 border border-white/20 text-white rounded-lg p-2"
-              >
-                <option value="theoretical">Theoretical</option>
-                <option value="experimental">Experimental</option>
-                <option value="applied">Applied</option>
-                <option value="mixed_methods">Mixed Methods</option>
-              </select>
-              <div className="flex gap-3">
-                <Button
-                  onClick={handleCreateProject}
-                  disabled={createProjectMutation.isPending}
-                  className="bg-blue-600 hover:bg-blue-700"
-                >
-                  {createProjectMutation.isPending ? 'Creating...' : 'Create Project'}
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={() => setShowCreateForm(false)}
-                  className="border-white/20 text-white"
-                >
-                  Cancel
-                </Button>
-              </div>
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h1 className="text-5xl font-black text-white mb-2 bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400">
+                Research Hub
+              </h1>
+              <p className="text-gray-400 text-lg">
+                Collaborative Research & Scientific Innovation
+              </p>
             </div>
-          </Card>
+            <motion.div whileHover={{ scale: 1.1, rotate: 360 }} transition={{ duration: 0.6 }}>
+              <FlaskConical className="w-16 h-16 text-cyan-400" />
+            </motion.div>
+          </div>
+
+          {/* Stats */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[
+              { label: 'Active Projects', value: activeProjects.length, icon: Atom, color: 'cyan' },
+              { label: 'Publications', value: publications.length, icon: FileText, color: 'green' },
+              { label: 'Researchers', value: projects.reduce((sum, p) => sum + (p.team_size || 0), 0), icon: Users, color: 'purple' },
+              { label: 'Completed', value: completedProjects.length, icon: Award, color: 'amber' }
+            ].map((stat, idx) => {
+              const Icon = stat.icon;
+              return (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: idx * 0.1 }}
+                  whileHover={{ scale: 1.05, y: -5 }}
+                >
+                  <Card className={`bg-black/60 border-2 border-${stat.color}-500/40 backdrop-blur-xl`}>
+                    <CardContent className="p-4">
+                      <Icon className={`w-6 h-6 text-${stat.color}-400 mb-2`} />
+                      <div className="text-white text-2xl font-bold">{stat.value}</div>
+                      <div className="text-gray-400 text-xs">{stat.label}</div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              );
+            })}
+          </div>
         </motion.div>
-      )}
 
-      {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <Card className="bg-white/10 backdrop-blur-xl border-white/20">
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-white">My Projects</CardTitle>
-            <FlaskConical className="w-4 h-4 text-blue-400" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold text-white">{myProjects.length}</div>
-          </CardContent>
-        </Card>
+        {/* Main Content */}
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+          <TabsList className="grid w-full grid-cols-3 bg-black/60 backdrop-blur-xl border border-white/10 mb-8 p-2 rounded-2xl">
+            <TabsTrigger value="projects" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-600 data-[state=active]:to-blue-600 rounded-xl py-3">
+              Projects
+            </TabsTrigger>
+            <TabsTrigger value="visualizer" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-600 data-[state=active]:to-pink-600 rounded-xl py-3">
+              3D Explorer
+            </TabsTrigger>
+            <TabsTrigger value="create" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-600 data-[state=active]:to-emerald-600 rounded-xl py-3">
+              Create Project
+            </TabsTrigger>
+          </TabsList>
 
-        <Card className="bg-white/10 backdrop-blur-xl border-white/20">
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-white">Collaborations</CardTitle>
-            <Users className="w-4 h-4 text-purple-400" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold text-white">{collaborativeProjects.length}</div>
-          </CardContent>
-        </Card>
+          <TabsContent value="projects">
+            <div className="grid gap-6">
+              {projects.length === 0 ? (
+                <Card className="bg-black/40 backdrop-blur-xl border-cyan-500/30">
+                  <CardContent className="p-12 text-center">
+                    <FlaskConical className="w-16 h-16 text-cyan-400 mx-auto mb-4" />
+                    <h3 className="text-white text-xl font-bold mb-2">No Research Projects Yet</h3>
+                    <p className="text-gray-400 mb-6">Create your first research project to get started</p>
+                    <Button onClick={() => setActiveTab('create')} className="bg-cyan-600">
+                      <Plus className="w-4 h-4 mr-2" />
+                      Create Project
+                    </Button>
+                  </CardContent>
+                </Card>
+              ) : (
+                projects.map((project, idx) => (
+                  <motion.div
+                    key={project.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: idx * 0.1 }}
+                    whileHover={{ scale: 1.02 }}
+                  >
+                    <Card className="bg-black/60 backdrop-blur-xl border-cyan-500/30">
+                      <CardContent className="p-6">
+                        <div className="flex items-start justify-between mb-4">
+                          <div className="flex-1">
+                            <h3 className="text-white font-bold text-xl mb-2">{project.title}</h3>
+                            <p className="text-gray-400 text-sm mb-3">{project.description}</p>
+                            <div className="flex gap-2">
+                              <Badge className={`bg-${project.status === 'active' ? 'green' : project.status === 'completed' ? 'purple' : 'blue'}-600`}>
+                                {project.status}
+                              </Badge>
+                              <Badge variant="outline" className="border-white/20 text-white">
+                                {project.team_size || 0} researchers
+                              </Badge>
+                            </div>
+                          </div>
+                          <Button size="sm" className="bg-cyan-600">View Details</Button>
+                        </div>
+                        
+                        {project.progress !== undefined && (
+                          <div>
+                            <div className="flex justify-between text-xs mb-1">
+                              <span className="text-gray-400">Progress</span>
+                              <span className="text-white">{project.progress}%</span>
+                            </div>
+                            <div className="w-full bg-gray-800 rounded-full h-2">
+                              <div 
+                                className="h-full bg-gradient-to-r from-cyan-500 to-purple-500 rounded-full transition-all"
+                                style={{ width: `${project.progress}%` }}
+                              />
+                            </div>
+                          </div>
+                        )}
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                ))
+              )}
+            </div>
+          </TabsContent>
 
-        <Card className="bg-white/10 backdrop-blur-xl border-white/20">
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-white">Blockchain Secured</CardTitle>
-            <Shield className="w-4 h-4 text-emerald-400" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-bold text-white">{allProjects.length}</div>
-          </CardContent>
-        </Card>
-      </div>
+          <TabsContent value="visualizer">
+            <InteractiveResearchVisualizer3D />
+          </TabsContent>
 
-      {/* Multi-Agent Collaboration Nebula */}
-      {myProjects.length > 0 && myProjects[0].ai_assistants?.length > 0 && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
-        >
-          <CollaborationNebula3D projectId={myProjects[0].project_id} />
-        </motion.div>
-      )}
-
-      {/* Multi-Agent Research Dialogue */}
-      {myProjects.length > 0 && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
-        >
-          <MultiAgentResearchDialogue projectId={myProjects[0].project_id} />
-        </motion.div>
-      )}
-
-      {/* Proactive Collaborator Suggestions */}
-      {myProjects.length > 0 && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
-        >
-          <ProactiveCollaboratorSuggester projectId={myProjects[0].project_id} />
-        </motion.div>
-      )}
-
-      {/* Blockchain-Verified Credentials */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="mb-8"
-      >
-        <Card className="bg-white/10 backdrop-blur-xl border-white/20">
-          <CardHeader>
-            <CardTitle className="text-white flex items-center gap-2">
-              <Award className="w-6 h-6 text-amber-400" />
-              Blockchain-Verified Academic Credentials
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <CertificationViewer3D userId={user?.id} />
-          </CardContent>
-        </Card>
-      </motion.div>
-
-      {/* Blockchain Integrity Visualization */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="mb-8"
-      >
-        <BlockchainIntegrityVisualizer3D />
-      </motion.div>
-
-      {/* Projects Grid */}
-      <div className="grid grid-cols-1 gap-6 mb-8">
-        {myProjects.map((project, idx) => (
-          <motion.div
-            key={project.id}
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: idx * 0.1 }}
-          >
-            <Card className="bg-white/10 backdrop-blur-xl border-white/20 hover:border-blue-400/50 transition-all">
+          <TabsContent value="create">
+            <Card className="bg-black/60 backdrop-blur-xl border-green-500/30">
               <CardHeader>
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <CardTitle className="text-white text-xl mb-2">{project.title}</CardTitle>
-                    <p className="text-gray-300 text-sm">{project.abstract}</p>
-                  </div>
-                  <Badge className={
-                    project.status === 'active' ? 'bg-green-500' :
-                    project.status === 'peer_review' ? 'bg-amber-500' :
-                    project.status === 'published' ? 'bg-purple-500' :
-                    'bg-gray-500'
-                  }>
-                    {project.status}
-                  </Badge>
-                </div>
+                <CardTitle className="text-white flex items-center gap-3">
+                  <Plus className="w-6 h-6 text-green-400" />
+                  Create Research Project
+                </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="flex items-center gap-2 mb-4">
-                  <span className="text-xs text-gray-400">Collaborators:</span>
-                  {project.collaborators?.map((collabId, i) => (
-                    <Badge key={i} variant="outline" className="text-white border-white/20">
-                      {collabId.substring(0, 8)}
-                    </Badge>
-                  ))}
-                  {project.ai_assistants?.map((aiId, i) => (
-                    <Badge key={i} className="bg-purple-500/30 text-purple-200">
-                      <Sparkles className="w-3 h-3 mr-1" />
-                      AI Assistant
-                    </Badge>
-                  ))}
-                </div>
-
-                <div className="flex gap-2 flex-wrap">
-                  <Button size="sm" className="bg-blue-600 hover:bg-blue-700">
-                    <FileText className="w-4 h-4 mr-2" />
-                    View Details
-                  </Button>
-                  <Button size="sm" variant="outline" className="border-white/20 text-white">
-                    <Shield className="w-4 h-4 mr-2" />
-                    Data Vaults ({project.data_vaults?.length || 0})
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    className="border-white/20 text-white"
-                    onClick={() => requestLiteratureReview.mutate(project.title)}
-                  >
-                    <Sparkles className="w-4 h-4 mr-2" />
-                    AI Literature Review
-                  </Button>
-                </div>
-
-                {/* Milestones */}
-                {project.milestones && project.milestones.length > 0 && (
-                  <div className="mt-4 space-y-2">
-                    <div className="text-xs text-gray-400 font-semibold">Milestones:</div>
-                    {project.milestones.map((milestone, i) => (
-                      <div key={i} className="flex items-center gap-2 text-sm">
-                        <span className={milestone.completed ? 'text-green-400' : 'text-gray-400'}>
-                          {milestone.completed ? '✓' : '○'}
-                        </span>
-                        <span className="text-white">{milestone.milestone_name}</span>
-                        {milestone.blockchain_anchor && (
-                          <Badge variant="outline" className="text-xs border-emerald-400/30 text-emerald-300">
-                            Blockchain ✓
-                          </Badge>
-                        )}
-                      </div>
-                    ))}
+                <div className="space-y-4">
+                  <div>
+                    <label className="text-white text-sm font-semibold mb-2 block">Project Title</label>
+                    <Input
+                      value={newProject.title}
+                      onChange={(e) => setNewProject({ ...newProject, title: e.target.value })}
+                      placeholder="e.g., Neural Network Consciousness Patterns"
+                      className="bg-white/10 border-white/20 text-white"
+                    />
                   </div>
-                )}
+
+                  <div>
+                    <label className="text-white text-sm font-semibold mb-2 block">Description</label>
+                    <Textarea
+                      value={newProject.description}
+                      onChange={(e) => setNewProject({ ...newProject, description: e.target.value })}
+                      placeholder="Describe your research objectives..."
+                      className="bg-white/10 border-white/20 text-white h-32"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="text-white text-sm font-semibold mb-2 block">Research Field</label>
+                    <select
+                      value={newProject.field}
+                      onChange={(e) => setNewProject({ ...newProject, field: e.target.value })}
+                      className="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white"
+                    >
+                      <option value="ai">Artificial Intelligence</option>
+                      <option value="quantum">Quantum Computing</option>
+                      <option value="consciousness">Consciousness Studies</option>
+                      <option value="physics">Computational Physics</option>
+                      <option value="neuroscience">Neuroscience</option>
+                    </select>
+                  </div>
+
+                  <Button 
+                    onClick={() => createProjectMutation.mutate(newProject)}
+                    disabled={!newProject.title || !newProject.description || createProjectMutation.isPending}
+                    className="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 py-6 text-lg"
+                  >
+                    <Rocket className="w-5 h-5 mr-2" />
+                    {createProjectMutation.isPending ? 'Creating...' : 'Launch Research Project'}
+                  </Button>
+                </div>
               </CardContent>
             </Card>
-          </motion.div>
-        ))}
+          </TabsContent>
+        </Tabs>
       </div>
-
-      {/* Decentralized Vault Manager */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-      >
-        <DecentralizedVaultManager3D />
-      </motion.div>
     </div>
   );
 }
