@@ -216,7 +216,7 @@ const CategoryNode = ({ category, onSelectHub, selectedHub, hoveredHub, onHover 
   );
 };
 
-const ConnectionLines = () => {
+const ConnectionLines = ({ categories }) => {
   const linesRef = useRef();
   
   useFrame((state) => {
@@ -229,17 +229,18 @@ const ConnectionLines = () => {
 
   const connections = useMemo(() => {
     const lines = [];
-    for (let i = 0; i < hubCategories.length; i++) {
-      for (let j = i + 1; j < hubCategories.length; j++) {
+    if (!categories) return [];
+    for (let i = 0; i < categories.length; i++) {
+      for (let j = i + 1; j < categories.length; j++) {
         lines.push({
-          start: hubCategories[i].position,
-          end: hubCategories[j].position,
-          color: hubCategories[i].color
+          start: categories[i].position,
+          end: categories[j].position,
+          color: categories[i].color
         });
       }
     }
     return lines;
-  }, []);
+  }, [categories]);
 
   return (
     <group ref={linesRef}>
@@ -257,22 +258,93 @@ const ConnectionLines = () => {
   );
 };
 
+import { base44 } from '@/api/base44Client';
+import { useQuery } from '@tanstack/react-query';
+
+// Category color mapping
+const CATEGORY_CONFIG = {
+  Intelligence: { color: '#8b5cf6', pos: [0, 2, 0] },
+  Academy: { color: '#ec4899', pos: [3, 0, 0] },
+  Network: { color: '#22d3ee', pos: [-3, 0, 0] },
+  Marketplace: { color: '#10b981', pos: [0, -2, 0] },
+  Collaboration: { color: '#f59e0b', pos: [2, 1.5, -1] },
+  Simulation: { color: '#ef4444', pos: [-2, 1.5, -1] },
+  Financial: { color: '#06b6d4', pos: [2, -1.5, -1] },
+  Development: { color: '#a855f7', pos: [-2, -1.5, -1] },
+  Physical: { color: '#fbbf24', pos: [0, 0, 2] },
+  Security: { color: '#ef4444', pos: [0, 0, -2] }
+};
+
 export default function InteractiveHubNetwork3D() {
   const [selectedHub, setSelectedHub] = useState(null);
   const [hoveredHub, setHoveredHub] = useState(null);
+  const [filterCategory, setFilterCategory] = useState('All');
+
+  // Fetch dynamic hubs
+  const { data: hubs = [] } = useQuery({
+    queryKey: ['hubs'],
+    queryFn: () => base44.entities.Hub.list({ limit: 100 }),
+    initialData: []
+  });
+
+  // Group hubs by category for the visualization
+  const groupedHubs = useMemo(() => {
+    const groups = {};
+    hubs.forEach(hub => {
+      if (!groups[hub.category]) {
+        groups[hub.category] = {
+          name: hub.category,
+          ...CATEGORY_CONFIG[hub.category] || { color: '#ffffff', pos: [0,0,0] },
+          hubs: []
+        };
+      }
+      groups[hub.category].hubs.push(hub);
+    });
+    return Object.values(groups);
+  }, [hubs]);
+
+  const displayedCategories = filterCategory === 'All' 
+    ? groupedHubs 
+    : groupedHubs.filter(g => g.name === filterCategory);
 
   return (
     <div className="relative">
+      {/* Category Filter */}
+      <div className="absolute top-4 left-4 z-10 flex flex-wrap gap-2 max-w-[80%]">
+        <button
+          onClick={() => setFilterCategory('All')}
+          className={`px-3 py-1 rounded-full text-xs font-bold transition-all ${
+            filterCategory === 'All' ? 'bg-white text-black' : 'bg-black/50 text-white border border-white/20'
+          }`}
+        >
+          All
+        </button>
+        {Object.keys(CATEGORY_CONFIG).map(cat => (
+          <button
+            key={cat}
+            onClick={() => setFilterCategory(cat)}
+            className={`px-3 py-1 rounded-full text-xs font-bold transition-all ${
+              filterCategory === cat 
+                ? 'bg-white text-black shadow-[0_0_10px_rgba(255,255,255,0.5)]' 
+                : 'bg-black/50 text-gray-300 border border-white/10 hover:border-white/40'
+            }`}
+            style={{ borderColor: filterCategory === cat ? CATEGORY_CONFIG[cat].color : undefined }}
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
+
       <div className="h-[600px] rounded-3xl overflow-hidden border-2 border-purple-500/30 bg-black/60 backdrop-blur-xl">
-        <Canvas camera={{ position: [0, 0, 8], fov: 60 }}>
+        <Canvas camera={{ position: [0, 0, 9], fov: 60 }}>
           <ambientLight intensity={0.3} />
           <pointLight position={[10, 10, 10]} color="#8b5cf6" intensity={2} />
           <pointLight position={[-10, -10, -10]} color="#ec4899" intensity={1.5} />
           <pointLight position={[0, 10, 0]} color="#22d3ee" intensity={1} />
           
-          <ConnectionLines />
+          {filterCategory === 'All' && <ConnectionLines categories={groupedHubs} />}
           
-          {hubCategories.map((category) => (
+          {displayedCategories.map((category) => (
             <CategoryNode
               key={category.name}
               category={category}
@@ -285,10 +357,10 @@ export default function InteractiveHubNetwork3D() {
           
           <OrbitControls
             enableZoom={true}
-            autoRotate
+            autoRotate={!selectedHub}
             autoRotateSpeed={0.3}
             minDistance={5}
-            maxDistance={15}
+            maxDistance={20}
           />
         </Canvas>
       </div>

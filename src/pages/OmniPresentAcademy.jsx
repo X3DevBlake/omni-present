@@ -21,9 +21,118 @@ import XPSystem3D from '../components/gamification/XPSystem3D';
 import DailyStreakTracker3D from '../components/gamification/DailyStreakTracker3D';
 import AchievementUnlocker3D from '../components/gamification/AchievementUnlocker3D';
 
+
+// Sub-components for AI Updates
+function CourseResourceList() {
+  const { data: resources = [] } = useQuery({
+    queryKey: ['academyResources'],
+    queryFn: () => base44.entities.AcademyResource.list()
+  });
+
+  const analyzeMutation = useMutation({
+    mutationFn: (resourceId) => base44.functions.invoke('academy/analyzeResearch', { resourceId }),
+    onSuccess: () => alert("Analysis started! Check proposals shortly.")
+  });
+
+  return (
+    <div className="grid gap-3">
+      {resources.map(res => (
+        <div key={res.id} className="bg-black/40 border border-white/10 p-4 rounded-xl hover:bg-white/5 transition-all">
+          <div className="flex justify-between items-start mb-2">
+            <div>
+              <h4 className="text-white font-medium">{res.title}</h4>
+              <p className="text-xs text-gray-400 mt-1">{res.summary}</p>
+            </div>
+            {res.url && (
+              <a href={res.url} target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:text-indigo-300">
+                <FileText className="w-5 h-5" />
+              </a>
+            )}
+          </div>
+          <div className="flex justify-between items-center mt-3">
+            <Badge variant="outline" className={res.ai_analyzed ? "text-green-400 border-green-400/30" : "text-gray-500"}>
+              {res.ai_analyzed ? "Analyzed" : "Unanalyzed"}
+            </Badge>
+            <Button 
+              size="sm" 
+              variant="ghost"
+              disabled={analyzeMutation.isPending}
+              onClick={() => analyzeMutation.mutate(res.id)}
+              className="text-xs h-7 hover:bg-indigo-500/20 hover:text-indigo-300"
+            >
+              <Sparkles className="w-3 h-3 mr-1" />
+              {analyzeMutation.isPending ? "Thinking..." : "Generate Updates"}
+            </Button>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function CourseUpdateProposals() {
+  const queryClient = useQueryClient();
+  const { data: proposals = [] } = useQuery({
+    queryKey: ['courseProposals'],
+    queryFn: () => base44.entities.CourseUpdateProposal.list({ status: "pending" })
+  });
+
+  const updateMutation = useMutation({
+    mutationFn: ({ proposalId, action }) => base44.functions.invoke('academy/applyCourseUpdate', { proposalId, action }),
+    onSuccess: () => queryClient.invalidateQueries(['courseProposals'])
+  });
+
+  if (proposals.length === 0) return <div className="text-gray-500 italic text-sm">No pending proposals. Analyze a PDF to generate one.</div>;
+
+  return (
+    <div className="space-y-4">
+      {proposals.map(prop => (
+        <div key={prop.id} className="bg-black/40 border border-indigo-500/30 p-4 rounded-xl">
+          <div className="flex items-center gap-2 mb-2">
+            <Bot className="w-4 h-4 text-indigo-400" />
+            <h4 className="text-white font-medium text-sm">AI Proposal</h4>
+          </div>
+          <p className="text-gray-300 text-sm mb-3 bg-indigo-900/20 p-2 rounded">{prop.ai_reasoning}</p>
+
+          {prop.generated_content?.new_lectures && (
+            <div className="mb-3">
+              <div className="text-xs font-bold text-gray-500 uppercase mb-1">Suggested Lectures</div>
+              <ul className="list-disc list-inside text-xs text-gray-300">
+                {prop.generated_content.new_lectures.map((l, i) => <li key={i}>{l}</li>)}
+              </ul>
+            </div>
+          )}
+
+          <div className="flex gap-2 mt-4">
+            <Button 
+              size="sm" 
+              className="bg-green-600 hover:bg-green-700 w-full"
+              onClick={() => updateMutation.mutate({ proposalId: prop.id, action: 'approve' })}
+            >
+              Approve & Publish
+            </Button>
+            <Button 
+              size="sm" 
+              variant="destructive" 
+              className="w-full"
+              onClick={() => updateMutation.mutate({ proposalId: prop.id, action: 'reject' })}
+            >
+              Reject
+            </Button>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export default function OmniPresentAcademy() {
   const [activeTab, setActiveTab] = useState('courses');
   const [user, setUser] = useState(null);
+
+  // Add useMutation and useQueryClient imports if not already present at top level of file
+  // Since this is a partial replace, I assume they are imported. If not, I should have added them. 
+  // Checking imports in original file... they are there.
 
   React.useEffect(() => {
     base44.auth.me().then(setUser).catch(() => {});
@@ -205,7 +314,11 @@ export default function OmniPresentAcademy() {
               <Atom className="w-4 h-4 mr-2" />
               Labs
             </TabsTrigger>
-          </TabsList>
+            <TabsTrigger value="ai-updates" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-indigo-600 data-[state=active]:to-violet-600 rounded-xl py-3">
+              <Sparkles className="w-4 h-4 mr-2" />
+              AI Updates
+            </TabsTrigger>
+            </TabsList>
 
           <TabsContent value="courses">
             {/* PDF Course Materials */}
@@ -511,6 +624,37 @@ export default function OmniPresentAcademy() {
             <div className="space-y-6">
               <NeuralArchitectureStudio3D />
               <QuantumCircuitBuilder3D />
+            </div>
+          </TabsContent>
+
+          <TabsContent value="ai-updates">
+            <div className="space-y-8">
+              {/* Auto-Update Control Panel */}
+              <Card className="bg-gradient-to-br from-indigo-950/80 to-violet-950/60 border-indigo-500/40 backdrop-blur-xl">
+                <CardHeader>
+                  <CardTitle className="text-white text-2xl flex items-center gap-3">
+                    <Brain className="w-8 h-8 text-indigo-400" />
+                    Gemini-Powered Course Updates
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid md:grid-cols-2 gap-8">
+
+                    {/* Resource Library */}
+                    <div className="space-y-4">
+                      <h3 className="text-lg font-semibold text-white mb-2">Research Library (PDFs)</h3>
+                      <CourseResourceList />
+                    </div>
+
+                    {/* AI Proposals */}
+                    <div className="space-y-4">
+                      <h3 className="text-lg font-semibold text-white mb-2">Pending AI Update Proposals</h3>
+                      <CourseUpdateProposals />
+                    </div>
+
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           </TabsContent>
 

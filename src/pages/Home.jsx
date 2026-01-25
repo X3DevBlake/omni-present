@@ -610,10 +610,18 @@ export default function Home() {
             transition={{ duration: 1, type: "spring" }}
             className="text-center"
           >
-            {/* 3D Infinity Logo */}
-            <div className="flex justify-center mb-8">
-              <OmniPresentInfinityLogo3D size={180} />
-            </div>
+            {/* 3D Infinity Logo - Prominently Displayed */}
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1, type: "spring" }}
+              className="flex justify-center mb-12 relative z-20"
+            >
+              <div className="relative">
+                <div className="absolute inset-0 bg-purple-500/30 blur-[100px] rounded-full transform scale-150" />
+                <OmniPresentInfinityLogo3D size={300} />
+              </div>
+            </motion.div>
             
             <motion.div
               animate={{ 
