@@ -4,25 +4,37 @@ import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { 
   Menu, X, GraduationCap, Brain, Radio, Rocket, Code, ChevronDown, Home,
-  Sparkles, Activity, Bot, FlaskConical, Network, Globe
+  Sparkles, Activity, Bot, FlaskConical, Network, Globe, Users, MessageSquare
 } from 'lucide-react';
 import ProfileIcon from './ProfileIcon';
 import { Button } from '@/components/ui/button';
 
 const mainCategories = [
   {
+    id: 'home',
+    name: 'Home',
+    icon: Home,
+    color: '#c084fc',
+    mainPage: 'Home',
+    description: 'Dashboard & Overview',
+    featured: true,
+    subHubs: []
+  },
+  {
     id: 'academy',
     name: 'Academy',
     icon: GraduationCap,
-    color: '#c084fc',
+    color: '#ec4899',
     mainPage: 'OmniPresentAcademy',
     description: 'Learn AI, Quantum & Consciousness',
     featured: true,
     subHubs: [
       { name: 'Main Academy', page: 'OmniPresentAcademy', icon: GraduationCap },
       { name: 'Research Hub', page: 'ResearchHub', icon: FlaskConical },
-      { name: 'AI Training', page: 'AITrainingAcademy', icon: Brain },
-      { name: 'Developer Portal', page: 'DeveloperPortal', icon: Code }
+      { name: 'AI Training Center', page: 'AITrainingAcademy', icon: Brain },
+      { name: 'Developer Portal', page: 'DeveloperPortal', icon: Code },
+      { name: 'AI Training Center', page: 'AITrainingCenter', icon: Brain },
+      { name: 'Academy Dashboard', page: 'AcademyDashboard', icon: Activity }
     ]
   },
   {
@@ -34,10 +46,12 @@ const mainCategories = [
     description: 'AI Systems & Analytics',
     featured: true,
     subHubs: [
-      { name: 'Omega Hub', page: 'OmegaIntelligenceHub', icon: Brain },
+      { name: 'Omega Intelligence', page: 'OmegaIntelligenceHub', icon: Brain },
       { name: 'AI Marketplace', page: 'AIAgentMarketplace', icon: Bot },
       { name: 'Predictive Intelligence', page: 'PredictiveIntelligenceHub', icon: Activity },
-      { name: 'Collaboration', page: 'OmegaCollaborationHub', icon: Network }
+      { name: 'Collaboration Hub', page: 'OmegaCollaborationHub', icon: Network },
+      { name: 'AI Management', page: 'AIManagement', icon: Brain },
+      { name: 'Agent Behavior Studio', page: 'AgentBehaviorStudio', icon: Sparkles }
     ]
   },
   {
@@ -55,16 +69,57 @@ const mainCategories = [
     ]
   },
   {
-    id: 'more',
-    name: 'More',
-    icon: Globe,
-    color: '#8b5cf6',
-    description: 'All Other Hubs',
+    id: 'simulation',
+    name: 'Simulation',
+    icon: Rocket,
+    color: '#f59e0b',
+    mainPage: 'SimulationHub',
+    description: 'Virtual Environments & Testing',
     subHubs: [
       { name: 'Simulation Hub', page: 'SimulationHub', icon: Rocket },
+      { name: 'Simulation Lab', page: 'SimulationLab', icon: FlaskConical },
+      { name: 'Agent Training', page: 'AgentTraining', icon: Brain },
+      { name: 'Sandbox Environment', page: 'SandboxEnvironment', icon: Code }
+    ]
+  },
+  {
+    id: 'marketplace',
+    name: 'Marketplace',
+    icon: Bot,
+    color: '#8b5cf6',
+    mainPage: 'AIAgentMarketplace',
+    description: 'Buy, Sell & Deploy Agents',
+    subHubs: [
+      { name: 'Agent Marketplace', page: 'AIAgentMarketplace', icon: Bot },
+      { name: 'Agent Customization', page: 'AgentCustomization', icon: Sparkles },
+      { name: 'Marketplace Hub', page: 'OmegaMarketplaceHub', icon: Globe }
+    ]
+  },
+  {
+    id: 'collaboration',
+    name: 'Collaboration',
+    icon: Network,
+    color: '#06b6d4',
+    mainPage: 'AgentCollaborationHub',
+    description: 'Team & Multi-Agent Work',
+    subHubs: [
+      { name: 'Collaboration Hub', page: 'AgentCollaborationHub', icon: Network },
+      { name: 'Advanced Collaboration', page: 'AdvancedCollaborationHub', icon: Users },
+      { name: 'Team Orchestration', page: 'TeamOrchestration', icon: Activity },
+      { name: 'Communication Hub', page: 'UnifiedCommunicationHub', icon: MessageSquare }
+    ]
+  },
+  {
+    id: 'monitoring',
+    name: 'Monitoring',
+    icon: Activity,
+    color: '#14b8a6',
+    mainPage: 'EcosystemMonitoringDashboard',
+    description: 'System Health & Analytics',
+    subHubs: [
       { name: 'Ecosystem Monitor', page: 'EcosystemMonitoringDashboard', icon: Globe },
-      { name: 'Agent Enhancement', page: 'AgentEnhancementHub', icon: Sparkles },
-      { name: 'Collaboration', page: 'AgentCollaborationHub', icon: Network }
+      { name: 'Security Monitor', page: 'SecurityMonitoringHub', icon: Globe },
+      { name: 'Analytics Hub', page: 'AnalyticsIntelligenceHub', icon: Activity }
     ]
   }
 ];

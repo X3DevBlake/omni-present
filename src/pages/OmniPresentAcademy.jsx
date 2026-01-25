@@ -202,6 +202,147 @@ export default function OmniPresentAcademy() {
           </TabsList>
 
           <TabsContent value="courses">
+            {/* PDF Course Materials */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mb-8"
+            >
+              <h2 className="text-3xl font-bold text-white mb-6 flex items-center gap-3">
+                <FileText className="w-8 h-8 text-purple-400" />
+                Course Materials Library
+              </h2>
+              
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                {[
+                  { 
+                    title: 'Neural Network Fundamentals',
+                    category: 'Deep Learning',
+                    pages: 248,
+                    topics: ['Backpropagation', 'Gradient Descent', 'Activation Functions'],
+                    color: 'purple',
+                    pdfUrl: '#'
+                  },
+                  { 
+                    title: 'Quantum Computing Primer',
+                    category: 'Quantum Physics',
+                    pages: 186,
+                    topics: ['Qubits', 'Superposition', 'Entanglement'],
+                    color: 'blue',
+                    pdfUrl: '#'
+                  },
+                  { 
+                    title: 'Consciousness Engineering',
+                    category: 'Neuroscience',
+                    pages: 312,
+                    topics: ['IIT 4.0', 'Global Workspace', 'Integrated Information'],
+                    color: 'pink',
+                    pdfUrl: '#'
+                  },
+                  { 
+                    title: 'Advanced Reinforcement Learning',
+                    category: 'Machine Learning',
+                    pages: 274,
+                    topics: ['Policy Gradients', 'Q-Learning', 'Actor-Critic'],
+                    color: 'cyan',
+                    pdfUrl: '#'
+                  },
+                  { 
+                    title: 'Distributed Systems Architecture',
+                    category: 'Systems Design',
+                    pages: 198,
+                    topics: ['CRDTs', 'Consensus', 'Edge Computing'],
+                    color: 'green',
+                    pdfUrl: '#'
+                  },
+                  { 
+                    title: 'Photophoretic Display Technology',
+                    category: 'Optics',
+                    pages: 156,
+                    topics: ['Light Field Theory', 'POT Physics', 'Volumetric Rendering'],
+                    color: 'amber',
+                    pdfUrl: '#'
+                  }
+                ].map((course, idx) => (
+                  <motion.div
+                    key={idx}
+                    whileHover={{ scale: 1.05, y: -10 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: idx * 0.1 }}
+                    className="relative group cursor-pointer"
+                  >
+                    <div className={`absolute inset-0 ${
+                      course.color === 'purple' ? 'bg-purple-500/30' :
+                      course.color === 'blue' ? 'bg-blue-500/30' :
+                      course.color === 'pink' ? 'bg-pink-500/30' :
+                      course.color === 'cyan' ? 'bg-cyan-500/30' :
+                      course.color === 'green' ? 'bg-green-500/30' :
+                      'bg-amber-500/30'
+                    } rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-all`} />
+                    
+                    <Card className={`relative ${
+                      course.color === 'purple' ? 'bg-gradient-to-br from-purple-950/90 to-purple-900/70 border-purple-500/60' :
+                      course.color === 'blue' ? 'bg-gradient-to-br from-blue-950/90 to-blue-900/70 border-blue-500/60' :
+                      course.color === 'pink' ? 'bg-gradient-to-br from-pink-950/90 to-pink-900/70 border-pink-500/60' :
+                      course.color === 'cyan' ? 'bg-gradient-to-br from-cyan-950/90 to-cyan-900/70 border-cyan-500/60' :
+                      course.color === 'green' ? 'bg-gradient-to-br from-green-950/90 to-green-900/70 border-green-500/60' :
+                      'bg-gradient-to-br from-amber-950/90 to-amber-900/70 border-amber-500/60'
+                    } border-2 backdrop-blur-xl h-full`}>
+                      <CardHeader>
+                        <div className="flex items-start justify-between">
+                          <div>
+                            <Badge className="mb-2 bg-white/10 text-white/80">{course.category}</Badge>
+                            <CardTitle className="text-white text-xl">{course.title}</CardTitle>
+                          </div>
+                          <FileText className={`w-8 h-8 ${
+                            course.color === 'purple' ? 'text-purple-400' :
+                            course.color === 'blue' ? 'text-blue-400' :
+                            course.color === 'pink' ? 'text-pink-400' :
+                            course.color === 'cyan' ? 'text-cyan-400' :
+                            course.color === 'green' ? 'text-green-400' :
+                            'text-amber-400'
+                          }`} />
+                        </div>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="mb-4">
+                          <div className="text-gray-400 text-sm mb-2">Topics Covered:</div>
+                          <div className="space-y-1">
+                            {course.topics.map((topic, i) => (
+                              <div key={i} className="flex items-center gap-2">
+                                <div className={`w-1.5 h-1.5 rounded-full ${
+                                  course.color === 'purple' ? 'bg-purple-400' :
+                                  course.color === 'blue' ? 'bg-blue-400' :
+                                  course.color === 'pink' ? 'bg-pink-400' :
+                                  course.color === 'cyan' ? 'bg-cyan-400' :
+                                  course.color === 'green' ? 'bg-green-400' :
+                                  'bg-amber-400'
+                                }`} />
+                                <span className="text-gray-300 text-sm">{topic}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                        <div className="text-gray-500 text-xs mb-4">{course.pages} pages</div>
+                        <Button className={`w-full ${
+                          course.color === 'purple' ? 'bg-purple-600 hover:bg-purple-700' :
+                          course.color === 'blue' ? 'bg-blue-600 hover:bg-blue-700' :
+                          course.color === 'pink' ? 'bg-pink-600 hover:bg-pink-700' :
+                          course.color === 'cyan' ? 'bg-cyan-600 hover:bg-cyan-700' :
+                          course.color === 'green' ? 'bg-green-600 hover:bg-green-700' :
+                          'bg-amber-600 hover:bg-amber-700'
+                        }`}>
+                          <BookOpen className="w-4 h-4 mr-2" />
+                          Open Course
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+
             <EnhancedInteractiveCourseViewer />
             
             {/* Course Categories */}
