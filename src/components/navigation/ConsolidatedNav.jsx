@@ -228,7 +228,7 @@ export default function ConsolidatedNav() {
               </motion.div>
 
               {/* Featured Categories */}
-              <div className="grid md:grid-cols-3 gap-6 mb-12">
+              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
                 {mainCategories.filter(cat => cat.featured).map((category, idx) => {
                   const Icon = category.icon;
                   const isExpanded = expandedCategory === category.id;

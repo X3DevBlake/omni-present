@@ -131,18 +131,21 @@ export default function OmniPresentAcademy() {
           </div>
 
           {/* Gamification Stats */}
-          <div className="grid md:grid-cols-4 gap-4 mb-6">
-            <XPSystem3D userXP={stats.totalXP} userLevel={stats.level} />
-            <DailyStreakTracker3D currentStreak={stats.currentStreak} longestStreak={streakData?.longest_streak || 0} />
-            <AchievementUnlocker3D userEmail={user?.email} />
-            <Card className="bg-gradient-to-br from-purple-950/90 to-indigo-950/90 backdrop-blur-xl border-purple-500/30">
-              <CardContent className="p-4 flex flex-col justify-center items-center h-full">
-                <Trophy className="w-12 h-12 text-purple-400 mb-2" />
-                <div className="text-white text-3xl font-bold">{stats.certificates}</div>
-                <div className="text-gray-400 text-xs">Certificates</div>
-              </CardContent>
-            </Card>
-          </div>
+          {user && (
+            <div className="grid md:grid-cols-4 gap-4 mb-6">
+              <XPSystem3D userXP={stats.totalXP} userLevel={stats.level} />
+              <DailyStreakTracker3D currentStreak={stats.currentStreak} longestStreak={streakData?.longest_streak || 0} />
+              <AchievementUnlocker3D userEmail={user?.email} />
+              <Card className="bg-gradient-to-br from-purple-950/90 to-indigo-950/90 backdrop-blur-xl border-purple-500/30 relative group">
+                <div className="absolute inset-0 bg-purple-500/30 rounded-xl blur-xl opacity-0 group-hover:opacity-100 transition-all" />
+                <CardContent className="p-4 flex flex-col justify-center items-center h-full relative">
+                  <Trophy className="w-12 h-12 text-purple-400 mb-2 drop-shadow-[0_0_10px_rgba(168,85,247,0.8)]" />
+                  <div className="text-white text-3xl font-bold">{stats.certificates}</div>
+                  <div className="text-gray-400 text-xs">Certificates</div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
 
           {/* Stats Dashboard */}
           <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
@@ -208,8 +211,8 @@ export default function OmniPresentAcademy() {
               animate={{ opacity: 1, y: 0 }}
               className="mb-8"
             >
-              <h2 className="text-3xl font-bold text-white mb-6 flex items-center gap-3">
-                <FileText className="w-8 h-8 text-purple-400" />
+              <h2 className="text-3xl font-bold text-white mb-6 flex items-center gap-3 drop-shadow-[0_0_15px_rgba(168,85,247,0.6)]">
+                <FileText className="w-8 h-8 text-purple-400 drop-shadow-[0_0_10px_rgba(168,85,247,0.8)]" />
                 Course Materials Library
               </h2>
               
@@ -516,24 +519,38 @@ export default function OmniPresentAcademy() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mt-12 bg-gradient-to-r from-purple-900/60 via-pink-900/60 to-blue-900/60 backdrop-blur-xl border-2 border-purple-500/40 rounded-3xl p-12 text-center"
+          className="mt-12 relative group"
         >
-          <Rocket className="w-16 h-16 text-purple-400 mx-auto mb-6" />
-          <h2 className="text-4xl font-bold text-white mb-4">
-            Become a Consciousness Engineer
-          </h2>
-          <p className="text-gray-300 text-lg mb-8 max-w-2xl mx-auto">
-            Master the intersection of neuroscience, quantum mechanics, and artificial intelligence
-          </p>
-          <div className="flex gap-4 justify-center">
-            <Button size="lg" className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 px-8 py-6 text-lg">
-              <Sparkles className="w-5 h-5 mr-2" />
-              Start Learning
-            </Button>
-            <Button size="lg" variant="outline" className="border-2 border-purple-400/60 text-purple-200 hover:bg-purple-900/40 px-8 py-6 text-lg">
-              <BookOpen className="w-5 h-5 mr-2" />
-              Course Catalog
-            </Button>
+          <div className="absolute inset-0 bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 rounded-3xl blur-2xl opacity-50 group-hover:opacity-75 transition-all" />
+          <div className="relative bg-gradient-to-r from-purple-900/80 via-pink-900/80 to-blue-900/80 backdrop-blur-2xl border-2 border-purple-500/60 rounded-3xl p-12 text-center shadow-2xl">
+            <motion.div
+              animate={{ rotate: [0, 360] }}
+              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+            >
+              <Rocket className="w-16 h-16 text-purple-400 mx-auto mb-6 drop-shadow-[0_0_20px_rgba(168,85,247,0.9)]" />
+            </motion.div>
+            <h2 className="text-4xl font-bold text-white mb-4 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]">
+              Become a Consciousness Engineer
+            </h2>
+            <p className="text-gray-200 text-lg mb-8 max-w-2xl mx-auto">
+              Master the intersection of neuroscience, quantum mechanics, and artificial intelligence
+            </p>
+            <div className="flex gap-4 justify-center">
+              <motion.div whileHover={{ scale: 1.1, y: -5 }} whileTap={{ scale: 0.95 }} className="relative group">
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl blur-xl opacity-75 group-hover:opacity-100 transition-opacity" />
+                <Button size="lg" className="relative bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 px-8 py-6 text-lg border-2 border-purple-400/50">
+                  <Sparkles className="w-5 h-5 mr-2" />
+                  Start Learning
+                </Button>
+              </motion.div>
+              <motion.div whileHover={{ scale: 1.1, y: -5 }} whileTap={{ scale: 0.95 }} className="relative group">
+                <div className="absolute inset-0 bg-gradient-to-r from-cyan-600 to-blue-600 rounded-2xl blur-xl opacity-75 group-hover:opacity-100 transition-opacity" />
+                <Button size="lg" className="relative bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 px-8 py-6 text-lg border-2 border-cyan-400/50">
+                  <BookOpen className="w-5 h-5 mr-2" />
+                  Course Catalog
+                </Button>
+              </motion.div>
+            </div>
           </div>
         </motion.div>
       </div>

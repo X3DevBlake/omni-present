@@ -381,37 +381,95 @@ export default function Home() {
       {/* Animated Background */}
       <div className="fixed inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-br from-black via-indigo-950 to-purple-950" />
+        {/* Animated gradient orbs */}
         <motion.div
           className="absolute inset-0"
           animate={{
             background: [
-              'radial-gradient(circle at 20% 50%, rgba(139, 92, 246, 0.15) 0%, transparent 50%)',
-              'radial-gradient(circle at 80% 50%, rgba(236, 72, 153, 0.15) 0%, transparent 50%)',
-              'radial-gradient(circle at 50% 80%, rgba(59, 130, 246, 0.15) 0%, transparent 50%)',
-              'radial-gradient(circle at 20% 50%, rgba(139, 92, 246, 0.15) 0%, transparent 50%)'
+              'radial-gradient(circle at 20% 30%, rgba(139, 92, 246, 0.25) 0%, transparent 40%)',
+              'radial-gradient(circle at 80% 70%, rgba(236, 72, 153, 0.25) 0%, transparent 40%)',
+              'radial-gradient(circle at 50% 50%, rgba(34, 211, 238, 0.25) 0%, transparent 40%)',
+              'radial-gradient(circle at 70% 30%, rgba(16, 185, 129, 0.25) 0%, transparent 40%)',
+              'radial-gradient(circle at 20% 30%, rgba(139, 92, 246, 0.25) 0%, transparent 40%)'
             ]
           }}
-          transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+          transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
         />
         
-        {/* Floating particles */}
-        {Array(30).fill(0).map((_, i) => (
+        {/* Secondary gradient layer */}
+        <motion.div
+          className="absolute inset-0"
+          animate={{
+            background: [
+              'radial-gradient(circle at 70% 60%, rgba(236, 72, 153, 0.15) 0%, transparent 50%)',
+              'radial-gradient(circle at 30% 40%, rgba(34, 211, 238, 0.15) 0%, transparent 50%)',
+              'radial-gradient(circle at 60% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%)',
+              'radial-gradient(circle at 70% 60%, rgba(236, 72, 153, 0.15) 0%, transparent 50%)'
+            ]
+          }}
+          transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+        />
+        
+        {/* Energy grid lines */}
+        <svg className="absolute inset-0 w-full h-full opacity-20">
+          <defs>
+            <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
+              <path d="M 50 0 L 0 0 0 50" fill="none" stroke="rgba(139, 92, 246, 0.3)" strokeWidth="0.5"/>
+            </pattern>
+            <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#8b5cf6" />
+              <stop offset="50%" stopColor="#ec4899" />
+              <stop offset="100%" stopColor="#22d3ee" />
+            </linearGradient>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#grid)" />
+          {Array(5).fill(0).map((_, i) => (
+            <motion.line
+              key={i}
+              x1="0"
+              y1={`${i * 25}%`}
+              x2="100%"
+              y2={`${i * 25}%`}
+              stroke="url(#lineGradient)"
+              strokeWidth="1"
+              initial={{ pathLength: 0, opacity: 0 }}
+              animate={{ 
+                pathLength: [0, 1, 0],
+                opacity: [0, 0.6, 0]
+              }}
+              transition={{
+                duration: 4,
+                repeat: Infinity,
+                delay: i * 0.5
+              }}
+            />
+          ))}
+        </svg>
+
+        {/* Floating particles with energy trails */}
+        {Array(40).fill(0).map((_, i) => (
           <motion.div
             key={i}
-            className="absolute w-1 h-1 bg-purple-400 rounded-full"
+            className="absolute rounded-full"
             style={{
+              width: `${2 + Math.random() * 3}px`,
+              height: `${2 + Math.random() * 3}px`,
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
+              background: i % 3 === 0 ? '#8b5cf6' : i % 3 === 1 ? '#ec4899' : '#22d3ee',
+              boxShadow: `0 0 ${10 + Math.random() * 10}px currentColor`
             }}
             animate={{
-              y: [0, -100, 0],
-              opacity: [0, 1, 0],
+              y: [0, -150 - Math.random() * 100, 0],
+              x: [0, Math.random() * 50 - 25, 0],
+              opacity: [0, 0.8, 0],
               scale: [0, 1, 0]
             }}
             transition={{
-              duration: 3 + Math.random() * 2,
+              duration: 4 + Math.random() * 3,
               repeat: Infinity,
-              delay: Math.random() * 3
+              delay: Math.random() * 4,
+              ease: "easeInOut"
             }}
           />
         ))}
@@ -721,6 +779,25 @@ export default function Home() {
 
 
 
+      {/* Interactive Hub Network */}
+      <section className="max-w-7xl mx-auto px-6 py-20 relative z-10">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 text-center drop-shadow-[0_0_20px_rgba(168,85,247,0.6)]">
+            Explore the Ecosystem
+          </h2>
+          <p className="text-gray-300 text-center mb-12 text-lg max-w-3xl mx-auto">
+            Interactive 3D network of all interconnected hubs
+          </p>
+
+          <InteractiveHubNetwork3D />
+        </motion.div>
+      </section>
+
       {/* Quick Access Hubs */}
       <section className="max-w-7xl mx-auto px-6 py-20 relative z-10">
         <motion.div
@@ -729,11 +806,11 @@ export default function Home() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 text-center">
-            Sentient Platform Access
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 text-center drop-shadow-[0_0_20px_rgba(168,85,247,0.6)]">
+            Featured Hubs
           </h2>
-          <p className="text-gray-400 text-center mb-12 text-lg max-w-3xl mx-auto">
-            Navigate through interconnected intelligence hubs
+          <p className="text-gray-300 text-center mb-12 text-lg max-w-3xl mx-auto">
+            Direct access to core platform capabilities
           </p>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
