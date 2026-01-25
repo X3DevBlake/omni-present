@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -1034,18 +1034,19 @@ export default function Home() {
       </section>
 
       {/* Financial Infrastructure */}
-      <section className="relative py-20 bg-gradient-to-r from-emerald-950/40 to-green-950/40 backdrop-blur-xl">
-        <div className="max-w-7xl mx-auto px-6">
+      <section className="relative py-20 z-10">
+        <div className="absolute inset-0 bg-gradient-to-r from-emerald-950/40 via-green-950/40 to-teal-950/40 backdrop-blur-sm" />
+        <div className="max-w-7xl mx-auto px-6 relative">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 text-center">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 text-center drop-shadow-[0_0_20px_rgba(16,185,129,0.5)]">
               Sentient Financial Infrastructure
             </h2>
-            <p className="text-gray-400 text-center mb-12 text-lg max-w-3xl mx-auto">
+            <p className="text-gray-300 text-center mb-12 text-lg max-w-3xl mx-auto">
               Unlimited income through OML tokenization and Active Inference
             </p>
 
@@ -1074,27 +1075,39 @@ export default function Home() {
                 return (
                   <motion.div
                     key={idx}
-                    whileHover={{ scale: 1.05, y: -10 }}
+                    whileHover={{ scale: 1.08, y: -15 }}
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: idx * 0.15 }}
+                    className="relative group"
                   >
-                    <Card className={`bg-gradient-to-br from-${feature.color}-950/80 to-${feature.color}-900/60 border-${feature.color}-500/40 backdrop-blur-xl h-full`}>
+                    <div className={`absolute inset-0 bg-${feature.color}-500/40 rounded-2xl blur-2xl opacity-0 group-hover:opacity-100 transition-all`} />
+                    <Card className={`relative bg-gradient-to-br from-${feature.color}-950/90 to-${feature.color}-900/70 border-2 border-${feature.color}-500/60 backdrop-blur-xl h-full shadow-2xl shadow-${feature.color}-500/30`}>
                       <CardContent className="p-8">
-                        <motion.div whileHover={{ rotate: 360 }} transition={{ duration: 0.6 }}>
-                          <Icon className={`w-14 h-14 text-${feature.color}-400 mb-6`} />
+                        <motion.div 
+                          whileHover={{ rotate: 360, scale: 1.2 }} 
+                          transition={{ duration: 0.8 }}
+                        >
+                          <Icon className={`w-14 h-14 text-${feature.color}-400 mb-6 drop-shadow-[0_0_15px_rgba(139,92,246,0.8)]`} />
                         </motion.div>
-                        <h3 className="text-white font-bold text-2xl mb-6">{feature.title}</h3>
+                        <h3 className={`text-white font-bold text-2xl mb-6 drop-shadow-[0_0_10px_rgba(255,255,255,0.4)]`}>{feature.title}</h3>
                         <div className="space-y-3">
                           {feature.items.map((item, i) => (
                             <motion.div 
                               key={i} 
                               className="flex items-center gap-3"
-                              whileHover={{ x: 5 }}
+                              whileHover={{ x: 8 }}
+                              initial={{ opacity: 0, x: -10 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              transition={{ delay: i * 0.1 }}
                             >
-                              <div className={`w-3 h-3 rounded-full bg-${feature.color}-500`} />
-                              <span className="text-gray-300 text-base">{item}</span>
+                              <motion.div 
+                                className={`w-3 h-3 rounded-full bg-${feature.color}-500`}
+                                animate={{ scale: [1, 1.3, 1] }}
+                                transition={{ duration: 2, repeat: Infinity, delay: i * 0.3 }}
+                              />
+                              <span className="text-gray-200 text-base">{item}</span>
                             </motion.div>
                           ))}
                         </div>
