@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { TrendingUp, TrendingDown, Activity, Loader } from 'lucide-react';
-import { analyzeMarketPredictions } from '../../functions/trading/ai-trading-engine';
+import { base44 } from '@/api/base44Client';
 
 export default function MarketPredictionDashboard() {
   const [predictions, setPredictions] = useState([]);
@@ -11,8 +11,8 @@ export default function MarketPredictionDashboard() {
   const loadPredictions = async () => {
     setLoading(true);
     try {
-      const data = await analyzeMarketPredictions(symbols);
-      setPredictions(data);
+      const response = await base44.functions.invoke('ai-trading-engine', { symbols, action: 'analyze_predictions' });
+      setPredictions(response.data.predictions || []);
     } catch (error) {
       console.error('Error loading predictions:', error);
     } finally {

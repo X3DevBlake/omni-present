@@ -2,11 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Sparkles, TrendingUp, Shield, Loader, DollarSign } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
-import {
-  generateBudgetForecast,
-  calculateFinancialHealthScore,
-  detectFraudulentActivity
-} from '../../functions/banking/ai-budget-forecaster';
+
 
 export default function AIFinancialAdvisor({ userEmail }) {
   const [forecast, setForecast] = useState(null);
@@ -21,15 +17,11 @@ export default function AIFinancialAdvisor({ userEmail }) {
   const loadData = async () => {
     setLoading(true);
     try {
-      const [forecastData, healthData, alertsData] = await Promise.all([
-        generateBudgetForecast(userEmail),
-        calculateFinancialHealthScore(userEmail),
-        detectFraudulentActivity(userEmail)
-      ]);
-
-      setForecast(forecastData);
-      setHealthScore(healthData);
-      setFraudAlerts(alertsData);
+      const response = await base44.functions.invoke('ai-budget-forecaster', { user_email: userEmail });
+      
+      setForecast(response.data.forecast);
+      setHealthScore(response.data.health_score);
+      setFraudAlerts(response.data.fraud_alerts || []);
     } catch (error) {
       console.error('Error loading financial data:', error);
     } finally {

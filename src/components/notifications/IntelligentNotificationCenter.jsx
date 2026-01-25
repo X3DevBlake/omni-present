@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Bell, Send, CheckCircle2, AlertCircle } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
-import { routeNotification, smartGroupNotifications } from '../../functions/notifications/intelligent-routing-engine';
+
 
 export default function IntelligentNotificationCenter() {
   const [notifications, setNotifications] = useState([]);
@@ -44,9 +44,9 @@ export default function IntelligentNotificationCenter() {
 
     // Route using intelligent system
     try {
-      const result = await routeNotification(alert, userEmail, preferences);
+      const response = await base44.functions.invoke('intelligent-routing-engine', { alert, user_email: userEmail, preferences });
       setNotifications(prev =>
-        prev.map(n => n.id === alert.id ? { ...n, status: 'delivered', routes: result.routes } : n)
+        prev.map(n => n.id === alert.id ? { ...n, status: 'delivered', routes: response.data.routes } : n)
       );
     } catch (error) {
       setNotifications(prev =>
@@ -71,9 +71,9 @@ export default function IntelligentNotificationCenter() {
 
       setNotifications(prev => [alert, ...prev]);
 
-      const result = await routeNotification(alert, userEmail, preferences);
+      const response = await base44.functions.invoke('intelligent-routing-engine', { alert, user_email: userEmail, preferences });
       setNotifications(prev =>
-        prev.map(n => n.id === alert.id ? { ...n, status: 'delivered', routes: result.routes } : n)
+        prev.map(n => n.id === alert.id ? { ...n, status: 'delivered', routes: response.data.routes } : n)
       );
 
       setTestAlert({ type: 'anomalies', content: '' });

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Phone, Mic, Send } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
-import { orchestrateTwilioFlow } from '../../functions/integrations/unified-voice-orchestration';
+
 
 export default function TwilioGeminiVoiceCall() {
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -22,7 +22,12 @@ export default function TwilioGeminiVoiceCall() {
 
     setInitiating(true);
     try {
-      const result = await orchestrateTwilioFlow(phoneNumber, query, userEmail);
+      const response = await base44.functions.invoke('unified-voice-orchestration', { 
+        phone_number: phoneNumber, 
+        query, 
+        user_email: userEmail 
+      });
+      const result = response.data;
 
       setCallStatus({
         id: Date.now(),

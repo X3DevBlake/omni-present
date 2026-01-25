@@ -1,4 +1,6 @@
 import React from 'react';
+import EnhancedMainNavRevamped from './components/navigation/EnhancedMainNavRevamped';
+import BackButton from './components/navigation/BackButton';
 import { GamificationProvider } from './components/gamification/GamificationContext';
 import { PersonalizationProvider } from './components/personalization/PersonalizationContext';
 import { AnimationProvider } from './components/animations/AnimationContext';
@@ -41,7 +43,11 @@ class ErrorBoundary extends React.Component {
 function LayoutContent({ children, currentPageName }) {
   return (
     <>
-      {children}
+      <EnhancedMainNavRevamped />
+      <BackButton />
+      <div className="pt-20">
+        {children}
+      </div>
     </>
   );
 }

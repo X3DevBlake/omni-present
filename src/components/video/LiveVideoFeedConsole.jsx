@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Video, Mic, Send, Copy, CheckCircle2, Loader } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
-import { initializeVideoCall, processVideoTranscript } from '../../functions/video/video-call-orchestration';
+
 
 export default function LiveVideoFeedConsole() {
   const [callActive, setCallActive] = useState(false);
@@ -31,8 +31,8 @@ export default function LiveVideoFeedConsole() {
         topics: ['portfolio review', 'investment strategy'],
       };
 
-      const summary = await initializeVideoCall(data, participants);
-      setCallData(summary);
+      const response = await base44.functions.invoke('video-call-orchestration', { ...data, participants });
+      setCallData(response.data);
 
       // Generate video link
       const link = `https://zoom.us/j/${Date.now()}`;
@@ -60,8 +60,12 @@ Participants: ${participants.map(p => p.name).join(', ')}`,
 
     try {
       // Process transcript with Gemini
-      const callAnalysis = await processVideoTranscript(transcript, `call_${Date.now()}`);
-      setAnalysis(callAnalysis);
+      const response = await base44.functions.invoke('video-call-orchestration', { 
+        action: 'process_transcript',
+        transcript, 
+        call_id: `call_${Date.now()}` 
+      });
+      setAnalysis(response.data);
       setCallActive(false);
     } catch (error) {
       console.error('Error ending call:', error);

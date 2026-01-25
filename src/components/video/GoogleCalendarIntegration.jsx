@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, Plus, Clock, Users, Loader } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
-import { scheduleVideoCallWithCalendar } from '../../functions/video/video-call-orchestration';
+
 
 export default function GoogleCalendarIntegration() {
   const [events, setEvents] = useState([
@@ -40,7 +40,7 @@ export default function GoogleCalendarIntegration() {
 
     setScheduling(true);
     try {
-      const result = await scheduleVideoCallWithCalendar({
+      await base44.functions.invoke('video-call-orchestration', {
         title: newEvent.title,
         description: 'Financial consultation video call',
         date: newEvent.date,

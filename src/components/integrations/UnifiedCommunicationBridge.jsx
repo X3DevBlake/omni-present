@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { MessageSquare, Phone, Send, Volume2, Zap } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
-import { orchestrateSlackToVoice, orchestrateTwilioFlow, synthesizeAndDeliver } from '../../functions/integrations/unified-voice-orchestration';
+
 
 export default function UnifiedCommunicationBridge() {
   const [messageInput, setMessageInput] = useState('');
@@ -34,17 +34,26 @@ export default function UnifiedCommunicationBridge() {
 
       // Route based on primary channel
       if (deliveryChannels.includes('slack')) {
-        const result = await orchestrateSlackToVoice(messageInput, userEmail);
+        const response = await base44.functions.invoke('unified-voice-orchestration', { 
+          message: messageInput, 
+          user_email: userEmail,
+          action: 'slack_to_voice'
+        });
         setConversations(prev =>
           prev.map(c => c.id === conversation.id
-            ? { ...c, status: 'completed', response: result.response }
+            ? { ...c, status: 'completed', response: response.data.response }
             : c
           )
         );
       }
 
       // Synthesize and deliver to all channels
-      await synthesizeAndDeliver(messageInput, deliveryChannels, userEmail);
+      await base44.functions.invoke('unified-voice-orchestration', { 
+        message: messageInput, 
+        channels: deliveryChannels, 
+        user_email: userEmail,
+        action: 'synthesize_deliver'
+      });
 
       setMessageInput('');
     } catch (error) {

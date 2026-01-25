@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Zap, TrendingUp, TrendingDown, Loader, AlertCircle, CheckCircle2 } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
-import { generateTradingStrategy, executeAutomatedTrade } from '../../functions/trading/ai-trading-engine';
+
 
 export default function AITradingStrategyPanel({ userEmail }) {
   const [strategy, setStrategy] = useState(null);
@@ -17,8 +17,12 @@ export default function AITradingStrategyPanel({ userEmail }) {
   const generateStrategy = async () => {
     setLoading(true);
     try {
-      const newStrategy = await generateTradingStrategy(userEmail, preferences);
-      setStrategy(newStrategy);
+      const response = await base44.functions.invoke('ai-trading-engine', { 
+        user_email: userEmail, 
+        preferences, 
+        action: 'generate_strategy' 
+      });
+      setStrategy(response.data.strategy);
     } catch (error) {
       console.error('Error generating strategy:', error);
     } finally {
@@ -29,11 +33,15 @@ export default function AITradingStrategyPanel({ userEmail }) {
   const executeAction = async (action) => {
     setExecuting(true);
     try {
-      await executeAutomatedTrade(userEmail, {
-        symbol: action.symbol,
-        action_type: action.type,
-        amount: action.amount,
-        price_limit: action.entry_point
+      await base44.functions.invoke('ai-trading-engine', {
+        user_email: userEmail,
+        action: 'execute_trade',
+        trade_data: {
+          symbol: action.symbol,
+          action_type: action.type,
+          amount: action.amount,
+          price_limit: action.entry_point
+        }
       });
       alert(`Trade executed: ${action.type} ${action.symbol}`);
     } catch (error) {
