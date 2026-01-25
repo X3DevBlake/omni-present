@@ -1,5 +1,5 @@
 import React from 'react';
-import EnhancedMainNavRevamped from './components/navigation/EnhancedMainNavRevamped';
+import ConsolidatedNav from './components/navigation/ConsolidatedNav';
 import BackButton from './components/navigation/BackButton';
 import GamificationOverlay from './components/gamification/GamificationOverlay';
 import { GamificationProvider } from './components/gamification/GamificationContext';
@@ -44,7 +44,7 @@ class ErrorBoundary extends React.Component {
 function LayoutContent({ children, currentPageName }) {
   return (
     <>
-      <EnhancedMainNavRevamped />
+      <ConsolidatedNav />
       <BackButton />
       <GamificationOverlay />
       <div className="pt-20">

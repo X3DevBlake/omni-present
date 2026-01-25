@@ -23,11 +23,7 @@ import CRDTSyncVisualizer3D from '../components/omega/CRDTSyncVisualizer3D';
 import SentientFinanceEngine3D from '../components/omega/SentientFinanceEngine3D';
 import EnhancedRedCommVisualizer3D from '../components/network/EnhancedRedCommVisualizer3D';
 import NeuralEnhancementVisualizer3D from '../components/augmentation/NeuralEnhancementVisualizer3D';
-import XPSystem3D from '../components/gamification/XPSystem3D';
-import AchievementUnlocker3D from '../components/gamification/AchievementUnlocker3D';
-import Leaderboard3D from '../components/gamification/Leaderboard3D';
-import DailyStreakTracker3D from '../components/gamification/DailyStreakTracker3D';
-import GamificationShowcase3D from '../components/home/GamificationShowcase3D';
+
 
 // Interactive Node with Info Panel
 const InteractiveNode = ({ node, onSelect, isSelected, isHovered, onHover }) => {
@@ -228,23 +224,6 @@ export default function Home() {
   const [hoveredNode, setHoveredNode] = useState(null);
   const [coreActive, setCoreActive] = useState(false);
   const [nodeDetailPanel, setNodeDetailPanel] = useState(null);
-  const [user, setUser] = useState(null);
-  const [userStats, setUserStats] = useState({ xp: 2450, level: 12, streak: 12 });
-
-  React.useEffect(() => {
-    base44.auth.me().then(setUser).catch(() => {});
-  }, []);
-
-  React.useEffect(() => {
-    if (user) {
-      // Track daily login streak
-      base44.functions.invoke('trackDailyStreak').then(response => {
-        if (response.data) {
-          setUserStats(prev => ({ ...prev, streak: response.data.current_streak }));
-        }
-      }).catch(console.error);
-    }
-  }, [user]);
 
   useEffect(() => {
     document.title = 'Omni-Present Omega: Neural Isomorphism & Volumetric Sentience';
@@ -740,31 +719,7 @@ export default function Home() {
         </motion.div>
       </section>
 
-      {/* Gamification Dashboard */}
-      {user && (
-        <section className="max-w-7xl mx-auto px-6 py-20 relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 text-center">
-              Your Journey
-            </h2>
-            <p className="text-gray-400 text-center mb-12 text-lg max-w-3xl mx-auto">
-              Track your progress and compete globally
-            </p>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <XPSystem3D userXP={userStats.xp} userLevel={userStats.level} />
-              <DailyStreakTracker3D currentStreak={userStats.streak} longestStreak={28} />
-              <AchievementUnlocker3D userEmail={user?.email} />
-              <Leaderboard3D />
-            </div>
-          </motion.div>
-        </section>
-      )}
 
       {/* Quick Access Hubs */}
       <section className="max-w-7xl mx-auto px-6 py-20 relative z-10">
@@ -781,9 +736,7 @@ export default function Home() {
             Navigate through interconnected intelligence hubs
           </p>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <GamificationShowcase3D />
-            
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {hubFeatures.map((hub, idx) => {
               const Icon = hub.icon;
               return (

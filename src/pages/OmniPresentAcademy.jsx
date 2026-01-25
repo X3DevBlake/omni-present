@@ -14,6 +14,9 @@ import EnhancedInteractiveCourseViewer from '../components/academy/EnhancedInter
 import InteractiveResearchVisualizer3D from '../components/academy/InteractiveResearchVisualizer3D';
 import NeuralArchitectureStudio3D from '../components/academy/NeuralArchitectureStudio3D';
 import QuantumCircuitBuilder3D from '../components/academy/QuantumCircuitBuilder3D';
+import XPSystem3D from '../components/gamification/XPSystem3D';
+import DailyStreakTracker3D from '../components/gamification/DailyStreakTracker3D';
+import AchievementUnlocker3D from '../components/gamification/AchievementUnlocker3D';
 
 export default function OmniPresentAcademy() {
   const [activeTab, setActiveTab] = useState('courses');
@@ -62,8 +65,25 @@ export default function OmniPresentAcademy() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-indigo-950 to-purple-950 p-6">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-black overflow-hidden relative">
+      {/* Animated Background */}
+      <div className="fixed inset-0 z-0">
+        <div className="absolute inset-0 bg-gradient-to-br from-black via-indigo-950 to-purple-950" />
+        <motion.div
+          className="absolute inset-0"
+          animate={{
+            background: [
+              'radial-gradient(circle at 30% 50%, rgba(139, 92, 246, 0.2) 0%, transparent 50%)',
+              'radial-gradient(circle at 70% 50%, rgba(236, 72, 153, 0.2) 0%, transparent 50%)',
+              'radial-gradient(circle at 50% 70%, rgba(34, 211, 238, 0.2) 0%, transparent 50%)',
+              'radial-gradient(circle at 30% 50%, rgba(139, 92, 246, 0.2) 0%, transparent 50%)'
+            ]
+          }}
+          transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+        />
+      </div>
+
+      <div className="max-w-7xl mx-auto relative z-10 p-6">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -72,15 +92,41 @@ export default function OmniPresentAcademy() {
         >
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h1 className="text-5xl font-black text-white mb-2 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400">
+              <motion.h1 
+                className="text-5xl font-black mb-2 relative"
+                style={{ 
+                  background: 'linear-gradient(90deg, #c084fc 0%, #ec4899 50%, #22d3ee 100%)',
+                  backgroundSize: '200% 100%',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text'
+                }}
+                animate={{ 
+                  backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
+                  filter: [
+                    'drop-shadow(0 0 20px rgba(139, 92, 246, 0.6))',
+                    'drop-shadow(0 0 40px rgba(236, 72, 153, 0.7))',
+                    'drop-shadow(0 0 20px rgba(34, 211, 238, 0.6))',
+                    'drop-shadow(0 0 20px rgba(139, 92, 246, 0.6))'
+                  ]
+                }}
+                transition={{ 
+                  backgroundPosition: { duration: 6, repeat: Infinity, ease: "linear" },
+                  filter: { duration: 3, repeat: Infinity, ease: "easeInOut" }
+                }}
+              >
                 Omni-Present Academy
-              </h1>
-              <p className="text-gray-400 text-lg">
+              </motion.h1>
+              <p className="text-gray-300 text-lg">
                 Advanced AI, Quantum Computing & Consciousness Engineering
               </p>
             </div>
-            <motion.div whileHover={{ scale: 1.1, rotate: 360 }} transition={{ duration: 0.6 }}>
-              <GraduationCap className="w-16 h-16 text-purple-400" />
+            <motion.div 
+              whileHover={{ scale: 1.2, rotate: 360 }} 
+              transition={{ duration: 0.8 }}
+              animate={{ rotate: [0, 10, -10, 0] }}
+            >
+              <GraduationCap className="w-16 h-16 text-purple-400 drop-shadow-[0_0_20px_rgba(168,85,247,0.8)]" />
             </motion.div>
           </div>
 
@@ -117,9 +163,9 @@ export default function OmniPresentAcademy() {
                   transition={{ delay: idx * 0.1 }}
                   whileHover={{ scale: 1.05, y: -5 }}
                 >
-                  <Card className={`bg-black/60 border-2 border-${stat.color}-500/40 backdrop-blur-xl`}>
+                  <Card className="bg-black/60 border-2 border-purple-500/40 backdrop-blur-xl">
                     <CardContent className="p-4">
-                      <Icon className={`w-6 h-6 text-${stat.color}-400 mb-2`} />
+                      <Icon className="w-6 h-6 text-purple-400 mb-2" />
                       <div className="text-white text-2xl font-bold">{stat.value}</div>
                       <div className="text-gray-400 text-xs">{stat.label}</div>
                     </CardContent>
@@ -174,11 +220,24 @@ export default function OmniPresentAcademy() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: idx * 0.1 }}
                   >
-                    <Card className={`bg-gradient-to-br from-${category.color}-950/80 to-${category.color}-900/60 border-${category.color}-500/40 backdrop-blur-xl cursor-pointer`}>
-                      <CardContent className="p-6">
-                        <Icon className={`w-12 h-12 text-${category.color}-400 mb-4`} />
+                    <Card className={`${
+                      idx === 0 ? 'bg-gradient-to-br from-purple-950/80 to-purple-900/60 border-purple-500/40' :
+                      idx === 1 ? 'bg-gradient-to-br from-blue-950/80 to-blue-900/60 border-blue-500/40' :
+                      'bg-gradient-to-br from-pink-950/80 to-pink-900/60 border-pink-500/40'
+                    } backdrop-blur-xl cursor-pointer group relative`}>
+                      <div className={`absolute inset-0 ${
+                        idx === 0 ? 'bg-purple-500/30' :
+                        idx === 1 ? 'bg-blue-500/30' :
+                        'bg-pink-500/30'
+                      } rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-all`} />
+                      <CardContent className="p-6 relative">
+                        <Icon className={`w-12 h-12 ${
+                          idx === 0 ? 'text-purple-400 drop-shadow-[0_0_10px_rgba(168,85,247,0.8)]' :
+                          idx === 1 ? 'text-blue-400 drop-shadow-[0_0_10px_rgba(59,130,246,0.8)]' :
+                          'text-pink-400 drop-shadow-[0_0_10px_rgba(236,72,153,0.8)]'
+                        } mb-4`} />
                         <h3 className="text-white font-bold text-xl mb-2">{category.title}</h3>
-                        <div className="text-gray-400 text-sm">{category.count} courses available</div>
+                        <div className="text-gray-300 text-sm">{category.count} courses available</div>
                       </CardContent>
                     </Card>
                   </motion.div>
@@ -188,11 +247,61 @@ export default function OmniPresentAcademy() {
           </TabsContent>
 
           <TabsContent value="assignments">
-            <InteractiveAssignmentHub3D />
+            <Card className="bg-gradient-to-br from-blue-950/80 to-cyan-950/60 border-blue-500/40 backdrop-blur-xl">
+              <CardHeader>
+                <CardTitle className="text-white text-2xl">Active Assignments</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-400 mb-4">Track and complete your course assignments</p>
+                <div className="grid gap-4">
+                  {[
+                    { title: 'Neural Network Implementation', course: 'Deep Learning', due: '2 days', progress: 65 },
+                    { title: 'Quantum Circuit Design', course: 'Quantum Computing', due: '5 days', progress: 30 }
+                  ].map((assignment, idx) => (
+                    <Card key={idx} className="bg-black/60 border-blue-500/30">
+                      <CardContent className="p-4">
+                        <h3 className="text-white font-bold mb-1">{assignment.title}</h3>
+                        <p className="text-gray-500 text-sm mb-2">{assignment.course}</p>
+                        <div className="flex items-center gap-3">
+                          <div className="flex-1 bg-gray-800 rounded-full h-2">
+                            <div className="h-full bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full" style={{ width: `${assignment.progress}%` }} />
+                          </div>
+                          <span className="text-white text-sm">{assignment.progress}%</span>
+                        </div>
+                        <p className="text-gray-500 text-xs mt-2">Due in {assignment.due}</p>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
           </TabsContent>
 
           <TabsContent value="certifications">
-            <CertificationGalaxy3D />
+            <Card className="bg-gradient-to-br from-amber-950/80 to-orange-950/60 border-amber-500/40 backdrop-blur-xl">
+              <CardHeader>
+                <CardTitle className="text-white text-2xl">Your Certifications</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-400 mb-6">Earn blockchain-verified credentials</p>
+                <div className="grid md:grid-cols-2 gap-4">
+                  {achievements.length > 0 ? achievements.map((cert, idx) => (
+                    <Card key={idx} className="bg-black/60 border-amber-500/30">
+                      <CardContent className="p-6 text-center">
+                        <Award className="w-16 h-16 text-amber-400 mx-auto mb-3" />
+                        <h3 className="text-white font-bold">{cert.title || `Achievement ${idx + 1}`}</h3>
+                        <p className="text-gray-500 text-sm mt-1">Earned {new Date(cert.created_date).toLocaleDateString()}</p>
+                      </CardContent>
+                    </Card>
+                  )) : (
+                    <div className="col-span-2 text-center py-12">
+                      <Award className="w-24 h-24 text-amber-400/30 mx-auto mb-4" />
+                      <p className="text-gray-500">Complete courses to earn certifications</p>
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
           </TabsContent>
 
           <TabsContent value="research">
@@ -225,12 +334,22 @@ export default function OmniPresentAcademy() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: idx * 0.15 }}
                   >
-                    <Card className={`bg-gradient-to-br from-${opportunity.color}-950/80 to-black/60 border-${opportunity.color}-500/40 backdrop-blur-xl`}>
-                      <CardContent className="p-6">
-                        <Icon className={`w-10 h-10 text-${opportunity.color}-400 mb-4`} />
+                    <Card className={`${
+                      idx === 0 ? 'bg-gradient-to-br from-cyan-950/80 to-black/60 border-cyan-500/40' :
+                      'bg-gradient-to-br from-green-950/80 to-black/60 border-green-500/40'
+                    } backdrop-blur-xl group relative`}>
+                      <div className={`absolute inset-0 ${
+                        idx === 0 ? 'bg-cyan-500/30' : 'bg-green-500/30'
+                      } rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-all`} />
+                      <CardContent className="p-6 relative">
+                        <Icon className={`w-10 h-10 ${
+                          idx === 0 ? 'text-cyan-400' : 'text-green-400'
+                        } mb-4`} />
                         <h3 className="text-white font-bold text-xl mb-2">{opportunity.title}</h3>
                         <p className="text-gray-400 text-sm mb-4">{opportunity.description}</p>
-                        <Button className={`w-full bg-${opportunity.color}-600 hover:bg-${opportunity.color}-700`}>
+                        <Button className={`w-full ${
+                          idx === 0 ? 'bg-cyan-600 hover:bg-cyan-700' : 'bg-green-600 hover:bg-green-700'
+                        }`}>
                           {opportunity.action}
                         </Button>
                       </CardContent>
