@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { 
-  Menu, X, GraduationCap, Brain, Radio, Rocket, Code, ChevronDown, Home,
+  Menu, X, GraduationCap, Brain, Radio, Rocket, Code, ChevronDown, Home as HomeIcon,
   Sparkles, Activity, Bot, FlaskConical, Network, Globe, Users, MessageSquare
 } from 'lucide-react';
 import ProfileIcon from './ProfileIcon';
@@ -13,7 +13,7 @@ const mainCategories = [
   {
     id: 'home',
     name: 'Home',
-    icon: Home,
+    icon: HomeIcon,
     color: '#c084fc',
     mainPage: 'Home',
     description: 'Dashboard & Overview',
