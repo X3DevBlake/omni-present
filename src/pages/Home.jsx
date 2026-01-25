@@ -24,6 +24,7 @@ import SentientFinanceEngine3D from '../components/omega/SentientFinanceEngine3D
 import EnhancedRedCommVisualizer3D from '../components/network/EnhancedRedCommVisualizer3D';
 import NeuralEnhancementVisualizer3D from '../components/augmentation/NeuralEnhancementVisualizer3D';
 import InteractiveHubNetwork3D from '../components/home/InteractiveHubNetwork3D';
+import OmniPresentInfinityLogo3D from '../components/home/OmniPresentInfinityLogo3D';
 
 
 // Interactive Node with Info Panel
@@ -334,11 +335,11 @@ export default function Home() {
 
   const hubFeatures = [
     { 
-      name: 'AI Agent Marketplace', 
-      page: 'AIAgentMarketplace', 
-      icon: Bot, 
+      name: 'AI Labs', 
+      page: 'AILabs', 
+      icon: Cpu, 
       color: 'from-purple-500 to-pink-500',
-      description: 'Deploy autonomous agents across platforms'
+      description: 'Advanced AI experimentation & research'
     },
     { 
       name: 'Omega Intelligence', 
@@ -355,11 +356,11 @@ export default function Home() {
       description: '6G THz interplanetary mesh'
     },
     { 
-      name: 'Research Portal', 
-      page: 'ResearchHub', 
-      icon: Activity, 
+      name: 'AI Agent Marketplace', 
+      page: 'AIAgentMarketplace', 
+      icon: Bot, 
       color: 'from-orange-500 to-red-500',
-      description: 'Collaborative research projects'
+      description: 'Deploy autonomous agents'
     },
     { 
       name: 'Academy Portal', 
@@ -369,11 +370,11 @@ export default function Home() {
       description: 'Advanced AI & quantum learning'
     },
     { 
-      name: 'Developer Hub', 
-      page: 'DeveloperPortal', 
-      icon: Code, 
+      name: 'Simulation Hub', 
+      page: 'SimulationHub', 
+      icon: Rocket, 
       color: 'from-indigo-500 to-blue-500',
-      description: 'SDK documentation & API tools'
+      description: 'Virtual environments & testing'
     }
   ];
 
@@ -609,6 +610,11 @@ export default function Home() {
             transition={{ duration: 1, type: "spring" }}
             className="text-center"
           >
+            {/* 3D Infinity Logo */}
+            <div className="flex justify-center mb-8">
+              <OmniPresentInfinityLogo3D size={180} />
+            </div>
+            
             <motion.div
               animate={{ 
                 scale: [1, 1.05, 1],

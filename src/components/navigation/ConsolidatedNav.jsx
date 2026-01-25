@@ -31,9 +31,8 @@ const mainCategories = [
     subHubs: [
       { name: 'Main Academy', page: 'OmniPresentAcademy', icon: GraduationCap },
       { name: 'Research Hub', page: 'ResearchHub', icon: FlaskConical },
-      { name: 'AI Training Center', page: 'AITrainingAcademy', icon: Brain },
-      { name: 'Developer Portal', page: 'DeveloperPortal', icon: Code },
       { name: 'AI Training Center', page: 'AITrainingCenter', icon: Brain },
+      { name: 'Developer Portal', page: 'DeveloperPortal', icon: Code },
       { name: 'Academy Dashboard', page: 'AcademyDashboard', icon: Activity }
     ]
   },
@@ -47,9 +46,9 @@ const mainCategories = [
     featured: true,
     subHubs: [
       { name: 'Omega Intelligence', page: 'OmegaIntelligenceHub', icon: Brain },
-      { name: 'AI Marketplace', page: 'AIAgentMarketplace', icon: Bot },
+      { name: 'AI Labs', page: 'AILabs', icon: FlaskConical },
+      { name: 'AI Playground', page: 'AIPlayground', icon: Sparkles },
       { name: 'Predictive Intelligence', page: 'PredictiveIntelligenceHub', icon: Activity },
-      { name: 'Collaboration Hub', page: 'OmegaCollaborationHub', icon: Network },
       { name: 'AI Management', page: 'AIManagement', icon: Brain },
       { name: 'Agent Behavior Studio', page: 'AgentBehaviorStudio', icon: Sparkles }
     ]
@@ -65,6 +64,7 @@ const mainCategories = [
     subHubs: [
       { name: 'RedComm Hub', page: 'RedCommHub', icon: Radio },
       { name: 'Security Intelligence', page: 'SecurityIntelligenceHub', icon: Globe },
+      { name: 'Ecosystem Monitor', page: 'EcosystemMonitoringDashboard', icon: Activity },
       { name: 'Network Analytics', page: 'AIAnalyticsHub', icon: Activity }
     ]
   },
@@ -92,7 +92,7 @@ const mainCategories = [
     subHubs: [
       { name: 'Agent Marketplace', page: 'AIAgentMarketplace', icon: Bot },
       { name: 'Agent Customization', page: 'AgentCustomization', icon: Sparkles },
-      { name: 'Marketplace Hub', page: 'OmegaMarketplaceHub', icon: Globe }
+      { name: 'Omega Marketplace', page: 'OmegaMarketplaceHub', icon: Globe }
     ]
   },
   {
@@ -110,16 +110,29 @@ const mainCategories = [
     ]
   },
   {
-    id: 'monitoring',
-    name: 'Monitoring',
+    id: 'financial',
+    name: 'Financial',
     icon: Activity,
     color: '#14b8a6',
-    mainPage: 'EcosystemMonitoringDashboard',
-    description: 'System Health & Analytics',
+    mainPage: 'OmegaFinancialHub',
+    description: 'DeFi & Banking Services',
     subHubs: [
-      { name: 'Ecosystem Monitor', page: 'EcosystemMonitoringDashboard', icon: Globe },
-      { name: 'Security Monitor', page: 'SecurityMonitoringHub', icon: Globe },
-      { name: 'Analytics Hub', page: 'AnalyticsIntelligenceHub', icon: Activity }
+      { name: 'Financial Hub', page: 'OmegaFinancialHub', icon: Activity },
+      { name: 'DeFi Hub', page: 'DeFiHub', icon: Globe },
+      { name: 'Banking Hub', page: 'OmniBankingHub', icon: Activity }
+    ]
+  },
+  {
+    id: 'developer',
+    name: 'Developer',
+    icon: Code,
+    color: '#a855f7',
+    mainPage: 'DeveloperEcosystemHub',
+    description: 'Build & Deploy Apps',
+    subHubs: [
+      { name: 'Developer Ecosystem', page: 'DeveloperEcosystemHub', icon: Code },
+      { name: 'Workflow Automation', page: 'WorkflowAutomationHub', icon: Activity },
+      { name: 'API Documentation', page: 'APIDocumentation', icon: Code }
     ]
   }
 ];
