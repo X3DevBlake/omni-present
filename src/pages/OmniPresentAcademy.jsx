@@ -14,6 +14,9 @@ import EnhancedInteractiveCourseViewer from '../components/academy/EnhancedInter
 import InteractiveResearchVisualizer3D from '../components/academy/InteractiveResearchVisualizer3D';
 import NeuralArchitectureStudio3D from '../components/academy/NeuralArchitectureStudio3D';
 import QuantumCircuitBuilder3D from '../components/academy/QuantumCircuitBuilder3D';
+import AICourseGeneratorStudio3D from '../components/academy/AICourseGeneratorStudio3D';
+import InteractiveAITutor3D from '../components/academy/InteractiveAITutor3D';
+import AutoResearchUpdater3D from '../components/academy/AutoResearchUpdater3D';
 import XPSystem3D from '../components/gamification/XPSystem3D';
 import DailyStreakTracker3D from '../components/gamification/DailyStreakTracker3D';
 import AchievementUnlocker3D from '../components/gamification/AchievementUnlocker3D';
