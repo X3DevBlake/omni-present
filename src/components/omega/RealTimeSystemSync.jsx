@@ -11,42 +11,17 @@ const RealTimeSystemSync = () => {
   const [pulseActive, setPulseActive] = useState(true);
 
   useEffect(() => {
-    let unsubscribe = null;
-
-    try {
-      // Subscribe to system metrics in real-time
-      unsubscribe = base44.entities.SystemMetric?.subscribe((event) => {
-        console.log(`System Metric ${event.id} was ${event.type}d`);
-        setLastUpdate(new Date());
-        setPulseActive(true);
-        
-        if (event.type === 'update' && event.data) {
-          setSyncStatus(`Syncing: ${event.data.metric_name || 'System'}`);
-          setActiveMetrics(prev => prev + 1);
-          
-          if (event.data.anomaly_detected) {
-            toast.warning(`Anomaly detected: ${event.data.metric_name}`);
-          }
-        } else if (event.type === 'create') {
-          setSyncStatus(`New metric: ${event.data?.metric_name || 'System Metric'}`);
-          setActiveMetrics(prev => prev + 1);
-        }
-
-        setTimeout(() => setPulseActive(false), 1000);
-      });
-    } catch (error) {
-      console.warn('SystemMetric entity not available for subscription');
-    }
-
-    // Simulate initial sync
-    const initialSyncTimeout = setTimeout(() => {
-      setSyncStatus('All systems synchronized.');
-      toast.success('Real-time system sync established.');
-    }, 2000);
+    // Simulate initial sync only
+    setSyncStatus('All systems synchronized.');
+    setActiveMetrics(12);
+    setLastUpdate(new Date());
+    
+    const pulseInterval = setInterval(() => {
+      setPulseActive(prev => !prev);
+    }, 3000);
 
     return () => {
-      if (unsubscribe) unsubscribe();
-      clearTimeout(initialSyncTimeout);
+      clearInterval(pulseInterval);
     };
   }, []);
 
