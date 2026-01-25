@@ -705,16 +705,16 @@ export default function Home() {
                     transition={{ delay: 0.2 + idx * 0.1 }}
                     className="relative group cursor-pointer"
                   >
-                    <div className={`absolute inset-0 bg-${metric.color}-500/30 rounded-2xl blur-xl group-hover:blur-2xl transition-all opacity-0 group-hover:opacity-100`} />
-                    <div className={`relative bg-black/80 backdrop-blur-xl border-2 border-${metric.color}-500/60 rounded-2xl p-6 shadow-2xl shadow-${metric.color}-500/20`}>
+                    <div className="absolute inset-0 bg-purple-500/30 rounded-2xl blur-xl group-hover:blur-2xl transition-all opacity-0 group-hover:opacity-100" />
+                    <div className="relative bg-black/80 backdrop-blur-xl border-2 border-purple-500/60 rounded-2xl p-6 shadow-2xl shadow-purple-500/20">
                       <motion.div
                         animate={{ rotate: 360 }}
                         transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
                       >
-                        <Icon className={`w-8 h-8 text-${metric.color}-400 mb-3 mx-auto drop-shadow-[0_0_10px_rgba(139,92,246,0.8)]`} />
+                        <Icon className="w-8 h-8 text-purple-400 mb-3 mx-auto drop-shadow-[0_0_10px_rgba(139,92,246,0.8)]" />
                       </motion.div>
-                      <div className={`text-${metric.color}-400 text-sm mb-2 font-semibold drop-shadow-[0_0_5px_rgba(139,92,246,0.5)]`}>{metric.label}</div>
-                      <div className={`text-white text-3xl font-bold mb-1 drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]`}>{metric.value}</div>
+                      <div className="text-purple-400 text-sm mb-2 font-semibold drop-shadow-[0_0_5px_rgba(139,92,246,0.5)]">{metric.label}</div>
+                      <div className="text-white text-3xl font-bold mb-1 drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]">{metric.value}</div>
                       <div className="text-gray-400 text-xs">{metric.sublabel}</div>
                     </div>
                   </motion.div>
@@ -948,9 +948,17 @@ export default function Home() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: idx * 0.1 }}
                   >
-                    <Card className={`bg-gradient-to-br from-${item.color}-950/80 to-${item.color}-900/60 border-${item.color}-500/40 backdrop-blur-xl h-full`}>
+                    <Card className={`${
+                      idx === 0 ? 'bg-gradient-to-br from-purple-950/80 to-purple-900/60 border-purple-500/40' :
+                      idx === 1 ? 'bg-gradient-to-br from-blue-950/80 to-blue-900/60 border-blue-500/40' :
+                      'bg-gradient-to-br from-violet-950/80 to-violet-900/60 border-violet-500/40'
+                    } backdrop-blur-xl h-full`}>
                       <CardContent className="p-8">
-                        <div className={`text-${item.color}-400 font-mono text-lg mb-4 font-bold`}>{item.title}</div>
+                        <div className={`${
+                          idx === 0 ? 'text-purple-400' :
+                          idx === 1 ? 'text-blue-400' :
+                          'text-violet-400'
+                        } font-mono text-lg mb-4 font-bold`}>{item.title}</div>
                         <div className="text-white font-mono text-base mb-6 overflow-x-auto bg-black/40 p-4 rounded-lg">
                           {item.formula}
                         </div>
@@ -999,11 +1007,18 @@ export default function Home() {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: idx * 0.15 }}
                     >
-                      <Card className={`bg-gradient-to-br from-${framework.color}-950/90 to-${framework.color}-900/70 border-${framework.color}-500/40 backdrop-blur-xl`}>
+                      <Card className={`${
+                        idx === 0 ? 'bg-gradient-to-br from-purple-950/90 to-purple-900/70 border-purple-500/40' :
+                        'bg-gradient-to-br from-orange-950/90 to-orange-900/70 border-orange-500/40'
+                      } backdrop-blur-xl`}>
                         <CardContent className="p-8">
                           <div className="flex items-center gap-4 mb-6">
-                            <div className={`w-16 h-16 rounded-2xl bg-${framework.color}-600/30 flex items-center justify-center`}>
-                              <Icon className={`w-8 h-8 text-${framework.color}-400`} />
+                            <div className={`w-16 h-16 rounded-2xl ${
+                              idx === 0 ? 'bg-purple-600/30' : 'bg-orange-600/30'
+                            } flex items-center justify-center`}>
+                              <Icon className={`w-8 h-8 ${
+                                idx === 0 ? 'text-purple-400' : 'text-orange-400'
+                              }`} />
                             </div>
                             <div>
                               <h3 className="text-white font-bold text-2xl">{framework.title}</h3>
@@ -1018,7 +1033,9 @@ export default function Home() {
                                 className="flex justify-between bg-black/40 p-4 rounded-lg"
                               >
                                 <span className="text-gray-300">{item.label}</span>
-                                <span className={`text-${framework.color}-300 font-mono font-semibold`}>{item.value}</span>
+                                <span className={`${
+                                  idx === 0 ? 'text-purple-300' : 'text-orange-300'
+                                } font-mono font-semibold`}>{item.value}</span>
                               </motion.div>
                             ))}
                           </div>
@@ -1082,16 +1099,26 @@ export default function Home() {
                     transition={{ delay: idx * 0.15 }}
                     className="relative group"
                   >
-                    <div className={`absolute inset-0 bg-${feature.color}-500/40 rounded-2xl blur-2xl opacity-0 group-hover:opacity-100 transition-all`} />
-                    <Card className={`relative bg-gradient-to-br from-${feature.color}-950/90 to-${feature.color}-900/70 border-2 border-${feature.color}-500/60 backdrop-blur-xl h-full shadow-2xl shadow-${feature.color}-500/30`}>
+                    {idx === 0 && <div className="absolute inset-0 bg-green-500/40 rounded-2xl blur-2xl opacity-0 group-hover:opacity-100 transition-all" />}
+                    {idx === 1 && <div className="absolute inset-0 bg-purple-500/40 rounded-2xl blur-2xl opacity-0 group-hover:opacity-100 transition-all" />}
+                    {idx === 2 && <div className="absolute inset-0 bg-blue-500/40 rounded-2xl blur-2xl opacity-0 group-hover:opacity-100 transition-all" />}
+                    <Card className={`relative ${
+                      idx === 0 ? 'bg-gradient-to-br from-green-950/90 to-green-900/70 border-2 border-green-500/60 shadow-2xl shadow-green-500/30' :
+                      idx === 1 ? 'bg-gradient-to-br from-purple-950/90 to-purple-900/70 border-2 border-purple-500/60 shadow-2xl shadow-purple-500/30' :
+                      'bg-gradient-to-br from-blue-950/90 to-blue-900/70 border-2 border-blue-500/60 shadow-2xl shadow-blue-500/30'
+                    } backdrop-blur-xl h-full`}>
                       <CardContent className="p-8">
                         <motion.div 
                           whileHover={{ rotate: 360, scale: 1.2 }} 
                           transition={{ duration: 0.8 }}
                         >
-                          <Icon className={`w-14 h-14 text-${feature.color}-400 mb-6 drop-shadow-[0_0_15px_rgba(139,92,246,0.8)]`} />
+                          <Icon className={`w-14 h-14 ${
+                            idx === 0 ? 'text-green-400 drop-shadow-[0_0_15px_rgba(34,197,94,0.8)]' :
+                            idx === 1 ? 'text-purple-400 drop-shadow-[0_0_15px_rgba(168,85,247,0.8)]' :
+                            'text-blue-400 drop-shadow-[0_0_15px_rgba(59,130,246,0.8)]'
+                          } mb-6`} />
                         </motion.div>
-                        <h3 className={`text-white font-bold text-2xl mb-6 drop-shadow-[0_0_10px_rgba(255,255,255,0.4)]`}>{feature.title}</h3>
+                        <h3 className="text-white font-bold text-2xl mb-6 drop-shadow-[0_0_10px_rgba(255,255,255,0.4)]">{feature.title}</h3>
                         <div className="space-y-3">
                           {feature.items.map((item, i) => (
                             <motion.div 
@@ -1103,7 +1130,11 @@ export default function Home() {
                               transition={{ delay: i * 0.1 }}
                             >
                               <motion.div 
-                                className={`w-3 h-3 rounded-full bg-${feature.color}-500`}
+                                className={`w-3 h-3 rounded-full ${
+                                  idx === 0 ? 'bg-green-500' :
+                                  idx === 1 ? 'bg-purple-500' :
+                                  'bg-blue-500'
+                                }`}
                                 animate={{ scale: [1, 1.3, 1] }}
                                 transition={{ duration: 2, repeat: Infinity, delay: i * 0.3 }}
                               />
@@ -1151,16 +1182,16 @@ export default function Home() {
                   transition={{ delay: idx * 0.1 }}
                   className="relative group"
                 >
-                  <div className={`absolute inset-0 bg-${arch.color}-500/30 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-all`} />
-                  <Card className={`relative bg-black/80 border-2 border-${arch.color}-500/60 backdrop-blur-xl h-full shadow-xl shadow-${arch.color}-500/20`}>
+                  <div className="absolute inset-0 bg-cyan-500/30 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-all" />
+                  <Card className="relative bg-black/80 border-2 border-cyan-500/60 backdrop-blur-xl h-full shadow-xl shadow-cyan-500/20">
                     <CardContent className="p-6">
                       <motion.div 
                         whileHover={{ scale: 1.3, rotate: 360 }} 
                         transition={{ duration: 0.7 }}
                       >
-                        <Icon className={`w-12 h-12 text-${arch.color}-400 mb-4 drop-shadow-[0_0_10px_rgba(139,92,246,0.8)]`} />
+                        <Icon className="w-12 h-12 text-cyan-400 mb-4 drop-shadow-[0_0_10px_rgba(34,211,238,0.8)]" />
                       </motion.div>
-                      <h3 className={`text-white font-bold text-xl mb-4 drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]`}>{arch.title}</h3>
+                      <h3 className="text-white font-bold text-xl mb-4 drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">{arch.title}</h3>
                       <div className="space-y-2">
                         {arch.specs.map((spec, i) => (
                           <motion.div 
