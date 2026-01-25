@@ -261,33 +261,22 @@ const ConnectionLines = ({ categories }) => {
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 
-// Extended Category color mapping for 25 categories
+// The 14 Categories Color Mapping
 const CATEGORY_CONFIG = {
-  Intelligence: { color: '#8b5cf6', pos: [0, 4, 0] },
-  Academy: { color: '#ec4899', pos: [4, 0, 0] },
-  Network: { color: '#22d3ee', pos: [-4, 0, 0] },
-  Marketplace: { color: '#10b981', pos: [0, -4, 0] },
-  Collaboration: { color: '#f59e0b', pos: [3, 3, 0] },
-  Simulation: { color: '#ef4444', pos: [-3, 3, 0] },
-  Financial: { color: '#06b6d4', pos: [3, -3, 0] },
-  Development: { color: '#a855f7', pos: [-3, -3, 0] },
-  Security: { color: '#ef4444', pos: [0, 0, 4] },
-  Physical: { color: '#fbbf24', pos: [0, 0, -4] },
-  Governance: { color: '#6366f1', pos: [2, 5, 2] },
-  Quantum: { color: '#8b5cf6', pos: [-2, 5, 2] },
-  Neuroscience: { color: '#ec4899', pos: [2, -5, 2] },
-  Blockchain: { color: '#10b981', pos: [-2, -5, 2] },
-  Gaming: { color: '#f59e0b', pos: [5, 2, 2] },
-  Media: { color: '#06b6d4', pos: [-5, 2, 2] },
-  Social: { color: '#3b82f6', pos: [5, -2, 2] },
-  Analytics: { color: '#14b8a6', pos: [-5, -2, 2] },
-  Infrastructure: { color: '#64748b', pos: [0, 6, 0] },
-  Legal: { color: '#94a3b8', pos: [0, -6, 0] },
-  Ethics: { color: '#f43f5e', pos: [6, 0, 0] },
-  Research: { color: '#84cc16', pos: [-6, 0, 0] },
-  Space: { color: '#d946ef', pos: [0, 0, 6] },
-  Energy: { color: '#eab308', pos: [0, 0, -6] },
-  Support: { color: '#22c55e', pos: [0, 0, 0] }
+  "Core Systems": { color: '#ffffff', pos: [0, 0, 0] },
+  "Intelligence & AI": { color: '#8b5cf6', pos: [0, 5, 0] },
+  "Academy & Learning": { color: '#ec4899', pos: [5, 0, 0] },
+  "Network & Communication": { color: '#22d3ee', pos: [-5, 0, 0] },
+  "Marketplace & Economy": { color: '#10b981', pos: [0, -5, 0] },
+  "Simulation & Modeling": { color: '#f59e0b', pos: [3, 3, 3] },
+  "Development & API": { color: '#a855f7', pos: [-3, -3, -3] },
+  "Security & Compliance": { color: '#ef4444', pos: [3, -3, 3] },
+  "Physical & Embodiment": { color: '#fbbf24', pos: [-3, 3, -3] },
+  "Collaboration & Community": { color: '#6366f1', pos: [0, 0, 5] },
+  "Quantum & Consciousness": { color: '#d946ef', pos: [0, 0, -5] },
+  "Analytics & Monitoring": { color: '#14b8a6', pos: [5, 5, 0] },
+  "Governance & Ethics": { color: '#f43f5e', pos: [-5, -5, 0] },
+  "Support & Resources": { color: '#94a3b8', pos: [0, 2, 4] }
 };
 
 export default function InteractiveHubNetwork3D() {
