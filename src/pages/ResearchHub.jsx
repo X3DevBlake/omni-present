@@ -13,6 +13,7 @@ import {
 import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import InteractiveResearchVisualizer3D from '../components/academy/InteractiveResearchVisualizer3D';
+import LiveNetworkMonitorDashboard from '../components/redcomm/LiveNetworkMonitorDashboard';
 
 export default function ResearchHub() {
   const [activeTab, setActiveTab] = useState('projects');

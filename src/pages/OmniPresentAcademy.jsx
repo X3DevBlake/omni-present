@@ -14,6 +14,8 @@ import EnhancedInteractiveCourseViewer from '../components/academy/EnhancedInter
 import InteractiveResearchVisualizer3D from '../components/academy/InteractiveResearchVisualizer3D';
 import NeuralArchitectureStudio3D from '../components/academy/NeuralArchitectureStudio3D';
 import QuantumCircuitBuilder3D from '../components/academy/QuantumCircuitBuilder3D';
+import LiveLearningDashboard3D from '../components/academy/LiveLearningDashboard3D';
+import InteractiveQuizEngine3D from '../components/academy/InteractiveQuizEngine3D';
 
 export default function OmniPresentAcademy() {
   const [activeTab, setActiveTab] = useState('courses');
@@ -127,7 +129,10 @@ export default function OmniPresentAcademy() {
           </TabsList>
 
           <TabsContent value="courses">
-            <EnhancedInteractiveCourseViewer />
+            <div className="grid lg:grid-cols-2 gap-6 mb-6">
+              <EnhancedInteractiveCourseViewer />
+              <LiveLearningDashboard3D />
+            </div>
             
             {/* Course Categories */}
             <div className="grid md:grid-cols-3 gap-6 mt-6">
@@ -206,7 +211,10 @@ export default function OmniPresentAcademy() {
 
           <TabsContent value="lab">
             <div className="space-y-6">
-              <NeuralArchitectureStudio3D />
+              <div className="grid lg:grid-cols-2 gap-6">
+                <NeuralArchitectureStudio3D />
+                <InteractiveQuizEngine3D />
+              </div>
               <QuantumCircuitBuilder3D />
             </div>
           </TabsContent>
