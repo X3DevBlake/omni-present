@@ -17,7 +17,9 @@ import {
   GitBranch,
   Sparkles,
   Eye,
-  Activity
+  Activity,
+  Shield,
+  TrendingUp
 } from 'lucide-react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Sphere, Line, Text as Text3D } from '@react-three/drei';
