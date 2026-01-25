@@ -398,11 +398,50 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-indigo-950 to-purple-950 overflow-hidden">
+    <div className="min-h-screen bg-black overflow-hidden relative">
+      {/* Animated Background */}
+      <div className="fixed inset-0 z-0">
+        <div className="absolute inset-0 bg-gradient-to-br from-black via-indigo-950 to-purple-950" />
+        <motion.div
+          className="absolute inset-0"
+          animate={{
+            background: [
+              'radial-gradient(circle at 20% 50%, rgba(139, 92, 246, 0.15) 0%, transparent 50%)',
+              'radial-gradient(circle at 80% 50%, rgba(236, 72, 153, 0.15) 0%, transparent 50%)',
+              'radial-gradient(circle at 50% 80%, rgba(59, 130, 246, 0.15) 0%, transparent 50%)',
+              'radial-gradient(circle at 20% 50%, rgba(139, 92, 246, 0.15) 0%, transparent 50%)'
+            ]
+          }}
+          transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+        />
+        
+        {/* Floating particles */}
+        {Array(30).fill(0).map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-1 h-1 bg-purple-400 rounded-full"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+            }}
+            animate={{
+              y: [0, -100, 0],
+              opacity: [0, 1, 0],
+              scale: [0, 1, 0]
+            }}
+            transition={{
+              duration: 3 + Math.random() * 2,
+              repeat: Infinity,
+              delay: Math.random() * 3
+            }}
+          />
+        ))}
+      </div>
+
       {/* Hero Section with Interactive 3D */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Enhanced 3D Background */}
-        <div className="absolute inset-0">
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden z-10">
+        {/* Enhanced 3D Background with glow */}
+        <div className="absolute inset-0 opacity-60">
           <Canvas camera={{ position: [0, 0, 12], fov: 75 }}>
             <ambientLight intensity={0.4} />
             <pointLight position={[10, 10, 10]} color="#8b5cf6" intensity={2} />
@@ -550,20 +589,29 @@ export default function Home() {
             </motion.div>
             
             <motion.h1 
-              className="text-6xl md:text-8xl font-black text-white mb-8 leading-tight"
+              className="text-6xl md:text-8xl font-black mb-8 leading-tight relative"
+              style={{ 
+                background: 'linear-gradient(90deg, #c084fc 0%, #ec4899 33%, #3b82f6 66%, #c084fc 100%)',
+                backgroundSize: '200% 100%',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text'
+              }}
               animate={{ 
-                textShadow: [
-                  "0 0 20px rgba(139, 92, 246, 0.5)",
-                  "0 0 40px rgba(236, 72, 153, 0.7)",
-                  "0 0 20px rgba(59, 130, 246, 0.5)",
-                  "0 0 20px rgba(139, 92, 246, 0.5)"
+                backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
+                filter: [
+                  'drop-shadow(0 0 30px rgba(139, 92, 246, 0.8))',
+                  'drop-shadow(0 0 60px rgba(236, 72, 153, 0.9))',
+                  'drop-shadow(0 0 40px rgba(59, 130, 246, 0.8))',
+                  'drop-shadow(0 0 30px rgba(139, 92, 246, 0.8))'
                 ]
               }}
-              transition={{ duration: 4, repeat: Infinity }}
+              transition={{ 
+                backgroundPosition: { duration: 8, repeat: Infinity, ease: "linear" },
+                filter: { duration: 4, repeat: Infinity, ease: "easeInOut" }
+              }}
             >
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400">
-                OMNI-PRESENT OMEGA
-              </span>
+              OMNI-PRESENT OMEGA
             </motion.h1>
             
             <motion.p 
@@ -591,8 +639,13 @@ export default function Home() {
               transition={{ delay: 0.7 }}
             >
               <Link to={createPageUrl('OmniPresentAcademy')}>
-                <motion.div whileHover={{ scale: 1.1, rotate: 2 }} whileTap={{ scale: 0.95 }}>
-                  <Button size="lg" className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-10 py-7 text-xl shadow-2xl shadow-purple-500/50 rounded-2xl">
+                <motion.div 
+                  whileHover={{ scale: 1.1, y: -5 }} 
+                  whileTap={{ scale: 0.95 }}
+                  className="relative group"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl blur-xl opacity-75 group-hover:opacity-100 transition-opacity" />
+                  <Button size="lg" className="relative bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-10 py-7 text-xl shadow-2xl rounded-2xl border-2 border-purple-400/50">
                     <Eye className="w-6 h-6 mr-3" />
                     Enter the Academy
                     <ArrowRight className="w-5 h-5 ml-3" />
@@ -600,8 +653,13 @@ export default function Home() {
                 </motion.div>
               </Link>
               <Link to={createPageUrl('ResearchHub')}>
-                <motion.div whileHover={{ scale: 1.1, rotate: -2 }} whileTap={{ scale: 0.95 }}>
-                  <Button size="lg" variant="outline" className="border-2 border-purple-400/60 text-purple-200 hover:bg-purple-900/40 backdrop-blur-xl px-10 py-7 text-xl rounded-2xl">
+                <motion.div 
+                  whileHover={{ scale: 1.1, y: -5 }} 
+                  whileTap={{ scale: 0.95 }}
+                  className="relative group"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-cyan-600 to-blue-600 rounded-2xl blur-xl opacity-75 group-hover:opacity-100 transition-opacity" />
+                  <Button size="lg" className="relative bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 text-white px-10 py-7 text-xl shadow-2xl rounded-2xl border-2 border-cyan-400/50">
                     <Activity className="w-6 h-6 mr-3" />
                     Research Hub
                     <ArrowRight className="w-5 h-5 ml-3" />
@@ -609,10 +667,16 @@ export default function Home() {
                 </motion.div>
               </Link>
               <Link to={createPageUrl('OmegaIntelligenceHub')}>
-                <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-                  <Button size="lg" className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 text-white px-10 py-7 text-xl shadow-2xl shadow-cyan-500/50 rounded-2xl">
+                <motion.div 
+                  whileHover={{ scale: 1.1, y: -5 }} 
+                  whileTap={{ scale: 0.95 }}
+                  className="relative group"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-green-600 to-emerald-600 rounded-2xl blur-xl opacity-75 group-hover:opacity-100 transition-opacity" />
+                  <Button size="lg" className="relative bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white px-10 py-7 text-xl shadow-2xl rounded-2xl border-2 border-green-400/50">
                     <Rocket className="w-6 h-6 mr-3" />
                     Intelligence Hub
+                    <ArrowRight className="w-5 h-5 ml-3" />
                   </Button>
                 </motion.div>
               </Link>
@@ -639,12 +703,20 @@ export default function Home() {
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 0.2 + idx * 0.1 }}
-                    className={`bg-black/60 backdrop-blur-xl border-2 border-${metric.color}-500/40 rounded-2xl p-6 shadow-lg cursor-pointer`}
+                    className="relative group cursor-pointer"
                   >
-                    <Icon className={`w-8 h-8 text-${metric.color}-400 mb-3 mx-auto`} />
-                    <div className={`text-${metric.color}-400 text-sm mb-2 font-semibold`}>{metric.label}</div>
-                    <div className="text-white text-3xl font-bold mb-1">{metric.value}</div>
-                    <div className="text-gray-500 text-xs">{metric.sublabel}</div>
+                    <div className={`absolute inset-0 bg-${metric.color}-500/30 rounded-2xl blur-xl group-hover:blur-2xl transition-all opacity-0 group-hover:opacity-100`} />
+                    <div className={`relative bg-black/80 backdrop-blur-xl border-2 border-${metric.color}-500/60 rounded-2xl p-6 shadow-2xl shadow-${metric.color}-500/20`}>
+                      <motion.div
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                      >
+                        <Icon className={`w-8 h-8 text-${metric.color}-400 mb-3 mx-auto drop-shadow-[0_0_10px_rgba(139,92,246,0.8)]`} />
+                      </motion.div>
+                      <div className={`text-${metric.color}-400 text-sm mb-2 font-semibold drop-shadow-[0_0_5px_rgba(139,92,246,0.5)]`}>{metric.label}</div>
+                      <div className={`text-white text-3xl font-bold mb-1 drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]`}>{metric.value}</div>
+                      <div className="text-gray-400 text-xs">{metric.sublabel}</div>
+                    </div>
                   </motion.div>
                 );
               })}
@@ -721,21 +793,29 @@ export default function Home() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: idx * 0.1 }}
-                    whileHover={{ scale: 1.05, y: -10, rotateY: 5 }}
-                    className={`bg-gradient-to-br ${hub.color} p-[2px] rounded-2xl shadow-2xl`}
+                    whileHover={{ scale: 1.08, y: -15 }}
+                    className="relative group"
                   >
-                    <div className="bg-black/90 backdrop-blur-xl rounded-2xl p-8 h-full">
-                      <motion.div
-                        whileHover={{ rotate: 360, scale: 1.2 }}
-                        transition={{ duration: 0.6 }}
-                      >
-                        <Icon className="w-12 h-12 text-white mb-4" />
-                      </motion.div>
-                      <h3 className="text-2xl font-bold text-white mb-3">{hub.name}</h3>
-                      <p className="text-gray-400 text-sm mb-4">{hub.description}</p>
-                      <div className="flex items-center text-white/80 text-sm font-semibold group-hover:text-white transition-colors">
-                        Enter Hub
-                        <ArrowRight className="w-4 h-4 ml-2" />
+                    <div className={`absolute inset-0 bg-gradient-to-br ${hub.color} rounded-2xl blur-2xl opacity-50 group-hover:opacity-100 transition-opacity`} />
+                    <div className={`relative bg-gradient-to-br ${hub.color} p-[3px] rounded-2xl shadow-2xl`}>
+                      <div className="bg-black/95 backdrop-blur-xl rounded-2xl p-8 h-full">
+                        <motion.div
+                          whileHover={{ rotate: 360, scale: 1.3 }}
+                          transition={{ duration: 0.8, type: "spring" }}
+                        >
+                          <Icon className={`w-12 h-12 text-white mb-4 drop-shadow-[0_0_15px_rgba(255,255,255,0.5)]`} />
+                        </motion.div>
+                        <h3 className={`text-2xl font-bold text-white mb-3 drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]`}>{hub.name}</h3>
+                        <p className="text-gray-300 text-sm mb-4">{hub.description}</p>
+                        <div className="flex items-center text-white text-sm font-semibold">
+                          Enter Hub
+                          <motion.div
+                            animate={{ x: [0, 5, 0] }}
+                            transition={{ duration: 1.5, repeat: Infinity }}
+                          >
+                            <ArrowRight className="w-4 h-4 ml-2" />
+                          </motion.div>
+                        </div>
                       </div>
                     </div>
                   </motion.div>
@@ -1051,21 +1131,34 @@ export default function Home() {
               return (
                 <motion.div
                   key={idx}
-                  whileHover={{ scale: 1.05, y: -10 }}
+                  whileHover={{ scale: 1.08, y: -15 }}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: idx * 0.1 }}
+                  className="relative group"
                 >
-                  <Card className={`bg-black/60 border-2 border-${arch.color}-500/40 backdrop-blur-xl h-full`}>
+                  <div className={`absolute inset-0 bg-${arch.color}-500/30 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-all`} />
+                  <Card className={`relative bg-black/80 border-2 border-${arch.color}-500/60 backdrop-blur-xl h-full shadow-xl shadow-${arch.color}-500/20`}>
                     <CardContent className="p-6">
-                      <motion.div whileHover={{ scale: 1.2, rotate: 360 }} transition={{ duration: 0.5 }}>
-                        <Icon className={`w-12 h-12 text-${arch.color}-400 mb-4`} />
+                      <motion.div 
+                        whileHover={{ scale: 1.3, rotate: 360 }} 
+                        transition={{ duration: 0.7 }}
+                      >
+                        <Icon className={`w-12 h-12 text-${arch.color}-400 mb-4 drop-shadow-[0_0_10px_rgba(139,92,246,0.8)]`} />
                       </motion.div>
-                      <h3 className="text-white font-bold text-xl mb-4">{arch.title}</h3>
+                      <h3 className={`text-white font-bold text-xl mb-4 drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]`}>{arch.title}</h3>
                       <div className="space-y-2">
                         {arch.specs.map((spec, i) => (
-                          <div key={i} className="text-gray-400 text-sm">{spec}</div>
+                          <motion.div 
+                            key={i} 
+                            className="text-gray-300 text-sm"
+                            initial={{ opacity: 0, x: -10 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: i * 0.1 }}
+                          >
+                            {spec}
+                          </motion.div>
                         ))}
                       </div>
                     </CardContent>
@@ -1103,8 +1196,13 @@ export default function Home() {
           
           <div className="flex flex-wrap gap-6 justify-center">
             <Link to={createPageUrl('OmniPresentAcademy')}>
-              <motion.div whileHover={{ scale: 1.1, rotate: 2 }} whileTap={{ scale: 0.95 }}>
-                <Button size="lg" className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-10 py-7 text-xl shadow-2xl shadow-purple-500/50 rounded-2xl">
+              <motion.div 
+                whileHover={{ scale: 1.12, y: -8 }} 
+                whileTap={{ scale: 0.95 }}
+                className="relative group"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl blur-2xl opacity-75 group-hover:opacity-100 transition-opacity" />
+                <Button size="lg" className="relative bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-10 py-7 text-xl shadow-2xl rounded-2xl border-2 border-purple-400/50">
                   <Sparkles className="w-6 h-6 mr-3" />
                   PhD in Cyber-Physical Convergence
                   <ArrowRight className="w-5 h-5 ml-3" />
@@ -1112,8 +1210,13 @@ export default function Home() {
               </motion.div>
             </Link>
             <Link to={createPageUrl('ResearchHub')}>
-              <motion.div whileHover={{ scale: 1.1, rotate: -2 }} whileTap={{ scale: 0.95 }}>
-                <Button size="lg" variant="outline" className="border-2 border-purple-400/60 text-purple-200 hover:bg-purple-900/50 backdrop-blur-xl px-10 py-7 text-xl rounded-2xl">
+              <motion.div 
+                whileHover={{ scale: 1.12, y: -8 }} 
+                whileTap={{ scale: 0.95 }}
+                className="relative group"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-cyan-600 to-blue-600 rounded-2xl blur-2xl opacity-75 group-hover:opacity-100 transition-opacity" />
+                <Button size="lg" className="relative bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 text-white px-10 py-7 text-xl shadow-2xl rounded-2xl border-2 border-cyan-400/50">
                   <MessageSquare className="w-6 h-6 mr-3" />
                   Research Projects
                   <ArrowRight className="w-5 h-5 ml-3" />
