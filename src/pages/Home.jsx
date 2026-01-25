@@ -6,6 +6,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { motion, AnimatePresence } from 'framer-motion';
+import { base44 } from '@/api/base44Client';
 import { 
   Brain, Atom, Network, Zap, ArrowRight, Cpu, Radio, GitBranch, Sparkles, Eye, Activity,
   Shield, TrendingUp, Globe, Rocket, Code, MessageSquare, Bot, X, Info, Layers
