@@ -148,23 +148,42 @@ export default function ConsolidatedNav() {
                 className="flex items-center gap-3"
                 whileHover={{ scale: 1.05 }}
               >
-                <Radio className="w-6 h-6 text-cyan-400 drop-shadow-[0_0_10px_rgba(34,211,238,0.8)]" />
+                <motion.div
+                  animate={{ 
+                    rotate: 360,
+                    scale: [1, 1.2, 1]
+                  }}
+                  transition={{ 
+                    rotate: { duration: 8, repeat: Infinity, ease: "linear" },
+                    scale: { duration: 2, repeat: Infinity, ease: "easeInOut" }
+                  }}
+                >
+                  <Sparkles className="w-7 h-7 text-purple-400 drop-shadow-[0_0_20px_rgba(168,85,247,1)]" />
+                </motion.div>
+                
                 <motion.h1 
-                  className="text-2xl font-black"
+                  className="text-2xl font-black relative"
                   style={{ 
-                    background: 'linear-gradient(90deg, #22d3ee 0%, #c084fc 100%)',
+                    background: 'linear-gradient(90deg, #c084fc 0%, #ec4899 50%, #22d3ee 100%)',
                     backgroundSize: '200% 100%',
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text'
+                    backgroundClip: 'text',
+                    filter: 'drop-shadow(0 0 20px rgba(192, 132, 252, 0.8)) drop-shadow(0 0 40px rgba(236, 72, 153, 0.6))',
+                    textShadow: '0 0 30px rgba(192, 132, 252, 0.9), 0 0 60px rgba(236, 72, 153, 0.7), 0 0 90px rgba(34, 211, 238, 0.5)'
                   }}
                   animate={{ 
-                    backgroundPosition: ['0% 50%', '100% 50%', '0% 50%']
+                    backgroundPosition: ['0% 50%', '200% 50%', '0% 50%'],
+                    filter: [
+                      'drop-shadow(0 0 20px rgba(192, 132, 252, 0.8)) drop-shadow(0 0 40px rgba(236, 72, 153, 0.6))',
+                      'drop-shadow(0 0 30px rgba(236, 72, 153, 0.9)) drop-shadow(0 0 50px rgba(34, 211, 238, 0.7))',
+                      'drop-shadow(0 0 25px rgba(34, 211, 238, 0.8)) drop-shadow(0 0 45px rgba(192, 132, 252, 0.6))',
+                      'drop-shadow(0 0 20px rgba(192, 132, 252, 0.8)) drop-shadow(0 0 40px rgba(236, 72, 153, 0.6))'
+                    ]
                   }}
                   transition={{ 
-                    duration: 5,
-                    repeat: Infinity,
-                    ease: "linear"
+                    backgroundPosition: { duration: 6, repeat: Infinity, ease: "linear" },
+                    filter: { duration: 4, repeat: Infinity, ease: "easeInOut" }
                   }}
                 >
                   OMNI-PRESENT
