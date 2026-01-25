@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   Brain, Sparkles, BookOpen, Trophy, Users, TrendingUp, Atom, Code, Zap,
-  GraduationCap, Award, Target, Rocket, FlaskConical, MessageSquare
+  GraduationCap, Award, Target, Rocket, FlaskConical, MessageSquare, FileText
 } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
@@ -107,22 +107,26 @@ export default function OmniPresentAcademy() {
 
         {/* Main Content */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-4 bg-black/60 backdrop-blur-xl border border-white/10 mb-8 p-2 rounded-2xl">
+          <TabsList className="grid w-full grid-cols-5 bg-black/60 backdrop-blur-xl border border-white/10 mb-8 p-2 rounded-2xl">
             <TabsTrigger value="courses" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-600 data-[state=active]:to-pink-600 rounded-xl py-3">
               <BookOpen className="w-4 h-4 mr-2" />
               Courses
+            </TabsTrigger>
+            <TabsTrigger value="assignments" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600 data-[state=active]:to-cyan-600 rounded-xl py-3">
+              <Target className="w-4 h-4 mr-2" />
+              Assignments
             </TabsTrigger>
             <TabsTrigger value="research" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-600 data-[state=active]:to-blue-600 rounded-xl py-3">
               <FlaskConical className="w-4 h-4 mr-2" />
               Research
             </TabsTrigger>
+            <TabsTrigger value="certifications" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-amber-600 data-[state=active]:to-orange-600 rounded-xl py-3">
+              <Award className="w-4 h-4 mr-2" />
+              Certificates
+            </TabsTrigger>
             <TabsTrigger value="lab" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-600 data-[state=active]:to-emerald-600 rounded-xl py-3">
               <Atom className="w-4 h-4 mr-2" />
               Labs
-            </TabsTrigger>
-            <TabsTrigger value="community" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-600 data-[state=active]:to-red-600 rounded-xl py-3">
-              <Users className="w-4 h-4 mr-2" />
-              Community
             </TabsTrigger>
           </TabsList>
 
@@ -156,6 +160,14 @@ export default function OmniPresentAcademy() {
                 );
               })}
             </div>
+          </TabsContent>
+
+          <TabsContent value="assignments">
+            <InteractiveAssignmentHub3D />
+          </TabsContent>
+
+          <TabsContent value="certifications">
+            <CertificationGalaxy3D />
           </TabsContent>
 
           <TabsContent value="research">
@@ -211,47 +223,7 @@ export default function OmniPresentAcademy() {
             </div>
           </TabsContent>
 
-          <TabsContent value="community">
-            <Card className="bg-black/60 backdrop-blur-xl border-orange-500/30">
-              <CardHeader>
-                <CardTitle className="text-white flex items-center gap-3">
-                  <Users className="w-7 h-7 text-orange-400" />
-                  Research Community
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid md:grid-cols-3 gap-6">
-                  {[
-                    { title: 'Discussion Forums', members: '2.4K', icon: MessageSquare, color: 'purple' },
-                    { title: 'Study Groups', members: '847', icon: Users, color: 'blue' },
-                    { title: 'Mentorship', members: '156', icon: Target, color: 'green' }
-                  ].map((community, idx) => {
-                    const Icon = community.icon;
-                    return (
-                      <motion.div
-                        key={idx}
-                        whileHover={{ scale: 1.05 }}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: idx * 0.1 }}
-                      >
-                        <Card className={`bg-gradient-to-br from-${community.color}-950/60 to-black/40 border-${community.color}-500/30 cursor-pointer`}>
-                          <CardContent className="p-6 text-center">
-                            <Icon className={`w-12 h-12 text-${community.color}-400 mb-4 mx-auto`} />
-                            <h3 className="text-white font-bold text-lg mb-2">{community.title}</h3>
-                            <div className="text-gray-400 text-sm">{community.members} members</div>
-                            <Button variant="outline" className="w-full mt-4 border-white/20 text-white">
-                              Join
-                            </Button>
-                          </CardContent>
-                        </Card>
-                      </motion.div>
-                    );
-                  })}
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
+
         </Tabs>
 
         {/* Call to Action */}
