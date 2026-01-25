@@ -41,13 +41,24 @@ export default function OmniPresentAcademy() {
     enabled: !!user
   });
 
+  const { data: streakData } = useQuery({
+    queryKey: ['dailyStreak', user?.email],
+    queryFn: async () => {
+      const response = await base44.functions.invoke('trackDailyStreak');
+      return response.data;
+    },
+    enabled: !!user
+  });
+
   const stats = {
     coursesCompleted: enrolledCourses.filter(c => c.progress === 100).length,
     totalCourses: enrolledCourses.length,
     researchProjects: 3,
     certificates: achievements.length,
     totalHours: enrolledCourses.reduce((sum, c) => sum + (c.hours_spent || 0), 0),
-    currentStreak: 12
+    currentStreak: streakData?.current_streak || 0,
+    totalXP: achievements.reduce((sum, a) => sum + (a.xp || 0), 0),
+    level: Math.floor(achievements.reduce((sum, a) => sum + (a.xp || 0), 0) / 500) + 1
   };
 
   return (
@@ -71,6 +82,20 @@ export default function OmniPresentAcademy() {
             <motion.div whileHover={{ scale: 1.1, rotate: 360 }} transition={{ duration: 0.6 }}>
               <GraduationCap className="w-16 h-16 text-purple-400" />
             </motion.div>
+          </div>
+
+          {/* Gamification Stats */}
+          <div className="grid md:grid-cols-4 gap-4 mb-6">
+            <XPSystem3D userXP={stats.totalXP} userLevel={stats.level} />
+            <DailyStreakTracker3D currentStreak={stats.currentStreak} longestStreak={streakData?.longest_streak || 0} />
+            <AchievementUnlocker3D userEmail={user?.email} />
+            <Card className="bg-gradient-to-br from-purple-950/90 to-indigo-950/90 backdrop-blur-xl border-purple-500/30">
+              <CardContent className="p-4 flex flex-col justify-center items-center h-full">
+                <Trophy className="w-12 h-12 text-purple-400 mb-2" />
+                <div className="text-white text-3xl font-bold">{stats.certificates}</div>
+                <div className="text-gray-400 text-xs">Certificates</div>
+              </CardContent>
+            </Card>
           </div>
 
           {/* Stats Dashboard */}

@@ -135,8 +135,9 @@ export default function InteractiveAssignmentHub3D() {
       const response = await base44.functions.invoke('submitAssignment', submissionData);
       return response.data;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['assignments'] });
+      alert(`Assignment submitted! +${data.xp_awarded} XP earned`);
       setSelectedAssignment(null);
       setSubmissionText('');
     }

@@ -1,6 +1,7 @@
 import React from 'react';
 import EnhancedMainNavRevamped from './components/navigation/EnhancedMainNavRevamped';
 import BackButton from './components/navigation/BackButton';
+import GamificationOverlay from './components/gamification/GamificationOverlay';
 import { GamificationProvider } from './components/gamification/GamificationContext';
 import { PersonalizationProvider } from './components/personalization/PersonalizationContext';
 import { AnimationProvider } from './components/animations/AnimationContext';
@@ -45,6 +46,7 @@ function LayoutContent({ children, currentPageName }) {
     <>
       <EnhancedMainNavRevamped />
       <BackButton />
+      <GamificationOverlay />
       <div className="pt-20">
         {children}
       </div>

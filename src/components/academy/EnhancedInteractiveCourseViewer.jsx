@@ -124,8 +124,10 @@ export default function EnhancedInteractiveCourseViewer() {
     
     setEnrolling(true);
     try {
-      await base44.entities.Course.update(selectedCourse.id, { started: true });
-      alert(`Enrolled in ${selectedCourse.title}!`);
+      const response = await base44.functions.invoke('enrollCourse', { course_id: selectedCourse.id });
+      if (response.data.success) {
+        alert(`Enrolled in ${selectedCourse.title}! +${response.data.xp_awarded} XP`);
+      }
     } catch (error) {
       console.error('Enrollment error:', error);
     } finally {
