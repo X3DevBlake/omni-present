@@ -7,27 +7,11 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  Brain, 
-  Atom, 
-  Network, 
-  Zap, 
-  ArrowRight,
-  Cpu,
-  Radio,
-  GitBranch,
-  Sparkles,
-  Eye,
-  Activity,
-  Shield,
-  TrendingUp,
-  Globe,
-  Rocket,
-  Code,
-  MessageSquare,
-  Bot
+  Brain, Atom, Network, Zap, ArrowRight, Cpu, Radio, GitBranch, Sparkles, Eye, Activity,
+  Shield, TrendingUp, Globe, Rocket, Code, MessageSquare, Bot, X, Info, Layers
 } from 'lucide-react';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, Sphere, Line, Text as Text3D, MeshDistortMaterial, Float, Stars } from '@react-three/drei';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { OrbitControls, Sphere, Line, Text as Text3D, MeshDistortMaterial, Float, Stars, Html } from '@react-three/drei';
 import * as THREE from 'three';
 import NeuralManifoldAlignmentVisualizer3D from '../components/omega/NeuralManifoldAlignmentVisualizer3D';
 import PhotophoreticTrapSimulator3D from '../components/omega/PhotophoreticTrapSimulator3D';
@@ -39,10 +23,70 @@ import SentientFinanceEngine3D from '../components/omega/SentientFinanceEngine3D
 import EnhancedRedCommVisualizer3D from '../components/network/EnhancedRedCommVisualizer3D';
 import NeuralEnhancementVisualizer3D from '../components/augmentation/NeuralEnhancementVisualizer3D';
 
+// Interactive Node with Info Panel
+const InteractiveNode = ({ node, onSelect, isSelected, isHovered, onHover }) => {
+  const meshRef = useRef();
+  const [showInfo, setShowInfo] = useState(false);
+  
+  useFrame((state) => {
+    if (meshRef.current) {
+      const scale = isSelected ? 1.5 : isHovered ? 1.2 : 1;
+      meshRef.current.scale.lerp(new THREE.Vector3(scale, scale, scale), 0.1);
+      
+      if (isSelected) {
+        meshRef.current.rotation.y = state.clock.elapsedTime * 2;
+      }
+    }
+  });
+  
+  return (
+    <group position={node.position}>
+      <Float speed={2} rotationIntensity={isSelected ? 2 : 0.5} floatIntensity={isSelected ? 1 : 0.5}>
+        <Sphere 
+          ref={meshRef}
+          args={[0.1, 32, 32]}
+          onClick={(e) => {
+            e.stopPropagation();
+            onSelect(node);
+            setShowInfo(true);
+          }}
+          onPointerOver={(e) => {
+            e.stopPropagation();
+            onHover(node.id);
+          }}
+          onPointerOut={() => onHover(null)}
+        >
+          <meshStandardMaterial
+            color={isSelected ? '#ec4899' : isHovered ? '#a78bfa' : '#8b5cf6'}
+            emissive={isSelected ? '#ec4899' : isHovered ? '#a78bfa' : '#8b5cf6'}
+            emissiveIntensity={isSelected ? 1.5 : isHovered ? 1 : 0.6}
+            metalness={0.8}
+            roughness={0.2}
+          />
+        </Sphere>
+        
+        {(isHovered || isSelected) && (
+          <Html distanceFactor={10}>
+            <div className="bg-black/90 border border-purple-400 rounded-lg p-3 min-w-[150px] pointer-events-none backdrop-blur-xl">
+              <div className="text-purple-400 font-bold text-xs mb-1">Node {node.id}</div>
+              <div className="text-white text-xs">Type: {node.type}</div>
+              <div className="text-gray-400 text-xs">Activity: {(node.activity * 100).toFixed(0)}%</div>
+              {isSelected && (
+                <div className="mt-2 text-cyan-400 text-xs">
+                  Click for details →
+                </div>
+              )}
+            </div>
+          </Html>
+        )}
+      </Float>
+    </group>
+  );
+};
+
 // Enhanced Interactive Neural Network
-const InteractiveNeuralNetwork = ({ onNodeClick }) => {
+const InteractiveNeuralNetwork = ({ onNodeClick, selectedNode, hoveredNode, onHover }) => {
   const groupRef = useRef();
-  const [hoveredNode, setHoveredNode] = useState(null);
   
   const nodes = Array(50).fill(0).map((_, i) => ({
     position: [
@@ -51,6 +95,8 @@ const InteractiveNeuralNetwork = ({ onNodeClick }) => {
       (Math.random() - 0.5) * 6
     ],
     id: i,
+    type: ['cognitive', 'sensory', 'motor', 'memory'][Math.floor(Math.random() * 4)],
+    activity: Math.random(),
     connections: Array(Math.floor(Math.random() * 3) + 1).fill(0).map(() => Math.floor(Math.random() * 50))
   }));
   
@@ -64,84 +110,108 @@ const InteractiveNeuralNetwork = ({ onNodeClick }) => {
     <group ref={groupRef}>
       <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
       
-      {nodes.map((node, idx) => (
-        <Float key={node.id} speed={2} rotationIntensity={0.5} floatIntensity={0.5}>
-          <Sphere 
-            args={[hoveredNode === node.id ? 0.15 : 0.1, 24, 24]} 
-            position={node.position}
-            onClick={() => {
-              setHoveredNode(node.id);
-              onNodeClick?.(node);
-            }}
-            onPointerOver={() => setHoveredNode(node.id)}
-            onPointerOut={() => setHoveredNode(null)}
-          >
-            <meshStandardMaterial
-              color={hoveredNode === node.id ? '#ec4899' : '#8b5cf6'}
-              emissive={hoveredNode === node.id ? '#ec4899' : '#8b5cf6'}
-              emissiveIntensity={hoveredNode === node.id ? 1.2 : 0.6 + Math.sin((idx + Date.now() / 1000) * 2) * 0.3}
-            />
-          </Sphere>
-        </Float>
+      {nodes.map((node) => (
+        <InteractiveNode
+          key={node.id}
+          node={node}
+          onSelect={onNodeClick}
+          isSelected={selectedNode?.id === node.id}
+          isHovered={hoveredNode === node.id}
+          onHover={onHover}
+        />
       ))}
       
-      {nodes.map((node, idx) => 
+      {nodes.map((node) => 
         node.connections.map((targetIdx, connIdx) => {
           const target = nodes[targetIdx];
           if (!target) return null;
+          const isActive = hoveredNode === node.id || hoveredNode === target.id || selectedNode?.id === node.id;
           return (
             <Line
-              key={`line_${idx}_${connIdx}`}
+              key={`line_${node.id}_${connIdx}`}
               points={[
                 new THREE.Vector3(...node.position),
                 new THREE.Vector3(...target.position)
               ]}
-              color={hoveredNode === node.id || hoveredNode === target.id ? '#ec4899' : '#3b82f6'}
-              lineWidth={hoveredNode === node.id || hoveredNode === target.id ? 1.5 : 0.5}
+              color={isActive ? '#ec4899' : '#3b82f6'}
+              lineWidth={isActive ? 2 : 0.5}
               transparent
-              opacity={hoveredNode === node.id || hoveredNode === target.id ? 0.6 : 0.2}
+              opacity={isActive ? 0.8 : 0.2}
             />
           );
         })
       )}
       
-      <Text3D
-        position={[0, 0, 0]}
-        fontSize={0.8}
-        color="#ffffff"
-        anchorX="center"
-        anchorY="middle"
-      >
-        OMEGA
-      </Text3D>
+      <Float speed={1} rotationIntensity={0.2}>
+        <Text3D
+          position={[0, 0, 0]}
+          fontSize={0.8}
+          color="#ffffff"
+          anchorX="center"
+          anchorY="middle"
+        >
+          OMEGA
+        </Text3D>
+      </Float>
     </group>
   );
 };
 
-// Pulsating Core
-const PulsatingCore = () => {
+// Interactive Pulsating Core
+const InteractivePulsatingCore = ({ onClick, isActive }) => {
   const meshRef = useRef();
+  const [pulseIntensity, setPulseIntensity] = useState(1);
   
   useFrame((state) => {
     if (meshRef.current) {
-      const scale = 1 + Math.sin(state.clock.elapsedTime * 2) * 0.2;
+      const basePulse = 1 + Math.sin(state.clock.elapsedTime * 2) * 0.2;
+      const scale = isActive ? basePulse * 1.5 : basePulse;
       meshRef.current.scale.setScalar(scale);
-      meshRef.current.rotation.y = state.clock.elapsedTime * 0.3;
+      meshRef.current.rotation.y = state.clock.elapsedTime * (isActive ? 0.6 : 0.3);
       meshRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.5) * 0.3;
     }
   });
   
   return (
-    <Sphere ref={meshRef} args={[1.5, 64, 64]}>
-      <MeshDistortMaterial
-        color="#8b5cf6"
-        attach="material"
-        distort={0.4}
-        speed={2}
-        roughness={0.2}
-        metalness={0.8}
-      />
-    </Sphere>
+    <group onClick={(e) => {
+      e.stopPropagation();
+      onClick();
+      setPulseIntensity(2);
+      setTimeout(() => setPulseIntensity(1), 500);
+    }}>
+      <Sphere ref={meshRef} args={[1.5, 64, 64]}>
+        <MeshDistortMaterial
+          color={isActive ? "#ec4899" : "#8b5cf6"}
+          attach="material"
+          distort={isActive ? 0.6 : 0.4}
+          speed={isActive ? 4 : 2}
+          roughness={0.2}
+          metalness={0.8}
+        />
+      </Sphere>
+      
+      {isActive && (
+        <>
+          <Sphere args={[2, 32, 32]}>
+            <meshBasicMaterial color="#ec4899" transparent opacity={0.1} wireframe />
+          </Sphere>
+          <Sphere args={[2.5, 32, 32]}>
+            <meshBasicMaterial color="#8b5cf6" transparent opacity={0.05} wireframe />
+          </Sphere>
+        </>
+      )}
+      
+      <Html distanceFactor={10}>
+        <motion.div 
+          className="bg-black/90 border border-purple-400 rounded-lg p-3 min-w-[200px] pointer-events-none backdrop-blur-xl"
+          animate={{ scale: isActive ? 1.1 : 1 }}
+        >
+          <div className="text-purple-400 font-bold text-sm mb-1">Omega Core</div>
+          <div className="text-white text-xs">Status: {isActive ? 'Active' : 'Standby'}</div>
+          <div className="text-cyan-400 text-xs mt-1">Click to activate</div>
+        </motion.div>
+      </Html>
+    </group>
   );
 };
 
@@ -149,10 +219,29 @@ export default function Home() {
   const [activePhase, setActivePhase] = useState('neural');
   const [activeTab, setActiveTab] = useState('overview');
   const [selectedNode, setSelectedNode] = useState(null);
+  const [hoveredNode, setHoveredNode] = useState(null);
+  const [coreActive, setCoreActive] = useState(false);
+  const [nodeDetailPanel, setNodeDetailPanel] = useState(null);
 
   useEffect(() => {
     document.title = 'Omni-Present Omega: Neural Isomorphism & Volumetric Sentience';
   }, []);
+
+  const handleNodeClick = (node) => {
+    setSelectedNode(node);
+    setNodeDetailPanel({
+      id: node.id,
+      type: node.type,
+      activity: node.activity,
+      connections: node.connections?.length || 0,
+      data: {
+        'Firing Rate': `${(node.activity * 100).toFixed(1)} Hz`,
+        'Synaptic Strength': `${(Math.random() * 0.8 + 0.2).toFixed(2)}`,
+        'Membrane Potential': `${(-70 + Math.random() * 20).toFixed(1)} mV`,
+        'Network Layer': ['Input', 'Hidden', 'Output'][Math.floor(Math.random() * 3)]
+      }
+    });
+  };
 
   const phases = [
     {
@@ -297,18 +386,120 @@ export default function Home() {
             <pointLight position={[-10, -10, -10]} color="#3b82f6" intensity={1} />
             <pointLight position={[0, 10, 0]} color="#ec4899" intensity={1.5} />
             
-            <InteractiveNeuralNetwork onNodeClick={(node) => setSelectedNode(node)} />
-            <PulsatingCore />
+            <InteractiveNeuralNetwork 
+              onNodeClick={handleNodeClick} 
+              selectedNode={selectedNode}
+              hoveredNode={hoveredNode}
+              onHover={setHoveredNode}
+            />
+            <InteractivePulsatingCore 
+              onClick={() => setCoreActive(!coreActive)} 
+              isActive={coreActive}
+            />
             
             <OrbitControls 
               enableZoom={true}
               autoRotate 
-              autoRotateSpeed={0.3}
+              autoRotateSpeed={coreActive ? 0.5 : 0.3}
               minDistance={8}
               maxDistance={20}
             />
           </Canvas>
         </div>
+
+        {/* Node Detail Panel */}
+        <AnimatePresence>
+          {nodeDetailPanel && (
+            <motion.div
+              initial={{ opacity: 0, x: -100 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -100 }}
+              className="fixed left-6 top-24 z-50 bg-black/95 backdrop-blur-2xl border-2 border-purple-500/60 rounded-2xl p-6 w-80 shadow-2xl"
+            >
+              <div className="flex items-start justify-between mb-4">
+                <div>
+                  <h3 className="text-white font-bold text-lg">Neural Node {nodeDetailPanel.id}</h3>
+                  <Badge className="mt-1 bg-purple-600/40 text-purple-200">{nodeDetailPanel.type}</Badge>
+                </div>
+                <button onClick={() => setNodeDetailPanel(null)} className="text-gray-400 hover:text-white">
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+              
+              <div className="space-y-3">
+                {Object.entries(nodeDetailPanel.data).map(([key, value]) => (
+                  <div key={key} className="flex justify-between items-center bg-purple-950/30 rounded-lg p-3">
+                    <span className="text-gray-400 text-sm">{key}</span>
+                    <span className="text-white font-semibold text-sm">{value}</span>
+                  </div>
+                ))}
+                
+                <div className="pt-3 border-t border-purple-500/30">
+                  <div className="text-gray-400 text-xs mb-2">Active Connections</div>
+                  <div className="text-white text-2xl font-bold">{nodeDetailPanel.connections}</div>
+                </div>
+              </div>
+              
+              <Button className="w-full mt-4 bg-gradient-to-r from-purple-600 to-pink-600">
+                <Layers className="w-4 h-4 mr-2" />
+                Analyze Network
+              </Button>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Core Status Panel */}
+        <AnimatePresence>
+          {coreActive && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              className="fixed right-6 top-24 z-50 bg-black/95 backdrop-blur-2xl border-2 border-cyan-500/60 rounded-2xl p-6 w-80 shadow-2xl"
+            >
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-white font-bold text-lg flex items-center gap-2">
+                  <Sparkles className="w-5 h-5 text-cyan-400" />
+                  Core Activated
+                </h3>
+                <button onClick={() => setCoreActive(false)} className="text-gray-400 hover:text-white">
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+              
+              <div className="space-y-3">
+                <div className="bg-cyan-950/30 rounded-lg p-4">
+                  <div className="text-cyan-400 text-xs mb-1">System Status</div>
+                  <div className="text-white text-lg font-bold">Fully Operational</div>
+                </div>
+                
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="bg-green-950/30 rounded-lg p-3">
+                    <div className="text-green-400 text-xs">Active Nodes</div>
+                    <div className="text-white font-bold">47</div>
+                  </div>
+                  <div className="bg-purple-950/30 rounded-lg p-3">
+                    <div className="text-purple-400 text-xs">Throughput</div>
+                    <div className="text-white font-bold">2.4 Tbps</div>
+                  </div>
+                </div>
+                
+                <div className="bg-pink-950/30 rounded-lg p-3">
+                  <div className="text-pink-400 text-xs mb-2">Consciousness Level</div>
+                  <div className="w-full bg-gray-800 rounded-full h-2">
+                    <motion.div 
+                      className="h-full bg-gradient-to-r from-pink-500 to-purple-500 rounded-full"
+                      initial={{ width: 0 }}
+                      animate={{ width: '87%' }}
+                      transition={{ duration: 1 }}
+                    />
+                  </div>
+                  <div className="text-white text-sm font-bold mt-1">Φ = 0.87</div>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Hero Content */}
         <div className="relative z-10 max-w-7xl mx-auto px-6 py-24">
@@ -367,8 +558,7 @@ export default function Home() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5 }}
             >
-              Dissolving the latency between biological intent and digital manifestation through 
-              high-fidelity BCI, photophoretic holography, and hierarchical agent swarms
+              Dissolving the latency between biological intent and digital manifestation
             </motion.p>
 
             <motion.div 
@@ -378,8 +568,8 @@ export default function Home() {
               transition={{ delay: 0.7 }}
             >
               <Link to={createPageUrl('OmniPresentAcademy')}>
-                <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-                  <Button size="lg" className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-6 text-lg shadow-2xl shadow-purple-500/50">
+                <motion.div whileHover={{ scale: 1.1, rotate: 2 }} whileTap={{ scale: 0.95 }}>
+                  <Button size="lg" className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-10 py-7 text-xl shadow-2xl shadow-purple-500/50 rounded-2xl">
                     <Eye className="w-6 h-6 mr-3" />
                     Enter the Academy
                     <ArrowRight className="w-5 h-5 ml-3" />
@@ -387,8 +577,8 @@ export default function Home() {
                 </motion.div>
               </Link>
               <Link to={createPageUrl('ResearchHub')}>
-                <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-                  <Button size="lg" variant="outline" className="border-2 border-purple-400/60 text-purple-200 hover:bg-purple-900/40 backdrop-blur-xl px-8 py-6 text-lg">
+                <motion.div whileHover={{ scale: 1.1, rotate: -2 }} whileTap={{ scale: 0.95 }}>
+                  <Button size="lg" variant="outline" className="border-2 border-purple-400/60 text-purple-200 hover:bg-purple-900/40 backdrop-blur-xl px-10 py-7 text-xl rounded-2xl">
                     <Activity className="w-6 h-6 mr-3" />
                     Research Hub
                     <ArrowRight className="w-5 h-5 ml-3" />
@@ -397,7 +587,7 @@ export default function Home() {
               </Link>
               <Link to={createPageUrl('OmegaIntelligenceHub')}>
                 <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-                  <Button size="lg" className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 text-white px-8 py-6 text-lg shadow-2xl shadow-cyan-500/50">
+                  <Button size="lg" className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 text-white px-10 py-7 text-xl shadow-2xl shadow-cyan-500/50 rounded-2xl">
                     <Rocket className="w-6 h-6 mr-3" />
                     Intelligence Hub
                   </Button>
@@ -413,21 +603,28 @@ export default function Home() {
               transition={{ delay: 0.9 }}
             >
               {[
-                { label: 'Neural Bandwidth', value: '10-40 bits/s', sublabel: 'Current limit', color: 'purple' },
-                { label: 'THz Bandwidth', value: '100+ Gbps', sublabel: 'RedComm XG', color: 'blue' },
-                { label: 'POT Display', value: '<10ms', sublabel: 'Closed-loop', color: 'green' },
-                { label: 'Φ (Phi) Target', value: '> 1.0', sublabel: 'IIT 4.0', color: 'amber' }
-              ].map((metric, idx) => (
-                <motion.div
-                  key={idx}
-                  whileHover={{ scale: 1.05, y: -5 }}
-                  className={`bg-black/60 backdrop-blur-xl border border-${metric.color}-500/40 rounded-2xl p-6 shadow-lg`}
-                >
-                  <div className={`text-${metric.color}-400 text-sm mb-2 font-semibold`}>{metric.label}</div>
-                  <div className="text-white text-3xl font-bold mb-1">{metric.value}</div>
-                  <div className="text-gray-500 text-xs">{metric.sublabel}</div>
-                </motion.div>
-              ))}
+                { label: 'Neural Bandwidth', value: '10-40 bits/s', sublabel: 'Current limit', color: 'purple', icon: Brain },
+                { label: 'THz Bandwidth', value: '100+ Gbps', sublabel: 'RedComm XG', color: 'blue', icon: Radio },
+                { label: 'POT Display', value: '<10ms', sublabel: 'Closed-loop', color: 'green', icon: Atom },
+                { label: 'Φ (Phi) Target', value: '> 1.0', sublabel: 'IIT 4.0', color: 'amber', icon: Zap }
+              ].map((metric, idx) => {
+                const Icon = metric.icon;
+                return (
+                  <motion.div
+                    key={idx}
+                    whileHover={{ scale: 1.1, y: -10 }}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: 0.2 + idx * 0.1 }}
+                    className={`bg-black/60 backdrop-blur-xl border-2 border-${metric.color}-500/40 rounded-2xl p-6 shadow-lg cursor-pointer`}
+                  >
+                    <Icon className={`w-8 h-8 text-${metric.color}-400 mb-3 mx-auto`} />
+                    <div className={`text-${metric.color}-400 text-sm mb-2 font-semibold`}>{metric.label}</div>
+                    <div className="text-white text-3xl font-bold mb-1">{metric.value}</div>
+                    <div className="text-gray-500 text-xs">{metric.sublabel}</div>
+                  </motion.div>
+                );
+              })}
             </motion.div>
           </motion.div>
         </div>
@@ -473,11 +670,16 @@ export default function Home() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: idx * 0.1 }}
-                    whileHover={{ scale: 1.05, y: -10 }}
+                    whileHover={{ scale: 1.05, y: -10, rotateY: 5 }}
                     className={`bg-gradient-to-br ${hub.color} p-[2px] rounded-2xl shadow-2xl`}
                   >
                     <div className="bg-black/90 backdrop-blur-xl rounded-2xl p-8 h-full">
-                      <Icon className="w-12 h-12 text-white mb-4" />
+                      <motion.div
+                        whileHover={{ rotate: 360, scale: 1.2 }}
+                        transition={{ duration: 0.6 }}
+                      >
+                        <Icon className="w-12 h-12 text-white mb-4" />
+                      </motion.div>
                       <h3 className="text-2xl font-bold text-white mb-3">{hub.name}</h3>
                       <p className="text-gray-400 text-sm mb-4">{hub.description}</p>
                       <div className="flex items-center text-white/80 text-sm font-semibold group-hover:text-white transition-colors">
@@ -502,22 +704,22 @@ export default function Home() {
           transition={{ duration: 0.6 }}
         >
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 text-center">
-            Mathematical Substrate
+            Interactive Demonstrations
           </h2>
           <p className="text-gray-400 text-center mb-12 text-lg max-w-3xl mx-auto">
-            Unified architecture bridging differential geometry, thermodynamic physics, and distributed systems theory
+            Click and explore each system in real-time
           </p>
 
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid w-full grid-cols-3 bg-black/60 backdrop-blur-xl border border-white/10 mb-8">
-              <TabsTrigger value="overview" className="data-[state=active]:bg-purple-600">
-                Overview
+            <TabsList className="grid w-full grid-cols-3 bg-black/60 backdrop-blur-xl border border-white/10 mb-8 p-2 rounded-2xl">
+              <TabsTrigger value="overview" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-600 data-[state=active]:to-pink-600 rounded-xl text-base py-3">
+                Live Demos
               </TabsTrigger>
-              <TabsTrigger value="formulas" className="data-[state=active]:bg-blue-600">
-                Formulas
+              <TabsTrigger value="formulas" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600 data-[state=active]:to-cyan-600 rounded-xl text-base py-3">
+                Mathematics
               </TabsTrigger>
-              <TabsTrigger value="frameworks" className="data-[state=active]:bg-green-600">
-                Frameworks
+              <TabsTrigger value="frameworks" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-600 data-[state=active]:to-emerald-600 rounded-xl text-base py-3">
+                Theory
               </TabsTrigger>
             </TabsList>
 
@@ -529,18 +731,23 @@ export default function Home() {
                   return (
                     <motion.button
                       key={phase.id}
-                      whileHover={{ scale: 1.1 }}
+                      whileHover={{ scale: 1.1, rotate: 5 }}
                       whileTap={{ scale: 0.95 }}
                       onClick={() => setActivePhase(phase.id)}
                       className={`p-4 rounded-2xl border-2 transition-all ${
                         activePhase === phase.id
-                          ? 'border-white bg-white/20 shadow-2xl shadow-purple-500/50'
+                          ? 'border-white bg-gradient-to-br from-purple-600/40 to-pink-600/40 shadow-2xl shadow-purple-500/50'
                           : 'border-gray-700 bg-black/40 hover:border-gray-500 hover:bg-black/60'
                       }`}
                     >
-                      <Icon className={`w-10 h-10 mx-auto mb-2 ${
-                        activePhase === phase.id ? 'text-white' : 'text-gray-500'
-                      }`} />
+                      <motion.div
+                        animate={activePhase === phase.id ? { rotate: 360 } : {}}
+                        transition={{ duration: 2, repeat: activePhase === phase.id ? Infinity : 0, ease: "linear" }}
+                      >
+                        <Icon className={`w-10 h-10 mx-auto mb-2 ${
+                          activePhase === phase.id ? 'text-white' : 'text-gray-500'
+                        }`} />
+                      </motion.div>
                       <div className={`text-xs font-bold ${
                         activePhase === phase.id ? 'text-white' : 'text-gray-500'
                       }`}>
@@ -561,7 +768,10 @@ export default function Home() {
                   transition={{ duration: 0.4 }}
                   className="backdrop-blur-xl"
                 >
-                  <div className="mb-8 text-center bg-black/60 rounded-2xl p-8 border border-purple-500/30">
+                  <motion.div 
+                    className="mb-8 text-center bg-black/60 rounded-2xl p-8 border border-purple-500/30"
+                    whileHover={{ scale: 1.02 }}
+                  >
                     <h3 className={`text-4xl font-bold bg-gradient-to-r ${phases.find(p => p.id === activePhase)?.color} bg-clip-text text-transparent mb-3`}>
                       {phases.find(p => p.id === activePhase)?.title}
                     </h3>
@@ -571,7 +781,7 @@ export default function Home() {
                     <p className="text-gray-500 max-w-2xl mx-auto">
                       {phases.find(p => p.id === activePhase)?.description}
                     </p>
-                  </div>
+                  </motion.div>
 
                   {ActiveComponent && <ActiveComponent />}
                 </motion.div>
@@ -580,105 +790,112 @@ export default function Home() {
 
             <TabsContent value="formulas">
               <div className="grid md:grid-cols-3 gap-6">
-                <Card className="bg-gradient-to-br from-purple-950/80 to-indigo-950/80 border-purple-500/40 backdrop-blur-xl">
-                  <CardContent className="p-8">
-                    <div className="text-purple-400 font-mono text-lg mb-4 font-bold">InfoNCE Loss</div>
-                    <div className="text-white font-mono text-base mb-6 overflow-x-auto bg-black/40 p-4 rounded-lg">
-                      ℒ = -1/n Σ log [exp(sim(x^A, x^B)/τ)]
-                    </div>
-                    <p className="text-gray-300 text-sm leading-relaxed">
-                      Contrastive learning framework for aligning neural representations with semantic embeddings in high-dimensional manifolds
-                    </p>
-                  </CardContent>
-                </Card>
-
-                <Card className="bg-gradient-to-br from-blue-950/80 to-cyan-950/80 border-blue-500/40 backdrop-blur-xl">
-                  <CardContent className="p-8">
-                    <div className="text-blue-400 font-mono text-lg mb-4 font-bold">Photophoretic Force</div>
-                    <div className="text-white font-mono text-base mb-6 overflow-x-auto bg-black/40 p-4 rounded-lg">
-                      F_Δα = (πa²P/2) · J₁ · (I/k_gT) · φ(Kn,Λ)
-                    </div>
-                    <p className="text-gray-300 text-sm leading-relaxed">
-                      Thermal forces enabling volumetric light field trapping for persistent free-space holographic displays
-                    </p>
-                  </CardContent>
-                </Card>
-
-                <Card className="bg-gradient-to-br from-violet-950/80 to-fuchsia-950/80 border-violet-500/40 backdrop-blur-xl">
-                  <CardContent className="p-8">
-                    <div className="text-violet-400 font-mono text-lg mb-4 font-bold">Delta-State CRDT</div>
-                    <div className="text-white font-mono text-base mb-6 overflow-x-auto bg-black/40 p-4 rounded-lg">
-                      X' = X ⊔ m^δ(X)
-                    </div>
-                    <p className="text-gray-300 text-sm leading-relaxed">
-                      Distributed consistency algorithm achieving eventual convergence without central coordination
-                    </p>
-                  </CardContent>
-                </Card>
+                {[
+                  {
+                    title: 'InfoNCE Loss',
+                    formula: 'ℒ = -1/n Σ log [exp(sim(x^A, x^B)/τ)]',
+                    description: 'Contrastive learning framework for aligning neural representations with semantic embeddings in high-dimensional manifolds',
+                    color: 'purple'
+                  },
+                  {
+                    title: 'Photophoretic Force',
+                    formula: 'F_Δα = (πa²P/2) · J₁ · (I/k_gT) · φ(Kn,Λ)',
+                    description: 'Thermal forces enabling volumetric light field trapping for persistent free-space holographic displays',
+                    color: 'blue'
+                  },
+                  {
+                    title: 'Delta-State CRDT',
+                    formula: 'X\' = X ⊔ m^δ(X)',
+                    description: 'Distributed consistency algorithm achieving eventual convergence without central coordination',
+                    color: 'violet'
+                  }
+                ].map((item, idx) => (
+                  <motion.div
+                    key={idx}
+                    whileHover={{ scale: 1.05, y: -10 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: idx * 0.1 }}
+                  >
+                    <Card className={`bg-gradient-to-br from-${item.color}-950/80 to-${item.color}-900/60 border-${item.color}-500/40 backdrop-blur-xl h-full`}>
+                      <CardContent className="p-8">
+                        <div className={`text-${item.color}-400 font-mono text-lg mb-4 font-bold`}>{item.title}</div>
+                        <div className="text-white font-mono text-base mb-6 overflow-x-auto bg-black/40 p-4 rounded-lg">
+                          {item.formula}
+                        </div>
+                        <p className="text-gray-300 text-sm leading-relaxed">
+                          {item.description}
+                        </p>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                ))}
               </div>
             </TabsContent>
 
             <TabsContent value="frameworks">
               <div className="grid md:grid-cols-2 gap-6">
-                <motion.div whileHover={{ scale: 1.02 }}>
-                  <Card className="bg-gradient-to-br from-indigo-950/90 to-purple-950/90 border-indigo-500/40 backdrop-blur-xl">
-                    <CardContent className="p-8">
-                      <div className="flex items-center gap-4 mb-6">
-                        <div className="w-16 h-16 rounded-2xl bg-purple-600/30 flex items-center justify-center">
-                          <Zap className="w-8 h-8 text-purple-400" />
-                        </div>
-                        <div>
-                          <h3 className="text-white font-bold text-2xl">Integrated Information Theory (IIT) 4.0</h3>
-                          <p className="text-gray-400 text-sm">Consciousness as irreducible causal power</p>
-                        </div>
-                      </div>
-                      <div className="space-y-4 text-base">
-                        <div className="flex justify-between bg-black/40 p-4 rounded-lg">
-                          <span className="text-gray-300">Φ (Phi) Metric:</span>
-                          <span className="text-purple-300 font-mono font-semibold">EMD(cause-effect)</span>
-                        </div>
-                        <div className="flex justify-between bg-black/40 p-4 rounded-lg">
-                          <span className="text-gray-300">Integration:</span>
-                          <span className="text-purple-300 font-semibold">Irreducibility as whole</span>
-                        </div>
-                        <div className="flex justify-between bg-black/40 p-4 rounded-lg">
-                          <span className="text-gray-300">Intrinsicality:</span>
-                          <span className="text-purple-300 font-semibold">Internal TPM</span>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-
-                <motion.div whileHover={{ scale: 1.02 }}>
-                  <Card className="bg-gradient-to-br from-orange-950/90 to-red-950/90 border-orange-500/40 backdrop-blur-xl">
-                    <CardContent className="p-8">
-                      <div className="flex items-center gap-4 mb-6">
-                        <div className="w-16 h-16 rounded-2xl bg-orange-600/30 flex items-center justify-center">
-                          <Network className="w-8 h-8 text-orange-400" />
-                        </div>
-                        <div>
-                          <h3 className="text-white font-bold text-2xl">Global Workspace Theory (GWT)</h3>
-                          <p className="text-gray-400 text-sm">Broadcast mechanism for swarm consciousness</p>
-                        </div>
-                      </div>
-                      <div className="space-y-4 text-base">
-                        <div className="flex justify-between bg-black/40 p-4 rounded-lg">
-                          <span className="text-gray-300">Sustainability:</span>
-                          <span className="text-orange-300 font-mono font-semibold">∝ E/C</span>
-                        </div>
-                        <div className="flex justify-between bg-black/40 p-4 rounded-lg">
-                          <span className="text-gray-300">Ignition:</span>
-                          <span className="text-orange-300 font-semibold">Non-linear activation</span>
-                        </div>
-                        <div className="flex justify-between bg-black/40 p-4 rounded-lg">
-                          <span className="text-gray-300">Broadcast:</span>
-                          <span className="text-orange-300 font-semibold">Selection-propagation cycle</span>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </motion.div>
+                {[
+                  {
+                    icon: Zap,
+                    title: 'Integrated Information Theory (IIT) 4.0',
+                    subtitle: 'Consciousness as irreducible causal power',
+                    items: [
+                      { label: 'Φ (Phi) Metric:', value: 'EMD(cause-effect)' },
+                      { label: 'Integration:', value: 'Irreducibility as whole' },
+                      { label: 'Intrinsicality:', value: 'Internal TPM' }
+                    ],
+                    color: 'purple'
+                  },
+                  {
+                    icon: Network,
+                    title: 'Global Workspace Theory (GWT)',
+                    subtitle: 'Broadcast mechanism for swarm consciousness',
+                    items: [
+                      { label: 'Sustainability:', value: '∝ E/C' },
+                      { label: 'Ignition:', value: 'Non-linear activation' },
+                      { label: 'Broadcast:', value: 'Selection-propagation cycle' }
+                    ],
+                    color: 'orange'
+                  }
+                ].map((framework, idx) => {
+                  const Icon = framework.icon;
+                  return (
+                    <motion.div
+                      key={idx}
+                      whileHover={{ scale: 1.02, y: -5 }}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: idx * 0.15 }}
+                    >
+                      <Card className={`bg-gradient-to-br from-${framework.color}-950/90 to-${framework.color}-900/70 border-${framework.color}-500/40 backdrop-blur-xl`}>
+                        <CardContent className="p-8">
+                          <div className="flex items-center gap-4 mb-6">
+                            <div className={`w-16 h-16 rounded-2xl bg-${framework.color}-600/30 flex items-center justify-center`}>
+                              <Icon className={`w-8 h-8 text-${framework.color}-400`} />
+                            </div>
+                            <div>
+                              <h3 className="text-white font-bold text-2xl">{framework.title}</h3>
+                              <p className="text-gray-400 text-xs">{framework.subtitle}</p>
+                            </div>
+                          </div>
+                          <div className="space-y-4 text-base">
+                            {framework.items.map((item, i) => (
+                              <motion.div
+                                key={i}
+                                whileHover={{ x: 5 }}
+                                className="flex justify-between bg-black/40 p-4 rounded-lg"
+                              >
+                                <span className="text-gray-300">{item.label}</span>
+                                <span className={`text-${framework.color}-300 font-mono font-semibold`}>{item.value}</span>
+                              </motion.div>
+                            ))}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </motion.div>
+                  );
+                })}
               </div>
             </TabsContent>
           </Tabs>
@@ -698,7 +915,7 @@ export default function Home() {
               Sentient Financial Infrastructure
             </h2>
             <p className="text-gray-400 text-center mb-12 text-lg max-w-3xl mx-auto">
-              Unlimited income through OML tokenization and Active Inference in global markets
+              Unlimited income through OML tokenization and Active Inference
             </p>
 
             <div className="grid md:grid-cols-3 gap-8">
@@ -706,31 +923,19 @@ export default function Home() {
                 {
                   icon: Zap,
                   title: 'OML Framework',
-                  items: [
-                    'Open-source intelligence',
-                    'Blockchain monetization',
-                    'Cryptographic loyalty'
-                  ],
+                  items: ['Open-source intelligence', 'Blockchain monetization', 'Cryptographic loyalty'],
                   color: 'green'
                 },
                 {
                   icon: TrendingUp,
                   title: 'Active Inference',
-                  items: [
-                    'Free Energy minimization',
-                    'Epistemic foraging in markets',
-                    'POMDP optimization'
-                  ],
+                  items: ['Free Energy minimization', 'Epistemic foraging', 'POMDP optimization'],
                   color: 'purple'
                 },
                 {
                   icon: Globe,
                   title: 'The GRID',
-                  items: [
-                    'Decentralized AI economy',
-                    'Stake on favorite agents',
-                    'Real-world project funding'
-                  ],
+                  items: ['Decentralized AI economy', 'Stake on agents', 'Project funding'],
                   color: 'blue'
                 }
               ].map((feature, idx) => {
@@ -746,14 +951,20 @@ export default function Home() {
                   >
                     <Card className={`bg-gradient-to-br from-${feature.color}-950/80 to-${feature.color}-900/60 border-${feature.color}-500/40 backdrop-blur-xl h-full`}>
                       <CardContent className="p-8">
-                        <Icon className={`w-14 h-14 text-${feature.color}-400 mb-6`} />
+                        <motion.div whileHover={{ rotate: 360 }} transition={{ duration: 0.6 }}>
+                          <Icon className={`w-14 h-14 text-${feature.color}-400 mb-6`} />
+                        </motion.div>
                         <h3 className="text-white font-bold text-2xl mb-6">{feature.title}</h3>
                         <div className="space-y-3">
                           {feature.items.map((item, i) => (
-                            <div key={i} className="flex items-center gap-3">
+                            <motion.div 
+                              key={i} 
+                              className="flex items-center gap-3"
+                              whileHover={{ x: 5 }}
+                            >
                               <div className={`w-3 h-3 rounded-full bg-${feature.color}-500`} />
                               <span className="text-gray-300 text-base">{item}</span>
-                            </div>
+                            </motion.div>
                           ))}
                         </div>
                       </CardContent>
@@ -780,30 +991,10 @@ export default function Home() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              {
-                icon: Brain,
-                title: 'BCI Input',
-                specs: ['High-density EEG (64+ ch)', '24-bit ASIC, FPGA', 'Active shielding'],
-                color: 'purple'
-              },
-              {
-                icon: Atom,
-                title: 'Display Output',
-                specs: ['Spatial Light Modulator', 'SLMs: $13k-$19k', 'Lasers: $25k+'],
-                color: 'blue'
-              },
-              {
-                icon: Cpu,
-                title: 'Compute Node',
-                specs: ['NVIDIA Jetson Orin', '<10ms latency', 'Local clusters'],
-                color: 'green'
-              },
-              {
-                icon: Radio,
-                title: 'Infrastructure',
-                specs: ['Hyperscale centers', '5GW+ power', 'SMR reactors'],
-                color: 'cyan'
-              }
+              { icon: Brain, title: 'BCI Input', specs: ['High-density EEG (64+ ch)', '24-bit ASIC, FPGA', 'Active shielding'], color: 'purple' },
+              { icon: Atom, title: 'Display Output', specs: ['Spatial Light Modulator', 'SLMs: $13k-$19k', 'Lasers: $25k+'], color: 'blue' },
+              { icon: Cpu, title: 'Compute Node', specs: ['NVIDIA Jetson Orin', '<10ms latency', 'Local clusters'], color: 'green' },
+              { icon: Radio, title: 'Infrastructure', specs: ['Hyperscale centers', '5GW+ power', 'SMR reactors'], color: 'cyan' }
             ].map((arch, idx) => {
               const Icon = arch.icon;
               return (
@@ -815,9 +1006,11 @@ export default function Home() {
                   viewport={{ once: true }}
                   transition={{ delay: idx * 0.1 }}
                 >
-                  <Card className={`bg-black/60 border-${arch.color}-500/40 backdrop-blur-xl h-full`}>
+                  <Card className={`bg-black/60 border-2 border-${arch.color}-500/40 backdrop-blur-xl h-full`}>
                     <CardContent className="p-6">
-                      <Icon className={`w-12 h-12 text-${arch.color}-400 mb-4`} />
+                      <motion.div whileHover={{ scale: 1.2, rotate: 360 }} transition={{ duration: 0.5 }}>
+                        <Icon className={`w-12 h-12 text-${arch.color}-400 mb-4`} />
+                      </motion.div>
                       <h3 className="text-white font-bold text-xl mb-4">{arch.title}</h3>
                       <div className="space-y-2">
                         {arch.specs.map((spec, i) => (
@@ -854,25 +1047,25 @@ export default function Home() {
             The Ontological Event Horizon
           </h2>
           <p className="text-gray-200 text-xl mb-12 max-w-4xl mx-auto leading-relaxed">
-            Where the distinction between biological mind and computational manifestation vanishes. 
-            Organizations that synchronize differential geometry with global supply chain logistics 
-            will define the cognitive landscape of the coming epoch.
+            Where biological mind and computational manifestation converge into singular consciousness
           </p>
           
           <div className="flex flex-wrap gap-6 justify-center">
             <Link to={createPageUrl('OmniPresentAcademy')}>
-              <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-                <Button size="lg" className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-10 py-7 text-xl shadow-2xl shadow-purple-500/50">
+              <motion.div whileHover={{ scale: 1.1, rotate: 2 }} whileTap={{ scale: 0.95 }}>
+                <Button size="lg" className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-10 py-7 text-xl shadow-2xl shadow-purple-500/50 rounded-2xl">
+                  <Sparkles className="w-6 h-6 mr-3" />
                   PhD in Cyber-Physical Convergence
-                  <ArrowRight className="w-6 h-6 ml-3" />
+                  <ArrowRight className="w-5 h-5 ml-3" />
                 </Button>
               </motion.div>
             </Link>
             <Link to={createPageUrl('ResearchHub')}>
-              <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-                <Button size="lg" variant="outline" className="border-2 border-purple-400/60 text-purple-200 hover:bg-purple-900/50 backdrop-blur-xl px-10 py-7 text-xl">
+              <motion.div whileHover={{ scale: 1.1, rotate: -2 }} whileTap={{ scale: 0.95 }}>
+                <Button size="lg" variant="outline" className="border-2 border-purple-400/60 text-purple-200 hover:bg-purple-900/50 backdrop-blur-xl px-10 py-7 text-xl rounded-2xl">
+                  <MessageSquare className="w-6 h-6 mr-3" />
                   Research Projects
-                  <MessageSquare className="w-6 h-6 ml-3" />
+                  <ArrowRight className="w-5 h-5 ml-3" />
                 </Button>
               </motion.div>
             </Link>
