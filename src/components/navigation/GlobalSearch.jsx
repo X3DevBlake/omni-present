@@ -1,132 +1,145 @@
 import React, { useState, useEffect } from 'react';
-import { Search, X, Loader2 } from 'lucide-react';
+import { Search, Command, Star, Clock, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
+import { base44 } from '@/api/base44Client';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 
 export default function GlobalSearch() {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [hubs, setHubs] = useState([]);
+  const [recent, setRecent] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!query.trim()) {
+    // Fetch all hubs for client-side search (for speed on small-ish dataset of ~400)
+    // In production with thousands, use server-side search.
+    const loadHubs = async () => {
+      try {
+        const allHubs = await base44.entities.Hub.list({ limit: 1000 });
+        setHubs(allHubs);
+        
+        // Mock recent for now, replace with Entity fetch later
+        setRecent(allHubs.slice(0, 3)); 
+      } catch (e) {
+        console.error("Failed to load hubs", e);
+      }
+    };
+    if (isOpen) loadHubs();
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (!query) {
       setResults([]);
       return;
     }
-
-    setIsLoading(true);
-    // Simulated search - can be replaced with actual backend function
-    const mockResults = [
-      { id: 1, type: 'Agent', title: 'Portfolio Manager', page: 'Agent' },
-      { id: 2, type: 'Goal', title: 'House Down Payment', page: 'FinancialGoal' },
-      { id: 3, type: 'Market', title: 'AAPL Stock', page: 'World' },
-      { id: 4, type: 'Pool', title: 'ETH-USDC Pool', page: 'LiquidityPools' }
-    ].filter(item => 
-      item.title.toLowerCase().includes(query.toLowerCase()) ||
-      item.type.toLowerCase().includes(query.toLowerCase())
+    const lower = query.toLowerCase();
+    const filtered = hubs.filter(h => 
+      h.name.toLowerCase().includes(lower) || 
+      h.category?.toLowerCase().includes(lower) ||
+      h.tags?.some(t => t.toLowerCase().includes(lower))
     );
+    setResults(filtered.slice(0, 10));
+  }, [query, hubs]);
 
-    setTimeout(() => {
-      setResults(mockResults);
-      setIsLoading(false);
-    }, 300);
-  }, [query]);
-
-  const handleSelect = (result) => {
-    navigate(createPageUrl(result.page));
+  const handleSelect = (hub) => {
     setIsOpen(false);
-    setQuery('');
+    navigate(createPageUrl(hub.path || hub.name));
+    // TODO: Add to UserHubData.recently_visited
   };
+
+  useEffect(() => {
+    const down = (e) => {
+      if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        setIsOpen((open) => !open);
+      }
+    };
+    document.addEventListener("keydown", down);
+    return () => document.removeEventListener("keydown", down);
+  }, []);
 
   return (
     <>
-      <motion.button
+      <Button 
+        variant="outline" 
+        className="relative h-10 w-full justify-start text-sm text-muted-foreground sm:pr-12 md:w-40 lg:w-64 bg-white/5 border-white/10 hover:bg-white/10"
         onClick={() => setIsOpen(true)}
-        whileHover={{ scale: 1.05 }}
-        className="fixed top-4 right-4 z-40 px-4 py-2 rounded-full bg-white/10 border border-white/20 flex items-center gap-2 text-white/60 hover:text-white hover:border-cyan-400/50 transition-all"
       >
-        <Search className="w-4 h-4" />
-        <span className="hidden sm:inline text-sm">Search...</span>
-      </motion.button>
+        <span className="hidden lg:inline-flex">Search hubs...</span>
+        <span className="inline-flex lg:hidden">Search...</span>
+        <kbd className="pointer-events-none absolute right-1.5 top-1.5 hidden h-6 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex">
+          <span className="text-xs">⌘</span>K
+        </kbd>
+      </Button>
 
-      <AnimatePresence>
-        {isOpen && (
-          <>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setIsOpen(false)}
-              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <DialogContent className="p-0 gap-0 bg-black/90 border-white/20 text-white max-w-2xl overflow-hidden">
+          <div className="flex items-center border-b border-white/10 px-3">
+            <Search className="mr-2 h-5 w-5 shrink-0 opacity-50" />
+            <Input
+              placeholder="Type a command or search..."
+              className="flex h-14 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 border-none focus-visible:ring-0"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
             />
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 z-50"
-            >
-              <div className="bg-black/80 backdrop-blur-xl border border-cyan-500/30 rounded-2xl overflow-hidden shadow-2xl">
-                {/* Search Input */}
-                <div className="p-4 border-b border-white/10 flex items-center gap-3">
-                  <Search className="w-5 h-5 text-cyan-400" />
-                  <input
-                    autoFocus
-                    type="text"
-                    placeholder="Search agents, goals, markets..."
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    className="flex-1 bg-transparent text-white outline-none placeholder-white/40"
-                  />
-                  <motion.button
-                    onClick={() => setIsOpen(false)}
-                    whileHover={{ rotate: 90 }}
+          </div>
+          
+          <div className="max-h-[60vh] overflow-y-auto p-2">
+            {!query && (
+              <div className="px-2 py-4 text-xs text-muted-foreground">
+                <div className="mb-2 font-semibold flex items-center">
+                  <Clock className="w-3 h-3 mr-2" />
+                  Recently Visited
+                </div>
+                {recent.map(hub => (
+                  <div 
+                    key={hub.id} 
+                    className="flex items-center justify-between p-2 rounded-lg hover:bg-white/10 cursor-pointer transition-colors"
+                    onClick={() => handleSelect(hub)}
                   >
-                    <X className="w-5 h-5 text-white/60" />
-                  </motion.button>
-                </div>
-
-                {/* Results */}
-                <div className="max-h-96 overflow-y-auto">
-                  {isLoading && (
-                    <div className="p-8 flex items-center justify-center text-white/60 gap-2">
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                      Searching...
+                    <div className="flex items-center gap-2">
+                      <div className="w-6 h-6 rounded bg-indigo-500/20 flex items-center justify-center text-xs">
+                        {hub.name[0]}
+                      </div>
+                      <span>{hub.name}</span>
                     </div>
-                  )}
-                  {!isLoading && results.length === 0 && query && (
-                    <div className="p-8 text-center text-white/60">
-                      No results found
-                    </div>
-                  )}
-                  {!isLoading && results.length > 0 && (
-                    <div className="p-2">
-                      {results.map((result) => (
-                        <motion.button
-                          key={result.id}
-                          onClick={() => handleSelect(result)}
-                          whileHover={{ x: 4 }}
-                          className="w-full p-3 rounded-lg hover:bg-white/5 text-left transition-colors mb-1 flex items-center justify-between"
-                        >
-                          <div>
-                            <div className="text-white font-medium">{result.title}</div>
-                            <div className="text-xs text-white/40">{result.type}</div>
-                          </div>
-                          <div className="text-xs px-2 py-1 bg-cyan-500/20 text-cyan-400 rounded">
-                            {result.type}
-                          </div>
-                        </motion.button>
-                      ))}
-                    </div>
-                  )}
-                </div>
+                    <ArrowRight className="w-3 h-3 opacity-50" />
+                  </div>
+                ))}
               </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
+            )}
+
+            {results.map(hub => (
+              <div
+                key={hub.id}
+                className="flex items-center justify-between p-2 rounded-lg hover:bg-white/10 cursor-pointer transition-colors"
+                onClick={() => handleSelect(hub)}
+              >
+                <div className="flex items-center gap-3">
+                  <Command className="w-4 h-4 opacity-50" />
+                  <div>
+                    <div className="font-medium">{hub.name}</div>
+                    <div className="text-xs text-gray-400">{hub.category}</div>
+                  </div>
+                </div>
+                {hub.featured && <Star className="w-3 h-3 text-yellow-500" fill="currentColor" />}
+              </div>
+            ))}
+            
+            {query && results.length === 0 && (
+              <div className="p-4 text-center text-sm text-gray-500">
+                No results found.
+              </div>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }
