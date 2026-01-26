@@ -164,6 +164,6 @@ Deno.serve(async (req) => {
 
     } catch (error) {
         console.error("Seeding error:", error);
-        return Response.json({ error: error.message || String(error) }, { status: 500 });
+        return Response.json({ error: JSON.stringify(error, Object.getOwnPropertyNames(error)) }, { status: 500 });
     }
 });
