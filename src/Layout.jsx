@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import ConsolidatedNav from './components/navigation/ConsolidatedNav';
 import BackButton from './components/navigation/BackButton';
 import GamificationOverlay from './components/gamification/GamificationOverlay';
+import Sidebar from './components/navigation/Sidebar';
 import { GamificationProvider } from './components/gamification/GamificationContext';
 import { PersonalizationProvider } from './components/personalization/PersonalizationContext';
 import { AnimationProvider } from './components/animations/AnimationContext';
 import { HolographicProvider } from './components/holographic/GlobalHolographicController';
+import { base44 } from '@/api/base44Client';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -42,12 +44,34 @@ class ErrorBoundary extends React.Component {
 }
 
 function LayoutContent({ children, currentPageName }) {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [hubs, setHubs] = useState([]);
+
+  useEffect(() => {
+    const fetchHubs = async () => {
+      try {
+        const data = await base44.entities.Hub.list({ limit: 1000 });
+        setHubs(data);
+      } catch (error) {
+        console.error("Failed to fetch hubs for sidebar", error);
+      }
+    };
+    fetchHubs();
+  }, []);
+
   return (
     <>
-      <ConsolidatedNav />
+      <ConsolidatedNav 
+        onSidebarToggle={() => setIsSidebarOpen(!isSidebarOpen)} 
+        isSidebarOpen={isSidebarOpen}
+      />
+      <Sidebar isOpen={isSidebarOpen} hubs={hubs} />
       <BackButton />
       <GamificationOverlay />
-      <div className="pt-20">
+      <div 
+        className="pt-20 transition-all duration-300 ease-in-out"
+        style={{ paddingLeft: isSidebarOpen ? '280px' : '0' }}
+      >
         {children}
       </div>
     </>
