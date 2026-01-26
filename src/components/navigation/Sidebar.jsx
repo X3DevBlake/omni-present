@@ -25,6 +25,9 @@ export default function Sidebar({ isOpen, hubs = [] }) {
   const location = useLocation();
 
   const getHubsByCategory = (cat) => {
+    if (cat.id === 'uncategorized') {
+        return hubs.filter(h => !categories.some(c => c.name === h.category || h.category?.includes(c.name)));
+    }
     return hubs.filter(h => h.category?.includes(cat.name) || h.category === cat.name);
   };
 
@@ -36,12 +39,15 @@ export default function Sidebar({ isOpen, hubs = [] }) {
     >
       <ScrollArea className="h-full py-4">
         <div className="px-4 space-y-6">
+          <div className="text-xs text-gray-500 mb-4 px-2">
+            Total Hubs: {hubs.length}
+          </div>
           {hubs.length === 0 && (
             <div className="text-gray-500 text-sm text-center py-10 px-4">
-              Loading hubs or no hubs found...
+              Loading hubs... (or 0 found)
             </div>
           )}
-          {categories.map((cat) => {
+          {[...categories, { id: 'uncategorized', name: 'Other Systems', icon: Database, color: 'text-gray-400' }].map((cat) => {
             const catHubs = getHubsByCategory(cat);
             if (catHubs.length === 0) return null;
 

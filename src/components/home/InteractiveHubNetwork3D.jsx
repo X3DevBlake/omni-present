@@ -1,12 +1,15 @@
-import React, { useState, useRef, useMemo } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, Sphere, Line, Text, Float, Html } from '@react-three/drei';
+import React, { useState, useRef, useMemo, useEffect } from 'react';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { OrbitControls, Sphere, Line, Text, Float, Html, Stars } from '@react-three/drei';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import * as THREE from 'three';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
+import { Activity, Zap, Shield, Radio, Users, Play, Pause } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 
 // The 14 Categories Color Mapping & Positions
 const CATEGORY_CONFIG = {
@@ -149,12 +152,128 @@ const DataStream = ({ start, end, color }) => {
 };
 
 
+// --- AGENT SYSTEM ---
+const Agent = ({ startPos, endPos, color, speed = 1, type = 'data' }) => {
+  const agentRef = useRef();
+  const [progress, setProgress] = useState(0);
+  const [active, setActive] = useState(true);
+
+  useFrame((state, delta) => {
+    if (!active || !agentRef.current) return;
+    
+    // speed * delta * 0.5 -> slower movement for better visibility
+    const newProgress = progress + (delta * speed * 0.2);
+    if (newProgress >= 1) {
+      setProgress(0);
+    } else {
+      setProgress(newProgress);
+    }
+
+    const pos = new THREE.Vector3().lerpVectors(
+      new THREE.Vector3(...startPos),
+      new THREE.Vector3(...endPos),
+      progress
+    );
+    
+    // Add noise
+    if (type === 'security') {
+        pos.y += Math.sin(state.clock.elapsedTime * 10 + Math.random()) * 0.1;
+    } else if (type === 'ai') {
+        pos.x += Math.cos(state.clock.elapsedTime * 5 + Math.random()) * 0.1;
+    }
+
+    agentRef.current.position.copy(pos);
+  });
+
+  if (!active) return null;
+
+  return (
+    <group ref={agentRef}>
+      <mesh>
+        <sphereGeometry args={[0.08, 8, 8]} />
+        <meshBasicMaterial color={type === 'security' ? '#ef4444' : type === 'ai' ? '#ec4899' : '#ffffff'} />
+      </mesh>
+      <mesh scale={[1.5, 1.5, 1.5]}>
+        <sphereGeometry args={[0.08, 8, 8]} />
+        <meshBasicMaterial color={color} transparent opacity={0.3} />
+      </mesh>
+    </group>
+  );
+};
+
+const AgentSystem = ({ connections, activeSimulation }) => {
+  const [agents, setAgents] = useState([]);
+
+  useFrame((state) => {
+    let spawnRate = 0.02; // Base rate
+    if (activeSimulation === 'traffic_spike') spawnRate = 0.2;
+    if (activeSimulation === 'agent_swarm') spawnRate = 0.3;
+
+    if (Math.random() < spawnRate && connections.length > 0) {
+      const conn = connections[Math.floor(Math.random() * connections.length)];
+      const type = activeSimulation === 'security_sweep' ? 'security' : Math.random() > 0.8 ? 'ai' : 'data';
+      
+      const newAgent = {
+        id: Math.random(),
+        startPos: conn.start,
+        endPos: conn.end,
+        color: conn.color,
+        speed: 0.5 + Math.random(),
+        type: type,
+      };
+      
+      setAgents(prev => {
+          const next = [...prev, newAgent];
+          if (next.length > 100) return next.slice(50); // Prune
+          return next;
+      }); 
+    }
+  });
+
+  return (
+    <group>
+      {agents.map(agent => (
+        <Agent key={agent.id} {...agent} />
+      ))}
+    </group>
+  );
+};
+
+// --- DATA FLOW VISUALIZATION ---
+const DataStream = ({ start, end, color }) => {
+    const materialRef = useRef();
+    useFrame((state) => {
+        if (materialRef.current) {
+            materialRef.current.dashOffset -= 0.05;
+        }
+    });
+
+    const geometry = useMemo(() => {
+        const points = [new THREE.Vector3(...start), new THREE.Vector3(...end)];
+        return new THREE.BufferGeometry().setFromPoints(points);
+    }, [start, end]);
+
+    return (
+        <line geometry={geometry}>
+            <lineDashedMaterial 
+                ref={materialRef}
+                color={color} 
+                dashSize={0.2} 
+                gapSize={0.1} 
+                opacity={0.3}
+                transparent
+                linewidth={1}
+            />
+        </line>
+    );
+};
+
 const HubNode = ({ hub, position, color, onSelect, isSelected, isHovered, onHover }) => {
   const meshRef = useRef();
   
   useFrame((state) => {
     if (meshRef.current) {
-      const scale = isSelected ? 1.5 : isHovered ? 1.3 : 1;
+      const scale = isSelected ? 1.8 : isHovered ? 1.4 : 1;
       meshRef.current.scale.lerp(new THREE.Vector3(scale, scale, scale), 0.1);
       if (isSelected || isHovered) {
         meshRef.current.rotation.y = state.clock.elapsedTime * 2;
