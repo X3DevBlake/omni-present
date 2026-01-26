@@ -2,7 +2,9 @@ import AIAgentMarketplace from './pages/AIAgentMarketplace';
 import AIAnalyticsHub from './pages/AIAnalyticsHub';
 import AICollaborationHub from './pages/AICollaborationHub';
 import AICollaborativeIntelligenceHub from './pages/AICollaborativeIntelligenceHub';
+import AIDeployment from './pages/AIDeployment';
 import AIEthicsHub from './pages/AIEthicsHub';
+import AIEvaluation from './pages/AIEvaluation';
 import AILab from './pages/AILab';
 import AILabs from './pages/AILabs';
 import AILabsAdvanced from './pages/AILabsAdvanced';
@@ -10,18 +12,21 @@ import AILabsLifecycle from './pages/AILabsLifecycle';
 import AIManagement from './pages/AIManagement';
 import AIModelDeployment from './pages/AIModelDeployment';
 import AIModelRegistry from './pages/AIModelRegistry';
+import AIPerformanceMetrics from './pages/AIPerformanceMetrics';
 import AIPlayground from './pages/AIPlayground';
 import AIPortfolioManager from './pages/AIPortfolioManager';
 import AITrainingAcademy from './pages/AITrainingAcademy';
 import AITrainingCenter from './pages/AITrainingCenter';
 import APIDocumentation from './pages/APIDocumentation';
 import APIExplorer from './pages/APIExplorer';
+import APIGatewayConfig from './pages/APIGatewayConfig';
 import APIIntegrations from './pages/APIIntegrations';
 import APIKeys from './pages/APIKeys';
 import APIUsageMetrics from './pages/APIUsageMetrics';
 import About from './pages/About';
 import AcademyDashboard from './pages/AcademyDashboard';
 import AccessControlLists from './pages/AccessControlLists';
+import AccessLogs from './pages/AccessLogs';
 import AchievementsAwards from './pages/AchievementsAwards';
 import ActivityLog from './pages/ActivityLog';
 import ActuatorControl from './pages/ActuatorControl';
@@ -44,10 +49,12 @@ import AdvancedSimulationLab from './pages/AdvancedSimulationLab';
 import AdvancedSimulationStudio from './pages/AdvancedSimulationStudio';
 import AdvancedSystemsHub from './pages/AdvancedSystemsHub';
 import AdvancedWebhooks from './pages/AdvancedWebhooks';
+import AffiliateMarketing from './pages/AffiliateMarketing';
 import Agent from './pages/Agent';
 import AgentAudio from './pages/AgentAudio';
 import AgentAutonomy from './pages/AgentAutonomy';
 import AgentAutonomyDashboard from './pages/AgentAutonomyDashboard';
+import AgentBehaviorSim from './pages/AgentBehaviorSim';
 import AgentBehaviorStudio from './pages/AgentBehaviorStudio';
 import AgentBudget from './pages/AgentBudget';
 import AgentCardSettings from './pages/AgentCardSettings';
@@ -86,9 +93,11 @@ import AgentVideoInterface from './pages/AgentVideoInterface';
 import AlertManagementDashboard from './pages/AlertManagementDashboard';
 import AlgorithmAuditing from './pages/AlgorithmAuditing';
 import AlignmentHub from './pages/AlignmentHub';
+import AlumniNetwork from './pages/AlumniNetwork';
 import Analytics from './pages/Analytics';
 import AnalyticsIntelligenceHub from './pages/AnalyticsIntelligenceHub';
 import AnimationStudio from './pages/AnimationStudio';
+import ApplicationUptime from './pages/ApplicationUptime';
 import Architecture from './pages/Architecture';
 import AssetBrowser from './pages/AssetBrowser';
 import AssetManagement from './pages/AssetManagement';
@@ -101,6 +110,7 @@ import AutomationOrchestrationHub from './pages/AutomationOrchestrationHub';
 import AutomationsHub from './pages/AutomationsHub';
 import AutonomousAgentSystem from './pages/AutonomousAgentSystem';
 import AutonomousCollaborationHub from './pages/AutonomousCollaborationHub';
+import AutonomousNavigation from './pages/AutonomousNavigation';
 import AutonomousVehicleHub from './pages/AutonomousVehicleHub';
 import AutonomyControlCenter from './pages/AutonomyControlCenter';
 import AvatarCreationHub from './pages/AvatarCreationHub';
@@ -114,8 +124,11 @@ import BillingInvoicing from './pages/BillingInvoicing';
 import BiometricAuthHub from './pages/BiometricAuthHub';
 import Blueprint from './pages/Blueprint';
 import BlueprintGallery from './pages/BlueprintGallery';
+import BrainstormingSession from './pages/BrainstormingSession';
 import BridgeOmni from './pages/BridgeOmni';
 import BudgetingForecast from './pages/BudgetingForecast';
+import BugTracker from './pages/BugTracker';
+import BuildPipelines from './pages/BuildPipelines';
 import BuyOmni from './pages/BuyOmni';
 import CalendarEvents from './pages/CalendarEvents';
 import CampusHome from './pages/CampusHome';
@@ -125,6 +138,7 @@ import CertificationCenter from './pages/CertificationCenter';
 import Certifications from './pages/Certifications';
 import Challenges from './pages/Challenges';
 import CharacterCustomizer from './pages/CharacterCustomizer';
+import ClimateChangeModel from './pages/ClimateChangeModel';
 import CloudinaryHub from './pages/CloudinaryHub';
 import CodeEditor from './pages/CodeEditor';
 import CognitiveEnhancement from './pages/CognitiveEnhancement';
@@ -140,6 +154,8 @@ import Communications from './pages/Communications';
 import CommunicationsHub from './pages/CommunicationsHub';
 import Community from './pages/Community';
 import CommunityCreations from './pages/CommunityCreations';
+import CommunityEvents from './pages/CommunityEvents';
+import CommunityForumHub from './pages/CommunityForumHub';
 import CommunityGuidelines from './pages/CommunityGuidelines';
 import CommunityGuidelinesEnhanced from './pages/CommunityGuidelinesEnhanced';
 import CommunityHub from './pages/CommunityHub';
@@ -150,10 +166,16 @@ import Compliance from './pages/Compliance';
 import ComplianceAudit from './pages/ComplianceAudit';
 import ComplianceDashboard from './pages/ComplianceDashboard';
 import ComprehensiveFinancialHub from './pages/ComprehensiveFinancialHub';
+import ConsciousnessMapping from './pages/ConsciousnessMapping';
 import ConsciousnessMirrorHub from './pages/ConsciousnessMirrorHub';
+import ConsciousnessStream from './pages/ConsciousnessStream';
 import ConsciousnessUploadHub from './pages/ConsciousnessUploadHub';
 import Contact from './pages/Contact';
+import ContactSupport from './pages/ContactSupport';
 import ContextAwareAssistantHub from './pages/ContextAwareAssistantHub';
+import ContinuousIntegration from './pages/ContinuousIntegration';
+import ConversionRates from './pages/ConversionRates';
+import CourseCatalogManager from './pages/CourseCatalogManager';
 import CourseCreator from './pages/CourseCreator';
 import CrossAgentPlanningHub from './pages/CrossAgentPlanningHub';
 import CrossPlatformIntegrationHub from './pages/CrossPlatformIntegrationHub';
@@ -163,12 +185,16 @@ import CryptoTradingHub from './pages/CryptoTradingHub';
 import CurriculumCourses from './pages/CurriculumCourses';
 import CustomDashboard from './pages/CustomDashboard';
 import CustomIntegrations from './pages/CustomIntegrations';
+import CustomerInsightsDashboard from './pages/CustomerInsightsDashboard';
 import DAOGovernanceHub from './pages/DAOGovernanceHub';
 import DEXAggregator from './pages/DEXAggregator';
 import DashboardHome from './pages/DashboardHome';
 import DataAnnotation from './pages/DataAnnotation';
+import DataCompression from './pages/DataCompression';
 import DataEncryption from './pages/DataEncryption';
 import DataMarketplace from './pages/DataMarketplace';
+import DataPrivacySettings from './pages/DataPrivacySettings';
+import DatabaseHealth from './pages/DatabaseHealth';
 import DatabaseManager from './pages/DatabaseManager';
 import DatasetManagement from './pages/DatasetManagement';
 import DeFiAnalyticsPhase4 from './pages/DeFiAnalyticsPhase4';
@@ -180,7 +206,9 @@ import DeFiRiskManagementHub from './pages/DeFiRiskManagementHub';
 import DeFiRiskManagementSuite from './pages/DeFiRiskManagementSuite';
 import DecentralizedCourt from './pages/DecentralizedCourt';
 import DecentralizedNetwork from './pages/DecentralizedNetwork';
+import DecisionMakingTools from './pages/DecisionMakingTools';
 import DeepLearningPlatform from './pages/DeepLearningPlatform';
+import DependencyManager from './pages/DependencyManager';
 import DeploymentReadiness from './pages/DeploymentReadiness';
 import DepositETH from './pages/DepositETH';
 import DepositOmni from './pages/DepositOmni';
@@ -199,7 +227,9 @@ import DeviceSettings from './pages/DeviceSettings';
 import DeviceShop from './pages/DeviceShop';
 import DeviceTelemetry from './pages/DeviceTelemetry';
 import DevicesHub from './pages/DevicesHub';
+import DigitalImmortality from './pages/DigitalImmortality';
 import DiscountsRebates from './pages/DiscountsRebates';
+import DisputeResolution from './pages/DisputeResolution';
 import Documentation from './pages/Documentation';
 import DocumentsHub from './pages/DocumentsHub';
 import DreamRecordingStudio from './pages/DreamRecordingStudio';
@@ -209,6 +239,7 @@ import EconomicSimulation from './pages/EconomicSimulation';
 import EcosystemDashboard from './pages/EcosystemDashboard';
 import EcosystemMonitoringDashboard from './pages/EcosystemMonitoringDashboard';
 import EmergentBehavior from './pages/EmergentBehavior';
+import EncryptionProtocols from './pages/EncryptionProtocols';
 import EnhancedAIAgentMarketplace from './pages/EnhancedAIAgentMarketplace';
 import EnhancedAILabsHub from './pages/EnhancedAILabsHub';
 import EnhancedAgentCreator from './pages/EnhancedAgentCreator';
@@ -217,7 +248,6 @@ import EnhancedAgentTrainingHub from './pages/EnhancedAgentTrainingHub';
 import EnhancedAnalyticsHub from './pages/EnhancedAnalyticsHub';
 import EnhancedAnomalyDashboard from './pages/EnhancedAnomalyDashboard';
 import EnhancedBankingHub from './pages/EnhancedBankingHub';
-import FAQ from './pages/FAQ';
 import EnhancedCollaborationHub from './pages/EnhancedCollaborationHub';
 import EnhancedCollaborationStudio from './pages/EnhancedCollaborationStudio';
 import EnhancedCommunications from './pages/EnhancedCommunications';
@@ -244,19 +274,31 @@ import EnhancedVoiceHub from './pages/EnhancedVoiceHub';
 import EnhancedWorkflowHub from './pages/EnhancedWorkflowHub';
 import EntanglementBridge from './pages/EntanglementBridge';
 import EnvironmentDesigner from './pages/EnvironmentDesigner';
+import EnvironmentalSim from './pages/EnvironmentalSim';
+import EpidemicSimulation from './pages/EpidemicSimulation';
 import ErrorTracking from './pages/ErrorTracking';
+import EscrowServices from './pages/EscrowServices';
 import EthicalAIReview from './pages/EthicalAIReview';
+import EthicalGuidelines from './pages/EthicalGuidelines';
 import EthicsCommittee from './pages/EthicsCommittee';
 import EthicsHub from './pages/EthicsHub';
 import EthicsSafetyHub from './pages/EthicsSafetyHub';
+import EventBusLog from './pages/EventBusLog';
 import EventsCalendar from './pages/EventsCalendar';
 import EvolutionDashboardPage from './pages/EvolutionDashboardPage';
 import ExchangeListings from './pages/ExchangeListings';
+import ExoskeletonInterface from './pages/ExoskeletonInterface';
 import ExperimentTracking from './pages/ExperimentTracking';
+import ExpertTalks from './pages/ExpertTalks';
+import ExplainableAI from './pages/ExplainableAI';
+import FAQ from './pages/FAQ';
 import FeatureDetail from './pages/FeatureDetail';
+import FeatureFlagManagement from './pages/FeatureFlagManagement';
 import FeatureFlagManager from './pages/FeatureFlagManager';
+import FeatureRequests from './pages/FeatureRequests';
 import Features from './pages/Features';
 import FeedbackDashboard from './pages/FeedbackDashboard';
+import FeedbackForm from './pages/FeedbackForm';
 import FiatDeposit from './pages/FiatDeposit';
 import FiatGateway from './pages/FiatGateway';
 import FinancialAdvisorHub from './pages/FinancialAdvisorHub';
@@ -267,10 +309,14 @@ import FiveGControl from './pages/FiveGControl';
 import FleetManagement from './pages/FleetManagement';
 import FreelanceAgentHub from './pages/FreelanceAgentHub';
 import GeminiHub from './pages/GeminiHub';
+import GenerativeAdversarialNetworks from './pages/GenerativeAdversarialNetworks';
 import GenericHub from './pages/GenericHub';
 import GlobalGovernance from './pages/GlobalGovernance';
 import GlobalMap from './pages/GlobalMap';
 import GlobalSettings from './pages/GlobalSettings';
+import GovernanceTokens from './pages/GovernanceTokens';
+import Gradebook from './pages/Gradebook';
+import GraphQLPlayground from './pages/GraphQLPlayground';
 import HapticFeedbackControl from './pages/HapticFeedbackControl';
 import HistoricalData from './pages/HistoricalData';
 import HolographicAnalytics from './pages/HolographicAnalytics';
@@ -281,7 +327,11 @@ import HomeEnhanced from './pages/HomeEnhanced';
 import HomeHub from './pages/HomeHub';
 import HomepageUpgradePlan from './pages/HomepageUpgradePlan';
 import HybridMLHub from './pages/HybridMLHub';
+import HyperparameterTuning from './pages/HyperparameterTuning';
+import IdeaGeneration from './pages/IdeaGeneration';
+import IdentityManagement from './pages/IdentityManagement';
 import ImmersiveNavigationHub from './pages/ImmersiveNavigationHub';
+import IncidentResponse from './pages/IncidentResponse';
 import InferenceEngine from './pages/InferenceEngine';
 import InstructorDirectory from './pages/InstructorDirectory';
 import IntegrationDevelopmentHub from './pages/IntegrationDevelopmentHub';
@@ -290,21 +340,27 @@ import IntegrationStore from './pages/IntegrationStore';
 import Integrations from './pages/Integrations';
 import IntegrationsHub from './pages/IntegrationsHub';
 import IntelligenceDashboard from './pages/IntelligenceDashboard';
+import InteractiveTutorials from './pages/InteractiveTutorials';
 import IntrusionDetection from './pages/IntrusionDetection';
+import InventoryControl from './pages/InventoryControl';
 import InvestmentStrategyHub from './pages/InvestmentStrategyHub';
 import IoTDeviceControl from './pages/IoTDeviceControl';
 import KnowledgeBase from './pages/KnowledgeBase';
 import KnowledgeGraphHub from './pages/KnowledgeGraphHub';
+import KnowledgeSharingHub from './pages/KnowledgeSharingHub';
 import Labs from './pages/Labs';
 import LabsHome from './pages/LabsHome';
+import LatencyMonitor from './pages/LatencyMonitor';
 import Leaderboards from './pages/Leaderboards';
 import LearningPathways from './pages/LearningPathways';
+import LessonPlanner from './pages/LessonPlanner';
 import LicenseManagement from './pages/LicenseManagement';
 import LinkBankAccount from './pages/LinkBankAccount';
 import LiquidityPools from './pages/LiquidityPools';
 import LiveChatSupport from './pages/LiveChatSupport';
 import LoansAndCredit from './pages/LoansAndCredit';
 import LogAnalysis from './pages/LogAnalysis';
+import LoyaltyProgram from './pages/LoyaltyProgram';
 import MLOpsHub from './pages/MLOpsHub';
 import MaintenanceSchedule from './pages/MaintenanceSchedule';
 import MarketIntelligenceHub from './pages/MarketIntelligenceHub';
@@ -315,14 +371,22 @@ import MentorshipProgramsPage from './pages/MentorshipProgramsPage';
 import MeshNetworkStatus from './pages/MeshNetworkStatus';
 import MessageBroadcastHub from './pages/MessageBroadcastHub';
 import MetaLearningHub from './pages/MetaLearningHub';
+import MicroservicesHealth from './pages/MicroservicesHealth';
+import MindUploadStatus from './pages/MindUploadStatus';
 import MistralHub from './pages/MistralHub';
 import ModelTraining from './pages/ModelTraining';
+import ModelValidator from './pages/ModelValidator';
+import MolecularDynamics from './pages/MolecularDynamics';
 import MovementPlanner from './pages/MovementPlanner';
 import MultiAgentCollaborationHub from './pages/MultiAgentCollaborationHub';
 import MyCreations from './pages/MyCreations';
 import NFTMarketplace from './pages/NFTMarketplace';
 import NavigationControl from './pages/NavigationControl';
+import NetworkDiagnostics from './pages/NetworkDiagnostics';
+import NetworkTopology from './pages/NetworkTopology';
 import NetworkTrafficHub from './pages/NetworkTrafficHub';
+import NeuralArchitectureSearch from './pages/NeuralArchitectureSearch';
+import NeuralLinkStatus from './pages/NeuralLinkStatus';
 import NeuralNetworkVisualizer from './pages/NeuralNetworkVisualizer';
 import NewsUpdates from './pages/NewsUpdates';
 import NextGenMLHub from './pages/NextGenMLHub';
@@ -353,10 +417,15 @@ import OmniPresentCoreHub from './pages/OmniPresentCoreHub';
 import OmniSocial from './pages/OmniSocial';
 import OmniStaking from './pages/OmniStaking';
 import OmniWallet from './pages/OmniWallet';
+import OnboardingGuide from './pages/OnboardingGuide';
 import OrderManagement from './pages/OrderManagement';
+import OrderTrackingSystem from './pages/OrderTrackingSystem';
 import OrgSettings from './pages/OrgSettings';
 import Partnerships from './pages/Partnerships';
+import PaymentGateway from './pages/PaymentGateway';
 import PaymentHistory from './pages/PaymentHistory';
+import PeerReviewSystem from './pages/PeerReviewSystem';
+import PenetrationTestResults from './pages/PenetrationTestResults';
 import Phase10AdvancedAutonomy from './pages/Phase10AdvancedAutonomy';
 import Phase1Dashboard from './pages/Phase1Dashboard';
 import Phase2Dashboard from './pages/Phase2Dashboard';
@@ -384,27 +453,39 @@ import PressReleases from './pages/PressReleases';
 import Privacy from './pages/Privacy';
 import ProactiveMonitoring from './pages/ProactiveMonitoring';
 import ProceduralSimulationStudio from './pages/ProceduralSimulationStudio';
+import ProductCatalogManager from './pages/ProductCatalogManager';
 import Profile from './pages/Profile';
 import ProfileHome from './pages/ProfileHome';
 import ProjectManagement from './pages/ProjectManagement';
+import ProposalArchive from './pages/ProposalArchive';
 import ProposalDrafting from './pages/ProposalDrafting';
+import ProtocolAnalyzer from './pages/ProtocolAnalyzer';
 import QuantumComputingHub from './pages/QuantumComputingHub';
 import QuantumCryptography from './pages/QuantumCryptography';
 import QuantumEntanglementHub from './pages/QuantumEntanglementHub';
+import QuantumErrorCorrection from './pages/QuantumErrorCorrection';
 import QuantumStateMonitor from './pages/QuantumStateMonitor';
+import QuantumTeleportation from './pages/QuantumTeleportation';
 import QubitAllocation from './pages/QubitAllocation';
+import QuizCreator from './pages/QuizCreator';
 import RealTimeMetrics from './pages/RealTimeMetrics';
+import RealTimeOperations from './pages/RealTimeOperations';
 import RealWorldBudget from './pages/RealWorldBudget';
 import RealtimeDashboard from './pages/RealtimeDashboard';
 import RedCommHub from './pages/RedCommHub';
 import ReferralProgram from './pages/ReferralProgram';
+import ReinforcementLearning from './pages/ReinforcementLearning';
+import ReleaseManagement from './pages/ReleaseManagement';
 import ReleaseNotes from './pages/ReleaseNotes';
 import RepairRequest from './pages/RepairRequest';
 import ReportingAnalytics from './pages/ReportingAnalytics';
 import ResearchHub from './pages/ResearchHub';
+import ResourceCenter from './pages/ResourceCenter';
 import ResourceLibrary from './pages/ResourceLibrary';
 import ResourceManagementHub from './pages/ResourceManagementHub';
 import Roadmap from './pages/Roadmap';
+import RobotArmControl from './pages/RobotArmControl';
+import RobotFleetControl from './pages/RobotFleetControl';
 import RoboticsIntegrationHub from './pages/RoboticsIntegrationHub';
 import SDKDownloads from './pages/SDKDownloads';
 import SDKsLibraries from './pages/SDKsLibraries';
@@ -413,15 +494,21 @@ import SandboxHub from './pages/SandboxHub';
 import SandboxSimulationHub from './pages/SandboxSimulationHub';
 import SandboxTesting from './pages/SandboxTesting';
 import SatelliteUplink from './pages/SatelliteUplink';
+import ScenarioBuilder from './pages/ScenarioBuilder';
 import ScenarioTesting from './pages/ScenarioTesting';
 import Security from './pages/Security';
+import SecurityAuditLog from './pages/SecurityAuditLog';
 import SecurityComplianceHub from './pages/SecurityComplianceHub';
 import SecurityIntelligenceHub from './pages/SecurityIntelligenceHub';
 import SecurityMonitoringHub from './pages/SecurityMonitoringHub';
+import SecurityPolicies from './pages/SecurityPolicies';
 import SecuritySettings from './pages/SecuritySettings';
 import SellOmni from './pages/SellOmni';
+import SensorCalibration from './pages/SensorCalibration';
 import SensorDataAnalysis from './pages/SensorDataAnalysis';
 import SensorFusion from './pages/SensorFusion';
+import SensorNetworkMonitor from './pages/SensorNetworkMonitor';
+import ServerPerformance from './pages/ServerPerformance';
 import ServerlessFunctions from './pages/ServerlessFunctions';
 import ServiceMarketplace from './pages/ServiceMarketplace';
 import ServiceProviders from './pages/ServiceProviders';
@@ -433,29 +520,39 @@ import SimulationEnvironment from './pages/SimulationEnvironment';
 import SimulationHub from './pages/SimulationHub';
 import SimulationLab from './pages/SimulationLab';
 import SimulationLabs from './pages/SimulationLabs';
+import SimulationPlayback from './pages/SimulationPlayback';
 import SimulationStudio from './pages/SimulationStudio';
 import SimulationWorld from './pages/SimulationWorld';
+import SkillTreeBuilder from './pages/SkillTreeBuilder';
 import SmartBankingHub from './pages/SmartBankingHub';
 import SmartContractAudit from './pages/SmartContractAudit';
 import SmartHomeHub from './pages/SmartHomeHub';
 import SocialDynamics from './pages/SocialDynamics';
+import SocialGraph from './pages/SocialGraph';
+import SpaceExplorationSim from './pages/SpaceExplorationSim';
 import SpatialMapping from './pages/SpatialMapping';
 import StudentLounge from './pages/StudentLounge';
 import StudentProgress from './pages/StudentProgress';
 import StudyGroups from './pages/StudyGroups';
 import SubscriptionManagement from './pages/SubscriptionManagement';
+import SubscriptionManager from './pages/SubscriptionManager';
 import SystemArchitecture from './pages/SystemArchitecture';
+import SystemConfig from './pages/SystemConfig';
 import SystemDashboard from './pages/SystemDashboard';
-import Team from './pages/Team';
+import SystemDocumentation from './pages/SystemDocumentation';
 import SystemHealth from './pages/SystemHealth';
 import SystemStatus from './pages/SystemStatus';
 import TaskBoard from './pages/TaskBoard';
+import Team from './pages/Team';
+import TeamBuildingActivities from './pages/TeamBuildingActivities';
 import TeamChat from './pages/TeamChat';
 import TeamOrchestration from './pages/TeamOrchestration';
 import Technology from './pages/Technology';
 import TelepathyTraining from './pages/TelepathyTraining';
+import TelepresenceControl from './pages/TelepresenceControl';
 import Terms from './pages/Terms';
 import ThemeStudio from './pages/ThemeStudio';
+import ThreatIntelligence from './pages/ThreatIntelligence';
 import TicketSystem from './pages/TicketSystem';
 import TokenExchange from './pages/TokenExchange';
 import Tokenomics from './pages/Tokenomics';
@@ -463,6 +560,8 @@ import TrafficSimulation from './pages/TrafficSimulation';
 import TransactionHistory from './pages/TransactionHistory';
 import TransferLearningHub from './pages/TransferLearningHub';
 import TransparencyReport from './pages/TransparencyReport';
+import TroubleshootingWizard from './pages/TroubleshootingWizard';
+import TutorialLibrary from './pages/TutorialLibrary';
 import UltraOmniSentientHub from './pages/UltraOmniSentientHub';
 import UnifiedAnalytics from './pages/UnifiedAnalytics';
 import UnifiedCommunicationHub from './pages/UnifiedCommunicationHub';
@@ -472,19 +571,24 @@ import UnifiedIntelligenceDashboard from './pages/UnifiedIntelligenceDashboard';
 import UnifiedPlatformNavigator from './pages/UnifiedPlatformNavigator';
 import UnifiedVoicePlatform from './pages/UnifiedVoicePlatform';
 import UpgradeTracker from './pages/UpgradeTracker';
+import UrbanPlanning from './pages/UrbanPlanning';
 import UserBehaviorAnalytics from './pages/UserBehaviorAnalytics';
 import UserEngagement from './pages/UserEngagement';
 import UserForums from './pages/UserForums';
 import UserManual from './pages/UserManual';
 import UserPreferences from './pages/UserPreferences';
+import UserRetention from './pages/UserRetention';
 import UserRoleManagement from './pages/UserRoleManagement';
 import UserRolesPermissions from './pages/UserRolesPermissions';
+import VPNManager from './pages/VPNManager';
+import VendorDashboard from './pages/VendorDashboard';
 import VersionControl from './pages/VersionControl';
 import VideoConferencing from './pages/VideoConferencing';
 import VideoTutorials from './pages/VideoTutorials';
 import VirtualClassrooms from './pages/VirtualClassrooms';
 import VirtualLibrary from './pages/VirtualLibrary';
 import VotingBooth from './pages/VotingBooth';
+import VotingHistory from './pages/VotingHistory';
 import VulnerabilityScanner from './pages/VulnerabilityScanner';
 import Wallet from './pages/Wallet';
 import WalletSecurity from './pages/WalletSecurity';
@@ -495,118 +599,14 @@ import WebhookLogs from './pages/WebhookLogs';
 import WebhookManager from './pages/WebhookManager';
 import Webhooks from './pages/Webhooks';
 import WebhooksHub from './pages/WebhooksHub';
+import Webinars from './pages/Webinars';
+import WhistleblowerChannel from './pages/WhistleblowerChannel';
 import WhiteboardHub from './pages/WhiteboardHub';
 import WithdrawOmni from './pages/WithdrawOmni';
 import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
 import WorldHubEnhanced from './pages/WorldHubEnhanced';
-import AIPerformanceMetrics from './pages/AIPerformanceMetrics';
-import NeuralArchitectureSearch from './pages/NeuralArchitectureSearch';
-import HyperparameterTuning from './pages/HyperparameterTuning';
-import ExplainableAI from './pages/ExplainableAI';
-import GenerativeAdversarialNetworks from './pages/GenerativeAdversarialNetworks';
-import ReinforcementLearning from './pages/ReinforcementLearning';
-import InteractiveTutorials from './pages/InteractiveTutorials';
-import Webinars from './pages/Webinars';
-import ExpertTalks from './pages/ExpertTalks';
-import PeerReviewSystem from './pages/PeerReviewSystem';
-import AlumniNetwork from './pages/AlumniNetwork';
-import ProtocolAnalyzer from './pages/ProtocolAnalyzer';
-import LatencyMonitor from './pages/LatencyMonitor';
-import DataCompression from './pages/DataCompression';
-import EncryptionProtocols from './pages/EncryptionProtocols';
-import NetworkTopology from './pages/NetworkTopology';
-import EscrowServices from './pages/EscrowServices';
-import DisputeResolution from './pages/DisputeResolution';
-import LoyaltyProgram from './pages/LoyaltyProgram';
-import AffiliateMarketing from './pages/AffiliateMarketing';
-import VendorDashboard from './pages/VendorDashboard';
-import ClimateChangeModel from './pages/ClimateChangeModel';
-import UrbanPlanning from './pages/UrbanPlanning';
-import EpidemicSimulation from './pages/EpidemicSimulation';
-import SpaceExplorationSim from './pages/SpaceExplorationSim';
-import MolecularDynamics from './pages/MolecularDynamics';
-import BugTracker from './pages/BugTracker';
-import FeatureRequests from './pages/FeatureRequests';
-import DependencyManager from './pages/DependencyManager';
-import BuildPipelines from './pages/BuildPipelines';
-import ContinuousIntegration from './pages/ContinuousIntegration';
-import IdentityManagement from './pages/IdentityManagement';
-import AccessLogs from './pages/AccessLogs';
-import SecurityPolicies from './pages/SecurityPolicies';
-import ThreatIntelligence from './pages/ThreatIntelligence';
-import IncidentResponse from './pages/IncidentResponse';
-import RobotArmControl from './pages/RobotArmControl';
-import AutonomousNavigation from './pages/AutonomousNavigation';
-import SensorCalibration from './pages/SensorCalibration';
-import TelepresenceControl from './pages/TelepresenceControl';
-import ExoskeletonInterface from './pages/ExoskeletonInterface';
-import BrainstormingSession from './pages/BrainstormingSession';
-import DecisionMakingTools from './pages/DecisionMakingTools';
-import TeamBuildingActivities from './pages/TeamBuildingActivities';
-import CommunityEvents from './pages/CommunityEvents';
-import SocialGraph from './pages/SocialGraph';
-import QuantumErrorCorrection from './pages/QuantumErrorCorrection';
-import QuantumTeleportation from './pages/QuantumTeleportation';
-import ConsciousnessMapping from './pages/ConsciousnessMapping';
-import MindUploadStatus from './pages/MindUploadStatus';
-import DigitalImmortality from './pages/DigitalImmortality';
-import ServerPerformance from './pages/ServerPerformance';
-import DatabaseHealth from './pages/DatabaseHealth';
-import ApplicationUptime from './pages/ApplicationUptime';
-import UserRetention from './pages/UserRetention';
-import ConversionRates from './pages/ConversionRates';
-import WhistleblowerChannel from './pages/WhistleblowerChannel';
-import EthicalGuidelines from './pages/EthicalGuidelines';
-import GovernanceTokens from './pages/GovernanceTokens';
-import VotingHistory from './pages/VotingHistory';
-import ProposalArchive from './pages/ProposalArchive';
-import OnboardingGuide from './pages/OnboardingGuide';
-import TroubleshootingWizard from './pages/TroubleshootingWizard';
-import ContactSupport from './pages/ContactSupport';
-import FeedbackForm from './pages/FeedbackForm';
-import ResourceCenter from './pages/ResourceCenter';
-import APIGatewayConfig from './pages/APIGatewayConfig';
-import MicroservicesHealth from './pages/MicroservicesHealth';
-import EventBusLog from './pages/EventBusLog';
-import SecurityAuditLog from './pages/SecurityAuditLog';
-import PenetrationTestResults from './pages/PenetrationTestResults';
-import DataPrivacySettings from './pages/DataPrivacySettings';
-import CustomerInsightsDashboard from './pages/CustomerInsightsDashboard';
-import RealTimeOperations from './pages/RealTimeOperations';
-import CommunityForumHub from './pages/CommunityForumHub';
-import IdeaGeneration from './pages/IdeaGeneration';
-import KnowledgeSharingHub from './pages/KnowledgeSharingHub';
-import ProductCatalogManager from './pages/ProductCatalogManager';
-import OrderTrackingSystem from './pages/OrderTrackingSystem';
-import InventoryControl from './pages/InventoryControl';
-import AgentBehaviorSim from './pages/AgentBehaviorSim';
-import EnvironmentalSim from './pages/EnvironmentalSim';
-import RobotFleetControl from './pages/RobotFleetControl';
-import SensorNetworkMonitor from './pages/SensorNetworkMonitor';
-import ConsciousnessStream from './pages/ConsciousnessStream';
-import NeuralLinkStatus from './pages/NeuralLinkStatus';
-import CourseCatalogManager from './pages/CourseCatalogManager';
-import SkillTreeBuilder from './pages/SkillTreeBuilder';
-import TutorialLibrary from './pages/TutorialLibrary';
-import SystemDocumentation from './pages/SystemDocumentation';
-import SystemConfig from './pages/SystemConfig';
-import FeatureFlagManagement from './pages/FeatureFlagManagement';
-import ReleaseManagement from './pages/ReleaseManagement';
-import AIDeployment from './pages/AIDeployment';
-import AIEvaluation from './pages/AIEvaluation';
-import LessonPlanner from './pages/LessonPlanner';
-import QuizCreator from './pages/QuizCreator';
-import Gradebook from './pages/Gradebook';
-import NetworkDiagnostics from './pages/NetworkDiagnostics';
-import VPNManager from './pages/VPNManager';
-import PaymentGateway from './pages/PaymentGateway';
-import SubscriptionManager from './pages/SubscriptionManager';
-import ScenarioBuilder from './pages/ScenarioBuilder';
-import SimulationPlayback from './pages/SimulationPlayback';
-import ModelValidator from './pages/ModelValidator';
-import GraphQLPlayground from './pages/GraphQLPlayground';
 import __Layout from './Layout.jsx';
 
 
@@ -615,7 +615,9 @@ export const PAGES = {
     "AIAnalyticsHub": AIAnalyticsHub,
     "AICollaborationHub": AICollaborationHub,
     "AICollaborativeIntelligenceHub": AICollaborativeIntelligenceHub,
+    "AIDeployment": AIDeployment,
     "AIEthicsHub": AIEthicsHub,
+    "AIEvaluation": AIEvaluation,
     "AILab": AILab,
     "AILabs": AILabs,
     "AILabsAdvanced": AILabsAdvanced,
@@ -623,18 +625,21 @@ export const PAGES = {
     "AIManagement": AIManagement,
     "AIModelDeployment": AIModelDeployment,
     "AIModelRegistry": AIModelRegistry,
+    "AIPerformanceMetrics": AIPerformanceMetrics,
     "AIPlayground": AIPlayground,
     "AIPortfolioManager": AIPortfolioManager,
     "AITrainingAcademy": AITrainingAcademy,
     "AITrainingCenter": AITrainingCenter,
     "APIDocumentation": APIDocumentation,
     "APIExplorer": APIExplorer,
+    "APIGatewayConfig": APIGatewayConfig,
     "APIIntegrations": APIIntegrations,
     "APIKeys": APIKeys,
     "APIUsageMetrics": APIUsageMetrics,
     "About": About,
     "AcademyDashboard": AcademyDashboard,
     "AccessControlLists": AccessControlLists,
+    "AccessLogs": AccessLogs,
     "AchievementsAwards": AchievementsAwards,
     "ActivityLog": ActivityLog,
     "ActuatorControl": ActuatorControl,
@@ -657,10 +662,12 @@ export const PAGES = {
     "AdvancedSimulationStudio": AdvancedSimulationStudio,
     "AdvancedSystemsHub": AdvancedSystemsHub,
     "AdvancedWebhooks": AdvancedWebhooks,
+    "AffiliateMarketing": AffiliateMarketing,
     "Agent": Agent,
     "AgentAudio": AgentAudio,
     "AgentAutonomy": AgentAutonomy,
     "AgentAutonomyDashboard": AgentAutonomyDashboard,
+    "AgentBehaviorSim": AgentBehaviorSim,
     "AgentBehaviorStudio": AgentBehaviorStudio,
     "AgentBudget": AgentBudget,
     "AgentCardSettings": AgentCardSettings,
@@ -699,9 +706,11 @@ export const PAGES = {
     "AlertManagementDashboard": AlertManagementDashboard,
     "AlgorithmAuditing": AlgorithmAuditing,
     "AlignmentHub": AlignmentHub,
+    "AlumniNetwork": AlumniNetwork,
     "Analytics": Analytics,
     "AnalyticsIntelligenceHub": AnalyticsIntelligenceHub,
     "AnimationStudio": AnimationStudio,
+    "ApplicationUptime": ApplicationUptime,
     "Architecture": Architecture,
     "AssetBrowser": AssetBrowser,
     "AssetManagement": AssetManagement,
@@ -714,6 +723,7 @@ export const PAGES = {
     "AutomationsHub": AutomationsHub,
     "AutonomousAgentSystem": AutonomousAgentSystem,
     "AutonomousCollaborationHub": AutonomousCollaborationHub,
+    "AutonomousNavigation": AutonomousNavigation,
     "AutonomousVehicleHub": AutonomousVehicleHub,
     "AutonomyControlCenter": AutonomyControlCenter,
     "AvatarCreationHub": AvatarCreationHub,
@@ -727,8 +737,11 @@ export const PAGES = {
     "BiometricAuthHub": BiometricAuthHub,
     "Blueprint": Blueprint,
     "BlueprintGallery": BlueprintGallery,
+    "BrainstormingSession": BrainstormingSession,
     "BridgeOmni": BridgeOmni,
     "BudgetingForecast": BudgetingForecast,
+    "BugTracker": BugTracker,
+    "BuildPipelines": BuildPipelines,
     "BuyOmni": BuyOmni,
     "CalendarEvents": CalendarEvents,
     "CampusHome": CampusHome,
@@ -738,6 +751,7 @@ export const PAGES = {
     "Certifications": Certifications,
     "Challenges": Challenges,
     "CharacterCustomizer": CharacterCustomizer,
+    "ClimateChangeModel": ClimateChangeModel,
     "CloudinaryHub": CloudinaryHub,
     "CodeEditor": CodeEditor,
     "CognitiveEnhancement": CognitiveEnhancement,
@@ -753,6 +767,8 @@ export const PAGES = {
     "CommunicationsHub": CommunicationsHub,
     "Community": Community,
     "CommunityCreations": CommunityCreations,
+    "CommunityEvents": CommunityEvents,
+    "CommunityForumHub": CommunityForumHub,
     "CommunityGuidelines": CommunityGuidelines,
     "CommunityGuidelinesEnhanced": CommunityGuidelinesEnhanced,
     "CommunityHub": CommunityHub,
@@ -763,10 +779,16 @@ export const PAGES = {
     "ComplianceAudit": ComplianceAudit,
     "ComplianceDashboard": ComplianceDashboard,
     "ComprehensiveFinancialHub": ComprehensiveFinancialHub,
+    "ConsciousnessMapping": ConsciousnessMapping,
     "ConsciousnessMirrorHub": ConsciousnessMirrorHub,
+    "ConsciousnessStream": ConsciousnessStream,
     "ConsciousnessUploadHub": ConsciousnessUploadHub,
     "Contact": Contact,
+    "ContactSupport": ContactSupport,
     "ContextAwareAssistantHub": ContextAwareAssistantHub,
+    "ContinuousIntegration": ContinuousIntegration,
+    "ConversionRates": ConversionRates,
+    "CourseCatalogManager": CourseCatalogManager,
     "CourseCreator": CourseCreator,
     "CrossAgentPlanningHub": CrossAgentPlanningHub,
     "CrossPlatformIntegrationHub": CrossPlatformIntegrationHub,
@@ -776,12 +798,16 @@ export const PAGES = {
     "CurriculumCourses": CurriculumCourses,
     "CustomDashboard": CustomDashboard,
     "CustomIntegrations": CustomIntegrations,
+    "CustomerInsightsDashboard": CustomerInsightsDashboard,
     "DAOGovernanceHub": DAOGovernanceHub,
     "DEXAggregator": DEXAggregator,
     "DashboardHome": DashboardHome,
     "DataAnnotation": DataAnnotation,
+    "DataCompression": DataCompression,
     "DataEncryption": DataEncryption,
     "DataMarketplace": DataMarketplace,
+    "DataPrivacySettings": DataPrivacySettings,
+    "DatabaseHealth": DatabaseHealth,
     "DatabaseManager": DatabaseManager,
     "DatasetManagement": DatasetManagement,
     "DeFiAnalyticsPhase4": DeFiAnalyticsPhase4,
@@ -793,7 +819,9 @@ export const PAGES = {
     "DeFiRiskManagementSuite": DeFiRiskManagementSuite,
     "DecentralizedCourt": DecentralizedCourt,
     "DecentralizedNetwork": DecentralizedNetwork,
+    "DecisionMakingTools": DecisionMakingTools,
     "DeepLearningPlatform": DeepLearningPlatform,
+    "DependencyManager": DependencyManager,
     "DeploymentReadiness": DeploymentReadiness,
     "DepositETH": DepositETH,
     "DepositOmni": DepositOmni,
@@ -812,7 +840,9 @@ export const PAGES = {
     "DeviceShop": DeviceShop,
     "DeviceTelemetry": DeviceTelemetry,
     "DevicesHub": DevicesHub,
+    "DigitalImmortality": DigitalImmortality,
     "DiscountsRebates": DiscountsRebates,
+    "DisputeResolution": DisputeResolution,
     "Documentation": Documentation,
     "DocumentsHub": DocumentsHub,
     "DreamRecordingStudio": DreamRecordingStudio,
@@ -822,6 +852,7 @@ export const PAGES = {
     "EcosystemDashboard": EcosystemDashboard,
     "EcosystemMonitoringDashboard": EcosystemMonitoringDashboard,
     "EmergentBehavior": EmergentBehavior,
+    "EncryptionProtocols": EncryptionProtocols,
     "EnhancedAIAgentMarketplace": EnhancedAIAgentMarketplace,
     "EnhancedAILabsHub": EnhancedAILabsHub,
     "EnhancedAgentCreator": EnhancedAgentCreator,
@@ -830,7 +861,6 @@ export const PAGES = {
     "EnhancedAnalyticsHub": EnhancedAnalyticsHub,
     "EnhancedAnomalyDashboard": EnhancedAnomalyDashboard,
     "EnhancedBankingHub": EnhancedBankingHub,
-    "FAQ": FAQ,
     "EnhancedCollaborationHub": EnhancedCollaborationHub,
     "EnhancedCollaborationStudio": EnhancedCollaborationStudio,
     "EnhancedCommunications": EnhancedCommunications,
@@ -857,19 +887,31 @@ export const PAGES = {
     "EnhancedWorkflowHub": EnhancedWorkflowHub,
     "EntanglementBridge": EntanglementBridge,
     "EnvironmentDesigner": EnvironmentDesigner,
+    "EnvironmentalSim": EnvironmentalSim,
+    "EpidemicSimulation": EpidemicSimulation,
     "ErrorTracking": ErrorTracking,
+    "EscrowServices": EscrowServices,
     "EthicalAIReview": EthicalAIReview,
+    "EthicalGuidelines": EthicalGuidelines,
     "EthicsCommittee": EthicsCommittee,
     "EthicsHub": EthicsHub,
     "EthicsSafetyHub": EthicsSafetyHub,
+    "EventBusLog": EventBusLog,
     "EventsCalendar": EventsCalendar,
     "EvolutionDashboardPage": EvolutionDashboardPage,
     "ExchangeListings": ExchangeListings,
+    "ExoskeletonInterface": ExoskeletonInterface,
     "ExperimentTracking": ExperimentTracking,
+    "ExpertTalks": ExpertTalks,
+    "ExplainableAI": ExplainableAI,
+    "FAQ": FAQ,
     "FeatureDetail": FeatureDetail,
+    "FeatureFlagManagement": FeatureFlagManagement,
     "FeatureFlagManager": FeatureFlagManager,
+    "FeatureRequests": FeatureRequests,
     "Features": Features,
     "FeedbackDashboard": FeedbackDashboard,
+    "FeedbackForm": FeedbackForm,
     "FiatDeposit": FiatDeposit,
     "FiatGateway": FiatGateway,
     "FinancialAdvisorHub": FinancialAdvisorHub,
@@ -880,10 +922,14 @@ export const PAGES = {
     "FleetManagement": FleetManagement,
     "FreelanceAgentHub": FreelanceAgentHub,
     "GeminiHub": GeminiHub,
+    "GenerativeAdversarialNetworks": GenerativeAdversarialNetworks,
     "GenericHub": GenericHub,
     "GlobalGovernance": GlobalGovernance,
     "GlobalMap": GlobalMap,
     "GlobalSettings": GlobalSettings,
+    "GovernanceTokens": GovernanceTokens,
+    "Gradebook": Gradebook,
+    "GraphQLPlayground": GraphQLPlayground,
     "HapticFeedbackControl": HapticFeedbackControl,
     "HistoricalData": HistoricalData,
     "HolographicAnalytics": HolographicAnalytics,
@@ -894,7 +940,11 @@ export const PAGES = {
     "HomeHub": HomeHub,
     "HomepageUpgradePlan": HomepageUpgradePlan,
     "HybridMLHub": HybridMLHub,
+    "HyperparameterTuning": HyperparameterTuning,
+    "IdeaGeneration": IdeaGeneration,
+    "IdentityManagement": IdentityManagement,
     "ImmersiveNavigationHub": ImmersiveNavigationHub,
+    "IncidentResponse": IncidentResponse,
     "InferenceEngine": InferenceEngine,
     "InstructorDirectory": InstructorDirectory,
     "IntegrationDevelopmentHub": IntegrationDevelopmentHub,
@@ -903,21 +953,27 @@ export const PAGES = {
     "Integrations": Integrations,
     "IntegrationsHub": IntegrationsHub,
     "IntelligenceDashboard": IntelligenceDashboard,
+    "InteractiveTutorials": InteractiveTutorials,
     "IntrusionDetection": IntrusionDetection,
+    "InventoryControl": InventoryControl,
     "InvestmentStrategyHub": InvestmentStrategyHub,
     "IoTDeviceControl": IoTDeviceControl,
     "KnowledgeBase": KnowledgeBase,
     "KnowledgeGraphHub": KnowledgeGraphHub,
+    "KnowledgeSharingHub": KnowledgeSharingHub,
     "Labs": Labs,
     "LabsHome": LabsHome,
+    "LatencyMonitor": LatencyMonitor,
     "Leaderboards": Leaderboards,
     "LearningPathways": LearningPathways,
+    "LessonPlanner": LessonPlanner,
     "LicenseManagement": LicenseManagement,
     "LinkBankAccount": LinkBankAccount,
     "LiquidityPools": LiquidityPools,
     "LiveChatSupport": LiveChatSupport,
     "LoansAndCredit": LoansAndCredit,
     "LogAnalysis": LogAnalysis,
+    "LoyaltyProgram": LoyaltyProgram,
     "MLOpsHub": MLOpsHub,
     "MaintenanceSchedule": MaintenanceSchedule,
     "MarketIntelligenceHub": MarketIntelligenceHub,
@@ -928,14 +984,22 @@ export const PAGES = {
     "MeshNetworkStatus": MeshNetworkStatus,
     "MessageBroadcastHub": MessageBroadcastHub,
     "MetaLearningHub": MetaLearningHub,
+    "MicroservicesHealth": MicroservicesHealth,
+    "MindUploadStatus": MindUploadStatus,
     "MistralHub": MistralHub,
     "ModelTraining": ModelTraining,
+    "ModelValidator": ModelValidator,
+    "MolecularDynamics": MolecularDynamics,
     "MovementPlanner": MovementPlanner,
     "MultiAgentCollaborationHub": MultiAgentCollaborationHub,
     "MyCreations": MyCreations,
     "NFTMarketplace": NFTMarketplace,
     "NavigationControl": NavigationControl,
+    "NetworkDiagnostics": NetworkDiagnostics,
+    "NetworkTopology": NetworkTopology,
     "NetworkTrafficHub": NetworkTrafficHub,
+    "NeuralArchitectureSearch": NeuralArchitectureSearch,
+    "NeuralLinkStatus": NeuralLinkStatus,
     "NeuralNetworkVisualizer": NeuralNetworkVisualizer,
     "NewsUpdates": NewsUpdates,
     "NextGenMLHub": NextGenMLHub,
@@ -966,10 +1030,15 @@ export const PAGES = {
     "OmniSocial": OmniSocial,
     "OmniStaking": OmniStaking,
     "OmniWallet": OmniWallet,
+    "OnboardingGuide": OnboardingGuide,
     "OrderManagement": OrderManagement,
+    "OrderTrackingSystem": OrderTrackingSystem,
     "OrgSettings": OrgSettings,
     "Partnerships": Partnerships,
+    "PaymentGateway": PaymentGateway,
     "PaymentHistory": PaymentHistory,
+    "PeerReviewSystem": PeerReviewSystem,
+    "PenetrationTestResults": PenetrationTestResults,
     "Phase10AdvancedAutonomy": Phase10AdvancedAutonomy,
     "Phase1Dashboard": Phase1Dashboard,
     "Phase2Dashboard": Phase2Dashboard,
@@ -997,27 +1066,39 @@ export const PAGES = {
     "Privacy": Privacy,
     "ProactiveMonitoring": ProactiveMonitoring,
     "ProceduralSimulationStudio": ProceduralSimulationStudio,
+    "ProductCatalogManager": ProductCatalogManager,
     "Profile": Profile,
     "ProfileHome": ProfileHome,
     "ProjectManagement": ProjectManagement,
+    "ProposalArchive": ProposalArchive,
     "ProposalDrafting": ProposalDrafting,
+    "ProtocolAnalyzer": ProtocolAnalyzer,
     "QuantumComputingHub": QuantumComputingHub,
     "QuantumCryptography": QuantumCryptography,
     "QuantumEntanglementHub": QuantumEntanglementHub,
+    "QuantumErrorCorrection": QuantumErrorCorrection,
     "QuantumStateMonitor": QuantumStateMonitor,
+    "QuantumTeleportation": QuantumTeleportation,
     "QubitAllocation": QubitAllocation,
+    "QuizCreator": QuizCreator,
     "RealTimeMetrics": RealTimeMetrics,
+    "RealTimeOperations": RealTimeOperations,
     "RealWorldBudget": RealWorldBudget,
     "RealtimeDashboard": RealtimeDashboard,
     "RedCommHub": RedCommHub,
     "ReferralProgram": ReferralProgram,
+    "ReinforcementLearning": ReinforcementLearning,
+    "ReleaseManagement": ReleaseManagement,
     "ReleaseNotes": ReleaseNotes,
     "RepairRequest": RepairRequest,
     "ReportingAnalytics": ReportingAnalytics,
     "ResearchHub": ResearchHub,
+    "ResourceCenter": ResourceCenter,
     "ResourceLibrary": ResourceLibrary,
     "ResourceManagementHub": ResourceManagementHub,
     "Roadmap": Roadmap,
+    "RobotArmControl": RobotArmControl,
+    "RobotFleetControl": RobotFleetControl,
     "RoboticsIntegrationHub": RoboticsIntegrationHub,
     "SDKDownloads": SDKDownloads,
     "SDKsLibraries": SDKsLibraries,
@@ -1026,15 +1107,21 @@ export const PAGES = {
     "SandboxSimulationHub": SandboxSimulationHub,
     "SandboxTesting": SandboxTesting,
     "SatelliteUplink": SatelliteUplink,
+    "ScenarioBuilder": ScenarioBuilder,
     "ScenarioTesting": ScenarioTesting,
     "Security": Security,
+    "SecurityAuditLog": SecurityAuditLog,
     "SecurityComplianceHub": SecurityComplianceHub,
     "SecurityIntelligenceHub": SecurityIntelligenceHub,
     "SecurityMonitoringHub": SecurityMonitoringHub,
+    "SecurityPolicies": SecurityPolicies,
     "SecuritySettings": SecuritySettings,
     "SellOmni": SellOmni,
+    "SensorCalibration": SensorCalibration,
     "SensorDataAnalysis": SensorDataAnalysis,
     "SensorFusion": SensorFusion,
+    "SensorNetworkMonitor": SensorNetworkMonitor,
+    "ServerPerformance": ServerPerformance,
     "ServerlessFunctions": ServerlessFunctions,
     "ServiceMarketplace": ServiceMarketplace,
     "ServiceProviders": ServiceProviders,
@@ -1046,29 +1133,39 @@ export const PAGES = {
     "SimulationHub": SimulationHub,
     "SimulationLab": SimulationLab,
     "SimulationLabs": SimulationLabs,
+    "SimulationPlayback": SimulationPlayback,
     "SimulationStudio": SimulationStudio,
     "SimulationWorld": SimulationWorld,
+    "SkillTreeBuilder": SkillTreeBuilder,
     "SmartBankingHub": SmartBankingHub,
     "SmartContractAudit": SmartContractAudit,
     "SmartHomeHub": SmartHomeHub,
     "SocialDynamics": SocialDynamics,
+    "SocialGraph": SocialGraph,
+    "SpaceExplorationSim": SpaceExplorationSim,
     "SpatialMapping": SpatialMapping,
     "StudentLounge": StudentLounge,
     "StudentProgress": StudentProgress,
     "StudyGroups": StudyGroups,
     "SubscriptionManagement": SubscriptionManagement,
+    "SubscriptionManager": SubscriptionManager,
     "SystemArchitecture": SystemArchitecture,
+    "SystemConfig": SystemConfig,
     "SystemDashboard": SystemDashboard,
-    "Team": Team,
+    "SystemDocumentation": SystemDocumentation,
     "SystemHealth": SystemHealth,
     "SystemStatus": SystemStatus,
     "TaskBoard": TaskBoard,
+    "Team": Team,
+    "TeamBuildingActivities": TeamBuildingActivities,
     "TeamChat": TeamChat,
     "TeamOrchestration": TeamOrchestration,
     "Technology": Technology,
     "TelepathyTraining": TelepathyTraining,
+    "TelepresenceControl": TelepresenceControl,
     "Terms": Terms,
     "ThemeStudio": ThemeStudio,
+    "ThreatIntelligence": ThreatIntelligence,
     "TicketSystem": TicketSystem,
     "TokenExchange": TokenExchange,
     "Tokenomics": Tokenomics,
@@ -1076,6 +1173,8 @@ export const PAGES = {
     "TransactionHistory": TransactionHistory,
     "TransferLearningHub": TransferLearningHub,
     "TransparencyReport": TransparencyReport,
+    "TroubleshootingWizard": TroubleshootingWizard,
+    "TutorialLibrary": TutorialLibrary,
     "UltraOmniSentientHub": UltraOmniSentientHub,
     "UnifiedAnalytics": UnifiedAnalytics,
     "UnifiedCommunicationHub": UnifiedCommunicationHub,
@@ -1085,19 +1184,24 @@ export const PAGES = {
     "UnifiedPlatformNavigator": UnifiedPlatformNavigator,
     "UnifiedVoicePlatform": UnifiedVoicePlatform,
     "UpgradeTracker": UpgradeTracker,
+    "UrbanPlanning": UrbanPlanning,
     "UserBehaviorAnalytics": UserBehaviorAnalytics,
     "UserEngagement": UserEngagement,
     "UserForums": UserForums,
     "UserManual": UserManual,
     "UserPreferences": UserPreferences,
+    "UserRetention": UserRetention,
     "UserRoleManagement": UserRoleManagement,
     "UserRolesPermissions": UserRolesPermissions,
+    "VPNManager": VPNManager,
+    "VendorDashboard": VendorDashboard,
     "VersionControl": VersionControl,
     "VideoConferencing": VideoConferencing,
     "VideoTutorials": VideoTutorials,
     "VirtualClassrooms": VirtualClassrooms,
     "VirtualLibrary": VirtualLibrary,
     "VotingBooth": VotingBooth,
+    "VotingHistory": VotingHistory,
     "VulnerabilityScanner": VulnerabilityScanner,
     "Wallet": Wallet,
     "WalletSecurity": WalletSecurity,
@@ -1108,118 +1212,14 @@ export const PAGES = {
     "WebhookManager": WebhookManager,
     "Webhooks": Webhooks,
     "WebhooksHub": WebhooksHub,
+    "Webinars": Webinars,
+    "WhistleblowerChannel": WhistleblowerChannel,
     "WhiteboardHub": WhiteboardHub,
     "WithdrawOmni": WithdrawOmni,
     "WorkflowAutomationHub": WorkflowAutomationHub,
     "WorkflowOrchestrationHub": WorkflowOrchestrationHub,
     "World": World,
     "WorldHubEnhanced": WorldHubEnhanced,
-    "AIPerformanceMetrics": AIPerformanceMetrics,
-    "NeuralArchitectureSearch": NeuralArchitectureSearch,
-    "HyperparameterTuning": HyperparameterTuning,
-    "ExplainableAI": ExplainableAI,
-    "GenerativeAdversarialNetworks": GenerativeAdversarialNetworks,
-    "ReinforcementLearning": ReinforcementLearning,
-    "InteractiveTutorials": InteractiveTutorials,
-    "Webinars": Webinars,
-    "ExpertTalks": ExpertTalks,
-    "PeerReviewSystem": PeerReviewSystem,
-    "AlumniNetwork": AlumniNetwork,
-    "ProtocolAnalyzer": ProtocolAnalyzer,
-    "LatencyMonitor": LatencyMonitor,
-    "DataCompression": DataCompression,
-    "EncryptionProtocols": EncryptionProtocols,
-    "NetworkTopology": NetworkTopology,
-    "EscrowServices": EscrowServices,
-    "DisputeResolution": DisputeResolution,
-    "LoyaltyProgram": LoyaltyProgram,
-    "AffiliateMarketing": AffiliateMarketing,
-    "VendorDashboard": VendorDashboard,
-    "ClimateChangeModel": ClimateChangeModel,
-    "UrbanPlanning": UrbanPlanning,
-    "EpidemicSimulation": EpidemicSimulation,
-    "SpaceExplorationSim": SpaceExplorationSim,
-    "MolecularDynamics": MolecularDynamics,
-    "BugTracker": BugTracker,
-    "FeatureRequests": FeatureRequests,
-    "DependencyManager": DependencyManager,
-    "BuildPipelines": BuildPipelines,
-    "ContinuousIntegration": ContinuousIntegration,
-    "IdentityManagement": IdentityManagement,
-    "AccessLogs": AccessLogs,
-    "SecurityPolicies": SecurityPolicies,
-    "ThreatIntelligence": ThreatIntelligence,
-    "IncidentResponse": IncidentResponse,
-    "RobotArmControl": RobotArmControl,
-    "AutonomousNavigation": AutonomousNavigation,
-    "SensorCalibration": SensorCalibration,
-    "TelepresenceControl": TelepresenceControl,
-    "ExoskeletonInterface": ExoskeletonInterface,
-    "BrainstormingSession": BrainstormingSession,
-    "DecisionMakingTools": DecisionMakingTools,
-    "TeamBuildingActivities": TeamBuildingActivities,
-    "CommunityEvents": CommunityEvents,
-    "SocialGraph": SocialGraph,
-    "QuantumErrorCorrection": QuantumErrorCorrection,
-    "QuantumTeleportation": QuantumTeleportation,
-    "ConsciousnessMapping": ConsciousnessMapping,
-    "MindUploadStatus": MindUploadStatus,
-    "DigitalImmortality": DigitalImmortality,
-    "ServerPerformance": ServerPerformance,
-    "DatabaseHealth": DatabaseHealth,
-    "ApplicationUptime": ApplicationUptime,
-    "UserRetention": UserRetention,
-    "ConversionRates": ConversionRates,
-    "WhistleblowerChannel": WhistleblowerChannel,
-    "EthicalGuidelines": EthicalGuidelines,
-    "GovernanceTokens": GovernanceTokens,
-    "VotingHistory": VotingHistory,
-    "ProposalArchive": ProposalArchive,
-    "OnboardingGuide": OnboardingGuide,
-    "TroubleshootingWizard": TroubleshootingWizard,
-    "ContactSupport": ContactSupport,
-    "FeedbackForm": FeedbackForm,
-    "ResourceCenter": ResourceCenter,
-    "APIGatewayConfig": APIGatewayConfig,
-    "MicroservicesHealth": MicroservicesHealth,
-    "EventBusLog": EventBusLog,
-    "SecurityAuditLog": SecurityAuditLog,
-    "PenetrationTestResults": PenetrationTestResults,
-    "DataPrivacySettings": DataPrivacySettings,
-    "CustomerInsightsDashboard": CustomerInsightsDashboard,
-    "RealTimeOperations": RealTimeOperations,
-    "CommunityForumHub": CommunityForumHub,
-    "IdeaGeneration": IdeaGeneration,
-    "KnowledgeSharingHub": KnowledgeSharingHub,
-    "ProductCatalogManager": ProductCatalogManager,
-    "OrderTrackingSystem": OrderTrackingSystem,
-    "InventoryControl": InventoryControl,
-    "AgentBehaviorSim": AgentBehaviorSim,
-    "EnvironmentalSim": EnvironmentalSim,
-    "RobotFleetControl": RobotFleetControl,
-    "SensorNetworkMonitor": SensorNetworkMonitor,
-    "ConsciousnessStream": ConsciousnessStream,
-    "NeuralLinkStatus": NeuralLinkStatus,
-    "CourseCatalogManager": CourseCatalogManager,
-    "SkillTreeBuilder": SkillTreeBuilder,
-    "TutorialLibrary": TutorialLibrary,
-    "SystemDocumentation": SystemDocumentation,
-    "SystemConfig": SystemConfig,
-    "FeatureFlagManagement": FeatureFlagManagement,
-    "ReleaseManagement": ReleaseManagement,
-    "AIDeployment": AIDeployment,
-    "AIEvaluation": AIEvaluation,
-    "LessonPlanner": LessonPlanner,
-    "QuizCreator": QuizCreator,
-    "Gradebook": Gradebook,
-    "NetworkDiagnostics": NetworkDiagnostics,
-    "VPNManager": VPNManager,
-    "PaymentGateway": PaymentGateway,
-    "SubscriptionManager": SubscriptionManager,
-    "ScenarioBuilder": ScenarioBuilder,
-    "SimulationPlayback": SimulationPlayback,
-    "ModelValidator": ModelValidator,
-    "GraphQLPlayground": GraphQLPlayground,
 }
 
 export const pagesConfig = {

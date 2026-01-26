@@ -119,6 +119,8 @@ Deno.serve(async (req) => {
         
         // Only run if admin or system
         // if (!user || user.role !== 'admin') return Response.json({error: "Unauthorized"}, {status: 403});
+        
+        // Force redeploy trigger - timestamp: 2026-01-26
 
         let createdCount = 0;
         

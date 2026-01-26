@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ConsolidatedNav from './components/navigation/ConsolidatedNav';
-import BackButton from './components/navigation/BackButton';
+import BackExitControls from './components/navigation/BackExitControls';
 import GamificationOverlay from './components/gamification/GamificationOverlay';
 import Sidebar from './components/navigation/Sidebar';
 import { GamificationProvider } from './components/gamification/GamificationContext';
@@ -66,7 +66,7 @@ function LayoutContent({ children, currentPageName }) {
         isSidebarOpen={isSidebarOpen}
       />
       <Sidebar isOpen={isSidebarOpen} hubs={hubs} />
-      <BackButton />
+      <BackExitControls placement="top-right" />
       <GamificationOverlay />
       <div 
         className="pt-20 transition-all duration-300 ease-in-out"
