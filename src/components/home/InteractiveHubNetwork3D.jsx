@@ -33,7 +33,7 @@ const CATEGORY_CONFIG = {
 
 
 // --- AGENT SYSTEM ---
-const Agent = ({ startPos, endPos, color, speed = 1, type = 'data' }) => {
+const Agent = ({ id, startPos, endPos, color, speed = 1, type = 'data', mission }) => {
   const agentRef = useRef();
   const [progress, setProgress] = useState(0);
   const [active, setActive] = useState(true);
@@ -41,7 +41,6 @@ const Agent = ({ startPos, endPos, color, speed = 1, type = 'data' }) => {
   useFrame((state, delta) => {
     if (!active || !agentRef.current) return;
     
-    // speed * delta * 0.5 -> slower movement for better visibility
     const newProgress = progress + (delta * speed * 0.2);
     if (newProgress >= 1) {
       setProgress(0);
@@ -55,11 +54,18 @@ const Agent = ({ startPos, endPos, color, speed = 1, type = 'data' }) => {
       progress
     );
     
-    // Add noise
+    // Complex Behaviors
     if (type === 'security') {
-        pos.y += Math.sin(state.clock.elapsedTime * 10 + Math.random()) * 0.1;
+        // Patrol pattern
+        pos.y += Math.sin(state.clock.elapsedTime * 8 + id) * 0.2;
+        pos.x += Math.cos(state.clock.elapsedTime * 4 + id) * 0.1;
     } else if (type === 'ai') {
-        pos.x += Math.cos(state.clock.elapsedTime * 5 + Math.random()) * 0.1;
+        // "Learning" jitter
+        pos.x += Math.cos(state.clock.elapsedTime * 5 + id) * 0.15;
+        pos.z += Math.sin(state.clock.elapsedTime * 3 + id) * 0.15;
+    } else if (type === 'mission_agent') {
+        // Focused, fast movement
+        pos.y += Math.sin(state.clock.elapsedTime * 15) * 0.05;
     }
 
     agentRef.current.position.copy(pos);
@@ -70,13 +76,22 @@ const Agent = ({ startPos, endPos, color, speed = 1, type = 'data' }) => {
   return (
     <group ref={agentRef}>
       <mesh>
-        <sphereGeometry args={[0.08, 8, 8]} />
-        <meshBasicMaterial color={type === 'security' ? '#ef4444' : type === 'ai' ? '#ec4899' : '#ffffff'} />
+        <sphereGeometry args={[type === 'mission_agent' ? 0.15 : 0.08, 16, 16]} />
+        <meshBasicMaterial color={type === 'security' ? '#ef4444' : type === 'ai' ? '#ec4899' : type === 'mission_agent' ? '#fbbf24' : '#ffffff'} />
       </mesh>
-      <mesh scale={[1.5, 1.5, 1.5]}>
-        <sphereGeometry args={[0.08, 8, 8]} />
-        <meshBasicMaterial color={color} transparent opacity={0.3} />
+      {/* Aura */}
+      <mesh scale={type === 'mission_agent' ? [2, 2, 2] : [1.5, 1.5, 1.5]}>
+        <sphereGeometry args={[0.08, 16, 16]} />
+        <meshBasicMaterial color={color} transparent opacity={0.4} />
       </mesh>
+      {/* Mission Badge */}
+      {type === 'mission_agent' && (
+          <Html distanceFactor={15}>
+              <div className="bg-amber-500/80 text-black text-[8px] px-1 rounded font-bold">
+                  {mission || "OPS"}
+              </div>
+          </Html>
+      )}
     </group>
   );
 };
@@ -91,20 +106,28 @@ const AgentSystem = ({ connections, activeSimulation }) => {
 
     if (Math.random() < spawnRate && connections.length > 0) {
       const conn = connections[Math.floor(Math.random() * connections.length)];
-      const type = activeSimulation === 'security_sweep' ? 'security' : Math.random() > 0.8 ? 'ai' : 'data';
+      let type = Math.random() > 0.8 ? 'ai' : 'data';
+      let mission = null;
+
+      if (activeSimulation === 'security_sweep') type = 'security';
+      if (activeSimulation === 'mission_ops') {
+          type = 'mission_agent';
+          mission = ['ALPHA', 'BRAVO', 'OMEGA'][Math.floor(Math.random() * 3)];
+      }
       
       const newAgent = {
         id: Math.random(),
         startPos: conn.start,
         endPos: conn.end,
-        color: conn.color,
-        speed: 0.5 + Math.random(),
+        color: type === 'mission_agent' ? '#fbbf24' : conn.color,
+        speed: type === 'mission_agent' ? 1.5 : 0.5 + Math.random(),
         type: type,
+        mission: mission
       };
       
       setAgents(prev => {
           const next = [...prev, newAgent];
-          if (next.length > 100) return next.slice(50); // Prune
+          if (next.length > 100) return next.slice(50); 
           return next;
       }); 
     }
