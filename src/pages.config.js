@@ -189,6 +189,7 @@ import CustomerInsightsDashboard from './pages/CustomerInsightsDashboard';
 import DAOGovernanceHub from './pages/DAOGovernanceHub';
 import DEXAggregator from './pages/DEXAggregator';
 import DashboardHome from './pages/DashboardHome';
+import DataAnalysis from './pages/DataAnalysis';
 import DataAnnotation from './pages/DataAnnotation';
 import DataCompression from './pages/DataCompression';
 import DataEncryption from './pages/DataEncryption';
@@ -286,6 +287,7 @@ import EthicsSafetyHub from './pages/EthicsSafetyHub';
 import EventBusLog from './pages/EventBusLog';
 import EventsCalendar from './pages/EventsCalendar';
 import EvolutionDashboardPage from './pages/EvolutionDashboardPage';
+import Evolve from './pages/Evolve';
 import ExchangeListings from './pages/ExchangeListings';
 import ExoskeletonInterface from './pages/ExoskeletonInterface';
 import ExperimentTracking from './pages/ExperimentTracking';
@@ -472,6 +474,7 @@ import RealTimeMetrics from './pages/RealTimeMetrics';
 import RealTimeOperations from './pages/RealTimeOperations';
 import RealWorldBudget from './pages/RealWorldBudget';
 import RealtimeDashboard from './pages/RealtimeDashboard';
+import RedCommBlueprints from './pages/RedCommBlueprints';
 import RedCommHub from './pages/RedCommHub';
 import ReferralProgram from './pages/ReferralProgram';
 import ReinforcementLearning from './pages/ReinforcementLearning';
@@ -541,6 +544,7 @@ import SystemConfig from './pages/SystemConfig';
 import SystemDashboard from './pages/SystemDashboard';
 import SystemDocumentation from './pages/SystemDocumentation';
 import SystemHealth from './pages/SystemHealth';
+import SystemMonitoringDashboard from './pages/SystemMonitoringDashboard';
 import SystemStatus from './pages/SystemStatus';
 import TaskBoard from './pages/TaskBoard';
 import Team from './pages/Team';
@@ -607,10 +611,6 @@ import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
 import WorldHubEnhanced from './pages/WorldHubEnhanced';
-import SystemMonitoringDashboard from './pages/SystemMonitoringDashboard';
-import DataAnalysis from './pages/DataAnalysis';
-import Evolve from './pages/Evolve';
-import RedCommBlueprints from './pages/RedCommBlueprints';
 import __Layout from './Layout.jsx';
 
 
@@ -806,6 +806,7 @@ export const PAGES = {
     "DAOGovernanceHub": DAOGovernanceHub,
     "DEXAggregator": DEXAggregator,
     "DashboardHome": DashboardHome,
+    "DataAnalysis": DataAnalysis,
     "DataAnnotation": DataAnnotation,
     "DataCompression": DataCompression,
     "DataEncryption": DataEncryption,
@@ -903,6 +904,7 @@ export const PAGES = {
     "EventBusLog": EventBusLog,
     "EventsCalendar": EventsCalendar,
     "EvolutionDashboardPage": EvolutionDashboardPage,
+    "Evolve": Evolve,
     "ExchangeListings": ExchangeListings,
     "ExoskeletonInterface": ExoskeletonInterface,
     "ExperimentTracking": ExperimentTracking,
@@ -1089,6 +1091,7 @@ export const PAGES = {
     "RealTimeOperations": RealTimeOperations,
     "RealWorldBudget": RealWorldBudget,
     "RealtimeDashboard": RealtimeDashboard,
+    "RedCommBlueprints": RedCommBlueprints,
     "RedCommHub": RedCommHub,
     "ReferralProgram": ReferralProgram,
     "ReinforcementLearning": ReinforcementLearning,
@@ -1158,6 +1161,7 @@ export const PAGES = {
     "SystemDashboard": SystemDashboard,
     "SystemDocumentation": SystemDocumentation,
     "SystemHealth": SystemHealth,
+    "SystemMonitoringDashboard": SystemMonitoringDashboard,
     "SystemStatus": SystemStatus,
     "TaskBoard": TaskBoard,
     "Team": Team,
@@ -1224,10 +1228,6 @@ export const PAGES = {
     "WorkflowOrchestrationHub": WorkflowOrchestrationHub,
     "World": World,
     "WorldHubEnhanced": WorldHubEnhanced,
-    "SystemMonitoringDashboard": SystemMonitoringDashboard,
-    "DataAnalysis": DataAnalysis,
-    "Evolve": Evolve,
-    "RedCommBlueprints": RedCommBlueprints,
 }
 
 export const pagesConfig = {

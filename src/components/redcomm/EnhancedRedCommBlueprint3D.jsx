@@ -131,6 +131,42 @@ export default function EnhancedRedCommBlueprint3D() {
                 </Button>
             </div>
 
+            {/* Telemetry Overlay */}
+            <div className="absolute top-6 right-6 z-10 w-64">
+                <Card className="bg-black/60 backdrop-blur-xl border-white/10">
+                    <CardHeader className="p-4 pb-2">
+                        <CardTitle className="text-xs uppercase text-gray-400 flex items-center gap-2">
+                            <Activity className="w-3 h-3 text-red-500" /> Real-time Telemetry
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent className="p-4 pt-2 space-y-2">
+                        <div className="flex justify-between items-center">
+                            <span className="text-xs text-gray-300">Core Temp</span>
+                            <span className="text-xs text-red-400 font-mono">0.004 K</span>
+                        </div>
+                        <div className="w-full bg-white/10 h-1 rounded-full overflow-hidden">
+                            <div className="bg-red-500 h-full w-[10%] animate-pulse"></div>
+                        </div>
+                        
+                        <div className="flex justify-between items-center mt-2">
+                            <span className="text-xs text-gray-300">Throughput</span>
+                            <span className="text-xs text-blue-400 font-mono">89%</span>
+                        </div>
+                        <div className="w-full bg-white/10 h-1 rounded-full overflow-hidden">
+                            <div className="bg-blue-500 h-full w-[89%]"></div>
+                        </div>
+
+                        <div className="flex justify-between items-center mt-2">
+                            <span className="text-xs text-gray-300">Signal Integrity</span>
+                            <span className="text-xs text-green-400 font-mono">99.9%</span>
+                        </div>
+                        <div className="w-full bg-white/10 h-1 rounded-full overflow-hidden">
+                            <div className="bg-green-500 h-full w-[99%]"></div>
+                        </div>
+                    </CardContent>
+                </Card>
+            </div>
+
             <Canvas camera={{ position: [4, 2, 5], fov: 50 }}>
                 <ambientLight intensity={0.5} />
                 <pointLight position={[10, 10, 10]} intensity={1.5} />

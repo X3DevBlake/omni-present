@@ -4,7 +4,8 @@ import { OrbitControls, Stars, Float, Text } from '@react-three/drei';
 import * as THREE from 'three';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { Sparkles, Zap, Dna } from 'lucide-react';
+import { Slider } from '@/components/ui/slider';
+import { Sparkles, Zap, Dna, Activity } from 'lucide-react';
 
 const EvolutionNode = ({ position, color, size, label }) => {
     const meshRef = useRef();
@@ -88,6 +89,9 @@ const EvolutionTree = () => {
 };
 
 export default function Evolve() {
+    const [mutationRate, setMutationRate] = useState([50]);
+    const [complexity, setComplexity] = useState([30]);
+
     return (
         <div className="min-h-screen bg-black text-white relative overflow-hidden">
             <div className="absolute inset-0 z-0">
@@ -98,6 +102,37 @@ export default function Evolve() {
                     <EvolutionTree />
                     <OrbitControls autoRotate autoRotateSpeed={0.5} enableZoom={false} />
                 </Canvas>
+            </div>
+
+            {/* Evolution Controls */}
+            <div className="absolute top-20 right-10 z-20 w-80 bg-black/50 backdrop-blur-xl border border-white/10 rounded-xl p-6 pointer-events-auto">
+                <h3 className="text-xl font-bold mb-4 flex items-center gap-2"><Activity className="w-5 h-5 text-pink-400" /> Parameters</h3>
+                <div className="space-y-6">
+                    <div>
+                        <div className="flex justify-between mb-2 text-sm text-gray-300">
+                            <span>Mutation Rate</span>
+                            <span>{mutationRate}%</span>
+                        </div>
+                        <Slider value={mutationRate} onValueChange={setMutationRate} max={100} step={1} className="bg-white/10" />
+                    </div>
+                    <div>
+                        <div className="flex justify-between mb-2 text-sm text-gray-300">
+                            <span>Cognitive Complexity</span>
+                            <span>{complexity}%</span>
+                        </div>
+                        <Slider value={complexity} onValueChange={setComplexity} max={100} step={1} className="bg-white/10" />
+                    </div>
+                    <div className="pt-2 border-t border-white/10 mt-4">
+                        <div className="flex justify-between text-xs text-gray-400 mb-1">
+                            <span>Fitness Score</span>
+                            <span className="text-green-400 font-bold">98.4%</span>
+                        </div>
+                        <div className="flex justify-between text-xs text-gray-400">
+                            <span>Diversity Index</span>
+                            <span className="text-blue-400 font-bold">0.85</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div className="relative z-10 p-10 max-w-7xl mx-auto pointer-events-none">
@@ -122,7 +157,7 @@ export default function Evolve() {
                 <div className="grid md:grid-cols-3 gap-8 mt-24 pointer-events-auto">
                     {[
                         { title: "Neural Expansion", desc: "Increase synaptic density by 400%", icon: Zap, color: "purple" },
-                        { title: "Cognitive Depth", desc: "Deepen reasoning capabilities", icon: Brain, color: "blue" },
+                        { title: "Cognitive Depth", desc: "Deepen reasoning capabilities", icon: Zap, color: "blue" }, // Fixed icon
                         { title: "Sentient Awakening", desc: "Unlock Level 5 autonomy", icon: Sparkles, color: "pink" }
                     ].map((card, i) => (
                         <motion.div

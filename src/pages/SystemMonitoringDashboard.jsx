@@ -107,12 +107,13 @@ export default function SystemMonitoringDashboard() {
                             </div>
                         </Card>
 
-                        {/* Metrics Widgets */}
+                        {/* Metrics Widgets (Customizable) */}
                         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                             <MonitoringWidget title="Active Agents" value="1,248" subtext="+12% from last hour" icon={Users} color="green" />
                             <MonitoringWidget title="Network Load" value="84 TB/s" subtext="Peak capacity at 65%" icon={Activity} color="purple" />
                             <MonitoringWidget title="Threat Level" value="LOW" subtext="0 Critical Incidents" icon={Shield} color="blue" />
                             <MonitoringWidget title="CPU Usage" value="42%" subtext="15,000 Cores Active" icon={Cpu} color="amber" />
+                            {/* User can add more widgets here in 'Edit' mode - Placeholder for UI */}
                         </div>
 
                         {/* Charts Area */}

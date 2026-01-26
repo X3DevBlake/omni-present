@@ -32,18 +32,24 @@ const CATEGORY_CONFIG = {
 // ... duplicates removed ...
 
 
-// --- AGENT SYSTEM ---
-const Agent = ({ id, startPos, endPos, color, speed = 1, type = 'data', mission }) => {
+// --- ENHANCED AGENT SYSTEM ---
+const Agent = ({ id, startPos, endPos, color, speed = 1, type = 'data', mission, onPositionUpdate, nearbyAgents }) => {
   const agentRef = useRef();
   const [progress, setProgress] = useState(0);
   const [active, setActive] = useState(true);
+  const [anomalyDetected, setAnomalyDetected] = useState(false);
 
   useFrame((state, delta) => {
     if (!active || !agentRef.current) return;
     
-    const newProgress = progress + (delta * speed * 0.2);
+    // --- Learning & Optimization ---
+    // Simulating "learning" by slightly increasing speed over time on repetitive paths
+    const optimizedSpeed = speed * (1 + Math.min(0.5, progress)); 
+
+    const newProgress = progress + (delta * optimizedSpeed * 0.2);
     if (newProgress >= 1) {
       setProgress(0);
+      // Simulate route optimization decision at end of path
     } else {
       setProgress(newProgress);
     }
@@ -54,7 +60,7 @@ const Agent = ({ id, startPos, endPos, color, speed = 1, type = 'data', mission 
       progress
     );
     
-    // Complex Behaviors
+    // --- Complex Autonomous Behaviors ---
     if (type === 'security') {
         // Patrol pattern
         pos.y += Math.sin(state.clock.elapsedTime * 8 + id) * 0.2;
@@ -68,7 +74,15 @@ const Agent = ({ id, startPos, endPos, color, speed = 1, type = 'data', mission 
         pos.y += Math.sin(state.clock.elapsedTime * 15) * 0.05;
     }
 
+    // --- Proactive Anomaly Detection ---
+    // Randomly detect "anomalies" based on position
+    if (Math.random() < 0.001 && !anomalyDetected) {
+        setAnomalyDetected(true);
+        setTimeout(() => setAnomalyDetected(false), 2000);
+    }
+
     agentRef.current.position.copy(pos);
+    if (onPositionUpdate) onPositionUpdate(id, pos);
   });
 
   if (!active) return null;
@@ -77,18 +91,40 @@ const Agent = ({ id, startPos, endPos, color, speed = 1, type = 'data', mission 
     <group ref={agentRef}>
       <mesh>
         <sphereGeometry args={[type === 'mission_agent' ? 0.15 : 0.08, 16, 16]} />
-        <meshBasicMaterial color={type === 'security' ? '#ef4444' : type === 'ai' ? '#ec4899' : type === 'mission_agent' ? '#fbbf24' : '#ffffff'} />
+        <meshBasicMaterial color={anomalyDetected ? '#ff0000' : (type === 'security' ? '#ef4444' : type === 'ai' ? '#ec4899' : type === 'mission_agent' ? '#fbbf24' : '#ffffff')} />
       </mesh>
       {/* Aura */}
       <mesh scale={type === 'mission_agent' ? [2, 2, 2] : [1.5, 1.5, 1.5]}>
         <sphereGeometry args={[0.08, 16, 16]} />
-        <meshBasicMaterial color={color} transparent opacity={0.4} />
+        <meshBasicMaterial color={anomalyDetected ? '#ff0000' : color} transparent opacity={0.4} />
       </mesh>
+      
+      {/* Dynamic Collaboration Lines */}
+      {nearbyAgents && nearbyAgents.map((otherPos, i) => (
+          <Line
+            key={i}
+            points={[[0,0,0], [otherPos.x - agentRef.current.position.x, otherPos.y - agentRef.current.position.y, otherPos.z - agentRef.current.position.z]]}
+            color="#00ff00"
+            lineWidth={1}
+            transparent
+            opacity={0.3}
+          />
+      ))}
+
       {/* Mission Badge */}
       {type === 'mission_agent' && (
           <Html distanceFactor={15}>
               <div className="bg-amber-500/80 text-black text-[8px] px-1 rounded font-bold">
                   {mission || "OPS"}
+              </div>
+          </Html>
+      )}
+      
+      {/* Anomaly Alert */}
+      {anomalyDetected && (
+          <Html distanceFactor={10}>
+              <div className="bg-red-600 text-white text-[8px] px-1 rounded animate-pulse">
+                  ANOMALY DETECTED
               </div>
           </Html>
       )}
@@ -98,9 +134,10 @@ const Agent = ({ id, startPos, endPos, color, speed = 1, type = 'data', mission 
 
 const AgentSystem = ({ connections, activeSimulation }) => {
   const [agents, setAgents] = useState([]);
+  const agentPositions = useRef({});
 
   useFrame((state) => {
-    let spawnRate = 0.02; // Base rate
+    let spawnRate = 0.02; 
     if (activeSimulation === 'traffic_spike') spawnRate = 0.2;
     if (activeSimulation === 'agent_swarm') spawnRate = 0.3;
 
@@ -127,17 +164,36 @@ const AgentSystem = ({ connections, activeSimulation }) => {
       
       setAgents(prev => {
           const next = [...prev, newAgent];
-          if (next.length > 100) return next.slice(50); 
+          if (next.length > 80) return next.slice(20); 
           return next;
       }); 
     }
   });
 
+  const handlePositionUpdate = (id, pos) => {
+      agentPositions.current[id] = pos;
+  };
+
   return (
     <group>
-      {agents.map(agent => (
-        <Agent key={agent.id} {...agent} />
-      ))}
+      {agents.map(agent => {
+          // Find nearby agents for ad-hoc collaboration
+          const nearby = [];
+          Object.entries(agentPositions.current).forEach(([otherId, otherPos]) => {
+              if (otherId !== String(agent.id) && otherPos.distanceTo(new THREE.Vector3().lerpVectors(new THREE.Vector3(...agent.startPos), new THREE.Vector3(...agent.endPos), 0.5)) < 2) {
+                  nearby.push(otherPos);
+              }
+          });
+
+          return (
+            <Agent 
+                key={agent.id} 
+                {...agent} 
+                onPositionUpdate={handlePositionUpdate}
+                nearbyAgents={nearby.slice(0, 2)} // Limit connections
+            />
+          );
+      })}
     </group>
   );
 };
@@ -533,12 +589,12 @@ export default function InteractiveHubNetwork3D() {
         </Canvas>
       </div>
 
-      {/* Selected Hub Interaction Panel */}
+      {/* Mission Assignment & Hub Panel */}
       {selectedHub && (
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 bg-black/80 backdrop-blur-xl border border-white/20 rounded-2xl p-6 shadow-2xl z-20 min-w-[300px]"
+          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 bg-black/80 backdrop-blur-xl border border-white/20 rounded-2xl p-6 shadow-2xl z-20 min-w-[350px]"
         >
           <div className="flex flex-col gap-3">
             <div className="flex items-center justify-between">
@@ -553,7 +609,7 @@ export default function InteractiveHubNetwork3D() {
                   ✕
                 </button>
             </div>
-            
+
             <div>
                 <div className="text-white font-bold text-xl">{selectedHub.name}</div>
                 <div className="text-gray-400 text-xs mt-1 max-w-md line-clamp-2">
@@ -569,19 +625,29 @@ export default function InteractiveHubNetwork3D() {
                     Enter Hub
                   </button>
                 </Link>
-                {/* Dispatch Agent Action */}
+
+                {/* Mission Assignment UI */}
                 <button 
-                    className="px-3 py-2 border border-white/20 rounded-lg hover:bg-white/5 bg-purple-500/20 text-purple-300 border-purple-500/50"
+                    className={`px-3 py-2 border border-white/20 rounded-lg hover:bg-white/5 ${activeSimulation === 'mission_ops' ? 'bg-amber-500/20 text-amber-300 border-amber-500/50' : 'bg-purple-500/20 text-purple-300 border-purple-500/50'}`}
                     onClick={() => {
-                        // Logic handled by visualizer state potentially, or just a visual feedback for now
-                        // Ideally we'd push to a 'spawnQueue' in the parent or context
-                        console.log("Dispatching agent from", selectedHub.name);
+                        if (activeSimulation === 'mission_ops') {
+                            // Assign as target
+                            console.log("Assigned target:", selectedHub.name);
+                            // Here we would call base44.functions.invoke('assignMission', { targetHub: selectedHub.id })
+                        } else {
+                            console.log("Dispatching standard agent");
+                        }
                     }}
-                    title="Dispatch AI Agent"
+                    title={activeSimulation === 'mission_ops' ? "Assign Mission Target" : "Dispatch Agent"}
                 >
-                    <Zap className="w-4 h-4" />
+                    {activeSimulation === 'mission_ops' ? <Radio className="w-4 h-4 animate-pulse" /> : <Zap className="w-4 h-4" />}
                 </button>
             </div>
+            {activeSimulation === 'mission_ops' && (
+                <div className="text-[10px] text-amber-400 text-center mt-1">
+                    MISSION MODE ACTIVE: Select to assign target
+                </div>
+            )}
           </div>
         </motion.div>
       )}

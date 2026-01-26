@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Search, Filter, Download, PieChart, BarChart as BarIcon, Table as TableIcon } from 'lucide-react';
+import { Search, Filter, Download, PieChart, BarChart as BarIcon, Table as TableIcon, Save, Plus, Share2 } from 'lucide-react';
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, Pie, PieChart as RePieChart, Cell } from 'recharts';
 
 export default function DataAnalysis() {
@@ -40,46 +40,49 @@ export default function DataAnalysis() {
                     <Button variant="outline" className="border-white/20"><Download className="w-4 h-4 mr-2" /> Export Results</Button>
                 </div>
 
-                {/* Query Builder */}
+                {/* Sophisticated Query Builder */}
                 <Card className="bg-white/5 border-white/10">
-                    <CardHeader>
-                        <CardTitle className="text-lg flex items-center gap-2"><Filter className="w-4 h-4" /> Query Builder</CardTitle>
+                    <CardHeader className="flex flex-row items-center justify-between">
+                        <CardTitle className="text-lg flex items-center gap-2"><Filter className="w-4 h-4" /> Visual Query Builder</CardTitle>
+                        <Button variant="ghost" size="sm" className="text-xs text-gray-400">
+                            <Save className="w-3 h-3 mr-1" /> Save Query
+                        </Button>
                     </CardHeader>
                     <CardContent className="space-y-4">
-                        <div className="flex gap-4">
-                            <div className="flex-1">
-                                <Input 
-                                    placeholder="SELECT * FROM logs WHERE severity = 'high'..." 
-                                    className="bg-black/50 border-white/10 font-mono text-sm"
-                                    value={query}
-                                    onChange={(e) => setQuery(e.target.value)}
-                                />
+                        {/* Visual Blocks */}
+                        <div className="flex flex-wrap gap-2 items-center p-4 bg-black/30 rounded-lg border border-white/5 min-h-[80px]">
+                            <div className="bg-purple-900/40 border border-purple-500/30 px-3 py-1.5 rounded-md flex items-center gap-2">
+                                <span className="text-xs font-bold text-purple-300">SOURCE:</span>
+                                <span className="text-sm">System Logs</span>
                             </div>
-                            <Button className="bg-purple-600 hover:bg-purple-700">Run Query</Button>
+                            <div className="h-px w-4 bg-gray-600"></div>
+                            <div className="bg-blue-900/40 border border-blue-500/30 px-3 py-1.5 rounded-md flex items-center gap-2">
+                                <span className="text-xs font-bold text-blue-300">WHERE:</span>
+                                <span className="text-sm">Severity == High</span>
+                            </div>
+                            <div className="bg-gray-800 px-2 py-1 rounded text-xs text-gray-400">AND</div>
+                            <div className="bg-blue-900/40 border border-blue-500/30 px-3 py-1.5 rounded-md flex items-center gap-2">
+                                <span className="text-xs font-bold text-blue-300">WHERE:</span>
+                                <span className="text-sm">Event contains "Unauthorized"</span>
+                            </div>
+                            <Button variant="ghost" size="sm" className="h-6 w-6 rounded-full border border-dashed border-gray-600 ml-2">
+                                <Plus className="w-3 h-3 text-gray-400" />
+                            </Button>
                         </div>
-                        <div className="flex gap-4">
-                            <Select defaultValue="logs">
-                                <SelectTrigger className="w-[180px] bg-black/50 border-white/10">
-                                    <SelectValue placeholder="Data Source" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="logs">System Logs</SelectItem>
-                                    <SelectItem value="agents">Agent Activity</SelectItem>
-                                    <SelectItem value="network">Network Traffic</SelectItem>
-                                    <SelectItem value="hubs">Hub Metadata</SelectItem>
-                                </SelectContent>
-                            </Select>
-                            <Select defaultValue="24h">
-                                <SelectTrigger className="w-[180px] bg-black/50 border-white/10">
-                                    <SelectValue placeholder="Time Range" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="1h">Last Hour</SelectItem>
-                                    <SelectItem value="24h">Last 24 Hours</SelectItem>
-                                    <SelectItem value="7d">Last 7 Days</SelectItem>
-                                    <SelectItem value="30d">Last 30 Days</SelectItem>
-                                </SelectContent>
-                            </Select>
+
+                        <div className="flex justify-between items-end">
+                            <div className="flex gap-4">
+                                <div className="space-y-1">
+                                    <label className="text-xs text-gray-500">Visualization</label>
+                                    <div className="flex bg-black/50 rounded-md p-1 border border-white/10">
+                                        <Button variant={viewMode === 'table' ? 'secondary' : 'ghost'} size="sm" onClick={() => setViewMode('table')} className="h-7"><TableIcon className="w-3 h-3" /></Button>
+                                        <Button variant={viewMode === 'chart' ? 'secondary' : 'ghost'} size="sm" onClick={() => setViewMode('chart')} className="h-7"><BarIcon className="w-3 h-3" /></Button>
+                                        <Button variant={viewMode === 'pie' ? 'secondary' : 'ghost'} size="sm" onClick={() => setViewMode('pie')} className="h-7"><PieChart className="w-3 h-3" /></Button>
+                                        <Button variant={viewMode === 'network' ? 'secondary' : 'ghost'} size="sm" onClick={() => setViewMode('network')} className="h-7"><Share2 className="w-3 h-3" /></Button>
+                                    </div>
+                                </div>
+                            </div>
+                            <Button className="bg-purple-600 hover:bg-purple-700 w-32">Run Analysis</Button>
                         </div>
                     </CardContent>
                 </Card>
