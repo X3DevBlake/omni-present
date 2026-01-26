@@ -539,16 +539,24 @@ export default function InteractiveHubNetwork3D() {
             </div>
 
             <div className="flex gap-2 mt-2">
-                <Link to={createPageUrl(selectedHub.page)} className="flex-1">
+                <Link to={selectedHub.path && !selectedHub.path.includes('GenericHub') ? createPageUrl(selectedHub.path) : createPageUrl('GenericHub') + '?name=' + encodeURIComponent(selectedHub.name)} className="flex-1">
                   <button
                     className="w-full px-4 py-2 bg-white text-black hover:bg-gray-200 rounded-lg font-bold text-sm transition-colors"
                   >
                     Enter Hub
                   </button>
                 </Link>
-                {/* Optional secondary action */}
-                <button className="px-3 py-2 border border-white/20 rounded-lg hover:bg-white/5">
-                    <Activity className="w-4 h-4 text-white" />
+                {/* Dispatch Agent Action */}
+                <button 
+                    className="px-3 py-2 border border-white/20 rounded-lg hover:bg-white/5 bg-purple-500/20 text-purple-300 border-purple-500/50"
+                    onClick={() => {
+                        // Logic handled by visualizer state potentially, or just a visual feedback for now
+                        // Ideally we'd push to a 'spawnQueue' in the parent or context
+                        console.log("Dispatching agent from", selectedHub.name);
+                    }}
+                    title="Dispatch AI Agent"
+                >
+                    <Zap className="w-4 h-4" />
                 </button>
             </div>
           </div>
