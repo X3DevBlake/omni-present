@@ -36,6 +36,11 @@ export default function Sidebar({ isOpen, hubs = [] }) {
     >
       <ScrollArea className="h-full py-4">
         <div className="px-4 space-y-6">
+          {hubs.length === 0 && (
+            <div className="text-gray-500 text-sm text-center py-10 px-4">
+              Loading hubs or no hubs found...
+            </div>
+          )}
           {categories.map((cat) => {
             const catHubs = getHubsByCategory(cat);
             if (catHubs.length === 0) return null;

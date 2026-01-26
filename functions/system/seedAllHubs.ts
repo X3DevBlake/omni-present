@@ -150,9 +150,8 @@ Deno.serve(async (req) => {
         for (let i = 0; i < toCreate.length; i += chunkSize) {
             const chunk = toCreate.slice(i, i + chunkSize);
             if (chunk.length > 0) {
-                await base44.entities.Hub.create(chunk); // Assuming bulk create support or array support
-                // If create doesn't support array, use Promise.all with create
-                // await Promise.all(chunk.map(h => base44.entities.Hub.create(h)));
+                // Use bulkCreate for arrays
+                await base44.entities.Hub.bulkCreate(chunk);
                 createdCount += chunk.length;
             }
         }
@@ -164,6 +163,7 @@ Deno.serve(async (req) => {
         });
 
     } catch (error) {
-        return Response.json({ error: error.message }, { status: 500 });
+        console.error("Seeding error:", error);
+        return Response.json({ error: error.message || String(error) }, { status: 500 });
     }
 });
