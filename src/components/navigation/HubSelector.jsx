@@ -124,7 +124,7 @@ export default function HubSelector() {
                   {filteredHubs.length > 0 ? filteredHubs.map(hub => (
                     <Link
                       key={hub.id}
-                      to={createPageUrl(hub.page)}
+                      to={hub.page === 'GenericHub' ? `${createPageUrl(hub.page)}?id=${hub.id}` : createPageUrl(hub.page)}
                       onClick={() => setIsOpen(false)}
                       className="group flex items-start gap-3 p-3 rounded-xl bg-white/5 border border-white/5 hover:border-indigo-500/50 hover:bg-indigo-500/10 transition-all"
                     >
