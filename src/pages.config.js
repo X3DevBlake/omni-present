@@ -501,6 +501,72 @@ import VideoTutorials from './pages/VideoTutorials';
 import CommunityWiki from './pages/CommunityWiki';
 import DeveloperBlog from './pages/DeveloperBlog';
 import ReleaseNotes from './pages/ReleaseNotes';
+import AIPerformanceMetrics from './pages/AIPerformanceMetrics';
+import NeuralArchitectureSearch from './pages/NeuralArchitectureSearch';
+import HyperparameterTuning from './pages/HyperparameterTuning';
+import ExplainableAI from './pages/ExplainableAI';
+import GenerativeAdversarialNetworks from './pages/GenerativeAdversarialNetworks';
+import ReinforcementLearning from './pages/ReinforcementLearning';
+import InteractiveTutorials from './pages/InteractiveTutorials';
+import Webinars from './pages/Webinars';
+import ExpertTalks from './pages/ExpertTalks';
+import PeerReviewSystem from './pages/PeerReviewSystem';
+import AlumniNetwork from './pages/AlumniNetwork';
+import ProtocolAnalyzer from './pages/ProtocolAnalyzer';
+import LatencyMonitor from './pages/LatencyMonitor';
+import DataCompression from './pages/DataCompression';
+import EncryptionProtocols from './pages/EncryptionProtocols';
+import NetworkTopology from './pages/NetworkTopology';
+import EscrowServices from './pages/EscrowServices';
+import DisputeResolution from './pages/DisputeResolution';
+import LoyaltyProgram from './pages/LoyaltyProgram';
+import AffiliateMarketing from './pages/AffiliateMarketing';
+import VendorDashboard from './pages/VendorDashboard';
+import ClimateChangeModel from './pages/ClimateChangeModel';
+import UrbanPlanning from './pages/UrbanPlanning';
+import EpidemicSimulation from './pages/EpidemicSimulation';
+import SpaceExplorationSim from './pages/SpaceExplorationSim';
+import MolecularDynamics from './pages/MolecularDynamics';
+import BugTracker from './pages/BugTracker';
+import FeatureRequests from './pages/FeatureRequests';
+import DependencyManager from './pages/DependencyManager';
+import BuildPipelines from './pages/BuildPipelines';
+import ContinuousIntegration from './pages/ContinuousIntegration';
+import IdentityManagement from './pages/IdentityManagement';
+import AccessLogs from './pages/AccessLogs';
+import SecurityPolicies from './pages/SecurityPolicies';
+import ThreatIntelligence from './pages/ThreatIntelligence';
+import IncidentResponse from './pages/IncidentResponse';
+import RobotArmControl from './pages/RobotArmControl';
+import AutonomousNavigation from './pages/AutonomousNavigation';
+import SensorCalibration from './pages/SensorCalibration';
+import TelepresenceControl from './pages/TelepresenceControl';
+import ExoskeletonInterface from './pages/ExoskeletonInterface';
+import BrainstormingSession from './pages/BrainstormingSession';
+import DecisionMakingTools from './pages/DecisionMakingTools';
+import TeamBuildingActivities from './pages/TeamBuildingActivities';
+import CommunityEvents from './pages/CommunityEvents';
+import SocialGraph from './pages/SocialGraph';
+import QuantumErrorCorrection from './pages/QuantumErrorCorrection';
+import QuantumTeleportation from './pages/QuantumTeleportation';
+import ConsciousnessMapping from './pages/ConsciousnessMapping';
+import MindUploadStatus from './pages/MindUploadStatus';
+import DigitalImmortality from './pages/DigitalImmortality';
+import ServerPerformance from './pages/ServerPerformance';
+import DatabaseHealth from './pages/DatabaseHealth';
+import ApplicationUptime from './pages/ApplicationUptime';
+import UserRetention from './pages/UserRetention';
+import ConversionRates from './pages/ConversionRates';
+import WhistleblowerChannel from './pages/WhistleblowerChannel';
+import EthicalGuidelines from './pages/EthicalGuidelines';
+import GovernanceTokens from './pages/GovernanceTokens';
+import VotingHistory from './pages/VotingHistory';
+import ProposalArchive from './pages/ProposalArchive';
+import OnboardingGuide from './pages/OnboardingGuide';
+import TroubleshootingWizard from './pages/TroubleshootingWizard';
+import ContactSupport from './pages/ContactSupport';
+import FeedbackForm from './pages/FeedbackForm';
+import ResourceCenter from './pages/ResourceCenter';
 import __Layout from './Layout.jsx';
 
 
@@ -1008,6 +1074,72 @@ export const PAGES = {
     "CommunityWiki": CommunityWiki,
     "DeveloperBlog": DeveloperBlog,
     "ReleaseNotes": ReleaseNotes,
+    "AIPerformanceMetrics": AIPerformanceMetrics,
+    "NeuralArchitectureSearch": NeuralArchitectureSearch,
+    "HyperparameterTuning": HyperparameterTuning,
+    "ExplainableAI": ExplainableAI,
+    "GenerativeAdversarialNetworks": GenerativeAdversarialNetworks,
+    "ReinforcementLearning": ReinforcementLearning,
+    "InteractiveTutorials": InteractiveTutorials,
+    "Webinars": Webinars,
+    "ExpertTalks": ExpertTalks,
+    "PeerReviewSystem": PeerReviewSystem,
+    "AlumniNetwork": AlumniNetwork,
+    "ProtocolAnalyzer": ProtocolAnalyzer,
+    "LatencyMonitor": LatencyMonitor,
+    "DataCompression": DataCompression,
+    "EncryptionProtocols": EncryptionProtocols,
+    "NetworkTopology": NetworkTopology,
+    "EscrowServices": EscrowServices,
+    "DisputeResolution": DisputeResolution,
+    "LoyaltyProgram": LoyaltyProgram,
+    "AffiliateMarketing": AffiliateMarketing,
+    "VendorDashboard": VendorDashboard,
+    "ClimateChangeModel": ClimateChangeModel,
+    "UrbanPlanning": UrbanPlanning,
+    "EpidemicSimulation": EpidemicSimulation,
+    "SpaceExplorationSim": SpaceExplorationSim,
+    "MolecularDynamics": MolecularDynamics,
+    "BugTracker": BugTracker,
+    "FeatureRequests": FeatureRequests,
+    "DependencyManager": DependencyManager,
+    "BuildPipelines": BuildPipelines,
+    "ContinuousIntegration": ContinuousIntegration,
+    "IdentityManagement": IdentityManagement,
+    "AccessLogs": AccessLogs,
+    "SecurityPolicies": SecurityPolicies,
+    "ThreatIntelligence": ThreatIntelligence,
+    "IncidentResponse": IncidentResponse,
+    "RobotArmControl": RobotArmControl,
+    "AutonomousNavigation": AutonomousNavigation,
+    "SensorCalibration": SensorCalibration,
+    "TelepresenceControl": TelepresenceControl,
+    "ExoskeletonInterface": ExoskeletonInterface,
+    "BrainstormingSession": BrainstormingSession,
+    "DecisionMakingTools": DecisionMakingTools,
+    "TeamBuildingActivities": TeamBuildingActivities,
+    "CommunityEvents": CommunityEvents,
+    "SocialGraph": SocialGraph,
+    "QuantumErrorCorrection": QuantumErrorCorrection,
+    "QuantumTeleportation": QuantumTeleportation,
+    "ConsciousnessMapping": ConsciousnessMapping,
+    "MindUploadStatus": MindUploadStatus,
+    "DigitalImmortality": DigitalImmortality,
+    "ServerPerformance": ServerPerformance,
+    "DatabaseHealth": DatabaseHealth,
+    "ApplicationUptime": ApplicationUptime,
+    "UserRetention": UserRetention,
+    "ConversionRates": ConversionRates,
+    "WhistleblowerChannel": WhistleblowerChannel,
+    "EthicalGuidelines": EthicalGuidelines,
+    "GovernanceTokens": GovernanceTokens,
+    "VotingHistory": VotingHistory,
+    "ProposalArchive": ProposalArchive,
+    "OnboardingGuide": OnboardingGuide,
+    "TroubleshootingWizard": TroubleshootingWizard,
+    "ContactSupport": ContactSupport,
+    "FeedbackForm": FeedbackForm,
+    "ResourceCenter": ResourceCenter,
 }
 
 export const pagesConfig = {
