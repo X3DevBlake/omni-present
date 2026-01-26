@@ -26,6 +26,129 @@ const CATEGORY_CONFIG = {
   "Support & Resources": { color: '#94a3b8', pos: [0, 3, 5] }
 };
 
+// --- AGENT SYSTEM ---
+const Agent = ({ startPos, endPos, color, speed = 1, type = 'data' }) => {
+  const agentRef = useRef();
+  const [progress, setProgress] = useState(0);
+  const [active, setActive] = useState(true);
+
+  useFrame((state, delta) => {
+    if (!active || !agentRef.current) return;
+    
+    const newProgress = progress + (delta * speed * 0.5);
+    if (newProgress >= 1) {
+      setProgress(0); // Loop for now, or could de-spawn
+    } else {
+      setProgress(newProgress);
+    }
+
+    const pos = new THREE.Vector3().lerpVectors(
+      new THREE.Vector3(...startPos),
+      new THREE.Vector3(...endPos),
+      progress
+    );
+    
+    // Add some "noise" or organic movement based on type
+    if (type === 'security') {
+        pos.y += Math.sin(state.clock.elapsedTime * 10) * 0.1;
+    } else if (type === 'ai') {
+        pos.x += Math.cos(state.clock.elapsedTime * 5) * 0.1;
+    }
+
+    agentRef.current.position.copy(pos);
+  });
+
+  if (!active) return null;
+
+  return (
+    <group ref={agentRef}>
+      <mesh>
+        <sphereGeometry args={[0.08, 16, 16]} />
+        <meshBasicMaterial color={type === 'security' ? '#ef4444' : type === 'ai' ? '#ec4899' : '#ffffff'} />
+      </mesh>
+      {/* Glow effect */}
+      <mesh scale={[1.5, 1.5, 1.5]}>
+        <sphereGeometry args={[0.08, 16, 16]} />
+        <meshBasicMaterial color={color} transparent opacity={0.3} />
+      </mesh>
+    </group>
+  );
+};
+
+const AgentSystem = ({ connections, activeSimulation }) => {
+  const [agents, setAgents] = useState([]);
+
+  // Spawner
+  useFrame((state) => {
+    // Traffic Spikes
+    let spawnRate = 0.01;
+    if (activeSimulation === 'traffic_spike') spawnRate = 0.1;
+    if (activeSimulation === 'agent_swarm') spawnRate = 0.2;
+
+    if (Math.random() < spawnRate && connections.length > 0) {
+      const conn = connections[Math.floor(Math.random() * connections.length)];
+      const type = activeSimulation === 'security_sweep' ? 'security' : Math.random() > 0.7 ? 'ai' : 'data';
+      
+      const newAgent = {
+        id: Math.random(),
+        startPos: conn.start,
+        endPos: conn.end,
+        color: conn.color,
+        speed: 0.5 + Math.random(),
+        type: type,
+        createdAt: state.clock.elapsedTime
+      };
+      
+      setAgents(prev => [...prev.slice(-50), newAgent]); // Keep max 50 agents
+    }
+  });
+
+  return (
+    <group>
+      {agents.map(agent => (
+        <Agent 
+          key={agent.id} 
+          {...agent} 
+        />
+      ))}
+    </group>
+  );
+};
+
+// --- DATA FLOW VISUALIZATION ---
+const DataStream = ({ start, end, color }) => {
+    // Animated dashed line
+    const materialRef = useRef();
+    
+    useFrame((state) => {
+        if (materialRef.current) {
+            materialRef.current.dashOffset -= 0.02;
+        }
+    });
+
+    const curve = useMemo(() => {
+        return new THREE.LineCurve3(new THREE.Vector3(...start), new THREE.Vector3(...end));
+    }, [start, end]);
+
+    return (
+        <line>
+            <bufferGeometry>
+                <float32BufferAttribute attach="attributes-position" count={2} array={new Float32Array([...start, ...end])} itemSize={3} />
+            </bufferGeometry>
+            <lineDashedMaterial 
+                ref={materialRef}
+                color={color} 
+                dashSize={0.2} 
+                gapSize={0.1} 
+                opacity={0.4}
+                transparent
+                linewidth={1}
+            />
+        </line>
+    );
+};
+
+
 const HubNode = ({ hub, position, color, onSelect, isSelected, isHovered, onHover }) => {
   const meshRef = useRef();
   
@@ -165,8 +288,8 @@ const ConnectionLines = ({ categories }) => {
   const connections = useMemo(() => {
     const lines = [];
     if (!categories) return [];
-    // Connect categories to a central point (0,0,0) or to each other
-    // Let's connect everything to Core Systems if it exists, or just a mesh
+    
+    // Connect everything to Core Systems
     const core = categories.find(c => c.name === "Core Systems");
     
     if (core) {
@@ -179,34 +302,48 @@ const ConnectionLines = ({ categories }) => {
           });
         }
       });
-    } else {
-        // Fallback mesh
-        for (let i = 0; i < categories.length; i++) {
-            for (let j = i + 1; j < categories.length; j++) {
-                if (Math.random() > 0.8) { // Sparse connections
-                    lines.push({
-                        start: categories[i].position,
-                        end: categories[j].position,
-                        color: categories[i].color
-                    });
-                }
-            }
-        }
     }
+    
+    // Also random inter-category connections for a "mesh" look
+    for (let i = 0; i < categories.length; i++) {
+        const catA = categories[i];
+        const catB = categories[(i + 3) % categories.length]; // Connect to non-adjacent
+        lines.push({
+            start: catA.position,
+            end: catB.position,
+            color: new THREE.Color(catA.color).lerp(new THREE.Color(catB.color), 0.5).getStyle()
+        });
+    }
+
     return lines;
   }, [categories]);
+
+  // Expose connections to parent via callback or context if needed, 
+  // but here we just render lines. 
+  // Wait, AgentSystem needs these connections to spawn agents on paths.
+  // We should lift this calculation up or pass a ref. 
+  // For simplicity, we'll re-calculate or pass a prop callback.
+  useEffect(() => {
+      if (onConnectionsUpdate) {
+          onConnectionsUpdate(connections);
+      }
+  }, [connections]);
 
   return (
     <group ref={linesRef}>
       {connections.map((conn, i) => (
-        <Line
-          key={i}
-          points={[conn.start, conn.end]}
-          color={conn.color}
-          lineWidth={1}
-          transparent
-          opacity={0.1}
-        />
+        <group key={i}>
+            {/* Static faint connection */}
+            <Line
+            points={[conn.start, conn.end]}
+            color={conn.color}
+            lineWidth={0.5}
+            transparent
+            opacity={0.1}
+            />
+            {/* Dynamic data stream effect */}
+            <DataStream start={conn.start} end={conn.end} color={conn.color} />
+        </group>
       ))}
     </group>
   );
@@ -216,6 +353,8 @@ export default function InteractiveHubNetwork3D() {
   const [selectedHub, setSelectedHub] = useState(null);
   const [hoveredHub, setHoveredHub] = useState(null);
   const [filterCategory, setFilterCategory] = useState('All');
+  const [activeSimulation, setActiveSimulation] = useState('idle'); // 'traffic_spike', 'agent_swarm', 'security_sweep'
+  const [networkConnections, setNetworkConnections] = useState([]);
 
   // Fetch dynamic hubs
   const { data: hubs = [] } = useQuery({
@@ -248,7 +387,41 @@ export default function InteractiveHubNetwork3D() {
     : groupedHubs.filter(g => g.name === filterCategory);
 
   return (
-    <div className="relative w-full h-full min-h-[600px]">
+    <div className="relative w-full h-full min-h-[700px] bg-black rounded-3xl overflow-hidden border border-white/10 shadow-2xl">
+      
+      {/* Simulation Controls Overlay */}
+      <div className="absolute top-4 right-4 z-20 flex flex-col gap-2">
+        <Card className="bg-black/80 backdrop-blur-xl border-white/10 p-3">
+            <div className="text-xs font-bold text-white mb-2 uppercase tracking-wider">Sim Control</div>
+            <div className="flex gap-2">
+                <Button 
+                    size="sm" 
+                    variant={activeSimulation === 'traffic_spike' ? 'default' : 'outline'} 
+                    className="h-8 text-xs"
+                    onClick={() => setActiveSimulation(prev => prev === 'traffic_spike' ? 'idle' : 'traffic_spike')}
+                >
+                    <Activity className="w-3 h-3 mr-1" /> Spike
+                </Button>
+                <Button 
+                    size="sm" 
+                    variant={activeSimulation === 'agent_swarm' ? 'default' : 'outline'} 
+                    className="h-8 text-xs"
+                    onClick={() => setActiveSimulation(prev => prev === 'agent_swarm' ? 'idle' : 'agent_swarm')}
+                >
+                    <Users className="w-3 h-3 mr-1" /> Swarm
+                </Button>
+                <Button 
+                    size="sm" 
+                    variant={activeSimulation === 'security_sweep' ? 'default' : 'outline'} 
+                    className="h-8 text-xs"
+                    onClick={() => setActiveSimulation(prev => prev === 'security_sweep' ? 'idle' : 'security_sweep')}
+                >
+                    <Shield className="w-3 h-3 mr-1" /> Sweep
+                </Button>
+            </div>
+        </Card>
+      </div>
+
       {/* Category Filter Controls */}
       <div className="absolute top-4 left-4 z-10 w-[200px] max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
         <div className="flex flex-col gap-2">
@@ -290,18 +463,31 @@ export default function InteractiveHubNetwork3D() {
       </div>
 
       {/* 3D Canvas */}
-      <div className="w-full h-full absolute inset-0 bg-black rounded-3xl overflow-hidden border border-white/10">
+      <div className="w-full h-full absolute inset-0">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-indigo-900/20 via-black to-black pointer-events-none" />
         
-        <Canvas camera={{ position: [0, 10, 15], fov: 50 }}>
+        <Canvas camera={{ position: [0, 15, 20], fov: 45 }}>
           <ambientLight intensity={0.4} />
           <pointLight position={[10, 10, 10]} intensity={1.5} />
           <pointLight position={[-10, -10, -10]} intensity={0.5} color="#4c1d95" />
           
+          <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
+
           {/* Central Star/Glow for visual anchor */}
           <pointLight position={[0,0,0]} intensity={2} color="#ffffff" distance={10} />
           
-          {filterCategory === 'All' && <ConnectionLines categories={groupedHubs} />}
+          {filterCategory === 'All' && (
+            <>
+                <ConnectionLines 
+                    categories={groupedHubs} 
+                    onConnectionsUpdate={setNetworkConnections}
+                />
+                <AgentSystem 
+                    connections={networkConnections} 
+                    activeSimulation={activeSimulation}
+                />
+            </>
+          )}
           
           {displayedCategories.map((category) => (
             <CategoryNode
@@ -317,9 +503,9 @@ export default function InteractiveHubNetwork3D() {
           <OrbitControls
             enableZoom={true}
             autoRotate={!selectedHub}
-            autoRotateSpeed={0.5}
+            autoRotateSpeed={activeSimulation !== 'idle' ? 0.8 : 0.3}
             minDistance={5}
-            maxDistance={40}
+            maxDistance={50}
             enablePan={true}
           />
         </Canvas>
