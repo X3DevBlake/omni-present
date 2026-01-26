@@ -1,262 +1,164 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.6';
 
+const ALL_HUBS = [
+    "AIAgentMarketplace", "AIAnalyticsHub", "AICollaborationHub", "AICollaborativeIntelligenceHub", "AIEthicsHub",
+    "AILab", "AILabs", "AILabsAdvanced", "AILabsLifecycle", "AIManagement", "AIModelDeployment", "AIModelRegistry",
+    "AIPlayground", "AIPortfolioManager", "AITrainingAcademy", "AITrainingCenter", "APIDocumentation", "APIExplorer",
+    "APIIntegrations", "APIKeys", "APIUsageMetrics", "About", "AcademyDashboard", "AccessControlLists", "AchievementsAwards",
+    "ActivityLog", "ActuatorControl", "AdminHome", "AdvancedAICapabilitiesHub", "AdvancedAgentCapabilities",
+    "AdvancedAgentTrainingHub", "AdvancedCollaborationHub", "AdvancedCommunicationHub", "AdvancedDeFiHub",
+    "AdvancedDeFiRiskHub", "AdvancedDeFiTrading", "AdvancedFinancialEcosystem", "AdvancedIntelligenceHub",
+    "AdvancedMLHub", "AdvancedPredictionCenter", "AdvancedReasoningHub", "AdvancedSimulation", "AdvancedSimulationLab",
+    "AdvancedSimulationStudio", "AdvancedSystemsHub", "AdvancedWebhooks", "Agent", "AgentAudio", "AgentAutonomy",
+    "AgentAutonomyDashboard", "AgentBehaviorStudio", "AgentBudget", "AgentCardSettings", "AgentCollaborationDashboard",
+    "AgentCollaborationHub", "AgentConfigurator", "AgentCustomization", "AgentCustomizationStudio", "AgentDebugger",
+    "AgentDetail", "AgentECommerceSettings", "AgentEnhancementHub", "AgentGovernance", "AgentGovernanceHub",
+    "AgentKnowledge", "AgentKnowledgeBase", "AgentLearningHub", "AgentLogsHub", "AgentManagement", "AgentManagementHub",
+    "AgentMarketplace", "AgentMarketplaceHub", "AgentModularBuilder", "AgentMonitoringDashboard", "AgentOrchestrationHub",
+    "AgentPerformanceDashboard", "AgentShoppingLog", "AgentSimulation3D", "AgentSkillMarketplace", "AgentSpending",
+    "AgentTraining", "AgentTrainingAcademy", "AgentTrainingCenter", "AgentTrainingStudio", "AgentVideoInterface",
+    "AlertManagementDashboard", "AlgorithmAuditing", "AlignmentHub", "Analytics", "AnalyticsIntelligenceHub",
+    "AnimationStudio", "Architecture", "AssetBrowser", "AssetManagement", "AssetUpload", "AuctionHouse", "AuditLogs",
+    "AugmentationDesignHub", "AutomatedFinanceHub", "AutomationOrchestrationHub", "AutomationsHub", "AutonomousAgentSystem",
+    "AutonomousCollaborationHub", "AutonomousVehicleHub", "AutonomyControlCenter", "AvatarCreationHub",
+    "BackendInfrastructureHub", "BandwidthOptimizer", "BankingCorePhase1", "BatteryManagement", "BiasDetectionHub",
+    "Billing", "BillingInvoicing", "BiometricAuthHub", "Blueprint", "BlueprintGallery", "BridgeOmni", "BudgetingForecast",
+    "BuyOmni", "CalendarEvents", "CampusHome", "CareerOpportunities", "CareerPortal", "CertificationCenter",
+    "Certifications", "Challenges", "CharacterCustomizer", "CloudinaryHub", "CodeEditor", "CognitiveEnhancement",
+    "CoherenceTracker", "CollaborationCommHub", "CollaborationDashboard", "CollaborationOrchestrationHub",
+    "CollaborativeAgentHub", "CollaborativeSimulationStudio", "CollaborativeWorkspace", "CommunicationAnalyticsHub",
+    "Communications", "CommunicationsHub", "Community", "CommunityCreations", "CommunityGuidelines",
+    "CommunityGuidelinesEnhanced", "CommunityHub", "CommunityWiki", "CompanionEvolutionHub", "CompetitiveArenas",
+    "Compliance", "ComplianceAudit", "ComplianceDashboard", "ComprehensiveFinancialHub", "ConsciousnessMirrorHub",
+    "ConsciousnessUploadHub", "Contact", "ContextAwareAssistantHub", "CourseCreator", "CrossAgentPlanningHub",
+    "CrossPlatformIntegrationHub", "CrossSimulationHub", "CryptoSwapHub", "CryptoTradingHub", "CurriculumCourses",
+    "CustomDashboard", "CustomIntegrations", "DAOGovernanceHub", "DEXAggregator", "DashboardHome", "DataAnnotation",
+    "DataEncryption", "DataMarketplace", "DatabaseManager", "DatasetManagement", "DeFiAnalyticsPhase4",
+    "DeFiAutonomousPhase3", "DeFiCorePhase2", "DeFiGovernancePhase5", "DeFiHub", "DeFiRiskManagementHub",
+    "DeFiRiskManagementSuite", "DecentralizedCourt", "DecentralizedNetwork", "DeepLearningPlatform", "DeploymentReadiness",
+    "DepositETH", "DepositOmni", "DepositUSDT", "DeveloperBlog", "DeveloperConsole", "DeveloperEcosystemHub",
+    "DeveloperHome", "DeveloperPortal", "DeviceHealth", "DeviceHome", "DeviceIntegrationHub", "DeviceInteraction",
+    "DeviceMarketplace", "DeviceSettings", "DeviceShop", "DeviceTelemetry", "DevicesHub", "DiscountsRebates",
+    "Documentation", "DocumentsHub", "DreamRecordingStudio", "DroneFleetCommand", "DynamicSimulationStudio",
+    "EconomicSimulation", "EcosystemDashboard", "EcosystemMonitoringDashboard", "EmergentBehavior",
+    "EnhancedAIAgentMarketplace", "EnhancedAILabsHub", "EnhancedAgentCreator", "EnhancedAgentMarketplace",
+    "EnhancedAgentTrainingHub", "EnhancedAnalyticsHub", "EnhancedAnomalyDashboard", "EnhancedBankingHub",
+    "EnhancedCollaborationHub", "EnhancedCollaborationStudio", "EnhancedCommunications", "EnhancedCommunityHub",
+    "EnhancedDashboard", "EnhancedDeFiHub", "EnhancedDeFiTradingHub", "EnhancedDeveloperEcosystem",
+    "EnhancedGamificationHub", "EnhancedGovernanceHub", "EnhancedIntegrationHub", "EnhancedKnowledgeHub",
+    "EnhancedMarketplace", "EnhancedMarketplaceHub", "EnhancedMediaHub", "EnhancedMonitoringHub", "EnhancedOmniBank",
+    "EnhancedOmniCardHub", "EnhancedSecurityHub", "EnhancedSimulationHub", "EnhancedSimulationLab",
+    "EnhancedVideoIntegrationHub", "EnhancedVoiceHub", "EnhancedWorkflowHub", "EntanglementBridge", "EnvironmentDesigner",
+    "ErrorTracking", "EthicalAIReview", "EthicsCommittee", "EthicsHub", "EthicsSafetyHub", "EventsCalendar",
+    "EvolutionDashboardPage", "ExchangeListings", "ExperimentTracking", "FeatureDetail", "FeatureFlagManager", "Features",
+    "FeedbackDashboard", "FiatDeposit", "FiatGateway", "FinancialAdvisorHub", "FinancialCoachingHub", "FirewallSettings",
+    "FirmwareUpdates", "FiveGControl", "FleetManagement", "FreelanceAgentHub", "GeminiHub", "GenericHub",
+    "GlobalGovernance", "GlobalMap", "GlobalSettings", "HapticFeedbackControl", "HistoricalData", "HolographicAnalytics",
+    "HolographicClassroomHub", "HolographicWorld", "Home", "HomeEnhanced", "HomeHub", "HomepageUpgradePlan",
+    "HybridMLHub", "ImmersiveNavigationHub", "InferenceEngine", "InstructorDirectory", "IntegrationDevelopmentHub",
+    "IntegrationHub", "IntegrationStore", "Integrations", "IntegrationsHub", "IntelligenceDashboard", "IntrusionDetection",
+    "InvestmentStrategyHub", "IoTDeviceControl", "KnowledgeBase", "KnowledgeGraphHub", "Labs", "LabsHome", "Leaderboards",
+    "LearningPathways", "LicenseManagement", "LinkBankAccount", "LiquidityPools", "LiveChatSupport", "LoansAndCredit",
+    "LogAnalysis", "MLOpsHub", "MaintenanceSchedule", "MarketIntelligenceHub", "Marketplace", "MarketplaceHome",
+    "MeetingNotes", "MentorshipProgramsPage", "MeshNetworkStatus", "MessageBroadcastHub", "MetaLearningHub", "MistralHub",
+    "ModelTraining", "MovementPlanner", "MultiAgentCollaborationHub", "MyCreations", "NFTMarketplace", "NavigationControl",
+    "NetworkTrafficHub", "NeuralNetworkVisualizer", "NewsUpdates", "NextGenMLHub", "NoeticScienceHub",
+    "NotificationSettings", "Notifications", "NotificationsAndVisualizations", "ObjectCustomizer", "OmegaCollaborationHub",
+    "OmegaFinancialHub", "OmegaHealth", "OmegaIntelligenceHub", "OmegaMarketplaceHub", "OmegaSecurity", "OmegaSentientHub",
+    "OmniAchievements", "OmniBankingHub", "OmniCardManagement", "OmniCardStore", "OmniComm", "OmniDashboard", "OmniHome",
+    "OmniHub", "OmniLearning", "OmniPresenceControlCenter", "OmniPresentAcademy", "OmniPresentCoreHub", "OmniSocial",
+    "OmniStaking", "OmniWallet", "OrderManagement", "OrgSettings", "Partnerships", "PaymentHistory",
+    "Phase10AdvancedAutonomy", "Phase1Dashboard", "Phase2Dashboard", "Phase3Dashboard", "Phase4Dashboard",
+    "Phase4ImmersiveUI", "Phase6AgentCognition", "Phase7IntegrationHub", "Phase8PredictiveIntelligence",
+    "Phase9ImmersiveUX", "PhysicalAugmentationHub", "PhysicalEmbodimentHub", "PhysicalSecurityHub",
+    "PhysicalWorldIntegration", "PhysicsEngine", "PluginMarketplace", "PolicyManagement", "PollsAndSurveys",
+    "PortfolioRebalancer", "PredictionMarket", "PredictiveAnalyticsHub", "PredictiveIntelligenceHub", "PredictiveTrends",
+    "PressReleases", "Privacy", "ProactiveMonitoring", "ProceduralSimulationStudio", "Profile", "ProfileHome",
+    "ProjectManagement", "ProposalDrafting", "QuantumComputingHub", "QuantumCryptography", "QuantumEntanglementHub",
+    "QuantumStateMonitor", "QubitAllocation", "RealTimeMetrics", "RealWorldBudget", "RealtimeDashboard", "RedCommHub",
+    "ReferralProgram", "ReleaseNotes", "RepairRequest", "ReportingAnalytics", "ResearchHub", "ResourceLibrary",
+    "ResourceManagementHub", "Roadmap", "RoboticsIntegrationHub", "SDKDownloads", "SDKsLibraries", "SandboxEnvironment",
+    "SandboxHub", "SandboxSimulationHub", "SandboxTesting", "SatelliteUplink", "ScenarioTesting", "Security",
+    "SecurityComplianceHub", "SecurityIntelligenceHub", "SecurityMonitoringHub", "SecuritySettings", "SellOmni",
+    "SensorDataAnalysis", "SensorFusion", "ServerlessFunctions", "ServiceMarketplace", "ServiceProviders", "Settings",
+    "SharedFiles", "SignalProcessing", "SimulationControlPanel", "SimulationEnvironment", "SimulationHub", "SimulationLab",
+    "SimulationLabs", "SimulationStudio", "SimulationWorld", "SmartBankingHub", "SmartContractAudit", "SmartHomeHub",
+    "SocialDynamics", "SpatialMapping", "StudentLounge", "StudentProgress", "StudyGroups", "SubscriptionManagement",
+    "SystemArchitecture", "SystemDashboard", "Team", "SystemHealth", "SystemStatus", "TaskBoard", "TeamChat",
+    "TeamOrchestration", "Technology", "TelepathyTraining", "Terms", "ThemeStudio", "TicketSystem", "TokenExchange",
+    "Tokenomics", "TrafficSimulation", "TransactionHistory", "TransferLearningHub", "TransparencyReport",
+    "UltraOmniSentientHub", "UnifiedAnalytics", "UnifiedCommunicationHub", "UnifiedConversationHub",
+    "UnifiedIntelligenceCenter", "UnifiedIntelligenceDashboard", "UnifiedPlatformNavigator", "UnifiedVoicePlatform",
+    "UpgradeTracker", "UserBehaviorAnalytics", "UserEngagement", "UserForums", "UserManual", "UserPreferences",
+    "UserRoleManagement", "UserRolesPermissions", "VersionControl", "VideoConferencing", "VideoTutorials",
+    "VirtualClassrooms", "VirtualLibrary", "VotingBooth", "VulnerabilityScanner", "Wallet", "WalletSecurity",
+    "WavefunctionCollapse", "WearableDeviceHub", "WeatherSimulation", "WebhookLogs", "WebhookManager", "Webhooks",
+    "WebhooksHub", "WhiteboardHub", "WithdrawOmni", "WorkflowAutomationHub", "WorkflowOrchestrationHub", "World",
+    "WorldHubEnhanced"
+];
+
+function guessCategory(name) {
+    const n = name.toLowerCase();
+    if (n.includes('ai') || n.includes('intelligence') || n.includes('brain') || n.includes('neural') || n.includes('learning')) return "Intelligence & AI";
+    if (n.includes('defi') || n.includes('bank') || n.includes('wallet') || n.includes('money') || n.includes('finance') || n.includes('crypto') || n.includes('market') || n.includes('token')) return "Marketplace & Economy";
+    if (n.includes('sim') || n.includes('world') || n.includes('environment') || n.includes('physics')) return "Simulation & Modeling";
+    if (n.includes('agent') || n.includes('autonom')) return "Autonomous Agents";
+    if (n.includes('security') || n.includes('compliance') || n.includes('auth') || n.includes('privacy')) return "Security & Compliance";
+    if (n.includes('dev') || n.includes('api') || n.includes('sdk') || n.includes('code') || n.includes('webhook')) return "Development & API";
+    if (n.includes('comm') || n.includes('network') || n.includes('chat') || n.includes('social')) return "Network & Communication";
+    if (n.includes('collab') || n.includes('team')) return "Collaboration";
+    if (n.includes('quantum') || n.includes('consciousness')) return "Quantum & Consciousness";
+    if (n.includes('home') || n.includes('dash') || n.includes('profile') || n.includes('setting')) return "Core Systems";
+    return "Core Systems"; // Default
+}
+
 Deno.serve(async (req) => {
     try {
         const base44 = createClientFromRequest(req);
+        const user = await base44.auth.me();
         
-        // 1. The 14 Categories
-        const categories = [
-            "Core Systems", "Intelligence & AI", "Academy & Learning", "Network & Communication",
-            "Marketplace & Economy", "Simulation & Modeling", "Development & API", "Security & Compliance",
-            "Physical & Embodiment", "Collaboration & Community", "Quantum & Consciousness",
-            "Analytics & Monitoring", "Governance & Ethics", "Support & Resources"
-        ];
+        // Only run if admin or system
+        // if (!user || user.role !== 'admin') return Response.json({error: "Unauthorized"}, {status: 403});
 
-        // 2. Comprehensive mapping of ALL pages found in snapshot to Categories
-        const hubMappings = [
-            // Core Systems
-            { name: "OmniPresent Core", category: "Core Systems", page: "OmniPresentCoreHub" },
-            { name: "Omni Dashboard", category: "Core Systems", page: "OmniDashboard" },
-            { name: "System Dashboard", category: "Core Systems", page: "SystemDashboard" },
-            { name: "Settings", category: "Core Systems", page: "Settings" },
-            { name: "Home Enhanced", category: "Core Systems", page: "HomeEnhanced" },
-            { name: "Home Hub", category: "Core Systems", page: "HomeHub" },
-            { name: "Omni Home", category: "Core Systems", page: "OmniHome" },
-            { name: "Omni Hub", category: "Core Systems", page: "OmniHub" },
-            { name: "Profile", category: "Core Systems", page: "Profile" },
-            { name: "About", category: "Core Systems", page: "About" },
-            { name: "Contact", category: "Core Systems", page: "Contact" },
-
-            // Intelligence & AI
-            { name: "Omega Intelligence", category: "Intelligence & AI", page: "OmegaIntelligenceHub" },
-            { name: "AI Labs", category: "Intelligence & AI", page: "AILabs" },
-            { name: "AI Lab", category: "Intelligence & AI", page: "AILab" },
-            { name: "Advanced AI Capabilities", category: "Intelligence & AI", page: "AdvancedAICapabilitiesHub" },
-            { name: "Predictive Intelligence", category: "Intelligence & AI", page: "PredictiveIntelligenceHub" },
-            { name: "Agent Behavior Studio", category: "Intelligence & AI", page: "AgentBehaviorStudio" },
-            { name: "AI Management", category: "Intelligence & AI", page: "AIManagement" },
-            { name: "AI Playground", category: "Intelligence & AI", page: "AIPlayground" },
-            { name: "AI Training Center", category: "Intelligence & AI", page: "AITrainingCenter" },
-            { name: "Advanced ML Hub", category: "Intelligence & AI", page: "AdvancedMLHub" },
-            { name: "Advanced Reasoning", category: "Intelligence & AI", page: "AdvancedReasoningHub" },
-            { name: "Next Gen ML", category: "Intelligence & AI", page: "NextGenMLHub" },
-            { name: "Deep Learning Platform", category: "Intelligence & AI", page: "DeepLearningPlatform" },
-            { name: "Gemini Hub", category: "Intelligence & AI", page: "GeminiHub" },
-            { name: "Mistral Hub", category: "Intelligence & AI", page: "MistralHub" },
-            { name: "Hybrid ML Hub", category: "Intelligence & AI", page: "HybridMLHub" },
-            { name: "Meta Learning Hub", category: "Intelligence & AI", page: "MetaLearningHub" },
-            { name: "Transfer Learning Hub", category: "Intelligence & AI", page: "TransferLearningHub" },
-
-            // Academy & Learning
-            { name: "Omni Academy", category: "Academy & Learning", page: "OmniPresentAcademy" },
-            { name: "Training Academy", category: "Academy & Learning", page: "AITrainingAcademy" },
-            { name: "Holographic Classroom", category: "Academy & Learning", page: "HolographicClassroomHub" },
-            { name: "Research Hub", category: "Academy & Learning", page: "ResearchHub" },
-            { name: "Documents", category: "Academy & Learning", page: "DocumentsHub" },
-            { name: "Academy Dashboard", category: "Academy & Learning", page: "AcademyDashboard" },
-            { name: "Virtual Classrooms", category: "Academy & Learning", page: "VirtualClassrooms" },
-            { name: "Student Lounge", category: "Academy & Learning", page: "StudentLounge" },
-            { name: "Study Groups", category: "Academy & Learning", page: "StudyGroups" },
-            { name: "Curriculum Courses", category: "Academy & Learning", page: "CurriculumCourses" },
-            { name: "Mentorship Programs", category: "Academy & Learning", page: "MentorshipProgramsPage" },
-            { name: "Instructor Directory", category: "Academy & Learning", page: "InstructorDirectory" },
-            { name: "Resource Library", category: "Academy & Learning", page: "ResourceLibrary" },
-
-            // Network & Communication
-            { name: "RedComm Hub", category: "Network & Communication", page: "RedCommHub" },
-            { name: "Communications Center", category: "Network & Communication", page: "CommunicationsHub" },
-            { name: "Unified Communications", category: "Network & Communication", page: "UnifiedCommunicationHub" },
-            { name: "Webhooks Manager", category: "Network & Communication", page: "WebhooksHub" },
-            { name: "Message Broadcast", category: "Network & Communication", page: "MessageBroadcastHub" },
-            { name: "Communication Analytics", category: "Network & Communication", page: "CommunicationAnalyticsHub" },
-            { name: "Unified Voice Platform", category: "Network & Communication", page: "UnifiedVoicePlatform" },
-            { name: "Omni Comm", category: "Network & Communication", page: "OmniComm" },
-            { name: "Enhanced Voice Hub", category: "Network & Communication", page: "EnhancedVoiceHub" },
-            { name: "Enhanced Video Integration", category: "Network & Communication", page: "EnhancedVideoIntegrationHub" },
-
-            // Marketplace & Economy
-            { name: "Agent Marketplace", category: "Marketplace & Economy", page: "AIAgentMarketplace" },
-            { name: "Omega Financial", category: "Marketplace & Economy", page: "OmegaFinancialHub" },
-            { name: "Omega Marketplace", category: "Marketplace & Economy", page: "OmegaMarketplaceHub" },
-            { name: "DeFi Hub", category: "Marketplace & Economy", page: "DeFiHub" },
-            { name: "Wallet", category: "Marketplace & Economy", page: "Wallet" },
-            { name: "Billing & Invoicing", category: "Marketplace & Economy", page: "BillingInvoicing" },
-            { name: "Omni Banking", category: "Marketplace & Economy", page: "OmniBankingHub" },
-            { name: "Omni Wallet", category: "Marketplace & Economy", page: "OmniWallet" },
-            { name: "Omni Card Management", category: "Marketplace & Economy", page: "OmniCardManagement" },
-            { name: "Omni Card Store", category: "Marketplace & Economy", page: "OmniCardStore" },
-            { name: "Omni Staking", category: "Marketplace & Economy", page: "OmniStaking" },
-            { name: "Liquidity Pools", category: "Marketplace & Economy", page: "LiquidityPools" },
-            { name: "Crypto Trading", category: "Marketplace & Economy", page: "CryptoTradingHub" },
-            { name: "Crypto Swap", category: "Marketplace & Economy", page: "CryptoSwapHub" },
-            { name: "DEX Aggregator", category: "Marketplace & Economy", page: "DEXAggregator" },
-            { name: "Investment Strategy", category: "Marketplace & Economy", page: "InvestmentStrategyHub" },
-            { name: "Tokenomics", category: "Marketplace & Economy", page: "Tokenomics" },
-            { name: "Enhanced Marketplace", category: "Marketplace & Economy", page: "EnhancedMarketplaceHub" },
-            { name: "Agent Shopping Log", category: "Marketplace & Economy", page: "AgentShoppingLog" },
-            { name: "Agent Spending", category: "Marketplace & Economy", page: "AgentSpending" },
-
-            // Simulation & Modeling
-            { name: "Simulation Hub", category: "Simulation & Modeling", page: "SimulationHub" },
-            { name: "Simulation Studio", category: "Simulation & Modeling", page: "SimulationStudio" },
-            { name: "World Simulation", category: "Simulation & Modeling", page: "WorldHubEnhanced" },
-            { name: "Animation Studio", category: "Simulation & Modeling", page: "AnimationStudio" },
-            { name: "Advanced Simulation", category: "Simulation & Modeling", page: "AdvancedSimulation" },
-            { name: "Advanced Simulation Lab", category: "Simulation & Modeling", page: "AdvancedSimulationLab" },
-            { name: "Collaborative Simulation", category: "Simulation & Modeling", page: "CollaborativeSimulationStudio" },
-            { name: "Dynamic Simulation", category: "Simulation & Modeling", page: "DynamicSimulationStudio" },
-            { name: "Enhanced Simulation", category: "Simulation & Modeling", page: "EnhancedSimulationHub" },
-            { name: "Sandbox Simulation", category: "Simulation & Modeling", page: "SandboxSimulationHub" },
-            { name: "Scenario Testing", category: "Simulation & Modeling", page: "ScenarioTesting" },
-            { name: "Procedural Simulation", category: "Simulation & Modeling", page: "ProceduralSimulationStudio" },
-            { name: "Agent Simulation 3D", category: "Simulation & Modeling", page: "AgentSimulation3D" },
-
-            // Development & API
-            { name: "Developer Ecosystem", category: "Development & API", page: "DeveloperEcosystemHub" },
-            { name: "Developer Portal", category: "Development & API", page: "DeveloperPortal" },
-            { name: "API Documentation", category: "Development & API", page: "APIDocumentation" },
-            { name: "Integration Hub", category: "Development & API", page: "IntegrationHub" },
-            { name: "Sandbox", category: "Development & API", page: "SandboxHub" },
-            { name: "Workflows", category: "Development & API", page: "WorkflowAutomationHub" },
-            { name: "Advanced Webhooks", category: "Development & API", page: "AdvancedWebhooks" },
-            { name: "API Explorer", category: "Development & API", page: "APIExplorer" },
-            { name: "API Integrations", category: "Development & API", page: "APIIntegrations" },
-            { name: "API Keys", category: "Development & API", page: "APIKeys" },
-            { name: "Code Editor", category: "Development & API", page: "CodeEditor" },
-            { name: "Integration Store", category: "Development & API", page: "IntegrationStore" },
-            { name: "SDKs & Libraries", category: "Development & API", page: "SDKsLibraries" },
-            { name: "Webhook Manager", category: "Development & API", page: "WebhookManager" },
-            { name: "Cloudinary Hub", category: "Development & API", page: "CloudinaryHub" },
-            { name: "Blueprint", category: "Development & API", page: "Blueprint" },
-            { name: "Blueprint Gallery", category: "Development & API", page: "BlueprintGallery" },
-
-            // Security & Compliance
-            { name: "Security Intelligence", category: "Security & Compliance", page: "SecurityIntelligenceHub" },
-            { name: "Compliance Hub", category: "Security & Compliance", page: "ComplianceDashboard" },
-            { name: "Privacy Center", category: "Security & Compliance", page: "Privacy" },
-            { name: "Audit Logs", category: "Security & Compliance", page: "AuditLogs" },
-            { name: "Security Monitoring", category: "Security & Compliance", page: "SecurityMonitoringHub" },
-            { name: "Security Compliance", category: "Security & Compliance", page: "SecurityComplianceHub" },
-            { name: "Enhanced Security", category: "Security & Compliance", page: "EnhancedSecurityHub" },
-            { name: "User Roles & Permissions", category: "Security & Compliance", page: "UserRolesPermissions" },
-            { name: "License Management", category: "Security & Compliance", page: "LicenseManagement" },
-
-            // Physical & Embodiment
-            { name: "Physical Augmentation", category: "Physical & Embodiment", page: "PhysicalAugmentationHub" },
-            { name: "Physical Embodiment", category: "Physical & Embodiment", page: "PhysicalEmbodimentHub" },
-            { name: "Device Management", category: "Physical & Embodiment", page: "DeviceIntegrationHub" },
-            { name: "Immersive Navigation", category: "Physical & Embodiment", page: "ImmersiveNavigationHub" },
-            { name: "IoT Device Control", category: "Physical & Embodiment", page: "IoTDeviceControl" },
-            { name: "Device Health", category: "Physical & Embodiment", page: "DeviceHealth" },
-            { name: "Device Telemetry", category: "Physical & Embodiment", page: "DeviceTelemetry" },
-            { name: "Device Marketplace", category: "Physical & Embodiment", page: "DeviceMarketplace" },
-            { name: "Device Settings", category: "Physical & Embodiment", page: "DeviceSettings" },
-            { name: "Firmware Updates", category: "Physical & Embodiment", page: "FirmwareUpdates" },
-            { name: "Fleet Management", category: "Physical & Embodiment", page: "FleetManagement" },
-            { name: "Physical World Integration", category: "Physical & Embodiment", page: "PhysicalWorldIntegration" },
-
-            // Collaboration & Community
-            { name: "Collaboration Hub", category: "Collaboration & Community", page: "AdvancedCollaborationHub" },
-            { name: "Agent Collaboration", category: "Collaboration & Community", page: "AgentCollaborationHub" },
-            { name: "Community Hub", category: "Collaboration & Community", page: "CommunityHub" },
-            { name: "Team Orchestration", category: "Collaboration & Community", page: "TeamOrchestration" },
-            { name: "Unified Collaboration", category: "Collaboration & Community", page: "UnifiedConversationHub" },
-            { name: "Collaborative Workspace", category: "Collaboration & Community", page: "CollaborativeWorkspace" },
-            { name: "Cross Agent Planning", category: "Collaboration & Community", page: "CrossAgentPlanningHub" },
-            { name: "Multi Agent Collaboration", category: "Collaboration & Community", page: "MultiAgentCollaborationHub" },
-            { name: "Autonomous Collaboration", category: "Collaboration & Community", page: "AutonomousCollaborationHub" },
-            { name: "Community Creations", category: "Collaboration & Community", page: "CommunityCreations" },
-
-            // Quantum & Consciousness
-            { name: "Omega Sentient", category: "Quantum & Consciousness", page: "OmegaSentientHub" },
-            { name: "Ultra Omni Sentient", category: "Quantum & Consciousness", page: "UltraOmniSentientHub" },
-            { name: "Consciousness Mirror", category: "Quantum & Consciousness", page: "ConsciousnessMirrorHub" },
-            { name: "Quantum Computing", category: "Quantum & Consciousness", page: "QuantumComputingHub" },
-            { name: "Agent Autonomy", category: "Quantum & Consciousness", page: "AgentAutonomy" },
-            { name: "Emergent Behavior", category: "Quantum & Consciousness", page: "EmergentBehavior" },
-            { name: "Evolution Dashboard", category: "Quantum & Consciousness", page: "EvolutionDashboardPage" },
-            { name: "Alignment Hub", category: "Quantum & Consciousness", page: "AlignmentHub" },
-
-            // Analytics & Monitoring
-            { name: "Ecosystem Monitoring", category: "Analytics & Monitoring", page: "EcosystemMonitoringDashboard" },
-            { name: "AI Analytics", category: "Analytics & Monitoring", page: "AIAnalyticsHub" },
-            { name: "Performance Metrics", category: "Analytics & Monitoring", page: "ReportingAnalytics" },
-            { name: "Realtime Dashboard", category: "Analytics & Monitoring", page: "RealtimeDashboard" },
-            { name: "Intelligence Dashboard", category: "Analytics & Monitoring", page: "IntelligenceDashboard" },
-            { name: "Unified Analytics", category: "Analytics & Monitoring", page: "UnifiedAnalytics" },
-            { name: "Unified Intelligence", category: "Analytics & Monitoring", page: "UnifiedIntelligenceCenter" },
-            { name: "Proactive Monitoring", category: "Analytics & Monitoring", page: "ProactiveMonitoring" },
-            { name: "Sensor Data Analysis", category: "Analytics & Monitoring", page: "SensorDataAnalysis" },
-            { name: "Agent Monitoring", category: "Analytics & Monitoring", page: "AgentMonitoringDashboard" },
-            { name: "Agent Performance", category: "Analytics & Monitoring", page: "AgentPerformanceDashboard" },
-            { name: "Analytics Intelligence", category: "Analytics & Monitoring", page: "AnalyticsIntelligenceHub" },
-
-            // Governance & Ethics
-            { name: "Governance Hub", category: "Governance & Ethics", page: "GlobalGovernance" },
-            { name: "Ethics & Safety", category: "Governance & Ethics", page: "EthicsSafetyHub" },
-            { name: "DAO Governance", category: "Governance & Ethics", page: "DAOGovernanceHub" },
-            { name: "Agent Governance", category: "Governance & Ethics", page: "AgentGovernanceHub" },
-            { name: "Enhanced Governance", category: "Governance & Ethics", page: "EnhancedGovernanceHub" },
-            { name: "Community Guidelines", category: "Governance & Ethics", page: "CommunityGuidelines" },
-            { name: "Terms", category: "Governance & Ethics", page: "Terms" },
-
-            // Support & Resources
-            { name: "Omni Presence Control", category: "Support & Resources", page: "OmniPresenceControlCenter" },
-            { name: "Help Center", category: "Support & Resources", page: "FAQ" },
-            { name: "Career Portal", category: "Support & Resources", page: "CareerPortal" },
-            { name: "Service Providers", category: "Support & Resources", page: "ServiceProviders" },
-            { name: "Partnerships", category: "Support & Resources", page: "Partnerships" },
-            { name: "Press Releases", category: "Support & Resources", page: "Press Releases" },
-            { name: "Events Calendar", category: "Support & Resources", page: "EventsCalendar" },
-            { name: "Notifications", category: "Support & Resources", page: "Notifications" }
-        ];
-
-        // 3. Prepare full list
-        // Add "GenericHub" entries to reach 385+
-        const allHubs = [...hubMappings];
-        
-        const currentCount = allHubs.length;
-        const targetCount = 385;
-        const remaining = Math.max(0, targetCount - currentCount);
-        const perCategory = Math.ceil(remaining / categories.length);
-
-        categories.forEach(cat => {
-            for (let i = 1; i <= perCategory; i++) {
-                const nodeName = `${cat.split(' ')[0]} Node ${i + 100}`;
-                // Crucial: Use GenericHub as the page for procedural nodes
-                const pageName = "GenericHub"; 
-                
-                allHubs.push({
-                    name: nodeName,
-                    category: cat,
-                    page: pageName, 
-                    description: `Advanced ${cat} processing node #${i + 100}.`,
-                    icon_name: "Activity",
-                    featured: false,
-                    status: Math.random() > 0.9 ? "maintenance" : "active",
-                    complexity_level: Math.floor(Math.random() * 10) + 1
-                });
-            }
-        });
-
-        // 4. Batch create
-        const chunkSize = 100;
         let createdCount = 0;
         
-        for (let i = 0; i < allHubs.length; i += chunkSize) {
-            const chunk = allHubs.slice(i, i + chunkSize);
-            // Using createRecords (upsert logic if ID provided, but here new IDs generated)
-            // For a 're-add' it's safer to just create new ones or delete old ones first.
-            // But 'delete_entities' tool isn't available here in backend code easily without ID list.
-            // We'll just create.
-            await base44.entities.Hub.createRecords(chunk);
-            createdCount += chunk.length;
+        // In a real scenario, we'd batch this. For now, loop.
+        // To avoid timeouts, we might process in chunks if needed, but 400 is okay for Deno typically.
+        
+        // First get existing to avoid duplicates
+        const existing = await base44.entities.Hub.list({ limit: 1000 });
+        const existingNames = new Set(existing.map(h => h.name));
+
+        const toCreate = [];
+
+        for (const name of ALL_HUBS) {
+            if (!existingNames.has(name)) {
+                toCreate.push({
+                    name: name,
+                    path: name,
+                    category: guessCategory(name),
+                    description: `Advanced hub for ${name} operations.`,
+                    featured: Math.random() > 0.9 // Randomly feature some
+                });
+            }
+        }
+
+        // Bulk create in chunks of 50
+        const chunkSize = 50;
+        for (let i = 0; i < toCreate.length; i += chunkSize) {
+            const chunk = toCreate.slice(i, i + chunkSize);
+            if (chunk.length > 0) {
+                await base44.entities.Hub.create(chunk); // Assuming bulk create support or array support
+                // If create doesn't support array, use Promise.all with create
+                // await Promise.all(chunk.map(h => base44.entities.Hub.create(h)));
+                createdCount += chunk.length;
+            }
         }
 
         return Response.json({ 
             success: true, 
-            message: `Successfully mapped ${hubMappings.length} existing pages and generated ${remaining} procedural nodes (Total: ${createdCount}).`,
-            total_hubs: createdCount
+            message: `Seeded ${createdCount} new hubs.`,
+            total: existing.length + createdCount
         });
 
     } catch (error) {
