@@ -229,6 +229,7 @@ import FinancialCoachingHub from './pages/FinancialCoachingHub';
 import FirmwareUpdates from './pages/FirmwareUpdates';
 import FleetManagement from './pages/FleetManagement';
 import GeminiHub from './pages/GeminiHub';
+import GenericHub from './pages/GenericHub';
 import GlobalGovernance from './pages/GlobalGovernance';
 import GlobalMap from './pages/GlobalMap';
 import HolographicAnalytics from './pages/HolographicAnalytics';
@@ -382,7 +383,6 @@ import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
 import WorldHubEnhanced from './pages/WorldHubEnhanced';
-import GenericHub from './pages/GenericHub';
 import __Layout from './Layout.jsx';
 
 
@@ -618,6 +618,7 @@ export const PAGES = {
     "FirmwareUpdates": FirmwareUpdates,
     "FleetManagement": FleetManagement,
     "GeminiHub": GeminiHub,
+    "GenericHub": GenericHub,
     "GlobalGovernance": GlobalGovernance,
     "GlobalMap": GlobalMap,
     "HolographicAnalytics": HolographicAnalytics,
@@ -771,7 +772,6 @@ export const PAGES = {
     "WorkflowOrchestrationHub": WorkflowOrchestrationHub,
     "World": World,
     "WorldHubEnhanced": WorldHubEnhanced,
-    "GenericHub": GenericHub,
 }
 
 export const pagesConfig = {

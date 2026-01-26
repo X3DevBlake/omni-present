@@ -11,7 +11,7 @@ import {
 } from 'lucide-react';
 import InteractiveHubNetwork3D from '../components/home/InteractiveHubNetwork3D';
 
-export default function GenericHub() {
+export default function GenericHub({ forcedName, forcedCategory, visualizerOverride }) {
   const [hub, setHub] = useState(null);
   const [loading, setLoading] = useState(true);
   const location = useLocation();
@@ -19,7 +19,7 @@ export default function GenericHub() {
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const id = params.get('id');
-    const name = params.get('name'); // Fallback if ID not found
+    const name = forcedName || params.get('name'); 
 
     const fetchHub = async () => {
       setLoading(true);
