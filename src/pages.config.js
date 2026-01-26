@@ -432,6 +432,75 @@ import OmegaSecurity from './pages/OmegaSecurity';
 import OmniLearning from './pages/OmniLearning';
 import OmniSocial from './pages/OmniSocial';
 import OmegaHealth from './pages/OmegaHealth';
+import SystemArchitecture from './pages/SystemArchitecture';
+import GlobalSettings from './pages/GlobalSettings';
+import UserPreferences from './pages/UserPreferences';
+import NotificationSettings from './pages/NotificationSettings';
+import SecuritySettings from './pages/SecuritySettings';
+import DatasetManagement from './pages/DatasetManagement';
+import InferenceEngine from './pages/InferenceEngine';
+import NeuralNetworkVisualizer from './pages/NeuralNetworkVisualizer';
+import AIModelRegistry from './pages/AIModelRegistry';
+import CourseCreator from './pages/CourseCreator';
+import StudentProgress from './pages/StudentProgress';
+import CertificationCenter from './pages/CertificationCenter';
+import LearningPathways from './pages/LearningPathways';
+import VirtualLibrary from './pages/VirtualLibrary';
+import MeshNetworkStatus from './pages/MeshNetworkStatus';
+import SatelliteUplink from './pages/SatelliteUplink';
+import FiveGControl from './pages/FiveGControl';
+import SignalProcessing from './pages/SignalProcessing';
+import BandwidthOptimizer from './pages/BandwidthOptimizer';
+import TokenExchange from './pages/TokenExchange';
+import FiatGateway from './pages/FiatGateway';
+import TransactionHistory from './pages/TransactionHistory';
+import WalletSecurity from './pages/WalletSecurity';
+import AssetManagement from './pages/AssetManagement';
+import PhysicsEngine from './pages/PhysicsEngine';
+import WeatherSimulation from './pages/WeatherSimulation';
+import TrafficSimulation from './pages/TrafficSimulation';
+import EconomicSimulation from './pages/EconomicSimulation';
+import SocialDynamics from './pages/SocialDynamics';
+import SDKDownloads from './pages/SDKDownloads';
+import APIUsageMetrics from './pages/APIUsageMetrics';
+import WebhookLogs from './pages/WebhookLogs';
+import SandboxTesting from './pages/SandboxTesting';
+import VersionControl from './pages/VersionControl';
+import FirewallSettings from './pages/FirewallSettings';
+import IntrusionDetection from './pages/IntrusionDetection';
+import VulnerabilityScanner from './pages/VulnerabilityScanner';
+import AccessControlLists from './pages/AccessControlLists';
+import DataEncryption from './pages/DataEncryption';
+import SensorFusion from './pages/SensorFusion';
+import ActuatorControl from './pages/ActuatorControl';
+import BatteryManagement from './pages/BatteryManagement';
+import MovementPlanner from './pages/MovementPlanner';
+import SpatialMapping from './pages/SpatialMapping';
+import TeamChat from './pages/TeamChat';
+import SharedFiles from './pages/SharedFiles';
+import CalendarEvents from './pages/CalendarEvents';
+import MeetingNotes from './pages/MeetingNotes';
+import PollsAndSurveys from './pages/PollsAndSurveys';
+import QuantumStateMonitor from './pages/QuantumStateMonitor';
+import EntanglementBridge from './pages/EntanglementBridge';
+import CoherenceTracker from './pages/CoherenceTracker';
+import WavefunctionCollapse from './pages/WavefunctionCollapse';
+import QubitAllocation from './pages/QubitAllocation';
+import RealTimeMetrics from './pages/RealTimeMetrics';
+import HistoricalData from './pages/HistoricalData';
+import PredictiveTrends from './pages/PredictiveTrends';
+import UserEngagement from './pages/UserEngagement';
+import SystemHealth from './pages/SystemHealth';
+import VotingBooth from './pages/VotingBooth';
+import ProposalDrafting from './pages/ProposalDrafting';
+import EthicsCommittee from './pages/EthicsCommittee';
+import TransparencyReport from './pages/TransparencyReport';
+import ComplianceAudit from './pages/ComplianceAudit';
+import UserManual from './pages/UserManual';
+import VideoTutorials from './pages/VideoTutorials';
+import CommunityWiki from './pages/CommunityWiki';
+import DeveloperBlog from './pages/DeveloperBlog';
+import ReleaseNotes from './pages/ReleaseNotes';
 import __Layout from './Layout.jsx';
 
 
@@ -870,6 +939,75 @@ export const PAGES = {
     "OmniLearning": OmniLearning,
     "OmniSocial": OmniSocial,
     "OmegaHealth": OmegaHealth,
+    "SystemArchitecture": SystemArchitecture,
+    "GlobalSettings": GlobalSettings,
+    "UserPreferences": UserPreferences,
+    "NotificationSettings": NotificationSettings,
+    "SecuritySettings": SecuritySettings,
+    "DatasetManagement": DatasetManagement,
+    "InferenceEngine": InferenceEngine,
+    "NeuralNetworkVisualizer": NeuralNetworkVisualizer,
+    "AIModelRegistry": AIModelRegistry,
+    "CourseCreator": CourseCreator,
+    "StudentProgress": StudentProgress,
+    "CertificationCenter": CertificationCenter,
+    "LearningPathways": LearningPathways,
+    "VirtualLibrary": VirtualLibrary,
+    "MeshNetworkStatus": MeshNetworkStatus,
+    "SatelliteUplink": SatelliteUplink,
+    "FiveGControl": FiveGControl,
+    "SignalProcessing": SignalProcessing,
+    "BandwidthOptimizer": BandwidthOptimizer,
+    "TokenExchange": TokenExchange,
+    "FiatGateway": FiatGateway,
+    "TransactionHistory": TransactionHistory,
+    "WalletSecurity": WalletSecurity,
+    "AssetManagement": AssetManagement,
+    "PhysicsEngine": PhysicsEngine,
+    "WeatherSimulation": WeatherSimulation,
+    "TrafficSimulation": TrafficSimulation,
+    "EconomicSimulation": EconomicSimulation,
+    "SocialDynamics": SocialDynamics,
+    "SDKDownloads": SDKDownloads,
+    "APIUsageMetrics": APIUsageMetrics,
+    "WebhookLogs": WebhookLogs,
+    "SandboxTesting": SandboxTesting,
+    "VersionControl": VersionControl,
+    "FirewallSettings": FirewallSettings,
+    "IntrusionDetection": IntrusionDetection,
+    "VulnerabilityScanner": VulnerabilityScanner,
+    "AccessControlLists": AccessControlLists,
+    "DataEncryption": DataEncryption,
+    "SensorFusion": SensorFusion,
+    "ActuatorControl": ActuatorControl,
+    "BatteryManagement": BatteryManagement,
+    "MovementPlanner": MovementPlanner,
+    "SpatialMapping": SpatialMapping,
+    "TeamChat": TeamChat,
+    "SharedFiles": SharedFiles,
+    "CalendarEvents": CalendarEvents,
+    "MeetingNotes": MeetingNotes,
+    "PollsAndSurveys": PollsAndSurveys,
+    "QuantumStateMonitor": QuantumStateMonitor,
+    "EntanglementBridge": EntanglementBridge,
+    "CoherenceTracker": CoherenceTracker,
+    "WavefunctionCollapse": WavefunctionCollapse,
+    "QubitAllocation": QubitAllocation,
+    "RealTimeMetrics": RealTimeMetrics,
+    "HistoricalData": HistoricalData,
+    "PredictiveTrends": PredictiveTrends,
+    "UserEngagement": UserEngagement,
+    "SystemHealth": SystemHealth,
+    "VotingBooth": VotingBooth,
+    "ProposalDrafting": ProposalDrafting,
+    "EthicsCommittee": EthicsCommittee,
+    "TransparencyReport": TransparencyReport,
+    "ComplianceAudit": ComplianceAudit,
+    "UserManual": UserManual,
+    "VideoTutorials": VideoTutorials,
+    "CommunityWiki": CommunityWiki,
+    "DeveloperBlog": DeveloperBlog,
+    "ReleaseNotes": ReleaseNotes,
 }
 
 export const pagesConfig = {
