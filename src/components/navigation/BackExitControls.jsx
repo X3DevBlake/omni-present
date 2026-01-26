@@ -24,7 +24,7 @@ export default function BackExitControls({ placement = 'nav' }) {
 
   if (placement === 'top-right') {
     return (
-      <div className="fixed right-4 top-4 z-60 flex items-center gap-2">
+      <div className="fixed right-4 top-4 z-[100] flex items-center gap-2">
         <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.96 }} onClick={handleBack}
           className="rounded-full p-2 bg-black/60 border border-white/10 shadow-lg" aria-label="Back">
           <ArrowLeft className="w-5 h-5 text-white" />
