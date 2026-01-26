@@ -383,6 +383,55 @@ import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
 import WorldHubEnhanced from './pages/WorldHubEnhanced';
+import RoboticsIntegrationHub from './pages/RoboticsIntegrationHub';
+import HapticFeedbackControl from './pages/HapticFeedbackControl';
+import DroneFleetCommand from './pages/DroneFleetCommand';
+import AutonomousVehicleHub from './pages/AutonomousVehicleHub';
+import PhysicalSecurityHub from './pages/PhysicalSecurityHub';
+import BiometricAuthHub from './pages/BiometricAuthHub';
+import WearableDeviceHub from './pages/WearableDeviceHub';
+import SmartHomeHub from './pages/SmartHomeHub';
+import QuantumEntanglementHub from './pages/QuantumEntanglementHub';
+import QuantumCryptography from './pages/QuantumCryptography';
+import NoeticScienceHub from './pages/NoeticScienceHub';
+import ConsciousnessUploadHub from './pages/ConsciousnessUploadHub';
+import DreamRecordingStudio from './pages/DreamRecordingStudio';
+import TelepathyTraining from './pages/TelepathyTraining';
+import CognitiveEnhancement from './pages/CognitiveEnhancement';
+import EthicalAIReview from './pages/EthicalAIReview';
+import BiasDetectionHub from './pages/BiasDetectionHub';
+import AlgorithmAuditing from './pages/AlgorithmAuditing';
+import DecentralizedCourt from './pages/DecentralizedCourt';
+import SmartContractAudit from './pages/SmartContractAudit';
+import PolicyManagement from './pages/PolicyManagement';
+import NFTMarketplace from './pages/NFTMarketplace';
+import DataMarketplace from './pages/DataMarketplace';
+import ServiceMarketplace from './pages/ServiceMarketplace';
+import FreelanceAgentHub from './pages/FreelanceAgentHub';
+import AuctionHouse from './pages/AuctionHouse';
+import PredictionMarket from './pages/PredictionMarket';
+import DeveloperConsole from './pages/DeveloperConsole';
+import PluginMarketplace from './pages/PluginMarketplace';
+import ThemeStudio from './pages/ThemeStudio';
+import DatabaseManager from './pages/DatabaseManager';
+import ServerlessFunctions from './pages/ServerlessFunctions';
+import TicketSystem from './pages/TicketSystem';
+import LiveChatSupport from './pages/LiveChatSupport';
+import UserForums from './pages/UserForums';
+import KnowledgeBase from './pages/KnowledgeBase';
+import SystemStatus from './pages/SystemStatus';
+import UserBehaviorAnalytics from './pages/UserBehaviorAnalytics';
+import NetworkTrafficHub from './pages/NetworkTrafficHub';
+import ErrorTracking from './pages/ErrorTracking';
+import LogAnalysis from './pages/LogAnalysis';
+import WhiteboardHub from './pages/WhiteboardHub';
+import VideoConferencing from './pages/VideoConferencing';
+import ProjectManagement from './pages/ProjectManagement';
+import TaskBoard from './pages/TaskBoard';
+import OmegaSecurity from './pages/OmegaSecurity';
+import OmniLearning from './pages/OmniLearning';
+import OmniSocial from './pages/OmniSocial';
+import OmegaHealth from './pages/OmegaHealth';
 import __Layout from './Layout.jsx';
 
 
@@ -772,6 +821,55 @@ export const PAGES = {
     "WorkflowOrchestrationHub": WorkflowOrchestrationHub,
     "World": World,
     "WorldHubEnhanced": WorldHubEnhanced,
+    "RoboticsIntegrationHub": RoboticsIntegrationHub,
+    "HapticFeedbackControl": HapticFeedbackControl,
+    "DroneFleetCommand": DroneFleetCommand,
+    "AutonomousVehicleHub": AutonomousVehicleHub,
+    "PhysicalSecurityHub": PhysicalSecurityHub,
+    "BiometricAuthHub": BiometricAuthHub,
+    "WearableDeviceHub": WearableDeviceHub,
+    "SmartHomeHub": SmartHomeHub,
+    "QuantumEntanglementHub": QuantumEntanglementHub,
+    "QuantumCryptography": QuantumCryptography,
+    "NoeticScienceHub": NoeticScienceHub,
+    "ConsciousnessUploadHub": ConsciousnessUploadHub,
+    "DreamRecordingStudio": DreamRecordingStudio,
+    "TelepathyTraining": TelepathyTraining,
+    "CognitiveEnhancement": CognitiveEnhancement,
+    "EthicalAIReview": EthicalAIReview,
+    "BiasDetectionHub": BiasDetectionHub,
+    "AlgorithmAuditing": AlgorithmAuditing,
+    "DecentralizedCourt": DecentralizedCourt,
+    "SmartContractAudit": SmartContractAudit,
+    "PolicyManagement": PolicyManagement,
+    "NFTMarketplace": NFTMarketplace,
+    "DataMarketplace": DataMarketplace,
+    "ServiceMarketplace": ServiceMarketplace,
+    "FreelanceAgentHub": FreelanceAgentHub,
+    "AuctionHouse": AuctionHouse,
+    "PredictionMarket": PredictionMarket,
+    "DeveloperConsole": DeveloperConsole,
+    "PluginMarketplace": PluginMarketplace,
+    "ThemeStudio": ThemeStudio,
+    "DatabaseManager": DatabaseManager,
+    "ServerlessFunctions": ServerlessFunctions,
+    "TicketSystem": TicketSystem,
+    "LiveChatSupport": LiveChatSupport,
+    "UserForums": UserForums,
+    "KnowledgeBase": KnowledgeBase,
+    "SystemStatus": SystemStatus,
+    "UserBehaviorAnalytics": UserBehaviorAnalytics,
+    "NetworkTrafficHub": NetworkTrafficHub,
+    "ErrorTracking": ErrorTracking,
+    "LogAnalysis": LogAnalysis,
+    "WhiteboardHub": WhiteboardHub,
+    "VideoConferencing": VideoConferencing,
+    "ProjectManagement": ProjectManagement,
+    "TaskBoard": TaskBoard,
+    "OmegaSecurity": OmegaSecurity,
+    "OmniLearning": OmniLearning,
+    "OmniSocial": OmniSocial,
+    "OmegaHealth": OmegaHealth,
 }
 
 export const pagesConfig = {
