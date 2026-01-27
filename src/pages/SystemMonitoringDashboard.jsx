@@ -93,22 +93,37 @@ export default function SystemMonitoringDashboard() {
         return () => clearInterval(interval);
     }, []);
 
-    // StrictMode Droppable Fix
+    // StrictMode Droppable Fix - ensure we don't render DnD until client-side hydration is complete
     const [isDnDReady, setIsDnDReady] = useState(false);
     useEffect(() => {
-        const animation = requestAnimationFrame(() => setIsDnDReady(true));
+        // Small delay to ensure React has fully hydrated and StrictMode double-mount is done
+        const timer = setTimeout(() => {
+            requestAnimationFrame(() => setIsDnDReady(true));
+        }, 100);
         return () => {
-            cancelAnimationFrame(animation);
+            clearTimeout(timer);
             setIsDnDReady(false);
         };
     }, []);
 
     const onDragEnd = (result) => {
-        if (!result || !result.destination || !result.source) return;
-        const items = Array.from(widgets);
-        const [reorderedItem] = items.splice(result.source.index, 1);
-        items.splice(result.destination.index, 0, reorderedItem);
-        setWidgets(items);
+        // Safety check for null result or missing properties
+        if (!result || !result.destination || !result.source) {
+            console.warn("Drag ended with invalid result:", result);
+            return;
+        }
+        
+        try {
+            const items = Array.from(widgets);
+            // Safety check for index out of bounds
+            if (result.source.index >= items.length) return;
+            
+            const [reorderedItem] = items.splice(result.source.index, 1);
+            items.splice(result.destination.index, 0, reorderedItem);
+            setWidgets(items);
+        } catch (e) {
+            console.error("Error updating widget order:", e);
+        }
     };
 
     const addWidget = (type) => {
