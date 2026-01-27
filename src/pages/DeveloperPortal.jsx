@@ -9,6 +9,7 @@ import JavaScriptSDKDocs from '../components/developer/JavaScriptSDKDocs';
 import PythonSDKDocs from '../components/developer/PythonSDKDocs';
 import InteractiveSandbox from '../components/developer/InteractiveSandbox';
 import AICodeAssistant from '../components/developer/AICodeAssistant';
+import AgentOrchestrationHub from '../components/developer/AgentOrchestrationHub';
 import { Badge } from '@/components/ui/badge';
 import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
@@ -91,13 +92,18 @@ export default function DeveloperPortal() {
         </div>
 
         <Tabs defaultValue="docs" className="w-full">
-          <TabsList className="grid w-full grid-cols-5 bg-black/60 border-cyan-500/30">
+          <TabsList className="grid w-full grid-cols-6 bg-black/60 border-cyan-500/30">
             <TabsTrigger value="docs">Documentation</TabsTrigger>
             <TabsTrigger value="sandbox">Sandbox</TabsTrigger>
             <TabsTrigger value="tutorials">Tutorials</TabsTrigger>
+            <TabsTrigger value="orchestration">Orchestration</TabsTrigger>
             <TabsTrigger value="examples">Examples</TabsTrigger>
             <TabsTrigger value="support">Support</TabsTrigger>
           </TabsList>
+
+          <TabsContent value="orchestration" className="mt-6">
+            <AgentOrchestrationHub />
+          </TabsContent>
 
           <TabsContent value="docs" className="mt-6">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
