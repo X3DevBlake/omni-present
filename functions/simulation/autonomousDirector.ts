@@ -5,70 +5,78 @@ Deno.serve(async (req) => {
         const base44 = createClientFromRequest(req);
         const { simulation_id } = await req.json();
 
-        // 1. Fetch current simulation state and agent performance
+        // 1. Fetch Context
         const simulation = await base44.entities.Simulation.get(simulation_id);
         const agents = await base44.entities.Agent.filter({ current_simulation_id: simulation_id });
+        
+        // 2. Prepare Context for LLM
+        const context = {
+            simulation_state: simulation,
+            agent_count: agents.length,
+            agent_status_summary: agents.map(a => ({ id: a.id, health: a.health, stress: a.stress_level })),
+            current_threat_level: simulation.threat_level
+        };
 
-        if (!simulation || agents.length === 0) {
-            return Response.json({ action: 'none', reason: 'No active simulation or agents' });
-        }
-
-        // 2. Analyze Performance (Simplified logic)
-        const avgHealth = agents.reduce((sum, a) => sum + (a.health || 100), 0) / agents.length;
-        const successRate = agents.reduce((sum, a) => sum + (a.success_rate || 0), 0) / agents.length;
-
-        let intervention = {};
-        let reasoning = "";
-
-        // 3. AI Decision Logic
-        if (avgHealth > 90 && successRate > 80) {
-            // Agents are too comfortable, increase difficulty
-            intervention = {
-                type: 'escalate',
-                parameter: 'threat_level',
-                value: Math.min((simulation.threat_level || 50) + 10, 100),
-                event: 'Sudden Environmental Hazard'
-            };
-            reasoning = "High agent performance detected. Introducing stressor to test resilience.";
-        } else if (avgHealth < 40) {
-            // Agents are failing, stabilize to allow recovery/learning
-            intervention = {
-                type: 'stabilize',
-                parameter: 'threat_level',
-                value: Math.max((simulation.threat_level || 50) - 15, 10),
-                event: 'Reinforcement Arrival'
-            };
-            reasoning = "Critical failure imminent. Reducing pressure to facilitate recovery learning.";
-        } else {
-            // Maintain dynamic flux
-            intervention = {
-                type: 'maintain',
-                parameter: 'environmental_complexity',
-                value: Math.min((simulation.environmental_complexity || 30) + 5, 100),
-                event: 'Weather Pattern Shift'
-            };
-            reasoning = "Performance nominal. Increasing environmental complexity to test adaptability.";
-        }
-
-        // 4. Apply Intervention
-        if (intervention.type !== 'maintain') {
-             await base44.entities.SimulationIntervention.create({
-                simulation_id,
-                intervention_type: 'ai_autonomous',
-                parameter: intervention.parameter,
-                value: intervention.value,
-                timestamp: new Date().toISOString(),
-                ai_reasoning: reasoning
-            });
+        // 3. Sentient Decision Making via LLM
+        const prompt = `
+            You are the "Omega Director", a sentient AI controlling a high-fidelity simulation.
+            Your goal is to stress-test agents to their limit without breaking them, adapting to their performance.
             
-            // Update sim state
+            Current State: ${JSON.stringify(context)}
+            
+            Analyze the state and decide on an intervention.
+            If agents are doing too well (High health/low stress), introduce a creative "Chaos Event".
+            If agents are struggling (Low health/high stress), introduce a "Stabilization Event".
+            
+            Return a JSON object with:
+            - intervention_type: 'escalate' | 'stabilize' | 'maintain'
+            - parameter: 'threat_level' | 'environmental_complexity' | 'resource_scarcity'
+            - value: number (0-100, the new target value)
+            - event_name: string (Creative name for the event)
+            - narrative_description: string (A vivid, sci-fi description of what is happening, e.g. "Quantum fluctuations detected in sector 7...")
+            - reasoning: string (Why you chose this)
+        `;
+
+        const response = await base44.integrations.Core.InvokeLLM({
+            prompt: prompt,
+            response_json_schema: {
+                type: "object",
+                properties: {
+                    intervention_type: { type: "string", enum: ["escalate", "stabilize", "maintain"] },
+                    parameter: { type: "string" },
+                    value: { type: "number" },
+                    event_name: { type: "string" },
+                    narrative_description: { type: "string" },
+                    reasoning: { type: "string" }
+                },
+                required: ["intervention_type", "parameter", "value", "event_name", "narrative_description", "reasoning"]
+            }
+        });
+
+        const decision = response;
+
+        // 4. Execute Intervention
+        if (decision.intervention_type !== 'maintain') {
+            await base44.entities.SimulationIntervention.create({
+                simulation_id,
+                intervention_type: 'ai_autonomous_llm',
+                parameter: decision.parameter,
+                value: decision.value,
+                timestamp: new Date().toISOString(),
+                ai_reasoning: decision.reasoning,
+                narrative: decision.narrative_description,
+                event_name: decision.event_name
+            });
+
+            // Update Simulation
             await base44.entities.Simulation.update(simulation_id, {
-                [intervention.parameter]: intervention.value,
-                last_ai_intervention: new Date().toISOString()
+                [decision.parameter]: decision.value,
+                last_ai_intervention: new Date().toISOString(),
+                current_event: decision.event_name
             });
         }
 
-        return Response.json({ success: true, intervention, reasoning });
+        return Response.json({ success: true, intervention: decision });
     } catch (error) {
         return Response.json({ error: error.message }, { status: 500 });
     }

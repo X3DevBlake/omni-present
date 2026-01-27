@@ -5,6 +5,7 @@ import AuroraBackground from '@/components/omni/AuroraBackground';
 import RealTimeSimulationController from '@/components/simulation/RealTimeSimulationController';
 import AutonomousDirectorPanel from '@/components/simulation/AutonomousDirectorPanel';
 import AdvancedSimulation3D from '@/components/simulation/AdvancedSimulation3D';
+import SentientOracle3D from '@/components/simulation/SentientOracle3D';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Loader2, Play } from 'lucide-react';
@@ -55,6 +56,9 @@ export default function AdvancedSimulation() {
           <div className="space-y-6">
             {activeSimulationId && (
               <>
+                 <div className="h-64">
+                   <SentientOracle3D isActive={true} metrics={true} currentThought="Analyzing agent resilience patterns..." />
+                 </div>
                 <AutonomousDirectorPanel simulationId={activeSimulationId} />
                 <RealTimeSimulationController simulationId={activeSimulationId} />
               </>
