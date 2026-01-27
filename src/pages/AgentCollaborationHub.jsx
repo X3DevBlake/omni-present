@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-
 import CollaborationNetwork3D from '../components/collaboration/CollaborationNetwork3D';
 import AdaptiveMissionControl from '../components/mission/AdaptiveMissionControl';
 import AgentTrainingCenter3D from '../components/learning/AgentTrainingCenter3D';
@@ -52,20 +51,19 @@ export default function AgentCollaborationHub() {
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     {/* Main Visualizer - Collaboration Network */}
-                    <div className="lg:col-span-2 h-[500px] rounded-xl overflow-hidden border border-white/10 shadow-2xl">
+                    <div className="lg:col-span-2 h-[600px] rounded-xl overflow-hidden border border-white/10 shadow-2xl">
                         <SwarmIntelligence3D active={true} />
                     </div>
-                    <div className="h-[500px]">
-                        <SentientOracle3D isActive={true} currentThought="Optimizing swarm coherence protocols..." />
-                    </div>
-                </div>
 
                     {/* Mission Control Side Panel */}
                     <div className="lg:col-span-1 flex flex-col gap-6 h-[600px]">
-                        <div className="flex-1">
+                        <div className="h-64 rounded-xl overflow-hidden shadow-lg">
+                            <SentientOracle3D isActive={true} currentThought="Optimizing swarm coherence protocols..." />
+                        </div>
+                        <div className="flex-1 overflow-hidden rounded-xl border border-white/10 bg-black/40 backdrop-blur-md">
                             <AdaptiveMissionControl />
                         </div>
-                        <div className="flex-1">
+                        <div className="h-48 overflow-hidden rounded-xl border border-white/10 bg-black/40 backdrop-blur-md">
                             <TeamChatInterface teamId="OPS-ALPHA" />
                         </div>
                     </div>
@@ -73,14 +71,14 @@ export default function AgentCollaborationHub() {
 
                 {/* Cross-Hub Orchestration */}
                 <div className="mb-6">
-                     <Card className="bg-black/50 border-white/10 overflow-hidden">
+                     <Card className="bg-black/50 border-white/10 overflow-hidden backdrop-blur-md">
                         <div className="p-4 border-b border-white/10 bg-gradient-to-r from-purple-900/20 to-black">
                             <h2 className="text-lg font-bold flex items-center gap-2 text-purple-300">
                                 <Zap className="w-5 h-5" /> Cross-Hub Orchestration Layer
                             </h2>
                         </div>
                         <div className="p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
-                            <div className="lg:col-span-2">
+                            <div className="lg:col-span-2 h-[400px]">
                                 <CrossHubVisualizer3D />
                             </div>
                             <div className="space-y-4">
@@ -90,7 +88,7 @@ export default function AgentCollaborationHub() {
                                         { title: "Operation Golden Shield", hubs: ["Security", "Finance"], status: "Active" },
                                         { title: "Project Neural Link", hubs: ["Academy", "R&D"], status: "Planning" }
                                     ].map((m, i) => (
-                                        <div key={i} className="p-3 bg-white/5 rounded border border-white/5">
+                                        <div key={i} className="p-3 bg-white/5 rounded border border-white/5 hover:bg-white/10 transition-colors">
                                             <div className="font-bold text-sm text-white">{m.title}</div>
                                             <div className="flex gap-2 mt-2">
                                                 {m.hubs.map(h => (
@@ -107,20 +105,20 @@ export default function AgentCollaborationHub() {
 
                 {/* Lower Section - Learning & Evolution & Debriefs */}
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <Card className="bg-black/50 border-white/10 p-6 lg:col-span-1">
+                    <Card className="bg-black/50 border-white/10 p-6 lg:col-span-1 backdrop-blur-md">
                         <div className="flex items-center gap-3 mb-4">
                             <Brain className="w-6 h-6 text-pink-400" />
-                            <h2 className="text-xl font-bold">Neural Training</h2>
+                            <h2 className="text-xl font-bold text-white">Neural Training</h2>
                         </div>
                         <AgentTrainingCenter3D />
                     </Card>
 
                     <div className="lg:col-span-2 space-y-6">
-                        <Card className="bg-black/50 border-white/10 p-6">
+                        <Card className="bg-black/50 border-white/10 p-6 backdrop-blur-md">
                             <div className="flex items-center justify-between mb-4">
                                 <div className="flex items-center gap-3">
                                     <Target className="w-6 h-6 text-green-400" />
-                                    <h2 className="text-xl font-bold">Recent Mission Debriefs</h2>
+                                    <h2 className="text-xl font-bold text-white">Recent Mission Debriefs</h2>
                                 </div>
                                 <Button size="sm" variant="outline" onClick={() => {
                                     // Trigger a mock debrief for demo
@@ -151,6 +149,6 @@ export default function AgentCollaborationHub() {
                 </div>
 
             </div>
-        </div>
+        </AuroraBackground>
     );
 }
