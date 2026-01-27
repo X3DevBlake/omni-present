@@ -8,7 +8,7 @@ import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import { base44 } from '@/api/base44Client';
 import InteractiveHubNetwork3D from '../components/home/InteractiveHubNetwork3D';
 import { Activity, Server, AlertTriangle, Shield, Cpu, Database, RefreshCw, Plus, Layout, Save, Palette, GripVertical, Trash2 } from 'lucide-react';
-import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, BarChart, Bar, HeatMap } from 'recharts'; // Assuming HeatMap or similar exists or we simulate
+import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, BarChart, Bar } from 'recharts';
 import { motion } from 'framer-motion';
 
 // Mock Data Generators
