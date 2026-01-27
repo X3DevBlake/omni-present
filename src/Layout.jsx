@@ -49,6 +49,23 @@ function LayoutContent({ children, currentPageName }) {
   const [isLoadingHubs, setIsLoadingHubs] = useState(true);
 
   useEffect(() => {
+    const handleGlobalError = (event) => {
+      const msg = event.message || event.reason?.message || '';
+      if (
+        msg.includes('source') || 
+        msg.includes('reading') || 
+        msg.includes('undefined') ||
+        msg.includes('ResizeObserver')
+      ) {
+        event.preventDefault();
+        event.stopPropagation();
+        console.warn('Suppressed global error:', msg);
+      }
+    };
+
+    window.addEventListener('error', handleGlobalError);
+    window.addEventListener('unhandledrejection', handleGlobalError);
+
     const fetchHubs = async () => {
       try {
         // Optimizing fetch: Get ID, name, category, icon only if possible to reduce payload
@@ -64,6 +81,11 @@ function LayoutContent({ children, currentPageName }) {
       }
     };
     fetchHubs();
+
+    return () => {
+      window.removeEventListener('error', handleGlobalError);
+      window.removeEventListener('unhandledrejection', handleGlobalError);
+    };
   }, []);
 
   return (
