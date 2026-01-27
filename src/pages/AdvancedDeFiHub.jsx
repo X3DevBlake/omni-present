@@ -6,7 +6,8 @@ import OmniTokenEcosystem3D from '../components/defi/OmniTokenEcosystem3D';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Activity, DollarSign, Layers, Zap, ArrowRightLeft, TrendingUp } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Activity, DollarSign, Layers, Zap, ArrowRightLeft, TrendingUp, Brain, ShieldAlert, Bot } from 'lucide-react';
 
 export default function AdvancedDeFiHub() {
     const [swapAmount, setSwapAmount] = useState('');
@@ -18,6 +19,15 @@ export default function AdvancedDeFiHub() {
             return res.data.simulation;
         },
         refetchInterval: 3000
+    });
+
+    const { data: advisor } = useQuery({
+        queryKey: ['sentient-advisor'],
+        queryFn: async () => {
+            const res = await base44.functions.invoke('financial/sentientAdvisor', {});
+            return res.data;
+        },
+        refetchInterval: 10000
     });
 
     return (
@@ -32,6 +42,43 @@ export default function AdvancedDeFiHub() {
                         <Zap className="w-4 h-4 mr-2" /> Connect Wallet
                     </Button>
                 </div>
+
+                {/* Sentient Advisor Section */}
+                {advisor && (
+                    <Card className="bg-gradient-to-r from-indigo-900/40 to-purple-900/40 border-purple-500/50 backdrop-blur-xl mb-8">
+                        <CardContent className="p-6 flex items-start gap-6">
+                            <div className="bg-black/50 p-4 rounded-full border border-purple-500/50">
+                                <Bot className="w-8 h-8 text-purple-400 animate-pulse" />
+                            </div>
+                            <div className="flex-1">
+                                <h3 className="text-xl font-bold text-white mb-2">Sentient Financial Advisor</h3>
+                                <p className="text-gray-300 italic mb-4">"{advisor.personal_message}"</p>
+                                
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                    <div className="bg-black/30 p-3 rounded border border-white/10">
+                                        <div className="text-xs text-gray-400 mb-1">Market Sentiment</div>
+                                        <div className="text-lg font-bold text-green-400 flex items-center gap-2">
+                                            {advisor.market_sentiment} <TrendingUp className="w-4 h-4" />
+                                        </div>
+                                    </div>
+                                    <div className="bg-black/30 p-3 rounded border border-white/10">
+                                        <div className="text-xs text-gray-400 mb-1">Risk Score</div>
+                                        <div className="text-lg font-bold text-yellow-400 flex items-center gap-2">
+                                            {advisor.risk_assessment.score}/10 <ShieldAlert className="w-4 h-4" />
+                                        </div>
+                                    </div>
+                                    <div className="bg-black/30 p-3 rounded border border-white/10">
+                                        <div className="text-xs text-gray-400 mb-1">Proposed Action</div>
+                                        <div className="text-sm font-semibold text-cyan-300">
+                                            {advisor.automated_actions[0]?.type}: {advisor.automated_actions[0]?.description}
+                                        </div>
+                                        <Button size="sm" className="mt-2 w-full bg-cyan-600/20 hover:bg-cyan-600/40 text-cyan-200">Approve</Button>
+                                    </div>
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+                )}
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     <div className="lg:col-span-2 space-y-6">
@@ -92,6 +139,22 @@ export default function AdvancedDeFiHub() {
                                         {finance?.staking_apy?.toFixed(2)}%
                                     </span>
                                 </div>
+                                
+                                {/* Predictive Analytics Widget */}
+                                <div className="p-3 bg-white/5 rounded border border-white/5">
+                                    <h4 className="text-xs text-cyan-500 uppercase mb-2 flex items-center gap-1">
+                                        <Brain className="w-3 h-3" /> Predictive Trends (1w)
+                                    </h4>
+                                    {advisor?.predictive_trends.map((trend, i) => (
+                                        <div key={i} className="flex justify-between text-sm mb-1">
+                                            <span className="text-gray-300">{trend.asset}</span>
+                                            <span className={`${trend.prediction === 'UP' ? 'text-green-400' : 'text-yellow-400'}`}>
+                                                {trend.prediction} ({Math.round(trend.confidence * 100)}%)
+                                            </span>
+                                        </div>
+                                    ))}
+                                </div>
+
                                 <div className="h-px bg-cyan-900/50 my-2" />
                                 <div className="space-y-2">
                                     <div className="text-xs text-cyan-500 uppercase tracking-widest">Recent Activity</div>
