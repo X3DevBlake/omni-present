@@ -12,6 +12,7 @@ import AgentTeamFormation3D from '../components/agents/AgentTeamFormation3D';
 import PredictiveTrajectory3D from '../components/simulation/PredictiveTrajectory3D';
 import CrossHubResourceBroker from '../components/orchestration/CrossHubResourceBroker';
 import PredictiveMissionDashboard from '../components/orchestration/PredictiveMissionDashboard';
+import MissionForecasterDashboard from '../components/orchestration/MissionForecasterDashboard';
 import { Network, TrendingUp, Zap, Plus } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -220,7 +221,10 @@ export default function AgentOrchestrationHub() {
           </TabsContent>
 
           <TabsContent value="predictions" className="space-y-6 mt-6">
-            <PredictiveMissionDashboard />
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <PredictiveMissionDashboard />
+              <MissionForecasterDashboard />
+            </div>
             
             {predictions && predictions.map((pred, i) => (
               <div key={i}>
