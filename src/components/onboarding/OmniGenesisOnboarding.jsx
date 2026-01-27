@@ -22,9 +22,11 @@ const GodParticleField = () => {
             positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
             positions[i * 3 + 2] = r * Math.cos(phi);
             
-            colors[i * 3] = Math.random(); // R
-            colors[i * 3 + 1] = 0.5;       // G
-            colors[i * 3 + 2] = 1;         // B
+            // Cyan to Purple gradient
+            const mix = Math.random();
+            colors[i * 3] = 0.6 * mix;     // R
+            colors[i * 3 + 1] = 1.0 - (0.5 * mix); // G
+            colors[i * 3 + 2] = 1.0;       // B
         }
         return [positions, colors];
     }, [count]);

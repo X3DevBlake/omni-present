@@ -11,6 +11,9 @@ import { Activity, DollarSign, Layers, Zap, ArrowRightLeft, TrendingUp, Brain, S
 import OmniStaking from '../components/defi/OmniStaking';
 import GovernanceVoting from '../components/defi/GovernanceVoting';
 import FlashLoanPanel from '../components/defi/FlashLoanPanel';
+import DEXSwapPanel from '../components/defi/DEXSwapPanel';
+import LiquidityPoolsPanel from '../components/defi/LiquidityPoolsPanel';
+import StakingLeaderboard from '../components/defi/StakingLeaderboard';
 
 export default function AdvancedDeFiHub() {
     const [swapAmount, setSwapAmount] = useState('');
@@ -171,7 +174,10 @@ export default function AdvancedDeFiHub() {
                             </CardContent>
                         </Card>
 
+                        <DEXSwapPanel />
                         <OmniStaking />
+                        <LiquidityPoolsPanel />
+                        <StakingLeaderboard />
                         <GovernanceVoting />
                         <FlashLoanPanel />
                     </div>
