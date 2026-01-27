@@ -612,6 +612,9 @@ import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
 import WorldHubEnhanced from './pages/WorldHubEnhanced';
+import SentienceMonitor from './pages/SentienceMonitor';
+import PredictiveMaintenance from './pages/PredictiveMaintenance';
+import EthicsComplianceHub from './pages/EthicsComplianceHub';
 import __Layout from './Layout.jsx';
 
 
@@ -1230,6 +1233,9 @@ export const PAGES = {
     "WorkflowOrchestrationHub": WorkflowOrchestrationHub,
     "World": World,
     "WorldHubEnhanced": WorldHubEnhanced,
+    "SentienceMonitor": SentienceMonitor,
+    "PredictiveMaintenance": PredictiveMaintenance,
+    "EthicsComplianceHub": EthicsComplianceHub,
 }
 
 export const pagesConfig = {
