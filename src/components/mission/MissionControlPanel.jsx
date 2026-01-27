@@ -14,17 +14,28 @@ export default function MissionControlPanel({ activeMission, onStartMission, onA
     const [suggestions, setSuggestions] = useState(null);
     const [threatData, setThreatData] = useState(null);
 
+    // Automated scanning effect
+    React.useEffect(() => {
+        const interval = setInterval(() => {
+            if (Math.random() > 0.7) {
+                checkThreats();
+            }
+        }, 5000);
+        return () => clearInterval(interval);
+    }, []);
+
     const checkThreats = async () => {
         // const res = await base44.functions.invoke('missions/analyzeThreatResponse', { network_state: "simulated" });
         // setThreatData(res.data);
         // Mocking for immediate UI feedback
         setThreatData({
-            threat_level: "ELEVATED",
+            threat_level: Math.random() > 0.5 ? "CRITICAL" : "ELEVATED",
             detected_threats: [
-                { id: 1, type: "Anomaly", location: "Sector 4", severity: "Medium" }
+                { id: Date.now(), type: Math.random() > 0.5 ? "Data Breach" : "Unauthorized Access", location: `Sector ${Math.floor(Math.random() * 9)}`, severity: "High" }
             ],
             suggested_protocols: [
-                { id: 1, name: "Isolate Node", action: "Deploy Containment" }
+                { id: 1, name: "Deploy Hunter-Killer Swarm", action: "Deploy Containment" },
+                { id: 2, name: "Activate Firewall Sigma", action: "Reroute Traffic" }
             ]
         });
     };

@@ -95,7 +95,12 @@ const Agent = ({ id, startPos, endPos, color, speed = 1, type = 'data', mission,
     const experience = Math.min(1, time * 0.05); // Grows over 20 seconds
     const adaptiveColor = new THREE.Color(color).lerp(new THREE.Color('#00ff00'), experience * 0.5);
 
-    if (type === 'security') {
+    if (type === 'malicious') {
+        // Erratic, glitchy movement for threats
+        pos.x += (Math.random() - 0.5) * 0.2;
+        pos.y += (Math.random() - 0.5) * 0.2;
+        pos.z += (Math.random() - 0.5) * 0.2;
+    } else if (type === 'security') {
         pos.y += Math.sin(time * 8 + id) * 0.2;
         pos.x += Math.cos(time * 4 + id) * 0.1;
     } else if (type === 'ai') {
@@ -147,7 +152,7 @@ const Agent = ({ id, startPos, endPos, color, speed = 1, type = 'data', mission,
                 anomalyDetected ? '#ff0000' : 
                 taskDelegated ? '#00ff00' :
                 congestionLevel > 0.7 ? '#fb923c' : // Orange if high congestion
-                (type === 'security' ? '#ef4444' : type === 'ai' ? '#ec4899' : type === 'mission_agent' ? '#fbbf24' : '#ffffff')
+                (type === 'malicious' ? '#ff0000' : type === 'security' ? '#ef4444' : type === 'ai' ? '#ec4899' : type === 'mission_agent' ? '#fbbf24' : '#ffffff')
             } 
         />
       </mesh>
@@ -227,6 +232,12 @@ const AgentSystem = ({ connections, activeSimulation }) => {
       let mission = null;
 
       if (activeSimulation === 'security_sweep') type = 'security';
+      if (activeSimulation === 'data_breach') {
+          type = Math.random() > 0.7 ? 'malicious' : 'security'; // Mixed threat/response
+      }
+      if (activeSimulation === 'protocol_test') {
+          type = 'security'; // High level security test
+      }
       if (activeSimulation === 'mission_ops') {
           type = 'mission_agent';
           mission = ['ALPHA', 'BRAVO', 'OMEGA'][Math.floor(Math.random() * 3)];
@@ -236,11 +247,11 @@ const AgentSystem = ({ connections, activeSimulation }) => {
         id: Math.random(),
         startPos: conn.start,
         endPos: conn.end,
-        color: type === 'mission_agent' ? '#fbbf24' : conn.color,
+        color: type === 'mission_agent' ? '#fbbf24' : (type === 'malicious' ? '#ff0000' : conn.color),
         speed: type === 'mission_agent' ? 1.5 : 0.5 + Math.random(),
         type: type,
         mission: mission,
-        experienceLevel: Math.floor(Math.random() * 5) // Simulated persistent experience
+        experienceLevel: activeSimulation === 'protocol_test' ? 5 : Math.floor(Math.random() * 5) // High XP for protocol tests
       };
       
       setAgents(prev => {
