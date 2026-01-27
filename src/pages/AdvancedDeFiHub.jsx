@@ -5,9 +5,12 @@ import AuroraBackground from '../components/omni/AuroraBackground';
 import OmniTokenEcosystem3D from '../components/defi/OmniTokenEcosystem3D';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Activity, DollarSign, Layers, Zap } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Activity, DollarSign, Layers, Zap, ArrowRightLeft, TrendingUp } from 'lucide-react';
 
 export default function AdvancedDeFiHub() {
+    const [swapAmount, setSwapAmount] = useState('');
+    
     const { data: finance } = useQuery({
         queryKey: ['financial-sim'],
         queryFn: async () => {
@@ -31,8 +34,42 @@ export default function AdvancedDeFiHub() {
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    <div className="lg:col-span-2">
+                    <div className="lg:col-span-2 space-y-6">
                         <OmniTokenEcosystem3D price={finance?.omni_token_price} />
+                        
+                        <Card className="bg-black/60 border-cyan-500/30 backdrop-blur-xl">
+                            <CardHeader>
+                                <CardTitle className="text-cyan-400 font-mono">Omni Swap</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="flex gap-4 items-center">
+                                    <div className="flex-1 space-y-2">
+                                        <label className="text-xs text-cyan-200">From (USDT)</label>
+                                        <Input 
+                                            value={swapAmount}
+                                            onChange={(e) => setSwapAmount(e.target.value)}
+                                            className="bg-black/50 border-cyan-500/30 text-white font-mono"
+                                            placeholder="0.00"
+                                        />
+                                    </div>
+                                    <Button size="icon" variant="ghost" className="mt-6 text-cyan-400">
+                                        <ArrowRightLeft className="w-6 h-6" />
+                                    </Button>
+                                    <div className="flex-1 space-y-2">
+                                        <label className="text-xs text-cyan-200">To (OMNI)</label>
+                                        <Input 
+                                            value={swapAmount ? (parseFloat(swapAmount) / (finance?.omni_token_price || 124)).toFixed(4) : ''}
+                                            readOnly
+                                            className="bg-black/50 border-cyan-500/30 text-white font-mono"
+                                            placeholder="0.00"
+                                        />
+                                    </div>
+                                </div>
+                                <Button className="w-full mt-4 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold">
+                                    Swap Tokens
+                                </Button>
+                            </CardContent>
+                        </Card>
                     </div>
                     
                     <div className="space-y-6">
@@ -70,10 +107,22 @@ export default function AdvancedDeFiHub() {
 
                         <Card className="bg-gradient-to-br from-purple-900/40 to-blue-900/40 border-purple-500/30">
                             <CardContent className="p-6">
-                                <h3 className="text-xl font-bold text-white mb-2">Yield Farming 2.0</h3>
+                                <h3 className="text-xl font-bold text-white mb-2 flex items-center gap-2">
+                                    <Layers className="w-5 h-5" /> Yield Farming 2.0
+                                </h3>
                                 <p className="text-sm text-white/60 mb-4">AI-optimized liquidity pools providing maximum returns with minimal impermanent loss.</p>
+                                <div className="space-y-3 mb-4">
+                                    <div className="flex justify-between bg-black/30 p-2 rounded">
+                                        <span className="text-purple-300 text-sm">OMNI-ETH LP</span>
+                                        <span className="text-green-400 font-mono text-sm">142% APR</span>
+                                    </div>
+                                    <div className="flex justify-between bg-black/30 p-2 rounded">
+                                        <span className="text-purple-300 text-sm">OMNI-USDT LP</span>
+                                        <span className="text-green-400 font-mono text-sm">98% APR</span>
+                                    </div>
+                                </div>
                                 <Button variant="outline" className="w-full border-purple-500 text-purple-300 hover:bg-purple-900/50">
-                                    <Layers className="w-4 h-4 mr-2" /> Explore Pools
+                                    Stake & Earn
                                 </Button>
                             </CardContent>
                         </Card>

@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import UnifiedIntelligenceDashboard3D from '../components/intelligence/UnifiedIntelligenceDashboard3D';
+import CrossDomainAnomalyVisualizer3D from '../components/analytics/CrossDomainAnomalyVisualizer3D';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Activity, AlertTriangle, Link2 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
@@ -17,6 +18,15 @@ export default function UnifiedIntelligenceCenter() {
         refetchInterval: 5000
     });
 
+    const { data: anomalies } = useQuery({
+        queryKey: ['anomalies'],
+        queryFn: async () => {
+            const res = await base44.functions.invoke('analytics/detectEmergentAnomalies', {});
+            return res.data.anomalies;
+        },
+        refetchInterval: 5000
+    });
+
     return (
         <AuroraBackground className="min-h-screen pt-24 pb-12">
             <div className="container mx-auto px-6 space-y-8">
@@ -24,20 +34,6 @@ export default function UnifiedIntelligenceCenter() {
                     <h1 className="text-4xl font-bold text-white mb-2">Unified Intelligence Center</h1>
                     <p className="text-white/60">Holistic system orchestration and cross-domain correlation.</p>
                 </div>
-
-import CrossDomainAnomalyVisualizer3D from '../components/analytics/CrossDomainAnomalyVisualizer3D';
-
-// ... inside component ...
-
-    const { data: anomalies } = useQuery({
-        queryKey: ['anomalies'],
-        queryFn: async () => {
-            const res = await base44.functions.invoke('analytics/detectEmergentAnomalies', {});
-            return res.data.anomalies;
-        }
-    });
-
-// ... inside render ...
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     <div className="lg:col-span-2 space-y-6">
