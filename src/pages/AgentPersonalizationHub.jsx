@@ -3,11 +3,12 @@ import { useQuery, useMutation } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import AgentPersonalizationVisualizer3D from '../components/personalization/AgentPersonalizationVisualizer3D';
+import AdaptiveLearningPath3D from '../components/learning/AdaptiveLearningPath3D';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { Brain, User, Zap } from 'lucide-react';
+import { Brain, User, Zap, GraduationCap } from 'lucide-react';
 
 export default function AgentPersonalizationHub() {
     const [agentId, setAgentId] = useState('Agent-Alpha-001');
@@ -17,6 +18,15 @@ export default function AgentPersonalizationHub() {
         queryFn: async () => {
             const res = await base44.functions.invoke('personalization/dynamicPersonalizationEngine', { agent_id: agentId });
             return res.data.profile;
+        },
+        enabled: !!agentId
+    });
+
+    const { data: learningPath } = useQuery({
+        queryKey: ['learning-path', agentId],
+        queryFn: async () => {
+            const res = await base44.functions.invoke('learning/generateLearningPath', { agent_id: agentId });
+            return res.data.path;
         },
         enabled: !!agentId
     });
@@ -43,8 +53,19 @@ export default function AgentPersonalizationHub() {
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <div className="lg:col-span-2">
+                    <div className="lg:col-span-2 space-y-6">
                         <AgentPersonalizationVisualizer3D profile={profile} />
+                        
+                        <Card className="bg-black/50 border-white/10 backdrop-blur-md overflow-hidden">
+                            <CardHeader>
+                                <CardTitle className="text-white flex items-center gap-2">
+                                    <GraduationCap className="w-5 h-5 text-cyan-400" /> Adaptive Learning Path
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent className="p-0 h-[300px]">
+                                <AdaptiveLearningPath3D path={learningPath} />
+                            </CardContent>
+                        </Card>
                     </div>
                     
                     <div className="space-y-6">

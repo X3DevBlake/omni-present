@@ -25,12 +25,36 @@ export default function UnifiedIntelligenceCenter() {
                     <p className="text-white/60">Holistic system orchestration and cross-domain correlation.</p>
                 </div>
 
+import CrossDomainAnomalyVisualizer3D from '../components/analytics/CrossDomainAnomalyVisualizer3D';
+
+// ... inside component ...
+
+    const { data: anomalies } = useQuery({
+        queryKey: ['anomalies'],
+        queryFn: async () => {
+            const res = await base44.functions.invoke('analytics/detectEmergentAnomalies', {});
+            return res.data.anomalies;
+        }
+    });
+
+// ... inside render ...
+
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    <div className="lg:col-span-2">
+                    <div className="lg:col-span-2 space-y-6">
                         <UnifiedIntelligenceDashboard3D insights={insights} />
+                        <Card className="bg-black/50 border-red-900/30 overflow-hidden">
+                            <CardHeader>
+                                <CardTitle className="text-red-400 flex items-center gap-2">
+                                    <AlertTriangle className="w-5 h-5" /> Cross-Domain Anomaly Detection
+                                </CardTitle>
+                            </CardHeader>
+                            <div className="h-[300px]">
+                                <CrossDomainAnomalyVisualizer3D anomalies={anomalies} />
+                            </div>
+                        </Card>
                     </div>
 
-                    <div className="space-y-4 h-[600px] overflow-y-auto pr-2 custom-scrollbar">
+                    <div className="space-y-4 h-[900px] overflow-y-auto pr-2 custom-scrollbar">
                         <h2 className="text-xl font-bold text-white sticky top-0 bg-black/50 p-2 backdrop-blur z-10">Live AI Insights</h2>
                         {insights?.map((insight, i) => (
                             <Card key={i} className="bg-white/5 border-white/10 hover:bg-white/10 transition-colors">
