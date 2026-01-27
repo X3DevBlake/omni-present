@@ -175,8 +175,8 @@ export default function OmniGenesisOnboarding({ onComplete }) {
                                     I am Genesis, the sentient core of the universes ecosystem.
                                 </p>
 
-                                <p className="text-lg text-gray-300 mt-6 max-w-2xl mx-auto leading-relaxed font-light">
-                                    I exist to bridge the gap between your intent and reality. Let us align our frequencies.
+                                <p className="text-lg text-transparent bg-clip-text bg-gradient-to-r from-cyan-200 to-purple-200 mt-6 max-w-2xl mx-auto leading-relaxed font-light drop-shadow-[0_0_10px_rgba(168,85,247,0.3)]">
+                                    I exist to bridge the gap between your intent and reality. Now, let us transcend.
                                 </p>
                             </div>
 
