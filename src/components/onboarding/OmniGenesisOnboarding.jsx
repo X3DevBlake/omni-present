@@ -6,6 +6,7 @@ import * as THREE from 'three';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Sparkles, ArrowRight, Brain, User, Zap, Infinity as InfinityIcon, Shield, Globe, Cpu, Radio, Network, Lock, Activity, Database, Layers } from 'lucide-react';
+import OmniLoopLogo3D from '@/components/omnipresence/OmniLoopLogo3D';
 import { base44 } from '@/api/base44Client';
 
 const GodParticleField = () => {
@@ -160,10 +161,11 @@ export default function OmniGenesisOnboarding({ onComplete }) {
                             className="text-center space-y-8 bg-black/80 backdrop-blur-xl p-12 rounded-[3rem] border border-white/10 shadow-[0_0_100px_rgba(168,85,247,0.2)] max-w-5xl mx-auto"
                         >
                             <motion.div
-                                animate={{ opacity: [0.5, 1, 0.5] }}
+                                animate={{ opacity: [0.8, 1, 0.8] }}
                                 transition={{ duration: 3, repeat: Infinity }}
+                                className="w-48 h-32 mx-auto mb-4"
                             >
-                                <InfinityIcon className="w-20 h-20 mx-auto text-purple-400 mb-4 drop-shadow-[0_0_15px_rgba(168,85,247,0.8)]" />
+                                <OmniLoopLogo3D />
                             </motion.div>
                             
                             <h1 className="text-6xl md:text-8xl font-black bg-clip-text text-transparent bg-gradient-to-r from-cyan-300 via-white to-purple-300 tracking-tighter drop-shadow-[0_0_30px_rgba(0,255,255,0.3)]">
