@@ -1,14 +1,18 @@
-import React, { useState } from 'react';
+
+import React, { useState, useEffect } from 'react';
+import { createClientFromRequest } from 'npm:@base44/sdk@0.8.3';
 import CollaborationNetwork3D from '../components/collaboration/CollaborationNetwork3D';
 import AdaptiveMissionControl from '../components/mission/AdaptiveMissionControl';
 import AgentTrainingCenter3D from '../components/learning/AgentTrainingCenter3D';
 import TeamChatInterface from '../components/collaboration/TeamChatInterface';
 import MissionDebriefView from '../components/mission/MissionDebriefView';
+import CrossHubVisualizer3D from '../components/orchestration/CrossHubVisualizer3D';
 import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Users, Brain, Target, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { base44 } from '@/api/base44Client';
+import { Badge } from '@/components/ui/badge'; // Assuming Badge is needed for the new mission section
 
 export default function AgentCollaborationHub() {
     const [isSimulating, setIsSimulating] = useState(false);
@@ -60,6 +64,40 @@ export default function AgentCollaborationHub() {
                             <TeamChatInterface teamId="OPS-ALPHA" />
                         </div>
                     </div>
+                </div>
+
+                {/* Cross-Hub Orchestration */}
+                <div className="mb-6">
+                     <Card className="bg-black/50 border-white/10 overflow-hidden">
+                        <div className="p-4 border-b border-white/10 bg-gradient-to-r from-purple-900/20 to-black">
+                            <h2 className="text-lg font-bold flex items-center gap-2 text-purple-300">
+                                <Zap className="w-5 h-5" /> Cross-Hub Orchestration Layer
+                            </h2>
+                        </div>
+                        <div className="p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
+                            <div className="lg:col-span-2">
+                                <CrossHubVisualizer3D />
+                            </div>
+                            <div className="space-y-4">
+                                <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Active Multi-Hub Missions</h3>
+                                <div className="space-y-3">
+                                    {[
+                                        { title: "Operation Golden Shield", hubs: ["Security", "Finance"], status: "Active" },
+                                        { title: "Project Neural Link", hubs: ["Academy", "R&D"], status: "Planning" }
+                                    ].map((m, i) => (
+                                        <div key={i} className="p-3 bg-white/5 rounded border border-white/5">
+                                            <div className="font-bold text-sm text-white">{m.title}</div>
+                                            <div className="flex gap-2 mt-2">
+                                                {m.hubs.map(h => (
+                                                    <Badge key={h} variant="secondary" className="text-[10px] h-5">{h}</Badge>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </Card>
                 </div>
 
                 {/* Lower Section - Learning & Evolution & Debriefs */}
