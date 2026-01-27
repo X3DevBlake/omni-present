@@ -11,12 +11,12 @@ export default function OmniBankingHub() {
             <div className="container mx-auto px-6 space-y-8">
                 <div className="flex justify-between items-center">
                     <div>
-                        <h1 className="text-4xl font-bold text-white mb-2">Omni Banking Core</h1>
-                        <p className="text-blue-200/60">Centralized Financial Command Center</p>
+                        <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400 mb-2">Omni Wallet Hub</h1>
+                        <p className="text-blue-200/60">Decentralized Financial Command Center</p>
                     </div>
                     <div className="flex gap-2">
-                        <Button className="bg-blue-600 hover:bg-blue-500">
-                            <Wallet className="w-4 h-4 mr-2" /> Wallet
+                        <Button className="bg-purple-600 hover:bg-purple-500 shadow-[0_0_20px_rgba(168,85,247,0.4)]">
+                            <Wallet className="w-4 h-4 mr-2" /> Connect External Wallet
                         </Button>
                     </div>
                 </div>

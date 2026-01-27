@@ -116,7 +116,13 @@ import OmniGenesisOnboarding from './components/onboarding/OmniGenesisOnboarding
 import GenesisCopilot from './components/assistant/GenesisCopilot';
 
 export default function Layout({ children, currentPageName }) {
-  const [showOnboarding, setShowOnboarding] = useState(true);
+  const [showOnboarding, setShowOnboarding] = useState(() => {
+    try {
+      return !localStorage.getItem('omni_onboarding_complete');
+    } catch {
+      return true;
+    }
+  });
 
   return (
     <ErrorBoundary>

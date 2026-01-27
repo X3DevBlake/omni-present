@@ -192,6 +192,7 @@ export default function OmniGenesisOnboarding({ onComplete }) {
 
     const handleSubmit = async () => {
         console.log("User Profile Genesis:", answers);
+        localStorage.setItem('omni_onboarding_complete', 'true');
         setStep('complete');
         setTimeout(() => {
             navigate('/');
@@ -362,6 +363,14 @@ export default function OmniGenesisOnboarding({ onComplete }) {
                             <h2 className="text-4xl font-bold text-center mb-8 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
                                 Infinite Capabilities
                             </h2>
+
+                            <div className="w-full h-48 mb-8 rounded-2xl overflow-hidden border border-white/10 relative">
+                                <OmniLoopLogo3D />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent pointer-events-none" />
+                                <div className="absolute bottom-4 left-0 right-0 text-center text-cyan-300 font-mono text-sm tracking-widest uppercase">
+                                    System Visualization Active
+                                </div>
+                            </div>
                             
                             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
                                 {features.map((feature, idx) => (
