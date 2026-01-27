@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import CollaborationNetwork3D from '../components/collaboration/CollaborationNetwork3D';
 import AdaptiveMissionControl from '../components/mission/AdaptiveMissionControl';
 import AgentTrainingCenter3D from '../components/learning/AgentTrainingCenter3D';
+import TeamChatInterface from '../components/collaboration/TeamChatInterface';
+import MissionDebriefView from '../components/mission/MissionDebriefView';
 import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Users, Brain, Target, Zap } from 'lucide-react';
@@ -50,38 +52,59 @@ export default function AgentCollaborationHub() {
                     </Card>
 
                     {/* Mission Control Side Panel */}
-                    <div className="lg:col-span-1 h-[500px]">
-                        <AdaptiveMissionControl />
+                    <div className="lg:col-span-1 flex flex-col gap-6 h-[600px]">
+                        <div className="flex-1">
+                            <AdaptiveMissionControl />
+                        </div>
+                        <div className="flex-1">
+                            <TeamChatInterface teamId="OPS-ALPHA" />
+                        </div>
                     </div>
                 </div>
 
-                {/* Lower Section - Learning & Evolution */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <Card className="bg-black/50 border-white/10 p-6">
+                {/* Lower Section - Learning & Evolution & Debriefs */}
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <Card className="bg-black/50 border-white/10 p-6 lg:col-span-1">
                         <div className="flex items-center gap-3 mb-4">
                             <Brain className="w-6 h-6 text-pink-400" />
-                            <h2 className="text-xl font-bold">Neural Training Center</h2>
+                            <h2 className="text-xl font-bold">Neural Training</h2>
                         </div>
                         <AgentTrainingCenter3D />
                     </Card>
 
-                    <Card className="bg-black/50 border-white/10 p-6">
-                        <div className="flex items-center gap-3 mb-4">
-                            <Target className="w-6 h-6 text-green-400" />
-                            <h2 className="text-xl font-bold">Consensus & Strategy Logs</h2>
-                        </div>
-                        <div className="space-y-3">
-                            {[1,2,3].map(i => (
-                                <div key={i} className="p-3 bg-white/5 rounded border border-white/5 flex items-center justify-between">
-                                    <div>
-                                        <div className="text-sm font-bold text-white">Strategy Consensus Reached: Protocol Delta</div>
-                                        <div className="text-xs text-gray-400">Team Alpha • 98% Agreement</div>
-                                    </div>
-                                    <Badge className="bg-green-500/20 text-green-300">Executed</Badge>
+                    <div className="lg:col-span-2 space-y-6">
+                        <Card className="bg-black/50 border-white/10 p-6">
+                            <div className="flex items-center justify-between mb-4">
+                                <div className="flex items-center gap-3">
+                                    <Target className="w-6 h-6 text-green-400" />
+                                    <h2 className="text-xl font-bold">Recent Mission Debriefs</h2>
                                 </div>
-                            ))}
-                        </div>
-                    </Card>
+                                <Button size="sm" variant="outline" onClick={() => {
+                                    // Trigger a mock debrief for demo
+                                    base44.functions.invoke('missionDebrief', { missionId: 'OPS-ALPHA-' + Date.now() })
+                                        .then(() => alert('Debrief Generated'));
+                                }}>Generate Report</Button>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <MissionDebriefView report={{
+                                    mission_id: "OPS-ALPHA-001",
+                                    outcome: "Success",
+                                    anomalies_detected: 2,
+                                    lessons_learned: "Swarm cohesion dropped during high-latency events.",
+                                    agent_performance: { "Alpha-1": { score: 0.9, status: "Excellent" }, "Beta-2": { score: 0.7, status: "Normal" } },
+                                    strategy_adjustments: ["Enabled local caching for sub-swarms."]
+                                }} />
+                                <MissionDebriefView report={{
+                                    mission_id: "RECON-ZETA-009",
+                                    outcome: "Partial Success",
+                                    anomalies_detected: 5,
+                                    lessons_learned: "Unexpected firewall density encountered.",
+                                    agent_performance: { "Recon-X": { score: 0.85, status: "Promoted" } },
+                                    strategy_adjustments: ["Stealth protocols upgraded to v2.1."]
+                                }} />
+                            </div>
+                        </Card>
+                    </div>
                 </div>
 
             </div>
