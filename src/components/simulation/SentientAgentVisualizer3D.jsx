@@ -1,7 +1,6 @@
 import React, { useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Sphere, MeshDistortMaterial, Text, Float } from '@react-three/drei';
-import { EffectComposer, Bloom } from '@react-three/postprocessing';
 
 const SentientAgent = ({ position, color, name }) => {
   const mesh = useRef();
@@ -56,9 +55,6 @@ export default function SentientAgentVisualizer3D({ agents = [] }) {
         {displayAgents.map((agent, i) => (
           <SentientAgent key={i} {...agent} />
         ))}
-        <EffectComposer>
-          <Bloom luminanceThreshold={0.5} luminanceSmoothing={0.9} height={300} />
-        </EffectComposer>
       </Canvas>
     </div>
   );
