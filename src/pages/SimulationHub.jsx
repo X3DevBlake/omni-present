@@ -5,6 +5,8 @@ import AuroraBackground from '../components/omni/AuroraBackground';
 import SimulationAnalyticsDashboard from '../components/simulation/SimulationAnalyticsDashboard';
 import AdvancedSimulation3D from '../components/simulation/AdvancedSimulation3D';
 import SimulationControlPanel from '../components/simulation/SimulationControlPanel';
+import SentientAgentVisualizer3D from '../components/simulation/SentientAgentVisualizer3D';
+import AgentNegotiationPanel from '../components/simulation/AgentNegotiationPanel';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Rocket } from 'lucide-react';
@@ -32,11 +34,19 @@ export default function SimulationHub() {
                 </div>
 
                 {/* Main 3D View */}
-                <div className="relative">
-                    <Card className="bg-black/60 border-white/10 overflow-hidden h-[500px]">
-                        <AdvancedSimulation3D params={simParams} />
-                    </Card>
-                    <SimulationControlPanel onUpdate={setSimParams} />
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div className="lg:col-span-2 relative">
+                        <Card className="bg-black/60 border-white/10 overflow-hidden h-[500px]">
+                            <AdvancedSimulation3D params={simParams} />
+                        </Card>
+                        <SimulationControlPanel onUpdate={setSimParams} />
+                    </div>
+                    <div className="lg:col-span-1 space-y-6">
+                        <SentientAgentVisualizer3D />
+                        <div className="h-[250px]">
+                            <AgentNegotiationPanel />
+                        </div>
+                    </div>
                 </div>
 
                 {/* Analytics Dashboard */}
