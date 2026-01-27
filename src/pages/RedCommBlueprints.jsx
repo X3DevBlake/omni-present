@@ -1,73 +1,66 @@
-import React from 'react';
+import React, { useState } from 'react';
+import AuroraBackground from '../components/omni/AuroraBackground';
 import EnhancedRedCommBlueprint3D from '../components/redcomm/EnhancedRedCommBlueprint3D';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Download, Share2 } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { createPageUrl } from '@/utils';
+import { RefreshCw, Radio } from 'lucide-react';
+import { base44 } from '@/api/base44Client';
+import { toast } from 'sonner';
 
 export default function RedCommBlueprints() {
+    const [optimizing, setOptimizing] = useState(false);
+
+    const handleOptimize = async () => {
+        setOptimizing(true);
+        try {
+            const res = await base44.functions.invoke('redcomm/adaptiveController', { device_id: 'XG-Omega' });
+            toast.success(`Optimized: ${res.data.optimization.action_taken}`);
+        } catch (e) {
+            console.error(e);
+            toast.error("Optimization failed");
+        } finally {
+            setOptimizing(false);
+        }
+    };
+
     return (
-        <div className="min-h-screen bg-black text-white p-6">
-            <div className="max-w-7xl mx-auto space-y-6">
-                <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                        <Link to={createPageUrl('Home')}>
-                            <Button variant="ghost" size="icon"><ArrowLeft className="w-5 h-5" /></Button>
-                        </Link>
-                        <div>
-                            <h1 className="text-2xl font-bold">RedComm Device Blueprints</h1>
-                            <p className="text-gray-400 text-sm">Technical schematics for XG-series hardware</p>
-                        </div>
+        <AuroraBackground className="min-h-screen pt-24 pb-12">
+            <div className="container mx-auto px-6 h-[calc(100vh-140px)] flex flex-col">
+                <div className="flex justify-between items-center mb-6">
+                    <div>
+                        <h1 className="text-4xl font-bold text-red-500 font-mono tracking-tighter mb-2">RedComm XG Blueprints</h1>
+                        <p className="text-red-200/60 font-mono text-sm">Next-Gen Communication Infrastructure Visualizer</p>
                     </div>
-                    <div className="flex gap-2">
-                        <Button variant="outline"><Share2 className="w-4 h-4 mr-2" /> Share</Button>
-                        <Button><Download className="w-4 h-4 mr-2" /> Export CAD</Button>
-                    </div>
+                    <Button 
+                        onClick={handleOptimize} 
+                        disabled={optimizing}
+                        className="bg-red-900/50 hover:bg-red-800 border border-red-500 text-red-100"
+                    >
+                        {optimizing ? <RefreshCw className="w-4 h-4 animate-spin mr-2" /> : <Radio className="w-4 h-4 mr-2" />}
+                        Run Adaptive Optimization
+                    </Button>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <div className="lg:col-span-2">
-                        <EnhancedRedCommBlueprint3D />
-                    </div>
-                    <div className="space-y-6">
-                        <Card className="bg-white/5 border-white/10">
-                            <CardContent className="p-6 space-y-4">
-                                <h3 className="font-bold text-lg">Component List</h3>
-                                <div className="space-y-2">
-                                    {[
-                                        { name: "THz Antenna Array", id: "ANT-99X", status: "In Stock" },
-                                        { name: "Neural Processing Unit", id: "NPU-V5", status: "Low Stock" },
-                                        { name: "Quantum Battery Cell", id: "QBAT-200", status: "In Stock" },
-                                        { name: "Encryption Module", id: "ENC-Q4", status: "In Stock" },
-                                        { name: "Environmental Sensors", id: "SENS-MULTI", status: "In Stock" },
-                                    ].map((item, i) => (
-                                        <div key={i} className="flex justify-between items-center p-2 bg-black/40 rounded border border-white/5">
-                                            <div>
-                                                <div className="text-sm font-medium">{item.name}</div>
-                                                <div className="text-xs text-gray-500">{item.id}</div>
-                                            </div>
-                                            <div className={`text-xs px-2 py-1 rounded ${item.status === 'In Stock' ? 'bg-green-900/30 text-green-400' : 'bg-amber-900/30 text-amber-400'}`}>
-                                                {item.status}
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </CardContent>
-                        </Card>
-                        
-                        <Card className="bg-white/5 border-white/10">
-                            <CardContent className="p-6">
-                                <h3 className="font-bold text-lg mb-2">Fabrication Notes</h3>
-                                <p className="text-sm text-gray-400 leading-relaxed">
-                                    Requires Class-100 Clean Room for assembly. Neural Processor must be calibrated 
-                                    within 0.001K of absolute zero during initialization.
-                                </p>
-                            </CardContent>
-                        </Card>
+                <div className="flex-1 bg-black/80 rounded-2xl overflow-hidden border border-red-900/30 shadow-2xl shadow-red-900/20 relative">
+                    <EnhancedRedCommBlueprint3D />
+                    
+                    {/* Floating HUD Elements */}
+                    <div className="absolute bottom-6 left-6 w-64 space-y-2">
+                        <div className="bg-black/60 backdrop-blur border border-red-500/20 p-3 rounded">
+                            <div className="text-[10px] text-red-500 font-bold mb-1">MODULE STATUS</div>
+                            <div className="flex justify-between text-xs text-white font-mono">
+                                <span>AI Core</span> <span className="text-green-500">ONLINE</span>
+                            </div>
+                            <div className="flex justify-between text-xs text-white font-mono">
+                                <span>Quantum Link</span> <span className="text-green-500">STABLE</span>
+                            </div>
+                            <div className="flex justify-between text-xs text-white font-mono">
+                                <span>Stealth Mode</span> <span className="text-yellow-500">STANDBY</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </AuroraBackground>
     );
 }
