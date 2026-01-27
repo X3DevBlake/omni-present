@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Sparkles, ArrowRight, Brain, User, Zap, Infinity as InfinityIcon, Shield, Globe, Cpu, Radio, Network, Lock, Activity, Database, Layers, Fingerprint, Wallet, Scan, CheckCircle2 } from 'lucide-react';
 import OmniLoopLogo3D from '@/components/omnipresence/OmniLoopLogo3D';
 import { base44 } from '@/api/base44Client';
+import { useNavigate } from 'react-router-dom';
 
 const GodParticleField = () => {
     const count = 2000;
@@ -96,6 +97,7 @@ export default function OmniGenesisOnboarding({ onComplete }) {
     const [isGeneratingWallet, setIsGeneratingWallet] = useState(false);
     const [generatedDID, setGeneratedDID] = useState(null);
     const [generatedWallet, setGeneratedWallet] = useState(null);
+    const navigate = useNavigate();
 
     const questions = [
         { id: 'intent', text: "What is your primary intent for merging with the Omni-Present ecosystem?", type: "text" },
@@ -191,7 +193,10 @@ export default function OmniGenesisOnboarding({ onComplete }) {
     const handleSubmit = async () => {
         console.log("User Profile Genesis:", answers);
         setStep('complete');
-        setTimeout(onComplete, 4000);
+        setTimeout(() => {
+            navigate('/');
+            onComplete();
+        }, 4000);
     };
 
     const features = [
@@ -320,11 +325,9 @@ export default function OmniGenesisOnboarding({ onComplete }) {
                             className="text-center space-y-12 bg-black/80 backdrop-blur-xl p-16 rounded-[3rem] border border-purple-500/30 max-w-5xl mx-auto"
                         >
                             <motion.div 
-                                animate={{ rotate: 360 }}
-                                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                                className="w-32 h-32 mx-auto border-4 border-purple-500 rounded-full flex items-center justify-center border-t-transparent shadow-[0_0_50px_rgba(168,85,247,0.5)]"
+                                className="w-48 h-48 mx-auto"
                             >
-                                <Sparkles className="w-16 h-16 text-white" />
+                                <OmniLoopLogo3D />
                             </motion.div>
                             
                             <h2 className="text-5xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-white">
