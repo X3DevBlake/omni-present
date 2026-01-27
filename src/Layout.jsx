@@ -25,6 +25,7 @@ class ErrorBoundary extends React.Component {
                        error?.message?.includes('reading');
     if (isDnDError) {
       console.warn('DnD error suppressed:', error.message);
+      // Resetting state immediately to attempt recovery
       this.setState({ hasError: false, error: null });
     }
   }
@@ -51,15 +52,18 @@ function LayoutContent({ children, currentPageName }) {
   useEffect(() => {
     const handleGlobalError = (event) => {
       const msg = event.message || event.reason?.message || '';
+      // Aggressively suppress specific known errors
       if (
         msg.includes('source') || 
         msg.includes('reading') || 
         msg.includes('undefined') ||
-        msg.includes('ResizeObserver')
+        msg.includes('ResizeObserver') ||
+        (msg.includes('Cannot read properties of undefined') && msg.includes('source'))
       ) {
-        event.preventDefault();
-        event.stopPropagation();
+        if (event.preventDefault) event.preventDefault();
+        if (event.stopPropagation) event.stopPropagation();
         console.warn('Suppressed global error:', msg);
+        return true;
       }
     };
 
