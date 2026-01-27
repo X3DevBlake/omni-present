@@ -81,6 +81,7 @@ import AgentModularBuilder from './pages/AgentModularBuilder';
 import AgentMonitoringDashboard from './pages/AgentMonitoringDashboard';
 import AgentOrchestrationHub from './pages/AgentOrchestrationHub';
 import AgentPerformanceDashboard from './pages/AgentPerformanceDashboard';
+import AgentPersonalizationHub from './pages/AgentPersonalizationHub';
 import AgentShoppingLog from './pages/AgentShoppingLog';
 import AgentSimulation3D from './pages/AgentSimulation3D';
 import AgentSkillMarketplace from './pages/AgentSkillMarketplace';
@@ -110,6 +111,7 @@ import AutomationOrchestrationHub from './pages/AutomationOrchestrationHub';
 import AutomationsHub from './pages/AutomationsHub';
 import AutonomousAgentSystem from './pages/AutonomousAgentSystem';
 import AutonomousCollaborationHub from './pages/AutonomousCollaborationHub';
+import AutonomousMissionControl from './pages/AutonomousMissionControl';
 import AutonomousNavigation from './pages/AutonomousNavigation';
 import AutonomousVehicleHub from './pages/AutonomousVehicleHub';
 import AutonomyControlCenter from './pages/AutonomyControlCenter';
@@ -282,6 +284,7 @@ import EscrowServices from './pages/EscrowServices';
 import EthicalAIReview from './pages/EthicalAIReview';
 import EthicalGuidelines from './pages/EthicalGuidelines';
 import EthicsCommittee from './pages/EthicsCommittee';
+import EthicsComplianceHub from './pages/EthicsComplianceHub';
 import EthicsHub from './pages/EthicsHub';
 import EthicsSafetyHub from './pages/EthicsSafetyHub';
 import EventBusLog from './pages/EventBusLog';
@@ -451,6 +454,7 @@ import PortfolioRebalancer from './pages/PortfolioRebalancer';
 import PredictionMarket from './pages/PredictionMarket';
 import PredictiveAnalyticsHub from './pages/PredictiveAnalyticsHub';
 import PredictiveIntelligenceHub from './pages/PredictiveIntelligenceHub';
+import PredictiveMaintenance from './pages/PredictiveMaintenance';
 import PredictiveTrends from './pages/PredictiveTrends';
 import PressReleases from './pages/PressReleases';
 import Privacy from './pages/Privacy';
@@ -512,6 +516,7 @@ import SensorCalibration from './pages/SensorCalibration';
 import SensorDataAnalysis from './pages/SensorDataAnalysis';
 import SensorFusion from './pages/SensorFusion';
 import SensorNetworkMonitor from './pages/SensorNetworkMonitor';
+import SentienceMonitor from './pages/SentienceMonitor';
 import ServerPerformance from './pages/ServerPerformance';
 import ServerlessFunctions from './pages/ServerlessFunctions';
 import ServiceMarketplace from './pages/ServiceMarketplace';
@@ -612,11 +617,6 @@ import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
 import WorldHubEnhanced from './pages/WorldHubEnhanced';
-import SentienceMonitor from './pages/SentienceMonitor';
-import PredictiveMaintenance from './pages/PredictiveMaintenance';
-import EthicsComplianceHub from './pages/EthicsComplianceHub';
-import AutonomousMissionControl from './pages/AutonomousMissionControl';
-import AgentPersonalizationHub from './pages/AgentPersonalizationHub';
 import __Layout from './Layout.jsx';
 
 
@@ -704,6 +704,7 @@ export const PAGES = {
     "AgentMonitoringDashboard": AgentMonitoringDashboard,
     "AgentOrchestrationHub": AgentOrchestrationHub,
     "AgentPerformanceDashboard": AgentPerformanceDashboard,
+    "AgentPersonalizationHub": AgentPersonalizationHub,
     "AgentShoppingLog": AgentShoppingLog,
     "AgentSimulation3D": AgentSimulation3D,
     "AgentSkillMarketplace": AgentSkillMarketplace,
@@ -733,6 +734,7 @@ export const PAGES = {
     "AutomationsHub": AutomationsHub,
     "AutonomousAgentSystem": AutonomousAgentSystem,
     "AutonomousCollaborationHub": AutonomousCollaborationHub,
+    "AutonomousMissionControl": AutonomousMissionControl,
     "AutonomousNavigation": AutonomousNavigation,
     "AutonomousVehicleHub": AutonomousVehicleHub,
     "AutonomyControlCenter": AutonomyControlCenter,
@@ -905,6 +907,7 @@ export const PAGES = {
     "EthicalAIReview": EthicalAIReview,
     "EthicalGuidelines": EthicalGuidelines,
     "EthicsCommittee": EthicsCommittee,
+    "EthicsComplianceHub": EthicsComplianceHub,
     "EthicsHub": EthicsHub,
     "EthicsSafetyHub": EthicsSafetyHub,
     "EventBusLog": EventBusLog,
@@ -1074,6 +1077,7 @@ export const PAGES = {
     "PredictionMarket": PredictionMarket,
     "PredictiveAnalyticsHub": PredictiveAnalyticsHub,
     "PredictiveIntelligenceHub": PredictiveIntelligenceHub,
+    "PredictiveMaintenance": PredictiveMaintenance,
     "PredictiveTrends": PredictiveTrends,
     "PressReleases": PressReleases,
     "Privacy": Privacy,
@@ -1135,6 +1139,7 @@ export const PAGES = {
     "SensorDataAnalysis": SensorDataAnalysis,
     "SensorFusion": SensorFusion,
     "SensorNetworkMonitor": SensorNetworkMonitor,
+    "SentienceMonitor": SentienceMonitor,
     "ServerPerformance": ServerPerformance,
     "ServerlessFunctions": ServerlessFunctions,
     "ServiceMarketplace": ServiceMarketplace,
@@ -1235,11 +1240,6 @@ export const PAGES = {
     "WorkflowOrchestrationHub": WorkflowOrchestrationHub,
     "World": World,
     "WorldHubEnhanced": WorldHubEnhanced,
-    "SentienceMonitor": SentienceMonitor,
-    "PredictiveMaintenance": PredictiveMaintenance,
-    "EthicsComplianceHub": EthicsComplianceHub,
-    "AutonomousMissionControl": AutonomousMissionControl,
-    "AgentPersonalizationHub": AgentPersonalizationHub,
 }
 
 export const pagesConfig = {
