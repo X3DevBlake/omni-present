@@ -9,7 +9,6 @@ import JavaScriptSDKDocs from '../components/developer/JavaScriptSDKDocs';
 import PythonSDKDocs from '../components/developer/PythonSDKDocs';
 import InteractiveSandbox from '../components/developer/InteractiveSandbox';
 import AICodeAssistant from '../components/developer/AICodeAssistant';
-import AICodeAssistant from '../components/developer/AICodeAssistant';
 import { Badge } from '@/components/ui/badge';
 import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
