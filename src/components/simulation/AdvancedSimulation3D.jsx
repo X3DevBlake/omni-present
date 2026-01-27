@@ -46,14 +46,16 @@ const ThreatZone = ({ position }) => {
     );
 };
 
-export default function AdvancedSimulation3D({ scenario }) {
-    // Mock simulation state
-    const agents = useMemo(() => [
-        { id: 1, pos: [-2, 0, 0], type: 'defender' },
-        { id: 2, pos: [2, 0, 0], type: 'defender' },
-        { id: 3, pos: [0, 2, -2], type: 'adversary' },
-        { id: 4, pos: [0, -1, 3], type: 'adversary' },
-    ], []);
+export default function AdvancedSimulation3D({ scenario, params }) {
+    // Dynamic agents based on params if provided
+    const agents = useMemo(() => {
+        const count = params?.resources ? Math.floor(params.resources / 10) + 2 : 4;
+        return Array.from({ length: count }, (_, i) => ({
+            id: i,
+            pos: [(Math.random() - 0.5) * 8, (Math.random() - 0.5) * 4, (Math.random() - 0.5) * 4],
+            type: Math.random() > 0.6 ? 'adversary' : 'defender'
+        }));
+    }, [params?.resources]);
 
     return (
         <div className="w-full h-[500px] bg-black rounded-xl overflow-hidden relative border border-white/10">

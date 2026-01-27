@@ -54,16 +54,17 @@ export default function AgentAnalytics3D({ agentId }) {
   const [selectedMetric, setSelectedMetric] = useState('success_rate');
 
   const { data: performanceHistory } = useQuery({
-    queryKey: ['agent-performance', agentId],
+    queryKey: ['agent-deep-dive', agentId],
     queryFn: async () => {
-      const response = await base44.functions.invoke('getAgentPerformanceHistory', {
-        agent_id: agentId,
-        days: 30
+      // Use the new detailed analytics function
+      const response = await base44.functions.invoke('analytics/agentDeepDive', {
+        agent_id: agentId
       });
+      // Map the new data structure to what the component expects, or enhance component to use new data
       return response.data;
     },
     enabled: !!agentId,
-    initialData: { history: [], predictions: {}, insights: [] }
+    initialData: { history: [], predictions: {}, insights: [], kpis: [], comparative_analysis: {} }
   });
 
   const trendPoints = performanceHistory.history?.slice(0, 10).map((point, i) => [
@@ -158,28 +159,32 @@ export default function AgentAnalytics3D({ agentId }) {
             </div>
           )}
 
-          {/* AI Insights */}
-          {performanceHistory.insights?.length > 0 && (
+          {/* Detailed KPI Cards */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+            {performanceHistory.kpis?.map((kpi, i) => (
+              <div key={i} className="bg-white/5 border border-white/10 rounded-lg p-3 hover:bg-white/10 transition-colors">
+                <div className="text-gray-400 text-xs">{kpi.name}</div>
+                <div className="text-xl font-bold text-white mt-1">{kpi.value}</div>
+                <div className={`text-xs mt-1 ${kpi.trend === 'up' ? 'text-green-400' : kpi.trend === 'down' ? 'text-red-400' : 'text-gray-400'}`}>
+                  {kpi.info}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* AI Insights from Deep Dive */}
+          {performanceHistory.ai_insights?.length > 0 && (
             <div className="space-y-2">
-              <div className="text-white font-bold text-sm mb-3">AI-Driven Insights:</div>
-              {performanceHistory.insights.map((insight, i) => (
-                <div key={i} className="bg-gradient-to-r from-indigo-950/40 to-purple-950/40 border border-indigo-500/30 rounded-lg p-3">
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <Badge className={
-                        insight.type === 'improvement' ? 'bg-green-600' :
-                        insight.type === 'warning' ? 'bg-yellow-600' : 'bg-blue-600'
-                      }>
-                        {insight.type}
-                      </Badge>
-                      <p className="text-white text-sm mt-2">{insight.message}</p>
-                    </div>
-                    {insight.confidence && (
-                      <div className="text-indigo-400 text-xs ml-4">
-                        {(insight.confidence * 100).toFixed(0)}% confidence
-                      </div>
-                    )}
+              <div className="text-white font-bold text-sm mb-3 flex items-center gap-2">
+                <Brain className="w-4 h-4 text-purple-400" /> AI-Driven Optimization Insights
+              </div>
+              {performanceHistory.ai_insights.map((insight, i) => (
+                <div key={i} className="bg-gradient-to-r from-purple-900/20 to-blue-900/20 border border-purple-500/20 rounded-lg p-3">
+                  <div className="flex items-center gap-2 mb-1">
+                    <Badge variant="outline" className="text-xs border-purple-500/50 text-purple-300">{insight.type}</Badge>
+                    <span className="text-xs text-gray-400">Impact: {insight.impact}</span>
                   </div>
+                  <p className="text-white/80 text-sm">{insight.message}</p>
                 </div>
               ))}
             </div>

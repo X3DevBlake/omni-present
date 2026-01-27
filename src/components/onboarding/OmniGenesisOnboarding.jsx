@@ -205,7 +205,7 @@ export default function OmniGenesisOnboarding({ onComplete }) {
                             </motion.div>
                             
                             <h2 className="text-5xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-white">
-                                Transcending Biological Limits
+                                Ascend to Omni-Presence
                             </h2>
                             
                             <div className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto leading-loose font-light">

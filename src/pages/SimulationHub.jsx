@@ -4,15 +4,18 @@ import { base44 } from '@/api/base44Client';
 import AuroraBackground from '../components/omni/AuroraBackground';
 import SimulationAnalyticsDashboard from '../components/simulation/SimulationAnalyticsDashboard';
 import AdvancedSimulation3D from '../components/simulation/AdvancedSimulation3D';
+import SimulationControlPanel from '../components/simulation/SimulationControlPanel';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Rocket } from 'lucide-react';
 
 export default function SimulationHub() {
+    const [simParams, setSimParams] = React.useState({});
+
     const { data: analytics } = useQuery({
-        queryKey: ['sim-analytics'],
+        queryKey: ['sim-analytics', simParams],
         queryFn: async () => {
-            const res = await base44.functions.invoke('analytics/simulationForecastEngine', {});
+            const res = await base44.functions.invoke('analytics/simulationForecastEngine', { params: simParams });
             return res.data;
         },
         refetchInterval: 5000
@@ -29,9 +32,12 @@ export default function SimulationHub() {
                 </div>
 
                 {/* Main 3D View */}
-                <Card className="bg-black/60 border-white/10 overflow-hidden h-[500px]">
-                    <AdvancedSimulation3D />
-                </Card>
+                <div className="relative">
+                    <Card className="bg-black/60 border-white/10 overflow-hidden h-[500px]">
+                        <AdvancedSimulation3D params={simParams} />
+                    </Card>
+                    <SimulationControlPanel onUpdate={setSimParams} />
+                </div>
 
                 {/* Analytics Dashboard */}
                 <div className="relative">

@@ -8,6 +8,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Activity, DollarSign, Layers, Zap, ArrowRightLeft, TrendingUp, Brain, ShieldAlert, Bot } from 'lucide-react';
+import OmniStaking from '../components/defi/OmniStaking';
+import GovernanceVoting from '../components/defi/GovernanceVoting';
+import FlashLoanPanel from '../components/defi/FlashLoanPanel';
 
 export default function AdvancedDeFiHub() {
     const [swapAmount, setSwapAmount] = useState('');
@@ -168,27 +171,9 @@ export default function AdvancedDeFiHub() {
                             </CardContent>
                         </Card>
 
-                        <Card className="bg-gradient-to-br from-purple-900/40 to-blue-900/40 border-purple-500/30">
-                            <CardContent className="p-6">
-                                <h3 className="text-xl font-bold text-white mb-2 flex items-center gap-2">
-                                    <Layers className="w-5 h-5" /> Yield Farming 2.0
-                                </h3>
-                                <p className="text-sm text-white/60 mb-4">AI-optimized liquidity pools providing maximum returns with minimal impermanent loss.</p>
-                                <div className="space-y-3 mb-4">
-                                    <div className="flex justify-between bg-black/30 p-2 rounded">
-                                        <span className="text-purple-300 text-sm">OMNI-ETH LP</span>
-                                        <span className="text-green-400 font-mono text-sm">142% APR</span>
-                                    </div>
-                                    <div className="flex justify-between bg-black/30 p-2 rounded">
-                                        <span className="text-purple-300 text-sm">OMNI-USDT LP</span>
-                                        <span className="text-green-400 font-mono text-sm">98% APR</span>
-                                    </div>
-                                </div>
-                                <Button variant="outline" className="w-full border-purple-500 text-purple-300 hover:bg-purple-900/50">
-                                    Stake & Earn
-                                </Button>
-                            </CardContent>
-                        </Card>
+                        <OmniStaking />
+                        <GovernanceVoting />
+                        <FlashLoanPanel />
                     </div>
                 </div>
             </div>
