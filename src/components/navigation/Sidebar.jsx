@@ -129,7 +129,13 @@ const HARDCODED_HUBS = [
   { id: 'defi', name: 'Advanced DeFi', category: 'Marketplace & Economy', path: 'AdvancedDeFiHub' },
   { id: 'ailab', name: 'AI Laboratory', category: 'Intelligence & AI', path: 'AILab' },
   { id: 'adv_collab', name: 'Advanced Collaboration', category: 'Collaboration & Community', path: 'AdvancedCollaborationHub' },
-  { id: 'redcomm_bp', name: 'RedComm Blueprints', category: 'Network & Communication', path: 'RedCommBlueprints' }
+  { id: 'redcomm_bp', name: 'RedComm Blueprints', category: 'Network & Communication', path: 'RedCommBlueprints' },
+  // Featured Sections
+  { id: 'academy', name: 'Academy Portal', category: 'Academy & Learning', path: 'OmniPresentAcademy' },
+  { id: 'omega_int', name: 'Omega Intelligence', category: 'Intelligence & AI', path: 'OmegaIntelligenceHub' },
+  { id: 'redcomm', name: 'RedComm Network', category: 'Network & Communication', path: 'RedCommHub' },
+  { id: 'marketplace', name: 'AI Agent Marketplace', category: 'Marketplace & Economy', path: 'AIAgentMarketplace' },
+  { id: 'simulation', name: 'Simulation Hub', category: 'Simulation & Modeling', path: 'SimulationHub' },
 ];
 
 export default function Sidebar({ isOpen, hubs = [], isLoading = false }) {

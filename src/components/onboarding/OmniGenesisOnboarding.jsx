@@ -107,7 +107,7 @@ export default function OmniGenesisOnboarding({ onComplete }) {
     const handleNext = () => {
         if (step === 'intro') setStep('evolution');
         else if (step === 'evolution') setStep('demo');
-        else if (step === 'demo') setStep('questions');
+        else if (step === 'demo') setStep('did_creation');
     };
 
     const handleAnswer = (answer) => {
@@ -384,71 +384,7 @@ export default function OmniGenesisOnboarding({ onComplete }) {
                         </motion.div>
                     )}
 
-                    {step === 'questions' && (
-                        <motion.div
-                            key="questions"
-                            initial={{ opacity: 0, scale: 1.1 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, scale: 0.9 }}
-                            className="max-w-2xl mx-auto text-center"
-                        >
-                            <div className="mb-8">
-                                <div className="h-1 w-full bg-white/10 rounded-full overflow-hidden">
-                                    <motion.div 
-                                        className="h-full bg-purple-500"
-                                        initial={{ width: `${(currentQuestionIndex / questions.length) * 100}%` }}
-                                        animate={{ width: `${((currentQuestionIndex + 1) / questions.length) * 100}%` }}
-                                    />
-                                </div>
-                                <div className="mt-2 text-purple-400 text-sm tracking-widest uppercase">
-                                    Alignment Phase {currentQuestionIndex + 1} / {questions.length}
-                                </div>
-                            </div>
-                            
-                            <h2 className="text-4xl md:text-5xl font-light leading-tight mb-12 drop-shadow-lg">
-                                {questions[currentQuestionIndex].text}
-                            </h2>
 
-                            {questions[currentQuestionIndex].type === 'text' ? (
-                                <div className="relative group">
-                                    <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
-                                    <div className="relative">
-                                        <Input
-                                            autoFocus
-                                            value={inputValue}
-                                            onChange={(e) => setInputValue(e.target.value)}
-                                            onKeyDown={(e) => e.key === 'Enter' && handleAnswer(inputValue)}
-                                            className="bg-black border-2 border-white/10 text-3xl py-8 px-6 focus:ring-0 focus:border-purple-500 rounded-xl placeholder:text-gray-700 text-center"
-                                            placeholder="Transmit thought..."
-                                        />
-                                        <Button 
-                                            onClick={() => handleAnswer(inputValue)}
-                                            disabled={!inputValue}
-                                            className="absolute right-2 top-2 bottom-2 bg-white/10 hover:bg-white/20 text-white rounded-lg px-6"
-                                        >
-                                            <ArrowRight />
-                                        </Button>
-                                    </div>
-                                </div>
-                            ) : (
-                                <div className="grid gap-4">
-                                    {questions[currentQuestionIndex].options.map((opt, idx) => (
-                                        <motion.button
-                                            key={opt}
-                                            initial={{ opacity: 0, y: 20 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            transition={{ delay: idx * 0.1 }}
-                                            onClick={() => handleAnswer(opt)}
-                                            className="group relative w-full text-left p-6 rounded-xl border border-white/10 hover:border-purple-500/50 bg-white/5 hover:bg-white/10 transition-all"
-                                        >
-                                            <span className="text-2xl font-light group-hover:text-purple-300 transition-colors">{opt}</span>
-                                            <ArrowRight className="absolute right-6 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transform translate-x-[-10px] group-hover:translate-x-0 transition-all text-purple-400" />
-                                        </motion.button>
-                                    ))}
-                                </div>
-                            )}
-                        </motion.div>
-                    )}
 
                     {step === 'did_creation' && (
                         <motion.div

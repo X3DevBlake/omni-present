@@ -1178,6 +1178,65 @@ export default function Home() {
         </motion.div>
       </section>
 
+      {/* Sentient Evolution Section */}
+      <section className="relative py-24 z-10 bg-black/40">
+        <div className="max-w-7xl mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-16"
+          >
+            <Badge className="mb-6 bg-pink-600/20 text-pink-300 border-pink-500/40">
+              <Activity className="w-4 h-4 mr-2" />
+              Evolutionary Trajectory
+            </Badge>
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+              Autonomous Agent Evolution
+            </h2>
+            <p className="text-gray-300 text-lg max-w-3xl mx-auto">
+              Witness the self-optimizing growth of the swarm intelligence
+            </p>
+          </motion.div>
+
+          <div className="h-[500px] bg-gradient-to-b from-purple-900/20 to-black rounded-3xl border border-white/10 overflow-hidden relative shadow-2xl shadow-purple-900/20">
+             <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?q=80&w=1974')] bg-cover opacity-10 mix-blend-screen" />
+             <div className="relative z-10 h-full flex items-center justify-center">
+                {/* Fallback visualizer if specific component not available in scope */}
+                <Canvas camera={{ position: [0, 0, 8] }}>
+                    <ambientLight intensity={0.5} />
+                    <pointLight position={[10, 10, 10]} />
+                    <OrbitControls autoRotate autoRotateSpeed={1} />
+                    <Stars radius={50} depth={50} count={2000} factor={4} />
+                    <Float speed={2} rotationIntensity={0.5} floatIntensity={1}>
+                        <Sphere args={[1.5, 32, 32]}>
+                            <MeshDistortMaterial color="#ec4899" distort={0.6} speed={2} roughness={0.2} />
+                        </Sphere>
+                    </Float>
+                    <Float speed={3} rotationIntensity={1} floatIntensity={2} position={[3, 1, 0]}>
+                        <Sphere args={[0.5, 16, 16]}>
+                            <MeshDistortMaterial color="#8b5cf6" distort={0.4} speed={3} />
+                        </Sphere>
+                    </Float>
+                    <Float speed={2.5} rotationIntensity={0.8} floatIntensity={1.5} position={[-3, -1, 1]}>
+                        <Sphere args={[0.8, 32, 32]}>
+                            <MeshDistortMaterial color="#22d3ee" distort={0.5} speed={2.5} />
+                        </Sphere>
+                    </Float>
+                </Canvas>
+                <div className="absolute bottom-8 left-8 bg-black/60 backdrop-blur-md p-6 rounded-2xl border border-white/10">
+                    <h3 className="text-2xl font-bold text-white mb-2">Swarm Consciousness Level: 87%</h3>
+                    <div className="w-64 h-2 bg-gray-800 rounded-full overflow-hidden">
+                        <div className="h-full bg-gradient-to-r from-pink-500 to-purple-500 w-[87%] animate-pulse" />
+                    </div>
+                    <p className="text-gray-400 text-sm mt-2">Self-optimizing across 14,000+ nodes</p>
+                </div>
+             </div>
+          </div>
+        </div>
+      </section>
+
       {/* Financial Infrastructure */}
       <section className="relative py-20 z-10">
         <div className="absolute inset-0 bg-gradient-to-r from-emerald-950/40 via-green-950/40 to-teal-950/40 backdrop-blur-sm" />

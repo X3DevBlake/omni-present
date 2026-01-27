@@ -79,13 +79,19 @@ export default function GenericHub({ forcedName, forcedCategory, visualizerOverr
 
   if (!hub) {
     return (
-      <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center p-4">
-        <AlertCircle className="w-16 h-16 text-red-500 mb-4" />
-        <h1 className="text-4xl font-bold mb-2">Hub Not Found</h1>
-        <p className="text-gray-400">The requested hub node could not be located in the network.</p>
-        <div className="flex gap-4 mt-6">
-          <Button onClick={() => window.history.back()}>Return</Button>
-          <Button variant="outline" onClick={() => window.location.reload()}>Retry</Button>
+      <div className="min-h-screen bg-black text-white p-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center gap-4 mb-8">
+            <Globe className="w-10 h-10 text-cyan-400" />
+            <h1 className="text-4xl font-bold">System Navigation</h1>
+          </div>
+          <p className="text-gray-400 mb-12">Exploring the Omni-Present Network Lattice...</p>
+          <InteractiveHubNetwork3D />
+          <div className="mt-8 text-center">
+             <Button onClick={() => window.location.href = '/OmniHub'} className="bg-cyan-600 hover:bg-cyan-500">
+                Return to Omni Hub Core
+             </Button>
+          </div>
         </div>
       </div>
     );

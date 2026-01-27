@@ -208,6 +208,7 @@ import DeFiHub from './pages/DeFiHub';
 import DeFiRiskManagementHub from './pages/DeFiRiskManagementHub';
 import DeFiRiskManagementSuite from './pages/DeFiRiskManagementSuite';
 import DecentralizedCourt from './pages/DecentralizedCourt';
+import DecentralizedIdentityHub from './pages/DecentralizedIdentityHub';
 import DecentralizedNetwork from './pages/DecentralizedNetwork';
 import DecisionMakingTools from './pages/DecisionMakingTools';
 import DeepLearningPlatform from './pages/DeepLearningPlatform';
@@ -216,6 +217,7 @@ import DeploymentReadiness from './pages/DeploymentReadiness';
 import DepositETH from './pages/DepositETH';
 import DepositOmni from './pages/DepositOmni';
 import DepositUSDT from './pages/DepositUSDT';
+import Evolve from './pages/Evolve';
 import DeveloperBlog from './pages/DeveloperBlog';
 import DeveloperConsole from './pages/DeveloperConsole';
 import DeveloperEcosystemHub from './pages/DeveloperEcosystemHub';
@@ -290,7 +292,6 @@ import EthicsSafetyHub from './pages/EthicsSafetyHub';
 import EventBusLog from './pages/EventBusLog';
 import EventsCalendar from './pages/EventsCalendar';
 import EvolutionDashboardPage from './pages/EvolutionDashboardPage';
-import Evolve from './pages/Evolve';
 import ExchangeListings from './pages/ExchangeListings';
 import ExoskeletonInterface from './pages/ExoskeletonInterface';
 import ExperimentTracking from './pages/ExperimentTracking';
@@ -442,12 +443,12 @@ import Phase4ImmersiveUI from './pages/Phase4ImmersiveUI';
 import Phase6AgentCognition from './pages/Phase6AgentCognition';
 import Phase7IntegrationHub from './pages/Phase7IntegrationHub';
 import Phase8PredictiveIntelligence from './pages/Phase8PredictiveIntelligence';
+import PhysicsEngine from './pages/PhysicsEngine';
 import Phase9ImmersiveUX from './pages/Phase9ImmersiveUX';
 import PhysicalAugmentationHub from './pages/PhysicalAugmentationHub';
 import PhysicalEmbodimentHub from './pages/PhysicalEmbodimentHub';
 import PhysicalSecurityHub from './pages/PhysicalSecurityHub';
 import PhysicalWorldIntegration from './pages/PhysicalWorldIntegration';
-import PhysicsEngine from './pages/PhysicsEngine';
 import PluginMarketplace from './pages/PluginMarketplace';
 import PolicyManagement from './pages/PolicyManagement';
 import PollsAndSurveys from './pages/PollsAndSurveys';
@@ -618,7 +619,6 @@ import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
 import WorldHubEnhanced from './pages/WorldHubEnhanced';
-import DecentralizedIdentityHub from './pages/DecentralizedIdentityHub';
 import __Layout from './Layout.jsx';
 
 
@@ -833,6 +833,7 @@ export const PAGES = {
     "DeFiRiskManagementHub": DeFiRiskManagementHub,
     "DeFiRiskManagementSuite": DeFiRiskManagementSuite,
     "DecentralizedCourt": DecentralizedCourt,
+    "DecentralizedIdentityHub": DecentralizedIdentityHub,
     "DecentralizedNetwork": DecentralizedNetwork,
     "DecisionMakingTools": DecisionMakingTools,
     "DeepLearningPlatform": DeepLearningPlatform,
@@ -841,6 +842,7 @@ export const PAGES = {
     "DepositETH": DepositETH,
     "DepositOmni": DepositOmni,
     "DepositUSDT": DepositUSDT,
+    "Evolve": Evolve,
     "DeveloperBlog": DeveloperBlog,
     "DeveloperConsole": DeveloperConsole,
     "DeveloperEcosystemHub": DeveloperEcosystemHub,
@@ -915,7 +917,6 @@ export const PAGES = {
     "EventBusLog": EventBusLog,
     "EventsCalendar": EventsCalendar,
     "EvolutionDashboardPage": EvolutionDashboardPage,
-    "Evolve": Evolve,
     "ExchangeListings": ExchangeListings,
     "ExoskeletonInterface": ExoskeletonInterface,
     "ExperimentTracking": ExperimentTracking,
@@ -1067,12 +1068,12 @@ export const PAGES = {
     "Phase6AgentCognition": Phase6AgentCognition,
     "Phase7IntegrationHub": Phase7IntegrationHub,
     "Phase8PredictiveIntelligence": Phase8PredictiveIntelligence,
+    "PhysicsEngine": PhysicsEngine,
     "Phase9ImmersiveUX": Phase9ImmersiveUX,
     "PhysicalAugmentationHub": PhysicalAugmentationHub,
     "PhysicalEmbodimentHub": PhysicalEmbodimentHub,
     "PhysicalSecurityHub": PhysicalSecurityHub,
     "PhysicalWorldIntegration": PhysicalWorldIntegration,
-    "PhysicsEngine": PhysicsEngine,
     "PluginMarketplace": PluginMarketplace,
     "PolicyManagement": PolicyManagement,
     "PollsAndSurveys": PollsAndSurveys,
@@ -1243,7 +1244,6 @@ export const PAGES = {
     "WorkflowOrchestrationHub": WorkflowOrchestrationHub,
     "World": World,
     "WorldHubEnhanced": WorldHubEnhanced,
-    "DecentralizedIdentityHub": DecentralizedIdentityHub,
 }
 
 export const pagesConfig = {

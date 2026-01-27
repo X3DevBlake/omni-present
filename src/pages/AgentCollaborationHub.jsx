@@ -27,8 +27,8 @@ export default function AgentCollaborationHub() {
     };
 
     return (
-        <AuroraBackground className="min-h-screen pt-20 pb-12">
-            <div className="container mx-auto px-6 space-y-8">
+        <AuroraBackground className="min-h-screen pt-20 pb-12 overflow-y-auto">
+            <div className="container mx-auto px-6 space-y-8 pb-24">
                 
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                     <div>

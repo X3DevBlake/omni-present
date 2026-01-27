@@ -1,6 +1,6 @@
 import React from 'react';
-import HubWrapper from '@/components/hubs/HubWrapper';
+import Unified3DNavigationHub from '../components/platform/Unified3DNavigationHub';
 
 export default function OmniHub() {
-  return <HubWrapper name="Omni Hub" category="Core Systems" />;
+  return <Unified3DNavigationHub />;
 }
