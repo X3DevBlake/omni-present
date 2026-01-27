@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
-import { Menu, X, GraduationCap, Sparkles, Globe } from 'lucide-react';
+import { Menu, X, GraduationCap, Sparkles, Globe, Users } from 'lucide-react';
 import ProfileIcon from './ProfileIcon';
 import { Button } from '@/components/ui/button';
 import GlobalSearch from './GlobalSearch';
@@ -61,6 +61,19 @@ export default function ConsolidatedNav({ onSidebarToggle, isSidebarOpen }) {
           </div>
 
           <div className="flex items-center gap-4">
+            <Link to={createPageUrl('AgentCollaborationHub')}>
+              <motion.div
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                className="hidden md:block"
+              >
+                <Button size="sm" className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 border border-purple-400/30 shadow-[0_0_15px_rgba(168,85,247,0.4)]">
+                  <Users className="w-4 h-4 mr-2" />
+                  Agent Swarm Hub
+                </Button>
+              </motion.div>
+            </Link>
+
             <Link to={createPageUrl('OmniNavigationHub')}>
               <motion.div
                 whileHover={{ scale: 1.1 }}
