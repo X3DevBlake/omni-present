@@ -107,6 +107,8 @@ function LayoutContent({ children, currentPageName }) {
   );
 }
 
+import ContextualAssistantOverlay from './components/assistant/ContextualAssistantOverlay';
+
 export default function Layout({ children, currentPageName }) {
   return (
     <ErrorBoundary>
@@ -114,7 +116,10 @@ export default function Layout({ children, currentPageName }) {
         <AnimationProvider>
           <PersonalizationProvider>
             <GamificationProvider>
-              <LayoutContent currentPageName={currentPageName}>{children}</LayoutContent>
+              <LayoutContent currentPageName={currentPageName}>
+                {children}
+                <ContextualAssistantOverlay />
+              </LayoutContent>
             </GamificationProvider>
           </PersonalizationProvider>
         </AnimationProvider>
