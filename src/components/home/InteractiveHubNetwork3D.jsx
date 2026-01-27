@@ -32,24 +32,25 @@ const CATEGORY_CONFIG = {
 // ... duplicates removed ...
 
 
-// --- ENHANCED AGENT SYSTEM ---
-const Agent = ({ id, startPos, endPos, color, speed = 1, type = 'data', mission, onPositionUpdate, nearbyAgents }) => {
+// --- ADVANCED AGENT SYSTEM ---
+const Agent = ({ id, startPos, endPos, color, speed = 1, type = 'data', mission, onPositionUpdate, nearbyAgents, congestionLevel = 0 }) => {
   const agentRef = useRef();
   const [progress, setProgress] = useState(0);
   const [active, setActive] = useState(true);
   const [anomalyDetected, setAnomalyDetected] = useState(false);
+  const [taskDelegated, setTaskDelegated] = useState(false);
 
   useFrame((state, delta) => {
     if (!active || !agentRef.current) return;
     
-    // --- Learning & Optimization ---
-    // Simulating "learning" by slightly increasing speed over time on repetitive paths
-    const optimizedSpeed = speed * (1 + Math.min(0.5, progress)); 
+    // --- Predictive Pathfinding & Congestion Awareness ---
+    // Agents slow down if congestion is high, or "reroute" (simulated by color shift)
+    const congestionFactor = Math.max(0.2, 1 - congestionLevel);
+    const optimizedSpeed = speed * (1 + Math.min(0.5, progress)) * congestionFactor; 
 
     const newProgress = progress + (delta * optimizedSpeed * 0.2);
     if (newProgress >= 1) {
       setProgress(0);
-      // Simulate route optimization decision at end of path
     } else {
       setProgress(newProgress);
     }
@@ -60,25 +61,28 @@ const Agent = ({ id, startPos, endPos, color, speed = 1, type = 'data', mission,
       progress
     );
     
-    // --- Complex Autonomous Behaviors ---
+    // --- Advanced Autonomous Behaviors ---
     if (type === 'security') {
-        // Patrol pattern
         pos.y += Math.sin(state.clock.elapsedTime * 8 + id) * 0.2;
         pos.x += Math.cos(state.clock.elapsedTime * 4 + id) * 0.1;
     } else if (type === 'ai') {
-        // "Learning" jitter
         pos.x += Math.cos(state.clock.elapsedTime * 5 + id) * 0.15;
         pos.z += Math.sin(state.clock.elapsedTime * 3 + id) * 0.15;
     } else if (type === 'mission_agent') {
-        // Focused, fast movement
         pos.y += Math.sin(state.clock.elapsedTime * 15) * 0.05;
     }
 
-    // --- Proactive Anomaly Detection ---
-    // Randomly detect "anomalies" based on position
-    if (Math.random() < 0.001 && !anomalyDetected) {
-        setAnomalyDetected(true);
-        setTimeout(() => setAnomalyDetected(false), 2000);
+    // --- Threat Learning & Sharing ---
+    if (type === 'security' && Math.random() < 0.005) {
+        // Security agent "shares" threat intel (visualized as a pulse)
+        setAnomalyDetected(true); // Reusing this visual for threat sharing pulse
+        setTimeout(() => setAnomalyDetected(false), 500);
+    }
+
+    // --- Dynamic Task Delegation ---
+    if (!taskDelegated && nearbyAgents && nearbyAgents.length > 0 && Math.random() < 0.002) {
+        setTaskDelegated(true);
+        setTimeout(() => setTaskDelegated(false), 1000);
     }
 
     agentRef.current.position.copy(pos);
@@ -91,7 +95,14 @@ const Agent = ({ id, startPos, endPos, color, speed = 1, type = 'data', mission,
     <group ref={agentRef}>
       <mesh>
         <sphereGeometry args={[type === 'mission_agent' ? 0.15 : 0.08, 16, 16]} />
-        <meshBasicMaterial color={anomalyDetected ? '#ff0000' : (type === 'security' ? '#ef4444' : type === 'ai' ? '#ec4899' : type === 'mission_agent' ? '#fbbf24' : '#ffffff')} />
+        <meshBasicMaterial 
+            color={
+                anomalyDetected ? '#ff0000' : 
+                taskDelegated ? '#00ff00' :
+                congestionLevel > 0.7 ? '#fb923c' : // Orange if high congestion
+                (type === 'security' ? '#ef4444' : type === 'ai' ? '#ec4899' : type === 'mission_agent' ? '#fbbf24' : '#ffffff')
+            } 
+        />
       </mesh>
       {/* Aura */}
       <mesh scale={type === 'mission_agent' ? [2, 2, 2] : [1.5, 1.5, 1.5]}>
@@ -99,32 +110,42 @@ const Agent = ({ id, startPos, endPos, color, speed = 1, type = 'data', mission,
         <meshBasicMaterial color={anomalyDetected ? '#ff0000' : color} transparent opacity={0.4} />
       </mesh>
       
-      {/* Dynamic Collaboration Lines */}
+      {/* Visual Communication Channels (Task Delegation) */}
       {nearbyAgents && nearbyAgents.map((otherPos, i) => (
           <Line
             key={i}
             points={[[0,0,0], [otherPos.x - agentRef.current.position.x, otherPos.y - agentRef.current.position.y, otherPos.z - agentRef.current.position.z]]}
-            color="#00ff00"
-            lineWidth={1}
+            color={taskDelegated ? "#00ff00" : (anomalyDetected ? "#ff0000" : "#3b82f6")}
+            lineWidth={taskDelegated ? 2 : 1}
             transparent
-            opacity={0.3}
+            opacity={taskDelegated ? 0.8 : 0.2}
+            dashed={!taskDelegated}
           />
       ))}
 
       {/* Mission Badge */}
       {type === 'mission_agent' && (
           <Html distanceFactor={15}>
-              <div className="bg-amber-500/80 text-black text-[8px] px-1 rounded font-bold">
-                  {mission || "OPS"}
+              <div className="bg-amber-500/80 text-black text-[8px] px-1 rounded font-bold border border-amber-300">
+                  {mission || "OPS"} {Math.floor(progress * 100)}%
               </div>
           </Html>
       )}
       
-      {/* Anomaly Alert */}
+      {/* Threat Intel / Anomaly Alert */}
       {anomalyDetected && (
           <Html distanceFactor={10}>
-              <div className="bg-red-600 text-white text-[8px] px-1 rounded animate-pulse">
-                  ANOMALY DETECTED
+              <div className="bg-red-600 text-white text-[8px] px-1 rounded animate-pulse font-bold">
+                  {type === 'security' ? "SHARING INTEL" : "THREAT DETECTED"}
+              </div>
+          </Html>
+      )}
+      
+      {/* Task Delegation Alert */}
+      {taskDelegated && (
+          <Html distanceFactor={10}>
+              <div className="bg-green-600 text-white text-[8px] px-1 rounded animate-bounce font-bold">
+                  DELEGATING
               </div>
           </Html>
       )}
@@ -135,11 +156,15 @@ const Agent = ({ id, startPos, endPos, color, speed = 1, type = 'data', mission,
 const AgentSystem = ({ connections, activeSimulation }) => {
   const [agents, setAgents] = useState([]);
   const agentPositions = useRef({});
+  const [congestionMap, setCongestionMap] = useState({});
 
   useFrame((state) => {
     let spawnRate = 0.02; 
     if (activeSimulation === 'traffic_spike') spawnRate = 0.2;
     if (activeSimulation === 'agent_swarm') spawnRate = 0.3;
+
+    // Update congestion (simulated based on agent count)
+    const currentCongestion = agents.length / 100; // Normalized 0-1
 
     if (Math.random() < spawnRate && connections.length > 0) {
       const conn = connections[Math.floor(Math.random() * connections.length)];
@@ -176,21 +201,25 @@ const AgentSystem = ({ connections, activeSimulation }) => {
 
   return (
     <group>
-      {agents.map(agent => {
+      {agents.map((agent, index) => {
           // Find nearby agents for ad-hoc collaboration
           const nearby = [];
           Object.entries(agentPositions.current).forEach(([otherId, otherPos]) => {
-              if (otherId !== String(agent.id) && otherPos.distanceTo(new THREE.Vector3().lerpVectors(new THREE.Vector3(...agent.startPos), new THREE.Vector3(...agent.endPos), 0.5)) < 2) {
+              if (otherId !== String(agent.id) && otherPos.distanceTo(new THREE.Vector3().lerpVectors(new THREE.Vector3(...agent.startPos), new THREE.Vector3(...agent.endPos), 0.5)) < 2.5) {
                   nearby.push(otherPos);
               }
           });
+
+          // Calculate local congestion
+          const localCongestion = nearby.length / 5;
 
           return (
             <Agent 
                 key={agent.id} 
                 {...agent} 
                 onPositionUpdate={handlePositionUpdate}
-                nearbyAgents={nearby.slice(0, 2)} // Limit connections
+                nearbyAgents={nearby.slice(0, 3)} 
+                congestionLevel={localCongestion}
             />
           );
       })}

@@ -44,30 +44,61 @@ export default function DataAnalysis() {
                 <Card className="bg-white/5 border-white/10">
                     <CardHeader className="flex flex-row items-center justify-between">
                         <CardTitle className="text-lg flex items-center gap-2"><Filter className="w-4 h-4" /> Visual Query Builder</CardTitle>
-                        <Button variant="ghost" size="sm" className="text-xs text-gray-400">
-                            <Save className="w-3 h-3 mr-1" /> Save Query
-                        </Button>
+                        <div className="flex gap-2">
+                            <Button variant="ghost" size="sm" className="text-xs text-gray-400">
+                                <Share2 className="w-3 h-3 mr-1" /> Share
+                            </Button>
+                            <Button variant="ghost" size="sm" className="text-xs text-gray-400">
+                                <Save className="w-3 h-3 mr-1" /> Save Query
+                            </Button>
+                        </div>
                     </CardHeader>
                     <CardContent className="space-y-4">
-                        {/* Visual Blocks */}
-                        <div className="flex flex-wrap gap-2 items-center p-4 bg-black/30 rounded-lg border border-white/5 min-h-[80px]">
-                            <div className="bg-purple-900/40 border border-purple-500/30 px-3 py-1.5 rounded-md flex items-center gap-2">
-                                <span className="text-xs font-bold text-purple-300">SOURCE:</span>
-                                <span className="text-sm">System Logs</span>
+                        {/* Advanced Visual Query Builder */}
+                        <div className="flex flex-col gap-4 p-4 bg-black/30 rounded-lg border border-white/5 min-h-[120px]">
+                            <div className="flex items-center gap-2 border-b border-white/5 pb-2">
+                                <span className="text-xs font-bold text-gray-500">QUERY LOGIC TREE</span>
                             </div>
-                            <div className="h-px w-4 bg-gray-600"></div>
-                            <div className="bg-blue-900/40 border border-blue-500/30 px-3 py-1.5 rounded-md flex items-center gap-2">
-                                <span className="text-xs font-bold text-blue-300">WHERE:</span>
-                                <span className="text-sm">Severity == High</span>
+                            <div className="flex flex-wrap gap-4 items-start">
+                                {/* Group 1 */}
+                                <div className="border border-white/10 rounded p-2 bg-black/20 flex flex-col gap-2 relative group">
+                                    <div className="absolute -top-3 left-2 bg-purple-700 text-[10px] px-1 rounded">GROUP: AND</div>
+                                    <div className="bg-purple-900/40 border border-purple-500/30 px-3 py-1.5 rounded-md flex items-center gap-2 cursor-pointer hover:bg-purple-900/60">
+                                        <span className="text-xs font-bold text-purple-300">SOURCE:</span>
+                                        <span className="text-sm">System Logs</span>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <div className="w-0.5 h-4 bg-gray-700"></div>
+                                        <div className="bg-blue-900/40 border border-blue-500/30 px-3 py-1.5 rounded-md flex items-center gap-2 cursor-pointer hover:bg-blue-900/60">
+                                            <span className="text-xs font-bold text-blue-300">WHERE:</span>
+                                            <span className="text-sm">Severity == High</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Operator */}
+                                <div className="self-center bg-gray-800 px-2 py-1 rounded text-xs text-gray-400 font-mono">OR</div>
+
+                                {/* Group 2 */}
+                                <div className="border border-white/10 rounded p-2 bg-black/20 flex flex-col gap-2 relative">
+                                    <div className="absolute -top-3 left-2 bg-indigo-700 text-[10px] px-1 rounded">GROUP: JOIN</div>
+                                    <div className="bg-indigo-900/40 border border-indigo-500/30 px-3 py-1.5 rounded-md flex items-center gap-2">
+                                        <span className="text-xs font-bold text-indigo-300">SOURCE:</span>
+                                        <span className="text-sm">Agent Activity</span>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <div className="w-0.5 h-4 bg-gray-700"></div>
+                                        <div className="bg-orange-900/40 border border-orange-500/30 px-3 py-1.5 rounded-md flex items-center gap-2">
+                                            <span className="text-xs font-bold text-orange-300">JOIN ON:</span>
+                                            <span className="text-sm">Agent_ID</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <Button variant="ghost" size="sm" className="h-8 w-8 rounded-full border border-dashed border-gray-600 self-center">
+                                    <Plus className="w-4 h-4 text-gray-400" />
+                                </Button>
                             </div>
-                            <div className="bg-gray-800 px-2 py-1 rounded text-xs text-gray-400">AND</div>
-                            <div className="bg-blue-900/40 border border-blue-500/30 px-3 py-1.5 rounded-md flex items-center gap-2">
-                                <span className="text-xs font-bold text-blue-300">WHERE:</span>
-                                <span className="text-sm">Event contains "Unauthorized"</span>
-                            </div>
-                            <Button variant="ghost" size="sm" className="h-6 w-6 rounded-full border border-dashed border-gray-600 ml-2">
-                                <Plus className="w-3 h-3 text-gray-400" />
-                            </Button>
                         </div>
 
                         <div className="flex justify-between items-end">
@@ -183,6 +214,43 @@ export default function DataAnalysis() {
                                         <Tooltip contentStyle={{ backgroundColor: '#000', border: '1px solid #333' }} />
                                     </RePieChart>
                                 </ResponsiveContainer>
+                            </div>
+                        )}
+
+                        {viewMode === 'network' && (
+                            <div className="h-[400px] w-full bg-black/20 rounded-lg flex items-center justify-center relative overflow-hidden border border-white/5">
+                                {/* Simulated Network Diagram */}
+                                <svg width="100%" height="100%" viewBox="0 0 800 400" className="absolute inset-0">
+                                    <defs>
+                                        <marker id="arrow" markerWidth="10" markerHeight="10" refX="20" refY="3" orient="auto" markerUnits="strokeWidth">
+                                            <path d="M0,0 L0,6 L9,3 z" fill="#666" />
+                                        </marker>
+                                    </defs>
+                                    {/* Edges */}
+                                    <line x1="400" y1="200" x2="300" y2="100" stroke="#444" strokeWidth="1" />
+                                    <line x1="400" y1="200" x2="500" y2="100" stroke="#444" strokeWidth="1" />
+                                    <line x1="400" y1="200" x2="400" y2="300" stroke="#444" strokeWidth="1" />
+                                    <line x1="300" y1="100" x2="200" y2="150" stroke="#444" strokeWidth="1" strokeDasharray="5,5" />
+                                    
+                                    {/* Nodes */}
+                                    <circle cx="400" cy="200" r="20" fill="#8b5cf6" opacity="0.8" />
+                                    <text x="400" y="235" textAnchor="middle" fill="#fff" fontSize="10">Hub Alpha</text>
+                                    
+                                    <circle cx="300" cy="100" r="15" fill="#ec4899" opacity="0.8" />
+                                    <text x="300" y="80" textAnchor="middle" fill="#fff" fontSize="10">Agent X</text>
+                                    
+                                    <circle cx="500" cy="100" r="15" fill="#10b981" opacity="0.8" />
+                                    <text x="500" y="80" textAnchor="middle" fill="#fff" fontSize="10">Data Node</text>
+                                    
+                                    <circle cx="400" cy="300" r="15" fill="#f59e0b" opacity="0.8" />
+                                    <text x="400" y="330" textAnchor="middle" fill="#fff" fontSize="10">User B</text>
+
+                                    <circle cx="200" cy="150" r="10" fill="#3b82f6" opacity="0.8" />
+                                    <text x="200" y="175" textAnchor="middle" fill="#fff" fontSize="10">Ext. API</text>
+                                </svg>
+                                <div className="absolute top-4 right-4 bg-black/80 p-2 rounded text-xs text-gray-400 border border-white/10">
+                                    Relationship Graph
+                                </div>
                             </div>
                         )}
                     </CardContent>

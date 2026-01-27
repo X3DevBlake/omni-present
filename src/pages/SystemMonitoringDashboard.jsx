@@ -2,10 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import { base44 } from '@/api/base44Client';
 import InteractiveHubNetwork3D from '../components/home/InteractiveHubNetwork3D';
-import { Activity, Server, AlertTriangle, Shield, Cpu, Database, RefreshCw, Plus, Layout } from 'lucide-react';
-import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, BarChart, Bar } from 'recharts';
+import { Activity, Server, AlertTriangle, Shield, Cpu, Database, RefreshCw, Plus, Layout, Save, Palette, GripVertical, Trash2 } from 'lucide-react';
+import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, BarChart, Bar, HeatMap } from 'recharts'; // Assuming HeatMap or similar exists or we simulate
 import { motion } from 'framer-motion';
 
 // Mock Data Generators
@@ -18,8 +21,14 @@ const generateHistoryData = (points = 20) => {
     }));
 };
 
-const MonitoringWidget = ({ title, value, subtext, icon: Icon, color }) => (
-    <Card className="bg-black/40 border-white/10 backdrop-blur-md">
+const MonitoringWidget = ({ id, title, value, subtext, icon: Icon, color, onDelete, isEditMode }) => (
+    <Card className="bg-black/40 border-white/10 backdrop-blur-md h-full relative group">
+        {isEditMode && (
+            <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                <div className="cursor-grab p-1 hover:bg-white/10 rounded"><GripVertical className="w-4 h-4 text-gray-400" /></div>
+                <button onClick={() => onDelete(id)} className="p-1 hover:bg-red-500/20 rounded"><Trash2 className="w-4 h-4 text-red-400" /></button>
+            </div>
+        )}
         <CardContent className="p-6">
             <div className="flex items-center justify-between mb-4">
                 <div className={`p-2 rounded-lg bg-${color}-500/20`}>
@@ -54,6 +63,14 @@ const AlertItem = ({ type, message, time }) => {
 
 export default function SystemMonitoringDashboard() {
     const [data, setData] = useState(generateHistoryData());
+    const [isEditMode, setIsEditMode] = useState(false);
+    const [theme, setTheme] = useState('cyan'); // 'cyan', 'purple', 'green'
+    const [widgets, setWidgets] = useState([
+        { id: 'w1', type: 'agent_count', title: "Active Agents", value: "1,248", subtext: "+12% from last hour", icon: 'Users', color: "green" },
+        { id: 'w2', type: 'load', title: "Network Load", value: "84 TB/s", subtext: "Peak capacity at 65%", icon: 'Activity', color: "purple" },
+        { id: 'w3', type: 'threat', title: "Threat Level", value: "LOW", subtext: "0 Critical Incidents", icon: 'Shield', color: "blue" },
+        { id: 'w4', type: 'cpu', title: "CPU Usage", value: "42%", subtext: "15,000 Cores Active", icon: 'Cpu', color: "amber" }
+    ]);
     const [alerts, setAlerts] = useState([
         { id: 1, type: 'critical', message: 'Unauthorized access attempt detected in Sector 7', time: '2 mins ago' },
         { id: 2, type: 'warning', message: 'Hub latency spike in "Quantum Consciousness"', time: '15 mins ago' },
@@ -76,20 +93,94 @@ export default function SystemMonitoringDashboard() {
         return () => clearInterval(interval);
     }, []);
 
+    const onDragEnd = (result) => {
+        if (!result.destination) return;
+        const items = Array.from(widgets);
+        const [reorderedItem] = items.splice(result.source.index, 1);
+        items.splice(result.destination.index, 0, reorderedItem);
+        setWidgets(items);
+    };
+
+    const addWidget = (type) => {
+        const newWidget = {
+            id: `w-${Date.now()}`,
+            type,
+            title: type === 'heatmap' ? 'Agent Heatmap' : 'New Metric',
+            value: '--',
+            subtext: 'Initializing...',
+            icon: 'Activity',
+            color: 'gray'
+        };
+        setWidgets([...widgets, newWidget]);
+    };
+
+    const deleteWidget = (id) => {
+        setWidgets(widgets.filter(w => w.id !== id));
+    };
+
+    const saveLayout = async () => {
+        // Mock save
+        console.log("Saving layout:", widgets, theme);
+        // await base44.entities.DashboardLayout.create({ user_id: 'current', layout_config: widgets, theme });
+        setIsEditMode(false);
+    };
+
+    const getIcon = (iconName) => {
+        const icons = { Users: Activity, Activity, Shield, Cpu }; // Simplified mapping
+        return icons[iconName] || Activity;
+    };
+
+    const themeColors = {
+        cyan: 'from-cyan-400 to-blue-600',
+        purple: 'from-purple-400 to-pink-600',
+        green: 'from-green-400 to-emerald-600'
+    };
+
     return (
-        <div className="min-h-screen bg-black text-white p-6 pb-20">
+        <div className={`min-h-screen bg-black text-white p-6 pb-20 ${isEditMode ? 'ring-2 ring-purple-500 ring-inset' : ''}`}>
             <div className="max-w-[1600px] mx-auto space-y-6">
                 
                 {/* Header */}
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                     <div>
-                        <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-600">
+                        <h1 className={`text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r ${themeColors[theme]}`}>
                             System Monitoring Dashboard
                         </h1>
                         <p className="text-gray-400 mt-1">Real-time ecosystem metrics and threat intelligence</p>
                     </div>
                     <div className="flex gap-2">
-                        <Button variant="outline" className="border-white/20"><Layout className="w-4 h-4 mr-2" /> Customize</Button>
+                        {isEditMode ? (
+                            <>
+                                <Dialog>
+                                    <DialogTrigger asChild>
+                                        <Button variant="secondary"><Plus className="w-4 h-4 mr-2" /> Add Widget</Button>
+                                    </DialogTrigger>
+                                    <DialogContent className="bg-black border-white/20 text-white">
+                                        <DialogHeader><DialogTitle>Widget Library</DialogTitle></DialogHeader>
+                                        <div className="grid grid-cols-2 gap-4">
+                                            <Button variant="outline" onClick={() => addWidget('metric')} className="justify-start"><Activity className="mr-2" /> Standard Metric</Button>
+                                            <Button variant="outline" onClick={() => addWidget('heatmap')} className="justify-start"><Layout className="mr-2" /> Performance Heatmap</Button>
+                                            <Button variant="outline" onClick={() => addWidget('trend')} className="justify-start"><Server className="mr-2" /> Hub Trends</Button>
+                                        </div>
+                                    </DialogContent>
+                                </Dialog>
+                                <Select value={theme} onValueChange={setTheme}>
+                                    <SelectTrigger className="w-[140px] bg-black border-white/20">
+                                        <SelectValue placeholder="Theme" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="cyan">Cyan / Blue</SelectItem>
+                                        <SelectItem value="purple">Purple / Pink</SelectItem>
+                                        <SelectItem value="green">Green / Emerald</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                                <Button className="bg-green-600 hover:bg-green-700" onClick={saveLayout}><Save className="w-4 h-4 mr-2" /> Save Layout</Button>
+                            </>
+                        ) : (
+                            <Button variant="outline" className="border-white/20" onClick={() => setIsEditMode(true)}>
+                                <Layout className="w-4 h-4 mr-2" /> Customize
+                            </Button>
+                        )}
                         <Button className="bg-cyan-600 hover:bg-cyan-700"><RefreshCw className="w-4 h-4 mr-2" /> Refresh Data</Button>
                     </div>
                 </div>
@@ -107,14 +198,38 @@ export default function SystemMonitoringDashboard() {
                             </div>
                         </Card>
 
-                        {/* Metrics Widgets (Customizable) */}
-                        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                            <MonitoringWidget title="Active Agents" value="1,248" subtext="+12% from last hour" icon={Users} color="green" />
-                            <MonitoringWidget title="Network Load" value="84 TB/s" subtext="Peak capacity at 65%" icon={Activity} color="purple" />
-                            <MonitoringWidget title="Threat Level" value="LOW" subtext="0 Critical Incidents" icon={Shield} color="blue" />
-                            <MonitoringWidget title="CPU Usage" value="42%" subtext="15,000 Cores Active" icon={Cpu} color="amber" />
-                            {/* User can add more widgets here in 'Edit' mode - Placeholder for UI */}
-                        </div>
+                        {/* Draggable Metrics Widgets */}
+                        <DragDropContext onDragEnd={onDragEnd}>
+                            <Droppable droppableId="widgets" direction="horizontal">
+                                {(provided) => (
+                                    <div 
+                                        className="grid grid-cols-1 md:grid-cols-4 gap-4"
+                                        ref={provided.innerRef}
+                                        {...provided.droppableProps}
+                                    >
+                                        {widgets.map((widget, index) => (
+                                            <Draggable key={widget.id} draggableId={widget.id} index={index} isDragDisabled={!isEditMode}>
+                                                {(provided) => (
+                                                    <div
+                                                        ref={provided.innerRef}
+                                                        {...provided.draggableProps}
+                                                        {...provided.dragHandleProps}
+                                                    >
+                                                        <MonitoringWidget 
+                                                            {...widget} 
+                                                            icon={getIcon(widget.icon)} 
+                                                            isEditMode={isEditMode}
+                                                            onDelete={deleteWidget}
+                                                        />
+                                                    </div>
+                                                )}
+                                            </Draggable>
+                                        ))}
+                                        {provided.placeholder}
+                                    </div>
+                                )}
+                            </Droppable>
+                        </DragDropContext>
 
                         {/* Charts Area */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
