@@ -616,6 +616,7 @@ import SentienceMonitor from './pages/SentienceMonitor';
 import PredictiveMaintenance from './pages/PredictiveMaintenance';
 import EthicsComplianceHub from './pages/EthicsComplianceHub';
 import AutonomousMissionControl from './pages/AutonomousMissionControl';
+import AgentPersonalizationHub from './pages/AgentPersonalizationHub';
 import __Layout from './Layout.jsx';
 
 
@@ -1238,6 +1239,7 @@ export const PAGES = {
     "PredictiveMaintenance": PredictiveMaintenance,
     "EthicsComplianceHub": EthicsComplianceHub,
     "AutonomousMissionControl": AutonomousMissionControl,
+    "AgentPersonalizationHub": AgentPersonalizationHub,
 }
 
 export const pagesConfig = {
