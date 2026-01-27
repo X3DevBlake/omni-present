@@ -19,7 +19,7 @@ export default function TeamChatInterface({ teamId, activeAgents }) {
         const fetchMessages = async () => {
             if (!teamId) return;
             try {
-                const res = await base44.functions.invoke('agentChat', { action: 'history', teamId });
+                const res = await base44.functions.invoke('agents/agentChat', { action: 'history', teamId });
                 if (res.data.success) {
                     setMessages(res.data.history);
                 }
@@ -51,7 +51,7 @@ export default function TeamChatInterface({ teamId, activeAgents }) {
         };
         setMessages(prev => [...prev, tempMsg]);
 
-        await base44.functions.invoke('agentChat', { 
+        await base44.functions.invoke('agents/agentChat', { 
             action: 'send', 
             teamId, 
             message: msg,
@@ -62,7 +62,7 @@ export default function TeamChatInterface({ teamId, activeAgents }) {
     const handleSummarize = async () => {
         setLoadingSummary(true);
         try {
-            const res = await base44.functions.invoke('agentChat', { action: 'summarize', teamId });
+            const res = await base44.functions.invoke('agents/agentChat', { action: 'summarize', teamId });
             setSummary(res.data.summary);
         } catch (e) { console.error(e); }
         setLoadingSummary(false);

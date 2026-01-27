@@ -17,7 +17,7 @@ export default function AgentCollaborationHub() {
         setIsSimulating(true);
         // Simulate backend call
         try {
-            await base44.functions.invoke('formDynamicTeam', { missionId: 'OPS-ALPHA' });
+            await base44.functions.invoke('agents/formDynamicTeam', { missionId: 'OPS-ALPHA' });
         } catch(e) { console.error(e); }
         setTimeout(() => setIsSimulating(false), 2000);
     };
@@ -81,7 +81,7 @@ export default function AgentCollaborationHub() {
                                 </div>
                                 <Button size="sm" variant="outline" onClick={() => {
                                     // Trigger a mock debrief for demo
-                                    base44.functions.invoke('missionDebrief', { missionId: 'OPS-ALPHA-' + Date.now() })
+                                    base44.functions.invoke('missions/missionDebrief', { missionId: 'OPS-ALPHA-' + Date.now() })
                                         .then(() => alert('Debrief Generated'));
                                 }}>Generate Report</Button>
                             </div>
