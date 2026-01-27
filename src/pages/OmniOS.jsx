@@ -50,9 +50,10 @@ export default function OmniOS() {
 
     const getIcon = (os) => {
         switch(os) {
-            case 'android': return <Smartphone className="w-4 h-4" />;
-            case 'macos': return <Laptop className="w-4 h-4" />;
-            case 'linux': return <Server className="w-4 h-4" />;
+            case 'android': return <Smartphone className="w-4 h-4 text-green-400" />;
+            case 'macos': return <Laptop className="w-4 h-4 text-gray-300" />;
+            case 'windows': return <Monitor className="w-4 h-4 text-blue-400" />;
+            case 'linux': return <Server className="w-4 h-4 text-yellow-400" />;
             default: return <Monitor className="w-4 h-4" />;
         }
     };
@@ -110,9 +111,9 @@ export default function OmniOS() {
                                             </SelectTrigger>
                                             <SelectContent className="bg-black border-cyan-500">
                                                 <SelectItem value="linux">Linux Kernel</SelectItem>
-                                                <SelectItem value="android">Android Core</SelectItem>
+                                                <SelectItem value="android">Android Core (ADB)</SelectItem>
                                                 <SelectItem value="macos">macOS Unix</SelectItem>
-                                                <SelectItem value="windows">Windows NT</SelectItem>
+                                                <SelectItem value="windows">Windows NT (PowerShell)</SelectItem>
                                             </SelectContent>
                                         </Select>
                                         <Input 

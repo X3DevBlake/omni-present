@@ -417,6 +417,7 @@ import OmniHome from './pages/OmniHome';
 import OmniHub from './pages/OmniHub';
 import OmniLearning from './pages/OmniLearning';
 import OmniNavigationHub from './pages/OmniNavigationHub';
+import OmniOS from './pages/OmniOS';
 import OmniPresenceControlCenter from './pages/OmniPresenceControlCenter';
 import OmniPresentAcademy from './pages/OmniPresentAcademy';
 import OmniPresentCoreHub from './pages/OmniPresentCoreHub';
@@ -617,7 +618,6 @@ import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
 import WorldHubEnhanced from './pages/WorldHubEnhanced';
-import OmniOS from './pages/OmniOS';
 import __Layout from './Layout.jsx';
 
 
@@ -1041,6 +1041,7 @@ export const PAGES = {
     "OmniHub": OmniHub,
     "OmniLearning": OmniLearning,
     "OmniNavigationHub": OmniNavigationHub,
+    "OmniOS": OmniOS,
     "OmniPresenceControlCenter": OmniPresenceControlCenter,
     "OmniPresentAcademy": OmniPresentAcademy,
     "OmniPresentCoreHub": OmniPresentCoreHub,
@@ -1241,7 +1242,6 @@ export const PAGES = {
     "WorkflowOrchestrationHub": WorkflowOrchestrationHub,
     "World": World,
     "WorldHubEnhanced": WorldHubEnhanced,
-    "OmniOS": OmniOS,
 }
 
 export const pagesConfig = {

@@ -8,6 +8,7 @@ import SandboxTester3D from '../components/developer/SandboxTester3D';
 import JavaScriptSDKDocs from '../components/developer/JavaScriptSDKDocs';
 import PythonSDKDocs from '../components/developer/PythonSDKDocs';
 import InteractiveSandbox from '../components/developer/InteractiveSandbox';
+import AICodeAssistant from '../components/developer/AICodeAssistant';
 import { Badge } from '@/components/ui/badge';
 import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
@@ -107,8 +108,13 @@ export default function DeveloperPortal() {
           </TabsContent>
 
           <TabsContent value="sandbox" className="mt-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-              <InteractiveSandbox />
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+              <div className="lg:col-span-2">
+                <InteractiveSandbox />
+              </div>
+              <div className="lg:col-span-1 h-[600px]">
+                <AICodeAssistant />
+              </div>
               {sandboxes[0] && (
                 <SandboxTester3D
                   sandbox={sandboxes[0]}

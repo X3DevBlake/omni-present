@@ -168,7 +168,7 @@ export default function OmniGenesisOnboarding({ onComplete }) {
                                 <OmniLoopLogo3D />
                             </motion.div>
                             
-                            <h1 className="text-6xl md:text-8xl font-black bg-clip-text text-transparent bg-gradient-to-r from-cyan-300 via-white to-purple-300 tracking-tighter drop-shadow-[0_0_30px_rgba(0,255,255,0.3)]">
+                            <h1 className="text-6xl md:text-8xl font-black bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-purple-200 to-fuchsia-400 tracking-tighter drop-shadow-[0_0_50px_rgba(168,85,247,0.6)] animate-pulse">
                                 OMNI PRESENT
                             </h1>
                             
@@ -182,8 +182,15 @@ export default function OmniGenesisOnboarding({ onComplete }) {
                                 </p>
                             </div>
 
-                            <Button onClick={handleNext} size="lg" className="bg-white text-black hover:bg-purple-100 text-xl px-12 py-8 rounded-full shadow-[0_0_50px_rgba(255,255,255,0.4)] transition-all duration-500 hover:scale-105 mt-4">
-                                Evolve <ArrowRight className="ml-3 w-6 h-6" />
+                            <Button 
+                                onClick={handleNext} 
+                                size="lg" 
+                                className="bg-transparent border-2 border-cyan-400 text-cyan-400 hover:bg-cyan-400 hover:text-black text-xl px-16 py-8 rounded-none skew-x-[-12deg] shadow-[0_0_30px_rgba(0,255,255,0.3)] transition-all duration-500 hover:scale-110 mt-8 relative overflow-hidden group"
+                            >
+                                <span className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+                                <span className="skew-x-[12deg] flex items-center gap-3 font-mono tracking-widest uppercase">
+                                    Initialize Evolution <ArrowRight className="w-6 h-6" />
+                                </span>
                             </Button>
                         </motion.div>
                     )}
