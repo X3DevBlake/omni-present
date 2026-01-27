@@ -61,14 +61,37 @@ const Agent = ({ id, startPos, endPos, color, speed = 1, type = 'data', mission,
       new THREE.Vector3(...endPos),
       progress
     );
-    
+
+    // --- Advanced Swarm Cohesion & Boids Logic ---
+    if (nearbyAgents && nearbyAgents.length > 0) {
+        // Cohesion: Move towards center of neighbors
+        const center = new THREE.Vector3();
+        nearbyAgents.forEach(n => center.add(n));
+        center.divideScalar(nearbyAgents.length);
+        const cohesion = center.sub(pos).multiplyScalar(0.01);
+
+        // Separation: Avoid crowding
+        const separation = new THREE.Vector3();
+        nearbyAgents.forEach(n => {
+            const dist = pos.distanceTo(n);
+            if (dist < 0.5) {
+                const push = pos.clone().sub(n).normalize().multiplyScalar(0.02 / dist);
+                separation.add(push);
+            }
+        });
+
+        pos.add(cohesion).add(separation);
+    }
+
     // --- Advanced Autonomous Behaviors ---
     if (type === 'security') {
         pos.y += Math.sin(state.clock.elapsedTime * 8 + id) * 0.2;
         pos.x += Math.cos(state.clock.elapsedTime * 4 + id) * 0.1;
     } else if (type === 'ai') {
-        pos.x += Math.cos(state.clock.elapsedTime * 5 + id) * 0.15;
-        pos.z += Math.sin(state.clock.elapsedTime * 3 + id) * 0.15;
+        // Spiral pattern for AI analysis
+        const angle = state.clock.elapsedTime * 2 + id;
+        pos.x += Math.cos(angle) * 0.3;
+        pos.z += Math.sin(angle) * 0.3;
     } else if (type === 'mission_agent') {
         pos.y += Math.sin(state.clock.elapsedTime * 15) * 0.05;
     }

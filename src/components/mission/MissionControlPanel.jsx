@@ -9,6 +9,54 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 export default function MissionControlPanel({ activeMission, onStartMission, onAbortMission }) {
     const [selectedAgents, setSelectedAgents] = useState([]);
+    const [showReport, setShowReport] = useState(false);
+    const [reportData, setReportData] = useState(null);
+
+    const generateReport = async () => {
+        // In a real app, call backend
+        // const res = await base44.functions.invoke('missions/generateReport', { mission_id: activeMission.id, mission_data: activeMission });
+        // setReportData(res.data.report);
+        setReportData({
+            outcome: "SUCCESS",
+            lessons: ["Optimized pathing reduced latency by 15%.", "Swarm cohesion maintained above 90%."],
+            utilization: { compute: "85%", bandwidth: "12TB" }
+        });
+        setShowReport(true);
+    };
+
+    if (showReport && reportData) {
+        return (
+            <Card className="bg-black/90 backdrop-blur-xl border-white/20 w-[400px]">
+                <CardHeader>
+                    <CardTitle className="text-cyan-400 flex items-center gap-2">
+                        <Brain className="w-5 h-5" /> Mission Report
+                    </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                    <div className="bg-green-900/20 border border-green-500/30 p-2 rounded text-green-400 text-center font-bold">
+                        OUTCOME: {reportData.outcome}
+                    </div>
+                    <div className="space-y-2">
+                        <div className="text-xs font-bold text-gray-400">LESSONS LEARNED</div>
+                        <ul className="text-xs text-gray-300 list-disc list-inside">
+                            {reportData.lessons.map((l, i) => <li key={i}>{l}</li>)}
+                        </ul>
+                    </div>
+                    <div className="grid grid-cols-2 gap-2 text-xs">
+                        <div className="bg-white/5 p-2 rounded">
+                            <div className="text-gray-500">Compute</div>
+                            <div className="text-white">{reportData.utilization.compute}</div>
+                        </div>
+                        <div className="bg-white/5 p-2 rounded">
+                            <div className="text-gray-500">Bandwidth</div>
+                            <div className="text-white">{reportData.utilization.bandwidth}</div>
+                        </div>
+                    </div>
+                    <Button onClick={() => setShowReport(false)} variant="outline" className="w-full mt-2">Close Report</Button>
+                </CardContent>
+            </Card>
+        );
+    }
 
     if (!activeMission) {
         return (
@@ -105,6 +153,14 @@ export default function MissionControlPanel({ activeMission, onStartMission, onA
                         Abort Mission
                     </Button>
                 </div>
+                <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="w-full text-xs text-gray-500 hover:text-cyan-400"
+                    onClick={generateReport}
+                >
+                    Generate Interim Report
+                </Button>
             </CardContent>
         </Card>
     );

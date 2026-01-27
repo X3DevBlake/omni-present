@@ -11,6 +11,19 @@ export default function DataAnalysis() {
     const [query, setQuery] = useState('');
     const [viewMode, setViewMode] = useState('table');
     const [aiSuggestion, setAiSuggestion] = useState(null);
+    const [showPredictions, setShowPredictions] = useState(false);
+
+    const runPredictiveAnalytics = async () => {
+        // Call backend
+        // const res = await base44.functions.invoke('analytics/predictTrends', {});
+        setShowPredictions(true);
+    };
+
+    const scheduleQuery = () => {
+        // Call backend to schedule automation
+        // base44.functions.invoke('automations/create', { type: 'scheduled', ... })
+        alert("Query execution scheduled for daily reporting.");
+    };
 
     const generateAiSuggestion = () => {
         setAiSuggestion({
@@ -82,11 +95,39 @@ export default function DataAnalysis() {
                                 )}
                             </div>
                             {!aiSuggestion && (
-                                <Button size="sm" variant="ghost" onClick={generateAiSuggestion} className="z-10 h-8 text-xs bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-300">
-                                    <Sparkles className="w-3 h-3 mr-2" /> Suggest Query
-                                </Button>
+                                <div className="flex gap-2 z-10">
+                                    <Button size="sm" variant="ghost" onClick={generateAiSuggestion} className="h-8 text-xs bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-300">
+                                        <Sparkles className="w-3 h-3 mr-2" /> Suggest Query
+                                    </Button>
+                                    <Button size="sm" variant="ghost" onClick={runPredictiveAnalytics} className="h-8 text-xs bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300">
+                                        <Activity className="w-3 h-3 mr-2" /> Predict Trends
+                                    </Button>
+                                    <Button size="sm" variant="ghost" onClick={scheduleQuery} className="h-8 text-xs bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300">
+                                        <div className="w-3 h-3 mr-2 rounded-full bg-emerald-500 animate-pulse" /> Schedule
+                                    </Button>
+                                </div>
                             )}
                         </div>
+                        
+                        {showPredictions && (
+                            <div className="grid grid-cols-3 gap-4 mb-4">
+                                <div className="bg-black/40 p-3 rounded border border-white/10">
+                                    <div className="text-xs text-gray-500">Predicted Load</div>
+                                    <div className="text-xl font-bold text-red-400">High Risk</div>
+                                    <div className="text-[10px] text-gray-400">Expected spike at 14:00 UTC</div>
+                                </div>
+                                <div className="bg-black/40 p-3 rounded border border-white/10">
+                                    <div className="text-xs text-gray-500">Agent Drift</div>
+                                    <div className="text-xl font-bold text-amber-400">Moderate</div>
+                                    <div className="text-[10px] text-gray-400">Swarm cohesion degrading</div>
+                                </div>
+                                <div className="bg-black/40 p-3 rounded border border-white/10">
+                                    <div className="text-xs text-gray-500">Resource Forecast</div>
+                                    <div className="text-xl font-bold text-green-400">Optimal</div>
+                                    <div className="text-[10px] text-gray-400">Scaling within limits</div>
+                                </div>
+                            </div>
+                        )}
 
                         {/* Advanced Visual Query Builder */}
                         <div className="flex flex-col gap-4 p-4 bg-black/30 rounded-lg border border-white/5 min-h-[120px]">

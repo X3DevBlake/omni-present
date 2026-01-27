@@ -46,14 +46,21 @@ class ErrorBoundary extends React.Component {
 function LayoutContent({ children, currentPageName }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [hubs, setHubs] = useState([]);
+  const [isLoadingHubs, setIsLoadingHubs] = useState(true);
 
   useEffect(() => {
     const fetchHubs = async () => {
       try {
-        const data = await base44.entities.Hub.list({ limit: 1000 });
-        setHubs(data);
+        // Optimizing fetch: Get ID, name, category, icon only if possible to reduce payload
+        // Assuming standard list returns full objects, but we'll handle the large list carefully
+        const data = await base44.entities.Hub.list({ limit: 2000, sort: { name: 1 } });
+        // Deduplicate
+        const unique = Array.from(new Map(data.map(item => [item.name, item])).values());
+        setHubs(unique);
       } catch (error) {
         console.error("Failed to fetch hubs for sidebar", error);
+      } finally {
+        setIsLoadingHubs(false);
       }
     };
     fetchHubs();
