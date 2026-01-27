@@ -93,8 +93,18 @@ export default function SystemMonitoringDashboard() {
         return () => clearInterval(interval);
     }, []);
 
+    // StrictMode Droppable Fix
+    const [isDnDReady, setIsDnDReady] = useState(false);
+    useEffect(() => {
+        const animation = requestAnimationFrame(() => setIsDnDReady(true));
+        return () => {
+            cancelAnimationFrame(animation);
+            setIsDnDReady(false);
+        };
+    }, []);
+
     const onDragEnd = (result) => {
-        if (!result.destination) return;
+        if (!result || !result.destination || !result.source) return;
         const items = Array.from(widgets);
         const [reorderedItem] = items.splice(result.source.index, 1);
         items.splice(result.destination.index, 0, reorderedItem);
@@ -199,37 +209,51 @@ export default function SystemMonitoringDashboard() {
                         </Card>
 
                         {/* Draggable Metrics Widgets */}
-                        <DragDropContext onDragEnd={onDragEnd}>
-                            <Droppable droppableId="widgets" direction="horizontal">
-                                {(provided) => (
-                                    <div 
-                                        className="grid grid-cols-1 md:grid-cols-4 gap-4"
-                                        ref={provided.innerRef}
-                                        {...provided.droppableProps}
-                                    >
-                                        {widgets.map((widget, index) => (
-                                            <Draggable key={widget.id} draggableId={widget.id} index={index} isDragDisabled={!isEditMode}>
-                                                {(provided) => (
-                                                    <div
-                                                        ref={provided.innerRef}
-                                                        {...provided.draggableProps}
-                                                        {...provided.dragHandleProps}
-                                                    >
-                                                        <MonitoringWidget 
-                                                            {...widget} 
-                                                            icon={getIcon(widget.icon)} 
-                                                            isEditMode={isEditMode}
-                                                            onDelete={deleteWidget}
-                                                        />
-                                                    </div>
-                                                )}
-                                            </Draggable>
-                                        ))}
-                                        {provided.placeholder}
-                                    </div>
-                                )}
-                            </Droppable>
-                        </DragDropContext>
+                        {isDnDReady ? (
+                            <DragDropContext onDragEnd={onDragEnd}>
+                                <Droppable droppableId="widgets" direction="horizontal">
+                                    {(provided) => (
+                                        <div 
+                                            className="grid grid-cols-1 md:grid-cols-4 gap-4"
+                                            ref={provided.innerRef}
+                                            {...provided.droppableProps}
+                                        >
+                                            {widgets.map((widget, index) => (
+                                                <Draggable key={widget.id} draggableId={widget.id} index={index} isDragDisabled={!isEditMode}>
+                                                    {(provided) => (
+                                                        <div
+                                                            ref={provided.innerRef}
+                                                            {...provided.draggableProps}
+                                                            {...provided.dragHandleProps}
+                                                        >
+                                                            <MonitoringWidget 
+                                                                {...widget} 
+                                                                icon={getIcon(widget.icon)} 
+                                                                isEditMode={isEditMode}
+                                                                onDelete={deleteWidget}
+                                                            />
+                                                        </div>
+                                                    )}
+                                                </Draggable>
+                                            ))}
+                                            {provided.placeholder}
+                                        </div>
+                                    )}
+                                </Droppable>
+                            </DragDropContext>
+                        ) : (
+                            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                                {widgets.map((widget) => (
+                                    <MonitoringWidget 
+                                        key={widget.id}
+                                        {...widget} 
+                                        icon={getIcon(widget.icon)} 
+                                        isEditMode={isEditMode}
+                                        onDelete={deleteWidget}
+                                    />
+                                ))}
+                            </div>
+                        )}
 
                         {/* Charts Area */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
