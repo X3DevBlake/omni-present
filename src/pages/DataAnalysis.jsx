@@ -155,6 +155,34 @@ export default function DataAnalysis() {
                             </div>
                         )}
 
+                        {showPredictions && (
+                            <div className="grid grid-cols-3 gap-4 mb-4">
+                                <div className="bg-black/40 p-3 rounded border border-white/10">
+                                    <div className="text-xs text-gray-500">Predicted Load</div>
+                                    <div className="text-xl font-bold text-red-400">High Risk</div>
+                                    <div className="text-[10px] text-gray-400">Expected spike at 14:00 UTC</div>
+                                </div>
+                                <div className="bg-black/40 p-3 rounded border border-white/10">
+                                    <div className="text-xs text-gray-500">Agent Drift</div>
+                                    <div className="text-xl font-bold text-amber-400">Moderate</div>
+                                    <div className="text-[10px] text-gray-400">Swarm cohesion degrading</div>
+                                </div>
+                                <div className="bg-black/40 p-3 rounded border border-white/10">
+                                    <div className="text-xs text-gray-500">Resource Forecast</div>
+                                    <div className="text-xl font-bold text-green-400">Optimal</div>
+                                    <div className="text-[10px] text-gray-400">Scaling within limits</div>
+                                </div>
+                            </div>
+                        )}
+                        {anomalies && anomalies.length > 0 && (
+                            <div className="mb-4 bg-red-900/10 border border-red-500/30 rounded p-3">
+                                <h4 className="text-xs font-bold text-red-400 mb-2 flex items-center"><AlertTriangle className="w-3 h-3 mr-2"/> Detected Anomalies</h4>
+                                {anomalies.map((a, i) => (
+                                    <div key={i} className="text-xs text-gray-300">{a.description} <span className="text-red-500 font-mono">[{a.severity}]</span></div>
+                                ))}
+                            </div>
+                        )}
+
                         {/* Advanced Visual Query Builder */}
                         <div className="flex flex-col gap-4 p-4 bg-black/30 rounded-lg border border-white/5 min-h-[120px]">
                             <div className="flex items-center gap-2 border-b border-white/5 pb-2">
