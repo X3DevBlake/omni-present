@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import AuroraBackground from '@/components/omni/AuroraBackground';
 import RealTimeSimulationController from '@/components/simulation/RealTimeSimulationController';
+import AutonomousDirectorPanel from '@/components/simulation/AutonomousDirectorPanel';
 import AdvancedSimulation3D from '@/components/simulation/AdvancedSimulation3D';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -52,9 +53,14 @@ export default function AdvancedSimulation() {
 
           {/* Controls & Sidebar */}
           <div className="space-y-6">
-            {activeSimulationId ? (
-              <RealTimeSimulationController simulationId={activeSimulationId} />
-            ) : (
+            {activeSimulationId && (
+              <>
+                <AutonomousDirectorPanel simulationId={activeSimulationId} />
+                <RealTimeSimulationController simulationId={activeSimulationId} />
+              </>
+            )}
+            
+            {!activeSimulationId && (
               <Card className="bg-black/40 border-white/10 backdrop-blur-md">
                 <CardHeader>
                   <CardTitle className="text-white">Available Scenarios</CardTitle>
