@@ -9,6 +9,8 @@ import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { Search, Filter, Globe, ArrowRight, Activity, Database, Cpu, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import HubLoadPredictor from '../analytics/HubLoadPredictor';
+import QuickJumpPortal from '../navigation/QuickJumpPortal';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
@@ -84,10 +86,37 @@ const HubStar = ({ hub, position, color, isSelected, onClick, isHovered, onHover
   );
 };
 
-const ConnectionLines = ({ hubs, activeCategory }) => {
+const DataStream = ({ start, end, color }) => {
+    const materialRef = useRef();
+    useFrame((state) => {
+        if (materialRef.current) {
+            materialRef.current.dashOffset -= 0.05;
+        }
+    });
+
+    const geometry = useMemo(() => {
+        const points = [new THREE.Vector3(...start), new THREE.Vector3(...end)];
+        return new THREE.BufferGeometry().setFromPoints(points);
+    }, [start, end]);
+
+    return (
+        <line geometry={geometry}>
+            <lineDashedMaterial 
+                ref={materialRef}
+                color={color} 
+                dashSize={0.5} 
+                gapSize={0.2} 
+                opacity={0.6}
+                transparent
+                linewidth={1}
+            />
+        </line>
+    );
+};
+
+const ConnectionLines = ({ hubs }) => {
     const lines = useMemo(() => {
         const _lines = [];
-        // Connect hubs within same category
         const byCat = {};
         hubs.forEach((h, i) => {
             if (!byCat[h.category]) byCat[h.category] = [];
@@ -96,7 +125,7 @@ const ConnectionLines = ({ hubs, activeCategory }) => {
 
         Object.values(byCat).forEach(group => {
             for (let i = 0; i < group.length - 1; i++) {
-                if (Math.random() > 0.7) { // Don't connect everything, too messy
+                if (Math.random() > 0.7) {
                     _lines.push({
                         start: group[i].pos,
                         end: group[i+1].pos,
@@ -104,7 +133,6 @@ const ConnectionLines = ({ hubs, activeCategory }) => {
                     });
                 }
             }
-            // Connect to center
             if (group.length > 0) {
                  _lines.push({
                     start: group[0].pos,
@@ -120,14 +148,18 @@ const ConnectionLines = ({ hubs, activeCategory }) => {
     return (
         <group>
             {lines.map((l, i) => (
-                <Line 
-                    key={i} 
-                    points={[l.start, l.end]} 
-                    color={l.color} 
-                    lineWidth={0.5} 
-                    transparent 
-                    opacity={l.opacity || 0.2} 
-                />
+                <group key={i}>
+                    <Line 
+                        points={[l.start, l.end]} 
+                        color={l.color} 
+                        lineWidth={0.2} 
+                        transparent 
+                        opacity={l.opacity || 0.1} 
+                    />
+                    {Math.random() > 0.8 && (
+                        <DataStream start={l.start} end={l.end} color={l.color} />
+                    )}
+                </group>
             ))}
         </group>
     );
@@ -170,8 +202,52 @@ const GalaxyScene = ({ hubs, onSelectHub, selectedHub, hoveredHubId, setHoveredH
                 />
             ))}
             
+            {/* Animated Agents moving between random hubs */}
+            {Array.from({length: 20}).map((_, i) => {
+                if (hubs.length < 2) return null;
+                const startHub = hubs[Math.floor(Math.random() * hubs.length)];
+                const endHub = hubs[Math.floor(Math.random() * hubs.length)];
+                return (
+                    <AgentParticle 
+                        key={i} 
+                        start={startHub.position} 
+                        end={endHub.position} 
+                        color={CATEGORY_COLORS[startHub.category] || '#fff'} 
+                    />
+                );
+            })}
+
             <OrbitControls enablePan={true} enableZoom={true} maxDistance={60} minDistance={2} autoRotate autoRotateSpeed={0.5} />
         </>
+    );
+};
+
+const AgentParticle = ({ start, end, color }) => {
+    const mesh = useRef();
+    const [progress, setProgress] = useState(Math.random());
+    
+    useFrame((state, delta) => {
+        if (!mesh.current) return;
+        const newProgress = progress + (delta * 0.2); // Speed
+        if (newProgress >= 1) {
+            setProgress(0);
+        } else {
+            setProgress(newProgress);
+        }
+        
+        const pos = new THREE.Vector3().lerpVectors(
+            new THREE.Vector3(...start),
+            new THREE.Vector3(...end),
+            progress
+        );
+        mesh.current.position.copy(pos);
+    });
+
+    return (
+        <mesh ref={mesh}>
+            <sphereGeometry args={[0.08, 8, 8]} />
+            <meshBasicMaterial color={color} />
+        </mesh>
     );
 };
 
@@ -411,6 +487,10 @@ export default function Unified3DNavigationHub() {
                         <Database className="w-3 h-3 mr-1" /> Nodes: {filteredHubs.length}
                     </Badge>
                 </div>
+                
+                {/* New Interactivity Overlays */}
+                <HubLoadPredictor />
+                <QuickJumpPortal />
             </div>
         </div>
     );
