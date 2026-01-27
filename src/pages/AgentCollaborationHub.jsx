@@ -1,6 +1,5 @@
-
 import React, { useState, useEffect } from 'react';
-import { createClientFromRequest } from 'npm:@base44/sdk@0.8.3';
+
 import CollaborationNetwork3D from '../components/collaboration/CollaborationNetwork3D';
 import AdaptiveMissionControl from '../components/mission/AdaptiveMissionControl';
 import AgentTrainingCenter3D from '../components/learning/AgentTrainingCenter3D';
