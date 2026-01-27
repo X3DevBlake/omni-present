@@ -815,6 +815,42 @@ export default function Home() {
           </p>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Featured Omni-Navigation Hub Card */}
+            <Link to={createPageUrl('OmniNavigationHub')}>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                whileHover={{ scale: 1.08, y: -15 }}
+                className="relative group col-span-1 md:col-span-2 lg:col-span-3"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 via-purple-600 to-cyan-600 rounded-2xl blur-2xl opacity-60 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="relative bg-black/80 backdrop-blur-xl p-[2px] rounded-2xl shadow-2xl border border-white/20">
+                  <div className="bg-black/90 rounded-2xl p-8 flex flex-col md:flex-row items-center gap-8">
+                    <div className="flex-shrink-0 relative">
+                        <div className="absolute inset-0 bg-cyan-500 blur-3xl opacity-20 animate-pulse" />
+                        <Globe className="w-24 h-24 text-cyan-400 drop-shadow-[0_0_20px_rgba(34,211,238,0.8)]" />
+                    </div>
+                    <div className="flex-1 text-center md:text-left">
+                        <h3 className="text-3xl font-black text-white mb-2 tracking-tight">Omni-Present Navigation Hub</h3>
+                        <p className="text-gray-300 text-lg mb-4">
+                            Access the complete ecosystem of 600+ interconnected modules, AI agents, and simulation engines through a unified 3D galaxy interface.
+                        </p>
+                        <div className="inline-flex items-center px-4 py-2 bg-white/10 rounded-full text-cyan-300 font-semibold text-sm border border-cyan-500/30">
+                            <Sparkles className="w-4 h-4 mr-2" />
+                            Gateway to the Event Horizon
+                        </div>
+                    </div>
+                    <div className="flex-shrink-0">
+                        <Button size="lg" className="bg-white text-black hover:bg-cyan-100 font-bold px-8">
+                            Enter Hub <ArrowRight className="ml-2 w-5 h-5" />
+                        </Button>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </Link>
+
             {hubFeatures.map((hub, idx) => {
               const Icon = hub.icon;
               return (

@@ -61,15 +61,15 @@ export default function ConsolidatedNav({ onSidebarToggle, isSidebarOpen }) {
           </div>
 
           <div className="flex items-center gap-4">
-            <Link to={createPageUrl('OmniPresentAcademy')}>
+            <Link to={createPageUrl('OmniNavigationHub')}>
               <motion.div
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
                 className="hidden md:block"
               >
-                <Button size="sm" className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700">
-                  <GraduationCap className="w-4 h-4 mr-2" />
-                  Academy
+                <Button size="sm" className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 border border-cyan-400/30 shadow-[0_0_15px_rgba(34,211,238,0.4)]">
+                  <Globe className="w-4 h-4 mr-2 animate-pulse" />
+                  Omni-Nav Hub
                 </Button>
               </motion.div>
             </Link>
