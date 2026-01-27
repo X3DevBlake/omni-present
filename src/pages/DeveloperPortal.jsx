@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Code, Book, Rocket, Shield, Beaker } from 'lucide-react';
+import { Code, Book, Rocket, Shield, Beaker, Terminal, Bot } from 'lucide-react';
 import SDKDocumentation from '../components/developer/SDKDocumentation';
 import SandboxTester3D from '../components/developer/SandboxTester3D';
 import JavaScriptSDKDocs from '../components/developer/JavaScriptSDKDocs';
@@ -98,8 +98,80 @@ export default function DeveloperPortal() {
             <TabsTrigger value="tutorials">Tutorials</TabsTrigger>
             <TabsTrigger value="orchestration">Orchestration</TabsTrigger>
             <TabsTrigger value="examples">Examples</TabsTrigger>
+            <TabsTrigger value="cli">CLI & MCP</TabsTrigger>
             <TabsTrigger value="support">Support</TabsTrigger>
           </TabsList>
+
+          <TabsContent value="cli" className="mt-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                {/* CLI Download Section */}
+                <Card className="bg-black/40 border-purple-500/50">
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-3 text-white">
+                            <Terminal className="w-6 h-6 text-purple-400" />
+                            Omni CLI
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                        <p className="text-gray-300">
+                            Command Line Interface for interacting with the Omni-Present ecosystem directly from your terminal.
+                        </p>
+                        <div className="bg-black/80 p-4 rounded border border-white/10 font-mono text-sm text-green-400">
+                            $ node omni-cli.js status<br/>
+                            $ node omni-cli.js list-agents
+                        </div>
+                        <Button 
+                            className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
+                            onClick={async () => {
+                                // Trigger download via function
+                                const res = await base44.functions.invoke('developer/downloadCli');
+                                const blob = new Blob([res.data], { type: 'text/javascript' });
+                                const url = window.URL.createObjectURL(blob);
+                                const a = document.createElement('a');
+                                a.href = url;
+                                a.download = 'omni-cli.js';
+                                a.click();
+                            }}
+                        >
+                            Download omni-cli.js
+                        </Button>
+                    </CardContent>
+                </Card>
+
+                {/* MCP Server Section */}
+                <Card className="bg-black/40 border-cyan-500/50">
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-3 text-white">
+                            <Bot className="w-6 h-6 text-cyan-400" />
+                            MCP Server (Model Context Protocol)
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                        <p className="text-gray-300">
+                            Connect Omni-Present directly to Claude Desktop or other MCP-compatible IDEs. 
+                            The CLI acts as your local MCP server bridge.
+                        </p>
+                        <div className="bg-black/80 p-4 rounded border border-white/10 space-y-2">
+                            <p className="text-gray-400 text-xs uppercase font-bold">Claude Desktop Config:</p>
+                            <pre className="text-xs text-cyan-300 overflow-x-auto">
+{`{
+  "mcpServers": {
+    "omni": {
+      "command": "node",
+      "args": ["/path/to/omni-cli.js", "start-mcp"]
+    }
+  }
+}`}
+                            </pre>
+                        </div>
+                        <div className="flex gap-2">
+                            <Badge variant="outline" className="text-green-400 border-green-500/50">Resources Active</Badge>
+                            <Badge variant="outline" className="text-blue-400 border-blue-500/50">Tools Active</Badge>
+                        </div>
+                    </CardContent>
+                </Card>
+            </div>
+          </TabsContent>
 
           <TabsContent value="orchestration" className="mt-6">
             <AgentOrchestrationHub />
