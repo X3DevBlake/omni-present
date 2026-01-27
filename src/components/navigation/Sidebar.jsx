@@ -121,7 +121,7 @@ const KNOWN_PAGES = new Set([
   "VirtualClassrooms", "VirtualLibrary", "VotingBooth", "VulnerabilityScanner", "Wallet", "WalletSecurity",
   "WavefunctionCollapse", "WearableDeviceHub", "WeatherSimulation", "WebhookLogs", "WebhookManager", "Webhooks",
   "WebhooksHub", "WhiteboardHub", "WithdrawOmni", "WorkflowAutomationHub", "WorkflowOrchestrationHub", "World",
-  "WorldHubEnhanced"
+  "WorldHubEnhanced", "OmniNavigationHub"
 ]);
 
 export default function Sidebar({ isOpen, hubs = [], isLoading = false }) {
