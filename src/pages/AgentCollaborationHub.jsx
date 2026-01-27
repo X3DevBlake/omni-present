@@ -6,19 +6,21 @@ import AgentTrainingCenter3D from '../components/learning/AgentTrainingCenter3D'
 import TeamChatInterface from '../components/collaboration/TeamChatInterface';
 import MissionDebriefView from '../components/mission/MissionDebriefView';
 import CrossHubVisualizer3D from '../components/orchestration/CrossHubVisualizer3D';
+import SwarmIntelligence3D from '../components/swarm/SwarmIntelligence3D';
+import SentientOracle3D from '../components/simulation/SentientOracle3D';
+import AuroraBackground from '../components/omni/AuroraBackground';
 import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Users, Brain, Target, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { base44 } from '@/api/base44Client';
-import { Badge } from '@/components/ui/badge'; // Assuming Badge is needed for the new mission section
+import { Badge } from '@/components/ui/badge';
 
 export default function AgentCollaborationHub() {
     const [isSimulating, setIsSimulating] = useState(false);
 
     const handleFormTeam = async () => {
         setIsSimulating(true);
-        // Simulate backend call
         try {
             await base44.functions.invoke('agents/formDynamicTeam', { missionId: 'OPS-ALPHA' });
         } catch(e) { console.error(e); }
@@ -26,33 +28,37 @@ export default function AgentCollaborationHub() {
     };
 
     return (
-        <div className="min-h-screen bg-black text-white p-6 pt-20">
-            <div className="max-w-7xl mx-auto space-y-6">
+        <AuroraBackground className="min-h-screen pt-20 pb-12">
+            <div className="container mx-auto px-6 space-y-8">
                 
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                     <div>
-                        <h1 className="text-3xl font-black bg-gradient-to-r from-blue-400 to-purple-600 bg-clip-text text-transparent">
-                            Agent Collaboration & Intelligence Hub
+                        <h1 className="text-5xl font-black text-white tracking-tight mb-2">
+                            Omega Swarm Nexus
                         </h1>
-                        <p className="text-gray-400 mt-1">
-                            Orchestrating autonomous swarms, adaptive missions, and continuous learning.
+                        <p className="text-xl text-white/60">
+                            Sentient Orchestration & Autonomous Hive Minds
                         </p>
                     </div>
                     <Button 
                         onClick={handleFormTeam} 
                         disabled={isSimulating}
-                        className="bg-purple-600 hover:bg-purple-700"
+                        className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 text-lg py-6 px-8 shadow-lg shadow-cyan-500/20"
                     >
-                        {isSimulating ? <Zap className="w-4 h-4 mr-2 animate-spin" /> : <Users className="w-4 h-4 mr-2" />}
-                        Initialize Swarm Protocol
+                        {isSimulating ? <Zap className="w-5 h-5 mr-2 animate-spin" /> : <Users className="w-5 h-5 mr-2" />}
+                        Initialize Omega Swarm
                     </Button>
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     {/* Main Visualizer - Collaboration Network */}
-                    <Card className="lg:col-span-2 bg-black/50 border-white/10 overflow-hidden min-h-[500px]">
-                        <CollaborationNetwork3D />
-                    </Card>
+                    <div className="lg:col-span-2 h-[500px] rounded-xl overflow-hidden border border-white/10 shadow-2xl">
+                        <SwarmIntelligence3D active={true} />
+                    </div>
+                    <div className="h-[500px]">
+                        <SentientOracle3D isActive={true} currentThought="Optimizing swarm coherence protocols..." />
+                    </div>
+                </div>
 
                     {/* Mission Control Side Panel */}
                     <div className="lg:col-span-1 flex flex-col gap-6 h-[600px]">

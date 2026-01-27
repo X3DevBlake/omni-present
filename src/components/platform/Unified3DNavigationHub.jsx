@@ -187,7 +187,7 @@ export default function Unified3DNavigationHub() {
     // Fetch ALL hubs
     const { data: rawHubs = [], isLoading } = useQuery({
         queryKey: ['unified-hubs-all'],
-        queryFn: () => base44.entities.Hub.list({ limit: 2000 }),
+        queryFn: () => base44.entities.Hub.list({ limit: 5000 }), // Increased limit significantly
         initialData: []
     });
 

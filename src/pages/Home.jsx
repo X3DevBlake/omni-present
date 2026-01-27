@@ -508,6 +508,11 @@ export default function Home() {
           </Canvas>
         </div>
 
+        {/* Sentient Overlay */}
+        <div className="absolute bottom-10 right-10 z-20 w-80 h-48 hidden lg:block">
+           <SentientOracle3D isActive={true} currentThought="Monitoring global user interactions..." />
+        </div>
+
         {/* Node Detail Panel */}
         <AnimatePresence>
           {nodeDetailPanel && (
