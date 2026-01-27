@@ -9,7 +9,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { base44 } from '@/api/base44Client';
 import { 
   Brain, Atom, Network, Zap, ArrowRight, Cpu, Radio, GitBranch, Sparkles, Eye, Activity,
-  Shield, TrendingUp, Globe, Rocket, Code, MessageSquare, Bot, X, Info, Layers
+  Shield, TrendingUp, Globe, Rocket, Code, MessageSquare, Bot, X, Info, Layers, Wallet, DollarSign, FlaskConical
 } from 'lucide-react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { OrbitControls, Sphere, Line, Text as Text3D, MeshDistortMaterial, Float, Stars, Html } from '@react-three/drei';
@@ -376,6 +376,34 @@ export default function Home() {
       icon: Rocket, 
       color: 'from-indigo-500 to-blue-500',
       description: 'Virtual environments & testing'
+    },
+    { 
+      name: 'Omni Banking', 
+      page: 'OmniBankingHub', 
+      icon: Wallet, 
+      color: 'from-blue-500 to-cyan-500',
+      description: 'Centralized Financial Core'
+    },
+    { 
+      name: 'Advanced DeFi', 
+      page: 'AdvancedDeFiHub', 
+      icon: DollarSign, 
+      color: 'from-cyan-500 to-teal-500',
+      description: 'Yield Farming & Liquidity'
+    },
+    { 
+      name: 'AI Laboratory', 
+      page: 'AILab', 
+      icon: FlaskConical, 
+      color: 'from-purple-500 to-violet-500',
+      description: 'Neural Architecture Research'
+    },
+    { 
+      name: 'Collaborative Matrix', 
+      page: 'AdvancedCollaborationHub', 
+      icon: Users, 
+      color: 'from-green-500 to-emerald-500',
+      description: 'Ad-hoc Agent Units'
     }
   ];
 

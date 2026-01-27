@@ -5,7 +5,7 @@ import { createPageUrl } from '@/utils';
 import { 
   Home, Activity, Brain, Rocket, Shield, Database, LayoutGrid, 
   Settings, Bot, GraduationCap, Globe, DollarSign, Cpu, Radio, 
-  Users, Atom, BarChart2, Scale, LifeBuoy
+  Users, Atom, BarChart2, Scale, LifeBuoy, Wallet, FlaskConical
 } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
@@ -124,11 +124,21 @@ const KNOWN_PAGES = new Set([
   "WorldHubEnhanced", "OmniNavigationHub"
 ]);
 
+const HARDCODED_HUBS = [
+  { id: 'banking', name: 'Omni Banking', category: 'Marketplace & Economy', path: 'OmniBankingHub' },
+  { id: 'defi', name: 'Advanced DeFi', category: 'Marketplace & Economy', path: 'AdvancedDeFiHub' },
+  { id: 'ailab', name: 'AI Laboratory', category: 'Intelligence & AI', path: 'AILab' },
+  { id: 'adv_collab', name: 'Advanced Collaboration', category: 'Collaboration & Community', path: 'AdvancedCollaborationHub' },
+  { id: 'redcomm_bp', name: 'RedComm Blueprints', category: 'Network & Communication', path: 'RedCommBlueprints' }
+];
+
 export default function Sidebar({ isOpen, hubs = [], isLoading = false }) {
   const location = useLocation();
+  
+  const allHubs = [...HARDCODED_HUBS, ...hubs];
 
   const getHubsByCategory = (cat) => {
-    return hubs.filter(h => h.category?.includes(cat.name) || h.category === cat.name);
+    return allHubs.filter(h => h.category?.includes(cat.name) || h.category === cat.name);
   };
 
   const getPageLink = (hub) => {
