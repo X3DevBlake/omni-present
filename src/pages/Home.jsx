@@ -9,9 +9,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { base44 } from '@/api/base44Client';
 import { 
   Brain, Atom, Network, Zap, ArrowRight, Cpu, Radio, GitBranch, Sparkles, Eye, Activity,
-  Shield, TrendingUp, Globe, Rocket, Code, MessageSquare, Bot, X, Info, Layers, Wallet, DollarSign, FlaskConical
+  Shield, TrendingUp, Globe, Rocket, Code, MessageSquare, Bot, X, Info, Layers,
+  Users, Wallet, DollarSign, FlaskConical
 } from 'lucide-react';
-import { Users, Wallet, DollarSign, FlaskConical } from 'lucide-react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { OrbitControls, Sphere, Line, Text as Text3D, MeshDistortMaterial, Float, Stars, Html } from '@react-three/drei';
 import * as THREE from 'three';

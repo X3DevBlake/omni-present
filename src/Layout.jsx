@@ -108,8 +108,12 @@ function LayoutContent({ children, currentPageName }) {
 }
 
 import ContextualAssistantOverlay from './components/assistant/ContextualAssistantOverlay';
+import OmniGenesisOnboarding from './components/onboarding/OmniGenesisOnboarding';
+import GenesisCopilot from './components/assistant/GenesisCopilot';
 
 export default function Layout({ children, currentPageName }) {
+  const [showOnboarding, setShowOnboarding] = useState(true);
+
   return (
     <ErrorBoundary>
       <HolographicProvider>
@@ -119,6 +123,10 @@ export default function Layout({ children, currentPageName }) {
               <LayoutContent currentPageName={currentPageName}>
                 {children}
                 <ContextualAssistantOverlay />
+                <GenesisCopilot />
+                {showOnboarding && (
+                  <OmniGenesisOnboarding onComplete={() => setShowOnboarding(false)} />
+                )}
               </LayoutContent>
             </GamificationProvider>
           </PersonalizationProvider>
