@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
@@ -734,6 +733,32 @@ export default function Home() {
                 </motion.div>
               </Link>
             </motion.div>
+
+            {/* Advanced Capabilities Showcase */}
+            <div className="max-w-[1200px] mx-auto px-6 mb-16 relative z-30">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="group relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-purple-900/40 to-black hover:border-purple-500/50 transition-all duration-500">
+                        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070')] bg-cover opacity-20 group-hover:opacity-30 transition-opacity" />
+                        <div className="relative p-8 h-full flex flex-col justify-end min-h-[300px]">
+                            <h3 className="text-3xl font-bold text-white mb-2">Omega Intelligence</h3>
+                            <p className="text-gray-300 mb-6">Advanced threat simulation and adversarial agent training environments.</p>
+                            <Link to={createPageUrl('OmegaIntelligenceHub')} className="inline-flex items-center text-cyan-400 hover:text-cyan-300 font-semibold tracking-wide">
+                                Enter Intelligence Hub <ArrowRight className="w-4 h-4 ml-2" />
+                            </Link>
+                        </div>
+                    </div>
+                    <div className="group relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-blue-900/40 to-black hover:border-blue-500/50 transition-all duration-500">
+                        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=2070')] bg-cover opacity-20 group-hover:opacity-30 transition-opacity" />
+                        <div className="relative p-8 h-full flex flex-col justify-end min-h-[300px]">
+                            <h3 className="text-3xl font-bold text-white mb-2">Swarm Orchestration</h3>
+                            <p className="text-gray-300 mb-6">Cross-hub mission command and autonomous multi-agent collaboration.</p>
+                            <Link to={createPageUrl('AgentCollaborationHub')} className="inline-flex items-center text-blue-400 hover:text-blue-300 font-semibold tracking-wide">
+                                Access Swarm Command <ArrowRight className="w-4 h-4 ml-2" />
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             {/* Live Metrics */}
             <motion.div 

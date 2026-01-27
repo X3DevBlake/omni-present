@@ -385,6 +385,9 @@ export default function Unified3DNavigationHub() {
 
             {/* 3D Scene */}
             <div className="flex-1 h-full relative bg-gradient-to-br from-gray-900 via-black to-black">
+                {/* Simulation Traffic Overlay */}
+                <div className="absolute inset-0 z-10 pointer-events-none opacity-30 bg-[url('https://media.giphy.com/media/26tnAqsS3J6S71jXy/giphy.gif')] bg-cover mix-blend-screen" />
+                
                 <Canvas camera={{ position: [20, 20, 20], fov: 45 }}>
                     <GalaxyScene 
                         hubs={filteredHubs} 
@@ -393,10 +396,21 @@ export default function Unified3DNavigationHub() {
                         hoveredHubId={hoveredHubId}
                         setHoveredHubId={setHoveredHubId}
                     />
+                    <Sparkles count={500} scale={20} size={4} speed={0.2} opacity={0.5} color="#8b5cf6" />
                 </Canvas>
                 
                 {/* Overlay Gradient for UI readability */}
                 <div className="absolute inset-0 pointer-events-none bg-radial-gradient from-transparent to-black/40" />
+                
+                {/* Enhanced Footer Status */}
+                <div className="absolute bottom-4 right-4 z-20 flex gap-4">
+                    <Badge variant="outline" className="bg-black/60 border-purple-500/50 text-purple-300 backdrop-blur">
+                        <Activity className="w-3 h-3 mr-1 animate-pulse" /> Network Traffic: High
+                    </Badge>
+                    <Badge variant="outline" className="bg-black/60 border-cyan-500/50 text-cyan-300 backdrop-blur">
+                        <Database className="w-3 h-3 mr-1" /> Nodes: {filteredHubs.length}
+                    </Badge>
+                </div>
             </div>
         </div>
     );
