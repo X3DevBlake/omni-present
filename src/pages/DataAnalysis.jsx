@@ -4,12 +4,21 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Search, Filter, Download, PieChart, BarChart as BarIcon, Table as TableIcon, Save, Plus, Share2 } from 'lucide-react';
+import { Search, Filter, Download, PieChart, BarChart as BarIcon, Table as TableIcon, Save, Plus, Share2, Brain, Sparkles } from 'lucide-react';
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, Pie, PieChart as RePieChart, Cell } from 'recharts';
 
 export default function DataAnalysis() {
     const [query, setQuery] = useState('');
-    const [viewMode, setViewMode] = useState('table'); // table, chart, graph
+    const [viewMode, setViewMode] = useState('table');
+    const [aiSuggestion, setAiSuggestion] = useState(null);
+
+    const generateAiSuggestion = () => {
+        setAiSuggestion({
+            text: "Based on recent anomalies, I suggest joining 'System Logs' with 'Agent Activity' filtering for 'High Severity' events in the last hour.",
+            complexity: "High",
+            confidence: "98%"
+        });
+    };
 
     // Mock Data
     const results = [
@@ -54,6 +63,31 @@ export default function DataAnalysis() {
                         </div>
                     </CardHeader>
                     <CardContent className="space-y-4">
+                        {/* AI Assistant Panel */}
+                        <div className="bg-indigo-900/10 border border-indigo-500/20 rounded-lg p-4 flex items-start gap-3 relative overflow-hidden">
+                            <div className="absolute top-0 right-0 p-2 opacity-10"><Brain className="w-24 h-24" /></div>
+                            <div className="p-2 bg-indigo-500/20 rounded-full"><Brain className="w-5 h-5 text-indigo-400" /></div>
+                            <div className="flex-1 z-10">
+                                <h3 className="text-sm font-bold text-indigo-300">AI Query Assistant</h3>
+                                {aiSuggestion ? (
+                                    <div className="mt-2">
+                                        <p className="text-sm text-gray-300">{aiSuggestion.text}</p>
+                                        <div className="flex gap-2 mt-2">
+                                            <Button size="sm" variant="outline" className="h-6 text-xs border-indigo-500/30 text-indigo-300 hover:bg-indigo-500/20" onClick={() => setAiSuggestion(null)}>Apply Suggestion</Button>
+                                            <Button size="sm" variant="ghost" className="h-6 text-xs text-gray-500" onClick={() => setAiSuggestion(null)}>Dismiss</Button>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <p className="text-xs text-gray-500 mt-1">Ready to assist. Click to generate optimized query structures.</p>
+                                )}
+                            </div>
+                            {!aiSuggestion && (
+                                <Button size="sm" variant="ghost" onClick={generateAiSuggestion} className="z-10 h-8 text-xs bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-300">
+                                    <Sparkles className="w-3 h-3 mr-2" /> Suggest Query
+                                </Button>
+                            )}
+                        </div>
+
                         {/* Advanced Visual Query Builder */}
                         <div className="flex flex-col gap-4 p-4 bg-black/30 rounded-lg border border-white/5 min-h-[120px]">
                             <div className="flex items-center gap-2 border-b border-white/5 pb-2">

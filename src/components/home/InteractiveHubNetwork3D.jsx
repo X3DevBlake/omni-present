@@ -7,9 +7,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import * as THREE from 'three';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
-import { Activity, Zap, Shield, Radio, Users, Play, Pause } from 'lucide-react';
+import { Activity, Zap, Shield, Radio, Users, Play, Pause, Target } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import MissionControlPanel from '../mission/MissionControlPanel';
 
 // The 14 Categories Color Mapping & Positions
 const CATEGORY_CONFIG = {
@@ -460,8 +461,47 @@ export default function InteractiveHubNetwork3D() {
   const [selectedHub, setSelectedHub] = useState(null);
   const [hoveredHub, setHoveredHub] = useState(null);
   const [filterCategory, setFilterCategory] = useState('All');
-  const [activeSimulation, setActiveSimulation] = useState('idle'); // 'traffic_spike', 'agent_swarm', 'security_sweep'
+  const [activeSimulation, setActiveSimulation] = useState('idle');
   const [networkConnections, setNetworkConnections] = useState([]);
+  
+  // Mission State
+  const [activeMission, setActiveMission] = useState(null);
+
+  const startMission = () => {
+      setActiveMission({
+          title: "Operation: Omni-Sync",
+          status: 'active',
+          progress: 0,
+          agents: Array.from({length: 12}),
+          threats: 0
+      });
+      setActiveSimulation('mission_ops');
+  };
+
+  const abortMission = () => {
+      setActiveMission(null);
+      setActiveSimulation('idle');
+  };
+
+  // Simulate Mission Progress
+  useEffect(() => {
+      if (!activeMission || activeMission.status !== 'active') return;
+      
+      const interval = setInterval(() => {
+          setActiveMission(prev => {
+              if (!prev) return null;
+              const nextProgress = Math.min(100, prev.progress + 0.5);
+              const newThreats = Math.random() < 0.1 ? prev.threats + 1 : prev.threats;
+              
+              if (nextProgress >= 100) {
+                  return { ...prev, progress: 100, status: 'completed' };
+              }
+              return { ...prev, progress: nextProgress, threats: newThreats };
+          });
+      }, 500);
+      
+      return () => clearInterval(interval);
+  }, [activeMission?.status]);
 
   // Fetch dynamic hubs
   const { data: hubs = [] } = useQuery({
@@ -681,12 +721,22 @@ export default function InteractiveHubNetwork3D() {
         </motion.div>
       )}
       
+      {/* Mission Control Overlay */}
+      <div className="absolute top-4 left-64 z-20">
+          <MissionControlPanel 
+              activeMission={activeMission}
+              onStartMission={startMission}
+              onAbortMission={abortMission}
+          />
+      </div>
+
       {/* Legend / Stats */}
       <div className="absolute bottom-4 right-4 text-right pointer-events-none">
         <div className="text-white/20 text-xs font-mono">
             LIVE SYSTEM VISUALIZATION<br/>
             NODES: {hubs.length}<br/>
-            CLUSTERS: {Object.keys(CATEGORY_CONFIG).length}
+            CLUSTERS: {Object.keys(CATEGORY_CONFIG).length}<br/>
+            SWARM STATUS: {activeSimulation === 'agent_swarm' ? 'ACTIVE' : 'STANDBY'}
         </div>
       </div>
     </div>
