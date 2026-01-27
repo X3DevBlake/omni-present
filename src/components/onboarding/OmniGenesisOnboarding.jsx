@@ -117,8 +117,75 @@ export default function OmniGenesisOnboarding({ onComplete }) {
         if (currentQuestionIndex < questions.length - 1) {
             setCurrentQuestionIndex(currentQuestionIndex + 1);
         } else {
-            handleSubmit();
+            setStep('did_creation');
         }
+    };
+
+    const handleDIDCreation = async () => {
+        setIsGeneratingDID(true);
+        // Simulate generation effect
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        
+        let user;
+        try {
+             user = await base44.auth.me();
+        } catch (e) {
+             user = { id: 'anon_' + Math.random().toString(36).substr(2, 9) };
+        }
+        
+        const did = `did:omni:${Math.random().toString(36).substr(2, 9)}${Math.random().toString(36).substr(2, 9)}`;
+        
+        try {
+            await base44.entities.DIDIdentity.create({
+                did: did,
+                user_id: user.id || 'anonymous',
+                public_key: Math.random().toString(36).substr(2) + Math.random().toString(36).substr(2),
+                controller: 'self',
+                reputation_score: 10,
+                created_at: new Date().toISOString()
+            });
+            setGeneratedDID(did);
+            setTimeout(() => setStep('wallet_creation'), 1500);
+        } catch (e) {
+            console.error("Failed to create DID", e);
+            // Fallback for demo if duplicate or error
+            setGeneratedDID(did);
+            setTimeout(() => setStep('wallet_creation'), 1500);
+        }
+        
+        setIsGeneratingDID(false);
+    };
+
+    const handleWalletCreation = async () => {
+        setIsGeneratingWallet(true);
+        await new Promise(resolve => setTimeout(resolve, 2000));
+
+        let user;
+        try {
+             user = await base44.auth.me();
+        } catch (e) {
+             user = { id: 'anon_' + Math.random().toString(36).substr(2, 9) };
+        }
+
+        const address = `0x${Math.random().toString(16).substr(2, 40)}`;
+
+        try {
+            await base44.entities.UserWallet.create({
+                user_id: user.id || 'anonymous',
+                address: address,
+                public_key: Math.random().toString(36).substr(2) + Math.random().toString(36).substr(2),
+                balance: 1000, // Initial airdrop
+                currency: "OMNI"
+            });
+            setGeneratedWallet(address);
+            setTimeout(handleSubmit, 1500);
+        } catch (e) {
+            console.error("Failed to create Wallet", e);
+            setGeneratedWallet(address);
+            setTimeout(handleSubmit, 1500);
+        }
+
+        setIsGeneratingWallet(false);
     };
 
     const handleSubmit = async () => {
