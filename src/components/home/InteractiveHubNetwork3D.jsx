@@ -35,7 +35,7 @@ const CATEGORY_CONFIG = {
 
 
 // --- ADVANCED AGENT SYSTEM ---
-const Agent = ({ id, startPos, endPos, color, speed = 1, type = 'data', mission, onPositionUpdate, nearbyAgents, congestionLevel = 0 }) => {
+const Agent = ({ id, startPos, endPos, color, speed = 1, type = 'data', mission, onPositionUpdate, nearbyAgents, congestionLevel = 0, experienceLevel = 1 }) => {
   const agentRef = useRef();
   const [progress, setProgress] = useState(0);
   const [active, setActive] = useState(true);
@@ -135,8 +135,11 @@ const Agent = ({ id, startPos, endPos, color, speed = 1, type = 'data', mission,
 
   if (!active) return null;
 
+  // Experience Scale Factor
+  const expScale = 1 + (experienceLevel * 0.1);
+
   return (
-    <group ref={agentRef}>
+    <group ref={agentRef} scale={[expScale, expScale, expScale]}>
       <mesh>
         <sphereGeometry args={[type === 'mission_agent' ? 0.15 : 0.08, 16, 16]} />
         <meshBasicMaterial 
@@ -148,11 +151,19 @@ const Agent = ({ id, startPos, endPos, color, speed = 1, type = 'data', mission,
             } 
         />
       </mesh>
-      {/* Aura */}
+      {/* Aura / Experience Ring */}
       <mesh scale={type === 'mission_agent' ? [2, 2, 2] : [1.5, 1.5, 1.5]}>
         <sphereGeometry args={[0.08, 16, 16]} />
         <meshBasicMaterial color={anomalyDetected ? '#ff0000' : color} transparent opacity={0.4} />
       </mesh>
+      
+      {/* Level Indicator Ring */}
+      {experienceLevel > 1 && (
+          <mesh rotation={[Math.PI / 2, 0, 0]}>
+              <ringGeometry args={[0.12, 0.14, 32]} />
+              <meshBasicMaterial color="#fbbf24" side={THREE.DoubleSide} transparent opacity={0.6} />
+          </mesh>
+      )}
       
       {/* Visual Communication Channels (Task Delegation) */}
       {nearbyAgents && nearbyAgents.map((otherPos, i) => (
@@ -228,7 +239,8 @@ const AgentSystem = ({ connections, activeSimulation }) => {
         color: type === 'mission_agent' ? '#fbbf24' : conn.color,
         speed: type === 'mission_agent' ? 1.5 : 0.5 + Math.random(),
         type: type,
-        mission: mission
+        mission: mission,
+        experienceLevel: Math.floor(Math.random() * 5) // Simulated persistent experience
       };
       
       setAgents(prev => {
@@ -620,6 +632,19 @@ export default function InteractiveHubNetwork3D() {
                 >
                     <Shield className="w-3 h-3 mr-1" /> Sweep
                 </Button>
+            </div>
+            
+            {/* Live Demo Scenarios */}
+            <div className="mt-2 pt-2 border-t border-white/10">
+                <div className="text-[10px] font-bold text-gray-400 mb-1 uppercase">Live Demos</div>
+                <div className="grid grid-cols-2 gap-1">
+                    <Button size="sm" variant="ghost" className="h-6 text-[10px] justify-start bg-white/5 hover:bg-white/10" onClick={() => setActiveSimulation('data_breach')}>
+                        <Activity className="w-3 h-3 mr-1 text-red-400" /> Data Breach
+                    </Button>
+                    <Button size="sm" variant="ghost" className="h-6 text-[10px] justify-start bg-white/5 hover:bg-white/10" onClick={() => setActiveSimulation('protocol_test')}>
+                        <Zap className="w-3 h-3 mr-1 text-yellow-400" /> Proto Test
+                    </Button>
+                </div>
             </div>
         </Card>
       </div>

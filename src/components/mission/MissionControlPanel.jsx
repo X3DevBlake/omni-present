@@ -12,6 +12,22 @@ export default function MissionControlPanel({ activeMission, onStartMission, onA
     const [showReport, setShowReport] = useState(false);
     const [reportData, setReportData] = useState(null);
     const [suggestions, setSuggestions] = useState(null);
+    const [threatData, setThreatData] = useState(null);
+
+    const checkThreats = async () => {
+        // const res = await base44.functions.invoke('missions/analyzeThreatResponse', { network_state: "simulated" });
+        // setThreatData(res.data);
+        // Mocking for immediate UI feedback
+        setThreatData({
+            threat_level: "ELEVATED",
+            detected_threats: [
+                { id: 1, type: "Anomaly", location: "Sector 4", severity: "Medium" }
+            ],
+            suggested_protocols: [
+                { id: 1, name: "Isolate Node", action: "Deploy Containment" }
+            ]
+        });
+    };
 
     const suggestAssignments = async () => {
         // const res = await base44.functions.invoke('missions/suggestAssignments', { mission_id: activeMission.id });
@@ -148,6 +164,35 @@ export default function MissionControlPanel({ activeMission, onStartMission, onA
                             <span className="text-gray-300">Anomaly detected in Node X-Ray.</span>
                         </div>
                     </div>
+                </div>
+
+                {/* AI Threat Response Module */}
+                <div className="border-t border-white/10 pt-2">
+                    <div className="flex justify-between items-center mb-2">
+                        <div className="text-xs font-bold text-red-400 flex items-center gap-1">
+                            <Shield className="w-3 h-3" /> Threat Monitor
+                        </div>
+                        <Button size="sm" variant="ghost" className="h-5 text-[10px]" onClick={checkThreats}>Scan</Button>
+                    </div>
+                    
+                    {threatData ? (
+                        <div className="bg-red-900/10 rounded p-2 border border-red-500/20 text-xs">
+                            <div className="flex justify-between mb-1">
+                                <span className="text-red-300">Level: {threatData.threat_level}</span>
+                                <span className="text-red-500 font-bold">{threatData.detected_threats.length} Active</span>
+                            </div>
+                            <div className="space-y-1 mt-2">
+                                {threatData.suggested_protocols.map(p => (
+                                    <div key={p.id} className="bg-red-500/10 p-1 rounded flex justify-between items-center">
+                                        <span className="text-gray-300">{p.name}</span>
+                                        <Button size="sm" className="h-4 text-[9px] bg-red-600 hover:bg-red-700">Deploy</Button>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="text-[10px] text-gray-500 italic text-center">System Secure. No active threats.</div>
+                    )}
                 </div>
 
                 {/* Actions */}
