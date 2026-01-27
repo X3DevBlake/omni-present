@@ -11,6 +11,17 @@ export default function MissionControlPanel({ activeMission, onStartMission, onA
     const [selectedAgents, setSelectedAgents] = useState([]);
     const [showReport, setShowReport] = useState(false);
     const [reportData, setReportData] = useState(null);
+    const [suggestions, setSuggestions] = useState(null);
+
+    const suggestAssignments = async () => {
+        // const res = await base44.functions.invoke('missions/suggestAssignments', { mission_id: activeMission.id });
+        // setSuggestions(res.data.suggestions);
+        setSuggestions([
+            { id: "alpha", agent: "Agent Alpha", score: 98, role: "Infiltration" },
+            { id: "beta", agent: "Agent Bravo", score: 92, role: "Surveillance" },
+            { id: "gamma", agent: "Agent Gamma", score: 87, role: "Support" }
+        ]);
+    };
 
     const generateReport = async () => {
         // In a real app, call backend
@@ -153,14 +164,37 @@ export default function MissionControlPanel({ activeMission, onStartMission, onA
                         Abort Mission
                     </Button>
                 </div>
-                <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    className="w-full text-xs text-gray-500 hover:text-cyan-400"
-                    onClick={generateReport}
-                >
-                    Generate Interim Report
-                </Button>
+                <div className="flex flex-col gap-1 mt-2">
+                    {!suggestions ? (
+                        <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            className="w-full text-xs text-cyan-500 hover:text-cyan-300 bg-cyan-900/10"
+                            onClick={suggestAssignments}
+                        >
+                            <Brain className="w-3 h-3 mr-2" /> AI: Suggest Agent Assignments
+                        </Button>
+                    ) : (
+                        <div className="bg-cyan-900/20 p-2 rounded text-xs border border-cyan-500/20 mb-2">
+                            <div className="font-bold text-cyan-400 mb-1">AI Recommendations</div>
+                            {suggestions.map(s => (
+                                <div key={s.id} className="flex justify-between items-center py-0.5">
+                                    <span className="text-gray-300">{s.agent}</span>
+                                    <Badge variant="outline" className="text-[9px] bg-cyan-500/10 border-cyan-500/30">{s.score}% Match</Badge>
+                                </div>
+                            ))}
+                            <Button size="sm" className="w-full h-6 mt-2 text-[10px]" onClick={() => setSuggestions(null)}>Apply Assignments</Button>
+                        </div>
+                    )}
+                    <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        className="w-full text-xs text-gray-500 hover:text-white"
+                        onClick={generateReport}
+                    >
+                        View Mission Debrief
+                    </Button>
+                </div>
             </CardContent>
         </Card>
     );

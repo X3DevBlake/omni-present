@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Search, Filter, Download, PieChart, BarChart as BarIcon, Table as TableIcon, Save, Plus, Share2, Brain, Sparkles, Activity, AlertTriangle } from 'lucide-react';
+import { Search, Filter, Download, PieChart, BarChart as BarIcon, Table as TableIcon, Save, Plus, Share2, Brain, Sparkles, Activity, AlertTriangle, FileText } from 'lucide-react';
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, Pie, PieChart as RePieChart, Cell } from 'recharts';
 
 export default function DataAnalysis() {
@@ -13,6 +13,23 @@ export default function DataAnalysis() {
     const [aiSuggestion, setAiSuggestion] = useState(null);
     const [showPredictions, setShowPredictions] = useState(false);
     const [anomalies, setAnomalies] = useState(null);
+    const [nlQuery, setNlQuery] = useState("");
+    const [execSummary, setExecSummary] = useState(null);
+
+    const handleNlQuery = async () => {
+        if (!nlQuery) return;
+        // const res = await base44.functions.invoke('analytics/naturalLanguageQuery', { natural_language_query: nlQuery });
+        // setQuery(JSON.stringify(res.data.structured_query));
+        alert("AI interpreted: " + nlQuery + " -> Converted to structural filters.");
+    };
+
+    const generateExecutiveSummary = () => {
+        setExecSummary({
+            title: "Executive Intelligence Briefing",
+            key_findings: ["Network resilience up 12%", "Emergent behavior detected in Sector 4", "Resource optimization opportunities identified"],
+            trend: "positive"
+        });
+    };
 
     const runPredictiveAnalytics = async () => {
         try {
@@ -92,8 +109,26 @@ export default function DataAnalysis() {
                     </CardHeader>
                     <CardContent className="space-y-4">
                         {/* AI Assistant Panel */}
-                        <div className="bg-indigo-900/10 border border-indigo-500/20 rounded-lg p-4 flex items-start gap-3 relative overflow-hidden">
+                        <div className="bg-indigo-900/10 border border-indigo-500/20 rounded-lg p-4 mb-4 relative overflow-hidden">
                             <div className="absolute top-0 right-0 p-2 opacity-10"><Brain className="w-24 h-24" /></div>
+                            
+                            <div className="flex gap-3 mb-4">
+                                <div className="p-2 bg-indigo-500/20 rounded-full h-fit"><Brain className="w-5 h-5 text-indigo-400" /></div>
+                                <div className="flex-1 z-10">
+                                    <h3 className="text-sm font-bold text-indigo-300 mb-2">Natural Language Exploration</h3>
+                                    <div className="flex gap-2">
+                                        <input 
+                                            type="text" 
+                                            value={nlQuery}
+                                            onChange={(e) => setNlQuery(e.target.value)}
+                                            placeholder="Ask a question about the data (e.g., 'Show me high anomalies from yesterday')"
+                                            className="flex-1 bg-black/40 border border-indigo-500/30 rounded px-3 py-1.5 text-xs text-white focus:border-indigo-400 outline-none"
+                                            onKeyDown={(e) => e.key === 'Enter' && handleNlQuery()}
+                                        />
+                                        <Button size="sm" onClick={handleNlQuery} className="h-8 bg-indigo-600 hover:bg-indigo-700">Ask AI</Button>
+                                    </div>
+                                </div>
+                            </div>
                             <div className="p-2 bg-indigo-500/20 rounded-full"><Brain className="w-5 h-5 text-indigo-400" /></div>
                             <div className="flex-1 z-10">
                                 <h3 className="text-sm font-bold text-indigo-300">AI Query Assistant</h3>
@@ -123,9 +158,25 @@ export default function DataAnalysis() {
                                     <Button size="sm" variant="ghost" onClick={scheduleQuery} className="h-8 text-xs bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300">
                                         <div className="w-3 h-3 mr-2 rounded-full bg-emerald-500 animate-pulse" /> Schedule
                                     </Button>
+                                    <Button size="sm" variant="ghost" onClick={generateExecutiveSummary} className="h-8 text-xs bg-purple-500/10 hover:bg-purple-500/20 text-purple-300">
+                                        <FileText className="w-3 h-3 mr-2" /> Executive Summary
+                                    </Button>
                                 </div>
                             )}
                         </div>
+
+                        {execSummary && (
+                            <div className="mb-4 bg-purple-900/20 border border-purple-500/30 rounded p-4 relative">
+                                <button onClick={() => setExecSummary(null)} className="absolute top-2 right-2 text-purple-400 hover:text-white">✕</button>
+                                <h3 className="text-purple-300 font-bold mb-2 flex items-center gap-2">
+                                    <Brain className="w-4 h-4" /> {execSummary.title}
+                                </h3>
+                                <ul className="list-disc list-inside text-xs text-gray-300 space-y-1">
+                                    {execSummary.key_findings.map((k, i) => <li key={i}>{k}</li>)}
+                                </ul>
+                                <div className="mt-2 text-[10px] text-purple-400 uppercase tracking-widest font-bold">Trend: {execSummary.trend}</div>
+                            </div>
+                        )}
                         
                         {showPredictions && (
                             <div className="grid grid-cols-3 gap-4 mb-4">

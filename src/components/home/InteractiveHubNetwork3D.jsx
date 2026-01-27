@@ -11,6 +11,7 @@ import { Activity, Zap, Shield, Radio, Users, Play, Pause, Target } from 'lucide
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import MissionControlPanel from '../mission/MissionControlPanel';
+import HubSelector from '../navigation/HubSelector';
 
 // The 14 Categories Color Mapping & Positions
 const CATEGORY_CONFIG = {
@@ -87,17 +88,32 @@ const Agent = ({ id, startPos, endPos, color, speed = 1, type = 'data', mission,
     }
 
     // --- Advanced Autonomous Behaviors ---
+    const time = state.clock.elapsedTime;
+    
+    // Learning & Adaptation (Simulated)
+    // Agents 'level up' or change color based on time/experience
+    const experience = Math.min(1, time * 0.05); // Grows over 20 seconds
+    const adaptiveColor = new THREE.Color(color).lerp(new THREE.Color('#00ff00'), experience * 0.5);
+
     if (type === 'security') {
-        pos.y += Math.sin(state.clock.elapsedTime * 8 + id) * 0.2;
-        pos.x += Math.cos(state.clock.elapsedTime * 4 + id) * 0.1;
+        pos.y += Math.sin(time * 8 + id) * 0.2;
+        pos.x += Math.cos(time * 4 + id) * 0.1;
     } else if (type === 'ai') {
-        // Spiral pattern for AI analysis
-        const angle = state.clock.elapsedTime * 2 + id;
-        pos.x += Math.cos(angle) * 0.3;
-        pos.z += Math.sin(angle) * 0.3;
+        // Complex Spiral Helix pattern for AI analysis
+        const angle = time * 2 + id;
+        const radius = 0.3 + Math.sin(time * 0.5) * 0.2;
+        pos.x += Math.cos(angle) * radius;
+        pos.z += Math.sin(angle) * radius;
+        pos.y += Math.sin(time * 3 + id) * 0.1;
     } else if (type === 'mission_agent') {
-        // Formation flying for missions
-        pos.y += Math.sin(state.clock.elapsedTime * 15 + id) * 0.05;
+        // Dynamic Formation: V-Shape or Sphere
+        if (mission === 'ALPHA') {
+            // V-Shape offset based on ID
+            pos.x += (id % 0.5) - 0.25;
+            pos.z -= (id % 0.5);
+        } else {
+            pos.y += Math.sin(time * 15 + id) * 0.05;
+        }
     }
 
     // --- Threat Learning & Sharing ---
@@ -491,6 +507,13 @@ export default function InteractiveHubNetwork3D() {
   const [activeSimulation, setActiveSimulation] = useState('idle');
   const [networkConnections, setNetworkConnections] = useState([]);
   
+  // Fetch dynamic hubs - INCREASED LIMIT to capture all pages
+  const { data: hubs = [] } = useQuery({
+    queryKey: ['hubs-3d-all'],
+    queryFn: () => base44.entities.Hub.list({ limit: 1000 }), // Increased to 1000 to catch everything
+    initialData: []
+  });
+
   // Mission State
   const [activeMission, setActiveMission] = useState(null);
 
@@ -530,12 +553,9 @@ export default function InteractiveHubNetwork3D() {
       return () => clearInterval(interval);
   }, [activeMission?.status]);
 
-  // Fetch dynamic hubs
-  const { data: hubs = [] } = useQuery({
-    queryKey: ['hubs-3d'],
-    queryFn: () => base44.entities.Hub.list({ limit: 500 }),
-    initialData: []
-  });
+  // Hubs fetching moved up to be available for HubSelector
+  // Kept here for reference of where it was removed from to ensure clean replacement if needed
+
 
   // Group hubs by category
   const groupedHubs = useMemo(() => {
@@ -563,6 +583,14 @@ export default function InteractiveHubNetwork3D() {
   return (
     <div className="relative w-full h-full min-h-[700px] bg-black rounded-3xl overflow-hidden border border-white/10 shadow-2xl">
       
+      {/* Top Navigation Bar / Hub Selector */}
+      <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-30 w-[400px]">
+          <HubSelector hubs={hubs} onSelect={(hub) => {
+              setSelectedHub(hub);
+              setFilterCategory(hub.category || 'All');
+          }} currentCategory={filterCategory} />
+      </div>
+
       {/* Simulation Controls Overlay */}
       <div className="absolute top-4 right-4 z-20 flex flex-col gap-2">
         <Card className="bg-black/80 backdrop-blur-xl border-white/10 p-3">
