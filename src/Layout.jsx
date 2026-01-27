@@ -72,7 +72,7 @@ function LayoutContent({ children, currentPageName }) {
         onSidebarToggle={() => setIsSidebarOpen(!isSidebarOpen)} 
         isSidebarOpen={isSidebarOpen}
       />
-      <Sidebar isOpen={isSidebarOpen} hubs={hubs} />
+      <Sidebar isOpen={isSidebarOpen} hubs={hubs} isLoading={isLoadingHubs} />
       <BackExitControls placement="top-right" />
       <GamificationOverlay />
       <div 

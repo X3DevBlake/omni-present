@@ -124,7 +124,7 @@ const KNOWN_PAGES = new Set([
   "WorldHubEnhanced"
 ]);
 
-export default function Sidebar({ isOpen, hubs = [] }) {
+export default function Sidebar({ isOpen, hubs = [], isLoading = false }) {
   const location = useLocation();
 
   const getHubsByCategory = (cat) => {
@@ -153,9 +153,16 @@ export default function Sidebar({ isOpen, hubs = [] }) {
             System Modules: {hubs.length}
           </div>
           
-          {hubs.length === 0 && (
-            <div className="text-gray-500 text-sm text-center py-10 px-4">
+          {isLoading && hubs.length === 0 && (
+            <div className="text-gray-500 text-sm text-center py-10 px-4 animate-pulse">
               Initializing neural interface...
+            </div>
+          )}
+          
+          {!isLoading && hubs.length === 0 && (
+            <div className="text-red-400 text-sm text-center py-10 px-4 border border-red-500/20 rounded m-4">
+              No systems connected.
+              <br/><span className="text-xs text-gray-500">Check database connection.</span>
             </div>
           )}
 
