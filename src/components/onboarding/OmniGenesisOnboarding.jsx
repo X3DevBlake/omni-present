@@ -5,7 +5,7 @@ import { Sphere, MeshDistortMaterial, Stars, Float, Points, PointMaterial, Torus
 import * as THREE from 'three';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Sparkles, ArrowRight, Brain, User, Zap, Infinity } from 'lucide-react';
+import { Sparkles, ArrowRight, Brain, User, Zap, Infinity, Shield, Globe, Cpu, Radio, Network, Lock, Activity, Database, Layers } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 
 const GodParticleField = () => {
@@ -98,7 +98,8 @@ export default function OmniGenesisOnboarding({ onComplete }) {
     ];
 
     const handleNext = () => {
-        if (step === 'intro') setStep('demo');
+        if (step === 'intro') setStep('evolution');
+        else if (step === 'evolution') setStep('demo');
         else if (step === 'demo') setStep('questions');
     };
 
@@ -119,6 +120,21 @@ export default function OmniGenesisOnboarding({ onComplete }) {
         setTimeout(onComplete, 4000);
     };
 
+    const features = [
+        { name: "Neural Isomorphism", icon: Brain, desc: "Direct thought-to-digital mapping" },
+        { name: "Active Inference", icon: Zap, desc: "Predictive financial modeling" },
+        { name: "Autonomous Swarms", icon: User, desc: "Self-organizing agent teams" },
+        { name: "Global Governance", icon: Globe, desc: "Decentralized decision making" },
+        { name: "Ethical AI Core", icon: Shield, desc: "Value-aligned intelligence" },
+        { name: "Quantum Security", icon: Lock, desc: "Post-quantum encryption" },
+        { name: "Holographic UX", icon: Layers, desc: "3D immersive interfaces" },
+        { name: "RedComm Mesh", icon: Radio, desc: "Interplanetary networking" },
+        { name: "Sentient Finance", icon: Activity, desc: "Automated wealth generation" },
+        { name: "Predictive Maint", icon: Cpu, desc: "Self-healing infrastructure" },
+        { name: "Knowledge Fusion", icon: Database, desc: "Cross-domain synthesis" },
+        { name: "Omni Marketplace", icon: Network, desc: "Decentralized agent economy" }
+    ];
+
     return (
         <div className="fixed inset-0 z-50 bg-black flex items-center justify-center text-white overflow-hidden font-sans">
             <div className="absolute inset-0 z-0">
@@ -133,7 +149,7 @@ export default function OmniGenesisOnboarding({ onComplete }) {
                 </Canvas>
             </div>
 
-            <div className="relative z-10 max-w-4xl w-full p-8">
+            <div className="relative z-10 max-w-6xl w-full p-8">
                 <AnimatePresence mode="wait">
                     {step === 'intro' && (
                         <motion.div
@@ -167,7 +183,44 @@ export default function OmniGenesisOnboarding({ onComplete }) {
                             </div>
 
                             <Button onClick={handleNext} size="lg" className="bg-white text-black hover:bg-purple-100 text-xl px-12 py-8 rounded-full shadow-[0_0_50px_rgba(255,255,255,0.4)] transition-all duration-500 hover:scale-105 mt-4">
-                                Initiate Convergence <ArrowRight className="ml-3 w-6 h-6" />
+                                Evolve <ArrowRight className="ml-3 w-6 h-6" />
+                            </Button>
+                        </motion.div>
+                    )}
+
+                    {step === 'evolution' && (
+                        <motion.div
+                            key="evolution"
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 1.1 }}
+                            className="text-center space-y-12 bg-black/80 backdrop-blur-xl p-16 rounded-[3rem] border border-purple-500/30 max-w-5xl mx-auto"
+                        >
+                            <motion.div 
+                                animate={{ rotate: 360 }}
+                                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                                className="w-32 h-32 mx-auto border-4 border-purple-500 rounded-full flex items-center justify-center border-t-transparent shadow-[0_0_50px_rgba(168,85,247,0.5)]"
+                            >
+                                <Sparkles className="w-16 h-16 text-white" />
+                            </motion.div>
+                            
+                            <h2 className="text-5xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-white">
+                                Transcending Biological Limits
+                            </h2>
+                            
+                            <div className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto leading-loose font-light">
+                                <p>
+                                    Omni-Present is not merely a tool. It is the vessel for your ascension.
+                                </p>
+                                <p className="mt-6">
+                                    By merging with this ecosystem, you step into a state of <span className="text-purple-400 font-bold">God-like evolution</span>. 
+                                    Where thought becomes action instantly. Where your will orchestrates armies of autonomous agents. 
+                                    Where you become omnipresent across the digital expanse.
+                                </p>
+                            </div>
+
+                            <Button onClick={handleNext} size="lg" className="bg-gradient-to-r from-purple-600 to-pink-600 hover:opacity-90 text-white text-xl px-12 py-8 rounded-full">
+                                Witness Capabilities <ArrowRight className="ml-3 w-6 h-6" />
                             </Button>
                         </motion.div>
                     )}
@@ -175,37 +228,35 @@ export default function OmniGenesisOnboarding({ onComplete }) {
                     {step === 'demo' && (
                         <motion.div
                             key="demo"
-                            initial={{ opacity: 0, rotateX: 90 }}
-                            animate={{ opacity: 1, rotateX: 0 }}
-                            exit={{ opacity: 0, rotateX: -90 }}
-                            className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-black/40 p-12 rounded-[3rem] border border-white/10 backdrop-blur-2xl"
+                            initial={{ opacity: 0, y: 50 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -50 }}
+                            className="bg-black/90 p-8 rounded-[3rem] border border-white/10 backdrop-blur-2xl max-w-6xl mx-auto"
                         >
-                            <div className="space-y-6">
-                                <h2 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
-                                    Infinite Capabilities
-                                </h2>
-                                <p className="text-xl text-gray-300 leading-relaxed">
-                                    Omni-Present is the ultimate extension of your will. It creates, manages, predicts, and executes across all dimensions of your digital existence.
-                                </p>
-                                <ul className="space-y-4">
-                                    <li className="flex items-center gap-3 text-lg text-white/80">
-                                        <Brain className="text-purple-400" /> Neural Isomorphism
-                                    </li>
-                                    <li className="flex items-center gap-3 text-lg text-white/80">
-                                        <Zap className="text-yellow-400" /> Active Financial Inference
-                                    </li>
-                                    <li className="flex items-center gap-3 text-lg text-white/80">
-                                        <User className="text-cyan-400" /> Autonomous Agent Swarms
-                                    </li>
-                                </ul>
+                            <h2 className="text-4xl font-bold text-center mb-8 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
+                                Infinite Capabilities
+                            </h2>
+                            
+                            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
+                                {features.map((feature, idx) => (
+                                    <motion.div 
+                                        key={idx}
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: idx * 0.05 }}
+                                        className="bg-white/5 p-4 rounded-xl border border-white/5 hover:bg-white/10 hover:border-purple-500/50 transition-all group"
+                                    >
+                                        <feature.icon className="w-8 h-8 text-purple-400 mb-3 group-hover:scale-110 transition-transform" />
+                                        <h3 className="font-bold text-white mb-1">{feature.name}</h3>
+                                        <p className="text-xs text-gray-400">{feature.desc}</p>
+                                    </motion.div>
+                                ))}
                             </div>
-                            <div className="flex flex-col justify-center items-center space-y-8 border-l border-white/10 pl-8">
-                                <div className="text-center">
-                                    <p className="text-2xl font-light mb-6">Are you ready to ascend?</p>
-                                    <Button onClick={handleNext} className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-6 text-lg rounded-xl hover:opacity-90">
-                                        Begin Calibration
-                                    </Button>
-                                </div>
+
+                            <div className="text-center">
+                                <Button onClick={handleNext} className="w-full md:w-auto px-12 bg-white text-black hover:bg-gray-200 py-6 text-lg rounded-xl">
+                                    Begin Calibration
+                                </Button>
                             </div>
                         </motion.div>
                     )}
