@@ -62,25 +62,28 @@ const Agent = ({ id, startPos, endPos, color, speed = 1, type = 'data', mission,
       progress
     );
 
-    // --- Advanced Swarm Cohesion & Boids Logic ---
+    // --- Dynamic Swarm Re-formation & Boids Logic ---
     if (nearbyAgents && nearbyAgents.length > 0) {
         // Cohesion: Move towards center of neighbors
         const center = new THREE.Vector3();
         nearbyAgents.forEach(n => center.add(n));
         center.divideScalar(nearbyAgents.length);
-        const cohesion = center.sub(pos).multiplyScalar(0.01);
+        const cohesion = center.sub(pos).multiplyScalar(0.015);
 
         // Separation: Avoid crowding
         const separation = new THREE.Vector3();
         nearbyAgents.forEach(n => {
             const dist = pos.distanceTo(n);
-            if (dist < 0.5) {
-                const push = pos.clone().sub(n).normalize().multiplyScalar(0.02 / dist);
+            if (dist < 0.6) {
+                const push = pos.clone().sub(n).normalize().multiplyScalar(0.03 / dist);
                 separation.add(push);
             }
         });
 
-        pos.add(cohesion).add(separation);
+        // Alignment: Match velocity (simulated by adding a forward vector)
+        const alignment = new THREE.Vector3().subVectors(new THREE.Vector3(...endPos), new THREE.Vector3(...startPos)).normalize().multiplyScalar(0.01);
+
+        pos.add(cohesion).add(separation).add(alignment);
     }
 
     // --- Advanced Autonomous Behaviors ---
@@ -93,7 +96,8 @@ const Agent = ({ id, startPos, endPos, color, speed = 1, type = 'data', mission,
         pos.x += Math.cos(angle) * 0.3;
         pos.z += Math.sin(angle) * 0.3;
     } else if (type === 'mission_agent') {
-        pos.y += Math.sin(state.clock.elapsedTime * 15) * 0.05;
+        // Formation flying for missions
+        pos.y += Math.sin(state.clock.elapsedTime * 15 + id) * 0.05;
     }
 
     // --- Threat Learning & Sharing ---
