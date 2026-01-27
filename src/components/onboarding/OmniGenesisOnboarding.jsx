@@ -450,6 +450,140 @@ export default function OmniGenesisOnboarding({ onComplete }) {
                         </motion.div>
                     )}
 
+                    {step === 'did_creation' && (
+                        <motion.div
+                            key="did_creation"
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, x: -50 }}
+                            className="max-w-3xl mx-auto text-center bg-black/80 backdrop-blur-xl p-12 rounded-[3rem] border border-cyan-500/30"
+                        >
+                            <motion.div 
+                                animate={{ 
+                                    boxShadow: isGeneratingDID ? ["0 0 20px #06b6d4", "0 0 60px #06b6d4", "0 0 20px #06b6d4"] : "0 0 0px #000"
+                                }}
+                                transition={{ duration: 1.5, repeat: Infinity }}
+                                className="w-32 h-32 mx-auto bg-black border-2 border-cyan-500 rounded-full flex items-center justify-center mb-8 relative overflow-hidden"
+                            >
+                                <AnimatePresence mode="wait">
+                                    {generatedDID ? (
+                                        <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
+                                            <CheckCircle2 className="w-16 h-16 text-cyan-400" />
+                                        </motion.div>
+                                    ) : (
+                                        <Fingerprint className={`w-16 h-16 text-cyan-400 ${isGeneratingDID ? 'animate-pulse' : ''}`} />
+                                    )}
+                                </AnimatePresence>
+                                {isGeneratingDID && (
+                                    <motion.div 
+                                        className="absolute inset-0 bg-cyan-500/20"
+                                        animate={{ y: ["100%", "-100%"] }}
+                                        transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                                    />
+                                )}
+                            </motion.div>
+                            
+                            <h2 className="text-4xl font-bold text-white mb-4">Sovereign Identity Genesis</h2>
+                            <p className="text-gray-400 mb-8 text-lg">
+                                Forging your decentralized identifier (DID) on the Omni-Chain. This immutable identity grants you sovereign control over your data and reputation.
+                            </p>
+
+                            {generatedDID ? (
+                                <div className="bg-cyan-950/50 border border-cyan-500/50 p-4 rounded-xl mb-8 font-mono text-cyan-400 break-all">
+                                    {generatedDID}
+                                </div>
+                            ) : (
+                                <div className="h-16 flex items-center justify-center text-gray-500 font-mono mb-8">
+                                    {isGeneratingDID ? "CRYPTOGRAPHIC PROOFING..." : "Ready to forge identity..."}
+                                </div>
+                            )}
+
+                            {!generatedDID && (
+                                <Button 
+                                    onClick={handleDIDCreation} 
+                                    disabled={isGeneratingDID}
+                                    size="lg" 
+                                    className="bg-cyan-600 hover:bg-cyan-500 text-white text-xl px-12 py-6 rounded-xl w-full md:w-auto"
+                                >
+                                    {isGeneratingDID ? (
+                                        <span className="flex items-center gap-2">
+                                            <Scan className="animate-spin" /> Forging...
+                                        </span>
+                                    ) : (
+                                        "Forge DID Identity"
+                                    )}
+                                </Button>
+                            )}
+                        </motion.div>
+                    )}
+
+                    {step === 'wallet_creation' && (
+                        <motion.div
+                            key="wallet_creation"
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, x: -50 }}
+                            className="max-w-3xl mx-auto text-center bg-black/80 backdrop-blur-xl p-12 rounded-[3rem] border border-purple-500/30"
+                        >
+                            <motion.div 
+                                animate={{ 
+                                    boxShadow: isGeneratingWallet ? ["0 0 20px #a855f7", "0 0 60px #a855f7", "0 0 20px #a855f7"] : "0 0 0px #000"
+                                }}
+                                transition={{ duration: 1.5, repeat: Infinity }}
+                                className="w-32 h-32 mx-auto bg-black border-2 border-purple-500 rounded-full flex items-center justify-center mb-8 relative overflow-hidden"
+                            >
+                                <AnimatePresence mode="wait">
+                                    {generatedWallet ? (
+                                        <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
+                                            <CheckCircle2 className="w-16 h-16 text-purple-400" />
+                                        </motion.div>
+                                    ) : (
+                                        <Wallet className={`w-16 h-16 text-purple-400 ${isGeneratingWallet ? 'animate-pulse' : ''}`} />
+                                    )}
+                                </AnimatePresence>
+                                {isGeneratingWallet && (
+                                    <motion.div 
+                                        className="absolute inset-0 bg-purple-500/20"
+                                        animate={{ y: ["100%", "-100%"] }}
+                                        transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                                    />
+                                )}
+                            </motion.div>
+                            
+                            <h2 className="text-4xl font-bold text-white mb-4">Omni Vault Initialization</h2>
+                            <p className="text-gray-400 mb-8 text-lg">
+                                Establishing your secure financial node. This vault will hold your OMNI tokens, assets, and credentials.
+                            </p>
+
+                            {generatedWallet ? (
+                                <div className="bg-purple-950/50 border border-purple-500/50 p-4 rounded-xl mb-8 font-mono text-purple-400 break-all">
+                                    {generatedWallet}
+                                </div>
+                            ) : (
+                                <div className="h-16 flex items-center justify-center text-gray-500 font-mono mb-8">
+                                    {isGeneratingWallet ? "SECURING NODES..." : "Ready to initialize vault..."}
+                                </div>
+                            )}
+
+                            {!generatedWallet && (
+                                <Button 
+                                    onClick={handleWalletCreation} 
+                                    disabled={isGeneratingWallet}
+                                    size="lg" 
+                                    className="bg-purple-600 hover:bg-purple-500 text-white text-xl px-12 py-6 rounded-xl w-full md:w-auto"
+                                >
+                                    {isGeneratingWallet ? (
+                                        <span className="flex items-center gap-2">
+                                            <Scan className="animate-spin" /> Initializing...
+                                        </span>
+                                    ) : (
+                                        "Initialize Omni Wallet"
+                                    )}
+                                </Button>
+                            )}
+                        </motion.div>
+                    )}
+
                     {step === 'complete' && (
                         <motion.div
                             key="complete"
