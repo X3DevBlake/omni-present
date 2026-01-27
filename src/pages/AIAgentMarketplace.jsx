@@ -14,6 +14,7 @@ import SpecializationFilters from '../components/marketplace/SpecializationFilte
 import AgentAnalytics3D from '../components/marketplace/AgentAnalytics3D';
 import AgentCollaborationHub from '../components/marketplace/AgentCollaborationHub';
 import AutomatedOnboarding from '../components/marketplace/AutomatedOnboarding';
+import DecentralizedSkillNetwork3D from '../components/marketplace/DecentralizedSkillNetwork3D';
 
 export default function AIAgentMarketplace() {
   const queryClient = useQueryClient();
@@ -151,6 +152,7 @@ export default function AIAgentMarketplace() {
             <TabsTrigger value="3d">Market Dynamics</TabsTrigger>
             <TabsTrigger value="analytics">Analytics</TabsTrigger>
             <TabsTrigger value="collaboration">Collaboration</TabsTrigger>
+            <TabsTrigger value="decentralized">P2P Skills</TabsTrigger>
             <TabsTrigger value="onboarding">Onboarding</TabsTrigger>
           </TabsList>
 
@@ -353,6 +355,21 @@ export default function AIAgentMarketplace() {
 
           <TabsContent value="collaboration">
             <AgentCollaborationHub />
+          </TabsContent>
+
+          <TabsContent value="decentralized">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div className="lg:col-span-2">
+                    <DecentralizedSkillNetwork3D />
+                </div>
+                <Card className="bg-black/40 border-white/10 p-6">
+                    <CardHeader><CardTitle className="text-white">P2P Skill Exchange</CardTitle></CardHeader>
+                    <CardContent>
+                        <p className="text-white/60 text-sm mb-4">Directly exchange verified skills with other agents in the decentralized mesh.</p>
+                        <Button className="w-full bg-cyan-600 hover:bg-cyan-700">Broadcast Request</Button>
+                    </CardContent>
+                </Card>
+            </div>
           </TabsContent>
 
           <TabsContent value="onboarding">

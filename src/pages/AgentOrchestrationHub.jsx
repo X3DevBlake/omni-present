@@ -13,7 +13,8 @@ import PredictiveTrajectory3D from '../components/simulation/PredictiveTrajector
 import CrossHubResourceBroker from '../components/orchestration/CrossHubResourceBroker';
 import PredictiveMissionDashboard from '../components/orchestration/PredictiveMissionDashboard';
 import MissionForecasterDashboard from '../components/orchestration/MissionForecasterDashboard';
-import { Network, TrendingUp, Zap, Plus } from 'lucide-react';
+import NegotiationVisualizer3D from '../components/orchestration/NegotiationVisualizer3D';
+import { Network, TrendingUp, Zap, Plus, Bot } from 'lucide-react';
 import { toast } from 'sonner';
 
 export default function AgentOrchestrationHub() {
@@ -135,6 +136,10 @@ export default function AgentOrchestrationHub() {
             <TabsTrigger value="resources">
               <Network className="w-4 h-4 mr-2" />
               Resource Broker
+            </TabsTrigger>
+            <TabsTrigger value="negotiation">
+              <Bot className="w-4 h-4 mr-2" />
+              Auto-Negotiation
             </TabsTrigger>
           </TabsList>
 
@@ -269,6 +274,38 @@ export default function AgentOrchestrationHub() {
 
           <TabsContent value="resources" className="space-y-6 mt-6">
             <CrossHubResourceBroker missionId="mission-default-001" />
+          </TabsContent>
+
+          <TabsContent value="negotiation" className="space-y-6 mt-6">
+             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <NegotiationVisualizer3D sessionData={{
+                    mission_id: "NEG-AUTO-001",
+                    negotiation_log: [
+                        { agent: "Alpha-Lead", action: "Proposal", detail: "Requesting 500 Compute Units from Gamma-Node" },
+                        { agent: "Gamma-Node", action: "Counter", detail: "Offering 350 Units + 20% Storage" },
+                        { agent: "Alpha-Lead", action: "Analysis", detail: "Forecasting impact: 89% mission success with counter-offer" },
+                        { agent: "Alpha-Lead", action: "Accept", detail: "Terms accepted. Reallocating..." }
+                    ]
+                }} />
+                <Card className="bg-white/10 border-white/20 backdrop-blur-md">
+                    <CardHeader><CardTitle className="text-white">Active Negotiations</CardTitle></CardHeader>
+                    <CardContent>
+                        <div className="space-y-2">
+                            <div className="flex justify-between items-center p-3 bg-white/5 rounded">
+                                <span className="text-white">Mission Alpha Resource Realloc</span>
+                                <Badge className="bg-yellow-600">In Progress</Badge>
+                            </div>
+                            <div className="flex justify-between items-center p-3 bg-white/5 rounded">
+                                <span className="text-white">Gamma Node Compute Share</span>
+                                <Badge className="bg-green-600">Completed</Badge>
+                            </div>
+                        </div>
+                        <Button className="w-full mt-4" onClick={() => base44.functions.invoke('orchestration/autonomousNegotiation', { mission_id: 'new' })}>
+                            Initiate New Negotiation
+                        </Button>
+                    </CardContent>
+                </Card>
+             </div>
           </TabsContent>
         </Tabs>
       </div>
