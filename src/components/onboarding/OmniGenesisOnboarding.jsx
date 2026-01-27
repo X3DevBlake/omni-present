@@ -5,7 +5,7 @@ import { Sphere, MeshDistortMaterial, Stars, Float, Points, PointMaterial, Torus
 import * as THREE from 'three';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Sparkles, ArrowRight, Brain, User, Zap, Infinity, Shield, Globe, Cpu, Radio, Network, Lock, Activity, Database, Layers } from 'lucide-react';
+import { Sparkles, ArrowRight, Brain, User, Zap, Infinity as InfinityIcon, Shield, Globe, Cpu, Radio, Network, Lock, Activity, Database, Layers } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 
 const GodParticleField = () => {
@@ -163,7 +163,7 @@ export default function OmniGenesisOnboarding({ onComplete }) {
                                 animate={{ opacity: [0.5, 1, 0.5] }}
                                 transition={{ duration: 3, repeat: Infinity }}
                             >
-                                <Infinity className="w-20 h-20 mx-auto text-purple-400 mb-4 drop-shadow-[0_0_15px_rgba(168,85,247,0.8)]" />
+                                <InfinityIcon className="w-20 h-20 mx-auto text-purple-400 mb-4 drop-shadow-[0_0_15px_rgba(168,85,247,0.8)]" />
                             </motion.div>
                             
                             <h1 className="text-6xl md:text-8xl font-black bg-clip-text text-transparent bg-gradient-to-r from-purple-200 via-white to-purple-200 tracking-tighter drop-shadow-[0_0_30px_rgba(255,255,255,0.5)]">
