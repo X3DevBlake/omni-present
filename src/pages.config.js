@@ -1233,7 +1233,7 @@ export const PAGES = {
 }
 
 export const pagesConfig = {
-    mainPage: "Home",
+    mainPage: "AgentCollaborationHub",
     Pages: PAGES,
     Layout: __Layout,
 };
