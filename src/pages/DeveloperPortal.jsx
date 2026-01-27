@@ -101,7 +101,7 @@ export default function DeveloperPortal() {
           </TabsList>
 
           <TabsContent value="docs" className="mt-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
               <JavaScriptSDKDocs />
               <PythonSDKDocs />
             </div>
@@ -111,7 +111,12 @@ export default function DeveloperPortal() {
           <TabsContent value="sandbox" className="mt-6">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
               <div className="lg:col-span-2">
+                <div className="lg:col-span-2">
                 <InteractiveSandbox />
+              </div>
+              <div className="lg:col-span-1 h-[600px]">
+                <AICodeAssistant />
+              </div>
               </div>
               <div className="lg:col-span-1 h-[600px]">
                 <AICodeAssistant />
