@@ -14,6 +14,7 @@ import {
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { OrbitControls, Sphere, Line, Text as Text3D, MeshDistortMaterial, Float, Stars, Html } from '@react-three/drei';
 import * as THREE from 'three';
+import SentientOracle3D from '../components/simulation/SentientOracle3D';
 import NeuralManifoldAlignmentVisualizer3D from '../components/omega/NeuralManifoldAlignmentVisualizer3D';
 import PhotophoreticTrapSimulator3D from '../components/omega/PhotophoreticTrapSimulator3D';
 import RecursiveHAASMonitor3D from '../components/omega/RecursiveHAASMonitor3D';
