@@ -92,6 +92,10 @@ export default function OmniGenesisOnboarding({ onComplete }) {
     const [answers, setAnswers] = useState({});
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [inputValue, setInputValue] = useState('');
+    const [isGeneratingDID, setIsGeneratingDID] = useState(false);
+    const [isGeneratingWallet, setIsGeneratingWallet] = useState(false);
+    const [generatedDID, setGeneratedDID] = useState(null);
+    const [generatedWallet, setGeneratedWallet] = useState(null);
 
     const questions = [
         { id: 'intent', text: "What is your primary intent for merging with the Omni-Present ecosystem?", type: "text" },
