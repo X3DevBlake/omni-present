@@ -139,8 +139,51 @@ export default function OmniGenesisOnboarding({ onComplete }) {
     ];
 
     return (
-        <div className="fixed inset-0 z-50 bg-black flex items-center justify-center text-white overflow-hidden font-sans">
+        <div className="fixed inset-0 z-50 flex items-center justify-center text-white overflow-hidden font-sans">
+            {/* Animated Background from Home */}
             <div className="absolute inset-0 z-0">
+                <div className="absolute inset-0 bg-gradient-to-br from-black via-indigo-950 to-purple-950" />
+                <motion.div
+                    className="absolute inset-0"
+                    animate={{
+                        background: [
+                            'radial-gradient(circle at 20% 30%, rgba(139, 92, 246, 0.25) 0%, transparent 40%)',
+                            'radial-gradient(circle at 80% 70%, rgba(236, 72, 153, 0.25) 0%, transparent 40%)',
+                            'radial-gradient(circle at 50% 50%, rgba(34, 211, 238, 0.25) 0%, transparent 40%)',
+                            'radial-gradient(circle at 70% 30%, rgba(16, 185, 129, 0.25) 0%, transparent 40%)',
+                            'radial-gradient(circle at 20% 30%, rgba(139, 92, 246, 0.25) 0%, transparent 40%)'
+                        ]
+                    }}
+                    transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+                />
+                <motion.div
+                    className="absolute inset-0"
+                    animate={{
+                        background: [
+                            'radial-gradient(circle at 70% 60%, rgba(236, 72, 153, 0.15) 0%, transparent 50%)',
+                            'radial-gradient(circle at 30% 40%, rgba(34, 211, 238, 0.15) 0%, transparent 50%)',
+                            'radial-gradient(circle at 60% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%)',
+                            'radial-gradient(circle at 70% 60%, rgba(236, 72, 153, 0.15) 0%, transparent 50%)'
+                        ]
+                    }}
+                    transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+                />
+                <svg className="absolute inset-0 w-full h-full opacity-20">
+                    <defs>
+                        <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
+                            <path d="M 50 0 L 0 0 0 50" fill="none" stroke="rgba(139, 92, 246, 0.3)" strokeWidth="0.5"/>
+                        </pattern>
+                        <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stopColor="#8b5cf6" />
+                            <stop offset="50%" stopColor="#ec4899" />
+                            <stop offset="100%" stopColor="#22d3ee" />
+                        </linearGradient>
+                    </defs>
+                    <rect width="100%" height="100%" fill="url(#grid)" />
+                </svg>
+            </div>
+
+            <div className="absolute inset-0 z-0 opacity-60">
                 <Canvas camera={{ position: [0, 0, 16] }}>
                     <ambientLight intensity={0.5} />
                     <pointLight position={[10, 10, 10]} intensity={2} color="#ffffff" />
