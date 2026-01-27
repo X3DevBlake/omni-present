@@ -10,6 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import AgentOrchestration3D from '../components/orchestration/AgentOrchestration3D';
 import AgentTeamFormation3D from '../components/agents/AgentTeamFormation3D';
 import PredictiveTrajectory3D from '../components/simulation/PredictiveTrajectory3D';
+import CrossHubResourceBroker from '../components/orchestration/CrossHubResourceBroker';
 import { Network, TrendingUp, Zap, Plus } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -128,6 +129,10 @@ export default function AgentOrchestrationHub() {
             <TabsTrigger value="predictions">
               <TrendingUp className="w-4 h-4 mr-2" />
               Predictions
+            </TabsTrigger>
+            <TabsTrigger value="resources">
+              <Network className="w-4 h-4 mr-2" />
+              Resource Broker
             </TabsTrigger>
           </TabsList>
 
@@ -253,6 +258,10 @@ export default function AgentOrchestrationHub() {
                 No predictions available. Run a simulation to generate forecasts.
               </div>
             )}
+          </TabsContent>
+
+          <TabsContent value="resources" className="space-y-6 mt-6">
+            <CrossHubResourceBroker missionId="mission-default-001" />
           </TabsContent>
         </Tabs>
       </div>
