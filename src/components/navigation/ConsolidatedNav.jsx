@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
-import { Menu, X, GraduationCap, Sparkles } from 'lucide-react';
+import { Menu, X, GraduationCap, Sparkles, Globe } from 'lucide-react';
 import ProfileIcon from './ProfileIcon';
 import { Button } from '@/components/ui/button';
 import GlobalSearch from './GlobalSearch';
