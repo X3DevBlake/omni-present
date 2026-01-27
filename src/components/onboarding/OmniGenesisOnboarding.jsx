@@ -166,8 +166,8 @@ export default function OmniGenesisOnboarding({ onComplete }) {
                                 <InfinityIcon className="w-20 h-20 mx-auto text-purple-400 mb-4 drop-shadow-[0_0_15px_rgba(168,85,247,0.8)]" />
                             </motion.div>
                             
-                            <h1 className="text-6xl md:text-8xl font-black bg-clip-text text-transparent bg-gradient-to-r from-purple-200 via-white to-purple-200 tracking-tighter drop-shadow-[0_0_30px_rgba(255,255,255,0.5)]">
-                                OMNI GENESIS
+                            <h1 className="text-6xl md:text-8xl font-black bg-clip-text text-transparent bg-gradient-to-r from-cyan-300 via-white to-purple-300 tracking-tighter drop-shadow-[0_0_30px_rgba(0,255,255,0.3)]">
+                                OMNI PRESENT
                             </h1>
                             
                             <div className="space-y-6 py-6">
