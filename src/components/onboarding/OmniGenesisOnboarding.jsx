@@ -5,7 +5,7 @@ import { Sphere, MeshDistortMaterial, Stars, Float, Points, PointMaterial, Torus
 import * as THREE from 'three';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Sparkles, ArrowRight, Brain, User, Zap, Infinity as InfinityIcon, Shield, Globe, Cpu, Radio, Network, Lock, Activity, Database, Layers } from 'lucide-react';
+import { Sparkles, ArrowRight, Brain, User, Zap, Infinity as InfinityIcon, Shield, Globe, Cpu, Radio, Network, Lock, Activity, Database, Layers, Fingerprint, Wallet, Scan, CheckCircle2 } from 'lucide-react';
 import OmniLoopLogo3D from '@/components/omnipresence/OmniLoopLogo3D';
 import { base44 } from '@/api/base44Client';
 
