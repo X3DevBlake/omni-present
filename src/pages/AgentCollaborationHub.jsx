@@ -27,7 +27,7 @@ export default function AgentCollaborationHub() {
     };
 
     return (
-        <div className="relative min-h-screen w-full bg-black overflow-y-auto pt-20 pb-12">
+        <div className="relative w-full bg-black pt-20 pb-12">
             <div className="fixed inset-0 z-0 pointer-events-none">
                 <AuroraBackground className="w-full h-full" />
             </div>
@@ -55,7 +55,7 @@ export default function AgentCollaborationHub() {
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     {/* Main Visualizer - Collaboration Network */}
                     <div className="lg:col-span-2 h-[600px] rounded-xl overflow-hidden border border-white/10 shadow-2xl">
-                        <SwarmIntelligence3D active={true} />
+                        <EcosystemGalaxy3D />
                     </div>
 
                     {/* Mission Control Side Panel */}

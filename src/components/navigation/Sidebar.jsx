@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
+import { base44 } from '@/api/base44Client';
 import { createPageUrl } from '@/utils';
 import { 
   Home, Activity, Brain, Rocket, Shield, Database, LayoutGrid, 
@@ -140,8 +141,33 @@ const HARDCODED_HUBS = [
 
 export default function Sidebar({ isOpen, hubs = [], isLoading = false }) {
   const location = useLocation();
+  const [dynamicPages, setDynamicPages] = useState([]);
+
+  useEffect(() => {
+    const fetchPages = async () => {
+        try {
+            const res = await base44.functions.invoke('system/getDynamicNavigation', {});
+            if(res.data?.success && res.data.navigation.pages) {
+                setDynamicPages(res.data.navigation.pages);
+            }
+        } catch(e) {
+            console.error("Failed to fetch dynamic pages", e);
+        }
+    };
+    fetchPages();
+  }, []);
   
-  const allHubs = [...HARDCODED_HUBS, ...hubs];
+  // Merge dynamic pages into hubs structure if they have categories, or add as separate list
+  // For now, we will treat dynamic pages as hubs if they have categories
+  const dynamicHubs = dynamicPages.map(p => ({
+      id: p.id,
+      name: p.title,
+      category: p.category || 'Dynamic Pages',
+      path: p.component_path || p.route_path,
+      icon: p.icon_name
+  }));
+
+  const allHubs = [...HARDCODED_HUBS, ...hubs, ...dynamicHubs];
 
   const getHubsByCategory = (cat) => {
     return allHubs.filter(h => h.category?.includes(cat.name) || h.category === cat.name);

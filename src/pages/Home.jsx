@@ -25,7 +25,7 @@ import CRDTSyncVisualizer3D from '../components/omega/CRDTSyncVisualizer3D';
 import SentientFinanceEngine3D from '../components/omega/SentientFinanceEngine3D';
 import EnhancedRedCommVisualizer3D from '../components/network/EnhancedRedCommVisualizer3D';
 import NeuralEnhancementVisualizer3D from '../components/augmentation/NeuralEnhancementVisualizer3D';
-import InteractiveHubNetwork3D from '../components/home/InteractiveHubNetwork3D';
+import EcosystemGalaxy3D from '../components/ecosystem/EcosystemGalaxy3D';
 import OmniPresentInfinityLogo3D from '../components/home/OmniPresentInfinityLogo3D';
 
 
@@ -856,7 +856,7 @@ export default function Home() {
             Interactive 3D network of all interconnected hubs
           </p>
 
-          <InteractiveHubNetwork3D />
+          <EcosystemGalaxy3D />
         </motion.div>
       </section>
 
