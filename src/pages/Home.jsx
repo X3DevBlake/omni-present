@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '../utils';
 import { Button } from '@/components/ui/button';
@@ -511,7 +511,8 @@ export default function Home() {
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden z-10">
         {/* Enhanced 3D Background with glow */}
         <div className="absolute inset-0 opacity-60">
-          <Canvas camera={{ position: [0, 0, 12], fov: 75 }}>
+          <Canvas camera={{ position: [0, 0, 12], fov: 75 }} gl={{ preserveDrawingBuffer: true }}>
+            <React.Suspense fallback={null}>
             <ambientLight intensity={0.4} />
             <pointLight position={[10, 10, 10]} color="#8b5cf6" intensity={2} />
             <pointLight position={[-10, -10, -10]} color="#3b82f6" intensity={1} />
@@ -529,7 +530,7 @@ export default function Home() {
             />
             
             <OrbitControls 
-              enableZoom={true}
+              enableZoom={false} // Disable zoom to prevent scroll hijacking on Home
               autoRotate 
               autoRotateSpeed={coreActive ? 0.5 : 0.3}
               minDistance={8}

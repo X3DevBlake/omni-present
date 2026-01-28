@@ -34,7 +34,14 @@ export default function SwarmIntelligence3D({ active }) {
         <ambientLight intensity={0.5} />
         <pointLight position={[10, 10, 10]} intensity={1} />
         {boids.map((b, i) => <AgentBoid key={i} position={b.position} velocity={b.velocity} />)}
-        <OrbitControls autoRotate autoRotateSpeed={active ? 2 : 0.5} enableZoom={false} enablePan={false} enableRotate={true} />
+        {/* Disabled zoom to prevent scroll hijacking */}
+        <OrbitControls 
+            autoRotate 
+            autoRotateSpeed={active ? 2 : 0.5} 
+            enableZoom={false} 
+            enablePan={false} 
+            enableRotate={true} 
+        />
       </Canvas>
     </div>
   );

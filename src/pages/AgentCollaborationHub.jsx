@@ -27,9 +27,9 @@ export default function AgentCollaborationHub() {
     };
 
     return (
-        <div className="relative w-full bg-black pt-20 pb-12">
+        <div className="relative min-h-screen w-full bg-black pt-20 pb-12">
             <div className="fixed inset-0 z-0 pointer-events-none">
-                <AuroraBackground className="w-full h-full" />
+                <AuroraBackground />
             </div>
             <div className="container relative z-10 mx-auto px-6 space-y-8 pb-24">
                 
