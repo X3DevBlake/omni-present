@@ -88,6 +88,7 @@ import AgentSkillMarketplace from './pages/AgentSkillMarketplace';
 import AgentSpending from './pages/AgentSpending';
 import AgentTraining from './pages/AgentTraining';
 import AgentTrainingAcademy from './pages/AgentTrainingAcademy';
+import AgentTrainingArena from './pages/AgentTrainingArena';
 import AgentTrainingCenter from './pages/AgentTrainingCenter';
 import AgentTrainingStudio from './pages/AgentTrainingStudio';
 import AgentVideoInterface from './pages/AgentVideoInterface';
@@ -217,7 +218,6 @@ import DeploymentReadiness from './pages/DeploymentReadiness';
 import DepositETH from './pages/DepositETH';
 import DepositOmni from './pages/DepositOmni';
 import DepositUSDT from './pages/DepositUSDT';
-import Evolve from './pages/Evolve';
 import DeveloperBlog from './pages/DeveloperBlog';
 import DeveloperConsole from './pages/DeveloperConsole';
 import DeveloperEcosystemHub from './pages/DeveloperEcosystemHub';
@@ -292,6 +292,7 @@ import EthicsSafetyHub from './pages/EthicsSafetyHub';
 import EventBusLog from './pages/EventBusLog';
 import EventsCalendar from './pages/EventsCalendar';
 import EvolutionDashboardPage from './pages/EvolutionDashboardPage';
+import Evolve from './pages/Evolve';
 import ExchangeListings from './pages/ExchangeListings';
 import ExoskeletonInterface from './pages/ExoskeletonInterface';
 import ExperimentTracking from './pages/ExperimentTracking';
@@ -443,8 +444,8 @@ import Phase4Dashboard from './pages/Phase4Dashboard';
 import Phase4ImmersiveUI from './pages/Phase4ImmersiveUI';
 import Phase6AgentCognition from './pages/Phase6AgentCognition';
 import Phase7IntegrationHub from './pages/Phase7IntegrationHub';
-import Phase9ImmersiveUX from './pages/Phase9ImmersiveUX';
 import Phase8PredictiveIntelligence from './pages/Phase8PredictiveIntelligence';
+import Phase9ImmersiveUX from './pages/Phase9ImmersiveUX';
 import PhysicalAugmentationHub from './pages/PhysicalAugmentationHub';
 import PhysicalEmbodimentHub from './pages/PhysicalEmbodimentHub';
 import PhysicalSecurityHub from './pages/PhysicalSecurityHub';
@@ -621,7 +622,6 @@ import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
 import WorldHubEnhanced from './pages/WorldHubEnhanced';
-import AgentTrainingArena from './pages/AgentTrainingArena';
 import __Layout from './Layout.jsx';
 
 
@@ -716,6 +716,7 @@ export const PAGES = {
     "AgentSpending": AgentSpending,
     "AgentTraining": AgentTraining,
     "AgentTrainingAcademy": AgentTrainingAcademy,
+    "AgentTrainingArena": AgentTrainingArena,
     "AgentTrainingCenter": AgentTrainingCenter,
     "AgentTrainingStudio": AgentTrainingStudio,
     "AgentVideoInterface": AgentVideoInterface,
@@ -845,7 +846,6 @@ export const PAGES = {
     "DepositETH": DepositETH,
     "DepositOmni": DepositOmni,
     "DepositUSDT": DepositUSDT,
-    "Evolve": Evolve,
     "DeveloperBlog": DeveloperBlog,
     "DeveloperConsole": DeveloperConsole,
     "DeveloperEcosystemHub": DeveloperEcosystemHub,
@@ -920,6 +920,7 @@ export const PAGES = {
     "EventBusLog": EventBusLog,
     "EventsCalendar": EventsCalendar,
     "EvolutionDashboardPage": EvolutionDashboardPage,
+    "Evolve": Evolve,
     "ExchangeListings": ExchangeListings,
     "ExoskeletonInterface": ExoskeletonInterface,
     "ExperimentTracking": ExperimentTracking,
@@ -1071,8 +1072,8 @@ export const PAGES = {
     "Phase4ImmersiveUI": Phase4ImmersiveUI,
     "Phase6AgentCognition": Phase6AgentCognition,
     "Phase7IntegrationHub": Phase7IntegrationHub,
-    "Phase9ImmersiveUX": Phase9ImmersiveUX,
     "Phase8PredictiveIntelligence": Phase8PredictiveIntelligence,
+    "Phase9ImmersiveUX": Phase9ImmersiveUX,
     "PhysicalAugmentationHub": PhysicalAugmentationHub,
     "PhysicalEmbodimentHub": PhysicalEmbodimentHub,
     "PhysicalSecurityHub": PhysicalSecurityHub,
@@ -1249,7 +1250,6 @@ export const PAGES = {
     "WorkflowOrchestrationHub": WorkflowOrchestrationHub,
     "World": World,
     "WorldHubEnhanced": WorldHubEnhanced,
-    "AgentTrainingArena": AgentTrainingArena,
 }
 
 export const pagesConfig = {

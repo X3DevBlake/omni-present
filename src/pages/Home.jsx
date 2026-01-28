@@ -536,6 +536,7 @@ export default function Home() {
               minDistance={8}
               maxDistance={20}
             />
+            </React.Suspense>
           </Canvas>
         </div>
 
