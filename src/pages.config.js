@@ -434,6 +434,7 @@ import PaymentGateway from './pages/PaymentGateway';
 import PaymentHistory from './pages/PaymentHistory';
 import PeerReviewSystem from './pages/PeerReviewSystem';
 import PenetrationTestResults from './pages/PenetrationTestResults';
+import PersonalizedFinancialHub from './pages/PersonalizedFinancialHub';
 import Phase10AdvancedAutonomy from './pages/Phase10AdvancedAutonomy';
 import Phase1Dashboard from './pages/Phase1Dashboard';
 import Phase2Dashboard from './pages/Phase2Dashboard';
@@ -442,13 +443,13 @@ import Phase4Dashboard from './pages/Phase4Dashboard';
 import Phase4ImmersiveUI from './pages/Phase4ImmersiveUI';
 import Phase6AgentCognition from './pages/Phase6AgentCognition';
 import Phase7IntegrationHub from './pages/Phase7IntegrationHub';
-import Phase8PredictiveIntelligence from './pages/Phase8PredictiveIntelligence';
-import PhysicsEngine from './pages/PhysicsEngine';
 import Phase9ImmersiveUX from './pages/Phase9ImmersiveUX';
+import Phase8PredictiveIntelligence from './pages/Phase8PredictiveIntelligence';
 import PhysicalAugmentationHub from './pages/PhysicalAugmentationHub';
 import PhysicalEmbodimentHub from './pages/PhysicalEmbodimentHub';
 import PhysicalSecurityHub from './pages/PhysicalSecurityHub';
 import PhysicalWorldIntegration from './pages/PhysicalWorldIntegration';
+import PhysicsEngine from './pages/PhysicsEngine';
 import PluginMarketplace from './pages/PluginMarketplace';
 import PolicyManagement from './pages/PolicyManagement';
 import PollsAndSurveys from './pages/PollsAndSurveys';
@@ -482,6 +483,7 @@ import RealTimeOperations from './pages/RealTimeOperations';
 import RealWorldBudget from './pages/RealWorldBudget';
 import RealtimeDashboard from './pages/RealtimeDashboard';
 import RedCommBlueprints from './pages/RedCommBlueprints';
+import RedCommControlCenter from './pages/RedCommControlCenter';
 import RedCommHub from './pages/RedCommHub';
 import ReferralProgram from './pages/ReferralProgram';
 import ReinforcementLearning from './pages/ReinforcementLearning';
@@ -619,8 +621,7 @@ import WorkflowAutomationHub from './pages/WorkflowAutomationHub';
 import WorkflowOrchestrationHub from './pages/WorkflowOrchestrationHub';
 import World from './pages/World';
 import WorldHubEnhanced from './pages/WorldHubEnhanced';
-import PersonalizedFinancialHub from './pages/PersonalizedFinancialHub';
-import RedCommControlCenter from './pages/RedCommControlCenter';
+import AgentTrainingArena from './pages/AgentTrainingArena';
 import __Layout from './Layout.jsx';
 
 
@@ -1061,6 +1062,7 @@ export const PAGES = {
     "PaymentHistory": PaymentHistory,
     "PeerReviewSystem": PeerReviewSystem,
     "PenetrationTestResults": PenetrationTestResults,
+    "PersonalizedFinancialHub": PersonalizedFinancialHub,
     "Phase10AdvancedAutonomy": Phase10AdvancedAutonomy,
     "Phase1Dashboard": Phase1Dashboard,
     "Phase2Dashboard": Phase2Dashboard,
@@ -1069,13 +1071,13 @@ export const PAGES = {
     "Phase4ImmersiveUI": Phase4ImmersiveUI,
     "Phase6AgentCognition": Phase6AgentCognition,
     "Phase7IntegrationHub": Phase7IntegrationHub,
-    "Phase8PredictiveIntelligence": Phase8PredictiveIntelligence,
-    "PhysicsEngine": PhysicsEngine,
     "Phase9ImmersiveUX": Phase9ImmersiveUX,
+    "Phase8PredictiveIntelligence": Phase8PredictiveIntelligence,
     "PhysicalAugmentationHub": PhysicalAugmentationHub,
     "PhysicalEmbodimentHub": PhysicalEmbodimentHub,
     "PhysicalSecurityHub": PhysicalSecurityHub,
     "PhysicalWorldIntegration": PhysicalWorldIntegration,
+    "PhysicsEngine": PhysicsEngine,
     "PluginMarketplace": PluginMarketplace,
     "PolicyManagement": PolicyManagement,
     "PollsAndSurveys": PollsAndSurveys,
@@ -1109,6 +1111,7 @@ export const PAGES = {
     "RealWorldBudget": RealWorldBudget,
     "RealtimeDashboard": RealtimeDashboard,
     "RedCommBlueprints": RedCommBlueprints,
+    "RedCommControlCenter": RedCommControlCenter,
     "RedCommHub": RedCommHub,
     "ReferralProgram": ReferralProgram,
     "ReinforcementLearning": ReinforcementLearning,
@@ -1246,8 +1249,7 @@ export const PAGES = {
     "WorkflowOrchestrationHub": WorkflowOrchestrationHub,
     "World": World,
     "WorldHubEnhanced": WorldHubEnhanced,
-    "PersonalizedFinancialHub": PersonalizedFinancialHub,
-    "RedCommControlCenter": RedCommControlCenter,
+    "AgentTrainingArena": AgentTrainingArena,
 }
 
 export const pagesConfig = {
