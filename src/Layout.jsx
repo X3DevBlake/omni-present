@@ -20,25 +20,31 @@ class ErrorBoundary extends React.Component {
   }
 
   componentDidCatch(error, errorInfo) {
-    const isDnDError = error?.message?.includes('source') || 
+    const isDnDError = error?.message?.includes('source') ||
                        error?.message?.includes('Cannot read properties of undefined') ||
                        error?.message?.includes('reading');
     if (isDnDError) {
       console.warn('DnD error suppressed:', error.message);
-      // Resetting state immediately to attempt recovery
       this.setState({ hasError: false, error: null });
     }
   }
 
   render() {
     if (this.state.hasError) {
-      const isDnDError = this.state.error?.message?.includes('source') || 
+      const isDnDError = this.state.error?.message?.includes('source') ||
                          this.state.error?.message?.includes('Cannot read properties of undefined') ||
                          this.state.error?.message?.includes('reading');
       if (isDnDError) {
         return this.props.children;
       }
-      return <div className="text-white p-4">Something went wrong. Please refresh.</div>;
+      return (
+        <div className="fixed inset-0 flex items-center justify-center bg-[#09090f]">
+          <div className="text-center">
+            <div className="text-2xl font-bold gradient-text-omni mb-2">System Error</div>
+            <p className="text-white/40 text-sm">Something went wrong. Please refresh.</p>
+          </div>
+        </div>
+      );
     }
     return this.props.children;
   }
@@ -52,17 +58,15 @@ function LayoutContent({ children, currentPageName }) {
   useEffect(() => {
     const handleGlobalError = (event) => {
       const msg = event.message || event.reason?.message || '';
-      // Aggressively suppress specific known errors
       if (
-        msg.includes('source') || 
-        msg.includes('reading') || 
+        msg.includes('source') ||
+        msg.includes('reading') ||
         msg.includes('undefined') ||
         msg.includes('ResizeObserver') ||
         (msg.includes('Cannot read properties of undefined') && msg.includes('source'))
       ) {
         if (event.preventDefault) event.preventDefault();
         if (event.stopPropagation) event.stopPropagation();
-        console.warn('Suppressed global error:', msg);
         return true;
       }
     };
@@ -72,10 +76,7 @@ function LayoutContent({ children, currentPageName }) {
 
     const fetchHubs = async () => {
       try {
-        // Optimizing fetch: Get ID, name, category, icon only if possible to reduce payload
-        // Assuming standard list returns full objects, but we'll handle the large list carefully
         const data = await base44.entities.Hub.list({ limit: 2000, sort: { name: 1 } });
-        // Deduplicate
         const unique = Array.from(new Map(data.map(item => [item.name, item])).values());
         setHubs(unique);
       } catch (error) {
@@ -94,16 +95,16 @@ function LayoutContent({ children, currentPageName }) {
 
   return (
     <>
-      <ConsolidatedNav 
-        onSidebarToggle={() => setIsSidebarOpen(!isSidebarOpen)} 
+      <ConsolidatedNav
+        onSidebarToggle={() => setIsSidebarOpen(!isSidebarOpen)}
         isSidebarOpen={isSidebarOpen}
       />
       <Sidebar isOpen={isSidebarOpen} hubs={hubs} isLoading={isLoadingHubs} />
       <BackExitControls placement="top-right" />
       <GamificationOverlay />
-      <div 
-        className="pt-20 transition-all duration-300 ease-in-out"
-        style={{ paddingLeft: isSidebarOpen ? '280px' : '0' }}
+      <div
+        className="pt-[52px] transition-all duration-300 ease-in-out min-h-screen"
+        style={{ paddingLeft: isSidebarOpen ? '260px' : '0' }}
       >
         {children}
       </div>
