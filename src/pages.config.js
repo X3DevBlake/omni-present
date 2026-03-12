@@ -423,6 +423,7 @@ import OmniOS from './pages/OmniOS';
 import OmniPresenceControlCenter from './pages/OmniPresenceControlCenter';
 import OmniPresentAcademy from './pages/OmniPresentAcademy';
 import OmniPresentCoreHub from './pages/OmniPresentCoreHub';
+import OmniAgentOrchestration from './pages/OmniAgentOrchestration';
 import OmniSocial from './pages/OmniSocial';
 import OmniStaking from './pages/OmniStaking';
 import OmniWallet from './pages/OmniWallet';
@@ -1051,6 +1052,7 @@ export const PAGES = {
     "OmniPresenceControlCenter": OmniPresenceControlCenter,
     "OmniPresentAcademy": OmniPresentAcademy,
     "OmniPresentCoreHub": OmniPresentCoreHub,
+    "OmniAgentOrchestration": OmniAgentOrchestration,
     "OmniSocial": OmniSocial,
     "OmniStaking": OmniStaking,
     "OmniWallet": OmniWallet,
