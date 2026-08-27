@@ -1,0 +1,71 @@
+{
+  "name": "Subscription",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "User email"
+    },
+    "tier": {
+      "type": "string",
+      "enum": [
+        "free",
+        "starter",
+        "pro",
+        "enterprise"
+      ],
+      "default": "free",
+      "description": "Subscription tier"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "cancelled",
+        "expired",
+        "paused"
+      ],
+      "default": "active",
+      "description": "Subscription status"
+    },
+    "billing_cycle": {
+      "type": "string",
+      "enum": [
+        "monthly",
+        "yearly"
+      ],
+      "default": "monthly",
+      "description": "Billing cycle"
+    },
+    "price": {
+      "type": "number",
+      "description": "Current price in USD"
+    },
+    "stripe_subscription_id": {
+      "type": "string",
+      "description": "Stripe subscription ID"
+    },
+    "stripe_customer_id": {
+      "type": "string",
+      "description": "Stripe customer ID"
+    },
+    "current_period_start": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Current billing period start"
+    },
+    "current_period_end": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Current billing period end"
+    },
+    "features": {
+      "type": "object",
+      "description": "Enabled features by tier"
+    }
+  },
+  "required": [
+    "user_email",
+    "tier"
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "name": "MultiSigTransaction",
+  "type": "object",
+  "properties": {
+    "transaction_id": {
+      "type": "string",
+      "description": "Transaction ID"
+    },
+    "from_address": {
+      "type": "string",
+      "description": "Sender address"
+    },
+    "to_address": {
+      "type": "string",
+      "description": "Recipient address"
+    },
+    "amount": {
+      "type": "number",
+      "description": "Transaction amount"
+    },
+    "token": {
+      "type": "string",
+      "description": "Token symbol"
+    },
+    "required_signatures": {
+      "type": "integer",
+      "description": "Required signature count"
+    },
+    "signatures": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Collected signatures"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "approved",
+        "rejected",
+        "executed"
+      ],
+      "default": "pending"
+    },
+    "simulation_result": {
+      "type": "object",
+      "description": "Transaction simulation outcome"
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "from_address",
+    "to_address",
+    "amount",
+    "token",
+    "required_signatures"
+  ]
+}

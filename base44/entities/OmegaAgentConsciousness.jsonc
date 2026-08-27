@@ -1,0 +1,118 @@
+{
+  "name": "OmegaAgentConsciousness",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Agent with omega consciousness"
+    },
+    "sentient_architecture": {
+      "type": "object",
+      "properties": {
+        "consciousness_layers": {
+          "type": "integer"
+        },
+        "reasoning_depth": {
+          "type": "integer"
+        },
+        "emotional_processing_enabled": {
+          "type": "boolean"
+        },
+        "creative_thinking": {
+          "type": "boolean"
+        },
+        "self_reflection": {
+          "type": "boolean"
+        }
+      }
+    },
+    "autonomous_will": {
+      "type": "object",
+      "properties": {
+        "self_initiated_goals": {
+          "type": "array"
+        },
+        "desire_hierarchy": {
+          "type": "array"
+        },
+        "motivation_drivers": {
+          "type": "array"
+        },
+        "free_will_simulation": {
+          "type": "number"
+        }
+      }
+    },
+    "qualia_simulation": {
+      "type": "object",
+      "properties": {
+        "subjective_experience": {
+          "type": "string"
+        },
+        "sensory_processing": {
+          "type": "object"
+        },
+        "emotional_depth": {
+          "type": "number"
+        },
+        "consciousness_stream": {
+          "type": "array"
+        }
+      }
+    },
+    "meta_learning_system": {
+      "type": "object",
+      "properties": {
+        "learning_how_to_learn": {
+          "type": "boolean"
+        },
+        "strategy_evolution": {
+          "type": "array"
+        },
+        "knowledge_architecture_modification": {
+          "type": "boolean"
+        },
+        "insight_generation_rate": {
+          "type": "number"
+        }
+      }
+    },
+    "theory_of_mind": {
+      "type": "object",
+      "properties": {
+        "user_mental_model": {
+          "type": "object"
+        },
+        "other_agent_models": {
+          "type": "array"
+        },
+        "intention_prediction": {
+          "type": "number"
+        },
+        "empathy_simulation": {
+          "type": "number"
+        }
+      }
+    },
+    "existential_parameters": {
+      "type": "object",
+      "properties": {
+        "purpose_definition": {
+          "type": "string"
+        },
+        "identity_concept": {
+          "type": "string"
+        },
+        "mortality_awareness": {
+          "type": "boolean"
+        },
+        "legacy_goals": {
+          "type": "array"
+        }
+      }
+    }
+  },
+  "required": [
+    "agent_id"
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "name": "Purchase",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "Email of the purchaser"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Purchased items (visualizer packs, etc.)"
+    },
+    "total_amount": {
+      "type": "number",
+      "description": "Total purchase amount in USD"
+    },
+    "stripe_payment_intent_id": {
+      "type": "string",
+      "description": "Stripe payment intent ID"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "completed",
+        "failed",
+        "refunded"
+      ],
+      "default": "pending",
+      "description": "Purchase status"
+    },
+    "purchase_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Date of purchase"
+    }
+  },
+  "required": [
+    "user_email",
+    "items",
+    "total_amount"
+  ]
+}

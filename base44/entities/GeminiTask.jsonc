@@ -1,0 +1,83 @@
+{
+  "name": "GeminiTask",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "User email"
+    },
+    "task_name": {
+      "type": "string",
+      "description": "Task name"
+    },
+    "task_description": {
+      "type": "string",
+      "description": "Detailed task description"
+    },
+    "task_type": {
+      "type": "string",
+      "enum": [
+        "data_analysis",
+        "agent_management",
+        "trading",
+        "collaboration",
+        "simulation",
+        "monitoring"
+      ],
+      "description": "Task category"
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "default": "medium",
+      "description": "Task priority"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "queued",
+        "in_progress",
+        "completed",
+        "failed"
+      ],
+      "default": "queued",
+      "description": "Task status"
+    },
+    "execution_plan": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Step-by-step execution plan"
+    },
+    "result": {
+      "type": "object",
+      "description": "Task execution result"
+    },
+    "requires_approval": {
+      "type": "boolean",
+      "default": false,
+      "description": "Does this task require user approval"
+    },
+    "approved": {
+      "type": "boolean",
+      "default": false,
+      "description": "User approval status"
+    },
+    "scheduled_time": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When to execute"
+    }
+  },
+  "required": [
+    "user_email",
+    "task_name",
+    "task_type"
+  ]
+}

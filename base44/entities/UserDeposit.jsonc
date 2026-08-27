@@ -1,0 +1,63 @@
+{
+  "name": "UserDeposit",
+  "type": "object",
+  "properties": {
+    "pool_id": {
+      "type": "string",
+      "description": "Reference to LiquidityPool"
+    },
+    "amount": {
+      "type": "number",
+      "description": "Amount deposited"
+    },
+    "token_type": {
+      "type": "string",
+      "description": "Type of token deposited (OMNI, LP, etc.)"
+    },
+    "apy_at_deposit": {
+      "type": "number",
+      "description": "APY when user deposited"
+    },
+    "rewards_earned": {
+      "type": "number",
+      "default": 0,
+      "description": "Rewards accumulated"
+    },
+    "deposit_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When deposit was made"
+    },
+    "unlock_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When deposit can be withdrawn"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "withdrawn",
+        "locked"
+      ],
+      "default": "active",
+      "description": "Deposit status"
+    },
+    "auto_compound": {
+      "type": "boolean",
+      "default": false,
+      "description": "Auto-compound rewards"
+    },
+    "last_reward_calculation": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last time rewards were calculated"
+    }
+  },
+  "required": [
+    "pool_id",
+    "amount",
+    "token_type",
+    "apy_at_deposit"
+  ]
+}

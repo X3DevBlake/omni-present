@@ -1,0 +1,97 @@
+{
+  "name": "AgentPerformanceMetrics",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Agent being tracked"
+    },
+    "time_period": {
+      "type": "string",
+      "format": "date",
+      "description": "Metrics time period"
+    },
+    "task_completion_rate": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Percentage of tasks completed successfully"
+    },
+    "efficiency_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Overall efficiency rating"
+    },
+    "error_rate": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Error percentage"
+    },
+    "resource_utilization": {
+      "type": "object",
+      "properties": {
+        "cpu": {
+          "type": "number"
+        },
+        "memory": {
+          "type": "number"
+        },
+        "gpu": {
+          "type": "number"
+        }
+      },
+      "description": "Resource usage metrics"
+    },
+    "skill_evolution": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "skill_name": {
+            "type": "string"
+          },
+          "proficiency_level": {
+            "type": "number"
+          },
+          "growth_rate": {
+            "type": "number"
+          }
+        }
+      },
+      "description": "Skill progression tracking"
+    },
+    "anomalies_detected": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "anomaly_type": {
+            "type": "string"
+          },
+          "severity": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Behavioral anomalies"
+    },
+    "collaboration_effectiveness": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    }
+  },
+  "required": [
+    "agent_id",
+    "time_period"
+  ]
+}

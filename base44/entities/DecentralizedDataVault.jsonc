@@ -1,0 +1,166 @@
+{
+  "name": "DecentralizedDataVault",
+  "type": "object",
+  "properties": {
+    "vault_id": {
+      "type": "string",
+      "description": "Unique vault identifier"
+    },
+    "owner_id": {
+      "type": "string",
+      "description": "User who owns this vault"
+    },
+    "vault_name": {
+      "type": "string",
+      "description": "Human-readable vault name"
+    },
+    "storage_locations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "location_type": {
+            "type": "string",
+            "enum": [
+              "ipfs",
+              "filecoin",
+              "arweave",
+              "blockchain",
+              "encrypted_cloud"
+            ]
+          },
+          "location_uri": {
+            "type": "string"
+          },
+          "data_hash": {
+            "type": "string"
+          },
+          "shard_index": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "encryption_config": {
+      "type": "object",
+      "properties": {
+        "algorithm": {
+          "type": "string",
+          "default": "AES-256-GCM"
+        },
+        "key_derivation": {
+          "type": "string"
+        },
+        "encryption_key_id": {
+          "type": "string"
+        },
+        "homomorphic_enabled": {
+          "type": "boolean"
+        }
+      }
+    },
+    "access_permissions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "granted_to": {
+            "type": "string"
+          },
+          "permission_level": {
+            "type": "string",
+            "enum": [
+              "read",
+              "write",
+              "admin"
+            ]
+          },
+          "conditions": {
+            "type": "object"
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "revocable": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "blockchain_anchors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "blockchain": {
+            "type": "string"
+          },
+          "transaction_hash": {
+            "type": "string"
+          },
+          "block_number": {
+            "type": "integer"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "data_fingerprint": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "data_categories": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "personal",
+          "financial",
+          "health",
+          "spatial",
+          "biometric",
+          "ai_training",
+          "communications"
+        ]
+      }
+    },
+    "total_size_bytes": {
+      "type": "integer"
+    },
+    "redundancy_factor": {
+      "type": "integer",
+      "description": "Number of copies stored",
+      "default": 3
+    },
+    "immutability_enabled": {
+      "type": "boolean",
+      "default": true
+    },
+    "differential_privacy_noise": {
+      "type": "number",
+      "description": "Privacy-preserving noise level"
+    },
+    "last_accessed": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "vault_status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "locked",
+        "migrating",
+        "archived"
+      ],
+      "default": "active"
+    }
+  },
+  "required": [
+    "vault_id",
+    "owner_id",
+    "vault_name"
+  ]
+}

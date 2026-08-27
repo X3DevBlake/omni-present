@@ -1,0 +1,48 @@
+{
+  "name": "UserAvatar",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "Creator email"
+    },
+    "avatar_name": {
+      "type": "string",
+      "description": "User-given name"
+    },
+    "avatar_base_id": {
+      "type": "string",
+      "description": "Reference to AvatarBase"
+    },
+    "selected_components": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Applied component IDs"
+    },
+    "component_properties": {
+      "type": "object",
+      "description": "User-selected properties per component"
+    },
+    "public": {
+      "type": "boolean",
+      "default": false,
+      "description": "Visible to community"
+    },
+    "likes": {
+      "type": "number",
+      "default": 0
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "user_email",
+    "avatar_base_id"
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "name": "DeviceToDeviceCommunication",
+  "type": "object",
+  "properties": {
+    "source_device_id": {
+      "type": "string",
+      "description": "Device initiating communication"
+    },
+    "target_device_id": {
+      "type": "string",
+      "description": "Device receiving communication"
+    },
+    "agent_id": {
+      "type": "string",
+      "description": "Agent being transferred/coordinated"
+    },
+    "communication_type": {
+      "type": "string",
+      "enum": [
+        "agent_handoff",
+        "state_sync",
+        "coordinate_projection",
+        "sensor_share",
+        "collaborative_tracking"
+      ],
+      "description": "Type of inter-device communication"
+    },
+    "transfer_data": {
+      "type": "object",
+      "properties": {
+        "agent_state": {
+          "type": "object"
+        },
+        "current_activity": {
+          "type": "string"
+        },
+        "movement_context": {
+          "type": "object"
+        },
+        "sensor_readings": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "handoff_status": {
+      "type": "string",
+      "enum": [
+        "initiated",
+        "in_progress",
+        "completed",
+        "failed"
+      ],
+      "default": "initiated"
+    },
+    "transition_quality": {
+      "type": "object",
+      "properties": {
+        "seamlessness_score": {
+          "type": "number"
+        },
+        "projection_continuity": {
+          "type": "boolean"
+        },
+        "data_loss_percentage": {
+          "type": "number"
+        }
+      }
+    },
+    "latency_ms": {
+      "type": "number",
+      "description": "Communication latency"
+    }
+  },
+  "required": [
+    "source_device_id",
+    "target_device_id",
+    "agent_id",
+    "communication_type"
+  ]
+}

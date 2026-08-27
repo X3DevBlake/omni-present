@@ -1,0 +1,161 @@
+{
+  "name": "HolographicProjectionSession",
+  "type": "object",
+  "properties": {
+    "session_id": {
+      "type": "string",
+      "description": "Projection session identifier"
+    },
+    "agent_id": {
+      "type": "string",
+      "description": "Agent being projected"
+    },
+    "device_network": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "device_id": {
+            "type": "string"
+          },
+          "device_type": {
+            "type": "string"
+          },
+          "projection_quality": {
+            "type": "number"
+          },
+          "active": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "projection_settings": {
+      "type": "object",
+      "properties": {
+        "brightness": {
+          "type": "number"
+        },
+        "transparency": {
+          "type": "number"
+        },
+        "resolution": {
+          "type": "string"
+        },
+        "color_calibration": {
+          "type": "object"
+        },
+        "hologram_stability": {
+          "type": "number"
+        }
+      }
+    },
+    "agent_appearance": {
+      "type": "object",
+      "properties": {
+        "model_url": {
+          "type": "string"
+        },
+        "animation_state": {
+          "type": "string"
+        },
+        "expression": {
+          "type": "string"
+        },
+        "scale": {
+          "type": "number"
+        },
+        "rotation": {
+          "type": "object"
+        }
+      }
+    },
+    "spatial_position": {
+      "type": "object",
+      "properties": {
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "z": {
+          "type": "number"
+        },
+        "room_id": {
+          "type": "string"
+        }
+      }
+    },
+    "interaction_data": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "interaction_type": {
+            "type": "string"
+          },
+          "user_command": {
+            "type": "string"
+          },
+          "agent_response": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "multi_device_coordination": {
+      "type": "object",
+      "properties": {
+        "primary_device": {
+          "type": "string"
+        },
+        "handoff_enabled": {
+          "type": "boolean"
+        },
+        "seamless_transition": {
+          "type": "boolean"
+        }
+      }
+    },
+    "performance_metrics": {
+      "type": "object",
+      "properties": {
+        "latency_ms": {
+          "type": "number"
+        },
+        "frame_rate": {
+          "type": "number"
+        },
+        "quality_score": {
+          "type": "number"
+        },
+        "stability_score": {
+          "type": "number"
+        }
+      }
+    },
+    "session_duration_seconds": {
+      "type": "number"
+    },
+    "session_status": {
+      "type": "string",
+      "enum": [
+        "initializing",
+        "active",
+        "transitioning",
+        "paused",
+        "terminated"
+      ],
+      "default": "initializing"
+    }
+  },
+  "required": [
+    "session_id",
+    "agent_id"
+  ]
+}

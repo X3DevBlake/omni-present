@@ -1,0 +1,78 @@
+{
+  "name": "OmniTransaction",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "User who initiated the transaction"
+    },
+    "agent_id": {
+      "type": "string",
+      "description": "Agent involved in transaction (optional)"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "deposit",
+        "withdraw",
+        "spend",
+        "swap",
+        "bridge",
+        "cashback",
+        "bonus"
+      ],
+      "description": "Transaction type"
+    },
+    "amount": {
+      "type": "number",
+      "description": "Transaction amount"
+    },
+    "currency": {
+      "type": "string",
+      "enum": [
+        "omni",
+        "eth",
+        "usdt",
+        "usd"
+      ],
+      "description": "Currency used"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "confirmed",
+        "failed",
+        "cancelled"
+      ],
+      "default": "pending",
+      "description": "Transaction status"
+    },
+    "transaction_hash": {
+      "type": "string",
+      "description": "Blockchain transaction hash"
+    },
+    "from_address": {
+      "type": "string",
+      "description": "Source address"
+    },
+    "to_address": {
+      "type": "string",
+      "description": "Destination address"
+    },
+    "network": {
+      "type": "string",
+      "description": "Blockchain network"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Additional transaction details"
+    }
+  },
+  "required": [
+    "user_id",
+    "type",
+    "amount",
+    "currency"
+  ]
+}

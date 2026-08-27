@@ -1,0 +1,119 @@
+{
+  "name": "AlertRule",
+  "type": "object",
+  "properties": {
+    "rule_name": {
+      "type": "string",
+      "description": "Name of the alert rule"
+    },
+    "description": {
+      "type": "string",
+      "description": "Detailed description of the rule"
+    },
+    "rule_type": {
+      "type": "string",
+      "enum": [
+        "metric_threshold",
+        "event_based",
+        "anomaly_detection",
+        "performance_drop",
+        "resource_exhaustion"
+      ],
+      "description": "Type of alert rule"
+    },
+    "hub": {
+      "type": "string",
+      "enum": [
+        "communications",
+        "devices",
+        "banking",
+        "ailab",
+        "simulation",
+        "all"
+      ],
+      "description": "Which hub this rule applies to"
+    },
+    "metric_name": {
+      "type": "string",
+      "description": "The metric being monitored"
+    },
+    "condition": {
+      "type": "object",
+      "properties": {
+        "operator": {
+          "type": "string",
+          "enum": [
+            "equals",
+            "greater_than",
+            "less_than",
+            "contains",
+            "between"
+          ]
+        },
+        "value": {
+          "type": [
+            "number",
+            "string",
+            "array"
+          ]
+        },
+        "threshold": {
+          "type": "number",
+          "description": "Threshold value"
+        }
+      },
+      "description": "Condition that triggers the alert"
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "info",
+        "warning",
+        "critical"
+      ],
+      "default": "warning",
+      "description": "Alert severity level"
+    },
+    "notification_channels": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "in_app",
+          "email",
+          "webhook",
+          "sms"
+        ]
+      },
+      "description": "Channels to send notifications"
+    },
+    "webhook_url": {
+      "type": "string",
+      "description": "Webhook URL for notifications"
+    },
+    "email_recipients": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Email addresses for notifications"
+    },
+    "enabled": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether this rule is active"
+    },
+    "cooldown_minutes": {
+      "type": "integer",
+      "default": 15,
+      "description": "Minutes to wait before firing the same alert again"
+    }
+  },
+  "required": [
+    "rule_name",
+    "rule_type",
+    "hub",
+    "metric_name",
+    "notification_channels"
+  ]
+}

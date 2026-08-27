@@ -1,0 +1,59 @@
+{
+  "name": "NFTAsset",
+  "type": "object",
+  "properties": {
+    "token_id": {
+      "type": "string",
+      "description": "NFT token ID"
+    },
+    "contract_address": {
+      "type": "string",
+      "description": "Smart contract address"
+    },
+    "name": {
+      "type": "string",
+      "description": "NFT name"
+    },
+    "description": {
+      "type": "string",
+      "description": "NFT description"
+    },
+    "image_url": {
+      "type": "string",
+      "description": "NFT image URL"
+    },
+    "collection": {
+      "type": "string",
+      "description": "Collection name"
+    },
+    "network": {
+      "type": "string",
+      "description": "Blockchain network"
+    },
+    "owner_address": {
+      "type": "string",
+      "description": "Current owner"
+    },
+    "floor_price": {
+      "type": "number",
+      "description": "Collection floor price"
+    },
+    "last_sale_price": {
+      "type": "number",
+      "description": "Last sale price"
+    },
+    "attributes": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "NFT traits/attributes"
+    }
+  },
+  "required": [
+    "token_id",
+    "contract_address",
+    "name",
+    "network"
+  ]
+}

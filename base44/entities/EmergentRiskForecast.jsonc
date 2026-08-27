@@ -1,0 +1,40 @@
+{
+  "name": "EmergentRiskForecast",
+  "type": "object",
+  "properties": {
+    "simulation_id": {
+      "type": "string"
+    },
+    "risk_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "correlated_behaviors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "sentience_correlation": {
+      "type": "number"
+    },
+    "ethical_audit_correlation": {
+      "type": "number"
+    },
+    "predicted_emergent_events": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "simulation_id",
+    "risk_score"
+  ]
+}

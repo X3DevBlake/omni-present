@@ -1,0 +1,66 @@
+{
+  "name": "LoanApplication",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "Applicant email"
+    },
+    "loan_amount": {
+      "type": "number",
+      "description": "Requested loan amount"
+    },
+    "loan_type": {
+      "type": "string",
+      "enum": [
+        "personal",
+        "advance",
+        "business",
+        "emergency"
+      ],
+      "description": "Loan type"
+    },
+    "purpose": {
+      "type": "string",
+      "description": "Loan purpose"
+    },
+    "term_months": {
+      "type": "integer",
+      "description": "Loan term in months"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "approved",
+        "rejected",
+        "active",
+        "completed"
+      ],
+      "default": "pending",
+      "description": "Application status"
+    },
+    "credit_score": {
+      "type": "number",
+      "description": "AI-calculated credit score"
+    },
+    "approval_rate": {
+      "type": "number",
+      "description": "Interest rate %"
+    },
+    "approved_amount": {
+      "type": "number",
+      "description": "Approved loan amount"
+    },
+    "plaid_verified": {
+      "type": "boolean",
+      "default": false,
+      "description": "Banking verified via Plaid"
+    }
+  },
+  "required": [
+    "user_email",
+    "loan_amount",
+    "loan_type"
+  ]
+}

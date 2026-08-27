@@ -1,0 +1,138 @@
+{
+  "name": "AIFacilitator",
+  "type": "object",
+  "properties": {
+    "facilitator_name": {
+      "type": "string",
+      "description": "AI facilitator identifier"
+    },
+    "specialization": {
+      "type": "string",
+      "enum": [
+        "meeting_management",
+        "conflict_resolution",
+        "brainstorming",
+        "decision_making",
+        "project_coordination"
+      ],
+      "description": "Facilitation specialty"
+    },
+    "active_sessions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "session_id": {
+            "type": "string"
+          },
+          "session_type": {
+            "type": "string"
+          },
+          "participants_count": {
+            "type": "integer"
+          },
+          "started_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    },
+    "facilitation_techniques": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "technique_name": {
+            "type": "string"
+          },
+          "effectiveness_score": {
+            "type": "number"
+          },
+          "usage_count": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "insights_generated": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "insight_id": {
+            "type": "string"
+          },
+          "insight_type": {
+            "type": "string",
+            "enum": [
+              "pattern",
+              "recommendation",
+              "warning",
+              "opportunity"
+            ]
+          },
+          "content": {
+            "type": "string"
+          },
+          "confidence": {
+            "type": "number"
+          },
+          "acted_upon": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "conflict_resolutions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "conflict_id": {
+            "type": "string"
+          },
+          "resolution_strategy": {
+            "type": "string"
+          },
+          "outcome": {
+            "type": "string",
+            "enum": [
+              "resolved",
+              "escalated",
+              "deferred"
+            ]
+          },
+          "satisfaction_score": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "performance_metrics": {
+      "type": "object",
+      "properties": {
+        "sessions_facilitated": {
+          "type": "integer"
+        },
+        "average_session_rating": {
+          "type": "number"
+        },
+        "productivity_improvement": {
+          "type": "number"
+        },
+        "conflict_resolution_rate": {
+          "type": "number"
+        }
+      }
+    },
+    "learning_enabled": {
+      "type": "boolean",
+      "description": "Improves from experience"
+    }
+  },
+  "required": [
+    "facilitator_name",
+    "specialization"
+  ]
+}

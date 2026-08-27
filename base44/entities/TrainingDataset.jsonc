@@ -1,0 +1,64 @@
+{
+  "name": "TrainingDataset",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Dataset name"
+    },
+    "description": {
+      "type": "string",
+      "description": "Dataset description"
+    },
+    "dataset_type": {
+      "type": "string",
+      "enum": [
+        "behavior",
+        "personality",
+        "ethics",
+        "skills",
+        "general"
+      ],
+      "description": "Type of training data"
+    },
+    "file_url": {
+      "type": "string",
+      "description": "Dataset file URL"
+    },
+    "data_points": {
+      "type": "integer",
+      "description": "Number of data points"
+    },
+    "format": {
+      "type": "string",
+      "enum": [
+        "json",
+        "csv",
+        "jsonl"
+      ],
+      "description": "Data format"
+    },
+    "training_examples": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Sample training examples"
+    },
+    "validation_score": {
+      "type": "number",
+      "description": "Dataset quality score"
+    },
+    "used_by_agents": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Agent IDs using this dataset"
+    }
+  },
+  "required": [
+    "name",
+    "dataset_type"
+  ]
+}

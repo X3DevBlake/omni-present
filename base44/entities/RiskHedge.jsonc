@@ -1,0 +1,58 @@
+{
+  "name": "RiskHedge",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "User email"
+    },
+    "agent_id": {
+      "type": "string",
+      "description": "Agent ID"
+    },
+    "risk_detected": {
+      "type": "object",
+      "description": "Detected risk details"
+    },
+    "hedge_strategy": {
+      "type": "string",
+      "description": "Hedge approach"
+    },
+    "hedge_instruments": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Hedging instruments used"
+    },
+    "protection_level": {
+      "type": "number",
+      "description": "Protection percentage"
+    },
+    "cost": {
+      "type": "number",
+      "description": "Hedge cost"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "closed",
+        "expired"
+      ],
+      "default": "active",
+      "description": "Hedge status"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Creation time"
+    }
+  },
+  "required": [
+    "user_email",
+    "agent_id",
+    "risk_detected",
+    "hedge_strategy"
+  ]
+}

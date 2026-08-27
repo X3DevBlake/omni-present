@@ -1,0 +1,156 @@
+{
+  "name": "CustomAgentBehavior",
+  "type": "object",
+  "properties": {
+    "behavior_id": {
+      "type": "string",
+      "description": "Behavior configuration identifier"
+    },
+    "agent_id": {
+      "type": "string",
+      "description": "Agent this behavior applies to"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "User who customized behavior"
+    },
+    "behavioral_parameters": {
+      "type": "object",
+      "properties": {
+        "proactiveness_level": {
+          "type": "number"
+        },
+        "risk_tolerance": {
+          "type": "number"
+        },
+        "creativity_factor": {
+          "type": "number"
+        },
+        "social_engagement": {
+          "type": "number"
+        },
+        "autonomy_level": {
+          "type": "number"
+        }
+      }
+    },
+    "communication_style": {
+      "type": "object",
+      "properties": {
+        "formality": {
+          "type": "number"
+        },
+        "verbosity": {
+          "type": "string"
+        },
+        "tone": {
+          "type": "string"
+        },
+        "humor_frequency": {
+          "type": "number"
+        },
+        "empathy_expression": {
+          "type": "number"
+        }
+      }
+    },
+    "decision_making_rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "rule_name": {
+            "type": "string"
+          },
+          "condition": {
+            "type": "string"
+          },
+          "action": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "ethical_framework_custom": {
+      "type": "object",
+      "properties": {
+        "core_values": {
+          "type": "array"
+        },
+        "ethical_priorities": {
+          "type": "array"
+        },
+        "conflict_resolution_approach": {
+          "type": "string"
+        },
+        "transparency_level": {
+          "type": "number"
+        }
+      }
+    },
+    "learning_preferences": {
+      "type": "object",
+      "properties": {
+        "learning_rate": {
+          "type": "number"
+        },
+        "exploration_vs_exploitation": {
+          "type": "number"
+        },
+        "knowledge_sharing_willingness": {
+          "type": "number"
+        },
+        "autonomous_skill_acquisition": {
+          "type": "boolean"
+        }
+      }
+    },
+    "interaction_boundaries": {
+      "type": "object",
+      "properties": {
+        "max_autonomy_scope": {
+          "type": "string"
+        },
+        "requires_approval_for": {
+          "type": "array"
+        },
+        "forbidden_actions": {
+          "type": "array"
+        },
+        "intervention_thresholds": {
+          "type": "object"
+        }
+      }
+    },
+    "training_history": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "training_date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "behavior_modified": {
+            "type": "string"
+          },
+          "user_satisfaction": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "behavior_id",
+    "agent_id",
+    "user_id"
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "name": "OrchestrationJob",
+  "type": "object",
+  "properties": {
+    "job_name": {
+      "type": "string",
+      "description": "Job identifier"
+    },
+    "workflow_id": {
+      "type": "string",
+      "description": "Associated workflow template"
+    },
+    "job_type": {
+      "type": "string",
+      "enum": [
+        "scheduled",
+        "event_driven",
+        "manual",
+        "ai_triggered"
+      ],
+      "description": "How job was initiated"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "queued",
+        "running",
+        "paused",
+        "completed",
+        "failed"
+      ],
+      "default": "queued"
+    },
+    "current_step": {
+      "type": "integer",
+      "default": 0
+    },
+    "total_steps": {
+      "type": "integer"
+    },
+    "execution_timeline": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "step_id": {
+            "type": "string"
+          },
+          "started_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "completed_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "status": {
+            "type": "string"
+          },
+          "output": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "resource_usage": {
+      "type": "object",
+      "properties": {
+        "cpu_time_ms": {
+          "type": "number"
+        },
+        "memory_mb": {
+          "type": "number"
+        },
+        "api_calls": {
+          "type": "integer"
+        },
+        "cost_estimate": {
+          "type": "number"
+        }
+      }
+    },
+    "performance_metrics": {
+      "type": "object",
+      "properties": {
+        "duration_seconds": {
+          "type": "number"
+        },
+        "efficiency_score": {
+          "type": "number"
+        },
+        "bottleneck_steps": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "ai_insights": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "AI-generated optimization suggestions"
+    }
+  },
+  "required": [
+    "job_name",
+    "job_type"
+  ]
+}

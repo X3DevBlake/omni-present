@@ -1,0 +1,107 @@
+{
+  "name": "NeuroSymbolicModel",
+  "type": "object",
+  "properties": {
+    "model_name": {
+      "type": "string",
+      "description": "Neuro-symbolic system identifier"
+    },
+    "neural_architecture": {
+      "type": "string",
+      "enum": [
+        "transformer",
+        "cnn",
+        "rnn",
+        "graph_neural_net",
+        "attention_based"
+      ],
+      "description": "Neural component"
+    },
+    "symbolic_engine": {
+      "type": "string",
+      "enum": [
+        "prolog",
+        "first_order_logic",
+        "description_logic",
+        "temporal_logic",
+        "fuzzy_logic"
+      ],
+      "description": "Symbolic reasoning component"
+    },
+    "integration_method": {
+      "type": "string",
+      "enum": [
+        "neural_module_network",
+        "differentiable_reasoning",
+        "hybrid_architecture",
+        "knowledge_distillation"
+      ],
+      "description": "How neural and symbolic are combined"
+    },
+    "knowledge_base": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "rule_id": {
+            "type": "string"
+          },
+          "rule": {
+            "type": "string"
+          },
+          "confidence": {
+            "type": "number"
+          },
+          "learned_from_data": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "reasoning_capabilities": {
+      "type": "object",
+      "properties": {
+        "deductive_reasoning": {
+          "type": "number"
+        },
+        "inductive_reasoning": {
+          "type": "number"
+        },
+        "abductive_reasoning": {
+          "type": "number"
+        },
+        "analogical_reasoning": {
+          "type": "number"
+        }
+      }
+    },
+    "explainability_score": {
+      "type": "number",
+      "description": "How interpretable the model is"
+    },
+    "performance_metrics": {
+      "type": "object",
+      "properties": {
+        "accuracy": {
+          "type": "number"
+        },
+        "reasoning_depth": {
+          "type": "integer"
+        },
+        "inference_time_ms": {
+          "type": "number"
+        }
+      }
+    },
+    "transfer_learning_score": {
+      "type": "number",
+      "description": "Ability to transfer to new domains"
+    }
+  },
+  "required": [
+    "model_name",
+    "neural_architecture",
+    "symbolic_engine",
+    "integration_method"
+  ]
+}

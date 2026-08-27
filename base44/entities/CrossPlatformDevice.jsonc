@@ -1,0 +1,198 @@
+{
+  "name": "CrossPlatformDevice",
+  "type": "object",
+  "properties": {
+    "device_name": {
+      "type": "string",
+      "description": "User-friendly device name"
+    },
+    "protocol": {
+      "type": "string",
+      "enum": [
+        "matter",
+        "homekit",
+        "zigbee",
+        "zwave",
+        "wifi",
+        "bluetooth",
+        "thread"
+      ],
+      "description": "Communication protocol"
+    },
+    "device_category": {
+      "type": "string",
+      "enum": [
+        "lighting",
+        "climate",
+        "security",
+        "entertainment",
+        "appliance",
+        "sensor",
+        "switch",
+        "shade",
+        "camera"
+      ],
+      "description": "Device category"
+    },
+    "manufacturer": {
+      "type": "string"
+    },
+    "model_number": {
+      "type": "string"
+    },
+    "firmware_version": {
+      "type": "string"
+    },
+    "matter_device_type": {
+      "type": "string",
+      "enum": [
+        "on_off_light",
+        "dimmable_light",
+        "color_temperature_light",
+        "extended_color_light",
+        "thermostat",
+        "door_lock",
+        "window_covering",
+        "fan",
+        "air_purifier",
+        "air_quality_sensor",
+        "contact_sensor",
+        "motion_sensor",
+        "occupancy_sensor"
+      ]
+    },
+    "homekit_accessory_type": {
+      "type": "string"
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "capability_name": {
+            "type": "string"
+          },
+          "value_type": {
+            "type": "string"
+          },
+          "min_value": {
+            "type": "number"
+          },
+          "max_value": {
+            "type": "number"
+          },
+          "unit": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "current_state": {
+      "type": "object",
+      "properties": {
+        "power": {
+          "type": "boolean"
+        },
+        "brightness": {
+          "type": "number"
+        },
+        "color_temperature": {
+          "type": "number"
+        },
+        "hue": {
+          "type": "number"
+        },
+        "saturation": {
+          "type": "number"
+        },
+        "temperature_current": {
+          "type": "number"
+        },
+        "temperature_target": {
+          "type": "number"
+        },
+        "humidity": {
+          "type": "number"
+        },
+        "motion_detected": {
+          "type": "boolean"
+        },
+        "door_state": {
+          "type": "string"
+        },
+        "battery_level": {
+          "type": "number"
+        }
+      }
+    },
+    "spatial_location": {
+      "type": "object",
+      "properties": {
+        "room": {
+          "type": "string"
+        },
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "z": {
+          "type": "number"
+        },
+        "zone_id": {
+          "type": "string"
+        }
+      }
+    },
+    "automation_rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "trigger_type": {
+            "type": "string"
+          },
+          "condition": {
+            "type": "string"
+          },
+          "action": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "agent_permissions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "connection_status": {
+      "type": "string",
+      "enum": [
+        "online",
+        "offline",
+        "pairing",
+        "updating",
+        "error"
+      ],
+      "default": "offline"
+    },
+    "last_interaction": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "reachable_by_agents": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "device_name",
+    "protocol",
+    "device_category"
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "name": "DeploymentPipeline",
+  "type": "object",
+  "properties": {
+    "pipeline_name": {
+      "type": "string",
+      "description": "Pipeline name"
+    },
+    "agent_listing_id": {
+      "type": "string",
+      "description": "Marketplace listing ID"
+    },
+    "deployment_config": {
+      "type": "object",
+      "properties": {
+        "auto_governance": {
+          "type": "boolean",
+          "default": true
+        },
+        "governance_rules": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "orchestration_templates": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "integration_steps": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "initial_training": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "ready",
+        "deploying",
+        "deployed",
+        "failed"
+      ],
+      "default": "draft"
+    },
+    "deployed_agent_id": {
+      "type": "string",
+      "description": "ID of deployed agent"
+    },
+    "deployment_logs": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    }
+  },
+  "required": [
+    "pipeline_name",
+    "agent_listing_id"
+  ]
+}

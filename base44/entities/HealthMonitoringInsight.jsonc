@@ -1,0 +1,139 @@
+{
+  "name": "HealthMonitoringInsight",
+  "type": "object",
+  "properties": {
+    "insight_id": {
+      "type": "string",
+      "description": "Health insight identifier"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "User being monitored"
+    },
+    "consciousness_analysis": {
+      "type": "object",
+      "properties": {
+        "cognitive_load": {
+          "type": "number"
+        },
+        "stress_level": {
+          "type": "number"
+        },
+        "mental_clarity": {
+          "type": "number"
+        },
+        "emotional_state": {
+          "type": "string"
+        },
+        "attention_capacity": {
+          "type": "number"
+        }
+      }
+    },
+    "motor_control_metrics": {
+      "type": "object",
+      "properties": {
+        "response_time_ms": {
+          "type": "number"
+        },
+        "accuracy": {
+          "type": "number"
+        },
+        "fatigue_level": {
+          "type": "number"
+        },
+        "neural_pathway_efficiency": {
+          "type": "number"
+        }
+      }
+    },
+    "augmentation_health": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "augmentation_id": {
+            "type": "string"
+          },
+          "health_status": {
+            "type": "string"
+          },
+          "performance_score": {
+            "type": "number"
+          },
+          "anomalies_detected": {
+            "type": "array"
+          }
+        }
+      }
+    },
+    "predicted_issues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "issue_type": {
+            "type": "string"
+          },
+          "severity": {
+            "type": "string"
+          },
+          "probability": {
+            "type": "number"
+          },
+          "time_to_onset_hours": {
+            "type": "number"
+          },
+          "affected_systems": {
+            "type": "array"
+          }
+        }
+      }
+    },
+    "preventative_recommendations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "recommendation": {
+            "type": "string"
+          },
+          "expected_benefit": {
+            "type": "string"
+          },
+          "auto_executable": {
+            "type": "boolean"
+          },
+          "urgency": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "automatic_adjustments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "adjustment_type": {
+            "type": "string"
+          },
+          "target_system": {
+            "type": "string"
+          },
+          "parameters": {
+            "type": "object"
+          },
+          "executed_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "insight_id",
+    "user_id"
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "name": "CustomHapticPattern",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Agent ID"
+    },
+    "pattern_name": {
+      "type": "string",
+      "description": "Pattern name"
+    },
+    "pattern_data": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "intensity": {
+            "type": "number"
+          },
+          "duration_ms": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "use_case": {
+      "type": "string",
+      "description": "When to use"
+    },
+    "ai_suggested": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "agent_id",
+    "pattern_name",
+    "pattern_data"
+  ]
+}

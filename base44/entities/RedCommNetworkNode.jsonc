@@ -1,0 +1,166 @@
+{
+  "name": "RedCommNetworkNode",
+  "type": "object",
+  "properties": {
+    "node_id": {
+      "type": "string",
+      "description": "Unique network node identifier"
+    },
+    "node_type": {
+      "type": "string",
+      "enum": [
+        "tactical_edge",
+        "sovereign_pod",
+        "deepblue_underwater",
+        "deepsky_satellite",
+        "nexus_singapore"
+      ],
+      "description": "Type of RedComm node"
+    },
+    "geographic_location": {
+      "type": "object",
+      "properties": {
+        "latitude": {
+          "type": "number"
+        },
+        "longitude": {
+          "type": "number"
+        },
+        "altitude_m": {
+          "type": "number"
+        },
+        "location_name": {
+          "type": "string"
+        }
+      }
+    },
+    "network_protocol": {
+      "type": "string",
+      "enum": [
+        "SCION",
+        "DTN_BPv7",
+        "6G_THz",
+        "optical_ISL"
+      ],
+      "description": "Primary networking protocol"
+    },
+    "scion_config": {
+      "type": "object",
+      "properties": {
+        "isd_id": {
+          "type": "string"
+        },
+        "as_number": {
+          "type": "string"
+        },
+        "path_aware_routing": {
+          "type": "boolean"
+        },
+        "sovereign_shard": {
+          "type": "string",
+          "enum": [
+            "helix_a",
+            "helix_b",
+            "neutral"
+          ]
+        }
+      }
+    },
+    "thz_link_config": {
+      "type": "object",
+      "properties": {
+        "frequency_ghz": {
+          "type": "number"
+        },
+        "bandwidth_gbps": {
+          "type": "number"
+        },
+        "antenna_gain_dbi": {
+          "type": "number"
+        },
+        "link_budget_db": {
+          "type": "number"
+        },
+        "atmospheric_attenuation_db": {
+          "type": "number"
+        }
+      }
+    },
+    "connected_nodes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "node_id": {
+            "type": "string"
+          },
+          "link_type": {
+            "type": "string"
+          },
+          "latency_ms": {
+            "type": "number"
+          },
+          "bandwidth_mbps": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "crdt_state_vector": {
+      "type": "object",
+      "description": "Version clock for distributed state sync"
+    },
+    "delta_queue": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "delta_id": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "payload_size_bytes": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "compute_capacity": {
+      "type": "object",
+      "properties": {
+        "gpu_model": {
+          "type": "string"
+        },
+        "tflops": {
+          "type": "number"
+        },
+        "power_consumption_w": {
+          "type": "number"
+        },
+        "pue_score": {
+          "type": "number"
+        }
+      }
+    },
+    "uptime_percentage": {
+      "type": "number"
+    },
+    "node_status": {
+      "type": "string",
+      "enum": [
+        "online",
+        "offline",
+        "syncing",
+        "degraded"
+      ],
+      "default": "online"
+    }
+  },
+  "required": [
+    "node_id",
+    "node_type"
+  ]
+}

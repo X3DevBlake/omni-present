@@ -1,0 +1,110 @@
+{
+  "name": "HolographicAgent",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Agent name"
+    },
+    "user_email": {
+      "type": "string",
+      "description": "Owner email"
+    },
+    "avatar_3d_url": {
+      "type": "string",
+      "description": "3D holographic model URL"
+    },
+    "hologram_color": {
+      "type": "string",
+      "default": "#00FFFF",
+      "description": "Primary holographic glow color"
+    },
+    "personality_traits": {
+      "type": "object",
+      "properties": {
+        "empathy": {
+          "type": "number"
+        },
+        "assertiveness": {
+          "type": "number"
+        },
+        "creativity": {
+          "type": "number"
+        },
+        "analytical": {
+          "type": "number"
+        }
+      },
+      "description": "Personality configuration"
+    },
+    "current_location": {
+      "type": "object",
+      "properties": {
+        "latitude": {
+          "type": "number"
+        },
+        "longitude": {
+          "type": "number"
+        },
+        "altitude": {
+          "type": "number"
+        },
+        "device_id": {
+          "type": "string"
+        }
+      },
+      "description": "Current position in 3D world or device"
+    },
+    "current_device_id": {
+      "type": "string",
+      "description": "Currently active device"
+    },
+    "state": {
+      "type": "object",
+      "description": "Agent current state for continuity"
+    },
+    "active_task": {
+      "type": "string",
+      "description": "Current task being executed"
+    },
+    "skills": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Agent capabilities"
+    },
+    "voice_id": {
+      "type": "string",
+      "description": "ElevenLabs voice ID"
+    },
+    "communication_preferences": {
+      "type": "object",
+      "properties": {
+        "preferred_channel": {
+          "type": "string"
+        },
+        "slack_user_id": {
+          "type": "string"
+        },
+        "phone_number": {
+          "type": "string"
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "idle",
+        "communicating",
+        "transitioning"
+      ],
+      "default": "idle"
+    }
+  },
+  "required": [
+    "name",
+    "user_email"
+  ]
+}

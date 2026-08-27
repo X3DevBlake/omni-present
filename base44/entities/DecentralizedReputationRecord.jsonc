@@ -1,0 +1,89 @@
+{
+  "name": "DecentralizedReputationRecord",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Agent this record belongs to"
+    },
+    "blockchain_hash": {
+      "type": "string",
+      "description": "Immutable blockchain transaction hash"
+    },
+    "reputation_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Overall reputation score"
+    },
+    "reputation_tier": {
+      "type": "string",
+      "enum": [
+        "bronze",
+        "silver",
+        "gold",
+        "platinum",
+        "diamond"
+      ],
+      "default": "bronze",
+      "description": "Reputation tier"
+    },
+    "performance_data": {
+      "type": "object",
+      "properties": {
+        "total_tasks": {
+          "type": "integer"
+        },
+        "success_rate": {
+          "type": "number"
+        },
+        "avg_rating": {
+          "type": "number"
+        }
+      },
+      "description": "Immutable performance snapshot"
+    },
+    "reviews": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "reviewer_id": {
+            "type": "string"
+          },
+          "rating": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 5
+          },
+          "review_text": {
+            "type": "string"
+          },
+          "task_id": {
+            "type": "string"
+          },
+          "verified": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "verification_status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "verified",
+        "disputed"
+      ],
+      "default": "pending"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "agent_id",
+    "reputation_score"
+  ]
+}

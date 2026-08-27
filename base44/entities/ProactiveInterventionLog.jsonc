@@ -1,0 +1,127 @@
+{
+  "name": "ProactiveInterventionLog",
+  "type": "object",
+  "properties": {
+    "intervention_id": {
+      "type": "string",
+      "description": "Intervention identifier"
+    },
+    "companion_id": {
+      "type": "string",
+      "description": "Companion that intervened"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "User receiving intervention"
+    },
+    "intervention_type": {
+      "type": "string",
+      "enum": [
+        "emotional_support",
+        "health_alert",
+        "productivity_boost",
+        "safety_warning",
+        "opportunity_alert",
+        "relationship_advice"
+      ],
+      "description": "Type of intervention"
+    },
+    "detected_need": {
+      "type": "object",
+      "properties": {
+        "need_type": {
+          "type": "string"
+        },
+        "urgency_level": {
+          "type": "number"
+        },
+        "confidence": {
+          "type": "number"
+        }
+      }
+    },
+    "context_snapshot": {
+      "type": "object",
+      "properties": {
+        "user_emotional_state": {
+          "type": "string"
+        },
+        "current_activity": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string"
+        },
+        "time_of_day": {
+          "type": "string"
+        },
+        "physiological_data": {
+          "type": "object"
+        }
+      }
+    },
+    "intervention_content": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "suggested_actions": {
+          "type": "array"
+        },
+        "resources_provided": {
+          "type": "array"
+        }
+      }
+    },
+    "user_response": {
+      "type": "object",
+      "properties": {
+        "accepted": {
+          "type": "boolean"
+        },
+        "feedback": {
+          "type": "string"
+        },
+        "emotional_impact": {
+          "type": "number"
+        }
+      }
+    },
+    "effectiveness_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "How effective the intervention was"
+    },
+    "timing_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "How well-timed the intervention was"
+    },
+    "learning_impact": {
+      "type": "object",
+      "properties": {
+        "improved_timing": {
+          "type": "boolean"
+        },
+        "refined_approach": {
+          "type": "boolean"
+        },
+        "updated_model": {
+          "type": "boolean"
+        }
+      }
+    },
+    "occurred_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "intervention_id",
+    "companion_id",
+    "intervention_type"
+  ]
+}

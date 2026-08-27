@@ -1,0 +1,75 @@
+{
+  "name": "LongTermPrediction",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "User email"
+    },
+    "prediction_type": {
+      "type": "string",
+      "enum": [
+        "market_trend",
+        "financial_outcome",
+        "risk_assessment",
+        "portfolio_performance"
+      ],
+      "description": "Prediction type"
+    },
+    "timeframe": {
+      "type": "string",
+      "enum": [
+        "3_months",
+        "6_months",
+        "1_year",
+        "5_years"
+      ],
+      "description": "Prediction timeframe"
+    },
+    "model_used": {
+      "type": "string",
+      "description": "AI model identifier"
+    },
+    "predictions": {
+      "type": "object",
+      "description": "Detailed predictions"
+    },
+    "confidence_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Confidence %"
+    },
+    "data_sources": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Data sources used"
+    },
+    "risk_factors": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Identified risks"
+    },
+    "actionable_insights": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Recommended actions"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Creation timestamp"
+    }
+  },
+  "required": [
+    "user_email",
+    "prediction_type",
+    "timeframe"
+  ]
+}

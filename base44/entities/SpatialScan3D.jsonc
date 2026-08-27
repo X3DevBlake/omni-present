@@ -1,0 +1,125 @@
+{
+  "name": "SpatialScan3D",
+  "type": "object",
+  "properties": {
+    "scan_name": {
+      "type": "string",
+      "description": "User-friendly scan name"
+    },
+    "spatial_map_id": {
+      "type": "string",
+      "description": "Associated spatial map"
+    },
+    "scan_file_url": {
+      "type": "string",
+      "description": "URL to uploaded 3D scan file (.obj, .glb, .ply)"
+    },
+    "scan_file_format": {
+      "type": "string",
+      "enum": [
+        "obj",
+        "glb",
+        "gltf",
+        "ply",
+        "fbx",
+        "stl"
+      ],
+      "description": "3D file format"
+    },
+    "scan_metadata": {
+      "type": "object",
+      "properties": {
+        "file_size_mb": {
+          "type": "number"
+        },
+        "polygon_count": {
+          "type": "integer"
+        },
+        "vertex_count": {
+          "type": "integer"
+        },
+        "texture_maps": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "processing_status": {
+      "type": "string",
+      "enum": [
+        "uploaded",
+        "processing",
+        "completed",
+        "failed"
+      ],
+      "default": "uploaded"
+    },
+    "ai_detected_features": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "feature_type": {
+            "type": "string"
+          },
+          "position": {
+            "type": "object",
+            "properties": {
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              },
+              "z": {
+                "type": "number"
+              }
+            }
+          },
+          "confidence": {
+            "type": "number"
+          },
+          "labels": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "auto_generated_zones": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "zone_name": {
+            "type": "string"
+          },
+          "zone_type": {
+            "type": "string"
+          },
+          "boundaries": {
+            "type": "array"
+          }
+        }
+      }
+    },
+    "optimization_level": {
+      "type": "string",
+      "enum": [
+        "high_detail",
+        "balanced",
+        "performance"
+      ],
+      "default": "balanced"
+    }
+  },
+  "required": [
+    "scan_name",
+    "scan_file_url",
+    "scan_file_format"
+  ]
+}

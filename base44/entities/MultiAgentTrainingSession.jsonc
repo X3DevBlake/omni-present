@@ -1,0 +1,193 @@
+{
+  "name": "MultiAgentTrainingSession",
+  "type": "object",
+  "properties": {
+    "session_id": {
+      "type": "string",
+      "description": "Unique session identifier"
+    },
+    "scenario_name": {
+      "type": "string",
+      "description": "Name of the multi-agent training scenario"
+    },
+    "participating_agents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "initial_capabilities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "description": "Agents participating in the training session"
+    },
+    "scenario_complexity": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 10,
+      "description": "Complexity level of the scenario"
+    },
+    "interaction_data": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "agent_id": {
+            "type": "string"
+          },
+          "action": {
+            "type": "string"
+          },
+          "target_agent_id": {
+            "type": "string"
+          },
+          "interaction_type": {
+            "type": "string",
+            "enum": [
+              "cooperation",
+              "negotiation",
+              "competition",
+              "communication",
+              "resource_sharing"
+            ]
+          },
+          "outcome": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Real-time interaction logs between agents"
+    },
+    "collective_decisions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "decision_point": {
+            "type": "string"
+          },
+          "agents_involved": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "decision_made": {
+            "type": "string"
+          },
+          "consensus_level": {
+            "type": "number"
+          },
+          "decision_quality": {
+            "type": "number"
+          }
+        }
+      },
+      "description": "Collective decision-making analysis"
+    },
+    "emergent_behaviors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "behavior_type": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "participating_agents": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "emergence_timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "innovation_score": {
+            "type": "number"
+          }
+        }
+      },
+      "description": "Detected emergent group behaviors"
+    },
+    "group_performance_metrics": {
+      "type": "object",
+      "properties": {
+        "collaboration_efficiency": {
+          "type": "number"
+        },
+        "communication_quality": {
+          "type": "number"
+        },
+        "conflict_resolution_score": {
+          "type": "number"
+        },
+        "task_completion_rate": {
+          "type": "number"
+        },
+        "synergy_level": {
+          "type": "number"
+        }
+      }
+    },
+    "ai_analysis": {
+      "type": "object",
+      "properties": {
+        "team_dynamics_assessment": {
+          "type": "string"
+        },
+        "identified_leaders": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "communication_patterns": {
+          "type": "array"
+        },
+        "improvement_recommendations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "session_duration_minutes": {
+      "type": "number"
+    },
+    "session_status": {
+      "type": "string",
+      "enum": [
+        "initializing",
+        "running",
+        "paused",
+        "completed",
+        "analyzed"
+      ],
+      "default": "initializing"
+    }
+  },
+  "required": [
+    "session_id",
+    "scenario_name",
+    "participating_agents"
+  ]
+}

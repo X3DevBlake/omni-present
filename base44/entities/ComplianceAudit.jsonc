@@ -1,0 +1,107 @@
+{
+  "name": "ComplianceAudit",
+  "type": "object",
+  "properties": {
+    "audit_id": {
+      "type": "string",
+      "description": "Audit identifier"
+    },
+    "compliance_framework": {
+      "type": "string",
+      "enum": [
+        "gdpr",
+        "hipaa",
+        "sox",
+        "pci_dss",
+        "iso27001",
+        "nist"
+      ],
+      "description": "Compliance standard"
+    },
+    "audit_scope": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Systems/processes audited"
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "finding_id": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high",
+              "critical"
+            ]
+          },
+          "description": {
+            "type": "string"
+          },
+          "remediation": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "compliance_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Overall compliance percentage"
+    },
+    "requirements_checked": {
+      "type": "integer",
+      "description": "Total requirements evaluated"
+    },
+    "requirements_passed": {
+      "type": "integer",
+      "description": "Requirements met"
+    },
+    "gaps_identified": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "gap_description": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "string"
+          },
+          "estimated_effort": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "audit_status": {
+      "type": "string",
+      "enum": [
+        "scheduled",
+        "in_progress",
+        "completed",
+        "failed"
+      ],
+      "default": "scheduled"
+    },
+    "next_audit_date": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "compliance_framework",
+    "audit_scope"
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "name": "VoiceMessage",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "Sender email"
+    },
+    "recipient_email": {
+      "type": "string",
+      "description": "Recipient email"
+    },
+    "text_content": {
+      "type": "string",
+      "description": "Original text"
+    },
+    "audio_url": {
+      "type": "string",
+      "description": "Generated audio data URL"
+    },
+    "voice_id": {
+      "type": "string",
+      "description": "ElevenLabs voice ID used"
+    },
+    "voice_settings": {
+      "type": "object",
+      "description": "Stability and similarity boost"
+    },
+    "duration_seconds": {
+      "type": "number",
+      "description": "Audio duration"
+    },
+    "agent_id": {
+      "type": "string",
+      "description": "Agent ID if sent by agent"
+    },
+    "conversation_id": {
+      "type": "string",
+      "description": "Conversation thread ID"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "generating",
+        "ready",
+        "played",
+        "failed"
+      ],
+      "default": "generating",
+      "description": "Message status"
+    }
+  },
+  "required": [
+    "user_email",
+    "text_content"
+  ]
+}

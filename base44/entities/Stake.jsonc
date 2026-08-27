@@ -1,0 +1,53 @@
+{
+  "name": "Stake",
+  "type": "object",
+  "properties": {
+    "amount": {
+      "type": "number",
+      "description": "Amount of Omni staked"
+    },
+    "apy": {
+      "type": "number",
+      "description": "Annual percentage yield"
+    },
+    "start_date": {
+      "type": "string",
+      "format": "date",
+      "description": "When staking started"
+    },
+    "end_date": {
+      "type": "string",
+      "format": "date",
+      "description": "When staking ends"
+    },
+    "duration_days": {
+      "type": "integer",
+      "description": "Staking duration in days"
+    },
+    "earned": {
+      "type": "number",
+      "default": 0,
+      "description": "Rewards earned so far"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "completed",
+        "withdrawn"
+      ],
+      "default": "active",
+      "description": "Staking status"
+    },
+    "auto_compound": {
+      "type": "boolean",
+      "default": false,
+      "description": "Automatically reinvest rewards"
+    }
+  },
+  "required": [
+    "amount",
+    "apy",
+    "duration_days"
+  ]
+}

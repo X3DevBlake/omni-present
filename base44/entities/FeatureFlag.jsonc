@@ -1,0 +1,59 @@
+{
+  "name": "FeatureFlag",
+  "type": "object",
+  "properties": {
+    "feature_key": {
+      "type": "string",
+      "description": "Unique identifier for the feature"
+    },
+    "feature_name": {
+      "type": "string",
+      "description": "Human-readable feature name"
+    },
+    "description": {
+      "type": "string"
+    },
+    "enabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "rollout_percentage": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "default": 0,
+      "description": "Percentage of users to enable feature for"
+    },
+    "target_users": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Specific user emails to enable feature for"
+    },
+    "target_roles": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Roles to enable feature for (admin, user)"
+    },
+    "environment": {
+      "type": "string",
+      "enum": [
+        "development",
+        "staging",
+        "production"
+      ],
+      "default": "development"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Additional configuration for the feature"
+    }
+  },
+  "required": [
+    "feature_key",
+    "feature_name"
+  ]
+}

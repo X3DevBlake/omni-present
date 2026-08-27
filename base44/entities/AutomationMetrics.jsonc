@@ -1,0 +1,62 @@
+{
+  "name": "AutomationMetrics",
+  "type": "object",
+  "properties": {
+    "automation_name": {
+      "type": "string",
+      "description": "Name of the automation"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "mlops",
+        "agent_orchestration",
+        "financial",
+        "communication",
+        "system"
+      ],
+      "description": "Automation category"
+    },
+    "execution_count": {
+      "type": "integer",
+      "default": 0,
+      "description": "Total executions"
+    },
+    "success_count": {
+      "type": "integer",
+      "default": 0
+    },
+    "failure_count": {
+      "type": "integer",
+      "default": 0
+    },
+    "last_execution": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "last_status": {
+      "type": "string",
+      "enum": [
+        "success",
+        "failed",
+        "pending"
+      ],
+      "default": "pending"
+    },
+    "avg_duration_ms": {
+      "type": "number",
+      "description": "Average execution duration"
+    },
+    "last_error": {
+      "type": "string"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "automation_name",
+    "category"
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "name": "WorkflowExecution",
+  "type": "object",
+  "properties": {
+    "workflow_id": {
+      "type": "string",
+      "description": "Associated workflow"
+    },
+    "execution_status": {
+      "type": "string",
+      "enum": [
+        "running",
+        "completed",
+        "failed",
+        "paused"
+      ],
+      "default": "running"
+    },
+    "current_task_id": {
+      "type": "string",
+      "description": "Currently executing task"
+    },
+    "completed_tasks": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Completed task IDs"
+    },
+    "failed_tasks": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Failed task IDs"
+    },
+    "execution_log": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Execution event log"
+    },
+    "start_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "end_time": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "workflow_id"
+  ]
+}

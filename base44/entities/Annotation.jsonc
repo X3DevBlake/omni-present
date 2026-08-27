@@ -1,0 +1,58 @@
+{
+  "name": "Annotation",
+  "type": "object",
+  "properties": {
+    "blueprint_id": {
+      "type": "string",
+      "description": "Associated blueprint ID"
+    },
+    "component_index": {
+      "type": "integer",
+      "description": "Index of component being annotated"
+    },
+    "content": {
+      "type": "string",
+      "description": "Annotation content"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "comment",
+        "question",
+        "suggestion",
+        "issue"
+      ],
+      "default": "comment",
+      "description": "Type of annotation"
+    },
+    "position": {
+      "type": "object",
+      "description": "3D position of annotation marker"
+    },
+    "resolved": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether annotation has been resolved"
+    },
+    "replies": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Replies to this annotation"
+    },
+    "assigned_to": {
+      "type": "string",
+      "description": "Email of assigned team member"
+    },
+    "due_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Task due date"
+    }
+  },
+  "required": [
+    "blueprint_id",
+    "content"
+  ]
+}

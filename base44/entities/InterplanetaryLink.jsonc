@@ -1,0 +1,90 @@
+{
+  "name": "InterplanetaryLink",
+  "type": "object",
+  "properties": {
+    "link_id": {
+      "type": "string",
+      "description": "Unique link identifier"
+    },
+    "source_body": {
+      "type": "string",
+      "description": "Source celestial body"
+    },
+    "destination_body": {
+      "type": "string",
+      "description": "Destination celestial body"
+    },
+    "link_type": {
+      "type": "string",
+      "enum": [
+        "rf_microwave",
+        "optical_laser",
+        "thz_beam",
+        "quantum_entangled"
+      ],
+      "description": "Communication technology"
+    },
+    "current_latency_ms": {
+      "type": "number",
+      "description": "Current one-way latency"
+    },
+    "predicted_latency_profile": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "latency_ms": {
+            "type": "number"
+          },
+          "confidence": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "bandwidth_gbps": {
+      "type": "number"
+    },
+    "link_health": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "interference_sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "source": {
+            "type": "string"
+          },
+          "impact": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "ai_routing_priority": {
+      "type": "number",
+      "description": "AI-calculated routing priority"
+    },
+    "data_buffered_gb": {
+      "type": "number",
+      "default": 0
+    },
+    "active": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "link_id",
+    "source_body",
+    "destination_body",
+    "link_type"
+  ]
+}

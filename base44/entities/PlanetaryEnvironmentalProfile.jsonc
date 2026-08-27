@@ -1,0 +1,158 @@
+{
+  "name": "PlanetaryEnvironmentalProfile",
+  "type": "object",
+  "properties": {
+    "profile_id": {
+      "type": "string",
+      "description": "Unique profile identifier"
+    },
+    "celestial_body_name": {
+      "type": "string",
+      "enum": [
+        "Mercury",
+        "Venus",
+        "Earth",
+        "Mars",
+        "Jupiter",
+        "Saturn",
+        "Uranus",
+        "Neptune",
+        "Luna",
+        "Titan",
+        "Europa",
+        "Ganymede"
+      ]
+    },
+    "orbital_parameters": {
+      "type": "object",
+      "properties": {
+        "semi_major_axis_au": {
+          "type": "number"
+        },
+        "eccentricity": {
+          "type": "number"
+        },
+        "inclination_deg": {
+          "type": "number"
+        },
+        "current_distance_from_earth_au": {
+          "type": "number"
+        }
+      }
+    },
+    "physics_constants": {
+      "type": "object",
+      "properties": {
+        "surface_gravity_ms2": {
+          "type": "number"
+        },
+        "atmospheric_pressure_kpa": {
+          "type": "number"
+        },
+        "surface_temperature_range_k": {
+          "type": "object",
+          "properties": {
+            "min": {
+              "type": "number"
+            },
+            "max": {
+              "type": "number"
+            }
+          }
+        },
+        "radiation_exposure_msv_year": {
+          "type": "number"
+        }
+      }
+    },
+    "atmospheric_composition": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "number"
+      }
+    },
+    "resource_availability": {
+      "type": "object",
+      "properties": {
+        "water_ice": {
+          "type": "number"
+        },
+        "metallic_ores": {
+          "type": "number"
+        },
+        "solar_power_efficiency": {
+          "type": "number"
+        },
+        "nuclear_fuel": {
+          "type": "number"
+        }
+      }
+    },
+    "communication_challenges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "challenge_type": {
+            "type": "string"
+          },
+          "severity": {
+            "type": "number"
+          },
+          "mitigation_strategies": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "deployed_agent_count": {
+      "type": "integer",
+      "default": 0
+    },
+    "mission_types": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "exploration",
+          "mining",
+          "terraforming",
+          "research",
+          "colonization",
+          "defense"
+        ]
+      }
+    },
+    "hazard_zones": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "zone_id": {
+            "type": "string"
+          },
+          "hazard_type": {
+            "type": "string"
+          },
+          "coordinates": {
+            "type": "object"
+          },
+          "severity": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "ai_environment_model": {
+      "type": "object",
+      "description": "AI-generated model for agent adaptation"
+    }
+  },
+  "required": [
+    "profile_id",
+    "celestial_body_name"
+  ]
+}

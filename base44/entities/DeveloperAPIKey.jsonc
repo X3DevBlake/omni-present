@@ -1,0 +1,87 @@
+{
+  "name": "DeveloperAPIKey",
+  "type": "object",
+  "properties": {
+    "api_key_id": {
+      "type": "string",
+      "description": "API key identifier"
+    },
+    "developer_id": {
+      "type": "string",
+      "description": "Developer who owns key"
+    },
+    "api_key_hash": {
+      "type": "string",
+      "description": "Hashed API key"
+    },
+    "permissions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "read_agents",
+          "write_agents",
+          "read_augmentations",
+          "write_augmentations",
+          "marketplace_access",
+          "neural_data_access",
+          "consciousness_access"
+        ]
+      }
+    },
+    "rate_limits": {
+      "type": "object",
+      "properties": {
+        "requests_per_minute": {
+          "type": "integer"
+        },
+        "requests_per_day": {
+          "type": "integer"
+        },
+        "concurrent_requests": {
+          "type": "integer"
+        }
+      }
+    },
+    "usage_statistics": {
+      "type": "object",
+      "properties": {
+        "total_requests": {
+          "type": "integer"
+        },
+        "successful_requests": {
+          "type": "integer"
+        },
+        "failed_requests": {
+          "type": "integer"
+        },
+        "last_used_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "allowed_endpoints": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "webhook_url": {
+      "type": "string",
+      "description": "Webhook for API events"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "api_key_id",
+    "developer_id"
+  ]
+}

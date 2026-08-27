@@ -1,0 +1,54 @@
+{
+  "name": "CryptoToken",
+  "type": "object",
+  "properties": {
+    "symbol": {
+      "type": "string",
+      "description": "Token symbol (e.g., BTC, ETH)"
+    },
+    "name": {
+      "type": "string",
+      "description": "Full token name"
+    },
+    "contract_address": {
+      "type": "string",
+      "description": "Smart contract address"
+    },
+    "network": {
+      "type": "string",
+      "description": "Blockchain network"
+    },
+    "current_price": {
+      "type": "number",
+      "description": "Current price in USD"
+    },
+    "price_change_24h": {
+      "type": "number",
+      "description": "24h price change percentage"
+    },
+    "market_cap": {
+      "type": "number",
+      "description": "Market capitalization"
+    },
+    "volume_24h": {
+      "type": "number",
+      "description": "24h trading volume"
+    },
+    "icon_url": {
+      "type": "string",
+      "description": "Token icon URL"
+    },
+    "supported_pools": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Available liquidity pools"
+    }
+  },
+  "required": [
+    "symbol",
+    "name",
+    "current_price"
+  ]
+}

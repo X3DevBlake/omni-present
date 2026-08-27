@@ -1,0 +1,102 @@
+{
+  "name": "CRDTStateDelta",
+  "type": "object",
+  "properties": {
+    "delta_id": {
+      "type": "string",
+      "description": "Unique delta identifier"
+    },
+    "source_node_id": {
+      "type": "string",
+      "description": "Node that generated this delta"
+    },
+    "target_node_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Nodes that need this delta"
+    },
+    "delta_type": {
+      "type": "string",
+      "enum": [
+        "G-Set_add",
+        "PN-Counter_increment",
+        "LWW-Register_update",
+        "OR-Set_add",
+        "custom"
+      ],
+      "description": "Type of CRDT operation"
+    },
+    "state_path": {
+      "type": "string",
+      "description": "Path in state tree being modified"
+    },
+    "delta_payload": {
+      "type": "object",
+      "description": "The small state change (delta)",
+      "additionalProperties": true
+    },
+    "vector_clock": {
+      "type": "object",
+      "description": "Causal ordering metadata",
+      "additionalProperties": {
+        "type": "integer"
+      }
+    },
+    "join_semilattice_operation": {
+      "type": "string",
+      "description": "Merge operation to apply"
+    },
+    "payload_size_bytes": {
+      "type": "integer"
+    },
+    "propagation_status": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "node_id": {
+            "type": "string"
+          },
+          "received": {
+            "type": "boolean"
+          },
+          "applied": {
+            "type": "boolean"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    },
+    "eventual_consistency_achieved": {
+      "type": "boolean",
+      "description": "All nodes converged to same state"
+    },
+    "anti_entropy_protocol_active": {
+      "type": "boolean"
+    },
+    "network_partition_tolerance": {
+      "type": "boolean",
+      "description": "Can sync across network partitions"
+    },
+    "sync_priority": {
+      "type": "string",
+      "enum": [
+        "critical",
+        "high",
+        "normal",
+        "low"
+      ],
+      "default": "normal"
+    }
+  },
+  "required": [
+    "delta_id",
+    "source_node_id",
+    "delta_type"
+  ]
+}

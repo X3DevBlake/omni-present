@@ -1,0 +1,65 @@
+{
+  "name": "AutonomousSkillDiscovery",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Agent ID"
+    },
+    "user_email": {
+      "type": "string",
+      "description": "User email"
+    },
+    "skill_discovered": {
+      "type": "string",
+      "description": "Skill name"
+    },
+    "discovery_method": {
+      "type": "string",
+      "enum": [
+        "knowledge_base",
+        "interaction",
+        "training_request",
+        "observation"
+      ],
+      "description": "How skill was discovered"
+    },
+    "relevance_score": {
+      "type": "number",
+      "description": "Relevance to agent goals"
+    },
+    "learning_resources": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "URLs/paths to learning resources"
+    },
+    "integration_status": {
+      "type": "string",
+      "enum": [
+        "discovered",
+        "learning",
+        "integrated",
+        "mastered"
+      ],
+      "default": "discovered",
+      "description": "Integration progress"
+    },
+    "autonomy_level": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Agent autonomy in learning"
+    },
+    "performance_improvement": {
+      "type": "number",
+      "description": "Expected improvement percentage"
+    }
+  },
+  "required": [
+    "agent_id",
+    "user_email",
+    "skill_discovered"
+  ]
+}

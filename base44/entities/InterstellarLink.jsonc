@@ -1,0 +1,103 @@
+{
+  "name": "InterstellarLink",
+  "type": "object",
+  "properties": {
+    "link_id": {
+      "type": "string",
+      "description": "Unique interstellar link identifier"
+    },
+    "source_system": {
+      "type": "string",
+      "description": "Source star system"
+    },
+    "destination_system": {
+      "type": "string",
+      "description": "Destination star system"
+    },
+    "distance_light_years": {
+      "type": "number"
+    },
+    "link_type": {
+      "type": "string",
+      "enum": [
+        "conventional_em",
+        "neutrino_beam",
+        "wormhole_simulated",
+        "alcubierre_bridge",
+        "quantum_ansible"
+      ],
+      "description": "Communication technology"
+    },
+    "ftl_enabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "effective_latency_ms": {
+      "type": "number",
+      "description": "Effective latency (accounting for FTL)"
+    },
+    "relativistic_effects": {
+      "type": "object",
+      "properties": {
+        "time_dilation_factor": {
+          "type": "number"
+        },
+        "doppler_shift_hz": {
+          "type": "number"
+        },
+        "frame_dragging_impact": {
+          "type": "number"
+        }
+      }
+    },
+    "exotic_interference": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "source": {
+            "type": "string"
+          },
+          "impact_severity": {
+            "type": "number"
+          },
+          "predictability": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "ai_predicted_challenges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "challenge": {
+            "type": "string"
+          },
+          "probability": {
+            "type": "number"
+          },
+          "mitigation": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "wormhole_stability": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Simulated wormhole throat stability"
+    },
+    "bandwidth_tbps": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "link_id",
+    "source_system",
+    "destination_system",
+    "link_type"
+  ]
+}

@@ -1,0 +1,184 @@
+{
+  "name": "EcosystemHealthMetrics",
+  "type": "object",
+  "properties": {
+    "metric_id": {
+      "type": "string",
+      "description": "Metric identifier"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "system_performance": {
+      "type": "object",
+      "properties": {
+        "overall_health_score": {
+          "type": "number"
+        },
+        "uptime_percent": {
+          "type": "number"
+        },
+        "response_time_ms": {
+          "type": "number"
+        },
+        "error_rate": {
+          "type": "number"
+        }
+      }
+    },
+    "agent_metrics": {
+      "type": "object",
+      "properties": {
+        "total_agents": {
+          "type": "number"
+        },
+        "active_agents": {
+          "type": "number"
+        },
+        "avg_performance": {
+          "type": "number"
+        },
+        "collaboration_count": {
+          "type": "number"
+        }
+      }
+    },
+    "neural_infrastructure": {
+      "type": "object",
+      "properties": {
+        "active_chips": {
+          "type": "number"
+        },
+        "avg_sync_level": {
+          "type": "number"
+        },
+        "thought_processing_load": {
+          "type": "number"
+        },
+        "consciousness_bandwidth": {
+          "type": "number"
+        }
+      }
+    },
+    "augmentation_status": {
+      "type": "object",
+      "properties": {
+        "active_augmentations": {
+          "type": "number"
+        },
+        "nano_swarms_deployed": {
+          "type": "number"
+        },
+        "avg_swarm_health": {
+          "type": "number"
+        },
+        "augmentation_efficiency": {
+          "type": "number"
+        }
+      }
+    },
+    "holographic_network": {
+      "type": "object",
+      "properties": {
+        "active_projections": {
+          "type": "number"
+        },
+        "avg_projection_quality": {
+          "type": "number"
+        },
+        "device_network_health": {
+          "type": "number"
+        },
+        "handoff_success_rate": {
+          "type": "number"
+        }
+      }
+    },
+    "financial_intelligence": {
+      "type": "object",
+      "properties": {
+        "active_strategies": {
+          "type": "number"
+        },
+        "signals_generated": {
+          "type": "number"
+        },
+        "avg_strategy_performance": {
+          "type": "number"
+        },
+        "total_managed_value": {
+          "type": "number"
+        }
+      }
+    },
+    "learning_ecosystem": {
+      "type": "object",
+      "properties": {
+        "active_guilds": {
+          "type": "number"
+        },
+        "emergent_events_count": {
+          "type": "number"
+        },
+        "avg_collective_iq": {
+          "type": "number"
+        },
+        "knowledge_synthesis_rate": {
+          "type": "number"
+        }
+      }
+    },
+    "security_posture": {
+      "type": "object",
+      "properties": {
+        "threats_detected": {
+          "type": "number"
+        },
+        "threats_mitigated": {
+          "type": "number"
+        },
+        "avg_response_time_ms": {
+          "type": "number"
+        },
+        "security_score": {
+          "type": "number"
+        }
+      }
+    },
+    "resource_utilization": {
+      "type": "object",
+      "properties": {
+        "cpu_usage_percent": {
+          "type": "number"
+        },
+        "memory_usage_percent": {
+          "type": "number"
+        },
+        "storage_usage_percent": {
+          "type": "number"
+        },
+        "network_bandwidth_mbps": {
+          "type": "number"
+        }
+      }
+    },
+    "predictive_forecast": {
+      "type": "object",
+      "properties": {
+        "health_trend": {
+          "type": "string"
+        },
+        "bottleneck_prediction": {
+          "type": "array"
+        },
+        "growth_forecast": {
+          "type": "object"
+        }
+      }
+    }
+  },
+  "required": [
+    "metric_id"
+  ]
+}

@@ -1,0 +1,126 @@
+{
+  "name": "AgentSubProcess",
+  "type": "object",
+  "properties": {
+    "subprocess_id": {
+      "type": "string",
+      "description": "Sub-process identifier"
+    },
+    "parent_agent_id": {
+      "type": "string",
+      "description": "Agent that spawned sub-process"
+    },
+    "task_allocated": {
+      "type": "object",
+      "properties": {
+        "task_description": {
+          "type": "string"
+        },
+        "computational_complexity": {
+          "type": "string"
+        },
+        "estimated_duration_ms": {
+          "type": "number"
+        },
+        "priority_level": {
+          "type": "string"
+        }
+      }
+    },
+    "subprocess_architecture": {
+      "type": "object",
+      "properties": {
+        "algorithm_type": {
+          "type": "string"
+        },
+        "resource_allocation": {
+          "type": "object"
+        },
+        "parallelization_level": {
+          "type": "integer"
+        },
+        "optimization_strategy": {
+          "type": "string"
+        }
+      }
+    },
+    "execution_metrics": {
+      "type": "object",
+      "properties": {
+        "cpu_cycles_used": {
+          "type": "number"
+        },
+        "memory_allocated_mb": {
+          "type": "number"
+        },
+        "execution_time_ms": {
+          "type": "number"
+        },
+        "efficiency_score": {
+          "type": "number"
+        }
+      }
+    },
+    "computation_result": {
+      "type": "object",
+      "properties": {
+        "result_data": {
+          "type": "object"
+        },
+        "accuracy": {
+          "type": "number"
+        },
+        "confidence": {
+          "type": "number"
+        },
+        "validated": {
+          "type": "boolean"
+        }
+      }
+    },
+    "parent_integration": {
+      "type": "object",
+      "properties": {
+        "integration_method": {
+          "type": "string"
+        },
+        "result_applied": {
+          "type": "boolean"
+        },
+        "performance_impact": {
+          "type": "number"
+        }
+      }
+    },
+    "autonomous_optimizations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "optimization": {
+            "type": "string"
+          },
+          "performance_gain": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "subprocess_status": {
+      "type": "string",
+      "enum": [
+        "queued",
+        "running",
+        "paused",
+        "completed",
+        "failed",
+        "terminated"
+      ],
+      "default": "queued"
+    }
+  },
+  "required": [
+    "subprocess_id",
+    "parent_agent_id"
+  ]
+}

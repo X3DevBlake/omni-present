@@ -1,0 +1,62 @@
+{
+  "name": "OAuthConnection",
+  "type": "object",
+  "properties": {
+    "service_name": {
+      "type": "string",
+      "description": "Name of the connected service"
+    },
+    "integration_type": {
+      "type": "string",
+      "enum": [
+        "googlecalendar",
+        "googledrive",
+        "googlesheets",
+        "googledocs",
+        "googleslides",
+        "slack",
+        "notion",
+        "salesforce",
+        "hubspot",
+        "linkedin",
+        "tiktok"
+      ]
+    },
+    "connection_status": {
+      "type": "string",
+      "enum": [
+        "connected",
+        "disconnected",
+        "error",
+        "expired"
+      ],
+      "default": "disconnected"
+    },
+    "scopes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "OAuth scopes granted"
+    },
+    "connected_date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "last_used": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "usage_count": {
+      "type": "number",
+      "default": 0
+    },
+    "error_message": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "service_name",
+    "integration_type"
+  ]
+}

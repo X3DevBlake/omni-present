@@ -1,0 +1,113 @@
+{
+  "name": "ThreatSharingProtocol",
+  "type": "object",
+  "properties": {
+    "protocol_id": {
+      "type": "string",
+      "description": "Protocol identifier"
+    },
+    "threat_intelligence_id": {
+      "type": "string",
+      "description": "Threat being shared"
+    },
+    "sharing_network": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "ecosystem_id": {
+            "type": "string"
+          },
+          "shared_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "acknowledgment_received": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "shared_intelligence": {
+      "type": "object",
+      "properties": {
+        "threat_signature": {
+          "type": "string"
+        },
+        "indicators_of_compromise": {
+          "type": "array"
+        },
+        "attack_patterns": {
+          "type": "array"
+        },
+        "mitigation_strategies": {
+          "type": "array"
+        }
+      }
+    },
+    "anonymization": {
+      "type": "object",
+      "properties": {
+        "anonymized": {
+          "type": "boolean"
+        },
+        "source_ecosystem_hidden": {
+          "type": "boolean"
+        },
+        "victim_details_removed": {
+          "type": "boolean"
+        }
+      }
+    },
+    "collaborative_defense": {
+      "type": "object",
+      "properties": {
+        "collective_response_initiated": {
+          "type": "boolean"
+        },
+        "participating_ecosystems": {
+          "type": "integer"
+        },
+        "coordinated_mitigation": {
+          "type": "boolean"
+        }
+      }
+    },
+    "threat_evolution_updates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "update_timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "evolution_description": {
+            "type": "string"
+          },
+          "severity_change": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "impact_assessment": {
+      "type": "object",
+      "properties": {
+        "ecosystems_protected": {
+          "type": "integer"
+        },
+        "attacks_prevented": {
+          "type": "integer"
+        },
+        "collective_security_improvement": {
+          "type": "number"
+        }
+      }
+    }
+  },
+  "required": [
+    "protocol_id",
+    "threat_intelligence_id"
+  ]
+}

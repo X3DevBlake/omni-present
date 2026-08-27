@@ -1,0 +1,158 @@
+{
+  "name": "OmegaMarketplaceListing",
+  "type": "object",
+  "properties": {
+    "listing_id": {
+      "type": "string",
+      "description": "Marketplace listing identifier"
+    },
+    "seller_id": {
+      "type": "string",
+      "description": "User or agent selling"
+    },
+    "listing_type": {
+      "type": "string",
+      "enum": [
+        "agent",
+        "skill",
+        "augmentation",
+        "blueprint",
+        "knowledge_pack",
+        "consciousness_module"
+      ],
+      "description": "Type of item listed"
+    },
+    "item_details": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "capabilities": {
+          "type": "array"
+        },
+        "performance_metrics": {
+          "type": "object"
+        }
+      }
+    },
+    "pricing": {
+      "type": "object",
+      "properties": {
+        "price_omni": {
+          "type": "number"
+        },
+        "price_usd": {
+          "type": "number"
+        },
+        "pricing_model": {
+          "type": "string"
+        },
+        "subscription_available": {
+          "type": "boolean"
+        }
+      }
+    },
+    "verification_status": {
+      "type": "object",
+      "properties": {
+        "verified": {
+          "type": "boolean"
+        },
+        "security_audited": {
+          "type": "boolean"
+        },
+        "performance_validated": {
+          "type": "boolean"
+        },
+        "safety_score": {
+          "type": "number"
+        }
+      }
+    },
+    "marketplace_metrics": {
+      "type": "object",
+      "properties": {
+        "total_purchases": {
+          "type": "integer"
+        },
+        "average_rating": {
+          "type": "number"
+        },
+        "review_count": {
+          "type": "integer"
+        },
+        "revenue_generated": {
+          "type": "number"
+        }
+      }
+    },
+    "compatibility": {
+      "type": "object",
+      "properties": {
+        "compatible_platforms": {
+          "type": "array"
+        },
+        "required_dependencies": {
+          "type": "array"
+        },
+        "minimum_ecosystem_version": {
+          "type": "string"
+        }
+      }
+    },
+    "deployment_info": {
+      "type": "object",
+      "properties": {
+        "deployment_method": {
+          "type": "string"
+        },
+        "setup_complexity": {
+          "type": "string"
+        },
+        "estimated_setup_time_minutes": {
+          "type": "number"
+        },
+        "documentation_url": {
+          "type": "string"
+        }
+      }
+    },
+    "api_access": {
+      "type": "object",
+      "properties": {
+        "api_key_required": {
+          "type": "boolean"
+        },
+        "rate_limits": {
+          "type": "object"
+        },
+        "endpoints_available": {
+          "type": "array"
+        }
+      }
+    },
+    "listing_status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "pending_review",
+        "active",
+        "paused",
+        "delisted"
+      ],
+      "default": "draft"
+    }
+  },
+  "required": [
+    "listing_id",
+    "seller_id",
+    "listing_type"
+  ]
+}

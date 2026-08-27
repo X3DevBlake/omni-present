@@ -1,0 +1,125 @@
+{
+  "name": "AgentSelfHealingLog",
+  "type": "object",
+  "properties": {
+    "healing_id": {
+      "type": "string",
+      "description": "Self-healing event identifier"
+    },
+    "agent_id": {
+      "type": "string",
+      "description": "Agent that self-healed"
+    },
+    "anomaly_detected": {
+      "type": "object",
+      "properties": {
+        "anomaly_type": {
+          "type": "string"
+        },
+        "severity": {
+          "type": "string"
+        },
+        "symptoms": {
+          "type": "array"
+        },
+        "detection_method": {
+          "type": "string"
+        }
+      }
+    },
+    "diagnostic_analysis": {
+      "type": "object",
+      "properties": {
+        "root_cause": {
+          "type": "string"
+        },
+        "affected_systems": {
+          "type": "array"
+        },
+        "impact_assessment": {
+          "type": "string"
+        },
+        "diagnostic_confidence": {
+          "type": "number"
+        }
+      }
+    },
+    "healing_strategy": {
+      "type": "object",
+      "properties": {
+        "strategy_type": {
+          "type": "string"
+        },
+        "repair_actions": {
+          "type": "array"
+        },
+        "estimated_recovery_time_seconds": {
+          "type": "number"
+        },
+        "requires_downtime": {
+          "type": "boolean"
+        }
+      }
+    },
+    "execution_log": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "step": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    },
+    "healing_outcome": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "performance_restored_percent": {
+          "type": "number"
+        },
+        "residual_issues": {
+          "type": "array"
+        },
+        "improvement_learned": {
+          "type": "string"
+        }
+      }
+    },
+    "optimization_applied": {
+      "type": "object",
+      "properties": {
+        "performance_boost_percent": {
+          "type": "number"
+        },
+        "efficiency_gain": {
+          "type": "number"
+        },
+        "new_capabilities_unlocked": {
+          "type": "array"
+        }
+      }
+    },
+    "healing_duration_seconds": {
+      "type": "number"
+    },
+    "detected_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "healing_id",
+    "agent_id"
+  ]
+}

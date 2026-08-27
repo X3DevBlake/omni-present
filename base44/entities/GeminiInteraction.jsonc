@@ -1,0 +1,66 @@
+{
+  "name": "GeminiInteraction",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "User email"
+    },
+    "interaction_type": {
+      "type": "string",
+      "enum": [
+        "chat",
+        "analysis",
+        "decision",
+        "task_execution",
+        "data_query",
+        "autonomous_action"
+      ],
+      "description": "Type of interaction"
+    },
+    "prompt": {
+      "type": "string",
+      "description": "User prompt or system prompt"
+    },
+    "response": {
+      "type": "string",
+      "description": "Gemini response"
+    },
+    "context": {
+      "type": "object",
+      "description": "Additional context provided"
+    },
+    "model_used": {
+      "type": "string",
+      "description": "Gemini model used"
+    },
+    "tokens_used": {
+      "type": "integer",
+      "description": "Tokens consumed"
+    },
+    "execution_time_ms": {
+      "type": "integer",
+      "description": "Execution time in milliseconds"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "success",
+        "failed",
+        "pending"
+      ],
+      "default": "pending",
+      "description": "Interaction status"
+    },
+    "autonomous": {
+      "type": "boolean",
+      "default": false,
+      "description": "Was this autonomous or user-initiated"
+    }
+  },
+  "required": [
+    "user_email",
+    "interaction_type",
+    "prompt"
+  ]
+}

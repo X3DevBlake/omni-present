@@ -1,0 +1,156 @@
+{
+  "name": "DynamicObjectDetection",
+  "type": "object",
+  "properties": {
+    "detection_id": {
+      "type": "string",
+      "description": "Detection event identifier"
+    },
+    "omni_device_id": {
+      "type": "string",
+      "description": "Device that detected object"
+    },
+    "spatial_map_id": {
+      "type": "string",
+      "description": "Map where detection occurred"
+    },
+    "detected_object": {
+      "type": "object",
+      "properties": {
+        "object_type": {
+          "type": "string"
+        },
+        "object_label": {
+          "type": "string"
+        },
+        "confidence": {
+          "type": "number"
+        },
+        "position": {
+          "type": "object",
+          "properties": {
+            "x": {
+              "type": "number"
+            },
+            "y": {
+              "type": "number"
+            },
+            "z": {
+              "type": "number"
+            }
+          }
+        },
+        "velocity": {
+          "type": "object",
+          "properties": {
+            "vx": {
+              "type": "number"
+            },
+            "vy": {
+              "type": "number"
+            },
+            "vz": {
+              "type": "number"
+            }
+          }
+        },
+        "bounding_box": {
+          "type": "object",
+          "properties": {
+            "width": {
+              "type": "number"
+            },
+            "height": {
+              "type": "number"
+            },
+            "depth": {
+              "type": "number"
+            }
+          }
+        }
+      }
+    },
+    "tracking_status": {
+      "type": "string",
+      "enum": [
+        "new",
+        "tracking",
+        "lost",
+        "stationary"
+      ],
+      "default": "new"
+    },
+    "predicted_path": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "position": {
+            "type": "object",
+            "properties": {
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              },
+              "z": {
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    },
+    "agent_avoidance_rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "type": "string"
+          },
+          "avoidance_radius_meters": {
+            "type": "number"
+          },
+          "priority": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ]
+          }
+        }
+      }
+    },
+    "learned_behavior": {
+      "type": "object",
+      "properties": {
+        "typical_locations": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "activity_patterns": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "interaction_preferences": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "required": [
+    "omni_device_id",
+    "detected_object"
+  ]
+}

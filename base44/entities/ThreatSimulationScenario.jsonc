@@ -1,0 +1,135 @@
+{
+  "name": "ThreatSimulationScenario",
+  "type": "object",
+  "properties": {
+    "scenario_id": {
+      "type": "string",
+      "description": "Unique scenario identifier"
+    },
+    "name": {
+      "type": "string",
+      "description": "Scenario name"
+    },
+    "threat_type": {
+      "type": "string",
+      "enum": [
+        "cyber_attack",
+        "physical_intrusion",
+        "social_engineering",
+        "supply_chain",
+        "insider_threat",
+        "hybrid_warfare"
+      ],
+      "description": "Type of threat"
+    },
+    "threat_actors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "actor_id": {
+            "type": "string"
+          },
+          "sophistication_level": {
+            "type": "number"
+          },
+          "behaviors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "capabilities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "geopolitical_alignment": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Threat actors in scenario"
+    },
+    "swarm_configuration": {
+      "type": "object",
+      "properties": {
+        "swarm_id": {
+          "type": "string"
+        },
+        "agent_count": {
+          "type": "integer"
+        },
+        "defense_protocols": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "simulation_results": {
+      "type": "object",
+      "properties": {
+        "success_rate": {
+          "type": "number"
+        },
+        "vulnerabilities_exposed": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "response_time_ms": {
+          "type": "number"
+        },
+        "containment_effectiveness": {
+          "type": "number"
+        }
+      }
+    },
+    "hardening_recommendations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "priority": {
+            "type": "string"
+          },
+          "strategy": {
+            "type": "string"
+          },
+          "estimated_impact": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "ai_generated": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether scenario was AI-generated"
+    },
+    "difficulty_rating": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 10
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "running",
+        "completed",
+        "failed"
+      ],
+      "default": "pending"
+    }
+  },
+  "required": [
+    "scenario_id",
+    "name",
+    "threat_type"
+  ]
+}

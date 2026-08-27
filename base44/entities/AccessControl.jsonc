@@ -1,0 +1,127 @@
+{
+  "name": "AccessControl",
+  "type": "object",
+  "properties": {
+    "access_policy_name": {
+      "type": "string",
+      "description": "Access control policy identifier"
+    },
+    "policy_type": {
+      "type": "string",
+      "enum": [
+        "rbac",
+        "abac",
+        "mac",
+        "dac",
+        "zero_trust"
+      ],
+      "description": "Access control model"
+    },
+    "roles": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "role_id": {
+            "type": "string"
+          },
+          "role_name": {
+            "type": "string"
+          },
+          "permissions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "members_count": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "access_rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "rule_id": {
+            "type": "string"
+          },
+          "resource": {
+            "type": "string"
+          },
+          "action": {
+            "type": "string",
+            "enum": [
+              "read",
+              "write",
+              "delete",
+              "execute",
+              "admin"
+            ]
+          },
+          "allowed_roles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "conditions": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "access_logs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "log_id": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "user_id": {
+            "type": "string"
+          },
+          "resource": {
+            "type": "string"
+          },
+          "action": {
+            "type": "string"
+          },
+          "result": {
+            "type": "string",
+            "enum": [
+              "allowed",
+              "denied"
+            ]
+          },
+          "reason": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "anomalous_access_detected": {
+      "type": "integer",
+      "default": 0
+    },
+    "mfa_required": {
+      "type": "boolean",
+      "default": false
+    },
+    "session_timeout_minutes": {
+      "type": "integer",
+      "default": 30
+    }
+  },
+  "required": [
+    "access_policy_name",
+    "policy_type"
+  ]
+}

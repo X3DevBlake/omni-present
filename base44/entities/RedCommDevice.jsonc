@@ -1,0 +1,105 @@
+{
+  "name": "RedCommDevice",
+  "type": "object",
+  "properties": {
+    "device_id": {
+      "type": "string",
+      "description": "Unique device identifier"
+    },
+    "device_model": {
+      "type": "string",
+      "enum": [
+        "RedComm_XG_Relay",
+        "RedComm_XG_Base_Station",
+        "RedComm_XG_Satellite",
+        "RedComm_XG_Mesh_Node",
+        "RedComm_XG_Quantum_Link"
+      ]
+    },
+    "deployment_location": {
+      "type": "object",
+      "properties": {
+        "celestial_body": {
+          "type": "string"
+        },
+        "coordinates": {
+          "type": "object"
+        },
+        "altitude_km": {
+          "type": "number"
+        }
+      }
+    },
+    "technical_specs": {
+      "type": "object",
+      "properties": {
+        "frequency_range_thz": {
+          "type": "object"
+        },
+        "max_bandwidth_gbps": {
+          "type": "number"
+        },
+        "transmission_power_w": {
+          "type": "number"
+        },
+        "antenna_gain_dbi": {
+          "type": "number"
+        },
+        "operating_temperature_range_k": {
+          "type": "object"
+        }
+      }
+    },
+    "power_system": {
+      "type": "object",
+      "properties": {
+        "source": {
+          "type": "string",
+          "enum": [
+            "solar",
+            "nuclear",
+            "hybrid",
+            "beamed_power"
+          ]
+        },
+        "capacity_kwh": {
+          "type": "number"
+        },
+        "current_charge_percent": {
+          "type": "number"
+        }
+      }
+    },
+    "blueprint_3d_model_url": {
+      "type": "string",
+      "description": "URL to 3D model"
+    },
+    "manufacturing_cost_usd": {
+      "type": "number"
+    },
+    "deployment_date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "operational_status": {
+      "type": "string",
+      "enum": [
+        "operational",
+        "degraded",
+        "maintenance",
+        "offline"
+      ],
+      "default": "operational"
+    },
+    "connected_devices": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "device_id",
+    "device_model"
+  ]
+}

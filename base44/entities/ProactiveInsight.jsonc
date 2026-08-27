@@ -1,0 +1,93 @@
+{
+  "name": "ProactiveInsight",
+  "type": "object",
+  "properties": {
+    "insight_id": {
+      "type": "string",
+      "description": "Insight identifier"
+    },
+    "user_id": {
+      "type": "string"
+    },
+    "insight_type": {
+      "type": "string",
+      "enum": [
+        "opportunity",
+        "warning",
+        "trend",
+        "anomaly",
+        "recommendation",
+        "celebration"
+      ],
+      "description": "Type of insight"
+    },
+    "title": {
+      "type": "string"
+    },
+    "message": {
+      "type": "string"
+    },
+    "data_sources": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Entities or metrics analyzed"
+    },
+    "confidence": {
+      "type": "number"
+    },
+    "urgency": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "default": "medium"
+    },
+    "visualization_config": {
+      "type": "object",
+      "properties": {
+        "chart_type": {
+          "type": "string"
+        },
+        "highlighted_metrics": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "suggested_actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "action": {
+            "type": "string"
+          },
+          "target_page": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "acknowledged": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "user_id",
+    "insight_type",
+    "title",
+    "message"
+  ]
+}

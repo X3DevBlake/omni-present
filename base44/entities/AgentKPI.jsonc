@@ -1,0 +1,89 @@
+{
+  "name": "AgentKPI",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Reference to the agent"
+    },
+    "task_completion_rate": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "default": 0,
+      "description": "Percentage of tasks completed successfully"
+    },
+    "collaboration_efficiency": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "default": 0,
+      "description": "Effectiveness in team collaborations"
+    },
+    "memory_recall_accuracy": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "default": 0,
+      "description": "Accuracy of memory retrieval and application"
+    },
+    "responsiveness": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "default": 0,
+      "description": "Speed of response to events and tasks"
+    },
+    "decision_quality": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "default": 0,
+      "description": "Quality of decisions made"
+    },
+    "learning_velocity": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "default": 0,
+      "description": "Speed of learning and adaptation"
+    },
+    "communication_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "default": 0,
+      "description": "Clarity and effectiveness of communication"
+    },
+    "bottlenecks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "area": {
+            "type": "string"
+          },
+          "severity": {
+            "type": "string"
+          },
+          "suggestion": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Identified performance bottlenecks and improvements"
+    },
+    "trend": {
+      "type": "object",
+      "description": "Performance trend data over time"
+    },
+    "last_updated": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last KPI update timestamp"
+    }
+  },
+  "required": [
+    "agent_id"
+  ]
+}

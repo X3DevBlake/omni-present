@@ -1,0 +1,147 @@
+{
+  "name": "AdaptiveLearningPath",
+  "type": "object",
+  "properties": {
+    "path_id": {
+      "type": "string",
+      "description": "Learning path identifier"
+    },
+    "agent_id": {
+      "type": "string",
+      "description": "Agent following path"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "User if applicable"
+    },
+    "learning_goal": {
+      "type": "string",
+      "description": "Overall learning objective"
+    },
+    "current_level": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 10,
+      "description": "Current skill level"
+    },
+    "target_level": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 10
+    },
+    "learning_modules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "module_name": {
+            "type": "string"
+          },
+          "difficulty": {
+            "type": "number"
+          },
+          "completion_status": {
+            "type": "string"
+          },
+          "mastery_score": {
+            "type": "number"
+          },
+          "time_spent_hours": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "ai_personalization": {
+      "type": "object",
+      "properties": {
+        "learning_style": {
+          "type": "string"
+        },
+        "pace_preference": {
+          "type": "string"
+        },
+        "content_difficulty_adjustment": {
+          "type": "number"
+        },
+        "focus_areas": {
+          "type": "array"
+        }
+      }
+    },
+    "progress_metrics": {
+      "type": "object",
+      "properties": {
+        "completion_percent": {
+          "type": "number"
+        },
+        "retention_rate": {
+          "type": "number"
+        },
+        "application_success_rate": {
+          "type": "number"
+        },
+        "learning_efficiency": {
+          "type": "number"
+        }
+      }
+    },
+    "adaptive_adjustments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "adjustment_type": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "impact": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "skill_gaps_identified": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "skill": {
+            "type": "string"
+          },
+          "gap_size": {
+            "type": "number"
+          },
+          "priority": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "predicted_completion_date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "path_status": {
+      "type": "string",
+      "enum": [
+        "planning",
+        "active",
+        "paused",
+        "completed",
+        "abandoned"
+      ],
+      "default": "planning"
+    }
+  },
+  "required": [
+    "path_id",
+    "learning_goal"
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "name": "AgentMood",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Agent ID"
+    },
+    "user_email": {
+      "type": "string",
+      "description": "User email"
+    },
+    "current_mood": {
+      "type": "string",
+      "enum": [
+        "confident",
+        "cautious",
+        "creative",
+        "analytical",
+        "collaborative",
+        "focused"
+      ],
+      "default": "analytical",
+      "description": "Current agent mood"
+    },
+    "mood_factors": {
+      "type": "object",
+      "description": "Factors influencing mood"
+    },
+    "interaction_style": {
+      "type": "object",
+      "description": "How mood affects communication"
+    },
+    "performance_impact": {
+      "type": "object",
+      "description": "Performance metrics influenced by mood"
+    }
+  },
+  "required": [
+    "agent_id",
+    "user_email"
+  ]
+}

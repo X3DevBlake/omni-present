@@ -1,0 +1,144 @@
+{
+  "name": "AgentMissionLog",
+  "type": "object",
+  "properties": {
+    "log_id": {
+      "type": "string",
+      "description": "Unique log identifier"
+    },
+    "agent_id": {
+      "type": "string"
+    },
+    "mission_id": {
+      "type": "string"
+    },
+    "celestial_body": {
+      "type": "string"
+    },
+    "mission_type": {
+      "type": "string",
+      "enum": [
+        "exploration",
+        "mining",
+        "terraforming",
+        "research",
+        "colonization",
+        "defense",
+        "logistics"
+      ]
+    },
+    "current_location": {
+      "type": "object",
+      "properties": {
+        "latitude": {
+          "type": "number"
+        },
+        "longitude": {
+          "type": "number"
+        },
+        "altitude_m": {
+          "type": "number"
+        }
+      }
+    },
+    "sensor_readings": {
+      "type": "object",
+      "properties": {
+        "temperature_k": {
+          "type": "number"
+        },
+        "pressure_kpa": {
+          "type": "number"
+        },
+        "radiation_msv_h": {
+          "type": "number"
+        },
+        "wind_speed_ms": {
+          "type": "number"
+        },
+        "seismic_activity": {
+          "type": "number"
+        }
+      }
+    },
+    "adaptive_behaviors_active": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "behavior_name": {
+            "type": "string"
+          },
+          "trigger_reason": {
+            "type": "string"
+          },
+          "parameter_adjustments": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "resource_consumption": {
+      "type": "object",
+      "properties": {
+        "power_wh": {
+          "type": "number"
+        },
+        "oxygen_l": {
+          "type": "number"
+        },
+        "fuel_kg": {
+          "type": "number"
+        }
+      }
+    },
+    "mission_status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "standby",
+        "emergency",
+        "completed",
+        "aborted"
+      ]
+    },
+    "hazards_encountered": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "hazard_type": {
+            "type": "string"
+          },
+          "severity": {
+            "type": "number"
+          },
+          "mitigation_taken": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "communication_link_status": {
+      "type": "object",
+      "properties": {
+        "latency_to_earth_ms": {
+          "type": "number"
+        },
+        "signal_strength_db": {
+          "type": "number"
+        },
+        "next_available_window": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    }
+  },
+  "required": [
+    "log_id",
+    "agent_id",
+    "mission_id",
+    "celestial_body"
+  ]
+}

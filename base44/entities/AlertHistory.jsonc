@@ -1,0 +1,82 @@
+{
+  "name": "AlertHistory",
+  "type": "object",
+  "properties": {
+    "alert_rule_id": {
+      "type": "string",
+      "description": "Reference to the AlertRule"
+    },
+    "rule_name": {
+      "type": "string",
+      "description": "Name of the triggered rule"
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "info",
+        "warning",
+        "critical"
+      ],
+      "description": "Severity of this alert"
+    },
+    "message": {
+      "type": "string",
+      "description": "Alert message content"
+    },
+    "triggered_value": {
+      "type": [
+        "number",
+        "string"
+      ],
+      "description": "The value that triggered the alert"
+    },
+    "hub": {
+      "type": "string",
+      "description": "Which hub triggered the alert"
+    },
+    "related_entity": {
+      "type": "string",
+      "description": "ID of the entity that triggered the alert"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "new",
+        "acknowledged",
+        "resolved",
+        "escalated"
+      ],
+      "default": "new",
+      "description": "Status of the alert"
+    },
+    "acknowledged_by": {
+      "type": "string",
+      "description": "User who acknowledged the alert"
+    },
+    "acknowledged_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the alert was acknowledged"
+    },
+    "escalated_to": {
+      "type": "string",
+      "description": "Who the alert was escalated to"
+    },
+    "resolution_notes": {
+      "type": "string",
+      "description": "Notes about resolution"
+    },
+    "resolved_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the alert was resolved"
+    }
+  },
+  "required": [
+    "alert_rule_id",
+    "rule_name",
+    "severity",
+    "message",
+    "hub"
+  ]
+}

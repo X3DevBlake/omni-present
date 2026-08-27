@@ -1,0 +1,26 @@
+{
+  "name": "SimulationIntervention",
+  "type": "object",
+  "properties": {
+    "simulation_id": {
+      "type": "string"
+    },
+    "intervention_type": {
+      "type": "string"
+    },
+    "parameter": {
+      "type": "string"
+    },
+    "value": {
+      "type": "number"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "simulation_id",
+    "intervention_type"
+  ]
+}

@@ -1,0 +1,127 @@
+{
+  "name": "RealtimeDataStream",
+  "type": "object",
+  "properties": {
+    "stream_name": {
+      "type": "string",
+      "description": "Data stream identifier"
+    },
+    "stream_type": {
+      "type": "string",
+      "enum": [
+        "market_data",
+        "sensor_data",
+        "social_media",
+        "logs",
+        "metrics",
+        "user_events"
+      ],
+      "description": "Type of data stream"
+    },
+    "source": {
+      "type": "object",
+      "properties": {
+        "source_type": {
+          "type": "string"
+        },
+        "endpoint": {
+          "type": "string"
+        },
+        "credentials_key": {
+          "type": "string"
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "paused",
+        "error",
+        "stopped"
+      ],
+      "default": "active"
+    },
+    "data_rate": {
+      "type": "object",
+      "properties": {
+        "messages_per_second": {
+          "type": "number"
+        },
+        "bytes_per_second": {
+          "type": "number"
+        }
+      }
+    },
+    "consumers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "consumer_id": {
+            "type": "string"
+          },
+          "consumer_type": {
+            "type": "string",
+            "enum": [
+              "agent",
+              "model",
+              "dashboard",
+              "webhook",
+              "function"
+            ]
+          }
+        }
+      }
+    },
+    "processing_pipeline": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "step": {
+            "type": "string"
+          },
+          "function_name": {
+            "type": "string"
+          },
+          "config": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "buffer_config": {
+      "type": "object",
+      "properties": {
+        "buffer_size": {
+          "type": "integer"
+        },
+        "flush_interval_ms": {
+          "type": "integer"
+        }
+      }
+    },
+    "latest_data": {
+      "type": "object"
+    },
+    "health_metrics": {
+      "type": "object",
+      "properties": {
+        "uptime_percentage": {
+          "type": "number"
+        },
+        "error_rate": {
+          "type": "number"
+        },
+        "latency_ms": {
+          "type": "number"
+        }
+      }
+    }
+  },
+  "required": [
+    "stream_name",
+    "stream_type"
+  ]
+}

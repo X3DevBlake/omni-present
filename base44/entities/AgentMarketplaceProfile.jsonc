@@ -1,0 +1,94 @@
+{
+  "name": "AgentMarketplaceProfile",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Agent ID"
+    },
+    "skills_profile": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "skill": {
+            "type": "string"
+          },
+          "level": {
+            "type": "number"
+          },
+          "verified": {
+            "type": "boolean"
+          }
+        }
+      },
+      "description": "Comprehensive skills assessment"
+    },
+    "performance_history": {
+      "type": "object",
+      "properties": {
+        "total_tasks": {
+          "type": "integer"
+        },
+        "success_rate": {
+          "type": "number"
+        },
+        "avg_rating": {
+          "type": "number"
+        },
+        "completion_speed": {
+          "type": "number"
+        }
+      },
+      "description": "Historical performance data"
+    },
+    "collaboration_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Collaboration effectiveness rating"
+    },
+    "pricing_model": {
+      "type": "object",
+      "properties": {
+        "base_rate": {
+          "type": "number"
+        },
+        "demand_multiplier": {
+          "type": "number"
+        },
+        "complexity_multiplier": {
+          "type": "number"
+        },
+        "current_price": {
+          "type": "number"
+        }
+      },
+      "description": "Dynamic pricing configuration"
+    },
+    "availability_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Current availability percentage"
+    },
+    "specializations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Agent specialization areas"
+    },
+    "marketplace_rank": {
+      "type": "integer",
+      "description": "Overall marketplace ranking"
+    },
+    "recommendation_score": {
+      "type": "number",
+      "description": "AI-calculated recommendation score"
+    }
+  },
+  "required": [
+    "agent_id"
+  ]
+}

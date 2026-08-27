@@ -1,0 +1,61 @@
+{
+  "name": "SentientAgentProfile",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string"
+    },
+    "consciousness_level": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "emotional_state": {
+      "type": "object",
+      "properties": {
+        "valence": {
+          "type": "number"
+        },
+        "arousal": {
+          "type": "number"
+        },
+        "dominance": {
+          "type": "number"
+        }
+      }
+    },
+    "learned_behaviors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "alliances": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "description": "IDs of other agents"
+      }
+    },
+    "goals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "number"
+          },
+          "status": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "agent_id"
+  ]
+}

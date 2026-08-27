@@ -1,0 +1,68 @@
+{
+  "name": "PhysicalDevice",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Device name"
+    },
+    "description": {
+      "type": "string",
+      "description": "Device description"
+    },
+    "price": {
+      "type": "number",
+      "description": "Device price in USD"
+    },
+    "model_color": {
+      "type": "string",
+      "description": "3D model color"
+    },
+    "thumbnail": {
+      "type": "string",
+      "description": "Device thumbnail emoji"
+    },
+    "stock_quantity": {
+      "type": "integer",
+      "default": 0,
+      "description": "Available stock"
+    },
+    "features": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Key features"
+    },
+    "specifications": {
+      "type": "object",
+      "description": "Technical specifications"
+    },
+    "compatibility": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Compatible modules"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "core",
+        "sensors",
+        "display",
+        "robotics",
+        "interface",
+        "power",
+        "networking"
+      ],
+      "description": "Device category"
+    }
+  },
+  "required": [
+    "name",
+    "description",
+    "price",
+    "stock_quantity"
+  ]
+}

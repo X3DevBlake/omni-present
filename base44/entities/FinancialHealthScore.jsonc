@@ -1,0 +1,83 @@
+{
+  "name": "FinancialHealthScore",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "User email"
+    },
+    "overall_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 850,
+      "description": "Overall financial health (0-850)"
+    },
+    "credit_score": {
+      "type": "number",
+      "minimum": 300,
+      "maximum": 850,
+      "description": "Credit score"
+    },
+    "savings_ratio": {
+      "type": "number",
+      "description": "Percentage of income saved"
+    },
+    "debt_ratio": {
+      "type": "number",
+      "description": "Debt to income ratio"
+    },
+    "emergency_fund_months": {
+      "type": "number",
+      "description": "Months of expenses covered"
+    },
+    "investment_diversity": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Portfolio diversification score"
+    },
+    "fraud_risk_level": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "description": "Account fraud risk"
+    },
+    "recommendations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "impact": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ]
+          },
+          "ai_generated": {
+            "type": "boolean"
+          }
+        }
+      },
+      "description": "AI-generated recommendations"
+    },
+    "last_updated": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last calculation timestamp"
+    }
+  },
+  "required": [
+    "user_email"
+  ]
+}

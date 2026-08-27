@@ -1,0 +1,102 @@
+{
+  "name": "DeviceOptimizationMetrics",
+  "type": "object",
+  "properties": {
+    "metric_id": {
+      "type": "string",
+      "description": "Metric identifier"
+    },
+    "device_id": {
+      "type": "string",
+      "description": "Device being optimized"
+    },
+    "optimization_type": {
+      "type": "string",
+      "enum": [
+        "performance",
+        "energy",
+        "predictive_maintenance",
+        "self_repair",
+        "network_reconfiguration"
+      ],
+      "description": "Optimization category"
+    },
+    "baseline_metrics": {
+      "type": "object",
+      "properties": {
+        "performance_score": {
+          "type": "number"
+        },
+        "energy_efficiency": {
+          "type": "number"
+        },
+        "failure_probability": {
+          "type": "number"
+        },
+        "network_latency": {
+          "type": "number"
+        }
+      }
+    },
+    "optimized_metrics": {
+      "type": "object",
+      "properties": {
+        "performance_score": {
+          "type": "number"
+        },
+        "energy_efficiency": {
+          "type": "number"
+        },
+        "failure_probability": {
+          "type": "number"
+        },
+        "network_latency": {
+          "type": "number"
+        }
+      }
+    },
+    "ai_recommendations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "recommendation": {
+            "type": "string"
+          },
+          "expected_improvement": {
+            "type": "number"
+          },
+          "confidence": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "self_repair_logs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "issue_detected": {
+            "type": "string"
+          },
+          "repair_action": {
+            "type": "string"
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "metric_id",
+    "device_id",
+    "optimization_type"
+  ]
+}

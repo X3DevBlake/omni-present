@@ -1,0 +1,88 @@
+{
+  "name": "AgentWorkflow",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "trigger_type": {
+      "type": "string",
+      "enum": [
+        "manual",
+        "schedule",
+        "event",
+        "webhook"
+      ]
+    },
+    "nodes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "agent_task",
+              "decision",
+              "delay",
+              "notification"
+            ]
+          },
+          "agent_id": {
+            "type": "string"
+          },
+          "config": {
+            "type": "object"
+          },
+          "position": {
+            "type": "object",
+            "properties": {
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "target": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "active",
+        "paused"
+      ]
+    }
+  },
+  "required": [
+    "name",
+    "nodes",
+    "edges"
+  ]
+}

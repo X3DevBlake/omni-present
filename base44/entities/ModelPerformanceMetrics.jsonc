@@ -1,0 +1,68 @@
+{
+  "name": "ModelPerformanceMetrics",
+  "type": "object",
+  "properties": {
+    "metric_id": {
+      "type": "string",
+      "description": "Metric identifier"
+    },
+    "model_name": {
+      "type": "string",
+      "description": "AI model being tracked"
+    },
+    "model_version": {
+      "type": "string"
+    },
+    "accuracy_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "precision_score": {
+      "type": "number"
+    },
+    "recall_score": {
+      "type": "number"
+    },
+    "f1_score": {
+      "type": "number"
+    },
+    "latency_ms": {
+      "type": "number"
+    },
+    "throughput": {
+      "type": "number"
+    },
+    "resource_usage": {
+      "type": "object",
+      "properties": {
+        "cpu_percent": {
+          "type": "number"
+        },
+        "memory_mb": {
+          "type": "number"
+        },
+        "gpu_percent": {
+          "type": "number"
+        }
+      }
+    },
+    "error_rate": {
+      "type": "number"
+    },
+    "confidence_calibration": {
+      "type": "number"
+    },
+    "bias_metrics": {
+      "type": "object"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "metric_id",
+    "model_name"
+  ]
+}

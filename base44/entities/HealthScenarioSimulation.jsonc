@@ -1,0 +1,114 @@
+{
+  "name": "HealthScenarioSimulation",
+  "type": "object",
+  "properties": {
+    "scenario_id": {
+      "type": "string",
+      "description": "Scenario simulation identifier"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "User running simulation"
+    },
+    "scenario_description": {
+      "type": "string",
+      "description": "What-if scenario"
+    },
+    "intervention_parameters": {
+      "type": "object",
+      "properties": {
+        "physical_interventions": {
+          "type": "array"
+        },
+        "cognitive_interventions": {
+          "type": "array"
+        },
+        "emotional_interventions": {
+          "type": "array"
+        },
+        "augmentation_changes": {
+          "type": "array"
+        },
+        "lifestyle_modifications": {
+          "type": "array"
+        }
+      }
+    },
+    "baseline_health_state": {
+      "type": "object",
+      "properties": {
+        "unified_score": {
+          "type": "number"
+        },
+        "physical": {
+          "type": "number"
+        },
+        "cognitive": {
+          "type": "number"
+        },
+        "emotional": {
+          "type": "number"
+        }
+      }
+    },
+    "predicted_outcomes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timeline_days": {
+            "type": "number"
+          },
+          "predicted_health_score": {
+            "type": "number"
+          },
+          "confidence_interval": {
+            "type": "object"
+          },
+          "key_changes": {
+            "type": "array"
+          }
+        }
+      }
+    },
+    "risk_factors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "risk_type": {
+            "type": "string"
+          },
+          "severity": {
+            "type": "string"
+          },
+          "probability": {
+            "type": "number"
+          },
+          "mitigation_strategy": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "synergistic_effects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "effect_type": {
+            "type": "string"
+          },
+          "amplification": {
+            "type": "number"
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "scenario_id",
+    "user_id",
+    "scenario_description"
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "name": "RAGSystem",
+  "type": "object",
+  "properties": {
+    "system_name": {
+      "type": "string",
+      "description": "RAG system identifier"
+    },
+    "retrieval_method": {
+      "type": "string",
+      "enum": [
+        "dense",
+        "sparse",
+        "hybrid",
+        "semantic"
+      ],
+      "description": "Document retrieval strategy"
+    },
+    "vector_database": {
+      "type": "string",
+      "description": "Vector store used"
+    },
+    "embedding_model": {
+      "type": "string",
+      "description": "Model for document embeddings"
+    },
+    "chunk_size": {
+      "type": "integer",
+      "description": "Document chunk size in tokens"
+    },
+    "top_k_documents": {
+      "type": "integer",
+      "description": "Retrieved documents per query"
+    },
+    "knowledge_base_size": {
+      "type": "integer",
+      "description": "Total documents indexed"
+    },
+    "retrieval_metrics": {
+      "type": "object",
+      "properties": {
+        "recall_at_k": {
+          "type": "number"
+        },
+        "precision_at_k": {
+          "type": "number"
+        },
+        "mrr": {
+          "type": "number"
+        }
+      }
+    },
+    "generation_quality": {
+      "type": "object",
+      "properties": {
+        "factual_accuracy": {
+          "type": "number"
+        },
+        "relevance_score": {
+          "type": "number"
+        },
+        "groundedness": {
+          "type": "number"
+        }
+      }
+    },
+    "reranking_enabled": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "system_name",
+    "retrieval_method"
+  ]
+}

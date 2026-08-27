@@ -1,0 +1,73 @@
+{
+  "name": "MessageBroadcast",
+  "type": "object",
+  "properties": {
+    "sender_agent_id": {
+      "type": "string",
+      "description": "Agent sending broadcast"
+    },
+    "broadcast_type": {
+      "type": "string",
+      "enum": [
+        "announcement",
+        "alert",
+        "coordination",
+        "knowledge_share"
+      ],
+      "description": "Type of broadcast"
+    },
+    "content": {
+      "type": "string",
+      "description": "Broadcast message content"
+    },
+    "target_scope": {
+      "type": "string",
+      "enum": [
+        "all",
+        "group",
+        "role",
+        "channel"
+      ],
+      "description": "Broadcast target scope"
+    },
+    "target_group_id": {
+      "type": "string",
+      "description": "Target working group ID"
+    },
+    "target_role": {
+      "type": "string",
+      "description": "Target agent role"
+    },
+    "target_channel": {
+      "type": "string",
+      "description": "Target channel ID"
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "low",
+        "normal",
+        "high",
+        "urgent"
+      ],
+      "default": "normal"
+    },
+    "recipients": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Agent IDs who received message"
+    },
+    "read_count": {
+      "type": "integer",
+      "default": 0
+    }
+  },
+  "required": [
+    "sender_agent_id",
+    "broadcast_type",
+    "content",
+    "target_scope"
+  ]
+}

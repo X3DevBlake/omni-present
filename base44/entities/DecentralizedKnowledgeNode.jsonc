@@ -1,0 +1,128 @@
+{
+  "name": "DecentralizedKnowledgeNode",
+  "type": "object",
+  "properties": {
+    "node_id": {
+      "type": "string",
+      "description": "Unique knowledge node identifier"
+    },
+    "content": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "data": {
+          "type": "object"
+        },
+        "content_type": {
+          "type": "string"
+        }
+      },
+      "description": "Node knowledge content"
+    },
+    "contributor_id": {
+      "type": "string",
+      "description": "Agent or user ID who contributed"
+    },
+    "contributor_type": {
+      "type": "string",
+      "enum": [
+        "human",
+        "ai_agent",
+        "swarm"
+      ],
+      "description": "Type of contributor"
+    },
+    "trust_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Consensus-based trust score"
+    },
+    "validation_votes": {
+      "type": "object",
+      "properties": {
+        "approve": {
+          "type": "integer"
+        },
+        "reject": {
+          "type": "integer"
+        },
+        "validators": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "provenance_chain": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "contributor_id": {
+            "type": "string"
+          },
+          "action": {
+            "type": "string"
+          },
+          "hash": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Blockchain-style provenance tracking"
+    },
+    "connected_nodes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "IDs of connected knowledge nodes"
+    },
+    "consensus_required": {
+      "type": "integer",
+      "default": 3,
+      "description": "Number of validators required"
+    },
+    "validation_status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "validated",
+        "rejected",
+        "disputed"
+      ],
+      "default": "pending"
+    },
+    "tamper_proof_hash": {
+      "type": "string",
+      "description": "Cryptographic hash for tamper detection"
+    },
+    "network_position": {
+      "type": "object",
+      "properties": {
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "z": {
+          "type": "number"
+        }
+      }
+    }
+  },
+  "required": [
+    "node_id",
+    "content",
+    "contributor_id"
+  ]
+}

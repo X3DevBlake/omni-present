@@ -1,0 +1,126 @@
+{
+  "name": "ExplainableDecision",
+  "type": "object",
+  "properties": {
+    "decision_id": {
+      "type": "string",
+      "description": "Decision identifier"
+    },
+    "agent_id": {
+      "type": "string",
+      "description": "Agent that made the decision"
+    },
+    "decision_context": {
+      "type": "object",
+      "properties": {
+        "task": {
+          "type": "string"
+        },
+        "inputs": {
+          "type": "object"
+        },
+        "constraints": {
+          "type": "object"
+        }
+      }
+    },
+    "decision_made": {
+      "type": "object",
+      "description": "The actual decision"
+    },
+    "reasoning_chain": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "step": {
+            "type": "integer"
+          },
+          "reasoning": {
+            "type": "string"
+          },
+          "confidence": {
+            "type": "number"
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "alternatives_considered": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "alternative": {
+            "type": "object"
+          },
+          "score": {
+            "type": "number"
+          },
+          "rejection_reason": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "feature_importance": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "feature": {
+            "type": "string"
+          },
+          "importance": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "explanation_method": {
+      "type": "string",
+      "enum": [
+        "lime",
+        "shap",
+        "attention_weights",
+        "rule_based",
+        "counterfactual",
+        "natural_language"
+      ],
+      "description": "Explainability technique used"
+    },
+    "confidence_score": {
+      "type": "number",
+      "description": "Overall decision confidence"
+    },
+    "human_understandable": {
+      "type": "boolean",
+      "description": "Whether explanation is clear to humans"
+    },
+    "queryable": {
+      "type": "boolean",
+      "description": "Can be queried for more details",
+      "default": true
+    },
+    "outcome": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "impact_score": {
+          "type": "number"
+        }
+      }
+    }
+  },
+  "required": [
+    "agent_id",
+    "decision_made"
+  ]
+}

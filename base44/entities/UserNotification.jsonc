@@ -1,0 +1,72 @@
+{
+  "name": "UserNotification",
+  "type": "object",
+  "properties": {
+    "notification_id": {
+      "type": "string",
+      "description": "Unique notification identifier"
+    },
+    "user_email": {
+      "type": "string",
+      "description": "Target user email"
+    },
+    "notification_type": {
+      "type": "string",
+      "enum": [
+        "anomaly_alert",
+        "market_opportunity",
+        "system_update",
+        "collaboration_request",
+        "learning_milestone",
+        "geopolitical_warning"
+      ],
+      "description": "Type of notification"
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "critical",
+        "high",
+        "medium",
+        "low"
+      ],
+      "default": "medium"
+    },
+    "title": {
+      "type": "string",
+      "description": "Notification title"
+    },
+    "message": {
+      "type": "string",
+      "description": "Notification message"
+    },
+    "source_module": {
+      "type": "string",
+      "description": "Module that generated notification"
+    },
+    "action_url": {
+      "type": "string",
+      "description": "URL to navigate for action"
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Additional notification data"
+    },
+    "read": {
+      "type": "boolean",
+      "default": false
+    },
+    "dismissed": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "notification_id",
+    "user_email",
+    "notification_type",
+    "title",
+    "message"
+  ]
+}

@@ -1,0 +1,97 @@
+{
+  "name": "DashboardConfiguration",
+  "type": "object",
+  "properties": {
+    "config_id": {
+      "type": "string",
+      "description": "Unique dashboard config ID"
+    },
+    "user_email": {
+      "type": "string",
+      "description": "Owner of this dashboard"
+    },
+    "dashboard_name": {
+      "type": "string",
+      "description": "User-defined dashboard name"
+    },
+    "omega_component": {
+      "type": "string",
+      "enum": [
+        "neural_alignment",
+        "sentient_finance",
+        "aether_display",
+        "haas_swarm",
+        "sim2real",
+        "crdt_sync",
+        "collaboration"
+      ],
+      "description": "Primary Omega component"
+    },
+    "layout_config": {
+      "type": "object",
+      "properties": {
+        "widgets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "widget_type": {
+                "type": "string"
+              },
+              "position": {
+                "type": "object"
+              },
+              "size": {
+                "type": "object"
+              },
+              "settings": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "color_theme": {
+          "type": "string",
+          "enum": [
+            "neural_purple",
+            "finance_emerald",
+            "aether_cyan",
+            "swarm_indigo",
+            "custom"
+          ]
+        }
+      }
+    },
+    "active_visualizers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Enabled 3D visualizers"
+    },
+    "notification_preferences": {
+      "type": "object",
+      "properties": {
+        "enabled_types": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "priority_threshold": {
+          "type": "string"
+        }
+      }
+    },
+    "is_default": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "config_id",
+    "user_email",
+    "dashboard_name",
+    "omega_component"
+  ]
+}

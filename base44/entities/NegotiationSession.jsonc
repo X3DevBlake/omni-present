@@ -1,0 +1,58 @@
+{
+  "name": "NegotiationSession",
+  "type": "object",
+  "properties": {
+    "mission_id": {
+      "type": "string"
+    },
+    "initiator_agent_id": {
+      "type": "string"
+    },
+    "participating_agents": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "resources_involved": {
+      "type": "object",
+      "description": "Map of resource types to amounts being negotiated"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "proposed",
+        "negotiating",
+        "agreed",
+        "failed",
+        "executing"
+      ]
+    },
+    "current_proposal": {
+      "type": "object"
+    },
+    "outcome_forecast": {
+      "type": "object",
+      "properties": {
+        "success_probability": {
+          "type": "number"
+        },
+        "impact_score": {
+          "type": "number"
+        }
+      }
+    },
+    "started_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "last_updated": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "mission_id",
+    "status"
+  ]
+}

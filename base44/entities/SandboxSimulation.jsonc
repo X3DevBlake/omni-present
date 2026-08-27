@@ -1,0 +1,62 @@
+{
+  "name": "SandboxSimulation",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "User email"
+    },
+    "simulation_name": {
+      "type": "string",
+      "description": "Simulation name"
+    },
+    "market_scenario": {
+      "type": "object",
+      "description": "Custom market conditions"
+    },
+    "agent_configurations": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Agent behavior params"
+    },
+    "resource_constraints": {
+      "type": "object",
+      "description": "Resource limits"
+    },
+    "performance_metrics": {
+      "type": "object",
+      "description": "Performance results"
+    },
+    "failure_cases": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Identified failures"
+    },
+    "optimizations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Suggested improvements"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "setup",
+        "running",
+        "completed",
+        "deployed"
+      ],
+      "default": "setup",
+      "description": "Simulation status"
+    }
+  },
+  "required": [
+    "user_email",
+    "simulation_name"
+  ]
+}

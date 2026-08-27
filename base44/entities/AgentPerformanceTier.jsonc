@@ -1,0 +1,50 @@
+{
+  "name": "AgentPerformanceTier",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Agent ID"
+    },
+    "tier": {
+      "type": "string",
+      "enum": [
+        "bronze",
+        "silver",
+        "gold",
+        "platinum",
+        "diamond"
+      ],
+      "description": "Performance tier"
+    },
+    "tier_score": {
+      "type": "number",
+      "description": "Overall score"
+    },
+    "metrics": {
+      "type": "object",
+      "properties": {
+        "training_data_quality": {
+          "type": "number"
+        },
+        "skill_benchmark_avg": {
+          "type": "number"
+        },
+        "success_rate": {
+          "type": "number"
+        },
+        "efficiency": {
+          "type": "number"
+        }
+      }
+    },
+    "auto_assigned": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "agent_id",
+    "tier"
+  ]
+}

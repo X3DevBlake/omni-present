@@ -1,0 +1,114 @@
+{
+  "name": "IntegrationMarketplace",
+  "type": "object",
+  "properties": {
+    "integration_name": {
+      "type": "string",
+      "description": "Integration package name"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "crm",
+        "marketing",
+        "analytics",
+        "communication",
+        "finance",
+        "ai_ml",
+        "data_storage",
+        "iot",
+        "blockchain"
+      ],
+      "description": "Integration category"
+    },
+    "provider": {
+      "type": "string",
+      "description": "Service provider"
+    },
+    "description": {
+      "type": "string"
+    },
+    "available_endpoints": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "endpoint_name": {
+            "type": "string"
+          },
+          "method": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "authentication_type": {
+      "type": "string",
+      "enum": [
+        "api_key",
+        "oauth2",
+        "jwt",
+        "basic_auth",
+        "custom"
+      ],
+      "description": "Authentication method"
+    },
+    "install_count": {
+      "type": "integer",
+      "default": 0
+    },
+    "rating": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 5
+    },
+    "reviews_count": {
+      "type": "integer",
+      "default": 0
+    },
+    "pricing": {
+      "type": "object",
+      "properties": {
+        "pricing_model": {
+          "type": "string",
+          "enum": [
+            "free",
+            "freemium",
+            "pay_per_use",
+            "subscription"
+          ]
+        },
+        "base_price": {
+          "type": "number"
+        },
+        "currency": {
+          "type": "string",
+          "default": "USD"
+        }
+      }
+    },
+    "configuration_template": {
+      "type": "object",
+      "description": "Config schema for setup"
+    },
+    "documentation_url": {
+      "type": "string"
+    },
+    "is_verified": {
+      "type": "boolean",
+      "default": false
+    },
+    "last_updated": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "integration_name",
+    "category",
+    "provider"
+  ]
+}

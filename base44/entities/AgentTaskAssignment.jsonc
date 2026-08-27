@@ -1,0 +1,83 @@
+{
+  "name": "AgentTaskAssignment",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Assigned agent"
+    },
+    "task_title": {
+      "type": "string",
+      "description": "Task name"
+    },
+    "task_description": {
+      "type": "string",
+      "description": "Detailed task description"
+    },
+    "required_skills": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "default": "medium"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "in_progress",
+        "completed",
+        "failed",
+        "cancelled"
+      ],
+      "default": "pending"
+    },
+    "assigned_date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "deadline": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "completed_date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "time_spent_minutes": {
+      "type": "integer",
+      "default": 0
+    },
+    "success_metrics": {
+      "type": "object",
+      "properties": {
+        "quality_score": {
+          "type": "number"
+        },
+        "efficiency_score": {
+          "type": "number"
+        },
+        "client_satisfaction": {
+          "type": "number"
+        }
+      }
+    },
+    "compensation": {
+      "type": "number",
+      "description": "Payment for task completion"
+    }
+  },
+  "required": [
+    "agent_id",
+    "task_title"
+  ]
+}

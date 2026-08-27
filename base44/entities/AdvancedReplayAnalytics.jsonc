@@ -1,0 +1,55 @@
+{
+  "name": "AdvancedReplayAnalytics",
+  "type": "object",
+  "properties": {
+    "replay_id": {
+      "type": "string",
+      "description": "Linked replay ID"
+    },
+    "user_email": {
+      "type": "string",
+      "description": "User email"
+    },
+    "agent_performance": {
+      "type": "object",
+      "description": "Per-agent metrics"
+    },
+    "behavior_patterns": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Detected behavior patterns"
+    },
+    "decision_tree": {
+      "type": "object",
+      "description": "Decision making tree"
+    },
+    "environmental_impact": {
+      "type": "object",
+      "description": "Impact on environment"
+    },
+    "anomalies": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Detected anomalies"
+    },
+    "optimization_suggestions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "AI suggestions"
+    },
+    "learning_summary": {
+      "type": "object",
+      "description": "What was learned"
+    }
+  },
+  "required": [
+    "replay_id",
+    "user_email"
+  ]
+}

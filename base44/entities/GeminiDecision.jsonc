@@ -1,0 +1,56 @@
+{
+  "name": "GeminiDecision",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "User email"
+    },
+    "decision_context": {
+      "type": "string",
+      "description": "What decision needs to be made"
+    },
+    "analyzed_data": {
+      "type": "object",
+      "description": "Data analyzed for decision"
+    },
+    "decision_made": {
+      "type": "string",
+      "description": "The decision Gemini made"
+    },
+    "reasoning": {
+      "type": "string",
+      "description": "Reasoning behind the decision"
+    },
+    "confidence_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Confidence percentage"
+    },
+    "alternatives_considered": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Other options considered"
+    },
+    "impact_assessment": {
+      "type": "object",
+      "description": "Expected impact"
+    },
+    "executed": {
+      "type": "boolean",
+      "default": false,
+      "description": "Was the decision executed"
+    },
+    "execution_result": {
+      "type": "object",
+      "description": "Result of execution"
+    }
+  },
+  "required": [
+    "user_email",
+    "decision_context"
+  ]
+}

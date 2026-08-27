@@ -1,0 +1,69 @@
+{
+  "name": "RLHFSession",
+  "type": "object",
+  "properties": {
+    "session_name": {
+      "type": "string",
+      "description": "RLHF training session identifier"
+    },
+    "base_model": {
+      "type": "string",
+      "description": "Model being fine-tuned"
+    },
+    "reward_model_architecture": {
+      "type": "string",
+      "description": "Reward model design"
+    },
+    "human_feedback_count": {
+      "type": "integer",
+      "description": "Number of human preferences collected"
+    },
+    "preference_pairs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "prompt": {
+            "type": "string"
+          },
+          "response_a": {
+            "type": "string"
+          },
+          "response_b": {
+            "type": "string"
+          },
+          "preferred": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "reward_model_accuracy": {
+      "type": "number",
+      "description": "How well reward model predicts human preferences"
+    },
+    "ppo_iterations": {
+      "type": "integer",
+      "description": "PPO training iterations"
+    },
+    "alignment_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Model alignment with human values"
+    },
+    "helpfulness_score": {
+      "type": "number"
+    },
+    "harmlessness_score": {
+      "type": "number"
+    },
+    "honesty_score": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "session_name",
+    "base_model"
+  ]
+}

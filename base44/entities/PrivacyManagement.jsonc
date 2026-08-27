@@ -1,0 +1,145 @@
+{
+  "name": "PrivacyManagement",
+  "type": "object",
+  "properties": {
+    "privacy_policy_name": {
+      "type": "string",
+      "description": "Privacy policy identifier"
+    },
+    "data_classification": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "data_type": {
+            "type": "string"
+          },
+          "classification": {
+            "type": "string",
+            "enum": [
+              "public",
+              "internal",
+              "confidential",
+              "restricted",
+              "pii"
+            ]
+          },
+          "retention_days": {
+            "type": "integer"
+          },
+          "encryption_required": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "data_subject_rights": {
+      "type": "object",
+      "properties": {
+        "right_to_access": {
+          "type": "boolean"
+        },
+        "right_to_erasure": {
+          "type": "boolean"
+        },
+        "right_to_portability": {
+          "type": "boolean"
+        },
+        "right_to_rectification": {
+          "type": "boolean"
+        }
+      }
+    },
+    "consent_management": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "consent_id": {
+            "type": "string"
+          },
+          "user_id": {
+            "type": "string"
+          },
+          "purpose": {
+            "type": "string"
+          },
+          "granted": {
+            "type": "boolean"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "expiry": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    },
+    "privacy_incidents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "incident_id": {
+            "type": "string"
+          },
+          "incident_type": {
+            "type": "string",
+            "enum": [
+              "unauthorized_access",
+              "data_leak",
+              "improper_disposal",
+              "consent_violation"
+            ]
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high",
+              "critical"
+            ]
+          },
+          "affected_users": {
+            "type": "integer"
+          },
+          "reported_to_authority": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "anonymization": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "techniques": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "k_anonymity",
+              "differential_privacy",
+              "masking",
+              "tokenization"
+            ]
+          }
+        }
+      }
+    },
+    "privacy_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    }
+  },
+  "required": [
+    "privacy_policy_name"
+  ]
+}

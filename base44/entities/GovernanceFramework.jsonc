@@ -1,0 +1,144 @@
+{
+  "name": "GovernanceFramework",
+  "type": "object",
+  "properties": {
+    "framework_name": {
+      "type": "string",
+      "description": "Governance framework identifier"
+    },
+    "governance_model": {
+      "type": "string",
+      "enum": [
+        "centralized",
+        "decentralized",
+        "federated",
+        "hybrid"
+      ],
+      "description": "Governance structure"
+    },
+    "policies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "policy_id": {
+            "type": "string"
+          },
+          "policy_name": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "data",
+              "model",
+              "ethical",
+              "operational",
+              "financial"
+            ]
+          },
+          "enforcement_level": {
+            "type": "string",
+            "enum": [
+              "advisory",
+              "warning",
+              "blocking"
+            ]
+          },
+          "compliance_rate": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "decision_making": {
+      "type": "object",
+      "properties": {
+        "voting_mechanism": {
+          "type": "string",
+          "enum": [
+            "simple_majority",
+            "supermajority",
+            "consensus",
+            "weighted"
+          ]
+        },
+        "stakeholders": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "stakeholder_id": {
+                "type": "string"
+              },
+              "voting_power": {
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    },
+    "proposals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "proposal_id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "voting",
+              "approved",
+              "rejected",
+              "implemented"
+            ]
+          },
+          "votes_for": {
+            "type": "integer"
+          },
+          "votes_against": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "risk_assessments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "risk_id": {
+            "type": "string"
+          },
+          "risk_category": {
+            "type": "string"
+          },
+          "likelihood": {
+            "type": "number"
+          },
+          "impact": {
+            "type": "number"
+          },
+          "mitigation_plan": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "transparency_score": {
+      "type": "number",
+      "description": "How transparent governance is"
+    }
+  },
+  "required": [
+    "framework_name",
+    "governance_model"
+  ]
+}

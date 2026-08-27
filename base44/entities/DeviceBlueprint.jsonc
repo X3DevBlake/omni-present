@@ -1,0 +1,185 @@
+{
+  "name": "DeviceBlueprint",
+  "type": "object",
+  "properties": {
+    "blueprint_name": {
+      "type": "string",
+      "description": "Name of the device blueprint"
+    },
+    "device_type": {
+      "type": "string",
+      "enum": [
+        "holographic_projector",
+        "robotic_arm",
+        "smart_light",
+        "smart_thermostat",
+        "smart_lock",
+        "ar_glasses",
+        "projection_drone",
+        "smart_mirror",
+        "sensor_hub"
+      ],
+      "description": "Type of physical device"
+    },
+    "model_url": {
+      "type": "string",
+      "description": "URL to 3D model file"
+    },
+    "dimensions": {
+      "type": "object",
+      "properties": {
+        "width_cm": {
+          "type": "number"
+        },
+        "height_cm": {
+          "type": "number"
+        },
+        "depth_cm": {
+          "type": "number"
+        }
+      }
+    },
+    "components": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "component_name": {
+            "type": "string"
+          },
+          "component_type": {
+            "type": "string"
+          },
+          "position": {
+            "type": "object",
+            "properties": {
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              },
+              "z": {
+                "type": "number"
+              }
+            }
+          },
+          "functionality": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "connection_ports": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "port_name": {
+            "type": "string"
+          },
+          "port_type": {
+            "type": "string",
+            "enum": [
+              "power",
+              "data",
+              "sensor",
+              "actuator"
+            ]
+          },
+          "position": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "sensors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "sensor_type": {
+            "type": "string"
+          },
+          "range_meters": {
+            "type": "number"
+          },
+          "angle_degrees": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "projection_specs": {
+      "type": "object",
+      "properties": {
+        "lumens": {
+          "type": "number"
+        },
+        "resolution": {
+          "type": "string"
+        },
+        "field_of_view": {
+          "type": "number"
+        },
+        "hologram_capable": {
+          "type": "boolean"
+        }
+      }
+    },
+    "power_requirements": {
+      "type": "object",
+      "properties": {
+        "voltage": {
+          "type": "number"
+        },
+        "wattage": {
+          "type": "number"
+        },
+        "battery_life_hours": {
+          "type": "number"
+        }
+      }
+    },
+    "ai_capabilities": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "installation_zones": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "auto_rotation_enabled": {
+      "type": "boolean",
+      "default": true
+    },
+    "interactive_hotspots": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "hotspot_name": {
+            "type": "string"
+          },
+          "position": {
+            "type": "object"
+          },
+          "action": {
+            "type": "string"
+          },
+          "tooltip": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "blueprint_name",
+    "device_type"
+  ]
+}

@@ -1,0 +1,98 @@
+{
+  "name": "AdaptiveAugmentationProfile",
+  "type": "object",
+  "properties": {
+    "profile_id": {
+      "type": "string",
+      "description": "Profile identifier"
+    },
+    "augmentation_id": {
+      "type": "string",
+      "description": "Augmentation being profiled"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "User wearing augmentation"
+    },
+    "bio_feedback_loops": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "biosignal_type": {
+            "type": "string"
+          },
+          "target_range": {
+            "type": "object"
+          },
+          "current_value": {
+            "type": "number"
+          },
+          "adjustment_sensitivity": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "real_time_adjustments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "parameter_name": {
+            "type": "string"
+          },
+          "old_value": {
+            "type": "number"
+          },
+          "new_value": {
+            "type": "number"
+          },
+          "trigger_reason": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    },
+    "comfort_optimization": {
+      "type": "object",
+      "properties": {
+        "pressure_distribution": {
+          "type": "array"
+        },
+        "temperature_regulation": {
+          "type": "number"
+        },
+        "neural_feedback_quality": {
+          "type": "number"
+        }
+      }
+    },
+    "performance_profiles": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "activity_type": {
+            "type": "string"
+          },
+          "optimal_parameters": {
+            "type": "object"
+          },
+          "performance_gain": {
+            "type": "number"
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "profile_id",
+    "augmentation_id",
+    "user_id"
+  ]
+}

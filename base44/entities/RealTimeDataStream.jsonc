@@ -1,0 +1,64 @@
+{
+  "name": "RealTimeDataStream",
+  "type": "object",
+  "properties": {
+    "stream_name": {
+      "type": "string",
+      "description": "Stream identifier"
+    },
+    "data_source": {
+      "type": "string",
+      "description": "Source of real-time data"
+    },
+    "stream_type": {
+      "type": "string",
+      "enum": [
+        "market_data",
+        "sensor_data",
+        "user_activity",
+        "system_metrics"
+      ],
+      "description": "Type of data stream"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    },
+    "update_frequency_ms": {
+      "type": "integer",
+      "description": "How often data updates (milliseconds)"
+    },
+    "current_value": {
+      "type": "object",
+      "description": "Latest data point"
+    },
+    "historical_buffer": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Recent data points"
+    },
+    "anomaly_detected": {
+      "type": "boolean",
+      "default": false
+    },
+    "subscribers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Users/agents subscribed to this stream"
+    },
+    "data_quality_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    }
+  },
+  "required": [
+    "stream_name",
+    "data_source",
+    "stream_type"
+  ]
+}

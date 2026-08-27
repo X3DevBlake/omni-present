@@ -1,0 +1,195 @@
+{
+  "name": "HolographicCollaborativeWorkspace",
+  "type": "object",
+  "properties": {
+    "workspace_id": {
+      "type": "string",
+      "description": "Unique workspace identifier"
+    },
+    "workspace_name": {
+      "type": "string",
+      "description": "Name of collaborative workspace"
+    },
+    "creator_id": {
+      "type": "string",
+      "description": "User who created the workspace"
+    },
+    "active_participants": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "user_id": {
+            "type": "string"
+          },
+          "device_type": {
+            "type": "string"
+          },
+          "spatial_position": {
+            "type": "object",
+            "properties": {
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              },
+              "z": {
+                "type": "number"
+              }
+            }
+          },
+          "avatar_url": {
+            "type": "string"
+          },
+          "interaction_mode": {
+            "type": "string"
+          },
+          "joined_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    },
+    "holographic_entities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "entity_id": {
+            "type": "string"
+          },
+          "entity_type": {
+            "type": "string"
+          },
+          "spatial_anchor": {
+            "type": "object",
+            "properties": {
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              },
+              "z": {
+                "type": "number"
+              }
+            }
+          },
+          "scale": {
+            "type": "number"
+          },
+          "rotation": {
+            "type": "object"
+          },
+          "opacity": {
+            "type": "number"
+          },
+          "interactive": {
+            "type": "boolean"
+          },
+          "data_source": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "real_time_data_streams": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "stream_id": {
+            "type": "string"
+          },
+          "data_type": {
+            "type": "string"
+          },
+          "update_frequency_hz": {
+            "type": "number"
+          },
+          "visualization_type": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "interaction_log": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "user_id": {
+            "type": "string"
+          },
+          "action_type": {
+            "type": "string"
+          },
+          "target_entity_id": {
+            "type": "string"
+          },
+          "result": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "sync_state": {
+      "type": "object",
+      "properties": {
+        "last_sync_timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "sync_latency_ms": {
+          "type": "number"
+        },
+        "conflicts_detected": {
+          "type": "integer"
+        },
+        "resolution_strategy": {
+          "type": "string"
+        }
+      }
+    },
+    "permissions": {
+      "type": "object",
+      "properties": {
+        "public_access": {
+          "type": "boolean"
+        },
+        "allowed_users": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "edit_permissions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "workspace_status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "paused",
+        "archived"
+      ],
+      "default": "active"
+    }
+  },
+  "required": [
+    "workspace_id",
+    "workspace_name",
+    "creator_id"
+  ]
+}

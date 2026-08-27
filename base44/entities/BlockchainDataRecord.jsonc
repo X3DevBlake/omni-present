@@ -1,0 +1,108 @@
+{
+  "name": "BlockchainDataRecord",
+  "type": "object",
+  "properties": {
+    "record_id": {
+      "type": "string",
+      "description": "Unique blockchain record identifier"
+    },
+    "vault_id": {
+      "type": "string",
+      "description": "Associated data vault"
+    },
+    "blockchain_network": {
+      "type": "string",
+      "enum": [
+        "ethereum",
+        "polygon",
+        "solana",
+        "avalanche",
+        "custom"
+      ],
+      "description": "Blockchain network used"
+    },
+    "transaction_hash": {
+      "type": "string",
+      "description": "Blockchain transaction hash"
+    },
+    "block_number": {
+      "type": "integer",
+      "description": "Block number"
+    },
+    "smart_contract_address": {
+      "type": "string",
+      "description": "Contract managing data integrity"
+    },
+    "data_fingerprint": {
+      "type": "string",
+      "description": "Cryptographic hash of data"
+    },
+    "merkle_root": {
+      "type": "string",
+      "description": "Merkle tree root for verification"
+    },
+    "operation_type": {
+      "type": "string",
+      "enum": [
+        "create",
+        "update",
+        "permission_grant",
+        "permission_revoke",
+        "audit"
+      ],
+      "description": "Type of operation recorded"
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "data_size_bytes": {
+          "type": "integer"
+        },
+        "shard_count": {
+          "type": "integer"
+        },
+        "encryption_verified": {
+          "type": "boolean"
+        }
+      }
+    },
+    "verification_status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "confirmed",
+        "failed"
+      ],
+      "default": "pending"
+    },
+    "confirmations": {
+      "type": "integer",
+      "default": 0
+    },
+    "gas_used": {
+      "type": "number",
+      "description": "Transaction cost"
+    },
+    "immutability_proof": {
+      "type": "object",
+      "properties": {
+        "merkle_proof": {
+          "type": "array"
+        },
+        "signature": {
+          "type": "string"
+        },
+        "verified": {
+          "type": "boolean"
+        }
+      }
+    }
+  },
+  "required": [
+    "record_id",
+    "vault_id",
+    "blockchain_network",
+    "transaction_hash",
+    "data_fingerprint"
+  ]
+}

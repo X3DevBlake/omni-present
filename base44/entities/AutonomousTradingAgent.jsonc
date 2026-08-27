@@ -1,0 +1,62 @@
+{
+  "name": "AutonomousTradingAgent",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "Owner email"
+    },
+    "agent_name": {
+      "type": "string",
+      "description": "Agent name"
+    },
+    "plaid_access_token": {
+      "type": "string",
+      "description": "Encrypted Plaid token"
+    },
+    "authorized_actions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Authorized actions"
+    },
+    "trading_limits": {
+      "type": "object",
+      "description": "Daily/monthly limits"
+    },
+    "deposit_percentage": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "% to deposit back"
+    },
+    "task_execution": {
+      "type": "object",
+      "description": "Real-world task config"
+    },
+    "account_balance": {
+      "type": "number",
+      "description": "Current balance"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "paused",
+        "restricted"
+      ],
+      "default": "paused",
+      "description": "Agent status"
+    },
+    "permissions_granted": {
+      "type": "boolean",
+      "default": false,
+      "description": "User approval"
+    }
+  },
+  "required": [
+    "user_email",
+    "agent_name"
+  ]
+}

@@ -1,0 +1,131 @@
+{
+  "name": "SpatialMap",
+  "type": "object",
+  "properties": {
+    "map_name": {
+      "type": "string",
+      "description": "e.g. Living Room Map"
+    },
+    "spatial_data": {
+      "type": "object",
+      "properties": {
+        "mesh_url": {
+          "type": "string"
+        },
+        "point_cloud_data": {
+          "type": "string"
+        },
+        "floor_plan_url": {
+          "type": "string"
+        },
+        "dimensions": {
+          "type": "object",
+          "properties": {
+            "width_meters": {
+              "type": "number"
+            },
+            "length_meters": {
+              "type": "number"
+            },
+            "height_meters": {
+              "type": "number"
+            }
+          }
+        }
+      }
+    },
+    "designated_zones": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "zone_name": {
+            "type": "string"
+          },
+          "zone_type": {
+            "type": "string",
+            "enum": [
+              "safe",
+              "no_go",
+              "interaction",
+              "charging"
+            ]
+          },
+          "boundaries": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "x": {
+                  "type": "number"
+                },
+                "y": {
+                  "type": "number"
+                },
+                "z": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "static_obstacles": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "obstacle_name": {
+            "type": "string"
+          },
+          "obstacle_type": {
+            "type": "string"
+          },
+          "position": {
+            "type": "object",
+            "properties": {
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              },
+              "z": {
+                "type": "number"
+              }
+            }
+          },
+          "size": {
+            "type": "object",
+            "properties": {
+              "width": {
+                "type": "number"
+              },
+              "height": {
+                "type": "number"
+              },
+              "depth": {
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    },
+    "dynamic_object_tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "e.g. cat, robot vacuum, person"
+    },
+    "last_scan_date": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "map_name"
+  ]
+}

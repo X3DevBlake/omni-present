@@ -1,0 +1,142 @@
+{
+  "name": "DynamicTeamFormation",
+  "type": "object",
+  "properties": {
+    "team_id": {
+      "type": "string",
+      "description": "Team identifier"
+    },
+    "team_name": {
+      "type": "string"
+    },
+    "formation_trigger": {
+      "type": "string",
+      "enum": [
+        "task_complexity",
+        "skill_requirement",
+        "workload_balancing",
+        "autonomous_discovery",
+        "emergency_response"
+      ],
+      "description": "Why team was formed"
+    },
+    "task_requirements": {
+      "type": "object",
+      "properties": {
+        "required_skills": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "complexity_level": {
+          "type": "number"
+        },
+        "estimated_duration_hours": {
+          "type": "number"
+        }
+      }
+    },
+    "team_members": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "member_id": {
+            "type": "string"
+          },
+          "member_type": {
+            "type": "string",
+            "enum": [
+              "ai_agent",
+              "human",
+              "hybrid"
+            ]
+          },
+          "assigned_role": {
+            "type": "string"
+          },
+          "skills_matched": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "workload_percentage": {
+            "type": "number"
+          },
+          "performance_score": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "formation_algorithm": {
+      "type": "string",
+      "enum": [
+        "greedy_matching",
+        "optimal_assignment",
+        "genetic_algorithm",
+        "ml_recommendation",
+        "consensus_based"
+      ],
+      "description": "Team formation strategy"
+    },
+    "team_synergy_score": {
+      "type": "number",
+      "description": "Predicted team effectiveness"
+    },
+    "collaboration_graph": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "member_a": {
+            "type": "string"
+          },
+          "member_b": {
+            "type": "string"
+          },
+          "collaboration_strength": {
+            "type": "number"
+          },
+          "communication_frequency": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "team_status": {
+      "type": "string",
+      "enum": [
+        "forming",
+        "active",
+        "completed",
+        "disbanded"
+      ],
+      "default": "forming"
+    },
+    "performance_metrics": {
+      "type": "object",
+      "properties": {
+        "task_completion_rate": {
+          "type": "number"
+        },
+        "average_response_time": {
+          "type": "number"
+        },
+        "conflict_count": {
+          "type": "integer"
+        }
+      }
+    },
+    "autonomously_formed": {
+      "type": "boolean",
+      "description": "Whether AI formed this team"
+    }
+  },
+  "required": [
+    "team_name",
+    "formation_trigger"
+  ]
+}

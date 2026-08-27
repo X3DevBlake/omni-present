@@ -1,0 +1,63 @@
+{
+  "name": "SelfSupervisedTask",
+  "type": "object",
+  "properties": {
+    "task_name": {
+      "type": "string",
+      "description": "Self-supervised learning task"
+    },
+    "pretext_task": {
+      "type": "string",
+      "enum": [
+        "contrastive",
+        "masked_prediction",
+        "rotation",
+        "jigsaw",
+        "colorization",
+        "denoising"
+      ],
+      "description": "Unsupervised objective"
+    },
+    "data_augmentation_strategy": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "learned_representations": {
+      "type": "object",
+      "properties": {
+        "embedding_quality": {
+          "type": "number"
+        },
+        "clustering_score": {
+          "type": "number"
+        },
+        "linear_separability": {
+          "type": "number"
+        }
+      }
+    },
+    "downstream_performance": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "number"
+      }
+    },
+    "label_efficiency": {
+      "type": "number",
+      "description": "Performance with few labels vs supervised baseline"
+    },
+    "training_data_size": {
+      "type": "integer",
+      "description": "Unlabeled samples used"
+    },
+    "representation_dimension": {
+      "type": "integer"
+    }
+  },
+  "required": [
+    "task_name",
+    "pretext_task"
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "name": "GeopoliticalPrediction",
+  "type": "object",
+  "properties": {
+    "prediction_id": {
+      "type": "string",
+      "description": "Unique prediction identifier"
+    },
+    "target_region": {
+      "type": "string",
+      "description": "Geographic region for prediction"
+    },
+    "prediction_type": {
+      "type": "string",
+      "enum": [
+        "network_partition",
+        "infrastructure_disruption",
+        "regulatory_change",
+        "conflict_escalation",
+        "economic_instability"
+      ],
+      "description": "Type of geopolitical event"
+    },
+    "probability": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Likelihood of occurrence"
+    },
+    "time_horizon_days": {
+      "type": "integer",
+      "description": "Prediction timeframe"
+    },
+    "impact_assessment": {
+      "type": "object",
+      "properties": {
+        "network_resilience_impact": {
+          "type": "number"
+        },
+        "financial_market_impact": {
+          "type": "number"
+        },
+        "operational_continuity_risk": {
+          "type": "number"
+        },
+        "affected_redcomm_nodes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "data_sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "source_type": {
+            "type": "string"
+          },
+          "reliability_score": {
+            "type": "number"
+          },
+          "last_updated": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    },
+    "mitigation_strategies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "strategy": {
+            "type": "string"
+          },
+          "effectiveness_score": {
+            "type": "number"
+          },
+          "implementation_status": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "prediction_accuracy": {
+      "type": "number",
+      "description": "Historical accuracy of this model"
+    }
+  },
+  "required": [
+    "prediction_id",
+    "target_region",
+    "prediction_type",
+    "probability"
+  ]
+}

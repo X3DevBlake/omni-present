@@ -1,0 +1,122 @@
+{
+  "name": "AgentPhysicalPresence",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Associated agent identifier"
+    },
+    "omni_device_id": {
+      "type": "string",
+      "description": "Device projecting this agent"
+    },
+    "current_location": {
+      "type": "object",
+      "properties": {
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "z": {
+          "type": "number"
+        },
+        "room": {
+          "type": "string"
+        }
+      }
+    },
+    "projection_status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "idle",
+        "transitioning",
+        "offline"
+      ],
+      "default": "idle"
+    },
+    "real_world_obstacles": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "obstacle_type": {
+            "type": "string"
+          },
+          "position": {
+            "type": "object",
+            "properties": {
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              },
+              "z": {
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    },
+    "interaction_zone_radius": {
+      "type": "number",
+      "default": 2.0,
+      "description": "Meters from agent center"
+    },
+    "current_activity": {
+      "type": "string",
+      "description": "e.g. patrolling, assisting, idle"
+    },
+    "movement_path": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "waypoint": {
+            "type": "object",
+            "properties": {
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              },
+              "z": {
+                "type": "number"
+              }
+            }
+          },
+          "eta_seconds": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "battery_level": {
+      "type": "number",
+      "description": "Device battery percentage"
+    },
+    "projection_quality": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "ultra"
+      ],
+      "default": "high"
+    },
+    "last_interaction_timestamp": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "agent_id",
+    "omni_device_id"
+  ]
+}

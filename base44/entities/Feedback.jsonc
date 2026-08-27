@@ -1,0 +1,91 @@
+{
+  "name": "Feedback",
+  "type": "object",
+  "properties": {
+    "feedback_type": {
+      "type": "string",
+      "enum": [
+        "bug_report",
+        "feature_request",
+        "general_feedback",
+        "feature_rating",
+        "complaint",
+        "praise"
+      ],
+      "description": "Type of feedback"
+    },
+    "feature_name": {
+      "type": "string",
+      "description": "Specific feature being rated or commented on"
+    },
+    "rating": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 5,
+      "description": "Feature rating (1-5 stars)"
+    },
+    "title": {
+      "type": "string",
+      "description": "Feedback title"
+    },
+    "description": {
+      "type": "string",
+      "description": "Detailed feedback"
+    },
+    "sentiment": {
+      "type": "string",
+      "enum": [
+        "positive",
+        "neutral",
+        "negative"
+      ],
+      "description": "AI-analyzed sentiment"
+    },
+    "sentiment_score": {
+      "type": "number",
+      "description": "Sentiment confidence score (0-100)"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "AI-extracted tags from feedback"
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "default": "medium",
+      "description": "AI-determined priority"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "new",
+        "reviewing",
+        "in_progress",
+        "resolved",
+        "dismissed"
+      ],
+      "default": "new",
+      "description": "Feedback status"
+    },
+    "page_url": {
+      "type": "string",
+      "description": "Page where feedback was submitted"
+    },
+    "user_agent": {
+      "type": "string",
+      "description": "Browser/device information"
+    }
+  },
+  "required": [
+    "feedback_type",
+    "description"
+  ]
+}

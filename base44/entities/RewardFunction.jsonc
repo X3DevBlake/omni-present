@@ -1,0 +1,46 @@
+{
+  "name": "RewardFunction",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "User email"
+    },
+    "agent_id": {
+      "type": "string",
+      "description": "Agent ID"
+    },
+    "function_name": {
+      "type": "string",
+      "description": "Reward function name"
+    },
+    "reward_criteria": {
+      "type": "object",
+      "description": "Reward conditions"
+    },
+    "exploration_strategy": {
+      "type": "string",
+      "enum": [
+        "epsilon_greedy",
+        "ucb",
+        "thompson_sampling"
+      ],
+      "default": "epsilon_greedy",
+      "description": "Exploration method"
+    },
+    "discount_factor": {
+      "type": "number",
+      "default": 0.95,
+      "description": "Future reward discount"
+    },
+    "performance_metrics": {
+      "type": "object",
+      "description": "Performance tracking"
+    }
+  },
+  "required": [
+    "user_email",
+    "agent_id",
+    "function_name"
+  ]
+}

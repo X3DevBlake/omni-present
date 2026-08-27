@@ -1,0 +1,63 @@
+{
+  "name": "DeviceControl",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Agent controlling device"
+    },
+    "device_id": {
+      "type": "string",
+      "description": "Device connection ID"
+    },
+    "user_email": {
+      "type": "string",
+      "description": "User email"
+    },
+    "command": {
+      "type": "string",
+      "description": "Control command"
+    },
+    "command_type": {
+      "type": "string",
+      "enum": [
+        "power",
+        "volume",
+        "brightness",
+        "custom",
+        "api_call"
+      ],
+      "description": "Type of command"
+    },
+    "parameters": {
+      "type": "object",
+      "description": "Command parameters"
+    },
+    "voice_initiated": {
+      "type": "boolean",
+      "default": false,
+      "description": "Initiated via voice command"
+    },
+    "execution_result": {
+      "type": "object",
+      "description": "Command execution result"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "executing",
+        "success",
+        "failed"
+      ],
+      "default": "pending",
+      "description": "Control status"
+    }
+  },
+  "required": [
+    "agent_id",
+    "device_id",
+    "user_email",
+    "command"
+  ]
+}

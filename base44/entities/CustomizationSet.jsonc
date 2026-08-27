@@ -1,0 +1,37 @@
+{
+  "name": "CustomizationSet",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Set name"
+    },
+    "description": {
+      "type": "string"
+    },
+    "theme": {
+      "type": "string",
+      "description": "Theme/style"
+    },
+    "component_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "price": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "required": [
+    "name",
+    "component_ids"
+  ]
+}

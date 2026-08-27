@@ -1,0 +1,46 @@
+{
+  "name": "CrossHubMission",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "planning",
+        "active",
+        "completed",
+        "failed"
+      ]
+    },
+    "involved_hubs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "objectives": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "resource_allocation": {
+      "type": "object"
+    },
+    "participating_agents": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "communication_log_id": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "title",
+    "status"
+  ]
+}

@@ -1,0 +1,150 @@
+{
+  "name": "FeatureEngineering",
+  "type": "object",
+  "properties": {
+    "pipeline_name": {
+      "type": "string",
+      "description": "Feature engineering pipeline identifier"
+    },
+    "dataset_id": {
+      "type": "string",
+      "description": "Source dataset"
+    },
+    "automation_level": {
+      "type": "string",
+      "enum": [
+        "manual",
+        "semi_automated",
+        "fully_automated",
+        "ai_powered"
+      ],
+      "default": "semi_automated"
+    },
+    "feature_discovery": {
+      "type": "object",
+      "properties": {
+        "auto_discovered_features": {
+          "type": "integer",
+          "default": 0
+        },
+        "discovery_method": {
+          "type": "string",
+          "enum": [
+            "statistical",
+            "deep_learning",
+            "genetic_programming",
+            "symbolic_regression"
+          ]
+        }
+      }
+    },
+    "generated_features": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "feature_name": {
+            "type": "string"
+          },
+          "feature_type": {
+            "type": "string",
+            "enum": [
+              "polynomial",
+              "interaction",
+              "aggregation",
+              "temporal",
+              "embedding",
+              "encoding"
+            ]
+          },
+          "importance_score": {
+            "type": "number"
+          },
+          "correlation_with_target": {
+            "type": "number"
+          },
+          "formula": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "transformation_pipeline": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "step_name": {
+            "type": "string"
+          },
+          "transformation": {
+            "type": "string",
+            "enum": [
+              "scaling",
+              "normalization",
+              "encoding",
+              "binning",
+              "pca",
+              "embedding"
+            ]
+          },
+          "parameters": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "feature_selection": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "enum": [
+            "filter",
+            "wrapper",
+            "embedded",
+            "hybrid"
+          ]
+        },
+        "selected_features": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "feature_count": {
+          "type": "integer"
+        }
+      }
+    },
+    "performance_impact": {
+      "type": "object",
+      "properties": {
+        "baseline_score": {
+          "type": "number"
+        },
+        "improved_score": {
+          "type": "number"
+        },
+        "improvement_percentage": {
+          "type": "number"
+        }
+      }
+    },
+    "computational_cost": {
+      "type": "object",
+      "properties": {
+        "processing_time_ms": {
+          "type": "number"
+        },
+        "memory_overhead_mb": {
+          "type": "number"
+        }
+      }
+    }
+  },
+  "required": [
+    "pipeline_name",
+    "dataset_id"
+  ]
+}

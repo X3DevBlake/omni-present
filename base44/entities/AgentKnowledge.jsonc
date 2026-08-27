@@ -1,0 +1,66 @@
+{
+  "name": "AgentKnowledge",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Agent who learned this"
+    },
+    "object_name": {
+      "type": "string",
+      "description": "Name of the learned object/concept"
+    },
+    "description": {
+      "type": "string",
+      "description": "Detailed description of what was learned"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "object",
+        "location",
+        "concept",
+        "skill",
+        "person",
+        "event"
+      ],
+      "default": "object",
+      "description": "Type of knowledge"
+    },
+    "source_url": {
+      "type": "string",
+      "description": "Source URL where information was found"
+    },
+    "confidence_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "default": 100,
+      "description": "Confidence in the learned information"
+    },
+    "image_url": {
+      "type": "string",
+      "description": "Image of the object/concept"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Related tags for categorization"
+    },
+    "learned_at_location": {
+      "type": "object",
+      "description": "Location where this was learned (lat, lng)"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Additional context and metadata"
+    }
+  },
+  "required": [
+    "agent_id",
+    "object_name",
+    "description"
+  ]
+}

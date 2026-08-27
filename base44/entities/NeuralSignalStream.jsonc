@@ -1,0 +1,93 @@
+{
+  "name": "NeuralSignalStream",
+  "type": "object",
+  "properties": {
+    "stream_id": {
+      "type": "string",
+      "description": "Unique neural stream identifier"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "User generating neural signal"
+    },
+    "signal_type": {
+      "type": "string",
+      "enum": [
+        "EEG",
+        "fMRI",
+        "ECoG",
+        "spike_train",
+        "simulated"
+      ],
+      "description": "Type of neural recording"
+    },
+    "channel_count": {
+      "type": "integer",
+      "description": "Number of recording channels"
+    },
+    "sampling_rate_hz": {
+      "type": "number",
+      "description": "Signal sampling frequency"
+    },
+    "neural_manifold_embedding": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      },
+      "description": "Low-dimensional manifold representation"
+    },
+    "semantic_intent_vector": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      },
+      "description": "Decoded semantic intent from InfoNCE"
+    },
+    "state_dependent_history": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "activity_vector": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          },
+          "decoded_intent": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "neural_inertia_ms": {
+      "type": "number",
+      "description": "Hysteresis window length"
+    },
+    "infonce_alignment_score": {
+      "type": "number",
+      "description": "Quality of neural-semantic alignment"
+    },
+    "is_communicative_intent": {
+      "type": "boolean",
+      "description": "Filtered genuine intent vs intrusive thought"
+    },
+    "phi_value": {
+      "type": "number",
+      "description": "Integrated Information (\u03a6) metric"
+    },
+    "session_id": {
+      "type": "string",
+      "description": "Associated BCI session"
+    }
+  },
+  "required": [
+    "stream_id",
+    "user_id",
+    "signal_type"
+  ]
+}

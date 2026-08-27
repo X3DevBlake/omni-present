@@ -1,0 +1,45 @@
+{
+  "name": "CollaborationChat",
+  "type": "object",
+  "properties": {
+    "group_id": {
+      "type": "string",
+      "description": "Working group ID"
+    },
+    "task_id": {
+      "type": "string",
+      "description": "Collaboration task ID"
+    },
+    "content": {
+      "type": "string",
+      "description": "Message content"
+    },
+    "message_type": {
+      "type": "string",
+      "enum": [
+        "user",
+        "ai",
+        "system"
+      ],
+      "default": "user",
+      "description": "Type of message"
+    },
+    "mentions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Agent IDs mentioned in message"
+    },
+    "attachments": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "File attachments"
+    }
+  },
+  "required": [
+    "content"
+  ]
+}

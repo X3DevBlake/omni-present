@@ -1,0 +1,70 @@
+{
+  "name": "SimulationAnomaly",
+  "type": "object",
+  "properties": {
+    "simulation_id": {
+      "type": "string",
+      "description": "Affected simulation"
+    },
+    "anomaly_type": {
+      "type": "string",
+      "enum": [
+        "resource_leak",
+        "behavior_divergence",
+        "communication_failure",
+        "data_corruption",
+        "performance_degradation"
+      ],
+      "description": "Anomaly type"
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "description": "Severity level"
+    },
+    "detected_by": {
+      "type": "string",
+      "enum": [
+        "ai_monitor",
+        "agent",
+        "user",
+        "system"
+      ],
+      "description": "Detection source"
+    },
+    "affected_agents": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "root_cause": {
+      "type": "string",
+      "description": "AI-identified cause"
+    },
+    "recommended_action": {
+      "type": "string",
+      "description": "Suggested fix"
+    },
+    "auto_resolved": {
+      "type": "boolean",
+      "default": false
+    },
+    "resolution_steps": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "simulation_id",
+    "anomaly_type",
+    "severity"
+  ]
+}

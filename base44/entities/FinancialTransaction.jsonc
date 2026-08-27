@@ -1,0 +1,85 @@
+{
+  "name": "FinancialTransaction",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "User who made transaction"
+    },
+    "amount": {
+      "type": "number",
+      "description": "Transaction amount"
+    },
+    "currency": {
+      "type": "string",
+      "default": "USD",
+      "description": "Currency code"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "income",
+        "expense",
+        "transfer",
+        "investment",
+        "withdrawal"
+      ],
+      "description": "Transaction type"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "housing",
+        "food",
+        "transport",
+        "entertainment",
+        "utilities",
+        "healthcare",
+        "education",
+        "shopping",
+        "other"
+      ],
+      "description": "Spending category"
+    },
+    "description": {
+      "type": "string",
+      "description": "Transaction description"
+    },
+    "account_from": {
+      "type": "string",
+      "description": "Source account"
+    },
+    "account_to": {
+      "type": "string",
+      "description": "Destination account"
+    },
+    "transaction_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When transaction occurred"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "completed",
+        "failed"
+      ],
+      "default": "completed",
+      "description": "Transaction status"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Custom tags for organization"
+    }
+  },
+  "required": [
+    "user_email",
+    "amount",
+    "type",
+    "transaction_date"
+  ]
+}

@@ -1,0 +1,84 @@
+{
+  "name": "MarketPrediction",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "User email"
+    },
+    "asset_type": {
+      "type": "string",
+      "enum": [
+        "stock",
+        "crypto",
+        "fx"
+      ],
+      "description": "Asset type"
+    },
+    "asset_id": {
+      "type": "string",
+      "description": "Asset identifier"
+    },
+    "prediction_type": {
+      "type": "string",
+      "enum": [
+        "price",
+        "volume",
+        "sentiment",
+        "trend"
+      ],
+      "description": "Prediction type"
+    },
+    "predicted_value": {
+      "type": "number",
+      "description": "Predicted value"
+    },
+    "confidence_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Prediction confidence %"
+    },
+    "timeframe": {
+      "type": "string",
+      "enum": [
+        "1h",
+        "4h",
+        "1d",
+        "7d",
+        "30d"
+      ],
+      "description": "Prediction timeframe"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Prediction created at"
+    },
+    "current_value": {
+      "type": "number",
+      "description": "Current market value"
+    },
+    "accuracy": {
+      "type": "number",
+      "description": "Actual accuracy if resolved"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "active",
+        "resolved",
+        "expired"
+      ],
+      "default": "pending",
+      "description": "Prediction status"
+    }
+  },
+  "required": [
+    "user_email",
+    "asset_type",
+    "asset_id",
+    "prediction_type"
+  ]
+}

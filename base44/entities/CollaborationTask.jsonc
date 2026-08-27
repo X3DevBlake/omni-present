@@ -1,0 +1,99 @@
+{
+  "name": "CollaborationTask",
+  "type": "object",
+  "properties": {
+    "task_name": {
+      "type": "string",
+      "description": "Name of the collaborative task"
+    },
+    "description": {
+      "type": "string",
+      "description": "Task description and objectives"
+    },
+    "working_group_id": {
+      "type": "string",
+      "description": "Reference to WorkingGroup"
+    },
+    "participating_agents": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Agent IDs participating"
+    },
+    "involved_hubs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Which hubs are involved"
+    },
+    "task_type": {
+      "type": "string",
+      "enum": [
+        "problem_solving",
+        "data_analysis",
+        "optimization",
+        "decision_making",
+        "monitoring"
+      ],
+      "description": "Type of collaborative task"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "planning",
+        "in_progress",
+        "blocked",
+        "completed",
+        "failed"
+      ],
+      "default": "planning",
+      "description": "Current task status"
+    },
+    "progress_percentage": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100,
+      "default": 0,
+      "description": "Task completion percentage"
+    },
+    "shared_insights": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "IDs of shared insights"
+    },
+    "created_by": {
+      "type": "string",
+      "description": "User who created the task"
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "default": "medium",
+      "description": "Task priority"
+    },
+    "due_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Expected completion date"
+    },
+    "completed_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When task was completed"
+    }
+  },
+  "required": [
+    "task_name",
+    "working_group_id",
+    "involved_hubs"
+  ]
+}

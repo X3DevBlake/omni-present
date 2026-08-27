@@ -1,0 +1,81 @@
+{
+  "name": "DecentralizedStorageLink",
+  "type": "object",
+  "properties": {
+    "link_id": {
+      "type": "string",
+      "description": "Storage link identifier"
+    },
+    "data_identifier": {
+      "type": "string",
+      "description": "Original data reference"
+    },
+    "storage_network": {
+      "type": "string",
+      "enum": [
+        "ipfs",
+        "arweave",
+        "filecoin",
+        "storj"
+      ],
+      "description": "Decentralized storage network"
+    },
+    "content_hash": {
+      "type": "string",
+      "description": "Content hash (CID for IPFS)"
+    },
+    "encryption_status": {
+      "type": "string",
+      "enum": [
+        "none",
+        "symmetric",
+        "asymmetric",
+        "quantum_resistant"
+      ]
+    },
+    "replication_count": {
+      "type": "integer",
+      "description": "Number of replicas"
+    },
+    "access_permissions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "entity_id": {
+            "type": "string"
+          },
+          "permission_level": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "retrieval_speed_tier": {
+      "type": "string",
+      "enum": [
+        "instant",
+        "fast",
+        "normal",
+        "slow"
+      ]
+    },
+    "cost_per_gb_month": {
+      "type": "number"
+    },
+    "uploaded_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "last_verified": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "link_id",
+    "data_identifier",
+    "storage_network",
+    "content_hash"
+  ]
+}

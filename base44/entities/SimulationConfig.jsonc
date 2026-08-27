@@ -1,0 +1,39 @@
+{
+  "name": "SimulationConfig",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "User email"
+    },
+    "config_name": {
+      "type": "string",
+      "description": "Configuration name"
+    },
+    "environmental_factors": {
+      "type": "object",
+      "description": "Economic, weather, random events"
+    },
+    "autonomous_events": {
+      "type": "boolean",
+      "default": false,
+      "description": "Auto-generate events"
+    },
+    "stress_test_scenarios": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Predefined stress tests"
+    },
+    "analytics_enabled": {
+      "type": "boolean",
+      "default": true,
+      "description": "Collect analytics"
+    }
+  },
+  "required": [
+    "user_email",
+    "config_name"
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "name": "RLAIFSession",
+  "type": "object",
+  "properties": {
+    "session_name": {
+      "type": "string",
+      "description": "RLAIF training session"
+    },
+    "base_model": {
+      "type": "string",
+      "description": "Model being aligned"
+    },
+    "ai_labeler_model": {
+      "type": "string",
+      "description": "AI model providing feedback"
+    },
+    "synthetic_preferences_count": {
+      "type": "integer",
+      "description": "AI-generated preference pairs"
+    },
+    "alignment_agreement": {
+      "type": "number",
+      "description": "Agreement between AI and human preferences"
+    },
+    "scalability_factor": {
+      "type": "number",
+      "description": "How much cheaper than RLHF"
+    },
+    "performance_metrics": {
+      "type": "object",
+      "properties": {
+        "helpfulness": {
+          "type": "number"
+        },
+        "harmlessness": {
+          "type": "number"
+        },
+        "honesty": {
+          "type": "number"
+        }
+      }
+    },
+    "bootstrapping_iterations": {
+      "type": "integer",
+      "description": "Self-improvement cycles"
+    }
+  },
+  "required": [
+    "session_name",
+    "base_model",
+    "ai_labeler_model"
+  ]
+}

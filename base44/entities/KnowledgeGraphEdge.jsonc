@@ -1,0 +1,56 @@
+{
+  "name": "KnowledgeGraphEdge",
+  "type": "object",
+  "properties": {
+    "edge_id": {
+      "type": "string",
+      "description": "Edge identifier"
+    },
+    "source_node_id": {
+      "type": "string",
+      "description": "Source knowledge node"
+    },
+    "target_node_id": {
+      "type": "string",
+      "description": "Target knowledge node"
+    },
+    "relationship_type": {
+      "type": "string",
+      "enum": [
+        "is_a",
+        "part_of",
+        "relates_to",
+        "causes",
+        "enables",
+        "contradicts",
+        "supports"
+      ]
+    },
+    "strength": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Connection strength"
+    },
+    "bidirectional": {
+      "type": "boolean",
+      "default": false
+    },
+    "confidence": {
+      "type": "number"
+    },
+    "learned_from": {
+      "type": "string"
+    },
+    "last_reinforced": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "edge_id",
+    "source_node_id",
+    "target_node_id",
+    "relationship_type"
+  ]
+}

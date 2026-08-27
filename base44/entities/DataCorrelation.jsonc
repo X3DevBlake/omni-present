@@ -1,0 +1,107 @@
+{
+  "name": "DataCorrelation",
+  "type": "object",
+  "properties": {
+    "correlation_id": {
+      "type": "string",
+      "description": "Correlation identifier"
+    },
+    "source_entity_type": {
+      "type": "string",
+      "description": "First data source"
+    },
+    "target_entity_type": {
+      "type": "string",
+      "description": "Second data source"
+    },
+    "correlation_strength": {
+      "type": "number",
+      "minimum": -1,
+      "maximum": 1,
+      "description": "Pearson correlation coefficient"
+    },
+    "correlation_type": {
+      "type": "string",
+      "enum": [
+        "positive",
+        "negative",
+        "none",
+        "nonlinear"
+      ],
+      "description": "Type of relationship"
+    },
+    "time_lag_seconds": {
+      "type": "number",
+      "description": "Time delay between correlated events"
+    },
+    "statistical_significance": {
+      "type": "object",
+      "properties": {
+        "p_value": {
+          "type": "number"
+        },
+        "confidence_level": {
+          "type": "number"
+        },
+        "sample_size": {
+          "type": "integer"
+        }
+      }
+    },
+    "causal_analysis": {
+      "type": "object",
+      "properties": {
+        "likely_causal": {
+          "type": "boolean"
+        },
+        "direction": {
+          "type": "string",
+          "enum": [
+            "source_to_target",
+            "target_to_source",
+            "bidirectional",
+            "unknown"
+          ]
+        },
+        "confounding_factors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "business_relevance": {
+      "type": "object",
+      "properties": {
+        "relevance_score": {
+          "type": "number"
+        },
+        "actionable": {
+          "type": "boolean"
+        },
+        "use_cases": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "discovery_method": {
+      "type": "string",
+      "enum": [
+        "ai_analysis",
+        "statistical",
+        "manual",
+        "hybrid"
+      ],
+      "default": "ai_analysis"
+    }
+  },
+  "required": [
+    "source_entity_type",
+    "target_entity_type",
+    "correlation_strength"
+  ]
+}

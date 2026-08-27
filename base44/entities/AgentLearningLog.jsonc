@@ -1,0 +1,86 @@
+{
+  "name": "AgentLearningLog",
+  "type": "object",
+  "properties": {
+    "log_id": {
+      "type": "string",
+      "description": "Learning log identifier"
+    },
+    "agent_id": {
+      "type": "string",
+      "description": "Agent performing learning"
+    },
+    "learning_event_type": {
+      "type": "string",
+      "enum": [
+        "skill_acquisition",
+        "knowledge_update",
+        "performance_improvement",
+        "error_correction",
+        "strategy_evolution"
+      ],
+      "description": "Type of learning event"
+    },
+    "content_learned": {
+      "type": "object",
+      "properties": {
+        "topic": {
+          "type": "string"
+        },
+        "complexity_level": {
+          "type": "number"
+        },
+        "knowledge_units": {
+          "type": "array"
+        }
+      }
+    },
+    "learning_method": {
+      "type": "string",
+      "enum": [
+        "supervised",
+        "unsupervised",
+        "reinforcement",
+        "transfer",
+        "meta_learning",
+        "self_directed"
+      ]
+    },
+    "performance_metrics": {
+      "type": "object",
+      "properties": {
+        "accuracy_before": {
+          "type": "number"
+        },
+        "accuracy_after": {
+          "type": "number"
+        },
+        "learning_speed": {
+          "type": "number"
+        },
+        "retention_rate": {
+          "type": "number"
+        }
+      }
+    },
+    "knowledge_sources": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "applied_successfully": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "log_id",
+    "agent_id",
+    "learning_event_type"
+  ]
+}

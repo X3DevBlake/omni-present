@@ -1,0 +1,80 @@
+{
+  "name": "ComplianceSimulationRun",
+  "type": "object",
+  "properties": {
+    "run_id": {
+      "type": "string",
+      "description": "Unique simulation run identifier"
+    },
+    "framework_id": {
+      "type": "string",
+      "description": "Framework being tested"
+    },
+    "framework_version": {
+      "type": "string",
+      "description": "Framework version"
+    },
+    "dilemmas_tested": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "dilemma_id": {
+            "type": "string"
+          },
+          "outcome": {
+            "type": "string"
+          },
+          "ethical_score": {
+            "type": "number"
+          },
+          "decision_time_ms": {
+            "type": "number"
+          },
+          "reasoning": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "overall_compliance_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "strengths": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "weaknesses": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "ai_recommendations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "recommendation": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "string"
+          },
+          "expected_improvement": {
+            "type": "number"
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "run_id",
+    "framework_id",
+    "overall_compliance_score"
+  ]
+}

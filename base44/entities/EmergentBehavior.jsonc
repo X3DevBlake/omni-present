@@ -1,0 +1,56 @@
+{
+  "name": "EmergentBehavior",
+  "type": "object",
+  "properties": {
+    "scenario_id": {
+      "type": "string",
+      "description": "Associated simulation scenario"
+    },
+    "behavior_type": {
+      "type": "string",
+      "enum": [
+        "cooperation",
+        "competition",
+        "specialization",
+        "hierarchy_formation",
+        "pattern_emergence",
+        "conflict"
+      ],
+      "description": "Type of emergent behavior"
+    },
+    "participating_agents": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Agents involved"
+    },
+    "detection_timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "confidence_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Confidence in behavior detection"
+    },
+    "impact_on_performance": {
+      "type": "number",
+      "description": "Performance impact percentage"
+    },
+    "description": {
+      "type": "string",
+      "description": "Detailed behavior description"
+    },
+    "visual_data": {
+      "type": "object",
+      "description": "Visualization data points"
+    }
+  },
+  "required": [
+    "scenario_id",
+    "behavior_type",
+    "participating_agents"
+  ]
+}

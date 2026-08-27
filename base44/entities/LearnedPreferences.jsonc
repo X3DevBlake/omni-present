@@ -1,0 +1,74 @@
+{
+  "name": "LearnedPreferences",
+  "type": "object",
+  "properties": {
+    "preference_id": {
+      "type": "string",
+      "description": "Preference identifier"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "User preferences belong to"
+    },
+    "companion_id": {
+      "type": "string",
+      "description": "Companion that learned preference"
+    },
+    "preference_category": {
+      "type": "string",
+      "enum": [
+        "communication_style",
+        "activity",
+        "food",
+        "entertainment",
+        "schedule",
+        "environment",
+        "social"
+      ]
+    },
+    "preference_key": {
+      "type": "string"
+    },
+    "preference_value": {
+      "type": "string"
+    },
+    "confidence_level": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "learned_from_interactions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "reinforcement_count": {
+      "type": "integer",
+      "description": "Times preference was confirmed"
+    },
+    "last_reinforced": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "contextual_triggers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "trigger": {
+            "type": "string"
+          },
+          "strength": {
+            "type": "number"
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "preference_id",
+    "preference_category",
+    "preference_key"
+  ]
+}

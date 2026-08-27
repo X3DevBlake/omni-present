@@ -1,0 +1,155 @@
+{
+  "name": "SelfHealingAgent",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Self-healing agent identifier"
+    },
+    "health_status": {
+      "type": "string",
+      "enum": [
+        "healthy",
+        "degraded",
+        "recovering",
+        "critical",
+        "failed"
+      ],
+      "default": "healthy"
+    },
+    "monitoring_metrics": {
+      "type": "object",
+      "properties": {
+        "response_time_ms": {
+          "type": "number"
+        },
+        "error_rate": {
+          "type": "number"
+        },
+        "memory_usage_mb": {
+          "type": "number"
+        },
+        "cpu_usage_percent": {
+          "type": "number"
+        },
+        "success_rate": {
+          "type": "number"
+        }
+      }
+    },
+    "detected_anomalies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "anomaly_id": {
+            "type": "string"
+          },
+          "anomaly_type": {
+            "type": "string",
+            "enum": [
+              "performance",
+              "accuracy",
+              "availability",
+              "security",
+              "resource"
+            ]
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high",
+              "critical"
+            ]
+          },
+          "detected_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "healing_actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "action_id": {
+            "type": "string"
+          },
+          "action_type": {
+            "type": "string",
+            "enum": [
+              "restart",
+              "rollback",
+              "scale_up",
+              "cache_clear",
+              "model_reload",
+              "circuit_break"
+            ]
+          },
+          "triggered_by": {
+            "type": "string"
+          },
+          "executed_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "recovery_time_seconds": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "recovery_strategies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "strategy_name": {
+            "type": "string"
+          },
+          "trigger_conditions": {
+            "type": "object"
+          },
+          "actions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "success_rate": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "self_diagnostic_enabled": {
+      "type": "boolean",
+      "default": true
+    },
+    "auto_recovery_enabled": {
+      "type": "boolean",
+      "default": true
+    },
+    "mttr_seconds": {
+      "type": "number",
+      "description": "Mean time to recovery"
+    },
+    "mtbf_hours": {
+      "type": "number",
+      "description": "Mean time between failures"
+    }
+  },
+  "required": [
+    "agent_id"
+  ]
+}

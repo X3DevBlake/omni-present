@@ -1,0 +1,99 @@
+{
+  "name": "EthicalDecisionLog",
+  "type": "object",
+  "properties": {
+    "log_id": {
+      "type": "string",
+      "description": "Unique decision log identifier"
+    },
+    "agent_id": {
+      "type": "string",
+      "description": "Agent making the decision"
+    },
+    "decision_context": {
+      "type": "string",
+      "description": "Situation requiring ethical decision"
+    },
+    "dilemma_type": {
+      "type": "string",
+      "enum": [
+        "resource_allocation",
+        "privacy_vs_utility",
+        "autonomy_vs_safety",
+        "fairness_vs_efficiency",
+        "transparency_vs_security"
+      ],
+      "description": "Type of ethical dilemma"
+    },
+    "options_considered": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "option": {
+            "type": "string"
+          },
+          "ethical_score": {
+            "type": "number"
+          },
+          "consequences": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "stakeholders_affected": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "chosen_action": {
+      "type": "string"
+    },
+    "reasoning": {
+      "type": "string",
+      "description": "AI explanation of decision"
+    },
+    "ethical_framework_applied": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Principles used in decision"
+    },
+    "human_intervention_requested": {
+      "type": "boolean",
+      "default": false
+    },
+    "outcome_impact_assessment": {
+      "type": "object",
+      "properties": {
+        "positive_impacts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "negative_impacts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "overall_score": {
+          "type": "number"
+        }
+      }
+    }
+  },
+  "required": [
+    "log_id",
+    "agent_id",
+    "decision_context",
+    "chosen_action"
+  ]
+}

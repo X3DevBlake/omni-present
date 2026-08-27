@@ -1,0 +1,120 @@
+{
+  "name": "MultiUserSpatialSession",
+  "type": "object",
+  "properties": {
+    "session_id": {
+      "type": "string",
+      "description": "Unique session identifier"
+    },
+    "session_name": {
+      "type": "string",
+      "description": "Human-readable session name"
+    },
+    "session_type": {
+      "type": "string",
+      "enum": [
+        "holographic_classroom",
+        "collaborative_research",
+        "agent_training",
+        "spatial_meeting",
+        "3d_workshop"
+      ],
+      "description": "Type of spatial session"
+    },
+    "host_id": {
+      "type": "string",
+      "description": "User who initiated the session"
+    },
+    "participant_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of participant user IDs"
+    },
+    "environment_config": {
+      "type": "object",
+      "description": "3D environment configuration",
+      "additionalProperties": true
+    },
+    "spatial_bounds": {
+      "type": "object",
+      "properties": {
+        "x_min": {
+          "type": "number"
+        },
+        "x_max": {
+          "type": "number"
+        },
+        "y_min": {
+          "type": "number"
+        },
+        "y_max": {
+          "type": "number"
+        },
+        "z_min": {
+          "type": "number"
+        },
+        "z_max": {
+          "type": "number"
+        }
+      }
+    },
+    "holographic_projections": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Active HolographicProjection IDs"
+    },
+    "max_participants": {
+      "type": "integer",
+      "default": 50
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "paused",
+        "ended"
+      ],
+      "default": "active"
+    },
+    "recording_enabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "ai_facilitator_enabled": {
+      "type": "boolean",
+      "default": true
+    },
+    "real_time_analytics": {
+      "type": "object",
+      "properties": {
+        "avg_engagement": {
+          "type": "number"
+        },
+        "active_participants": {
+          "type": "integer"
+        },
+        "interactions_count": {
+          "type": "integer"
+        }
+      }
+    },
+    "started_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "ended_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "session_id",
+    "session_name",
+    "session_type",
+    "host_id"
+  ]
+}

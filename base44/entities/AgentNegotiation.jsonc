@@ -1,0 +1,129 @@
+{
+  "name": "AgentNegotiation",
+  "type": "object",
+  "properties": {
+    "negotiation_id": {
+      "type": "string",
+      "description": "Negotiation session identifier"
+    },
+    "negotiation_type": {
+      "type": "string",
+      "enum": [
+        "task_allocation",
+        "resource_sharing",
+        "knowledge_exchange",
+        "priority_dispute",
+        "collaboration_terms"
+      ],
+      "description": "What's being negotiated"
+    },
+    "participating_agents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "type": "string"
+          },
+          "initial_position": {
+            "type": "object"
+          },
+          "current_position": {
+            "type": "object"
+          },
+          "concessions_made": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "negotiation_protocol": {
+      "type": "string",
+      "enum": [
+        "alternating_offers",
+        "auction",
+        "consensus_seeking",
+        "ai_mediated",
+        "game_theoretic"
+      ],
+      "description": "Negotiation strategy"
+    },
+    "rounds_completed": {
+      "type": "integer",
+      "default": 0
+    },
+    "max_rounds": {
+      "type": "integer",
+      "default": 10
+    },
+    "current_offers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "from_agent": {
+            "type": "string"
+          },
+          "to_agent": {
+            "type": "string"
+          },
+          "offer_details": {
+            "type": "object"
+          },
+          "utility_score": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "negotiation_history": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "round": {
+            "type": "integer"
+          },
+          "action": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "in_progress",
+        "agreement_reached",
+        "deadlock",
+        "timed_out",
+        "cancelled"
+      ],
+      "default": "in_progress"
+    },
+    "final_agreement": {
+      "type": "object",
+      "description": "Negotiated outcome"
+    },
+    "pareto_efficient": {
+      "type": "boolean",
+      "description": "Whether outcome is Pareto optimal"
+    },
+    "fairness_score": {
+      "type": "number",
+      "description": "How fair the agreement is"
+    },
+    "mediator_agent": {
+      "type": "string",
+      "description": "AI mediator if applicable"
+    }
+  },
+  "required": [
+    "negotiation_type",
+    "participating_agents"
+  ]
+}

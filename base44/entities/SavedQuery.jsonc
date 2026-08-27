@@ -1,0 +1,29 @@
+{
+  "name": "SavedQuery",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "query_config": {
+      "type": "object"
+    },
+    "visualization_type": {
+      "type": "string"
+    },
+    "created_by": {
+      "type": "string"
+    },
+    "is_public": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "name",
+    "query_config"
+  ]
+}

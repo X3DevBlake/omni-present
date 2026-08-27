@@ -1,0 +1,77 @@
+{
+  "name": "CollaborativeDocument",
+  "type": "object",
+  "properties": {
+    "workspace_id": {
+      "type": "string",
+      "description": "Workspace ID"
+    },
+    "user_email": {
+      "type": "string",
+      "description": "Document owner"
+    },
+    "title": {
+      "type": "string",
+      "description": "Document title"
+    },
+    "document_type": {
+      "type": "string",
+      "enum": [
+        "market_analysis",
+        "financial_plan",
+        "risk_report",
+        "trading_strategy",
+        "monthly_review"
+      ],
+      "description": "Document type"
+    },
+    "google_doc_id": {
+      "type": "string",
+      "description": "Google Docs ID"
+    },
+    "google_drive_url": {
+      "type": "string",
+      "description": "Drive URL"
+    },
+    "content": {
+      "type": "object",
+      "description": "Document content"
+    },
+    "contributing_agents": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Agents contributing"
+    },
+    "edit_history": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Edit log"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "in_progress",
+        "review",
+        "completed"
+      ],
+      "default": "draft",
+      "description": "Document status"
+    },
+    "last_synced": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last Google sync"
+    }
+  },
+  "required": [
+    "workspace_id",
+    "user_email",
+    "title",
+    "document_type"
+  ]
+}

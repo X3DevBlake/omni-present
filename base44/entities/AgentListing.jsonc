@@ -1,0 +1,68 @@
+{
+  "name": "AgentListing",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Reference to Agent entity"
+    },
+    "seller_id": {
+      "type": "string",
+      "description": "User selling the agent"
+    },
+    "price": {
+      "type": "number",
+      "description": "Price in Omni tokens"
+    },
+    "title": {
+      "type": "string",
+      "description": "Listing title"
+    },
+    "description": {
+      "type": "string",
+      "description": "Agent description"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "financial",
+        "shopping",
+        "research",
+        "travel",
+        "productivity"
+      ],
+      "description": "Agent category"
+    },
+    "rating": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 5,
+      "description": "Average rating"
+    },
+    "sales_count": {
+      "type": "integer",
+      "default": 0,
+      "description": "Number of sales"
+    },
+    "featured": {
+      "type": "boolean",
+      "default": false,
+      "description": "Featured listing"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "sold",
+        "inactive"
+      ],
+      "default": "active",
+      "description": "Listing status"
+    }
+  },
+  "required": [
+    "agent_id",
+    "price",
+    "title"
+  ]
+}

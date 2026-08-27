@@ -1,0 +1,56 @@
+{
+  "name": "WebhookTemplate",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Template name"
+    },
+    "description": {
+      "type": "string",
+      "description": "Template description"
+    },
+    "template_code": {
+      "type": "string",
+      "description": "Dynamic template code with variables"
+    },
+    "variables": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Available variables and their sources"
+    },
+    "integration_type": {
+      "type": "string",
+      "enum": [
+        "zapier",
+        "make",
+        "n8n",
+        "custom"
+      ],
+      "description": "Integration platform"
+    },
+    "workflow_steps": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Multi-step workflow configuration"
+    },
+    "is_public": {
+      "type": "boolean",
+      "default": false,
+      "description": "Available in marketplace"
+    },
+    "usage_count": {
+      "type": "integer",
+      "default": 0,
+      "description": "Number of times used"
+    }
+  },
+  "required": [
+    "name",
+    "template_code"
+  ]
+}

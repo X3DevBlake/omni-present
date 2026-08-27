@@ -1,0 +1,143 @@
+{
+  "name": "ResourceOptimization",
+  "type": "object",
+  "properties": {
+    "optimization_name": {
+      "type": "string",
+      "description": "Optimization session identifier"
+    },
+    "resource_type": {
+      "type": "string",
+      "enum": [
+        "compute",
+        "memory",
+        "storage",
+        "network",
+        "gpu",
+        "multi_resource"
+      ],
+      "description": "Type of resource being optimized"
+    },
+    "optimization_algorithm": {
+      "type": "string",
+      "enum": [
+        "genetic_algorithm",
+        "gradient_descent",
+        "reinforcement_learning",
+        "bayesian_optimization",
+        "simulated_annealing"
+      ],
+      "description": "Optimization method"
+    },
+    "current_allocation": {
+      "type": "object",
+      "properties": {
+        "cpu_cores": {
+          "type": "integer"
+        },
+        "memory_gb": {
+          "type": "number"
+        },
+        "gpu_count": {
+          "type": "integer"
+        },
+        "storage_gb": {
+          "type": "number"
+        }
+      }
+    },
+    "optimized_allocation": {
+      "type": "object",
+      "properties": {
+        "cpu_cores": {
+          "type": "integer"
+        },
+        "memory_gb": {
+          "type": "number"
+        },
+        "gpu_count": {
+          "type": "integer"
+        },
+        "storage_gb": {
+          "type": "number"
+        }
+      }
+    },
+    "workload_prediction": {
+      "type": "object",
+      "properties": {
+        "predicted_peak_time": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "predicted_load": {
+          "type": "number"
+        },
+        "confidence": {
+          "type": "number"
+        }
+      }
+    },
+    "cost_analysis": {
+      "type": "object",
+      "properties": {
+        "current_cost_per_hour": {
+          "type": "number"
+        },
+        "optimized_cost_per_hour": {
+          "type": "number"
+        },
+        "savings_percentage": {
+          "type": "number"
+        },
+        "estimated_monthly_savings": {
+          "type": "number"
+        }
+      }
+    },
+    "performance_impact": {
+      "type": "object",
+      "properties": {
+        "latency_change_ms": {
+          "type": "number"
+        },
+        "throughput_change": {
+          "type": "number"
+        },
+        "reliability_score": {
+          "type": "number"
+        }
+      }
+    },
+    "auto_scaling_rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "metric": {
+            "type": "string"
+          },
+          "threshold": {
+            "type": "number"
+          },
+          "action": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "applied": {
+      "type": "boolean",
+      "default": false
+    },
+    "applied_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "optimization_name",
+    "resource_type",
+    "optimization_algorithm"
+  ]
+}

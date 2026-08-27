@@ -1,0 +1,92 @@
+{
+  "name": "DataAnnotationTask",
+  "type": "object",
+  "properties": {
+    "task_name": {
+      "type": "string",
+      "description": "Annotation task identifier"
+    },
+    "dataset_id": {
+      "type": "string"
+    },
+    "annotation_type": {
+      "type": "string",
+      "enum": [
+        "classification",
+        "segmentation",
+        "detection",
+        "nlp_tagging",
+        "regression",
+        "keypoint"
+      ],
+      "description": "Type of annotation"
+    },
+    "total_samples": {
+      "type": "integer"
+    },
+    "annotated_count": {
+      "type": "integer",
+      "default": 0
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "in_progress",
+        "completed",
+        "paused"
+      ],
+      "default": "pending"
+    },
+    "active_learning_config": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": false
+        },
+        "query_strategy": {
+          "type": "string",
+          "enum": [
+            "uncertainty",
+            "diversity",
+            "expected_error"
+          ]
+        },
+        "batch_size": {
+          "type": "integer"
+        }
+      }
+    },
+    "ai_assisted": {
+      "type": "boolean",
+      "default": false,
+      "description": "AI pre-annotations enabled"
+    },
+    "quality_metrics": {
+      "type": "object",
+      "properties": {
+        "agreement_score": {
+          "type": "number"
+        },
+        "confidence_threshold": {
+          "type": "number"
+        }
+      }
+    },
+    "annotators": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "label_schema": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "task_name",
+    "dataset_id",
+    "annotation_type"
+  ]
+}

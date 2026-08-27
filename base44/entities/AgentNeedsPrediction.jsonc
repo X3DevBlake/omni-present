@@ -1,0 +1,54 @@
+{
+  "name": "AgentNeedsPrediction",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "User email"
+    },
+    "agent_id": {
+      "type": "string",
+      "description": "Agent ID"
+    },
+    "predicted_needs": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Predicted requirements"
+    },
+    "confidence_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Prediction confidence %"
+    },
+    "suggested_workflows": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Recommended actions"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "in_progress",
+        "completed",
+        "dismissed"
+      ],
+      "default": "pending",
+      "description": "Prediction status"
+    },
+    "initiated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When workflow started"
+    }
+  },
+  "required": [
+    "user_email",
+    "agent_id"
+  ]
+}

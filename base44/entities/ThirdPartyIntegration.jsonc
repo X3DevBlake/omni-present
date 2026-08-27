@@ -1,0 +1,103 @@
+{
+  "name": "ThirdPartyIntegration",
+  "type": "object",
+  "properties": {
+    "integration_id": {
+      "type": "string",
+      "description": "Integration identifier"
+    },
+    "developer_id": {
+      "type": "string",
+      "description": "Developer who created integration"
+    },
+    "integration_name": {
+      "type": "string",
+      "description": "Name of integration"
+    },
+    "integration_type": {
+      "type": "string",
+      "enum": [
+        "agent_plugin",
+        "augmentation_module",
+        "consciousness_extension",
+        "data_connector",
+        "visualization_plugin"
+      ],
+      "description": "Type of integration"
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "capability_name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "endpoint": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "security_audit": {
+      "type": "object",
+      "properties": {
+        "audited": {
+          "type": "boolean"
+        },
+        "audit_date": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "security_score": {
+          "type": "number"
+        },
+        "vulnerabilities_found": {
+          "type": "array"
+        }
+      }
+    },
+    "performance_metrics": {
+      "type": "object",
+      "properties": {
+        "avg_response_time_ms": {
+          "type": "number"
+        },
+        "success_rate": {
+          "type": "number"
+        },
+        "uptime_percent": {
+          "type": "number"
+        }
+      }
+    },
+    "installation_count": {
+      "type": "integer",
+      "default": 0
+    },
+    "rating": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 5
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending_review",
+        "approved",
+        "active",
+        "suspended",
+        "deprecated"
+      ],
+      "default": "pending_review"
+    }
+  },
+  "required": [
+    "integration_id",
+    "developer_id",
+    "integration_name"
+  ]
+}

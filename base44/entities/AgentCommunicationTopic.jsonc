@@ -1,0 +1,69 @@
+{
+  "name": "AgentCommunicationTopic",
+  "type": "object",
+  "properties": {
+    "channel_id": {
+      "type": "string",
+      "description": "Communication channel"
+    },
+    "topic_name": {
+      "type": "string",
+      "description": "Identified topic name"
+    },
+    "keywords": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Key terms in this topic"
+    },
+    "prevalence_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "How dominant is this topic"
+    },
+    "sentiment_trend": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "sentiment": {
+            "type": "number",
+            "minimum": -1,
+            "maximum": 1
+          }
+        }
+      },
+      "description": "Historical sentiment about this topic"
+    },
+    "participating_agents": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Agents discussing this topic"
+    },
+    "trend_direction": {
+      "type": "string",
+      "enum": [
+        "rising",
+        "stable",
+        "declining"
+      ],
+      "description": "Topic trend"
+    },
+    "ai_summary": {
+      "type": "string",
+      "description": "AI-generated topic summary"
+    }
+  },
+  "required": [
+    "channel_id",
+    "topic_name"
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "name": "ConsciousPortfolio",
+  "type": "object",
+  "properties": {
+    "portfolio_id": {
+      "type": "string",
+      "description": "Portfolio consciousness identifier"
+    },
+    "self_awareness_metrics": {
+      "type": "object",
+      "properties": {
+        "risk_self_assessment": {
+          "type": "number"
+        },
+        "performance_self_evaluation": {
+          "type": "number"
+        },
+        "goal_progress_awareness": {
+          "type": "number"
+        }
+      }
+    },
+    "autonomous_rebalancing": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "frequency_hours": {
+          "type": "number"
+        },
+        "threshold_percentage": {
+          "type": "number"
+        },
+        "learning_from_outcomes": {
+          "type": "boolean"
+        }
+      }
+    },
+    "emotional_hedging": {
+      "type": "object",
+      "properties": {
+        "market_fear_response": {
+          "type": "string"
+        },
+        "greed_mitigation_strategy": {
+          "type": "string"
+        },
+        "volatility_tolerance": {
+          "type": "number"
+        }
+      }
+    },
+    "predictive_allocations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "asset": {
+            "type": "string"
+          },
+          "predicted_allocation": {
+            "type": "number"
+          },
+          "confidence": {
+            "type": "number"
+          },
+          "reasoning": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "learning_history": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "action_taken": {
+            "type": "string"
+          },
+          "outcome": {
+            "type": "string"
+          },
+          "lesson_learned": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "portfolio_id"
+  ]
+}

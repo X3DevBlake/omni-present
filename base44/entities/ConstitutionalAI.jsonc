@@ -1,0 +1,58 @@
+{
+  "name": "ConstitutionalAI",
+  "type": "object",
+  "properties": {
+    "system_name": {
+      "type": "string",
+      "description": "Constitutional AI system"
+    },
+    "constitution": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "principle": {
+            "type": "string"
+          },
+          "weight": {
+            "type": "number"
+          }
+        }
+      },
+      "description": "Core ethical principles"
+    },
+    "self_critique_enabled": {
+      "type": "boolean",
+      "description": "Can critique own responses"
+    },
+    "revision_iterations": {
+      "type": "integer",
+      "description": "Self-improvement cycles per response"
+    },
+    "alignment_scores": {
+      "type": "object",
+      "properties": {
+        "ethical_adherence": {
+          "type": "number"
+        },
+        "harm_reduction": {
+          "type": "number"
+        },
+        "transparency": {
+          "type": "number"
+        }
+      }
+    },
+    "constitutional_violations": {
+      "type": "integer",
+      "description": "Principle violations detected"
+    },
+    "self_correction_rate": {
+      "type": "number",
+      "description": "How often system self-corrects"
+    }
+  },
+  "required": [
+    "system_name"
+  ]
+}

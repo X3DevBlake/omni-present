@@ -1,0 +1,147 @@
+{
+  "name": "ConsciousnessMirrorSnapshot",
+  "type": "object",
+  "properties": {
+    "snapshot_id": {
+      "type": "string",
+      "description": "Snapshot identifier"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "User consciousness snapshot"
+    },
+    "cognitive_state": {
+      "type": "object",
+      "properties": {
+        "focus_level": {
+          "type": "number"
+        },
+        "mental_clarity": {
+          "type": "number"
+        },
+        "cognitive_load": {
+          "type": "number"
+        },
+        "working_memory_capacity": {
+          "type": "number"
+        },
+        "processing_speed": {
+          "type": "number"
+        }
+      }
+    },
+    "emotional_state": {
+      "type": "object",
+      "properties": {
+        "primary_emotion": {
+          "type": "string"
+        },
+        "emotional_intensity": {
+          "type": "number"
+        },
+        "valence": {
+          "type": "number"
+        },
+        "arousal": {
+          "type": "number"
+        },
+        "emotional_stability": {
+          "type": "number"
+        }
+      }
+    },
+    "brain_wave_patterns": {
+      "type": "object",
+      "properties": {
+        "delta_power": {
+          "type": "number"
+        },
+        "theta_power": {
+          "type": "number"
+        },
+        "alpha_power": {
+          "type": "number"
+        },
+        "beta_power": {
+          "type": "number"
+        },
+        "gamma_power": {
+          "type": "number"
+        }
+      }
+    },
+    "physiological_correlates": {
+      "type": "object",
+      "properties": {
+        "heart_rate_variability": {
+          "type": "number"
+        },
+        "cortisol_level": {
+          "type": "number"
+        },
+        "dopamine_activity": {
+          "type": "number"
+        },
+        "serotonin_balance": {
+          "type": "number"
+        }
+      }
+    },
+    "thought_stream": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "thought_fragment": {
+            "type": "string"
+          },
+          "intensity": {
+            "type": "number"
+          },
+          "category": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "awareness_dimensions": {
+      "type": "object",
+      "properties": {
+        "self_awareness": {
+          "type": "number"
+        },
+        "environmental_awareness": {
+          "type": "number"
+        },
+        "temporal_awareness": {
+          "type": "number"
+        },
+        "social_awareness": {
+          "type": "number"
+        }
+      }
+    },
+    "ai_interpretation": {
+      "type": "object",
+      "properties": {
+        "mental_state_summary": {
+          "type": "string"
+        },
+        "optimization_suggestions": {
+          "type": "array"
+        },
+        "intervention_recommended": {
+          "type": "boolean"
+        }
+      }
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "snapshot_id",
+    "user_id"
+  ]
+}

@@ -1,0 +1,132 @@
+{
+  "name": "ProactiveHealthIntervention",
+  "type": "object",
+  "properties": {
+    "intervention_id": {
+      "type": "string",
+      "description": "Intervention identifier"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "User receiving intervention"
+    },
+    "trigger_source": {
+      "type": "object",
+      "properties": {
+        "system": {
+          "type": "string"
+        },
+        "metric": {
+          "type": "string"
+        },
+        "threshold_breached": {
+          "type": "boolean"
+        },
+        "severity": {
+          "type": "string"
+        }
+      }
+    },
+    "intervention_type": {
+      "type": "string",
+      "enum": [
+        "augmentation_adjustment",
+        "lifestyle_suggestion",
+        "physical_coordination",
+        "cognitive_optimization",
+        "emergency_response"
+      ],
+      "description": "Type of intervention"
+    },
+    "augmentation_adjustments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "augmentation_id": {
+            "type": "string"
+          },
+          "parameter": {
+            "type": "string"
+          },
+          "old_value": {
+            "type": "number"
+          },
+          "new_value": {
+            "type": "number"
+          },
+          "reason": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "companion_guidance": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "companion_id": {
+            "type": "string"
+          },
+          "guidance_type": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "embodied_agent_coordination": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "embodiment_id": {
+            "type": "string"
+          },
+          "action_requested": {
+            "type": "string"
+          },
+          "urgency": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "predicted_impact": {
+      "type": "object",
+      "properties": {
+        "health_score_change": {
+          "type": "number"
+        },
+        "risk_reduction": {
+          "type": "number"
+        },
+        "timeline_days": {
+          "type": "number"
+        }
+      }
+    },
+    "execution_status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "executing",
+        "completed",
+        "failed"
+      ],
+      "default": "pending"
+    },
+    "auto_executed": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "intervention_id",
+    "user_id",
+    "intervention_type"
+  ]
+}

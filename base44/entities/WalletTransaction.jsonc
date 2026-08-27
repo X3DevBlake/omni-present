@@ -1,0 +1,47 @@
+{
+  "name": "WalletTransaction",
+  "type": "object",
+  "properties": {
+    "from_address": {
+      "type": "string"
+    },
+    "to_address": {
+      "type": "string"
+    },
+    "amount": {
+      "type": "number"
+    },
+    "currency": {
+      "type": "string",
+      "default": "OMNI"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "completed",
+        "failed"
+      ]
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "transfer",
+        "reward",
+        "purchase"
+      ]
+    },
+    "user_id": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "from_address",
+    "to_address",
+    "amount"
+  ]
+}

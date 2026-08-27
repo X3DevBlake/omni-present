@@ -1,0 +1,98 @@
+{
+  "name": "EmbodiedAgentAction",
+  "type": "object",
+  "properties": {
+    "action_id": {
+      "type": "string",
+      "description": "Action identifier"
+    },
+    "embodiment_id": {
+      "type": "string",
+      "description": "Physical embodiment performing action"
+    },
+    "action_type": {
+      "type": "string",
+      "enum": [
+        "movement",
+        "manipulation",
+        "communication",
+        "observation",
+        "intervention",
+        "collaboration"
+      ]
+    },
+    "action_description": {
+      "type": "string"
+    },
+    "target_object": {
+      "type": "string"
+    },
+    "location": {
+      "type": "object",
+      "properties": {
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "z": {
+          "type": "number"
+        }
+      }
+    },
+    "action_parameters": {
+      "type": "object",
+      "properties": {
+        "force_applied": {
+          "type": "number"
+        },
+        "precision_required": {
+          "type": "number"
+        },
+        "speed": {
+          "type": "number"
+        }
+      }
+    },
+    "execution_status": {
+      "type": "string",
+      "enum": [
+        "planned",
+        "executing",
+        "completed",
+        "failed",
+        "aborted"
+      ]
+    },
+    "success_rate": {
+      "type": "number"
+    },
+    "energy_consumed": {
+      "type": "number",
+      "description": "Energy in kWh"
+    },
+    "obstacles_encountered": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "learned_from_action": {
+      "type": "object"
+    },
+    "started_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "completed_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "action_id",
+    "embodiment_id",
+    "action_type"
+  ]
+}

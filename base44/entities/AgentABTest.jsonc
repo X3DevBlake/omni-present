@@ -1,0 +1,74 @@
+{
+  "name": "AgentABTest",
+  "type": "object",
+  "properties": {
+    "test_name": {
+      "type": "string",
+      "description": "A/B test name"
+    },
+    "agent_id": {
+      "type": "string",
+      "description": "Agent being tested"
+    },
+    "variant_a_config": {
+      "type": "object",
+      "description": "Configuration A"
+    },
+    "variant_b_config": {
+      "type": "object",
+      "description": "Configuration B"
+    },
+    "metric_type": {
+      "type": "string",
+      "enum": [
+        "success_rate",
+        "execution_time",
+        "user_satisfaction",
+        "error_rate",
+        "custom"
+      ],
+      "description": "Metric being tested"
+    },
+    "sample_size": {
+      "type": "integer",
+      "description": "Number of interactions per variant"
+    },
+    "variant_a_score": {
+      "type": "number",
+      "default": 0,
+      "description": "Variant A performance"
+    },
+    "variant_b_score": {
+      "type": "number",
+      "default": 0,
+      "description": "Variant B performance"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "running",
+        "completed",
+        "paused"
+      ],
+      "default": "running"
+    },
+    "winner": {
+      "type": "string",
+      "enum": [
+        "a",
+        "b",
+        "inconclusive"
+      ],
+      "description": "Test winner"
+    },
+    "confidence_level": {
+      "type": "number",
+      "description": "Statistical confidence"
+    }
+  },
+  "required": [
+    "test_name",
+    "agent_id",
+    "metric_type"
+  ]
+}

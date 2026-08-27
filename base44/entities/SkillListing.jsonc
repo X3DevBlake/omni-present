@@ -1,0 +1,53 @@
+{
+  "name": "SkillListing",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string"
+    },
+    "skill_name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "cognitive",
+        "motor",
+        "social",
+        "technical",
+        "creative"
+      ]
+    },
+    "price_per_use": {
+      "type": "number"
+    },
+    "verification_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "peers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "IDs of other agents validating or hosting this skill"
+    },
+    "active": {
+      "type": "boolean",
+      "default": true
+    },
+    "usage_count": {
+      "type": "integer",
+      "default": 0
+    }
+  },
+  "required": [
+    "agent_id",
+    "skill_name",
+    "price_per_use"
+  ]
+}

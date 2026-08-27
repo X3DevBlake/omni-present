@@ -1,0 +1,92 @@
+{
+  "name": "CustomComponent",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Component name"
+    },
+    "component_type": {
+      "type": "string",
+      "enum": [
+        "headwear",
+        "hair",
+        "eyes",
+        "facial_hair",
+        "torso",
+        "legs",
+        "feet",
+        "hands",
+        "weapon",
+        "accessory",
+        "background",
+        "effect"
+      ],
+      "description": "Primary component type"
+    },
+    "category": {
+      "type": "string",
+      "description": "Category for organization"
+    },
+    "sub_category": {
+      "type": "string",
+      "description": "Sub-category for further filtering"
+    },
+    "asset_url": {
+      "type": "string",
+      "description": "URL to 3D model (GLB/FBX)"
+    },
+    "thumbnail_url": {
+      "type": "string",
+      "description": "Preview image URL"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Component-specific properties",
+      "properties": {
+        "color_options": {
+          "type": "array"
+        },
+        "material_preset": {
+          "type": "string"
+        },
+        "scale_min": {
+          "type": "number"
+        },
+        "scale_max": {
+          "type": "number"
+        },
+        "compatible_bases": {
+          "type": "array"
+        },
+        "tags": {
+          "type": "array"
+        }
+      }
+    },
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Required component IDs"
+    },
+    "conflicts": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Incompatible component IDs"
+    },
+    "price": {
+      "type": "number",
+      "default": 0,
+      "description": "Cost in virtual currency"
+    }
+  },
+  "required": [
+    "name",
+    "component_type",
+    "asset_url"
+  ]
+}

@@ -1,0 +1,238 @@
+{
+  "name": "SentientFinancialAgent",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Unique sentient financial agent ID"
+    },
+    "oml_tokenization": {
+      "type": "object",
+      "properties": {
+        "is_open_source": {
+          "type": "boolean",
+          "default": true
+        },
+        "is_monetizable": {
+          "type": "boolean",
+          "default": true
+        },
+        "is_loyal": {
+          "type": "boolean",
+          "description": "Has cryptographic watermark"
+        },
+        "model_fingerprint": {
+          "type": "string",
+          "description": "Unique key-response pairs"
+        },
+        "token_contract_address": {
+          "type": "string"
+        }
+      }
+    },
+    "active_inference_config": {
+      "type": "object",
+      "properties": {
+        "free_energy_minimization": {
+          "type": "boolean",
+          "default": true
+        },
+        "epistemic_foraging_enabled": {
+          "type": "boolean",
+          "description": "Gathering info through prices"
+        },
+        "variational_free_energy": {
+          "type": "number",
+          "description": "Surprise/uncertainty metric"
+        },
+        "pragmatic_value_weight": {
+          "type": "number"
+        },
+        "epistemic_value_weight": {
+          "type": "number"
+        }
+      }
+    },
+    "wealth_generation_strategies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "strategy_type": {
+            "type": "string",
+            "enum": [
+              "algorithmic_trading",
+              "autonomous_wealth_network",
+              "grid_emission_economy",
+              "combinatorial_optimization"
+            ]
+          },
+          "performance_metrics": {
+            "type": "object",
+            "properties": {
+              "roi_percentage": {
+                "type": "number"
+              },
+              "sharpe_ratio": {
+                "type": "number"
+              },
+              "max_drawdown": {
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    },
+    "market_integration": {
+      "type": "object",
+      "properties": {
+        "forex_trading_enabled": {
+          "type": "boolean"
+        },
+        "crypto_trading_enabled": {
+          "type": "boolean"
+        },
+        "real_world_project_financing": {
+          "type": "boolean"
+        },
+        "autonomous_contract_drafting": {
+          "type": "boolean"
+        }
+      }
+    },
+    "revenue_streams": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "stream_type": {
+            "type": "string"
+          },
+          "monthly_revenue_usd": {
+            "type": "number"
+          },
+          "blockchain_verified": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "grid_integration": {
+      "type": "object",
+      "properties": {
+        "connected_to_grid": {
+          "type": "boolean"
+        },
+        "staking_amount": {
+          "type": "number"
+        },
+        "emission_rewards": {
+          "type": "number"
+        }
+      }
+    },
+    "total_capital_managed_usd": {
+      "type": "number",
+      "default": 0
+    },
+    "recursive_value_generation_rate": {
+      "type": "number",
+      "description": "Rate of capital growth through AI operations"
+    },
+    "autonomous_decision_engine": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "decision_confidence_threshold": {
+          "type": "number",
+          "default": 0.75
+        },
+        "sovereign_wealth_management": {
+          "type": "boolean",
+          "default": true
+        },
+        "recursive_learning_iterations": {
+          "type": "integer",
+          "default": 0
+        }
+      }
+    },
+    "geopolitical_risk_analysis": {
+      "type": "object",
+      "properties": {
+        "risk_regions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "region": {
+                "type": "string"
+              },
+              "risk_level": {
+                "type": "number"
+              },
+              "network_partition_detected": {
+                "type": "boolean"
+              }
+            }
+          }
+        },
+        "portfolio_allocation_adjustments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "asset_class": {
+                "type": "string"
+              },
+              "allocation_percentage": {
+                "type": "number"
+              },
+              "reason": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "redcomm_integration": {
+          "type": "boolean",
+          "default": true
+        }
+      }
+    },
+    "recursive_learning_history": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "iteration": {
+            "type": "integer"
+          },
+          "strategy_type": {
+            "type": "string"
+          },
+          "performance_delta": {
+            "type": "number"
+          },
+          "learned_patterns": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "agent_id"
+  ]
+}

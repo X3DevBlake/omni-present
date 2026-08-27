@@ -1,0 +1,104 @@
+{
+  "name": "EncryptionManagement",
+  "type": "object",
+  "properties": {
+    "encryption_policy_name": {
+      "type": "string",
+      "description": "Encryption policy identifier"
+    },
+    "encryption_standard": {
+      "type": "string",
+      "enum": [
+        "aes_256",
+        "rsa_4096",
+        "elliptic_curve",
+        "quantum_resistant",
+        "hybrid"
+      ],
+      "description": "Encryption algorithm"
+    },
+    "key_management": {
+      "type": "object",
+      "properties": {
+        "key_rotation_days": {
+          "type": "integer"
+        },
+        "keys_active": {
+          "type": "integer"
+        },
+        "keys_expired": {
+          "type": "integer"
+        },
+        "next_rotation": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "encrypted_assets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "asset_id": {
+            "type": "string"
+          },
+          "asset_type": {
+            "type": "string",
+            "enum": [
+              "database",
+              "file",
+              "message",
+              "model_weights",
+              "backup"
+            ]
+          },
+          "encryption_status": {
+            "type": "string",
+            "enum": [
+              "encrypted",
+              "decrypted",
+              "rotating"
+            ]
+          },
+          "key_id": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "encryption_at_rest": {
+      "type": "boolean",
+      "default": true
+    },
+    "encryption_in_transit": {
+      "type": "boolean",
+      "default": true
+    },
+    "encryption_in_use": {
+      "type": "boolean",
+      "description": "Homomorphic encryption"
+    },
+    "compliance_certifications": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "performance_impact": {
+      "type": "object",
+      "properties": {
+        "latency_increase_ms": {
+          "type": "number"
+        },
+        "throughput_reduction": {
+          "type": "number"
+        }
+      }
+    }
+  },
+  "required": [
+    "encryption_policy_name",
+    "encryption_standard"
+  ]
+}

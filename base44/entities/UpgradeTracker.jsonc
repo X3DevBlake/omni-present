@@ -1,0 +1,89 @@
+{
+  "name": "UpgradeTracker",
+  "type": "object",
+  "properties": {
+    "upgrade_id": {
+      "type": "string",
+      "description": "Unique identifier for the upgrade"
+    },
+    "upgrade_name": {
+      "type": "string",
+      "description": "Name of the upgrade/feature"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "ui_ux",
+        "performance",
+        "security",
+        "new_feature",
+        "integration",
+        "ai_enhancement",
+        "backend_optimization",
+        "data_model",
+        "webhook",
+        "infrastructure"
+      ]
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "critical",
+        "high",
+        "medium",
+        "low"
+      ],
+      "default": "medium"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "planned",
+        "in_progress",
+        "completed",
+        "on_hold",
+        "cancelled"
+      ],
+      "default": "planned"
+    },
+    "description": {
+      "type": "string"
+    },
+    "technical_details": {
+      "type": "object",
+      "description": "Implementation details, dependencies, etc."
+    },
+    "assigned_to": {
+      "type": "string",
+      "description": "Developer or team assigned"
+    },
+    "estimated_effort_hours": {
+      "type": "number"
+    },
+    "actual_effort_hours": {
+      "type": "number"
+    },
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "IDs of other upgrades this depends on"
+    },
+    "completion_percentage": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "default": 0
+    },
+    "completed_date": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "upgrade_id",
+    "upgrade_name",
+    "category"
+  ]
+}

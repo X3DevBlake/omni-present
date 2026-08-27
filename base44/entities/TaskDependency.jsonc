@@ -1,0 +1,46 @@
+{
+  "name": "TaskDependency",
+  "type": "object",
+  "properties": {
+    "task_id": {
+      "type": "string",
+      "description": "Primary task ID"
+    },
+    "depends_on_task_id": {
+      "type": "string",
+      "description": "Task that must complete first"
+    },
+    "dependency_type": {
+      "type": "string",
+      "enum": [
+        "blocking",
+        "optional",
+        "parallel",
+        "sequential"
+      ],
+      "default": "blocking"
+    },
+    "estimated_delay_hours": {
+      "type": "number",
+      "description": "Expected delay if dependency not met"
+    },
+    "is_resolved": {
+      "type": "boolean",
+      "default": false
+    },
+    "resolution_date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "impact_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "How critical this dependency is"
+    }
+  },
+  "required": [
+    "task_id",
+    "depends_on_task_id"
+  ]
+}

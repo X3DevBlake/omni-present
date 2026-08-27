@@ -1,0 +1,58 @@
+{
+  "name": "AdaptiveMissionProfile",
+  "type": "object",
+  "properties": {
+    "mission_id": {
+      "type": "string"
+    },
+    "current_threat_level": {
+      "type": "string",
+      "enum": [
+        "low",
+        "moderate",
+        "high",
+        "critical"
+      ]
+    },
+    "dynamic_objectives": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "number"
+          },
+          "status": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "contingency_plans": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "trigger_condition": {
+            "type": "string"
+          },
+          "alternative_objective": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "predicted_threats": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "mission_id"
+  ]
+}

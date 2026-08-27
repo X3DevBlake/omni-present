@@ -1,0 +1,112 @@
+{
+  "name": "AnomalyDetector",
+  "type": "object",
+  "properties": {
+    "detector_name": {
+      "type": "string",
+      "description": "Anomaly detector identifier"
+    },
+    "detection_method": {
+      "type": "string",
+      "enum": [
+        "statistical",
+        "ml_based",
+        "isolation_forest",
+        "autoencoder",
+        "one_class_svm",
+        "ensemble"
+      ],
+      "description": "Detection algorithm"
+    },
+    "monitored_metrics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "metric_name": {
+            "type": "string"
+          },
+          "baseline_value": {
+            "type": "number"
+          },
+          "std_deviation": {
+            "type": "number"
+          },
+          "sensitivity": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "anomalies_detected": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "anomaly_id": {
+            "type": "string"
+          },
+          "detected_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "anomaly_type": {
+            "type": "string",
+            "enum": [
+              "point",
+              "contextual",
+              "collective",
+              "trend"
+            ]
+          },
+          "severity": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "affected_metrics": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "deviation_score": {
+            "type": "number"
+          },
+          "root_cause_analysis": {
+            "type": "string"
+          },
+          "resolved": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "false_positive_rate": {
+      "type": "number"
+    },
+    "detection_accuracy": {
+      "type": "number"
+    },
+    "auto_remediation": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "actions_taken": {
+          "type": "integer",
+          "default": 0
+        }
+      }
+    },
+    "learning_enabled": {
+      "type": "boolean",
+      "description": "Adapts thresholds over time"
+    }
+  },
+  "required": [
+    "detector_name",
+    "detection_method"
+  ]
+}

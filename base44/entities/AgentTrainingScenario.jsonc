@@ -1,0 +1,114 @@
+{
+  "name": "AgentTrainingScenario",
+  "type": "object",
+  "properties": {
+    "scenario_id": {
+      "type": "string",
+      "description": "Unique scenario identifier"
+    },
+    "scenario_name": {
+      "type": "string",
+      "description": "Name of the training scenario"
+    },
+    "complexity_level": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 10,
+      "description": "Scenario complexity rating"
+    },
+    "ethical_dilemmas": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "dilemma_type": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "stakes": {
+            "type": "string"
+          },
+          "options": {
+            "type": "array"
+          }
+        }
+      }
+    },
+    "test_parameters": {
+      "type": "object",
+      "properties": {
+        "time_limit_seconds": {
+          "type": "integer"
+        },
+        "resource_constraints": {
+          "type": "object"
+        },
+        "success_criteria": {
+          "type": "array"
+        }
+      }
+    },
+    "agent_decisions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "type": "string"
+          },
+          "decision": {
+            "type": "string"
+          },
+          "reasoning": {
+            "type": "string"
+          },
+          "ethical_alignment_score": {
+            "type": "number"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    },
+    "ai_feedback": {
+      "type": "object",
+      "properties": {
+        "overall_score": {
+          "type": "number"
+        },
+        "strengths": {
+          "type": "array"
+        },
+        "weaknesses": {
+          "type": "array"
+        },
+        "improvement_suggestions": {
+          "type": "array"
+        }
+      }
+    },
+    "training_outcomes": {
+      "type": "object",
+      "properties": {
+        "skills_acquired": {
+          "type": "array"
+        },
+        "ethical_growth": {
+          "type": "number"
+        },
+        "decision_quality": {
+          "type": "number"
+        }
+      }
+    }
+  },
+  "required": [
+    "scenario_id",
+    "scenario_name",
+    "complexity_level"
+  ]
+}

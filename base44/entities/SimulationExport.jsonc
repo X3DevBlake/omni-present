@@ -1,0 +1,80 @@
+{
+  "name": "SimulationExport",
+  "type": "object",
+  "properties": {
+    "simulation_id": {
+      "type": "string",
+      "description": "Source simulation"
+    },
+    "export_format": {
+      "type": "string",
+      "enum": [
+        "json",
+        "csv",
+        "parquet",
+        "sql",
+        "pdf_report",
+        "video"
+      ],
+      "description": "Export format"
+    },
+    "export_scope": {
+      "type": "string",
+      "enum": [
+        "full",
+        "metrics_only",
+        "events_only",
+        "agent_data",
+        "custom"
+      ],
+      "description": "What data to export"
+    },
+    "custom_filters": {
+      "type": "object",
+      "properties": {
+        "time_range": {
+          "type": "object"
+        },
+        "agent_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "event_types": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "file_url": {
+      "type": "string",
+      "description": "Download URL"
+    },
+    "file_size_bytes": {
+      "type": "integer"
+    },
+    "export_status": {
+      "type": "string",
+      "enum": [
+        "processing",
+        "completed",
+        "failed"
+      ],
+      "default": "processing"
+    },
+    "rows_exported": {
+      "type": "integer"
+    },
+    "processing_time_ms": {
+      "type": "integer"
+    }
+  },
+  "required": [
+    "simulation_id",
+    "export_format",
+    "export_scope"
+  ]
+}

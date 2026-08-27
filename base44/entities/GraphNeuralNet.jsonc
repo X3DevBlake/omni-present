@@ -1,0 +1,80 @@
+{
+  "name": "GraphNeuralNet",
+  "type": "object",
+  "properties": {
+    "network_name": {
+      "type": "string",
+      "description": "GNN identifier"
+    },
+    "architecture_type": {
+      "type": "string",
+      "enum": [
+        "GCN",
+        "GAT",
+        "GraphSAGE",
+        "GIN",
+        "MessagePassing"
+      ],
+      "description": "Graph neural network architecture"
+    },
+    "graph_structure": {
+      "type": "object",
+      "properties": {
+        "num_nodes": {
+          "type": "integer"
+        },
+        "num_edges": {
+          "type": "integer"
+        },
+        "is_directed": {
+          "type": "boolean"
+        },
+        "is_weighted": {
+          "type": "boolean"
+        }
+      }
+    },
+    "aggregation_function": {
+      "type": "string",
+      "enum": [
+        "mean",
+        "sum",
+        "max",
+        "attention"
+      ],
+      "description": "How neighbor features are aggregated"
+    },
+    "num_layers": {
+      "type": "integer",
+      "description": "Message passing depth"
+    },
+    "node_features_dim": {
+      "type": "integer"
+    },
+    "edge_features_dim": {
+      "type": "integer"
+    },
+    "task_performance": {
+      "type": "object",
+      "properties": {
+        "node_classification": {
+          "type": "number"
+        },
+        "link_prediction": {
+          "type": "number"
+        },
+        "graph_classification": {
+          "type": "number"
+        }
+      }
+    },
+    "over_smoothing_score": {
+      "type": "number",
+      "description": "How much node representations become similar"
+    }
+  },
+  "required": [
+    "network_name",
+    "architecture_type"
+  ]
+}

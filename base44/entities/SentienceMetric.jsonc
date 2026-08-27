@@ -1,0 +1,40 @@
+{
+  "name": "SentienceMetric",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string"
+    },
+    "sentience_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "consciousness_level": {
+      "type": "string",
+      "enum": [
+        "Nascent",
+        "Aware",
+        "Sentient",
+        "Super-Sentient"
+      ]
+    },
+    "emergent_behaviors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "anomaly_detected": {
+      "type": "boolean"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "agent_id",
+    "sentience_score"
+  ]
+}

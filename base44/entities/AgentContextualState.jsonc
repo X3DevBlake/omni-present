@@ -1,0 +1,144 @@
+{
+  "name": "AgentContextualState",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Agent identifier"
+    },
+    "current_context": {
+      "type": "object",
+      "properties": {
+        "room_type": {
+          "type": "string"
+        },
+        "activity_zone": {
+          "type": "string"
+        },
+        "nearby_objects": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "object_label": {
+                "type": "string"
+              },
+              "distance_meters": {
+                "type": "number"
+              },
+              "interactable": {
+                "type": "boolean"
+              }
+            }
+          }
+        },
+        "environmental_conditions": {
+          "type": "object",
+          "properties": {
+            "temperature": {
+              "type": "number"
+            },
+            "humidity": {
+              "type": "number"
+            },
+            "light_level": {
+              "type": "number"
+            },
+            "noise_level": {
+              "type": "number"
+            },
+            "air_quality": {
+              "type": "number"
+            }
+          }
+        },
+        "nearby_agents": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "agent_id": {
+                "type": "string"
+              },
+              "distance": {
+                "type": "number"
+              },
+              "collaboration_potential": {
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    },
+    "behavioral_adaptations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "adaptation_type": {
+            "type": "string",
+            "enum": [
+              "movement_speed",
+              "interaction_style",
+              "communication_tone",
+              "task_priority",
+              "energy_conservation"
+            ]
+          },
+          "trigger": {
+            "type": "string"
+          },
+          "adjustment": {
+            "type": "string"
+          },
+          "confidence": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "communication_adjustments": {
+      "type": "object",
+      "properties": {
+        "tone": {
+          "type": "string",
+          "enum": [
+            "professional",
+            "casual",
+            "empathetic",
+            "urgent",
+            "calm"
+          ]
+        },
+        "verbosity": {
+          "type": "string",
+          "enum": [
+            "brief",
+            "normal",
+            "detailed"
+          ]
+        },
+        "formality": {
+          "type": "number"
+        },
+        "adaptation_reason": {
+          "type": "string"
+        }
+      }
+    },
+    "awareness_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "How aware the agent is of its environment"
+    },
+    "last_context_update": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "agent_id"
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "name": "AIRecommendation",
+  "type": "object",
+  "properties": {
+    "recommendation_id": {
+      "type": "string",
+      "description": "Recommendation identifier"
+    },
+    "user_id": {
+      "type": "string"
+    },
+    "recommendation_type": {
+      "type": "string",
+      "enum": [
+        "next_action",
+        "learning_path",
+        "agent_suggestion",
+        "feature_discovery",
+        "optimization_tip",
+        "collaboration_opportunity"
+      ],
+      "description": "Type of recommendation"
+    },
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "urgent"
+      ],
+      "default": "medium"
+    },
+    "confidence_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "action": {
+      "type": "object",
+      "properties": {
+        "action_type": {
+          "type": "string",
+          "enum": [
+            "navigate",
+            "create",
+            "configure",
+            "learn"
+          ]
+        },
+        "target_page": {
+          "type": "string"
+        },
+        "params": {
+          "type": "object"
+        }
+      }
+    },
+    "reasoning": {
+      "type": "string",
+      "description": "Why this recommendation was made"
+    },
+    "based_on": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Data sources used for recommendation"
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "dismissed": {
+      "type": "boolean",
+      "default": false
+    },
+    "acted_upon": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "user_id",
+    "recommendation_type",
+    "title"
+  ]
+}

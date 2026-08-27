@@ -1,0 +1,78 @@
+{
+  "name": "PlatformContext",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "User or agent ID"
+    },
+    "current_page": {
+      "type": "string",
+      "description": "Current page/location"
+    },
+    "active_tasks": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Currently active tasks"
+    },
+    "recent_actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "action_type": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "details": {
+            "type": "object"
+          }
+        }
+      },
+      "description": "Recent user actions"
+    },
+    "user_goals": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Current user goals"
+    },
+    "ai_suggestions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "suggestion": {
+            "type": "string"
+          },
+          "confidence": {
+            "type": "number"
+          },
+          "rationale": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "AI-generated suggestions"
+    },
+    "context_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "How well context is understood"
+    },
+    "last_updated": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "user_id"
+  ]
+}

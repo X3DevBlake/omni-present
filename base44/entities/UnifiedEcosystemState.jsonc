@@ -1,0 +1,111 @@
+{
+  "name": "UnifiedEcosystemState",
+  "type": "object",
+  "properties": {
+    "state_id": {
+      "type": "string",
+      "description": "Ecosystem state snapshot ID"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "User's ecosystem"
+    },
+    "agent_summary": {
+      "type": "object",
+      "properties": {
+        "total_agents": {
+          "type": "integer"
+        },
+        "active_tasks": {
+          "type": "integer"
+        },
+        "collaborative_teams": {
+          "type": "integer"
+        },
+        "skill_transfers_today": {
+          "type": "integer"
+        }
+      }
+    },
+    "health_summary": {
+      "type": "object",
+      "properties": {
+        "unified_health_score": {
+          "type": "number"
+        },
+        "active_interventions": {
+          "type": "integer"
+        },
+        "predicted_trajectory": {
+          "type": "string"
+        }
+      }
+    },
+    "companion_summary": {
+      "type": "object",
+      "properties": {
+        "total_companions": {
+          "type": "integer"
+        },
+        "emotional_bond_strength": {
+          "type": "number"
+        },
+        "recent_interactions": {
+          "type": "integer"
+        }
+      }
+    },
+    "financial_summary": {
+      "type": "object",
+      "properties": {
+        "portfolio_value": {
+          "type": "number"
+        },
+        "active_strategies": {
+          "type": "integer"
+        },
+        "predicted_returns": {
+          "type": "number"
+        }
+      }
+    },
+    "device_summary": {
+      "type": "object",
+      "properties": {
+        "total_devices": {
+          "type": "integer"
+        },
+        "devices_online": {
+          "type": "integer"
+        },
+        "optimization_score": {
+          "type": "number"
+        }
+      }
+    },
+    "critical_events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "event_type": {
+            "type": "string"
+          },
+          "severity": {
+            "type": "string"
+          },
+          "predicted_time": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "state_id",
+    "user_id"
+  ]
+}

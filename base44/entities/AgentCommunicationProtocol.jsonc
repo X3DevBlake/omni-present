@@ -1,0 +1,146 @@
+{
+  "name": "AgentCommunicationProtocol",
+  "type": "object",
+  "properties": {
+    "protocol_name": {
+      "type": "string",
+      "description": "Communication protocol identifier"
+    },
+    "protocol_type": {
+      "type": "string",
+      "enum": [
+        "direct_messaging",
+        "broadcast",
+        "publish_subscribe",
+        "request_response",
+        "streaming"
+      ],
+      "description": "Communication pattern"
+    },
+    "message_format": {
+      "type": "object",
+      "properties": {
+        "schema": {
+          "type": "object"
+        },
+        "encoding": {
+          "type": "string",
+          "enum": [
+            "json",
+            "protobuf",
+            "msgpack",
+            "custom"
+          ]
+        }
+      }
+    },
+    "participants": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "sender",
+              "receiver",
+              "broadcaster",
+              "subscriber"
+            ]
+          },
+          "message_count": {
+            "type": "integer",
+            "default": 0
+          }
+        }
+      }
+    },
+    "channels": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "channel_id": {
+            "type": "string"
+          },
+          "channel_name": {
+            "type": "string"
+          },
+          "topic": {
+            "type": "string"
+          },
+          "subscriber_count": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "quality_of_service": {
+      "type": "object",
+      "properties": {
+        "delivery_guarantee": {
+          "type": "string",
+          "enum": [
+            "at_most_once",
+            "at_least_once",
+            "exactly_once"
+          ]
+        },
+        "max_latency_ms": {
+          "type": "integer"
+        },
+        "priority_levels": {
+          "type": "integer"
+        }
+      }
+    },
+    "security": {
+      "type": "object",
+      "properties": {
+        "encryption_enabled": {
+          "type": "boolean"
+        },
+        "authentication_required": {
+          "type": "boolean"
+        },
+        "access_control": {
+          "type": "string",
+          "enum": [
+            "open",
+            "restricted",
+            "role_based"
+          ]
+        }
+      }
+    },
+    "message_stats": {
+      "type": "object",
+      "properties": {
+        "total_messages": {
+          "type": "integer",
+          "default": 0
+        },
+        "messages_per_second": {
+          "type": "number"
+        },
+        "average_message_size_bytes": {
+          "type": "number"
+        },
+        "delivery_success_rate": {
+          "type": "number"
+        }
+      }
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "protocol_name",
+    "protocol_type"
+  ]
+}

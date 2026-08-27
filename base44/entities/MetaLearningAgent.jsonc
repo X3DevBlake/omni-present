@@ -1,0 +1,107 @@
+{
+  "name": "MetaLearningAgent",
+  "type": "object",
+  "properties": {
+    "agent_name": {
+      "type": "string",
+      "description": "Meta-learning agent identifier"
+    },
+    "meta_algorithm": {
+      "type": "string",
+      "enum": [
+        "MAML",
+        "Reptile",
+        "ProtoNet",
+        "MatchingNet",
+        "RelationNet",
+        "Meta_SGD"
+      ],
+      "description": "Meta-learning algorithm"
+    },
+    "base_learner": {
+      "type": "object",
+      "properties": {
+        "architecture": {
+          "type": "string"
+        },
+        "parameters_count": {
+          "type": "integer"
+        }
+      }
+    },
+    "task_distribution": {
+      "type": "object",
+      "properties": {
+        "num_tasks_trained": {
+          "type": "integer"
+        },
+        "task_diversity": {
+          "type": "number"
+        },
+        "task_complexity_avg": {
+          "type": "number"
+        }
+      }
+    },
+    "adaptation_performance": {
+      "type": "object",
+      "properties": {
+        "zero_shot_accuracy": {
+          "type": "number"
+        },
+        "one_shot_accuracy": {
+          "type": "number"
+        },
+        "five_shot_accuracy": {
+          "type": "number"
+        },
+        "adaptation_steps": {
+          "type": "integer"
+        }
+      }
+    },
+    "transfer_capabilities": {
+      "type": "object",
+      "properties": {
+        "cross_domain_transfer": {
+          "type": "number"
+        },
+        "cross_task_transfer": {
+          "type": "number"
+        },
+        "sample_efficiency": {
+          "type": "number"
+        }
+      }
+    },
+    "learned_priors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "prior_type": {
+            "type": "string"
+          },
+          "strength": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "memory_bank": {
+      "type": "object",
+      "properties": {
+        "episodic_memory_size": {
+          "type": "integer"
+        },
+        "semantic_memory_size": {
+          "type": "integer"
+        }
+      }
+    }
+  },
+  "required": [
+    "agent_name",
+    "meta_algorithm"
+  ]
+}

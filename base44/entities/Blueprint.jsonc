@@ -1,0 +1,87 @@
+{
+  "name": "Blueprint",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Blueprint configuration name"
+    },
+    "configuration": {
+      "type": "object",
+      "description": "Blueprint component configuration and constraints"
+    },
+    "thumbnail": {
+      "type": "string",
+      "description": "Thumbnail image URL"
+    },
+    "constraints": {
+      "type": "object",
+      "description": "Generation constraints (budget, workload, scale, priority)"
+    },
+    "shared_with": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Array of user emails with access"
+    },
+    "version": {
+      "type": "integer",
+      "default": 1,
+      "description": "Blueprint version number"
+    },
+    "parent_id": {
+      "type": "string",
+      "description": "ID of parent blueprint if this is an iteration"
+    }
+  },
+  "required": [
+    "name",
+    "configuration"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "email": {
+          "$ne": null
+        }
+      }
+    },
+    "read": {
+      "$or": [
+        {
+          "data.shared_with": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "shared_with": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

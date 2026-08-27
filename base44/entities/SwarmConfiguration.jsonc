@@ -1,0 +1,119 @@
+{
+  "name": "SwarmConfiguration",
+  "type": "object",
+  "properties": {
+    "config_id": {
+      "type": "string",
+      "description": "Unique configuration identifier"
+    },
+    "swarm_id": {
+      "type": "string",
+      "description": "Target swarm identifier"
+    },
+    "mission_objective": {
+      "type": "string",
+      "description": "Mission goal description"
+    },
+    "environmental_conditions": {
+      "type": "object",
+      "properties": {
+        "complexity_level": {
+          "type": "number"
+        },
+        "threat_level": {
+          "type": "number"
+        },
+        "resource_constraints": {
+          "type": "object"
+        },
+        "time_pressure": {
+          "type": "number"
+        }
+      }
+    },
+    "agent_assignments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "task_id": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "topology_structure": {
+      "type": "string",
+      "enum": [
+        "hierarchical",
+        "flat",
+        "mesh",
+        "hybrid",
+        "adaptive"
+      ],
+      "description": "Swarm communication topology"
+    },
+    "optimization_metrics": {
+      "type": "object",
+      "properties": {
+        "predicted_efficiency": {
+          "type": "number"
+        },
+        "resilience_score": {
+          "type": "number"
+        },
+        "resource_utilization": {
+          "type": "number"
+        },
+        "communication_overhead": {
+          "type": "number"
+        }
+      }
+    },
+    "ai_recommended": {
+      "type": "boolean",
+      "default": false
+    },
+    "performance_history": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "mission_id": {
+            "type": "string"
+          },
+          "success_rate": {
+            "type": "number"
+          },
+          "completion_time": {
+            "type": "number"
+          },
+          "lessons_learned": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "active": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "config_id",
+    "swarm_id",
+    "mission_objective"
+  ]
+}

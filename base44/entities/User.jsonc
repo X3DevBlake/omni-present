@@ -1,0 +1,90 @@
+{
+  "name": "User",
+  "type": "object",
+  "properties": {
+    "omni_balance": {
+      "type": "number",
+      "default": 0,
+      "description": "User's Omni token balance"
+    },
+    "eth_balance": {
+      "type": "number",
+      "default": 0,
+      "description": "User's ETH balance"
+    },
+    "usdt_balance": {
+      "type": "number",
+      "default": 0,
+      "description": "User's USDT balance"
+    },
+    "deposit_addresses": {
+      "type": "object",
+      "description": "Unique deposit addresses for each cryptocurrency",
+      "properties": {
+        "omni": {
+          "type": "string"
+        },
+        "eth": {
+          "type": "string"
+        },
+        "usdt": {
+          "type": "string"
+        }
+      }
+    },
+    "card_tier": {
+      "type": "string",
+      "enum": [
+        "pioneer",
+        "explorer",
+        "voyager",
+        "ascendant",
+        "sovereign"
+      ],
+      "default": "pioneer",
+      "description": "User's current Omni Card tier"
+    },
+    "card_design_config": {
+      "type": "object",
+      "description": "User's card customization settings"
+    },
+    "card_number": {
+      "type": "string",
+      "description": "Omni Card number (encrypted)"
+    },
+    "card_status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "active",
+        "frozen",
+        "cancelled"
+      ],
+      "default": "pending",
+      "description": "Omni Card status"
+    },
+    "linked_bank_accounts": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Plaid-linked bank accounts"
+    },
+    "kyc_status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "verified",
+        "rejected"
+      ],
+      "default": "pending",
+      "description": "KYC verification status"
+    }
+  },
+  "required": [
+    "deposit_addresses",
+    "card_design_config",
+    "card_number",
+    "linked_bank_accounts"
+  ]
+}

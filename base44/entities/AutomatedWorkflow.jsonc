@@ -1,0 +1,74 @@
+{
+  "name": "AutomatedWorkflow",
+  "type": "object",
+  "properties": {
+    "workflow_name": {
+      "type": "string",
+      "description": "Workflow name"
+    },
+    "trigger_type": {
+      "type": "string",
+      "enum": [
+        "scheduled",
+        "event",
+        "webhook",
+        "manual"
+      ],
+      "description": "What triggers this workflow"
+    },
+    "trigger_config": {
+      "type": "object",
+      "description": "Trigger configuration"
+    },
+    "steps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "step_name": {
+            "type": "string"
+          },
+          "action_type": {
+            "type": "string"
+          },
+          "config": {
+            "type": "object"
+          },
+          "on_success": {
+            "type": "string"
+          },
+          "on_failure": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    },
+    "execution_count": {
+      "type": "integer",
+      "default": 0
+    },
+    "success_count": {
+      "type": "integer",
+      "default": 0
+    },
+    "failure_count": {
+      "type": "integer",
+      "default": 0
+    },
+    "last_execution": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "avg_duration_seconds": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "workflow_name",
+    "trigger_type"
+  ]
+}

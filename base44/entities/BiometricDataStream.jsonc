@@ -1,0 +1,151 @@
+{
+  "name": "BiometricDataStream",
+  "type": "object",
+  "properties": {
+    "stream_id": {
+      "type": "string",
+      "description": "Biometric stream identifier"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "User being monitored"
+    },
+    "augmentation_id": {
+      "type": "string",
+      "description": "Augmentation providing data"
+    },
+    "vital_signs": {
+      "type": "object",
+      "properties": {
+        "heart_rate_bpm": {
+          "type": "number"
+        },
+        "blood_pressure_systolic": {
+          "type": "number"
+        },
+        "blood_pressure_diastolic": {
+          "type": "number"
+        },
+        "oxygen_saturation": {
+          "type": "number"
+        },
+        "body_temperature_celsius": {
+          "type": "number"
+        },
+        "respiratory_rate": {
+          "type": "number"
+        }
+      }
+    },
+    "stress_indicators": {
+      "type": "object",
+      "properties": {
+        "cortisol_level": {
+          "type": "number"
+        },
+        "adrenaline_level": {
+          "type": "number"
+        },
+        "stress_score": {
+          "type": "number"
+        },
+        "fatigue_level": {
+          "type": "number"
+        }
+      }
+    },
+    "metabolic_data": {
+      "type": "object",
+      "properties": {
+        "glucose_level": {
+          "type": "number"
+        },
+        "hydration_status": {
+          "type": "number"
+        },
+        "caloric_burn_rate": {
+          "type": "number"
+        },
+        "metabolic_rate": {
+          "type": "number"
+        }
+      }
+    },
+    "cellular_health": {
+      "type": "object",
+      "properties": {
+        "inflammation_markers": {
+          "type": "number"
+        },
+        "oxidative_stress": {
+          "type": "number"
+        },
+        "cellular_regeneration_rate": {
+          "type": "number"
+        },
+        "mitochondrial_efficiency": {
+          "type": "number"
+        }
+      }
+    },
+    "neural_activity": {
+      "type": "object",
+      "properties": {
+        "brain_wave_alpha": {
+          "type": "number"
+        },
+        "brain_wave_beta": {
+          "type": "number"
+        },
+        "brain_wave_theta": {
+          "type": "number"
+        },
+        "neural_inflammation": {
+          "type": "number"
+        }
+      }
+    },
+    "performance_metrics": {
+      "type": "object",
+      "properties": {
+        "strength_index": {
+          "type": "number"
+        },
+        "endurance_index": {
+          "type": "number"
+        },
+        "reaction_time_ms": {
+          "type": "number"
+        },
+        "recovery_rate": {
+          "type": "number"
+        }
+      }
+    },
+    "ai_health_analysis": {
+      "type": "object",
+      "properties": {
+        "overall_health_score": {
+          "type": "number"
+        },
+        "anomalies_detected": {
+          "type": "array"
+        },
+        "recommendations": {
+          "type": "array"
+        },
+        "intervention_needed": {
+          "type": "boolean"
+        }
+      }
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "stream_id",
+    "user_id"
+  ]
+}

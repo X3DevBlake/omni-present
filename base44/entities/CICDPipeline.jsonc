@@ -1,0 +1,108 @@
+{
+  "name": "CICDPipeline",
+  "type": "object",
+  "properties": {
+    "pipeline_name": {
+      "type": "string",
+      "description": "CI/CD pipeline identifier"
+    },
+    "trigger_conditions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "trigger_type": {
+            "type": "string",
+            "enum": [
+              "manual",
+              "drift_detected",
+              "performance_drop",
+              "schedule"
+            ]
+          },
+          "threshold": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "pipeline_stages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "stage_name": {
+            "type": "string"
+          },
+          "action": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "running",
+              "success",
+              "failed"
+            ]
+          },
+          "duration_seconds": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "model_id": {
+      "type": "string",
+      "description": "Model being trained/deployed"
+    },
+    "environment": {
+      "type": "string",
+      "enum": [
+        "staging",
+        "production"
+      ],
+      "description": "Target environment"
+    },
+    "automated_testing": {
+      "type": "object",
+      "properties": {
+        "unit_tests_passed": {
+          "type": "boolean"
+        },
+        "integration_tests_passed": {
+          "type": "boolean"
+        },
+        "performance_tests_passed": {
+          "type": "boolean"
+        }
+      }
+    },
+    "rollback_enabled": {
+      "type": "boolean",
+      "default": true
+    },
+    "execution_history": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "status": {
+            "type": "string"
+          },
+          "trigger": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "pipeline_name",
+    "model_id"
+  ]
+}

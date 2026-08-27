@@ -1,0 +1,51 @@
+{
+  "name": "Mission",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "objectives": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "target_hub_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "assigned_groups": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "planning",
+        "active",
+        "completed",
+        "failed"
+      ],
+      "default": "planning"
+    },
+    "progress": {
+      "type": "number",
+      "default": 0
+    },
+    "threat_level": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "title",
+    "status"
+  ]
+}

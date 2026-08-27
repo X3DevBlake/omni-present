@@ -1,0 +1,56 @@
+{
+  "name": "OmniStake",
+  "type": "object",
+  "properties": {
+    "amount_omni": {
+      "type": "number",
+      "description": "Amount of OMNI staked"
+    },
+    "amount_somni": {
+      "type": "number",
+      "description": "sOMNI tokens received"
+    },
+    "apy": {
+      "type": "number",
+      "description": "Current APY"
+    },
+    "start_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Staking start date"
+    },
+    "rewards_earned": {
+      "type": "number",
+      "default": 0,
+      "description": "Total rewards earned"
+    },
+    "lock_period_days": {
+      "type": "integer",
+      "default": 0,
+      "description": "Lock period (0 for flexible)"
+    },
+    "unlock_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When stake can be withdrawn"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "unlocking",
+        "withdrawn"
+      ],
+      "default": "active"
+    },
+    "auto_compound": {
+      "type": "boolean",
+      "default": true,
+      "description": "Auto-compound rewards"
+    }
+  },
+  "required": [
+    "amount_omni",
+    "apy"
+  ]
+}

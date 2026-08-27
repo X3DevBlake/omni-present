@@ -1,0 +1,52 @@
+{
+  "name": "ActivityLog",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "User who performed the action"
+    },
+    "action_type": {
+      "type": "string",
+      "enum": [
+        "create",
+        "read",
+        "update",
+        "delete",
+        "login",
+        "logout",
+        "api_call",
+        "webhook_trigger",
+        "integration_action"
+      ]
+    },
+    "entity_type": {
+      "type": "string",
+      "description": "Type of entity affected"
+    },
+    "entity_id": {
+      "type": "string",
+      "description": "ID of entity affected"
+    },
+    "action_details": {
+      "type": "object",
+      "description": "Additional context about the action"
+    },
+    "ip_address": {
+      "type": "string"
+    },
+    "user_agent": {
+      "type": "string"
+    },
+    "success": {
+      "type": "boolean",
+      "default": true
+    },
+    "error_message": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "action_type"
+  ]
+}

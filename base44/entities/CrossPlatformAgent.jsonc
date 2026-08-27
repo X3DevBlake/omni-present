@@ -1,0 +1,97 @@
+{
+  "name": "CrossPlatformAgent",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Local agent ID"
+    },
+    "external_id": {
+      "type": "string",
+      "description": "ID on external platform"
+    },
+    "platform": {
+      "type": "string",
+      "enum": [
+        "discord",
+        "slack",
+        "github",
+        "external_simulation",
+        "api"
+      ],
+      "description": "Target platform"
+    },
+    "api_key": {
+      "type": "string",
+      "description": "API key for platform access"
+    },
+    "api_endpoint": {
+      "type": "string",
+      "description": "Platform API endpoint"
+    },
+    "sync_status": {
+      "type": "string",
+      "enum": [
+        "connected",
+        "disconnected",
+        "syncing",
+        "error"
+      ],
+      "default": "disconnected",
+      "description": "Connection status"
+    },
+    "shared_knowledge": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Knowledge IDs shared with external agents"
+    },
+    "received_knowledge": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Knowledge received from external agents"
+    },
+    "transfer_history": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string"
+          },
+          "direction": {
+            "type": "string"
+          },
+          "content_type": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "History of knowledge transfers"
+    },
+    "permissions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "read",
+          "write",
+          "execute",
+          "delete"
+        ]
+      },
+      "description": "Permissions on external platform"
+    }
+  },
+  "required": [
+    "agent_id",
+    "platform",
+    "api_endpoint"
+  ]
+}

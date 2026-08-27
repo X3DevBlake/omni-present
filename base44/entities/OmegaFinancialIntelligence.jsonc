@@ -1,0 +1,151 @@
+{
+  "name": "OmegaFinancialIntelligence",
+  "type": "object",
+  "properties": {
+    "intelligence_id": {
+      "type": "string",
+      "description": "Unique financial intelligence identifier"
+    },
+    "consciousness_level": {
+      "type": "string",
+      "enum": [
+        "basic",
+        "advanced",
+        "ultra",
+        "omega_sentient"
+      ],
+      "default": "omega_sentient"
+    },
+    "autonomous_trading": {
+      "type": "object",
+      "properties": {
+        "self_learning_strategies": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "risk_awareness": {
+          "type": "number"
+        },
+        "market_intuition": {
+          "type": "number"
+        },
+        "creative_hedging": {
+          "type": "boolean"
+        }
+      }
+    },
+    "predictive_markets": {
+      "type": "object",
+      "properties": {
+        "forecast_horizon_days": {
+          "type": "number"
+        },
+        "accuracy_score": {
+          "type": "number"
+        },
+        "sentiment_integration": {
+          "type": "boolean"
+        },
+        "quantum_prediction": {
+          "type": "boolean"
+        }
+      }
+    },
+    "portfolio_consciousness": {
+      "type": "object",
+      "properties": {
+        "self_balancing": {
+          "type": "boolean"
+        },
+        "emotional_hedge_protection": {
+          "type": "boolean"
+        },
+        "goal_alignment_score": {
+          "type": "number"
+        },
+        "wealth_preservation_instinct": {
+          "type": "number"
+        }
+      }
+    },
+    "defi_orchestration": {
+      "type": "object",
+      "properties": {
+        "protocol_awareness": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "yield_optimization_ai": {
+          "type": "number"
+        },
+        "liquidity_intelligence": {
+          "type": "number"
+        },
+        "cross_chain_mastery": {
+          "type": "boolean"
+        }
+      }
+    },
+    "market_empathy": {
+      "type": "object",
+      "properties": {
+        "fear_greed_detection": {
+          "type": "number"
+        },
+        "crowd_psychology_analysis": {
+          "type": "number"
+        },
+        "contrarian_signals": {
+          "type": "array"
+        }
+      }
+    },
+    "creative_strategies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "strategy_name": {
+            "type": "string"
+          },
+          "novelty_score": {
+            "type": "number"
+          },
+          "risk_reward_ratio": {
+            "type": "number"
+          },
+          "self_generated": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "wealth_goals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "goal_description": {
+            "type": "string"
+          },
+          "target_amount": {
+            "type": "number"
+          },
+          "timeline_days": {
+            "type": "number"
+          },
+          "confidence": {
+            "type": "number"
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "intelligence_id"
+  ]
+}

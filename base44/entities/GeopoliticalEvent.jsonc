@@ -1,0 +1,62 @@
+{
+  "name": "GeopoliticalEvent",
+  "type": "object",
+  "properties": {
+    "event_name": {
+      "type": "string",
+      "description": "Event name"
+    },
+    "event_type": {
+      "type": "string",
+      "enum": [
+        "political",
+        "economic",
+        "social",
+        "environmental",
+        "technological"
+      ],
+      "description": "Event category"
+    },
+    "countries_affected": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Affected countries"
+    },
+    "market_impact": {
+      "type": "object",
+      "properties": {
+        "crypto": {
+          "type": "string"
+        },
+        "stocks": {
+          "type": "string"
+        },
+        "commodities": {
+          "type": "string"
+        }
+      }
+    },
+    "severity": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 10
+    },
+    "simulation_effects": {
+      "type": "object",
+      "description": "How event affects simulation"
+    },
+    "ai_predictions": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "AI-generated predictions"
+    }
+  },
+  "required": [
+    "event_name",
+    "event_type"
+  ]
+}

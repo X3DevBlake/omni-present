@@ -1,0 +1,162 @@
+{
+  "name": "EmbodiedAgentTeam",
+  "type": "object",
+  "properties": {
+    "team_id": {
+      "type": "string",
+      "description": "Team identifier"
+    },
+    "team_name": {
+      "type": "string",
+      "description": "Team name"
+    },
+    "member_embodiments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "embodiment_id": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "skill_contribution": {
+            "type": "array"
+          },
+          "join_timestamp": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    },
+    "collaborative_task": {
+      "type": "object",
+      "properties": {
+        "task_description": {
+          "type": "string"
+        },
+        "complexity_score": {
+          "type": "number"
+        },
+        "requires_coordination": {
+          "type": "boolean"
+        },
+        "estimated_completion_hours": {
+          "type": "number"
+        }
+      }
+    },
+    "communication_protocol": {
+      "type": "object",
+      "properties": {
+        "protocol_type": {
+          "type": "string"
+        },
+        "update_frequency_hz": {
+          "type": "number"
+        },
+        "data_sharing_enabled": {
+          "type": "boolean"
+        },
+        "real_time_sync": {
+          "type": "boolean"
+        }
+      }
+    },
+    "shared_execution_data": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "agent_id": {
+            "type": "string"
+          },
+          "action": {
+            "type": "string"
+          },
+          "result": {
+            "type": "string"
+          },
+          "shared_with_team": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "skill_transfer_network": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "from_agent": {
+            "type": "string"
+          },
+          "to_agent": {
+            "type": "string"
+          },
+          "skill_transferred": {
+            "type": "string"
+          },
+          "transfer_success": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "task_allocation": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "subtask": {
+            "type": "string"
+          },
+          "assigned_to": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "progress": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "team_performance": {
+      "type": "object",
+      "properties": {
+        "synergy_score": {
+          "type": "number"
+        },
+        "efficiency_rating": {
+          "type": "number"
+        },
+        "coordination_quality": {
+          "type": "number"
+        }
+      }
+    },
+    "team_status": {
+      "type": "string",
+      "enum": [
+        "forming",
+        "active",
+        "coordinating",
+        "completed",
+        "disbanded"
+      ],
+      "default": "forming"
+    }
+  },
+  "required": [
+    "team_id",
+    "team_name"
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "name": "NeuralActivityRecord",
+  "type": "object",
+  "properties": {
+    "record_id": {
+      "type": "string",
+      "description": "Neural activity record identifier"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "User whose neural activity is recorded"
+    },
+    "chip_id": {
+      "type": "string",
+      "description": "Neural chip recording activity"
+    },
+    "brain_region_activity": {
+      "type": "object",
+      "properties": {
+        "prefrontal_cortex": {
+          "type": "number"
+        },
+        "hippocampus": {
+          "type": "number"
+        },
+        "amygdala": {
+          "type": "number"
+        },
+        "motor_cortex": {
+          "type": "number"
+        },
+        "visual_cortex": {
+          "type": "number"
+        }
+      }
+    },
+    "neural_pattern_signature": {
+      "type": "string",
+      "description": "Unique neural pattern identifier"
+    },
+    "cognitive_state": {
+      "type": "string",
+      "enum": [
+        "focused",
+        "relaxed",
+        "creative",
+        "analytical",
+        "meditative",
+        "stressed"
+      ]
+    },
+    "detected_thoughts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "thought_category": {
+            "type": "string"
+          },
+          "confidence": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "emotional_correlates": {
+      "type": "object"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "anomaly_detected": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "record_id",
+    "user_id"
+  ]
+}

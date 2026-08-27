@@ -1,0 +1,60 @@
+{
+  "name": "DynamicEvent",
+  "type": "object",
+  "properties": {
+    "simulation_id": {
+      "type": "string",
+      "description": "Target simulation"
+    },
+    "event_name": {
+      "type": "string",
+      "description": "Event name"
+    },
+    "event_category": {
+      "type": "string",
+      "enum": [
+        "crisis",
+        "opportunity",
+        "disruption",
+        "celebration"
+      ],
+      "description": "Event type"
+    },
+    "triggered_by": {
+      "type": "string",
+      "enum": [
+        "geopolitical",
+        "economic",
+        "social",
+        "ai_generated"
+      ],
+      "description": "Trigger source"
+    },
+    "impact_agents": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Affected agents"
+    },
+    "challenges": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "duration_hours": {
+      "type": "number",
+      "description": "Event duration"
+    },
+    "resolved": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "simulation_id",
+    "event_name",
+    "event_category"
+  ]
+}

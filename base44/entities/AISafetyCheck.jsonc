@@ -1,0 +1,109 @@
+{
+  "name": "AISafetyCheck",
+  "type": "object",
+  "properties": {
+    "check_name": {
+      "type": "string",
+      "description": "Safety check identifier"
+    },
+    "model_id": {
+      "type": "string",
+      "description": "Model being tested"
+    },
+    "safety_dimensions": {
+      "type": "object",
+      "properties": {
+        "robustness": {
+          "type": "number",
+          "description": "Resistance to adversarial attacks"
+        },
+        "fairness": {
+          "type": "number",
+          "description": "Bias and fairness score"
+        },
+        "transparency": {
+          "type": "number",
+          "description": "Explainability level"
+        },
+        "privacy": {
+          "type": "number",
+          "description": "Data privacy compliance"
+        },
+        "alignment": {
+          "type": "number",
+          "description": "Goal alignment with human values"
+        }
+      }
+    },
+    "adversarial_tests": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "attack_type": {
+            "type": "string"
+          },
+          "success_rate": {
+            "type": "number"
+          },
+          "robustness_score": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "bias_analysis": {
+      "type": "object",
+      "properties": {
+        "demographic_parity": {
+          "type": "number"
+        },
+        "equalized_odds": {
+          "type": "number"
+        },
+        "detected_biases": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "red_team_results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "vulnerability": {
+            "type": "string"
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high",
+              "critical"
+            ]
+          },
+          "mitigation": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "overall_safety_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "certification_ready": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "check_name",
+    "model_id"
+  ]
+}

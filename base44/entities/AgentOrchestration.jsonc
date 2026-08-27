@@ -1,0 +1,90 @@
+{
+  "name": "AgentOrchestration",
+  "type": "object",
+  "properties": {
+    "orchestration_name": {
+      "type": "string",
+      "description": "Orchestration session"
+    },
+    "participating_agents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "specialization": {
+            "type": "string"
+          },
+          "current_task": {
+            "type": "string"
+          },
+          "workload": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "task_queue": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "task_id": {
+            "type": "string"
+          },
+          "complexity": {
+            "type": "number"
+          },
+          "required_skills": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "assigned_to": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "collaboration_graph": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "agent_a": {
+            "type": "string"
+          },
+          "agent_b": {
+            "type": "string"
+          },
+          "collaboration_score": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "orchestration_metrics": {
+      "type": "object",
+      "properties": {
+        "tasks_completed": {
+          "type": "integer"
+        },
+        "avg_completion_time": {
+          "type": "number"
+        },
+        "collaboration_efficiency": {
+          "type": "number"
+        }
+      }
+    }
+  },
+  "required": [
+    "orchestration_name"
+  ]
+}

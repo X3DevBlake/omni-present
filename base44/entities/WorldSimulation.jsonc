@@ -1,0 +1,73 @@
+{
+  "name": "WorldSimulation",
+  "type": "object",
+  "properties": {
+    "simulation_name": {
+      "type": "string",
+      "description": "Simulation name"
+    },
+    "user_email": {
+      "type": "string",
+      "description": "Simulation owner"
+    },
+    "google_earth_config": {
+      "type": "object",
+      "properties": {
+        "center_latitude": {
+          "type": "number"
+        },
+        "center_longitude": {
+          "type": "number"
+        },
+        "zoom_level": {
+          "type": "number"
+        },
+        "terrain_enabled": {
+          "type": "boolean"
+        },
+        "buildings_enabled": {
+          "type": "boolean"
+        }
+      }
+    },
+    "environment_state": {
+      "type": "object",
+      "properties": {
+        "time_of_day": {
+          "type": "string"
+        },
+        "weather": {
+          "type": "string"
+        },
+        "temperature": {
+          "type": "number"
+        }
+      }
+    },
+    "active_agents": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Agent IDs in this simulation"
+    },
+    "simulation_speed": {
+      "type": "number",
+      "default": 1,
+      "description": "Time multiplier"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "running",
+        "paused",
+        "stopped"
+      ],
+      "default": "stopped"
+    }
+  },
+  "required": [
+    "simulation_name",
+    "user_email"
+  ]
+}

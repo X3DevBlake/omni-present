@@ -1,0 +1,72 @@
+{
+  "name": "Quiz",
+  "type": "object",
+  "properties": {
+    "quiz_id": {
+      "type": "string",
+      "description": "Unique quiz identifier"
+    },
+    "module_id": {
+      "type": "string",
+      "description": "Associated module"
+    },
+    "title": {
+      "type": "string",
+      "description": "Quiz title"
+    },
+    "questions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "question_id": {
+            "type": "string"
+          },
+          "question_text": {
+            "type": "string"
+          },
+          "question_type": {
+            "type": "string",
+            "enum": [
+              "multiple_choice",
+              "true_false",
+              "short_answer",
+              "code",
+              "interactive_3d"
+            ]
+          },
+          "options": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "correct_answer": {
+            "type": "string"
+          },
+          "points": {
+            "type": "integer"
+          },
+          "holographic_visualization": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "time_limit_minutes": {
+      "type": "integer"
+    },
+    "passing_score": {
+      "type": "number"
+    },
+    "ai_generated": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "quiz_id",
+    "module_id",
+    "title"
+  ]
+}

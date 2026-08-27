@@ -1,0 +1,85 @@
+{
+  "name": "EnterpriseClient",
+  "type": "object",
+  "properties": {
+    "company_name": {
+      "type": "string",
+      "description": "Enterprise company name"
+    },
+    "contact_email": {
+      "type": "string",
+      "description": "Primary contact email"
+    },
+    "contact_name": {
+      "type": "string",
+      "description": "Primary contact person"
+    },
+    "contract_start_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Contract start date"
+    },
+    "contract_end_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Contract end date"
+    },
+    "custom_pricing": {
+      "type": "number",
+      "description": "Custom monthly pricing"
+    },
+    "billing_cycle": {
+      "type": "string",
+      "enum": [
+        "monthly",
+        "quarterly",
+        "annually"
+      ],
+      "default": "monthly",
+      "description": "Billing frequency"
+    },
+    "features": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Custom feature access"
+    },
+    "quotas": {
+      "type": "object",
+      "description": "Custom usage quotas (API calls, users, etc.)"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "trial",
+        "suspended",
+        "cancelled"
+      ],
+      "default": "active",
+      "description": "Client status"
+    },
+    "stripe_customer_id": {
+      "type": "string",
+      "description": "Stripe customer ID"
+    },
+    "account_manager": {
+      "type": "string",
+      "description": "Assigned account manager email"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Internal notes"
+    },
+    "usage_stats": {
+      "type": "object",
+      "description": "Current usage statistics"
+    }
+  },
+  "required": [
+    "company_name",
+    "contact_email",
+    "custom_pricing"
+  ]
+}

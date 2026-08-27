@@ -1,0 +1,91 @@
+{
+  "name": "SimulationAnalytics",
+  "type": "object",
+  "properties": {
+    "simulation_id": {
+      "type": "string",
+      "description": "Simulation being analyzed"
+    },
+    "period_start": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "period_end": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "agent_performance": {
+      "type": "object",
+      "properties": {
+        "total_tasks_completed": {
+          "type": "number"
+        },
+        "average_completion_time": {
+          "type": "number"
+        },
+        "success_rate": {
+          "type": "number"
+        },
+        "efficiency_score": {
+          "type": "number"
+        }
+      }
+    },
+    "communication_metrics": {
+      "type": "object",
+      "properties": {
+        "total_interactions": {
+          "type": "number"
+        },
+        "text_messages": {
+          "type": "number"
+        },
+        "voice_calls": {
+          "type": "number"
+        },
+        "video_calls": {
+          "type": "number"
+        },
+        "collaboration_sessions": {
+          "type": "number"
+        }
+      }
+    },
+    "behavior_patterns": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Gemini-identified patterns"
+    },
+    "conflict_predictions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "agent_ids": {
+            "type": "array"
+          },
+          "risk_level": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "preventative_action": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "market_learning": {
+      "type": "object",
+      "description": "Market data insights learned"
+    }
+  },
+  "required": [
+    "simulation_id",
+    "period_start",
+    "period_end"
+  ]
+}

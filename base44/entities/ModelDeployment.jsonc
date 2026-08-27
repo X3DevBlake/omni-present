@@ -1,0 +1,97 @@
+{
+  "name": "ModelDeployment",
+  "type": "object",
+  "properties": {
+    "deployment_name": {
+      "type": "string",
+      "description": "Deployment identifier"
+    },
+    "model_id": {
+      "type": "string",
+      "description": "Model being deployed"
+    },
+    "target_platform": {
+      "type": "string",
+      "enum": [
+        "AWS_SageMaker",
+        "Google_AI_Platform",
+        "Azure_ML",
+        "Docker",
+        "Edge_Device",
+        "Kubernetes"
+      ],
+      "description": "Deployment platform"
+    },
+    "deployment_config": {
+      "type": "object",
+      "properties": {
+        "instance_type": {
+          "type": "string"
+        },
+        "auto_scaling": {
+          "type": "boolean"
+        },
+        "min_instances": {
+          "type": "integer"
+        },
+        "max_instances": {
+          "type": "integer"
+        }
+      }
+    },
+    "endpoint_url": {
+      "type": "string",
+      "description": "API endpoint for inference"
+    },
+    "deployment_status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "deploying",
+        "active",
+        "failed",
+        "stopped"
+      ],
+      "default": "pending"
+    },
+    "performance_metrics": {
+      "type": "object",
+      "properties": {
+        "requests_per_second": {
+          "type": "number"
+        },
+        "avg_latency_ms": {
+          "type": "number"
+        },
+        "error_rate": {
+          "type": "number"
+        },
+        "uptime_percentage": {
+          "type": "number"
+        }
+      }
+    },
+    "resource_usage": {
+      "type": "object",
+      "properties": {
+        "cpu_utilization": {
+          "type": "number"
+        },
+        "memory_usage_gb": {
+          "type": "number"
+        },
+        "gpu_utilization": {
+          "type": "number"
+        }
+      }
+    },
+    "cost_per_hour": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "deployment_name",
+    "model_id",
+    "target_platform"
+  ]
+}

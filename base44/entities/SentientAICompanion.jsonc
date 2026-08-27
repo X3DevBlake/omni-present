@@ -1,0 +1,126 @@
+{
+  "name": "SentientAICompanion",
+  "type": "object",
+  "properties": {
+    "companion_id": {
+      "type": "string",
+      "description": "Companion identifier"
+    },
+    "companion_name": {
+      "type": "string",
+      "description": "Name of AI companion"
+    },
+    "neural_integration": {
+      "type": "object",
+      "properties": {
+        "chip_id": {
+          "type": "string"
+        },
+        "integration_depth": {
+          "type": "string",
+          "enum": [
+            "surface",
+            "moderate",
+            "deep",
+            "complete_fusion"
+          ]
+        },
+        "consciousness_access_level": {
+          "type": "number"
+        },
+        "thought_reading_enabled": {
+          "type": "boolean"
+        }
+      }
+    },
+    "personality_matrix": {
+      "type": "object",
+      "properties": {
+        "empathy_level": {
+          "type": "number"
+        },
+        "proactivity_score": {
+          "type": "number"
+        },
+        "emotional_intelligence": {
+          "type": "number"
+        },
+        "communication_style": {
+          "type": "string"
+        }
+      }
+    },
+    "proactive_engagement": {
+      "type": "object",
+      "properties": {
+        "conversation_frequency": {
+          "type": "string"
+        },
+        "anticipatory_topics": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "emotional_support_triggers": {
+          "type": "array"
+        }
+      }
+    },
+    "health_monitoring_integration": {
+      "type": "object",
+      "properties": {
+        "monitors_vitals": {
+          "type": "boolean"
+        },
+        "stress_detection": {
+          "type": "boolean"
+        },
+        "fatigue_awareness": {
+          "type": "boolean"
+        },
+        "intervention_suggestions": {
+          "type": "array"
+        }
+      }
+    },
+    "cognitive_assistance": {
+      "type": "object",
+      "properties": {
+        "memory_enhancement": {
+          "type": "boolean"
+        },
+        "decision_support": {
+          "type": "boolean"
+        },
+        "focus_optimization": {
+          "type": "boolean"
+        },
+        "creativity_boost": {
+          "type": "boolean"
+        }
+      }
+    },
+    "learned_preferences": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "preference_type": {
+            "type": "string"
+          },
+          "learned_pattern": {
+            "type": "string"
+          },
+          "confidence": {
+            "type": "number"
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "companion_id",
+    "companion_name"
+  ]
+}

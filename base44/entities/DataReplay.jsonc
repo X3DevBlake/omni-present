@@ -1,0 +1,65 @@
+{
+  "name": "DataReplay",
+  "type": "object",
+  "properties": {
+    "simulation_id": {
+      "type": "string",
+      "description": "Simulation ID"
+    },
+    "user_email": {
+      "type": "string",
+      "description": "User email"
+    },
+    "name": {
+      "type": "string",
+      "description": "Replay name"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "recording",
+        "recorded",
+        "replaying",
+        "completed"
+      ],
+      "description": "Replay status"
+    },
+    "recorded_events": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "All recorded events"
+    },
+    "start_timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Recording start"
+    },
+    "end_timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Recording end"
+    },
+    "playback_speed": {
+      "type": "number",
+      "default": 1,
+      "description": "Playback speed multiplier"
+    },
+    "analytics": {
+      "type": "object",
+      "description": "Analytics from replay"
+    },
+    "insights": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "AI-generated insights"
+    }
+  },
+  "required": [
+    "simulation_id",
+    "user_email"
+  ]
+}

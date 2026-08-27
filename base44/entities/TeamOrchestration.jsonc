@@ -1,0 +1,94 @@
+{
+  "name": "TeamOrchestration",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Orchestration workflow name"
+    },
+    "description": {
+      "type": "string",
+      "description": "Workflow description"
+    },
+    "team_agents": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Agent IDs in this team"
+    },
+    "workflow_nodes": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Visual workflow nodes with positions and connections"
+    },
+    "communication_protocol": {
+      "type": "object",
+      "properties": {
+        "message_format": {
+          "type": "string"
+        },
+        "priority_rules": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "escalation_chain": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Inter-agent communication rules"
+    },
+    "delegation_rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "task_type": {
+            "type": "string"
+          },
+          "required_skills": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "load_threshold": {
+            "type": "number"
+          }
+        }
+      },
+      "description": "AI-driven task delegation rules"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "active",
+        "paused",
+        "completed"
+      ],
+      "default": "draft",
+      "description": "Workflow status"
+    },
+    "performance_metrics": {
+      "type": "object",
+      "description": "Team performance data"
+    },
+    "execution_count": {
+      "type": "integer",
+      "default": 0,
+      "description": "Number of times executed"
+    }
+  },
+  "required": [
+    "name",
+    "team_agents"
+  ]
+}

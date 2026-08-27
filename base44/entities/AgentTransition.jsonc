@@ -1,0 +1,48 @@
+{
+  "name": "AgentTransition",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Agent making transition"
+    },
+    "from_device_id": {
+      "type": "string",
+      "description": "Source device"
+    },
+    "to_device_id": {
+      "type": "string",
+      "description": "Target device"
+    },
+    "transition_reason": {
+      "type": "string",
+      "description": "Why agent is moving"
+    },
+    "state_snapshot": {
+      "type": "object",
+      "description": "Agent state at transition"
+    },
+    "calendar_event_id": {
+      "type": "string",
+      "description": "Google Calendar event for scheduled transition"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "initiated",
+        "in_progress",
+        "completed",
+        "failed"
+      ],
+      "default": "initiated"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "agent_id",
+    "to_device_id"
+  ]
+}

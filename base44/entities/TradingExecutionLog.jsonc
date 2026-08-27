@@ -1,0 +1,138 @@
+{
+  "name": "TradingExecutionLog",
+  "type": "object",
+  "properties": {
+    "execution_id": {
+      "type": "string",
+      "description": "Execution identifier"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "User executing trade"
+    },
+    "strategy_id": {
+      "type": "string",
+      "description": "Strategy that triggered execution"
+    },
+    "signal_id": {
+      "type": "string",
+      "description": "Market signal that triggered trade"
+    },
+    "order_details": {
+      "type": "object",
+      "properties": {
+        "order_type": {
+          "type": "string"
+        },
+        "asset_symbol": {
+          "type": "string"
+        },
+        "side": {
+          "type": "string"
+        },
+        "quantity": {
+          "type": "number"
+        },
+        "price_target": {
+          "type": "number"
+        },
+        "order_status": {
+          "type": "string"
+        }
+      }
+    },
+    "execution_metrics": {
+      "type": "object",
+      "properties": {
+        "slippage_percent": {
+          "type": "number"
+        },
+        "execution_price": {
+          "type": "number"
+        },
+        "fill_rate": {
+          "type": "number"
+        },
+        "execution_latency_ms": {
+          "type": "number"
+        },
+        "market_impact": {
+          "type": "number"
+        }
+      }
+    },
+    "routing_decision": {
+      "type": "object",
+      "properties": {
+        "exchange_selected": {
+          "type": "string"
+        },
+        "routing_algorithm": {
+          "type": "string"
+        },
+        "liquidity_score": {
+          "type": "number"
+        }
+      }
+    },
+    "ai_decision_factors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "factor_name": {
+            "type": "string"
+          },
+          "weight": {
+            "type": "number"
+          },
+          "value": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "risk_checks": {
+      "type": "object",
+      "properties": {
+        "position_size_ok": {
+          "type": "boolean"
+        },
+        "risk_limit_ok": {
+          "type": "boolean"
+        },
+        "correlation_check": {
+          "type": "boolean"
+        },
+        "overall_risk_score": {
+          "type": "number"
+        }
+      }
+    },
+    "performance_outcome": {
+      "type": "object",
+      "properties": {
+        "realized_pnl": {
+          "type": "number"
+        },
+        "pnl_percent": {
+          "type": "number"
+        },
+        "sharpe_contribution": {
+          "type": "number"
+        },
+        "alpha_generated": {
+          "type": "number"
+        }
+      }
+    },
+    "executed_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "execution_id",
+    "user_id"
+  ]
+}

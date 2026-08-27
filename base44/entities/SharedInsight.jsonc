@@ -1,0 +1,29 @@
+{
+  "name": "SharedInsight",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "query_config": {
+      "type": "object"
+    },
+    "visualization_type": {
+      "type": "string"
+    },
+    "share_token": {
+      "type": "string"
+    },
+    "created_by": {
+      "type": "string"
+    },
+    "views": {
+      "type": "integer",
+      "default": 0
+    }
+  },
+  "required": [
+    "title",
+    "share_token"
+  ]
+}

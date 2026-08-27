@@ -1,0 +1,70 @@
+{
+  "name": "CommunicationAlert",
+  "type": "object",
+  "properties": {
+    "channel_id": {
+      "type": "string",
+      "description": "Affected channel"
+    },
+    "alert_type": {
+      "type": "string",
+      "enum": [
+        "breakdown_prediction",
+        "sentiment_shift",
+        "engagement_drop",
+        "conflict_detected"
+      ],
+      "description": "Type of alert"
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "description": "Alert severity"
+    },
+    "prediction_confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "AI confidence in prediction"
+    },
+    "predicted_impact": {
+      "type": "string",
+      "description": "Expected impact if not addressed"
+    },
+    "recommended_actions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Suggested interventions"
+    },
+    "triggered_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When alert was created"
+    },
+    "acknowledged": {
+      "type": "boolean",
+      "default": false
+    },
+    "resolved": {
+      "type": "boolean",
+      "default": false
+    },
+    "webhook_sent": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether webhook notification sent"
+    }
+  },
+  "required": [
+    "channel_id",
+    "alert_type",
+    "severity"
+  ]
+}

@@ -1,0 +1,120 @@
+{
+  "name": "UpgradePlan",
+  "type": "object",
+  "properties": {
+    "plan_id": {
+      "type": "string",
+      "description": "Unique upgrade plan identifier"
+    },
+    "target_component_type": {
+      "type": "string",
+      "enum": [
+        "agent",
+        "knowledge_network",
+        "communication_system",
+        "ethical_framework",
+        "swarm_config",
+        "device_blueprint",
+        "ai_model"
+      ]
+    },
+    "target_component_id": {
+      "type": "string",
+      "description": "Specific component to upgrade"
+    },
+    "upgrade_description": {
+      "type": "string"
+    },
+    "version_from": {
+      "type": "string"
+    },
+    "version_to": {
+      "type": "string"
+    },
+    "proposed_by": {
+      "type": "string",
+      "description": "AI agent or system that proposed this"
+    },
+    "reasoning": {
+      "type": "string",
+      "description": "AI explanation for upgrade"
+    },
+    "expected_impact": {
+      "type": "object",
+      "properties": {
+        "performance_improvement": {
+          "type": "number"
+        },
+        "efficiency_gain": {
+          "type": "number"
+        },
+        "risk_reduction": {
+          "type": "number"
+        },
+        "cost_impact": {
+          "type": "number"
+        }
+      }
+    },
+    "simulation_test_results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "simulation_id": {
+            "type": "string"
+          },
+          "success_rate": {
+            "type": "number"
+          },
+          "performance_delta": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "rollout_strategy": {
+      "type": "string",
+      "enum": [
+        "immediate",
+        "phased_10",
+        "phased_25",
+        "phased_50",
+        "canary_5",
+        "ab_test"
+      ],
+      "default": "phased_10"
+    },
+    "rollback_threshold": {
+      "type": "number",
+      "description": "Performance drop % triggering rollback"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "proposed",
+        "testing",
+        "approved",
+        "deploying",
+        "deployed",
+        "rolled_back",
+        "rejected"
+      ],
+      "default": "proposed"
+    },
+    "deployment_pipeline_id": {
+      "type": "string"
+    },
+    "ai_confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    }
+  },
+  "required": [
+    "plan_id",
+    "target_component_type",
+    "upgrade_description",
+    "proposed_by"
+  ]
+}

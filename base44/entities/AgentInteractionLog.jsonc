@@ -1,0 +1,67 @@
+{
+  "name": "AgentInteractionLog",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "ID of the agent that performed the interaction"
+    },
+    "interaction_type": {
+      "type": "string",
+      "enum": [
+        "task_execution",
+        "communication",
+        "decision",
+        "learning",
+        "error",
+        "collaboration",
+        "api_call"
+      ],
+      "description": "Type of interaction logged"
+    },
+    "input_data": {
+      "type": "object",
+      "description": "Input data or parameters for the interaction"
+    },
+    "output_data": {
+      "type": "object",
+      "description": "Output or result of the interaction"
+    },
+    "decision_reasoning": {
+      "type": "string",
+      "description": "AI reasoning behind decisions made"
+    },
+    "target_agent_id": {
+      "type": "string",
+      "description": "ID of target agent for agent-to-agent interactions"
+    },
+    "error_details": {
+      "type": "object",
+      "description": "Error information if interaction failed"
+    },
+    "execution_time_ms": {
+      "type": "number",
+      "description": "Time taken to execute in milliseconds"
+    },
+    "success": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether the interaction was successful"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Additional contextual information"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Tags for categorization and search"
+    }
+  },
+  "required": [
+    "agent_id",
+    "interaction_type"
+  ]
+}

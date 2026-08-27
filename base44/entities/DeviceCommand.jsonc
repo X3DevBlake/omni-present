@@ -1,0 +1,153 @@
+{
+  "name": "DeviceCommand",
+  "type": "object",
+  "properties": {
+    "command_id": {
+      "type": "string",
+      "description": "Unique command identifier"
+    },
+    "agent_id": {
+      "type": "string",
+      "description": "Agent issuing the command"
+    },
+    "target_device_id": {
+      "type": "string",
+      "description": "Smart device to control"
+    },
+    "device_type": {
+      "type": "string",
+      "enum": [
+        "light",
+        "thermostat",
+        "lock",
+        "camera",
+        "speaker",
+        "robotic_arm",
+        "appliance"
+      ],
+      "description": "Type of device"
+    },
+    "device_api": {
+      "type": "string",
+      "enum": [
+        "philips_hue",
+        "nest",
+        "yale_lock",
+        "robot_arm_api",
+        "generic_mqtt"
+      ],
+      "description": "API provider"
+    },
+    "command_type": {
+      "type": "string",
+      "enum": [
+        "turn_on",
+        "turn_off",
+        "adjust_level",
+        "set_value",
+        "execute_action",
+        "fetch",
+        "position"
+      ],
+      "description": "Type of command"
+    },
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "brightness": {
+          "type": "number"
+        },
+        "color": {
+          "type": "string"
+        },
+        "temperature": {
+          "type": "number"
+        },
+        "position": {
+          "type": "object",
+          "properties": {
+            "x": {
+              "type": "number"
+            },
+            "y": {
+              "type": "number"
+            },
+            "z": {
+              "type": "number"
+            }
+          }
+        },
+        "action": {
+          "type": "string"
+        },
+        "duration_seconds": {
+          "type": "number"
+        }
+      }
+    },
+    "intent_from_agent": {
+      "type": "string",
+      "description": "Natural language intent"
+    },
+    "intent_context": {
+      "type": "object",
+      "properties": {
+        "user_emotion": {
+          "type": "string"
+        },
+        "environmental_conditions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "time_of_day": {
+          "type": "string"
+        }
+      }
+    },
+    "execution_status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "queued",
+        "executing",
+        "completed",
+        "failed"
+      ],
+      "default": "pending"
+    },
+    "execution_result": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "device_response": {
+          "type": "string"
+        },
+        "actual_values": {
+          "type": "object"
+        },
+        "execution_time_ms": {
+          "type": "number"
+        }
+      }
+    },
+    "retry_count": {
+      "type": "integer",
+      "default": 0
+    },
+    "max_retries": {
+      "type": "integer",
+      "default": 3
+    }
+  },
+  "required": [
+    "command_id",
+    "agent_id",
+    "target_device_id",
+    "device_type",
+    "command_type"
+  ]
+}

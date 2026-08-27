@@ -1,0 +1,75 @@
+{
+  "name": "MixtureOfExperts",
+  "type": "object",
+  "properties": {
+    "model_name": {
+      "type": "string",
+      "description": "MoE model identifier"
+    },
+    "num_experts": {
+      "type": "integer",
+      "description": "Total number of expert networks"
+    },
+    "experts_per_token": {
+      "type": "integer",
+      "description": "Active experts per input (top-k)"
+    },
+    "gating_mechanism": {
+      "type": "string",
+      "enum": [
+        "softmax",
+        "top_k",
+        "noisy_top_k",
+        "expert_choice"
+      ],
+      "description": "Expert selection strategy"
+    },
+    "expert_specializations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "expert_id": {
+            "type": "integer"
+          },
+          "domain": {
+            "type": "string"
+          },
+          "activation_frequency": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "load_balancing_score": {
+      "type": "number",
+      "description": "How evenly experts are used"
+    },
+    "sparsity_ratio": {
+      "type": "number",
+      "description": "Fraction of model activated per token"
+    },
+    "performance_metrics": {
+      "type": "object",
+      "properties": {
+        "overall_accuracy": {
+          "type": "number"
+        },
+        "efficiency_gain": {
+          "type": "number"
+        },
+        "expert_utilization": {
+          "type": "number"
+        }
+      }
+    },
+    "capacity_factor": {
+      "type": "number",
+      "description": "Expert capacity multiplier"
+    }
+  },
+  "required": [
+    "model_name",
+    "num_experts"
+  ]
+}

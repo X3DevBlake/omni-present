@@ -1,0 +1,117 @@
+{
+  "name": "MissionCommand",
+  "type": "object",
+  "properties": {
+    "command_id": {
+      "type": "string",
+      "description": "Unique mission command identifier"
+    },
+    "high_level_goal": {
+      "type": "string",
+      "description": "Strategic objective provided by human or higher AI"
+    },
+    "ai_defined_objectives": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "objective_id": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "number"
+          },
+          "success_criteria": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "environmental_analysis": {
+      "type": "object",
+      "properties": {
+        "threat_assessment": {
+          "type": "number"
+        },
+        "resource_constraints": {
+          "type": "object"
+        },
+        "opportunity_score": {
+          "type": "number"
+        }
+      }
+    },
+    "task_assignments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "task_id": {
+            "type": "string"
+          },
+          "agent_id": {
+            "type": "string"
+          },
+          "task_description": {
+            "type": "string"
+          },
+          "estimated_duration_hours": {
+            "type": "number"
+          },
+          "performance_expectation": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "swarm_config_id": {
+      "type": "string",
+      "description": "Active swarm configuration"
+    },
+    "mission_status": {
+      "type": "string",
+      "enum": [
+        "planning",
+        "active",
+        "adapting",
+        "completed",
+        "aborted"
+      ],
+      "default": "planning"
+    },
+    "self_healing_events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "event_type": {
+            "type": "string"
+          },
+          "trigger": {
+            "type": "string"
+          },
+          "adaptation_taken": {
+            "type": "string"
+          },
+          "effectiveness": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "ai_commander_reasoning": {
+      "type": "string",
+      "description": "AI explanation of mission plan"
+    }
+  },
+  "required": [
+    "command_id",
+    "high_level_goal"
+  ]
+}

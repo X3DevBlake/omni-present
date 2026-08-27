@@ -1,0 +1,91 @@
+{
+  "name": "SimulationEnvironment",
+  "type": "object",
+  "properties": {
+    "environment_name": {
+      "type": "string",
+      "description": "Name of environment"
+    },
+    "environment_type": {
+      "type": "string",
+      "enum": [
+        "economic",
+        "social",
+        "environmental",
+        "competitive",
+        "cooperative"
+      ],
+      "description": "Type of environment"
+    },
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "population_size": {
+          "type": "integer"
+        },
+        "resource_scarcity": {
+          "type": "number"
+        },
+        "cooperation_reward": {
+          "type": "number"
+        },
+        "competition_intensity": {
+          "type": "number"
+        },
+        "learning_rate": {
+          "type": "number"
+        },
+        "discount_factor": {
+          "type": "number"
+        }
+      },
+      "description": "Environment parameters"
+    },
+    "state_space": {
+      "type": "object",
+      "description": "State space definition for RL"
+    },
+    "action_space": {
+      "type": "object",
+      "description": "Action space for agents"
+    },
+    "reward_function": {
+      "type": "object",
+      "description": "Reward function configuration"
+    },
+    "transfer_learning_enabled": {
+      "type": "boolean",
+      "default": true
+    },
+    "multi_agent_rl_config": {
+      "type": "object",
+      "properties": {
+        "algorithm": {
+          "type": "string",
+          "enum": [
+            "maddpg",
+            "qmix",
+            "mappo"
+          ]
+        },
+        "shared_reward": {
+          "type": "boolean"
+        },
+        "communication_enabled": {
+          "type": "boolean"
+        }
+      }
+    },
+    "active_agents": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Agents in this environment"
+    }
+  },
+  "required": [
+    "environment_name",
+    "environment_type"
+  ]
+}

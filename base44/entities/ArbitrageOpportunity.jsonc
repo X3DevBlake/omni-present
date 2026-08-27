@@ -1,0 +1,85 @@
+{
+  "name": "ArbitrageOpportunity",
+  "type": "object",
+  "properties": {
+    "token_pair": {
+      "type": "string",
+      "description": "Trading pair (e.g., ETH/USDT)"
+    },
+    "source_chain": {
+      "type": "string",
+      "description": "Source blockchain"
+    },
+    "target_chain": {
+      "type": "string",
+      "description": "Target blockchain"
+    },
+    "source_price": {
+      "type": "number",
+      "description": "Price on source chain"
+    },
+    "target_price": {
+      "type": "number",
+      "description": "Price on target chain"
+    },
+    "price_difference_percentage": {
+      "type": "number",
+      "description": "Percentage difference"
+    },
+    "estimated_profit": {
+      "type": "number",
+      "description": "Expected profit after fees"
+    },
+    "gas_costs": {
+      "type": "object",
+      "properties": {
+        "source_chain": {
+          "type": "number"
+        },
+        "target_chain": {
+          "type": "number"
+        },
+        "bridge_fee": {
+          "type": "number"
+        }
+      }
+    },
+    "execution_complexity": {
+      "type": "string",
+      "enum": [
+        "simple",
+        "moderate",
+        "complex"
+      ],
+      "description": "How complex is execution"
+    },
+    "time_sensitivity": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "How quickly opportunity may disappear"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "detected",
+        "executing",
+        "completed",
+        "expired",
+        "failed"
+      ],
+      "default": "detected"
+    },
+    "auto_execute": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to execute automatically"
+    }
+  },
+  "required": [
+    "token_pair",
+    "source_chain",
+    "target_chain",
+    "price_difference_percentage"
+  ]
+}

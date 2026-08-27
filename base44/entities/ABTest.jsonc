@@ -1,0 +1,73 @@
+{
+  "name": "ABTest",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "Test creator email"
+    },
+    "name": {
+      "type": "string",
+      "description": "Test name"
+    },
+    "description": {
+      "type": "string",
+      "description": "Test description"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "setup",
+        "running",
+        "completed",
+        "cancelled"
+      ],
+      "default": "setup",
+      "description": "Test status"
+    },
+    "metric": {
+      "type": "string",
+      "description": "Metric being tested"
+    },
+    "strategy_a": {
+      "type": "object",
+      "description": "Strategy A configuration"
+    },
+    "strategy_b": {
+      "type": "object",
+      "description": "Strategy B configuration"
+    },
+    "sample_size": {
+      "type": "integer",
+      "default": 100,
+      "description": "Sample size per strategy"
+    },
+    "results_a": {
+      "type": "object",
+      "description": "Results for strategy A"
+    },
+    "results_b": {
+      "type": "object",
+      "description": "Results for strategy B"
+    },
+    "confidence_level": {
+      "type": "number",
+      "description": "Statistical confidence level"
+    },
+    "winner": {
+      "type": "string",
+      "enum": [
+        "a",
+        "b",
+        "tie",
+        "undecided"
+      ],
+      "description": "Test winner"
+    }
+  },
+  "required": [
+    "user_email",
+    "name",
+    "metric"
+  ]
+}

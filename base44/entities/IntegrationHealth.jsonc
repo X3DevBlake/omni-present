@@ -1,0 +1,94 @@
+{
+  "name": "IntegrationHealth",
+  "type": "object",
+  "properties": {
+    "integration_name": {
+      "type": "string",
+      "description": "Name of the integration"
+    },
+    "integration_type": {
+      "type": "string",
+      "enum": [
+        "oauth",
+        "api_key",
+        "webhook",
+        "direct"
+      ],
+      "description": "Type of integration"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "healthy",
+        "degraded",
+        "down",
+        "maintenance"
+      ],
+      "default": "healthy"
+    },
+    "last_successful_sync": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "last_failed_sync": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "success_rate_24h": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "avg_latency_ms": {
+      "type": "number"
+    },
+    "error_count_24h": {
+      "type": "integer",
+      "default": 0
+    },
+    "total_requests_24h": {
+      "type": "integer",
+      "default": 0
+    },
+    "uptime_percentage": {
+      "type": "number"
+    },
+    "rate_limit_status": {
+      "type": "object",
+      "properties": {
+        "current_usage": {
+          "type": "integer"
+        },
+        "limit": {
+          "type": "integer"
+        },
+        "reset_time": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "health_checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "response_time_ms": {
+            "type": "number"
+          },
+          "success": {
+            "type": "boolean"
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "integration_name",
+    "integration_type"
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "name": "SmartHomeDevice",
+  "type": "object",
+  "properties": {
+    "device_name": {
+      "type": "string",
+      "description": "Device name"
+    },
+    "ecosystem": {
+      "type": "string",
+      "enum": [
+        "google_home",
+        "apple_homekit",
+        "alexa",
+        "samsung_smartthings"
+      ],
+      "description": "Smart home ecosystem"
+    },
+    "device_category": {
+      "type": "string",
+      "enum": [
+        "light",
+        "thermostat",
+        "lock",
+        "camera",
+        "speaker",
+        "sensor"
+      ],
+      "description": "Device category"
+    },
+    "location": {
+      "type": "string",
+      "description": "Room/location"
+    },
+    "agent_controllable": {
+      "type": "boolean",
+      "default": true
+    },
+    "current_state": {
+      "type": "object",
+      "description": "Device state"
+    },
+    "haptic_enabled": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "device_name",
+    "ecosystem",
+    "device_category"
+  ]
+}

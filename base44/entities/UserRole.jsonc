@@ -1,0 +1,131 @@
+{
+  "name": "UserRole",
+  "type": "object",
+  "properties": {
+    "role_name": {
+      "type": "string",
+      "description": "Name of the role"
+    },
+    "role_type": {
+      "type": "string",
+      "enum": [
+        "admin",
+        "operator",
+        "analyst",
+        "viewer",
+        "custom"
+      ],
+      "description": "Type of role"
+    },
+    "description": {
+      "type": "string",
+      "description": "Role description and purpose"
+    },
+    "hub_permissions": {
+      "type": "object",
+      "properties": {
+        "communications": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "view",
+              "create",
+              "edit",
+              "delete",
+              "execute"
+            ]
+          }
+        },
+        "devices": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "view",
+              "create",
+              "edit",
+              "delete",
+              "execute",
+              "control"
+            ]
+          }
+        },
+        "banking": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "view",
+              "create",
+              "edit",
+              "delete",
+              "execute",
+              "transfer"
+            ]
+          }
+        },
+        "ailab": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "view",
+              "create",
+              "edit",
+              "delete",
+              "train",
+              "deploy"
+            ]
+          }
+        },
+        "simulation": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "view",
+              "create",
+              "edit",
+              "delete",
+              "run",
+              "analyze"
+            ]
+          }
+        }
+      },
+      "description": "Permissions per hub"
+    },
+    "system_permissions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "manage_users",
+          "manage_roles",
+          "view_audit_logs",
+          "manage_alerts",
+          "manage_settings",
+          "export_data"
+        ]
+      },
+      "description": "System-wide permissions"
+    },
+    "users_assigned": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "User emails assigned this role"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether role is active"
+    }
+  },
+  "required": [
+    "role_name",
+    "role_type"
+  ]
+}

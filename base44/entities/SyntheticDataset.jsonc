@@ -1,0 +1,97 @@
+{
+  "name": "SyntheticDataset",
+  "type": "object",
+  "properties": {
+    "dataset_name": {
+      "type": "string",
+      "description": "Synthetic dataset identifier"
+    },
+    "generator_model": {
+      "type": "string",
+      "enum": [
+        "diffusion",
+        "gan",
+        "vae",
+        "tabular_gan",
+        "text_llm"
+      ],
+      "description": "Generative model used"
+    },
+    "generation_config": {
+      "type": "object",
+      "properties": {
+        "num_samples": {
+          "type": "integer"
+        },
+        "diversity_score": {
+          "type": "number"
+        },
+        "fidelity_score": {
+          "type": "number"
+        },
+        "seed": {
+          "type": "integer"
+        }
+      }
+    },
+    "data_type": {
+      "type": "string",
+      "enum": [
+        "image",
+        "text",
+        "tabular",
+        "time_series",
+        "audio",
+        "video"
+      ],
+      "description": "Type of synthetic data"
+    },
+    "samples_generated": {
+      "type": "integer",
+      "default": 0
+    },
+    "quality_metrics": {
+      "type": "object",
+      "properties": {
+        "fid_score": {
+          "type": "number"
+        },
+        "inception_score": {
+          "type": "number"
+        },
+        "privacy_score": {
+          "type": "number"
+        },
+        "statistical_similarity": {
+          "type": "number"
+        }
+      }
+    },
+    "source_dataset_id": {
+      "type": "string",
+      "description": "Original dataset used as reference"
+    },
+    "privacy_preserving": {
+      "type": "boolean",
+      "default": true
+    },
+    "storage_url": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "generating",
+        "completed",
+        "failed",
+        "validating"
+      ],
+      "default": "generating"
+    }
+  },
+  "required": [
+    "dataset_name",
+    "generator_model",
+    "data_type"
+  ]
+}

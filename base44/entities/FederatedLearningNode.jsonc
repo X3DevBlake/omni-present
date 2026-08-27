@@ -1,0 +1,58 @@
+{
+  "name": "FederatedLearningNode",
+  "type": "object",
+  "properties": {
+    "node_name": {
+      "type": "string"
+    },
+    "node_location": {
+      "type": "string",
+      "description": "Geographic or logical location"
+    },
+    "model_version": {
+      "type": "string"
+    },
+    "local_data_size": {
+      "type": "integer",
+      "description": "Number of training samples"
+    },
+    "training_rounds_completed": {
+      "type": "integer",
+      "default": 0
+    },
+    "local_model_accuracy": {
+      "type": "number"
+    },
+    "contribution_weight": {
+      "type": "number",
+      "description": "Weight in global aggregation"
+    },
+    "privacy_budget": {
+      "type": "number",
+      "description": "Remaining differential privacy budget"
+    },
+    "last_sync": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    },
+    "compute_capacity": {
+      "type": "object",
+      "properties": {
+        "cpu_cores": {
+          "type": "integer"
+        },
+        "gpu_available": {
+          "type": "boolean"
+        }
+      }
+    }
+  },
+  "required": [
+    "node_name",
+    "model_version"
+  ]
+}

@@ -1,0 +1,266 @@
+{
+  "name": "DeviceBlueprintEnhanced",
+  "type": "object",
+  "properties": {
+    "blueprint_name": {
+      "type": "string",
+      "description": "Name of the enhanced blueprint"
+    },
+    "device_category": {
+      "type": "string",
+      "enum": [
+        "holographic_projector",
+        "robotic_arm",
+        "smart_light",
+        "smart_thermostat",
+        "smart_lock",
+        "ar_glasses",
+        "projection_drone",
+        "smart_mirror",
+        "sensor_hub",
+        "smart_speaker",
+        "climate_controller",
+        "security_camera"
+      ]
+    },
+    "manufacturer": {
+      "type": "string"
+    },
+    "model_number": {
+      "type": "string"
+    },
+    "model_3d_url": {
+      "type": "string",
+      "description": "URL to high-fidelity 3D model"
+    },
+    "exploded_view_url": {
+      "type": "string",
+      "description": "URL to exploded view 3D model"
+    },
+    "dimensions": {
+      "type": "object",
+      "properties": {
+        "width_cm": {
+          "type": "number"
+        },
+        "height_cm": {
+          "type": "number"
+        },
+        "depth_cm": {
+          "type": "number"
+        },
+        "weight_kg": {
+          "type": "number"
+        }
+      }
+    },
+    "internal_components": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "component_id": {
+            "type": "string"
+          },
+          "component_name": {
+            "type": "string"
+          },
+          "component_type": {
+            "type": "string",
+            "enum": [
+              "processor",
+              "sensor",
+              "actuator",
+              "power_supply",
+              "communication",
+              "storage",
+              "display",
+              "cooling"
+            ]
+          },
+          "position_offset": {
+            "type": "object",
+            "properties": {
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              },
+              "z": {
+                "type": "number"
+              }
+            }
+          },
+          "specifications": {
+            "type": "object",
+            "properties": {
+              "model": {
+                "type": "string"
+              },
+              "performance_rating": {
+                "type": "number"
+              },
+              "power_consumption_watts": {
+                "type": "number"
+              },
+              "lifespan_hours": {
+                "type": "number"
+              }
+            }
+          },
+          "health_status": {
+            "type": "string",
+            "enum": [
+              "optimal",
+              "good",
+              "degraded",
+              "failing",
+              "failed"
+            ]
+          },
+          "replacement_cost": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "connection_interfaces": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "interface_name": {
+            "type": "string"
+          },
+          "interface_type": {
+            "type": "string",
+            "enum": [
+              "power",
+              "ethernet",
+              "usb",
+              "hdmi",
+              "bluetooth",
+              "wifi",
+              "zigbee",
+              "matter",
+              "thread"
+            ]
+          },
+          "position": {
+            "type": "object"
+          },
+          "max_bandwidth": {
+            "type": "string"
+          },
+          "protocol_version": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "operational_parameters": {
+      "type": "object",
+      "properties": {
+        "operating_temp_min": {
+          "type": "number"
+        },
+        "operating_temp_max": {
+          "type": "number"
+        },
+        "humidity_tolerance": {
+          "type": "number"
+        },
+        "ip_rating": {
+          "type": "string"
+        },
+        "noise_level_db": {
+          "type": "number"
+        }
+      }
+    },
+    "ai_capabilities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "capability_name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "model_type": {
+            "type": "string"
+          },
+          "inference_speed_ms": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "maintenance_schedule": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "task_name": {
+            "type": "string"
+          },
+          "frequency_days": {
+            "type": "number"
+          },
+          "last_performed": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "next_due": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "estimated_duration_minutes": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "performance_metrics": {
+      "type": "object",
+      "properties": {
+        "uptime_percentage": {
+          "type": "number"
+        },
+        "avg_response_time_ms": {
+          "type": "number"
+        },
+        "power_efficiency_score": {
+          "type": "number"
+        },
+        "reliability_score": {
+          "type": "number"
+        }
+      }
+    },
+    "firmware": {
+      "type": "object",
+      "properties": {
+        "current_version": {
+          "type": "string"
+        },
+        "latest_version": {
+          "type": "string"
+        },
+        "update_available": {
+          "type": "boolean"
+        },
+        "changelog_url": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "required": [
+    "blueprint_name",
+    "device_category"
+  ]
+}

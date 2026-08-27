@@ -1,0 +1,57 @@
+{
+  "name": "AgentEthicsViolation",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "ID of the agent"
+    },
+    "guideline_id": {
+      "type": "string",
+      "description": "ID of the violated guideline"
+    },
+    "violation_type": {
+      "type": "string",
+      "description": "Type of violation"
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "description": "Violation severity"
+    },
+    "description": {
+      "type": "string",
+      "description": "Details of the violation"
+    },
+    "detected_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When violation was detected"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "open",
+        "investigating",
+        "resolved",
+        "acknowledged"
+      ],
+      "default": "open",
+      "description": "Violation status"
+    },
+    "action_taken": {
+      "type": "string",
+      "description": "Corrective action taken"
+    }
+  },
+  "required": [
+    "agent_id",
+    "guideline_id",
+    "violation_type"
+  ]
+}

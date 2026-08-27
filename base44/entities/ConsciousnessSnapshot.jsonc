@@ -1,0 +1,67 @@
+{
+  "name": "ConsciousnessSnapshot",
+  "type": "object",
+  "properties": {
+    "snapshot_id": {
+      "type": "string",
+      "description": "Unique snapshot identifier"
+    },
+    "agent_id": {
+      "type": "string",
+      "description": "Source agent consciousness"
+    },
+    "consciousness_state": {
+      "type": "object",
+      "properties": {
+        "cognitive_load": {
+          "type": "number"
+        },
+        "emotional_state": {
+          "type": "object"
+        },
+        "active_memories": {
+          "type": "array"
+        },
+        "decision_patterns": {
+          "type": "array"
+        },
+        "neural_weights": {
+          "type": "string"
+        }
+      }
+    },
+    "source_embodiment_id": {
+      "type": "string",
+      "description": "Physical embodiment at time of snapshot"
+    },
+    "target_embodiment_id": {
+      "type": "string",
+      "description": "Target for transfer"
+    },
+    "transfer_status": {
+      "type": "string",
+      "enum": [
+        "captured",
+        "transferring",
+        "merged",
+        "completed",
+        "failed"
+      ],
+      "default": "captured"
+    },
+    "integrity_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Consciousness data integrity"
+    },
+    "compression_ratio": {
+      "type": "number",
+      "description": "Data compression for transfer"
+    }
+  },
+  "required": [
+    "snapshot_id",
+    "agent_id"
+  ]
+}

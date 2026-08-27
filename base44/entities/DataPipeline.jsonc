@@ -1,0 +1,137 @@
+{
+  "name": "DataPipeline",
+  "type": "object",
+  "properties": {
+    "pipeline_name": {
+      "type": "string",
+      "description": "Data pipeline identifier"
+    },
+    "pipeline_type": {
+      "type": "string",
+      "enum": [
+        "batch",
+        "streaming",
+        "hybrid",
+        "real_time"
+      ],
+      "description": "Processing mode"
+    },
+    "stages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "stage_name": {
+            "type": "string"
+          },
+          "stage_type": {
+            "type": "string",
+            "enum": [
+              "ingestion",
+              "transformation",
+              "validation",
+              "enrichment",
+              "aggregation",
+              "output"
+            ]
+          },
+          "function_name": {
+            "type": "string"
+          },
+          "execution_time_ms": {
+            "type": "number"
+          },
+          "records_processed": {
+            "type": "integer"
+          },
+          "error_rate": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "data_sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "source_id": {
+            "type": "string"
+          },
+          "source_type": {
+            "type": "string"
+          },
+          "connection_status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "inactive",
+              "error"
+            ]
+          }
+        }
+      }
+    },
+    "throughput": {
+      "type": "object",
+      "properties": {
+        "records_per_second": {
+          "type": "number"
+        },
+        "bytes_per_second": {
+          "type": "number"
+        },
+        "peak_throughput": {
+          "type": "number"
+        }
+      }
+    },
+    "quality_metrics": {
+      "type": "object",
+      "properties": {
+        "data_completeness": {
+          "type": "number"
+        },
+        "data_accuracy": {
+          "type": "number"
+        },
+        "schema_compliance": {
+          "type": "number"
+        }
+      }
+    },
+    "error_handling": {
+      "type": "object",
+      "properties": {
+        "retry_policy": {
+          "type": "string"
+        },
+        "dead_letter_queue": {
+          "type": "boolean"
+        },
+        "total_errors": {
+          "type": "integer",
+          "default": 0
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "running",
+        "paused",
+        "failed",
+        "completed"
+      ],
+      "default": "running"
+    },
+    "auto_scaling": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "pipeline_name",
+    "pipeline_type"
+  ]
+}

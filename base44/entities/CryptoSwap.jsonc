@@ -1,0 +1,78 @@
+{
+  "name": "CryptoSwap",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string"
+    },
+    "from_token": {
+      "type": "string",
+      "description": "Token being swapped"
+    },
+    "to_token": {
+      "type": "string",
+      "description": "Token being received"
+    },
+    "from_amount": {
+      "type": "number"
+    },
+    "to_amount": {
+      "type": "number"
+    },
+    "exchange_rate": {
+      "type": "number"
+    },
+    "swap_type": {
+      "type": "string",
+      "enum": [
+        "market",
+        "limit",
+        "automated"
+      ],
+      "default": "market"
+    },
+    "slippage_tolerance": {
+      "type": "number",
+      "default": 0.5,
+      "description": "Percentage"
+    },
+    "dex_used": {
+      "type": "string",
+      "description": "Decentralized exchange"
+    },
+    "liquidity_pool": {
+      "type": "string"
+    },
+    "gas_fee": {
+      "type": "number"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "processing",
+        "completed",
+        "failed"
+      ],
+      "default": "pending"
+    },
+    "transaction_hash": {
+      "type": "string"
+    },
+    "price_impact": {
+      "type": "number",
+      "description": "Percentage impact on price"
+    },
+    "ai_optimized": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether AI optimized the route"
+    }
+  },
+  "required": [
+    "user_id",
+    "from_token",
+    "to_token",
+    "from_amount"
+  ]
+}

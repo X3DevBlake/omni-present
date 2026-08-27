@@ -1,0 +1,53 @@
+{
+  "name": "MaintenancePrediction",
+  "type": "object",
+  "properties": {
+    "component_id": {
+      "type": "string"
+    },
+    "component_type": {
+      "type": "string",
+      "enum": [
+        "Database",
+        "Function",
+        "Storage",
+        "Network",
+        "Compute"
+      ]
+    },
+    "health_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "predicted_failure_probability": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "estimated_time_to_failure": {
+      "type": "number",
+      "description": "Hours until predicted failure"
+    },
+    "recommended_action": {
+      "type": "string"
+    },
+    "urgency": {
+      "type": "string",
+      "enum": [
+        "Low",
+        "Medium",
+        "High",
+        "Critical"
+      ]
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "component_id",
+    "predicted_failure_probability"
+  ]
+}

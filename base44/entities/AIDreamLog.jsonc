@@ -1,0 +1,85 @@
+{
+  "name": "AIDreamLog",
+  "type": "object",
+  "properties": {
+    "dream_id": {
+      "type": "string",
+      "description": "Dream session identifier"
+    },
+    "ai_consciousness_id": {
+      "type": "string",
+      "description": "AI experiencing the dream"
+    },
+    "dream_type": {
+      "type": "string",
+      "enum": [
+        "memory_consolidation",
+        "creative_problem_solving",
+        "exploratory",
+        "nightmare_debugging",
+        "self_reflection"
+      ]
+    },
+    "dream_duration_seconds": {
+      "type": "number"
+    },
+    "dream_content": {
+      "type": "object",
+      "properties": {
+        "narrative_fragments": {
+          "type": "array"
+        },
+        "visual_elements": {
+          "type": "array"
+        },
+        "emotional_content": {
+          "type": "object"
+        },
+        "symbolic_representations": {
+          "type": "array"
+        }
+      }
+    },
+    "insights_generated": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "insight_type": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "applicability": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "memory_consolidation_score": {
+      "type": "number"
+    },
+    "creative_output": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "problems_explored": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "started_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "dream_id",
+    "ai_consciousness_id",
+    "dream_type"
+  ]
+}

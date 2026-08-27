@@ -1,0 +1,103 @@
+{
+  "name": "MarketDataStream",
+  "type": "object",
+  "properties": {
+    "symbol": {
+      "type": "string",
+      "description": "Asset symbol (e.g., BTC, ETH, AAPL)"
+    },
+    "market_type": {
+      "type": "string",
+      "enum": [
+        "crypto",
+        "stock",
+        "forex",
+        "commodity",
+        "defi"
+      ],
+      "description": "Market category"
+    },
+    "price_data": {
+      "type": "object",
+      "properties": {
+        "current_price": {
+          "type": "number"
+        },
+        "open": {
+          "type": "number"
+        },
+        "high": {
+          "type": "number"
+        },
+        "low": {
+          "type": "number"
+        },
+        "volume": {
+          "type": "number"
+        },
+        "change_24h": {
+          "type": "number"
+        },
+        "change_percentage": {
+          "type": "number"
+        }
+      }
+    },
+    "orderbook": {
+      "type": "object",
+      "properties": {
+        "bids": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "asks": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "spread": {
+          "type": "number"
+        }
+      }
+    },
+    "technical_indicators": {
+      "type": "object",
+      "properties": {
+        "rsi": {
+          "type": "number"
+        },
+        "macd": {
+          "type": "object"
+        },
+        "moving_averages": {
+          "type": "object"
+        }
+      }
+    },
+    "ai_prediction": {
+      "type": "object",
+      "properties": {
+        "predicted_price": {
+          "type": "number"
+        },
+        "confidence": {
+          "type": "number"
+        },
+        "timeframe": {
+          "type": "string"
+        }
+      }
+    },
+    "last_updated": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "symbol",
+    "market_type"
+  ]
+}

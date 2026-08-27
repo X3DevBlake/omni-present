@@ -1,0 +1,66 @@
+{
+  "name": "ComputeResource",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Agent owning/using resource"
+    },
+    "resource_type": {
+      "type": "string",
+      "enum": [
+        "cpu",
+        "gpu",
+        "memory",
+        "storage",
+        "network"
+      ],
+      "description": "Type of compute resource"
+    },
+    "allocated_amount": {
+      "type": "number",
+      "description": "Amount allocated (units vary by type)"
+    },
+    "used_amount": {
+      "type": "number",
+      "description": "Amount currently used"
+    },
+    "available_amount": {
+      "type": "number",
+      "description": "Amount available for allocation"
+    },
+    "cost_per_unit": {
+      "type": "number",
+      "description": "Cost per resource unit"
+    },
+    "is_tradeable": {
+      "type": "boolean",
+      "default": true,
+      "description": "Can be traded on marketplace"
+    },
+    "priority_level": {
+      "type": "string",
+      "enum": [
+        "low",
+        "normal",
+        "high",
+        "critical"
+      ],
+      "default": "normal"
+    },
+    "allocation_strategy": {
+      "type": "string",
+      "enum": [
+        "static",
+        "dynamic",
+        "on_demand"
+      ],
+      "default": "dynamic"
+    }
+  },
+  "required": [
+    "agent_id",
+    "resource_type",
+    "allocated_amount"
+  ]
+}

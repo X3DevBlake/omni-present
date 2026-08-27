@@ -1,0 +1,72 @@
+{
+  "name": "FinancialGoal",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "Email of user with this goal"
+    },
+    "name": {
+      "type": "string",
+      "description": "Goal name (e.g., House Down Payment)"
+    },
+    "description": {
+      "type": "string",
+      "description": "Detailed goal description"
+    },
+    "target_amount": {
+      "type": "number",
+      "description": "Target amount in USD"
+    },
+    "current_amount": {
+      "type": "number",
+      "default": 0,
+      "description": "Current saved amount"
+    },
+    "target_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Target completion date"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "savings",
+        "investment",
+        "debt_payoff",
+        "education",
+        "home",
+        "other"
+      ],
+      "description": "Goal category"
+    },
+    "priority": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 5,
+      "description": "Priority level (1-5)"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "completed",
+        "abandoned"
+      ],
+      "default": "active",
+      "description": "Goal status"
+    },
+    "progress_percentage": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Completion percentage"
+    }
+  },
+  "required": [
+    "user_email",
+    "name",
+    "target_amount",
+    "target_date"
+  ]
+}

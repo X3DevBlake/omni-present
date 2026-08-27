@@ -1,0 +1,106 @@
+{
+  "name": "DecentralizedStorage",
+  "type": "object",
+  "properties": {
+    "storage_name": {
+      "type": "string",
+      "description": "Storage identifier"
+    },
+    "storage_type": {
+      "type": "string",
+      "enum": [
+        "ipfs",
+        "arweave",
+        "filecoin",
+        "storj",
+        "sia"
+      ],
+      "description": "Decentralized storage platform"
+    },
+    "content_type": {
+      "type": "string",
+      "enum": [
+        "model_weights",
+        "dataset",
+        "agent_memory",
+        "audit_log",
+        "multimedia",
+        "document"
+      ],
+      "description": "Type of stored content"
+    },
+    "content_hash": {
+      "type": "string",
+      "description": "Content identifier hash (CID for IPFS)"
+    },
+    "storage_url": {
+      "type": "string",
+      "description": "Retrieval URL"
+    },
+    "file_size_bytes": {
+      "type": "integer"
+    },
+    "redundancy_level": {
+      "type": "integer",
+      "description": "Number of replicas",
+      "default": 3
+    },
+    "encryption": {
+      "type": "object",
+      "properties": {
+        "encrypted": {
+          "type": "boolean"
+        },
+        "algorithm": {
+          "type": "string"
+        },
+        "key_id": {
+          "type": "string"
+        }
+      }
+    },
+    "accessibility": {
+      "type": "string",
+      "enum": [
+        "public",
+        "private",
+        "shared"
+      ],
+      "default": "private"
+    },
+    "pinned": {
+      "type": "boolean",
+      "description": "Permanently pinned to network",
+      "default": false
+    },
+    "retrieval_stats": {
+      "type": "object",
+      "properties": {
+        "total_retrievals": {
+          "type": "integer",
+          "default": 0
+        },
+        "avg_retrieval_time_ms": {
+          "type": "number"
+        },
+        "last_accessed": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "storage_cost_usd": {
+      "type": "number"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Custom metadata tags"
+    }
+  },
+  "required": [
+    "storage_name",
+    "storage_type",
+    "content_type",
+    "content_hash"
+  ]
+}

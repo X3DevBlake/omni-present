@@ -1,0 +1,79 @@
+{
+  "name": "AgentKnowledgeTransfer",
+  "type": "object",
+  "properties": {
+    "source_agent_id": {
+      "type": "string",
+      "description": "Agent transferring knowledge"
+    },
+    "target_agent_id": {
+      "type": "string",
+      "description": "Agent receiving knowledge"
+    },
+    "source_simulation_id": {
+      "type": "string",
+      "description": "Source simulation environment"
+    },
+    "target_simulation_id": {
+      "type": "string",
+      "description": "Target simulation environment"
+    },
+    "knowledge_type": {
+      "type": "string",
+      "enum": [
+        "skill",
+        "memory",
+        "strategy",
+        "model_weights",
+        "full_state"
+      ],
+      "description": "Type of knowledge transferred"
+    },
+    "transferred_data": {
+      "type": "object",
+      "description": "Serialized knowledge data"
+    },
+    "transfer_method": {
+      "type": "string",
+      "enum": [
+        "direct_copy",
+        "fine_tuning",
+        "distillation",
+        "embedding_transfer"
+      ],
+      "default": "direct_copy",
+      "description": "Method used for transfer"
+    },
+    "success_rate": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Percentage of knowledge successfully transferred"
+    },
+    "performance_delta": {
+      "type": "number",
+      "description": "Performance change after transfer"
+    },
+    "validation_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Validation score in target environment"
+    },
+    "transfer_status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "in_progress",
+        "completed",
+        "failed"
+      ],
+      "default": "pending",
+      "description": "Status of transfer"
+    }
+  },
+  "required": [
+    "source_agent_id",
+    "knowledge_type"
+  ]
+}

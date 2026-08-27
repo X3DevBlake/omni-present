@@ -1,0 +1,63 @@
+{
+  "name": "EthicalAuditReport",
+  "type": "object",
+  "properties": {
+    "target_id": {
+      "type": "string",
+      "description": "Agent ID or Skill Listing ID being audited"
+    },
+    "target_type": {
+      "type": "string",
+      "enum": [
+        "Agent",
+        "Skill",
+        "Negotiation"
+      ]
+    },
+    "compliance_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "breaches_found": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "severity": {
+            "type": "string",
+            "enum": [
+              "Low",
+              "Medium",
+              "High",
+              "Severe"
+            ]
+          },
+          "description": {
+            "type": "string"
+          },
+          "guideline_violated": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "remediation_steps": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "auditor_agent_id": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "target_id",
+    "compliance_score"
+  ]
+}

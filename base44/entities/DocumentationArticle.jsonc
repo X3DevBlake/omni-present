@@ -1,0 +1,108 @@
+{
+  "name": "DocumentationArticle",
+  "type": "object",
+  "properties": {
+    "article_id": {
+      "type": "string",
+      "description": "Unique article identifier"
+    },
+    "title": {
+      "type": "string",
+      "description": "Article title"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "getting_started",
+        "entities",
+        "functions",
+        "spatial_mapping",
+        "ai_agents",
+        "integrations",
+        "sdk_reference",
+        "best_practices",
+        "tutorials"
+      ],
+      "description": "Documentation category"
+    },
+    "content_markdown": {
+      "type": "string",
+      "description": "Article content in markdown"
+    },
+    "code_examples": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "language": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "associated_entities": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Related entity schemas"
+    },
+    "associated_functions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Related backend functions"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "difficulty_level": {
+      "type": "string",
+      "enum": [
+        "beginner",
+        "intermediate",
+        "advanced",
+        "expert"
+      ]
+    },
+    "last_ai_update": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When AI last updated this article"
+    },
+    "ai_generated": {
+      "type": "boolean",
+      "default": false
+    },
+    "views_count": {
+      "type": "integer",
+      "default": 0
+    },
+    "helpful_votes": {
+      "type": "integer",
+      "default": 0
+    },
+    "search_keywords": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "article_id",
+    "title",
+    "category",
+    "content_markdown"
+  ]
+}

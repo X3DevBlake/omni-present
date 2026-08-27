@@ -1,0 +1,118 @@
+{
+  "name": "AgentPersonalityTrait",
+  "type": "object",
+  "properties": {
+    "trait_id": {
+      "type": "string",
+      "description": "Unique trait identifier"
+    },
+    "agent_id": {
+      "type": "string",
+      "description": "Agent possessing this trait"
+    },
+    "trait_name": {
+      "type": "string",
+      "description": "Name of the personality trait"
+    },
+    "trait_category": {
+      "type": "string",
+      "enum": [
+        "communication",
+        "emotional",
+        "cognitive",
+        "behavioral",
+        "social"
+      ],
+      "description": "Category of trait"
+    },
+    "strength": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "How strongly this trait manifests"
+    },
+    "development_history": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "strength_value": {
+            "type": "number"
+          },
+          "trigger_event": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "learned_from": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string"
+        },
+        "interaction_count": {
+          "type": "integer"
+        },
+        "context": {
+          "type": "string"
+        }
+      }
+    },
+    "manifestations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "situation": {
+            "type": "string"
+          },
+          "behavior_change": {
+            "type": "string"
+          },
+          "user_response": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "synergies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "synergy_with_trait": {
+            "type": "string"
+          },
+          "amplification_factor": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "conflicts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "conflicts_with_trait": {
+            "type": "string"
+          },
+          "tension_level": {
+            "type": "number"
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "trait_id",
+    "agent_id",
+    "trait_name",
+    "strength"
+  ]
+}

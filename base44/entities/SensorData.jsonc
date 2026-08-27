@@ -1,0 +1,113 @@
+{
+  "name": "SensorData",
+  "type": "object",
+  "properties": {
+    "sensor_id": {
+      "type": "string",
+      "description": "Sensor identifier"
+    },
+    "omni_device_id": {
+      "type": "string",
+      "description": "Device hosting the sensor"
+    },
+    "spatial_zone_id": {
+      "type": "string",
+      "description": "Zone where sensor is located"
+    },
+    "sensor_type": {
+      "type": "string",
+      "enum": [
+        "temperature",
+        "humidity",
+        "light",
+        "motion",
+        "air_quality",
+        "sound",
+        "pressure",
+        "co2"
+      ],
+      "description": "Type of sensor"
+    },
+    "reading_value": {
+      "type": "number",
+      "description": "Current sensor reading"
+    },
+    "unit": {
+      "type": "string",
+      "description": "Unit of measurement"
+    },
+    "position": {
+      "type": "object",
+      "properties": {
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "z": {
+          "type": "number"
+        }
+      }
+    },
+    "reading_timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "trend": {
+      "type": "string",
+      "enum": [
+        "increasing",
+        "decreasing",
+        "stable",
+        "fluctuating"
+      ],
+      "description": "Reading trend over time"
+    },
+    "historical_data": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "value": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "thresholds": {
+      "type": "object",
+      "properties": {
+        "min_normal": {
+          "type": "number"
+        },
+        "max_normal": {
+          "type": "number"
+        },
+        "critical_min": {
+          "type": "number"
+        },
+        "critical_max": {
+          "type": "number"
+        }
+      }
+    },
+    "alert_triggered": {
+      "type": "boolean",
+      "default": false
+    },
+    "influences_agent_behavior": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether this data should affect agent decisions"
+    }
+  },
+  "required": [
+    "sensor_type",
+    "reading_value"
+  ]
+}

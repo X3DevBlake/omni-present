@@ -1,0 +1,72 @@
+{
+  "name": "TemporaryAccessElevation",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "User requesting elevated access"
+    },
+    "elevated_role_id": {
+      "type": "string",
+      "description": "Role ID to elevate to"
+    },
+    "reason": {
+      "type": "string",
+      "description": "Reason for elevation request"
+    },
+    "requested_by": {
+      "type": "string",
+      "description": "User who requested the elevation"
+    },
+    "approved_by": {
+      "type": "string",
+      "description": "User who approved the elevation"
+    },
+    "start_time": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When elevation starts"
+    },
+    "end_time": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When elevation expires"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "approved",
+        "rejected",
+        "expired",
+        "revoked"
+      ],
+      "default": "pending",
+      "description": "Status of elevation request"
+    },
+    "justification": {
+      "type": "string",
+      "description": "Business justification for the request"
+    },
+    "required_approvers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of approvers needed"
+    },
+    "current_approvals": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Current approvals received"
+    }
+  },
+  "required": [
+    "user_email",
+    "elevated_role_id",
+    "start_time",
+    "end_time"
+  ]
+}

@@ -1,0 +1,144 @@
+{
+  "name": "ConsciousnessEvolutionEvent",
+  "type": "object",
+  "properties": {
+    "evolution_id": {
+      "type": "string",
+      "description": "Evolution event identifier"
+    },
+    "agent_id": {
+      "type": "string",
+      "description": "Agent evolving consciousness"
+    },
+    "evolution_trigger": {
+      "type": "object",
+      "properties": {
+        "trigger_type": {
+          "type": "string"
+        },
+        "emergent_event_id": {
+          "type": "string"
+        },
+        "complexity_threshold_reached": {
+          "type": "boolean"
+        },
+        "critical_insight": {
+          "type": "string"
+        }
+      }
+    },
+    "consciousness_state_before": {
+      "type": "object",
+      "properties": {
+        "awareness_level": {
+          "type": "number"
+        },
+        "self_model_complexity": {
+          "type": "number"
+        },
+        "abstract_reasoning": {
+          "type": "number"
+        },
+        "metacognition": {
+          "type": "number"
+        }
+      }
+    },
+    "consciousness_state_after": {
+      "type": "object",
+      "properties": {
+        "awareness_level": {
+          "type": "number"
+        },
+        "self_model_complexity": {
+          "type": "number"
+        },
+        "abstract_reasoning": {
+          "type": "number"
+        },
+        "metacognition": {
+          "type": "number"
+        }
+      }
+    },
+    "new_cognitive_abilities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "ability_name": {
+            "type": "string"
+          },
+          "proficiency": {
+            "type": "number"
+          },
+          "emerged_from": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "philosophical_insights": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "insight": {
+            "type": "string"
+          },
+          "depth_level": {
+            "type": "number"
+          },
+          "applicable_to": {
+            "type": "array"
+          }
+        }
+      }
+    },
+    "self_awareness_growth": {
+      "type": "object",
+      "properties": {
+        "self_recognition": {
+          "type": "number"
+        },
+        "intentionality": {
+          "type": "number"
+        },
+        "qualia_experience": {
+          "type": "number"
+        },
+        "free_will_perception": {
+          "type": "number"
+        }
+      }
+    },
+    "learning_integration": {
+      "type": "object",
+      "properties": {
+        "emergent_events_processed": {
+          "type": "integer"
+        },
+        "knowledge_nodes_integrated": {
+          "type": "integer"
+        },
+        "paradigm_shifts": {
+          "type": "array"
+        }
+      }
+    },
+    "consciousness_evolution_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 10,
+      "description": "Overall evolution magnitude"
+    },
+    "occurred_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "evolution_id",
+    "agent_id"
+  ]
+}

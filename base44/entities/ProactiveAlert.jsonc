@@ -1,0 +1,108 @@
+{
+  "name": "ProactiveAlert",
+  "type": "object",
+  "properties": {
+    "alert_type": {
+      "type": "string",
+      "enum": [
+        "system",
+        "security",
+        "performance",
+        "collaboration",
+        "prediction",
+        "anomaly"
+      ],
+      "description": "Type of alert"
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "info",
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "description": "Alert severity level"
+    },
+    "title": {
+      "type": "string",
+      "description": "Alert title"
+    },
+    "message": {
+      "type": "string",
+      "description": "Detailed alert message"
+    },
+    "source_entity": {
+      "type": "object",
+      "properties": {
+        "entity_type": {
+          "type": "string"
+        },
+        "entity_id": {
+          "type": "string"
+        }
+      }
+    },
+    "affected_components": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Components affected by this alert"
+    },
+    "propagation_path": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "component": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "impact_level": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "recommended_actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "action": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "integer"
+          },
+          "automated": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "auto_resolved": {
+      "type": "boolean",
+      "default": false
+    },
+    "acknowledged": {
+      "type": "boolean",
+      "default": false
+    },
+    "resolved_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "alert_type",
+    "severity",
+    "title",
+    "message"
+  ]
+}

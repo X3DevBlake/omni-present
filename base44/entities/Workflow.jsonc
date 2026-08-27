@@ -1,0 +1,97 @@
+{
+  "name": "Workflow",
+  "type": "object",
+  "properties": {
+    "workflow_name": {
+      "type": "string",
+      "description": "Name of the workflow"
+    },
+    "description": {
+      "type": "string",
+      "description": "Workflow description"
+    },
+    "workflow_type": {
+      "type": "string",
+      "enum": [
+        "sequential",
+        "parallel",
+        "conditional",
+        "hybrid"
+      ],
+      "default": "sequential",
+      "description": "Workflow execution type"
+    },
+    "tasks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "task_id": {
+            "type": "string"
+          },
+          "task_name": {
+            "type": "string"
+          },
+          "assigned_agent_id": {
+            "type": "string"
+          },
+          "dependencies": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "execution_mode": {
+            "type": "string",
+            "enum": [
+              "sequential",
+              "parallel"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "running",
+              "completed",
+              "failed"
+            ]
+          },
+          "priority": {
+            "type": "number"
+          }
+        }
+      },
+      "description": "Workflow tasks"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "active",
+        "paused",
+        "completed",
+        "failed"
+      ],
+      "default": "draft"
+    },
+    "progress_percentage": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "default": 0
+    },
+    "orchestration_rules": {
+      "type": "object",
+      "description": "Rules for dynamic task assignment"
+    },
+    "communication_channel_id": {
+      "type": "string",
+      "description": "Associated communication channel"
+    }
+  },
+  "required": [
+    "workflow_name",
+    "workflow_type"
+  ]
+}

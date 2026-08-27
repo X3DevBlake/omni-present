@@ -1,0 +1,36 @@
+{
+  "name": "DocumentVersion",
+  "type": "object",
+  "properties": {
+    "documentId": {
+      "type": "string",
+      "description": "Original document ID"
+    },
+    "versionNumber": {
+      "type": "integer",
+      "description": "Version number"
+    },
+    "authorEmail": {
+      "type": "string",
+      "description": "Author of this version"
+    },
+    "snapshot": {
+      "type": "object",
+      "description": "Complete document snapshot"
+    },
+    "changesSummary": {
+      "type": "string",
+      "description": "Summary of changes made"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When version was created"
+    }
+  },
+  "required": [
+    "documentId",
+    "versionNumber",
+    "authorEmail"
+  ]
+}

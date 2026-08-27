@@ -1,0 +1,75 @@
+{
+  "name": "AgentBehaviorTree",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string"
+    },
+    "tree_structure": {
+      "type": "object",
+      "properties": {
+        "root_id": {
+          "type": "string"
+        },
+        "nodes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "selector",
+                  "sequence",
+                  "condition",
+                  "action",
+                  "decorator"
+                ]
+              },
+              "name": {
+                "type": "string"
+              },
+              "children": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "params": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "description": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "active_node": {
+      "type": "string"
+    },
+    "last_update": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "inactive",
+        "paused"
+      ]
+    }
+  },
+  "required": [
+    "agent_id",
+    "tree_structure"
+  ]
+}

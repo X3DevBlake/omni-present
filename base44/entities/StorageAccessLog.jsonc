@@ -1,0 +1,59 @@
+{
+  "name": "StorageAccessLog",
+  "type": "object",
+  "properties": {
+    "access_id": {
+      "type": "string",
+      "description": "Access log identifier"
+    },
+    "data_identifier": {
+      "type": "string",
+      "description": "Data being accessed"
+    },
+    "access_type": {
+      "type": "string",
+      "enum": [
+        "read",
+        "write",
+        "delete",
+        "update"
+      ]
+    },
+    "accessor_id": {
+      "type": "string",
+      "description": "User or agent accessing data"
+    },
+    "access_frequency": {
+      "type": "integer",
+      "description": "Number of accesses"
+    },
+    "last_access_timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "storage_tier": {
+      "type": "string",
+      "enum": [
+        "hot",
+        "warm",
+        "cold",
+        "archive"
+      ]
+    },
+    "access_latency_ms": {
+      "type": "number"
+    },
+    "data_size_bytes": {
+      "type": "integer"
+    },
+    "predicted_next_access": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "access_id",
+    "data_identifier",
+    "access_type"
+  ]
+}

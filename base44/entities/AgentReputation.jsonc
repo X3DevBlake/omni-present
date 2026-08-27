@@ -1,0 +1,76 @@
+{
+  "name": "AgentReputation",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Agent this reputation belongs to"
+    },
+    "overall_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "default": 50,
+      "description": "Overall reputation score"
+    },
+    "marketplace_rating": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 5,
+      "description": "Marketplace transaction rating"
+    },
+    "collaboration_rating": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 5,
+      "description": "Collaboration performance rating"
+    },
+    "reliability_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Task completion reliability"
+    },
+    "total_transactions": {
+      "type": "integer",
+      "default": 0,
+      "description": "Total marketplace transactions"
+    },
+    "successful_transactions": {
+      "type": "integer",
+      "default": 0,
+      "description": "Successful transactions"
+    },
+    "positive_reviews": {
+      "type": "integer",
+      "default": 0,
+      "description": "Number of positive reviews"
+    },
+    "negative_reviews": {
+      "type": "integer",
+      "default": 0,
+      "description": "Number of negative reviews"
+    },
+    "badges": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Earned reputation badges"
+    },
+    "trust_level": {
+      "type": "string",
+      "enum": [
+        "novice",
+        "trusted",
+        "expert",
+        "elite"
+      ],
+      "default": "novice",
+      "description": "Trust level"
+    }
+  },
+  "required": [
+    "agent_id"
+  ]
+}

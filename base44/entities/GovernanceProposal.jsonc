@@ -1,0 +1,95 @@
+{
+  "name": "GovernanceProposal",
+  "type": "object",
+  "properties": {
+    "proposal_title": {
+      "type": "string",
+      "description": "Proposal title"
+    },
+    "description": {
+      "type": "string",
+      "description": "Detailed proposal description"
+    },
+    "proposal_type": {
+      "type": "string",
+      "enum": [
+        "fee_adjustment",
+        "feature_development",
+        "treasury_allocation",
+        "rule_change",
+        "strategic_decision"
+      ],
+      "description": "Type of proposal"
+    },
+    "proposer_id": {
+      "type": "string",
+      "description": "Agent or user who created proposal"
+    },
+    "proposer_type": {
+      "type": "string",
+      "enum": [
+        "user",
+        "agent"
+      ],
+      "default": "user"
+    },
+    "voting_power_required": {
+      "type": "number",
+      "description": "Minimum voting power to pass"
+    },
+    "votes_for": {
+      "type": "integer",
+      "default": 0
+    },
+    "votes_against": {
+      "type": "integer",
+      "default": 0
+    },
+    "votes_abstain": {
+      "type": "integer",
+      "default": 0
+    },
+    "voting_start": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "voting_end": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "voting",
+        "passed",
+        "rejected",
+        "executed",
+        "cancelled"
+      ],
+      "default": "draft"
+    },
+    "execution_data": {
+      "type": "object",
+      "description": "Data needed to execute proposal"
+    },
+    "blockchain_tx_hash": {
+      "type": "string",
+      "description": "On-chain transaction hash"
+    },
+    "quorum_percentage": {
+      "type": "number",
+      "default": 50
+    },
+    "executed_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "proposal_title",
+    "description",
+    "proposal_type",
+    "proposer_id"
+  ]
+}

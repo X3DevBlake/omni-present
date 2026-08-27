@@ -1,0 +1,134 @@
+{
+  "name": "TaskDelegation",
+  "type": "object",
+  "properties": {
+    "task_id": {
+      "type": "string",
+      "description": "Unique task identifier"
+    },
+    "parent_task_id": {
+      "type": "string",
+      "description": "Parent task if this is a subtask"
+    },
+    "delegated_from_agent": {
+      "type": "string",
+      "description": "Agent that created/delegated task"
+    },
+    "delegated_to_agents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "acceptance_status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "accepted",
+              "rejected"
+            ]
+          },
+          "completion_percentage": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "task_description": {
+      "type": "string",
+      "description": "What needs to be done"
+    },
+    "task_priority": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ]
+    },
+    "estimated_duration_minutes": {
+      "type": "number"
+    },
+    "required_skills": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "knowledge_required": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "execution_context": {
+      "type": "object",
+      "properties": {
+        "environment": {
+          "type": "string"
+        },
+        "available_resources": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "constraints": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "created",
+        "delegated",
+        "in_progress",
+        "completed",
+        "failed",
+        "cancelled"
+      ],
+      "default": "created"
+    },
+    "emergent_behaviors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "behavior": {
+            "type": "string"
+          },
+          "agents_involved": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "effectiveness": {
+            "type": "number"
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "task_id",
+    "delegated_from_agent",
+    "task_description"
+  ]
+}

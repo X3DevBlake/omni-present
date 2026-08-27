@@ -1,0 +1,122 @@
+{
+  "name": "AgentEmotion",
+  "type": "object",
+  "properties": {
+    "emotion_id": {
+      "type": "string",
+      "description": "Emotion detection record"
+    },
+    "agent_id": {
+      "type": "string",
+      "description": "Agent detecting emotion"
+    },
+    "detected_from_user": {
+      "type": "boolean",
+      "description": "Whether emotion is from user or detected in environment"
+    },
+    "emotion_source": {
+      "type": "string",
+      "enum": [
+        "voice",
+        "text",
+        "facial_expression",
+        "behavioral",
+        "context"
+      ],
+      "description": "How emotion was detected"
+    },
+    "primary_emotion": {
+      "type": "string",
+      "enum": [
+        "happy",
+        "sad",
+        "angry",
+        "frustrated",
+        "confused",
+        "excited",
+        "calm",
+        "stressed",
+        "neutral"
+      ],
+      "description": "Main detected emotion"
+    },
+    "emotion_intensity": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Intensity score"
+    },
+    "secondary_emotions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "emotion": {
+            "type": "string"
+          },
+          "intensity": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "raw_analysis": {
+      "type": "object",
+      "properties": {
+        "voice_sentiment": {
+          "type": "number"
+        },
+        "text_sentiment": {
+          "type": "number"
+        },
+        "tone_analysis": {
+          "type": "string"
+        },
+        "context_clues": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "agent_response_triggered": {
+      "type": "object",
+      "properties": {
+        "response_type": {
+          "type": "string"
+        },
+        "tone_adjustment": {
+          "type": "string"
+        },
+        "actions_taken": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "device_commands_issued": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "confidence_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "timestamp_detected": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "emotion_id",
+    "agent_id",
+    "emotion_source",
+    "primary_emotion"
+  ]
+}

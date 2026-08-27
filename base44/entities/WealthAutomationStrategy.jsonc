@@ -1,0 +1,117 @@
+{
+  "name": "WealthAutomationStrategy",
+  "type": "object",
+  "properties": {
+    "strategy_id": {
+      "type": "string",
+      "description": "Strategy identifier"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "User this strategy belongs to"
+    },
+    "strategy_type": {
+      "type": "string",
+      "enum": [
+        "portfolio_rebalancing",
+        "tax_loss_harvesting",
+        "yield_optimization",
+        "risk_hedging",
+        "automated_trading",
+        "liquidity_mining"
+      ],
+      "description": "Type of wealth automation"
+    },
+    "ai_model_used": {
+      "type": "string",
+      "description": "AI model driving the strategy"
+    },
+    "execution_rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "trigger_condition": {
+            "type": "string"
+          },
+          "action": {
+            "type": "string"
+          },
+          "parameters": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "risk_parameters": {
+      "type": "object",
+      "properties": {
+        "max_position_size": {
+          "type": "number"
+        },
+        "stop_loss_threshold": {
+          "type": "number"
+        },
+        "max_drawdown_percent": {
+          "type": "number"
+        },
+        "risk_score_limit": {
+          "type": "number"
+        }
+      }
+    },
+    "performance_history": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "return_percent": {
+            "type": "number"
+          },
+          "sharpe_ratio": {
+            "type": "number"
+          },
+          "trades_executed": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "autonomous_learning": {
+      "type": "object",
+      "properties": {
+        "adapts_to_market": {
+          "type": "boolean"
+        },
+        "learns_from_errors": {
+          "type": "boolean"
+        },
+        "strategy_evolution_score": {
+          "type": "number"
+        }
+      }
+    },
+    "prediction_confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "execution_frequency": {
+      "type": "string",
+      "description": "How often strategy executes"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "strategy_id",
+    "user_id",
+    "strategy_type"
+  ]
+}

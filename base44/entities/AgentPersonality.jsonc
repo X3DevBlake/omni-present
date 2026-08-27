@@ -1,0 +1,104 @@
+{
+  "name": "AgentPersonality",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Reference to the agent"
+    },
+    "name": {
+      "type": "string",
+      "description": "Agent personality name"
+    },
+    "traits": {
+      "type": "object",
+      "properties": {
+        "curiosity": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "default": 50
+        },
+        "friendliness": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "default": 70
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "default": 60
+        },
+        "caution": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "default": 50
+        },
+        "creativity": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "default": 60
+        }
+      },
+      "description": "Personality traits and their values"
+    },
+    "communication_style": {
+      "type": "string",
+      "enum": [
+        "formal",
+        "casual",
+        "technical",
+        "poetic",
+        "humorous",
+        "direct"
+      ],
+      "default": "casual",
+      "description": "Preferred communication style"
+    },
+    "emotional_responses": {
+      "type": "object",
+      "description": "How agent responds to different situations (e.g., challenge, failure, success)"
+    },
+    "knowledge_domains": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Areas of expertise or interest"
+    },
+    "decision_strategy": {
+      "type": "string",
+      "enum": [
+        "analytical",
+        "intuitive",
+        "collaborative",
+        "cautious",
+        "aggressive"
+      ],
+      "default": "analytical",
+      "description": "How agent makes decisions"
+    },
+    "goals": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Agent's primary goals in the simulation"
+    },
+    "constraints": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Rules or constraints agent follows"
+    }
+  },
+  "required": [
+    "agent_id",
+    "name"
+  ]
+}

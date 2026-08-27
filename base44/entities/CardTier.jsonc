@@ -1,0 +1,59 @@
+{
+  "name": "CardTier",
+  "type": "object",
+  "properties": {
+    "tier_id": {
+      "type": "string",
+      "enum": [
+        "pioneer",
+        "explorer",
+        "voyager",
+        "ascendant",
+        "sovereign"
+      ],
+      "description": "Unique tier identifier"
+    },
+    "name": {
+      "type": "string",
+      "description": "Card tier display name"
+    },
+    "cost": {
+      "type": "number",
+      "description": "Cost in Omni tokens (0 for free tiers)"
+    },
+    "cashback_rate": {
+      "type": "number",
+      "description": "Cashback percentage (e.g., 8 for 8%)"
+    },
+    "deposit_match_rate": {
+      "type": "number",
+      "description": "Deposit match bonus percentage"
+    },
+    "deposit_match_cap": {
+      "type": "number",
+      "description": "Monthly cap for deposit match"
+    },
+    "benefits": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of tier benefits"
+    },
+    "customization_slots": {
+      "type": "integer",
+      "description": "Number of customization options unlocked"
+    },
+    "is_premium": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this is a premium tier"
+    }
+  },
+  "required": [
+    "tier_id",
+    "name",
+    "cost",
+    "cashback_rate"
+  ]
+}

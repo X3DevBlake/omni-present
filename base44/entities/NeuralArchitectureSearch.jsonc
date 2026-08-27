@@ -1,0 +1,73 @@
+{
+  "name": "NeuralArchitectureSearch",
+  "type": "object",
+  "properties": {
+    "search_name": {
+      "type": "string"
+    },
+    "target_task": {
+      "type": "string",
+      "description": "ML task to optimize architecture for"
+    },
+    "search_space": {
+      "type": "object",
+      "properties": {
+        "layer_types": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "max_layers": {
+          "type": "integer"
+        },
+        "activation_functions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "discovered_architectures": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "architecture": {
+            "type": "object"
+          },
+          "performance_score": {
+            "type": "number"
+          },
+          "parameters_count": {
+            "type": "integer"
+          },
+          "inference_time_ms": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "best_architecture": {
+      "type": "object"
+    },
+    "search_iterations": {
+      "type": "integer",
+      "default": 0
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "searching",
+        "completed",
+        "paused"
+      ],
+      "default": "searching"
+    }
+  },
+  "required": [
+    "search_name",
+    "target_task"
+  ]
+}

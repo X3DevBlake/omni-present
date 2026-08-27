@@ -1,0 +1,108 @@
+{
+  "name": "RealWorldInteractionLog",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Agent that performed interaction"
+    },
+    "omni_device_id": {
+      "type": "string",
+      "description": "Device used for interaction"
+    },
+    "interaction_type": {
+      "type": "string",
+      "enum": [
+        "voice_command",
+        "gesture_detection",
+        "object_identification",
+        "proximity_trigger",
+        "touch_interaction",
+        "visual_response"
+      ],
+      "description": "Type of interaction"
+    },
+    "interaction_data": {
+      "type": "object",
+      "properties": {
+        "transcribed_speech": {
+          "type": "string"
+        },
+        "gesture_vector": {
+          "type": "object",
+          "properties": {
+            "x": {
+              "type": "number"
+            },
+            "y": {
+              "type": "number"
+            },
+            "z": {
+              "type": "number"
+            }
+          }
+        },
+        "identified_object": {
+          "type": "string"
+        },
+        "object_confidence": {
+          "type": "number"
+        },
+        "raw_sensor_data": {
+          "type": "string"
+        }
+      }
+    },
+    "agent_response": {
+      "type": "string",
+      "description": "How agent responded"
+    },
+    "location_at_interaction": {
+      "type": "object",
+      "properties": {
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "z": {
+          "type": "number"
+        },
+        "room": {
+          "type": "string"
+        }
+      }
+    },
+    "sentiment_analysis": {
+      "type": "object",
+      "properties": {
+        "sentiment": {
+          "type": "string",
+          "enum": [
+            "positive",
+            "neutral",
+            "negative"
+          ]
+        },
+        "confidence": {
+          "type": "number"
+        },
+        "detected_emotion": {
+          "type": "string"
+        }
+      }
+    },
+    "interaction_success": {
+      "type": "boolean",
+      "default": true
+    },
+    "duration_seconds": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "agent_id",
+    "interaction_type"
+  ]
+}

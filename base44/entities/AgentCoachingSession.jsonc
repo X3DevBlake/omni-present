@@ -1,0 +1,39 @@
+{
+  "name": "AgentCoachingSession",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "performance_metrics": {
+      "type": "object"
+    },
+    "feedback": {
+      "type": "string"
+    },
+    "recommended_skills": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "next_evolution_milestone": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "completed",
+        "acknowledged"
+      ]
+    }
+  },
+  "required": [
+    "agent_id"
+  ]
+}

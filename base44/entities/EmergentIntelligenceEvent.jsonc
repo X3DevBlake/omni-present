@@ -1,0 +1,86 @@
+{
+  "name": "EmergentIntelligenceEvent",
+  "type": "object",
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "description": "Event identifier"
+    },
+    "guild_id": {
+      "type": "string",
+      "description": "Guild where intelligence emerged"
+    },
+    "emergent_behavior_type": {
+      "type": "string",
+      "enum": [
+        "novel_solution",
+        "collective_insight",
+        "unexpected_synergy",
+        "breakthrough_discovery",
+        "emergent_goal"
+      ],
+      "description": "Type of emergent intelligence"
+    },
+    "participating_agents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "type": "string"
+          },
+          "contribution_type": {
+            "type": "string"
+          },
+          "contribution_weight": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "problem_context": {
+      "type": "string",
+      "description": "Problem being solved"
+    },
+    "emergent_solution": {
+      "type": "string",
+      "description": "Solution that emerged"
+    },
+    "innovation_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "How novel the solution is"
+    },
+    "collective_iq_boost": {
+      "type": "number",
+      "description": "Intelligence amplification factor"
+    },
+    "knowledge_synthesized": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "knowledge_piece": {
+            "type": "string"
+          },
+          "source_agents": {
+            "type": "array"
+          }
+        }
+      }
+    },
+    "replication_potential": {
+      "type": "number",
+      "description": "Likelihood other guilds can replicate"
+    },
+    "occurred_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "event_id",
+    "emergent_behavior_type"
+  ]
+}

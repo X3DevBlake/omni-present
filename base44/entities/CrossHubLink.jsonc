@@ -1,0 +1,63 @@
+{
+  "name": "CrossHubLink",
+  "type": "object",
+  "properties": {
+    "source_hub": {
+      "type": "string",
+      "description": "Source navigation hub"
+    },
+    "target_hub": {
+      "type": "string",
+      "description": "Target navigation hub"
+    },
+    "link_type": {
+      "type": "string",
+      "enum": [
+        "data_flow",
+        "user_navigation",
+        "ai_suggestion",
+        "workflow"
+      ],
+      "description": "Type of connection"
+    },
+    "strength": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Connection strength based on usage"
+    },
+    "usage_count": {
+      "type": "integer",
+      "default": 0,
+      "description": "How many times this path was taken"
+    },
+    "avg_transition_time": {
+      "type": "number",
+      "description": "Average time to navigate this path"
+    },
+    "success_rate": {
+      "type": "number",
+      "description": "How often this path leads to task completion"
+    },
+    "ai_confidence": {
+      "type": "number",
+      "description": "AI confidence in recommending this path"
+    },
+    "user_segments": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "User segments that use this path"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "source_hub",
+    "target_hub",
+    "link_type"
+  ]
+}

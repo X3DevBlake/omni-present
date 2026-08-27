@@ -1,0 +1,33 @@
+{
+  "name": "UserHubData",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string"
+    },
+    "favorites": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "recently_visited": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "hub_id": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "user_email"
+  ]
+}

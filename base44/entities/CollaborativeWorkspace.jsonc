@@ -1,0 +1,157 @@
+{
+  "name": "CollaborativeWorkspace",
+  "type": "object",
+  "properties": {
+    "workspace_name": {
+      "type": "string",
+      "description": "Collaborative workspace identifier"
+    },
+    "workspace_type": {
+      "type": "string",
+      "enum": [
+        "model_development",
+        "agent_design",
+        "research",
+        "data_analysis",
+        "strategy_planning"
+      ],
+      "description": "Collaboration purpose"
+    },
+    "participants": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "participant_id": {
+            "type": "string"
+          },
+          "participant_type": {
+            "type": "string",
+            "enum": [
+              "human",
+              "ai_agent",
+              "ai_facilitator"
+            ]
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "owner",
+              "editor",
+              "viewer",
+              "contributor"
+            ]
+          },
+          "active": {
+            "type": "boolean"
+          },
+          "cursor_position": {
+            "type": "object"
+          },
+          "current_activity": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "shared_artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "artifact_id": {
+            "type": "string"
+          },
+          "artifact_type": {
+            "type": "string",
+            "enum": [
+              "model",
+              "code",
+              "document",
+              "visualization",
+              "dataset"
+            ]
+          },
+          "version": {
+            "type": "integer"
+          },
+          "locked_by": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "real_time_sync": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "sync_interval_ms": {
+          "type": "integer",
+          "default": 100
+        },
+        "conflict_resolution": {
+          "type": "string",
+          "enum": [
+            "last_write_wins",
+            "merge",
+            "manual",
+            "ai_assisted"
+          ]
+        }
+      }
+    },
+    "ai_facilitator": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "facilitator_id": {
+          "type": "string"
+        },
+        "insights_generated": {
+          "type": "integer",
+          "default": 0
+        },
+        "suggestions_provided": {
+          "type": "integer",
+          "default": 0
+        }
+      }
+    },
+    "collaboration_metrics": {
+      "type": "object",
+      "properties": {
+        "total_edits": {
+          "type": "integer",
+          "default": 0
+        },
+        "conflicts_resolved": {
+          "type": "integer",
+          "default": 0
+        },
+        "productivity_score": {
+          "type": "number"
+        },
+        "collaboration_quality": {
+          "type": "number"
+        }
+      }
+    },
+    "chat_enabled": {
+      "type": "boolean",
+      "default": true
+    },
+    "video_enabled": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "workspace_name",
+    "workspace_type"
+  ]
+}

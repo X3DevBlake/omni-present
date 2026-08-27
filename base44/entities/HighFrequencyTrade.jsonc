@@ -1,0 +1,58 @@
+{
+  "name": "HighFrequencyTrade",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "User email"
+    },
+    "agent_id": {
+      "type": "string",
+      "description": "Trading agent ID"
+    },
+    "asset_symbol": {
+      "type": "string",
+      "description": "Asset traded"
+    },
+    "entry_price": {
+      "type": "number",
+      "description": "Entry price"
+    },
+    "exit_price": {
+      "type": "number",
+      "description": "Exit price"
+    },
+    "quantity": {
+      "type": "number",
+      "description": "Quantity traded"
+    },
+    "hold_duration_seconds": {
+      "type": "number",
+      "description": "Hold time in seconds"
+    },
+    "profit_loss": {
+      "type": "number",
+      "description": "P&L in USD"
+    },
+    "execution_time": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Execution timestamp"
+    },
+    "strategy_used": {
+      "type": "string",
+      "description": "Strategy identifier"
+    },
+    "market_conditions": {
+      "type": "object",
+      "description": "Market state at execution"
+    }
+  },
+  "required": [
+    "user_email",
+    "agent_id",
+    "asset_symbol",
+    "entry_price",
+    "exit_price"
+  ]
+}

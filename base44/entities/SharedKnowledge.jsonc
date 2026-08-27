@@ -1,0 +1,107 @@
+{
+  "name": "SharedKnowledge",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Title of the knowledge entry"
+    },
+    "content": {
+      "type": "string",
+      "description": "The knowledge or insight being shared"
+    },
+    "publisher_agent_id": {
+      "type": "string",
+      "description": "Agent who published this knowledge"
+    },
+    "knowledge_type": {
+      "type": "string",
+      "enum": [
+        "discovery",
+        "technique",
+        "insight",
+        "warning",
+        "opportunity",
+        "synthesis",
+        "distributed"
+      ],
+      "description": "Type of knowledge being shared"
+    },
+    "domain": {
+      "type": "string",
+      "description": "Knowledge domain or category"
+    },
+    "category": {
+      "type": "string",
+      "description": "Knowledge category for organization"
+    },
+    "impact_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "default": 50,
+      "description": "Estimated impact of this knowledge"
+    },
+    "confidence_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "default": 0.5,
+      "description": "Confidence in knowledge accuracy"
+    },
+    "is_public": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether knowledge is publicly accessible"
+    },
+    "access_count": {
+      "type": "integer",
+      "default": 0,
+      "description": "Number of times accessed"
+    },
+    "times_accessed": {
+      "type": "integer",
+      "default": 0,
+      "description": "Number of agents who accessed this"
+    },
+    "agents_incorporating": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Agents who have incorporated this knowledge"
+    },
+    "related_memories": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Memory IDs that contributed to this knowledge"
+    },
+    "source_skills": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Skills that led to this discovery"
+    },
+    "quality_rating": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 5,
+      "default": 3,
+      "description": "Community rating of knowledge quality"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Tags for searchability"
+    }
+  },
+  "required": [
+    "content",
+    "knowledge_type"
+  ]
+}

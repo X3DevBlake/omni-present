@@ -1,0 +1,58 @@
+{
+  "name": "CrossModuleIntegration",
+  "type": "object",
+  "properties": {
+    "integration_name": {
+      "type": "string",
+      "description": "Integration name"
+    },
+    "source_module": {
+      "type": "string",
+      "enum": [
+        "monitoring",
+        "marketplace",
+        "defi",
+        "banking",
+        "orchestration"
+      ],
+      "description": "Source module"
+    },
+    "target_module": {
+      "type": "string",
+      "enum": [
+        "monitoring",
+        "marketplace",
+        "defi",
+        "banking",
+        "orchestration"
+      ],
+      "description": "Target module"
+    },
+    "trigger_event": {
+      "type": "string",
+      "description": "Event that triggers integration"
+    },
+    "action_config": {
+      "type": "object",
+      "description": "Action to perform"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    },
+    "execution_count": {
+      "type": "integer",
+      "default": 0
+    },
+    "last_executed": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "integration_name",
+    "source_module",
+    "target_module",
+    "trigger_event"
+  ]
+}

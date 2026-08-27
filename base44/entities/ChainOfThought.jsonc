@@ -1,0 +1,72 @@
+{
+  "name": "ChainOfThought",
+  "type": "object",
+  "properties": {
+    "reasoning_name": {
+      "type": "string",
+      "description": "CoT system identifier"
+    },
+    "reasoning_strategy": {
+      "type": "string",
+      "enum": [
+        "zero_shot_cot",
+        "few_shot_cot",
+        "self_consistency",
+        "tree_of_thoughts",
+        "graph_of_thoughts"
+      ],
+      "description": "Reasoning approach"
+    },
+    "reasoning_steps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "step_number": {
+            "type": "integer"
+          },
+          "thought": {
+            "type": "string"
+          },
+          "confidence": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "branching_factor": {
+      "type": "integer",
+      "description": "Parallel reasoning paths explored"
+    },
+    "max_depth": {
+      "type": "integer",
+      "description": "Maximum reasoning depth"
+    },
+    "accuracy_improvement": {
+      "type": "number",
+      "description": "Improvement over direct answering"
+    },
+    "reasoning_quality": {
+      "type": "object",
+      "properties": {
+        "logical_coherence": {
+          "type": "number"
+        },
+        "step_relevance": {
+          "type": "number"
+        },
+        "conclusion_validity": {
+          "type": "number"
+        }
+      }
+    },
+    "self_verification": {
+      "type": "boolean",
+      "description": "Checks own reasoning"
+    }
+  },
+  "required": [
+    "reasoning_name",
+    "reasoning_strategy"
+  ]
+}

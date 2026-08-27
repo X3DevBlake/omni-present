@@ -1,0 +1,134 @@
+{
+  "name": "NavigationHub",
+  "type": "object",
+  "properties": {
+    "hub_name": {
+      "type": "string",
+      "description": "Hub identifier"
+    },
+    "display_name": {
+      "type": "string"
+    },
+    "hub_category": {
+      "type": "string",
+      "enum": [
+        "ai_ml",
+        "finance",
+        "collaboration",
+        "security",
+        "analytics",
+        "infrastructure"
+      ],
+      "description": "Hub category"
+    },
+    "target_page": {
+      "type": "string",
+      "description": "Page to navigate to"
+    },
+    "icon_config": {
+      "type": "object",
+      "properties": {
+        "icon_type": {
+          "type": "string",
+          "enum": [
+            "lucide",
+            "3d_model",
+            "custom"
+          ]
+        },
+        "icon_name": {
+          "type": "string"
+        },
+        "model_url": {
+          "type": "string"
+        }
+      }
+    },
+    "portal_3d_config": {
+      "type": "object",
+      "properties": {
+        "geometry_type": {
+          "type": "string",
+          "enum": [
+            "sphere",
+            "torus",
+            "icosahedron",
+            "octahedron",
+            "custom"
+          ]
+        },
+        "primary_color": {
+          "type": "string"
+        },
+        "secondary_color": {
+          "type": "string"
+        },
+        "animation_style": {
+          "type": "string",
+          "enum": [
+            "pulse",
+            "rotate",
+            "float",
+            "shimmer"
+          ]
+        },
+        "particle_effects": {
+          "type": "boolean"
+        }
+      }
+    },
+    "access_requirements": {
+      "type": "object",
+      "properties": {
+        "min_role": {
+          "type": "string",
+          "enum": [
+            "user",
+            "admin"
+          ]
+        },
+        "required_achievements": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "usage_stats": {
+      "type": "object",
+      "properties": {
+        "total_visits": {
+          "type": "integer",
+          "default": 0
+        },
+        "unique_visitors": {
+          "type": "integer",
+          "default": 0
+        },
+        "avg_session_duration": {
+          "type": "number"
+        }
+      }
+    },
+    "ai_insights": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "AI-generated insights about this hub"
+    },
+    "is_featured": {
+      "type": "boolean",
+      "default": false
+    },
+    "display_order": {
+      "type": "integer"
+    }
+  },
+  "required": [
+    "hub_name",
+    "display_name",
+    "target_page"
+  ]
+}

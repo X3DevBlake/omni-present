@@ -1,0 +1,104 @@
+{
+  "name": "WebhookConfiguration",
+  "type": "object",
+  "properties": {
+    "webhook_name": {
+      "type": "string",
+      "description": "Webhook identifier"
+    },
+    "trigger_entity": {
+      "type": "string",
+      "description": "Entity that triggers the webhook"
+    },
+    "trigger_events": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "create",
+          "update",
+          "delete",
+          "status_change"
+        ]
+      }
+    },
+    "endpoint_url": {
+      "type": "string",
+      "description": "Target webhook URL"
+    },
+    "http_method": {
+      "type": "string",
+      "enum": [
+        "POST",
+        "PUT",
+        "PATCH"
+      ],
+      "default": "POST"
+    },
+    "headers": {
+      "type": "object",
+      "description": "Custom HTTP headers"
+    },
+    "payload_template": {
+      "type": "object",
+      "description": "Custom payload structure"
+    },
+    "filters": {
+      "type": "object",
+      "description": "Conditions for triggering"
+    },
+    "retry_config": {
+      "type": "object",
+      "properties": {
+        "max_retries": {
+          "type": "integer",
+          "default": 3
+        },
+        "retry_delay_ms": {
+          "type": "integer",
+          "default": 1000
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "paused",
+        "failed"
+      ],
+      "default": "active"
+    },
+    "delivery_stats": {
+      "type": "object",
+      "properties": {
+        "total_deliveries": {
+          "type": "integer",
+          "default": 0
+        },
+        "successful_deliveries": {
+          "type": "integer",
+          "default": 0
+        },
+        "failed_deliveries": {
+          "type": "integer",
+          "default": 0
+        },
+        "last_delivery": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "secret_key": {
+      "type": "string",
+      "description": "Webhook signature key"
+    }
+  },
+  "required": [
+    "webhook_name",
+    "trigger_entity",
+    "trigger_events",
+    "endpoint_url"
+  ]
+}

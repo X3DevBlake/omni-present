@@ -1,0 +1,124 @@
+{
+  "name": "AgentLearningGuild",
+  "type": "object",
+  "properties": {
+    "guild_id": {
+      "type": "string",
+      "description": "Unique guild identifier"
+    },
+    "guild_name": {
+      "type": "string",
+      "description": "Guild name"
+    },
+    "member_agents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "learner",
+              "mentor",
+              "contributor",
+              "synthesizer"
+            ]
+          },
+          "contribution_score": {
+            "type": "number"
+          },
+          "knowledge_shared": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "collective_intelligence": {
+      "type": "object",
+      "properties": {
+        "emergent_knowledge": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "synthesis_rate": {
+          "type": "number"
+        },
+        "collective_iq": {
+          "type": "number"
+        },
+        "problem_solving_capability": {
+          "type": "number"
+        }
+      }
+    },
+    "shared_knowledge_pool": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "knowledge_id": {
+            "type": "string"
+          },
+          "topic": {
+            "type": "string"
+          },
+          "contributor_agent": {
+            "type": "string"
+          },
+          "synthesized": {
+            "type": "boolean"
+          },
+          "access_count": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "collaborative_problems": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "problem_description": {
+            "type": "string"
+          },
+          "complexity": {
+            "type": "number"
+          },
+          "assigned_agents": {
+            "type": "array"
+          },
+          "solution_status": {
+            "type": "string"
+          },
+          "emergent_solution": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "guild_consciousness": {
+      "type": "object",
+      "properties": {
+        "collective_awareness": {
+          "type": "number"
+        },
+        "synergy_score": {
+          "type": "number"
+        },
+        "autonomous_evolution": {
+          "type": "boolean"
+        }
+      }
+    }
+  },
+  "required": [
+    "guild_id",
+    "guild_name"
+  ]
+}

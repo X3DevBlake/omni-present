@@ -1,0 +1,116 @@
+{
+  "name": "PersonalityDriftAnalysis",
+  "type": "object",
+  "properties": {
+    "analysis_id": {
+      "type": "string",
+      "description": "Analysis record identifier"
+    },
+    "agent_id": {
+      "type": "string",
+      "description": "Agent being analyzed"
+    },
+    "baseline_personality": {
+      "type": "object",
+      "description": "Original personality configuration",
+      "additionalProperties": true
+    },
+    "current_personality": {
+      "type": "object",
+      "description": "Current personality state",
+      "additionalProperties": true
+    },
+    "drift_metrics": {
+      "type": "object",
+      "properties": {
+        "overall_drift_magnitude": {
+          "type": "number"
+        },
+        "empathy_drift": {
+          "type": "number"
+        },
+        "assertiveness_drift": {
+          "type": "number"
+        },
+        "formality_drift": {
+          "type": "number"
+        },
+        "creativity_drift": {
+          "type": "number"
+        }
+      }
+    },
+    "drift_triggers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "trigger_type": {
+            "type": "string"
+          },
+          "interaction_id": {
+            "type": "string"
+          },
+          "impact_score": {
+            "type": "number"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "drift_assessment": {
+      "type": "string",
+      "enum": [
+        "healthy",
+        "concerning",
+        "critical"
+      ],
+      "description": "AI assessment of drift severity"
+    },
+    "recommendations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "recommendation_type": {
+            "type": "string"
+          },
+          "action": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "number"
+          },
+          "expected_outcome": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "user_feedback_correlation": {
+      "type": "object",
+      "properties": {
+        "positive_feedback_trend": {
+          "type": "number"
+        },
+        "negative_feedback_trend": {
+          "type": "number"
+        },
+        "correlation_with_drift": {
+          "type": "number"
+        }
+      }
+    },
+    "analysis_timestamp": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "analysis_id",
+    "agent_id",
+    "drift_metrics"
+  ]
+}

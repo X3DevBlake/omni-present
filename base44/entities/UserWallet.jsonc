@@ -1,0 +1,40 @@
+{
+  "name": "UserWallet",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "The ID of the user who owns this wallet"
+    },
+    "address": {
+      "type": "string",
+      "description": "The wallet address"
+    },
+    "public_key": {
+      "type": "string",
+      "description": "Public key associated with the wallet"
+    },
+    "balance": {
+      "type": "number",
+      "default": 0,
+      "description": "Current balance in OMNI"
+    },
+    "currency": {
+      "type": "string",
+      "default": "OMNI",
+      "description": "The currency code"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "suspended"
+      ],
+      "default": "active"
+    }
+  },
+  "required": [
+    "user_id",
+    "address"
+  ]
+}

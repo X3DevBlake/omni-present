@@ -1,0 +1,83 @@
+{
+  "name": "SimulationAgent",
+  "type": "object",
+  "properties": {
+    "simulation_id": {
+      "type": "string",
+      "description": "Parent simulation ID"
+    },
+    "user_email": {
+      "type": "string",
+      "description": "Owner email"
+    },
+    "agent_name": {
+      "type": "string",
+      "description": "Agent name"
+    },
+    "agent_type": {
+      "type": "string",
+      "enum": [
+        "explorer",
+        "trader",
+        "strategist",
+        "connector",
+        "analyst",
+        "custom"
+      ],
+      "description": "Agent type"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "idle",
+        "active",
+        "paused",
+        "completed"
+      ],
+      "default": "idle",
+      "description": "Agent status"
+    },
+    "position": {
+      "type": "object",
+      "properties": {
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "z": {
+          "type": "number"
+        }
+      },
+      "description": "3D position"
+    },
+    "personality": {
+      "type": "object",
+      "description": "Agent personality traits"
+    },
+    "goals": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Agent goals"
+    },
+    "interactions": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Interactions with other agents"
+    },
+    "performance_metrics": {
+      "type": "object",
+      "description": "Performance statistics"
+    }
+  },
+  "required": [
+    "simulation_id",
+    "user_email",
+    "agent_name"
+  ]
+}

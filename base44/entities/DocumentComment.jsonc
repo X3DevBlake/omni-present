@@ -1,0 +1,58 @@
+{
+  "name": "DocumentComment",
+  "type": "object",
+  "properties": {
+    "documentId": {
+      "type": "string",
+      "description": "Document being commented on"
+    },
+    "authorEmail": {
+      "type": "string",
+      "description": "Email of comment author"
+    },
+    "content": {
+      "type": "string",
+      "description": "Comment text"
+    },
+    "metricPath": {
+      "type": "string",
+      "description": "Path to metric/chart commented on"
+    },
+    "resolved": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether comment is resolved"
+    },
+    "replies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "authorEmail": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "description": "Reply comments"
+    },
+    "mentions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Mentioned users"
+    }
+  },
+  "required": [
+    "documentId",
+    "authorEmail",
+    "content"
+  ]
+}

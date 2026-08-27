@@ -1,0 +1,84 @@
+{
+  "name": "TradeExecution",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "User email"
+    },
+    "agent_id": {
+      "type": "string",
+      "description": "Agent that triggered trade"
+    },
+    "asset_symbol": {
+      "type": "string",
+      "description": "Asset symbol"
+    },
+    "trade_type": {
+      "type": "string",
+      "enum": [
+        "buy",
+        "sell",
+        "short",
+        "long"
+      ],
+      "description": "Trade type"
+    },
+    "quantity": {
+      "type": "number",
+      "description": "Quantity"
+    },
+    "price": {
+      "type": "number",
+      "description": "Execution price"
+    },
+    "total_value": {
+      "type": "number",
+      "description": "Total trade value"
+    },
+    "exchange": {
+      "type": "string",
+      "enum": [
+        "binance",
+        "coinbase",
+        "kraken",
+        "alpaca"
+      ],
+      "description": "Exchange"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "executed",
+        "failed",
+        "cancelled"
+      ],
+      "default": "pending",
+      "description": "Trade status"
+    },
+    "trigger_rule": {
+      "type": "string",
+      "description": "Rule that triggered trade"
+    },
+    "prediction_confidence": {
+      "type": "number",
+      "description": "AI confidence %"
+    },
+    "profit_loss": {
+      "type": "number",
+      "description": "P&L if resolved"
+    },
+    "executed_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Execution timestamp"
+    }
+  },
+  "required": [
+    "user_email",
+    "asset_symbol",
+    "trade_type",
+    "quantity"
+  ]
+}

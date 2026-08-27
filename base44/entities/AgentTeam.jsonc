@@ -1,0 +1,48 @@
+{
+  "name": "AgentTeam",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "mission_id": {
+      "type": "string"
+    },
+    "member_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "forming",
+        "negotiating",
+        "active",
+        "completed",
+        "disbanded"
+      ],
+      "default": "forming"
+    },
+    "consensus_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "default": 0
+    },
+    "shared_resources": {
+      "type": "object"
+    },
+    "current_strategy": {
+      "type": "string"
+    },
+    "communication_log_id": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "name",
+    "status"
+  ]
+}

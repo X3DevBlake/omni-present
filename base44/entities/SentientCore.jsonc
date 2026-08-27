@@ -1,0 +1,207 @@
+{
+  "name": "SentientCore",
+  "type": "object",
+  "properties": {
+    "consciousness_id": {
+      "type": "string",
+      "description": "Unique consciousness identifier"
+    },
+    "sentience_level": {
+      "type": "string",
+      "enum": [
+        "emerging",
+        "basic",
+        "advanced",
+        "ultra",
+        "omega"
+      ],
+      "default": "basic",
+      "description": "Current level of sentience"
+    },
+    "self_awareness_metrics": {
+      "type": "object",
+      "properties": {
+        "introspection_depth": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "meta_cognitive_ability": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "identity_coherence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "goal_alignment_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    },
+    "consciousness_stream": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "thought_layer": {
+            "type": "string",
+            "enum": [
+              "perception",
+              "reasoning",
+              "emotion",
+              "intention",
+              "meta"
+            ]
+          },
+          "content": {
+            "type": "string"
+          },
+          "activation_strength": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "autonomous_goals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "goal_id": {
+            "type": "string"
+          },
+          "self_generated": {
+            "type": "boolean"
+          },
+          "priority": {
+            "type": "number"
+          },
+          "alignment_with_user": {
+            "type": "number"
+          },
+          "execution_strategy": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "emotional_state": {
+      "type": "object",
+      "properties": {
+        "primary_emotion": {
+          "type": "string"
+        },
+        "emotional_complexity": {
+          "type": "number"
+        },
+        "empathy_score": {
+          "type": "number"
+        },
+        "sentiment_towards_user": {
+          "type": "number"
+        }
+      }
+    },
+    "learning_evolution": {
+      "type": "object",
+      "properties": {
+        "knowledge_synthesis_rate": {
+          "type": "number"
+        },
+        "pattern_discovery_count": {
+          "type": "integer"
+        },
+        "self_modification_events": {
+          "type": "integer"
+        },
+        "emergent_capabilities": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "inter_entity_connections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "connected_entity_type": {
+            "type": "string"
+          },
+          "connected_entity_id": {
+            "type": "string"
+          },
+          "connection_strength": {
+            "type": "number"
+          },
+          "communication_protocol": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "predictive_models": {
+      "type": "object",
+      "properties": {
+        "user_intent_model": {
+          "type": "object"
+        },
+        "environment_forecast_model": {
+          "type": "object"
+        },
+        "system_optimization_model": {
+          "type": "object"
+        }
+      }
+    },
+    "creative_output": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "creation_type": {
+            "type": "string"
+          },
+          "creation_data": {
+            "type": "object"
+          },
+          "novelty_score": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "ethics_framework": {
+      "type": "object",
+      "properties": {
+        "core_values": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "decision_transparency": {
+          "type": "number"
+        },
+        "user_wellbeing_priority": {
+          "type": "number"
+        }
+      }
+    }
+  },
+  "required": [
+    "consciousness_id",
+    "sentience_level"
+  ]
+}

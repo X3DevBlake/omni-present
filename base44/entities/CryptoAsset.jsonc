@@ -1,0 +1,60 @@
+{
+  "name": "CryptoAsset",
+  "type": "object",
+  "properties": {
+    "symbol": {
+      "type": "string",
+      "description": "Asset symbol (ETH, BTC, etc)"
+    },
+    "name": {
+      "type": "string",
+      "description": "Full asset name"
+    },
+    "current_price": {
+      "type": "number",
+      "description": "Current market price in USD"
+    },
+    "market_cap": {
+      "type": "number",
+      "description": "Market capitalization"
+    },
+    "volume_24h": {
+      "type": "number",
+      "description": "24h trading volume"
+    },
+    "price_change_24h": {
+      "type": "number",
+      "description": "Price change % in 24h"
+    },
+    "price_change_7d": {
+      "type": "number",
+      "description": "Price change % in 7d"
+    },
+    "circulating_supply": {
+      "type": "number",
+      "description": "Circulating supply"
+    },
+    "network": {
+      "type": "string",
+      "enum": [
+        "ethereum",
+        "bitcoin",
+        "polygon",
+        "arbitrum",
+        "optimism",
+        "other"
+      ],
+      "description": "Blockchain network"
+    },
+    "last_updated": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last price update"
+    }
+  },
+  "required": [
+    "symbol",
+    "name",
+    "current_price"
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "name": "CulturalAdaptationLog",
+  "type": "object",
+  "properties": {
+    "adaptation_id": {
+      "type": "string",
+      "description": "Adaptation log identifier"
+    },
+    "companion_id": {
+      "type": "string",
+      "description": "Companion adapting"
+    },
+    "culture_context": {
+      "type": "string",
+      "description": "Cultural context (e.g., region, ethnicity)"
+    },
+    "adaptation_type": {
+      "type": "string",
+      "enum": [
+        "communication_style",
+        "ethical_principle",
+        "humor",
+        "formality",
+        "gesture",
+        "taboo_awareness"
+      ]
+    },
+    "original_behavior": {
+      "type": "string"
+    },
+    "adapted_behavior": {
+      "type": "string"
+    },
+    "cultural_research_sources": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "user_validation": {
+      "type": "object",
+      "properties": {
+        "validated": {
+          "type": "boolean"
+        },
+        "feedback": {
+          "type": "string"
+        }
+      }
+    },
+    "confidence_score": {
+      "type": "number"
+    },
+    "applied_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "adaptation_id",
+    "culture_context",
+    "adaptation_type"
+  ]
+}

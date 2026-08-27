@@ -1,0 +1,78 @@
+{
+  "name": "RealTimeAlert",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "User email"
+    },
+    "alert_type": {
+      "type": "string",
+      "enum": [
+        "price",
+        "spending",
+        "credit_score",
+        "market",
+        "ai_insight",
+        "custom"
+      ],
+      "description": "Type of alert"
+    },
+    "condition": {
+      "type": "object",
+      "description": "Alert condition (e.g., price > 50000)"
+    },
+    "asset_type": {
+      "type": "string",
+      "enum": [
+        "stock",
+        "crypto",
+        "fx",
+        "transaction",
+        "metric"
+      ],
+      "description": "Asset type"
+    },
+    "asset_id": {
+      "type": "string",
+      "description": "Asset identifier"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "triggered",
+        "snoozed",
+        "inactive"
+      ],
+      "default": "active",
+      "description": "Alert status"
+    },
+    "last_triggered": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last time triggered"
+    },
+    "notification_sent": {
+      "type": "boolean",
+      "default": false,
+      "description": "Was notification sent"
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "default": "medium",
+      "description": "Alert severity"
+    }
+  },
+  "required": [
+    "user_email",
+    "alert_type",
+    "asset_id"
+  ]
+}

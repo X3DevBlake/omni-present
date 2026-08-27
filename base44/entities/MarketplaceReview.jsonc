@@ -1,0 +1,49 @@
+{
+  "name": "MarketplaceReview",
+  "type": "object",
+  "properties": {
+    "listing_id": {
+      "type": "string",
+      "description": "Reference to marketplace listing"
+    },
+    "rating": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 5,
+      "description": "Star rating"
+    },
+    "review_text": {
+      "type": "string",
+      "description": "Review content"
+    },
+    "pros": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Positive aspects"
+    },
+    "cons": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Negative aspects"
+    },
+    "verified_purchase": {
+      "type": "boolean",
+      "default": false,
+      "description": "User purchased/deployed agent"
+    },
+    "helpful_count": {
+      "type": "integer",
+      "default": 0,
+      "description": "Helpful votes"
+    }
+  },
+  "required": [
+    "listing_id",
+    "rating",
+    "review_text"
+  ]
+}

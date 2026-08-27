@@ -1,0 +1,75 @@
+{
+  "name": "AgentAppearance",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Reference to Agent or SimulationAgent"
+    },
+    "avatar_name": {
+      "type": "string",
+      "description": "Display name for this appearance"
+    },
+    "avatar_base_id": {
+      "type": "string",
+      "description": "Reference to AvatarBase"
+    },
+    "selected_components": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Applied component IDs"
+    },
+    "component_properties": {
+      "type": "object",
+      "description": "Component-specific properties (color, scale, etc)"
+    },
+    "animation_state": {
+      "type": "string",
+      "enum": [
+        "idle",
+        "walking",
+        "running",
+        "working",
+        "celebrating"
+      ],
+      "default": "idle",
+      "description": "Current animation state"
+    },
+    "gesture_queue": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "gesture_type": {
+            "type": "string"
+          },
+          "trigger_time": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Queued gestures/emotes"
+    },
+    "position_offset": {
+      "type": "object",
+      "properties": {
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "z": {
+          "type": "number"
+        }
+      },
+      "description": "Position offset for overlay"
+    }
+  },
+  "required": [
+    "agent_id",
+    "avatar_base_id"
+  ]
+}

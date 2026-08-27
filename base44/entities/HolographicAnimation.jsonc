@@ -1,0 +1,123 @@
+{
+  "name": "HolographicAnimation",
+  "type": "object",
+  "properties": {
+    "animation_id": {
+      "type": "string",
+      "description": "Unique animation identifier"
+    },
+    "animation_name": {
+      "type": "string",
+      "description": "Name of the holographic animation"
+    },
+    "animation_type": {
+      "type": "string",
+      "enum": [
+        "emergence",
+        "transformation",
+        "data_flow",
+        "interaction_feedback",
+        "ambient",
+        "transition",
+        "celebration"
+      ],
+      "description": "Type of animation"
+    },
+    "target_projection_id": {
+      "type": "string",
+      "description": "Projection this animation applies to"
+    },
+    "keyframes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "time": {
+            "type": "number"
+          },
+          "properties": {
+            "type": "object",
+            "properties": {
+              "position": {
+                "type": "object"
+              },
+              "rotation": {
+                "type": "object"
+              },
+              "scale": {
+                "type": "number"
+              },
+              "opacity": {
+                "type": "number"
+              },
+              "color": {
+                "type": "string"
+              }
+            }
+          },
+          "easing": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "duration_ms": {
+      "type": "number",
+      "description": "Animation duration"
+    },
+    "loop": {
+      "type": "boolean",
+      "default": false
+    },
+    "particle_effects": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "particle_count": {
+          "type": "integer"
+        },
+        "particle_color": {
+          "type": "string"
+        },
+        "emission_rate": {
+          "type": "number"
+        }
+      }
+    },
+    "audio_sync": {
+      "type": "object",
+      "properties": {
+        "has_audio": {
+          "type": "boolean"
+        },
+        "audio_url": {
+          "type": "string"
+        },
+        "spatial_audio": {
+          "type": "boolean"
+        }
+      }
+    },
+    "triggers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "trigger_type": {
+            "type": "string"
+          },
+          "condition": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "animation_id",
+    "animation_name",
+    "animation_type"
+  ]
+}

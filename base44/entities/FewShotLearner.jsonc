@@ -1,0 +1,65 @@
+{
+  "name": "FewShotLearner",
+  "type": "object",
+  "properties": {
+    "learner_name": {
+      "type": "string",
+      "description": "Few-shot learning system"
+    },
+    "meta_learning_algorithm": {
+      "type": "string",
+      "enum": [
+        "MAML",
+        "ProtoNet",
+        "MatchingNet",
+        "RelationNet",
+        "Siamese"
+      ],
+      "description": "Meta-learning approach"
+    },
+    "support_set_size": {
+      "type": "integer",
+      "description": "Examples per class (K in K-shot)"
+    },
+    "num_classes": {
+      "type": "integer",
+      "description": "Number of classes (N in N-way)"
+    },
+    "embedding_dimension": {
+      "type": "integer",
+      "description": "Feature embedding size"
+    },
+    "performance_metrics": {
+      "type": "object",
+      "properties": {
+        "one_shot_accuracy": {
+          "type": "number"
+        },
+        "five_shot_accuracy": {
+          "type": "number"
+        },
+        "ten_shot_accuracy": {
+          "type": "number"
+        }
+      }
+    },
+    "adaptation_steps": {
+      "type": "integer",
+      "description": "Fine-tuning steps for new task"
+    },
+    "generalization_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Cross-domain generalization"
+    },
+    "sample_efficiency": {
+      "type": "number",
+      "description": "Performance gain per example"
+    }
+  },
+  "required": [
+    "learner_name",
+    "meta_learning_algorithm"
+  ]
+}

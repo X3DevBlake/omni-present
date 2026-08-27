@@ -1,0 +1,93 @@
+{
+  "name": "Treasury",
+  "type": "object",
+  "properties": {
+    "treasury_name": {
+      "type": "string",
+      "default": "Main Treasury"
+    },
+    "total_balance_usd": {
+      "type": "number",
+      "description": "Total treasury value in USD"
+    },
+    "asset_holdings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "asset_type": {
+            "type": "string"
+          },
+          "symbol": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "value_usd": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "total_allocated": {
+      "type": "number",
+      "default": 0
+    },
+    "total_spent": {
+      "type": "number",
+      "default": 0
+    },
+    "allocations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "proposal_id": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "transaction_history": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "tx_hash": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "multisig_signers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "required_signatures": {
+      "type": "integer",
+      "default": 3
+    }
+  },
+  "required": [
+    "total_balance_usd"
+  ]
+}

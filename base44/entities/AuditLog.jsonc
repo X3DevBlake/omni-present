@@ -1,0 +1,66 @@
+{
+  "name": "AuditLog",
+  "type": "object",
+  "properties": {
+    "userId": {
+      "type": "string",
+      "description": "User performing action"
+    },
+    "userRole": {
+      "type": "string",
+      "description": "User role at time of action"
+    },
+    "action": {
+      "type": "string",
+      "description": "Action performed"
+    },
+    "resource": {
+      "type": "string",
+      "description": "Resource affected"
+    },
+    "resourceId": {
+      "type": "string",
+      "description": "ID of resource affected"
+    },
+    "changesBefore": {
+      "type": "object",
+      "description": "State before change"
+    },
+    "changesAfter": {
+      "type": "object",
+      "description": "State after change"
+    },
+    "approvalStatus": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "approved",
+        "rejected",
+        "auto-approved"
+      ],
+      "description": "Approval status if applicable"
+    },
+    "approverEmail": {
+      "type": "string",
+      "description": "Email of approver"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When action occurred"
+    },
+    "ipAddress": {
+      "type": "string",
+      "description": "IP address of user"
+    },
+    "sessionId": {
+      "type": "string",
+      "description": "User session ID"
+    }
+  },
+  "required": [
+    "userId",
+    "action",
+    "resource"
+  ]
+}

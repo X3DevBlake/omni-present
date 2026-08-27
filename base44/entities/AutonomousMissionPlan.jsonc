@@ -1,0 +1,47 @@
+{
+  "name": "AutonomousMissionPlan",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string"
+    },
+    "objective": {
+      "type": "string"
+    },
+    "assigned_tasks": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "sentience_threshold_met": {
+      "type": "boolean"
+    },
+    "ethical_compliance_score": {
+      "type": "number"
+    },
+    "behavior_tree_modifications": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "planning",
+        "executing",
+        "completed",
+        "failed",
+        "adapted"
+      ]
+    },
+    "forecasted_outcome": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "agent_id",
+    "objective"
+  ]
+}

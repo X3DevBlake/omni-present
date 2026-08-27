@@ -1,0 +1,91 @@
+{
+  "name": "ThoughtCommandLog",
+  "type": "object",
+  "properties": {
+    "command_id": {
+      "type": "string",
+      "description": "Thought command identifier"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "User who generated thought"
+    },
+    "chip_id": {
+      "type": "string",
+      "description": "Neural chip that captured thought"
+    },
+    "thought_content": {
+      "type": "string",
+      "description": "Raw thought captured"
+    },
+    "interpreted_intent": {
+      "type": "string",
+      "description": "AI interpretation of thought"
+    },
+    "command_type": {
+      "type": "string",
+      "enum": [
+        "motor_control",
+        "device_control",
+        "agent_command",
+        "data_query",
+        "memory_recall",
+        "cognitive_task"
+      ],
+      "description": "Type of command"
+    },
+    "execution_status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "processing",
+        "executed",
+        "failed"
+      ],
+      "default": "pending"
+    },
+    "neural_confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Confidence in thought interpretation"
+    },
+    "execution_latency_ms": {
+      "type": "number",
+      "description": "Time from thought to execution"
+    },
+    "target_system": {
+      "type": "string",
+      "description": "System targeted by command"
+    },
+    "execution_result": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "output": {
+          "type": "string"
+        },
+        "error": {
+          "type": "string"
+        }
+      }
+    },
+    "brain_region_activated": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "command_id",
+    "user_id",
+    "thought_content"
+  ]
+}

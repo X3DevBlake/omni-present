@@ -1,0 +1,67 @@
+{
+  "name": "AgentEthicsLog",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Agent being monitored"
+    },
+    "action": {
+      "type": "string",
+      "description": "Action taken by agent"
+    },
+    "ethical_assessment": {
+      "type": "string",
+      "enum": [
+        "approved",
+        "flagged",
+        "blocked"
+      ],
+      "description": "Ethical assessment result"
+    },
+    "violated_guidelines": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Guidelines violated if any"
+    },
+    "risk_level": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "default": "low",
+      "description": "Risk assessment"
+    },
+    "context": {
+      "type": "object",
+      "description": "Context of the action"
+    },
+    "safety_override": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether action was overridden by safety protocols"
+    },
+    "recommendation": {
+      "type": "string",
+      "description": "Recommended corrective action"
+    },
+    "reviewer": {
+      "type": "string",
+      "description": "User who reviewed this log"
+    },
+    "review_notes": {
+      "type": "string",
+      "description": "Notes from reviewer"
+    }
+  },
+  "required": [
+    "agent_id",
+    "action",
+    "ethical_assessment"
+  ]
+}

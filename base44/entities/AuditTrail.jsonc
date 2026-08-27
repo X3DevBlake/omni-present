@@ -1,0 +1,116 @@
+{
+  "name": "AuditTrail",
+  "type": "object",
+  "properties": {
+    "trail_name": {
+      "type": "string",
+      "description": "Audit trail identifier"
+    },
+    "scope": {
+      "type": "string",
+      "enum": [
+        "system_wide",
+        "user_actions",
+        "data_changes",
+        "model_operations",
+        "financial_transactions"
+      ],
+      "description": "What is being audited"
+    },
+    "audit_entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "entry_id": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "actor_id": {
+            "type": "string"
+          },
+          "actor_type": {
+            "type": "string",
+            "enum": [
+              "user",
+              "agent",
+              "system",
+              "api"
+            ]
+          },
+          "action": {
+            "type": "string"
+          },
+          "resource": {
+            "type": "string"
+          },
+          "before_state": {
+            "type": "object"
+          },
+          "after_state": {
+            "type": "object"
+          },
+          "ip_address": {
+            "type": "string"
+          },
+          "session_id": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "retention_policy": {
+      "type": "object",
+      "properties": {
+        "retention_days": {
+          "type": "integer"
+        },
+        "archival_enabled": {
+          "type": "boolean"
+        },
+        "immutable": {
+          "type": "boolean"
+        }
+      }
+    },
+    "tamper_detection": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "hash_algorithm": {
+          "type": "string"
+        },
+        "tampering_detected": {
+          "type": "boolean"
+        }
+      }
+    },
+    "compliance_mapping": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "framework": {
+            "type": "string"
+          },
+          "requirement": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "search_enabled": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "trail_name",
+    "scope"
+  ]
+}

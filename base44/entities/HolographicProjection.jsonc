@@ -1,0 +1,135 @@
+{
+  "name": "HolographicProjection",
+  "type": "object",
+  "properties": {
+    "projection_id": {
+      "type": "string",
+      "description": "Unique projection identifier"
+    },
+    "content_type": {
+      "type": "string",
+      "enum": [
+        "data_visualization",
+        "agent_avatar",
+        "ui_element",
+        "annotation",
+        "media",
+        "spatial_marker"
+      ],
+      "description": "Type of holographic content"
+    },
+    "spatial_anchor": {
+      "type": "object",
+      "properties": {
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "z": {
+          "type": "number"
+        },
+        "rotation_x": {
+          "type": "number"
+        },
+        "rotation_y": {
+          "type": "number"
+        },
+        "rotation_z": {
+          "type": "number"
+        }
+      }
+    },
+    "visual_properties": {
+      "type": "object",
+      "properties": {
+        "opacity": {
+          "type": "number"
+        },
+        "scale": {
+          "type": "number"
+        },
+        "color": {
+          "type": "string"
+        },
+        "glow_intensity": {
+          "type": "number"
+        },
+        "animation_type": {
+          "type": "string",
+          "enum": [
+            "pulse",
+            "rotate",
+            "float",
+            "shimmer",
+            "wave",
+            "none"
+          ]
+        },
+        "animation_speed": {
+          "type": "number"
+        }
+      }
+    },
+    "data_source": {
+      "type": "object",
+      "properties": {
+        "entity_type": {
+          "type": "string"
+        },
+        "entity_id": {
+          "type": "string"
+        },
+        "realtime_stream": {
+          "type": "boolean"
+        },
+        "update_frequency_hz": {
+          "type": "number"
+        }
+      }
+    },
+    "interactive": {
+      "type": "boolean",
+      "description": "Can users interact with this projection"
+    },
+    "interaction_handlers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "gesture_type": {
+            "type": "string"
+          },
+          "action": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "persistence_mode": {
+      "type": "string",
+      "enum": [
+        "session",
+        "permanent",
+        "timed"
+      ],
+      "description": "How long the projection persists"
+    },
+    "visible_to": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "User IDs who can see this projection"
+    },
+    "created_by": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "projection_id",
+    "content_type",
+    "spatial_anchor"
+  ]
+}

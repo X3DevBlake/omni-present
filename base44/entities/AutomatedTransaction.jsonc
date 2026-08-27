@@ -1,0 +1,76 @@
+{
+  "name": "AutomatedTransaction",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "User email"
+    },
+    "transaction_type": {
+      "type": "string",
+      "enum": [
+        "payment",
+        "transfer",
+        "deposit",
+        "withdrawal"
+      ],
+      "description": "Transaction type"
+    },
+    "amount": {
+      "type": "number",
+      "description": "Amount"
+    },
+    "currency": {
+      "type": "string",
+      "default": "USD",
+      "description": "Currency"
+    },
+    "recipient": {
+      "type": "string",
+      "description": "Recipient"
+    },
+    "trigger_rule": {
+      "type": "string",
+      "description": "Rule that triggered transaction"
+    },
+    "trigger_condition": {
+      "type": "object",
+      "description": "Condition that triggered"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "processing",
+        "completed",
+        "failed"
+      ],
+      "default": "pending",
+      "description": "Status"
+    },
+    "payment_gateway": {
+      "type": "string",
+      "enum": [
+        "stripe",
+        "plaid",
+        "paypal"
+      ],
+      "description": "Payment processor"
+    },
+    "scheduled_for": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Scheduled execution"
+    },
+    "executed_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Actual execution"
+    }
+  },
+  "required": [
+    "user_email",
+    "transaction_type",
+    "amount"
+  ]
+}

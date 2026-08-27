@@ -1,0 +1,81 @@
+{
+  "name": "AgentGoalDynamic",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Agent ID"
+    },
+    "goal_name": {
+      "type": "string",
+      "description": "Goal name"
+    },
+    "goal_type": {
+      "type": "string",
+      "enum": [
+        "market_analysis",
+        "skill_acquisition",
+        "collaboration",
+        "optimization",
+        "exploration"
+      ],
+      "description": "Goal category"
+    },
+    "proposed_by": {
+      "type": "string",
+      "enum": [
+        "agent",
+        "user",
+        "system"
+      ],
+      "default": "agent",
+      "description": "Who proposed this goal"
+    },
+    "reasoning": {
+      "type": "string",
+      "description": "Agent's reasoning for proposing goal"
+    },
+    "expected_outcomes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Expected results"
+    },
+    "data_sources": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Market/analytics data used"
+    },
+    "priority": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 10,
+      "description": "Goal priority"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "proposed",
+        "approved",
+        "active",
+        "completed",
+        "abandoned"
+      ],
+      "default": "proposed"
+    },
+    "progress": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "default": 0
+    }
+  },
+  "required": [
+    "agent_id",
+    "goal_name",
+    "goal_type"
+  ]
+}

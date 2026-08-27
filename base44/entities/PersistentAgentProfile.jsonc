@@ -1,0 +1,42 @@
+{
+  "name": "PersistentAgentProfile",
+  "type": "object",
+  "properties": {
+    "agent_base_id": {
+      "type": "string",
+      "description": "Universal agent identifier"
+    },
+    "learned_knowledge": {
+      "type": "object",
+      "description": "Accumulated knowledge"
+    },
+    "cross_simulation_progress": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "simulation_id": {
+            "type": "string"
+          },
+          "tasks_completed": {
+            "type": "number"
+          },
+          "achievements": {
+            "type": "array"
+          }
+        }
+      }
+    },
+    "total_experience_points": {
+      "type": "number",
+      "default": 0
+    },
+    "reputation_score": {
+      "type": "number",
+      "default": 50
+    }
+  },
+  "required": [
+    "agent_base_id"
+  ]
+}

@@ -1,0 +1,137 @@
+{
+  "name": "ThreatIntelligence",
+  "type": "object",
+  "properties": {
+    "threat_name": {
+      "type": "string",
+      "description": "Threat identifier"
+    },
+    "threat_type": {
+      "type": "string",
+      "enum": [
+        "malware",
+        "ddos",
+        "injection",
+        "privilege_escalation",
+        "data_breach",
+        "insider_threat",
+        "ai_poisoning"
+      ],
+      "description": "Type of security threat"
+    },
+    "severity_level": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "description": "Threat severity"
+    },
+    "detection_source": {
+      "type": "string",
+      "enum": [
+        "automated_scan",
+        "ml_model",
+        "user_report",
+        "external_feed",
+        "honeypot"
+      ],
+      "description": "How threat was detected"
+    },
+    "affected_assets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "asset_id": {
+            "type": "string"
+          },
+          "asset_type": {
+            "type": "string"
+          },
+          "impact_level": {
+            "type": "string",
+            "enum": [
+              "none",
+              "low",
+              "medium",
+              "high"
+            ]
+          }
+        }
+      }
+    },
+    "indicators_of_compromise": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "ioc_type": {
+            "type": "string",
+            "enum": [
+              "ip_address",
+              "domain",
+              "file_hash",
+              "pattern"
+            ]
+          },
+          "value": {
+            "type": "string"
+          },
+          "confidence": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "mitigation_steps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "step": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "in_progress",
+              "completed"
+            ]
+          },
+          "automated": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "threat_status": {
+      "type": "string",
+      "enum": [
+        "detected",
+        "analyzing",
+        "mitigating",
+        "contained",
+        "resolved"
+      ],
+      "default": "detected"
+    },
+    "risk_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "auto_response_enabled": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "threat_name",
+    "threat_type",
+    "severity_level"
+  ]
+}

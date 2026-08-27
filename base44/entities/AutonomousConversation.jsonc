@@ -1,0 +1,71 @@
+{
+  "name": "AutonomousConversation",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Agent conducting conversation"
+    },
+    "user_email": {
+      "type": "string",
+      "description": "User email"
+    },
+    "device_id": {
+      "type": "string",
+      "description": "Connected device ID"
+    },
+    "conversation_type": {
+      "type": "string",
+      "enum": [
+        "voice",
+        "text",
+        "multimodal"
+      ],
+      "description": "Conversation mode"
+    },
+    "elevenlabs_session_id": {
+      "type": "string",
+      "description": "ElevenLabs conversation ID"
+    },
+    "transcript": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Conversation transcript"
+    },
+    "intent_detected": {
+      "type": "string",
+      "description": "User intent from conversation"
+    },
+    "actions_taken": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Actions executed by agent"
+    },
+    "sentiment": {
+      "type": "string",
+      "description": "Conversation sentiment"
+    },
+    "duration_seconds": {
+      "type": "integer",
+      "description": "Conversation duration"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "completed",
+        "interrupted"
+      ],
+      "default": "active",
+      "description": "Conversation status"
+    }
+  },
+  "required": [
+    "agent_id",
+    "user_email"
+  ]
+}

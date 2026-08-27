@@ -1,0 +1,65 @@
+{
+  "name": "MonthlyStatement",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "User email"
+    },
+    "statement_month": {
+      "type": "string",
+      "description": "Month (YYYY-MM)"
+    },
+    "google_doc_url": {
+      "type": "string",
+      "description": "Google Docs statement URL"
+    },
+    "google_drive_id": {
+      "type": "string",
+      "description": "Drive file ID"
+    },
+    "summary": {
+      "type": "object",
+      "description": "Monthly summary"
+    },
+    "transactions_count": {
+      "type": "integer",
+      "description": "Total transactions"
+    },
+    "trades_executed": {
+      "type": "integer",
+      "description": "Trades executed"
+    },
+    "total_volume": {
+      "type": "number",
+      "description": "Total trading volume"
+    },
+    "profit_loss": {
+      "type": "number",
+      "description": "Net P&L"
+    },
+    "risk_assessment": {
+      "type": "object",
+      "description": "Risk analysis"
+    },
+    "sent_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When statement was sent"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "generating",
+        "completed",
+        "sent"
+      ],
+      "default": "generating",
+      "description": "Statement status"
+    }
+  },
+  "required": [
+    "user_email",
+    "statement_month"
+  ]
+}

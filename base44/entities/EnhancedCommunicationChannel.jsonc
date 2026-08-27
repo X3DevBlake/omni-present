@@ -1,0 +1,71 @@
+{
+  "name": "EnhancedCommunicationChannel",
+  "type": "object",
+  "properties": {
+    "channel_name": {
+      "type": "string",
+      "description": "Channel name"
+    },
+    "channel_type": {
+      "type": "string",
+      "enum": [
+        "direct",
+        "group",
+        "broadcast",
+        "workflow"
+      ],
+      "description": "Type of channel"
+    },
+    "participants": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Agent/user IDs in channel"
+    },
+    "security_level": {
+      "type": "string",
+      "enum": [
+        "public",
+        "private",
+        "encrypted"
+      ],
+      "default": "private"
+    },
+    "message_count": {
+      "type": "integer",
+      "default": 0
+    },
+    "avg_sentiment": {
+      "type": "number",
+      "minimum": -1,
+      "maximum": 1,
+      "description": "Average sentiment score"
+    },
+    "active_topics": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "alert_keywords": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Keywords that trigger alerts"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    },
+    "linked_workflow_id": {
+      "type": "string",
+      "description": "Associated workflow"
+    }
+  },
+  "required": [
+    "channel_name",
+    "channel_type"
+  ]
+}

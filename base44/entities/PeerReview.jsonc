@@ -1,0 +1,99 @@
+{
+  "name": "PeerReview",
+  "type": "object",
+  "properties": {
+    "review_id": {
+      "type": "string",
+      "description": "Unique review identifier"
+    },
+    "project_id": {
+      "type": "string",
+      "description": "Research project being reviewed"
+    },
+    "reviewer_id": {
+      "type": "string",
+      "description": "Reviewer user ID or AI ID"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "in_progress",
+        "completed",
+        "declined"
+      ],
+      "default": "pending"
+    },
+    "assigned_date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "due_date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "completed_date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "criteria": {
+      "type": "object",
+      "properties": {
+        "originality": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10
+        },
+        "methodology": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10
+        },
+        "clarity": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10
+        },
+        "significance": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10
+        },
+        "ethical_compliance": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 10
+        }
+      }
+    },
+    "comments": {
+      "type": "string",
+      "description": "Detailed review feedback"
+    },
+    "recommendation": {
+      "type": "string",
+      "enum": [
+        "accept",
+        "minor_revisions",
+        "major_revisions",
+        "reject",
+        "ai_preliminary"
+      ],
+      "description": "Review recommendation"
+    },
+    "ai_analysis": {
+      "type": "object",
+      "description": "AI analysis of the review",
+      "additionalProperties": true
+    },
+    "confidential": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "review_id",
+    "project_id",
+    "reviewer_id"
+  ]
+}

@@ -1,0 +1,127 @@
+{
+  "name": "OmegaHealthTrajectory",
+  "type": "object",
+  "properties": {
+    "trajectory_id": {
+      "type": "string",
+      "description": "Health trajectory identifier"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "User being analyzed"
+    },
+    "unified_health_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Holistic health score"
+    },
+    "integrated_data_sources": {
+      "type": "object",
+      "properties": {
+        "neural_chip_data": {
+          "type": "object"
+        },
+        "augmentation_metrics": {
+          "type": "array"
+        },
+        "companion_observations": {
+          "type": "array"
+        },
+        "embodiment_performance": {
+          "type": "array"
+        }
+      }
+    },
+    "predicted_trajectories": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timeline_days": {
+            "type": "number"
+          },
+          "predicted_health_score": {
+            "type": "number"
+          },
+          "confidence": {
+            "type": "number"
+          },
+          "scenario": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "cross_domain_interventions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "intervention_name": {
+            "type": "string"
+          },
+          "domains_affected": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "expected_improvement": {
+            "type": "number"
+          },
+          "physical_component": {
+            "type": "string"
+          },
+          "cognitive_component": {
+            "type": "string"
+          },
+          "auto_executable": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "holistic_wellness_prediction": {
+      "type": "object",
+      "properties": {
+        "physical_wellness": {
+          "type": "number"
+        },
+        "cognitive_wellness": {
+          "type": "number"
+        },
+        "emotional_wellness": {
+          "type": "number"
+        },
+        "augmentation_wellness": {
+          "type": "number"
+        },
+        "overall_trend": {
+          "type": "string"
+        }
+      }
+    },
+    "synergy_effects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "synergy_type": {
+            "type": "string"
+          },
+          "components": {
+            "type": "array"
+          },
+          "amplification_factor": {
+            "type": "number"
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "trajectory_id",
+    "user_id"
+  ]
+}

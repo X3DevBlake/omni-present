@@ -1,0 +1,84 @@
+{
+  "name": "AgentPerformanceAnalytics",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Agent being analyzed"
+    },
+    "time_period": {
+      "type": "string",
+      "format": "date",
+      "description": "Analytics period"
+    },
+    "task_completion_rate": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Percentage of tasks completed successfully"
+    },
+    "communication_efficiency": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Communication effectiveness score"
+    },
+    "collaboration_effectiveness": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Team collaboration score"
+    },
+    "burnout_risk_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "AI-predicted burnout risk"
+    },
+    "suggested_interventions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "AI-recommended actions"
+    },
+    "skill_trends": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "skill_name": {
+            "type": "string"
+          },
+          "current_level": {
+            "type": "number"
+          },
+          "trend_direction": {
+            "type": "string",
+            "enum": [
+              "increasing",
+              "stable",
+              "decreasing"
+            ]
+          },
+          "future_demand_forecast": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "response_time_avg": {
+      "type": "number",
+      "description": "Average response time in seconds"
+    },
+    "quality_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    }
+  },
+  "required": [
+    "agent_id",
+    "time_period"
+  ]
+}

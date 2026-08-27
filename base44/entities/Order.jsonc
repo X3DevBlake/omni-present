@@ -1,0 +1,62 @@
+{
+  "name": "Order",
+  "type": "object",
+  "properties": {
+    "order_number": {
+      "type": "string",
+      "description": "Unique order number"
+    },
+    "device_id": {
+      "type": "string",
+      "description": "Purchased device ID"
+    },
+    "device_name": {
+      "type": "string",
+      "description": "Device name at time of purchase"
+    },
+    "quantity": {
+      "type": "integer",
+      "default": 1,
+      "description": "Quantity ordered"
+    },
+    "total_price": {
+      "type": "number",
+      "description": "Total order price"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "processing",
+        "shipped",
+        "delivered",
+        "cancelled"
+      ],
+      "default": "pending",
+      "description": "Order status"
+    },
+    "shipping_address": {
+      "type": "object",
+      "description": "Shipping address details"
+    },
+    "tracking_number": {
+      "type": "string",
+      "description": "Shipping tracking number"
+    },
+    "payment_method": {
+      "type": "string",
+      "description": "Payment method used"
+    },
+    "estimated_delivery": {
+      "type": "string",
+      "format": "date",
+      "description": "Estimated delivery date"
+    }
+  },
+  "required": [
+    "device_id",
+    "device_name",
+    "total_price",
+    "shipping_address"
+  ]
+}

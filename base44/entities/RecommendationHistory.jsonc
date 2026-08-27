@@ -1,0 +1,86 @@
+{
+  "name": "RecommendationHistory",
+  "type": "object",
+  "properties": {
+    "recommendation_id": {
+      "type": "string",
+      "description": "Recommendation identifier"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "User receiving recommendation"
+    },
+    "recommendation_type": {
+      "type": "string",
+      "enum": [
+        "task",
+        "content",
+        "connection",
+        "health",
+        "financial",
+        "learning",
+        "device_action"
+      ]
+    },
+    "recommendation_content": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "action_url": {
+          "type": "string"
+        },
+        "priority_score": {
+          "type": "number"
+        }
+      }
+    },
+    "context_snapshot": {
+      "type": "object",
+      "properties": {
+        "location": {
+          "type": "string"
+        },
+        "time_of_day": {
+          "type": "string"
+        },
+        "user_emotional_state": {
+          "type": "string"
+        },
+        "active_tasks": {
+          "type": "array"
+        }
+      }
+    },
+    "user_response": {
+      "type": "string",
+      "enum": [
+        "accepted",
+        "dismissed",
+        "deferred",
+        "not_responded"
+      ]
+    },
+    "effectiveness_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "presented_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "responded_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "recommendation_id",
+    "recommendation_type"
+  ]
+}

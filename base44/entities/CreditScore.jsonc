@@ -1,0 +1,57 @@
+{
+  "name": "CreditScore",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "User email"
+    },
+    "overall_score": {
+      "type": "number",
+      "minimum": 300,
+      "maximum": 850,
+      "description": "Overall credit score"
+    },
+    "payment_history": {
+      "type": "number",
+      "description": "Payment history score component"
+    },
+    "credit_utilization": {
+      "type": "number",
+      "description": "Credit utilization %"
+    },
+    "account_age": {
+      "type": "number",
+      "description": "Average account age in months"
+    },
+    "inquiries": {
+      "type": "integer",
+      "default": 0,
+      "description": "Recent inquiries count"
+    },
+    "delinquencies": {
+      "type": "integer",
+      "default": 0,
+      "description": "Delinquent accounts"
+    },
+    "default_risk": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "AI-calculated default risk %"
+    },
+    "last_updated": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last update time"
+    },
+    "analysis": {
+      "type": "object",
+      "description": "Detailed AI analysis"
+    }
+  },
+  "required": [
+    "user_email",
+    "overall_score"
+  ]
+}

@@ -1,0 +1,116 @@
+{
+  "name": "EcosystemNode",
+  "type": "object",
+  "properties": {
+    "node_id": {
+      "type": "string",
+      "description": "Unique node identifier"
+    },
+    "node_type": {
+      "type": "string",
+      "enum": [
+        "agent",
+        "model",
+        "pipeline",
+        "collaboration",
+        "security",
+        "analytics",
+        "infrastructure"
+      ],
+      "description": "Type of ecosystem node"
+    },
+    "entity_reference": {
+      "type": "object",
+      "properties": {
+        "entity_name": {
+          "type": "string"
+        },
+        "entity_id": {
+          "type": "string"
+        }
+      }
+    },
+    "position_3d": {
+      "type": "object",
+      "properties": {
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "z": {
+          "type": "number"
+        }
+      }
+    },
+    "connections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "target_node_id": {
+            "type": "string"
+          },
+          "connection_type": {
+            "type": "string",
+            "enum": [
+              "data_flow",
+              "collaboration",
+              "dependency",
+              "communication"
+            ]
+          },
+          "strength": {
+            "type": "number"
+          },
+          "active": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "health_status": {
+      "type": "string",
+      "enum": [
+        "healthy",
+        "warning",
+        "critical",
+        "offline"
+      ],
+      "default": "healthy"
+    },
+    "metrics": {
+      "type": "object",
+      "properties": {
+        "activity_score": {
+          "type": "number"
+        },
+        "performance_score": {
+          "type": "number"
+        },
+        "last_activity": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "visual_properties": {
+      "type": "object",
+      "properties": {
+        "color": {
+          "type": "string"
+        },
+        "size": {
+          "type": "number"
+        },
+        "glow_intensity": {
+          "type": "number"
+        }
+      }
+    }
+  },
+  "required": [
+    "node_type"
+  ]
+}

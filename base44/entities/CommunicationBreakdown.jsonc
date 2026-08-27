@@ -1,0 +1,78 @@
+{
+  "name": "CommunicationBreakdown",
+  "type": "object",
+  "properties": {
+    "channel_id": {
+      "type": "string",
+      "description": "Communication channel"
+    },
+    "breakdown_type": {
+      "type": "string",
+      "enum": [
+        "misunderstanding",
+        "conflict",
+        "low_engagement",
+        "semantic_drift"
+      ],
+      "description": "Type of breakdown detected"
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "description": "Breakdown severity"
+    },
+    "involved_agents": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Agents involved in breakdown"
+    },
+    "sentiment_scores": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "type": "string"
+          },
+          "sentiment": {
+            "type": "number",
+            "minimum": -1,
+            "maximum": 1
+          }
+        }
+      },
+      "description": "Sentiment analysis results"
+    },
+    "ai_summary": {
+      "type": "string",
+      "description": "AI-generated summary of the issue"
+    },
+    "recommended_actions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "AI suggestions to resolve"
+    },
+    "resolved": {
+      "type": "boolean",
+      "default": false
+    },
+    "resolution_notes": {
+      "type": "string",
+      "description": "How the breakdown was resolved"
+    }
+  },
+  "required": [
+    "channel_id",
+    "breakdown_type",
+    "severity"
+  ]
+}

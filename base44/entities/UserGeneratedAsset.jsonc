@@ -1,0 +1,48 @@
+{
+  "name": "UserGeneratedAsset",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "Creator email"
+    },
+    "asset_name": {
+      "type": "string",
+      "description": "Asset name"
+    },
+    "asset_type": {
+      "type": "string",
+      "enum": [
+        "3d_model",
+        "texture",
+        "environment",
+        "audio"
+      ],
+      "description": "Asset type"
+    },
+    "file_url": {
+      "type": "string",
+      "description": "Uploaded file URL"
+    },
+    "format": {
+      "type": "string",
+      "description": "File format (glb, obj, etc)"
+    },
+    "compatible_simulations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "public": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "user_email",
+    "asset_name",
+    "asset_type",
+    "file_url"
+  ]
+}

@@ -1,0 +1,141 @@
+{
+  "name": "SecurityThreatIntelligence",
+  "type": "object",
+  "properties": {
+    "intelligence_id": {
+      "type": "string",
+      "description": "Threat intelligence identifier"
+    },
+    "threat_type": {
+      "type": "string",
+      "enum": [
+        "malware",
+        "phishing",
+        "intrusion",
+        "ddos",
+        "zero_day",
+        "insider",
+        "ai_adversarial"
+      ],
+      "description": "Type of threat"
+    },
+    "severity_level": {
+      "type": "string",
+      "enum": [
+        "info",
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "default": "medium"
+    },
+    "detection_method": {
+      "type": "string",
+      "enum": [
+        "ai_behavioral",
+        "signature",
+        "anomaly",
+        "heuristic",
+        "ml_model"
+      ],
+      "description": "How threat was detected"
+    },
+    "threat_indicators": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "indicator_type": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          },
+          "confidence": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "attack_vector": {
+      "type": "object",
+      "properties": {
+        "entry_point": {
+          "type": "string"
+        },
+        "target_system": {
+          "type": "string"
+        },
+        "attack_chain": {
+          "type": "array"
+        }
+      }
+    },
+    "ai_threat_analysis": {
+      "type": "object",
+      "properties": {
+        "threat_sophistication": {
+          "type": "number"
+        },
+        "likely_attacker_profile": {
+          "type": "string"
+        },
+        "predicted_next_moves": {
+          "type": "array"
+        },
+        "recommended_countermeasures": {
+          "type": "array"
+        }
+      }
+    },
+    "automated_response": {
+      "type": "object",
+      "properties": {
+        "actions_taken": {
+          "type": "array"
+        },
+        "mitigation_success": {
+          "type": "boolean"
+        },
+        "response_time_ms": {
+          "type": "number"
+        }
+      }
+    },
+    "threat_evolution": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "evolution_type": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "threat_status": {
+      "type": "string",
+      "enum": [
+        "detected",
+        "analyzing",
+        "contained",
+        "mitigated",
+        "resolved",
+        "escalated"
+      ],
+      "default": "detected"
+    }
+  },
+  "required": [
+    "intelligence_id",
+    "threat_type"
+  ]
+}

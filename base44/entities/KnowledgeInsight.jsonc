@@ -1,0 +1,87 @@
+{
+  "name": "KnowledgeInsight",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Insight title"
+    },
+    "description": {
+      "type": "string",
+      "description": "High-level insight"
+    },
+    "insight_type": {
+      "type": "string",
+      "enum": [
+        "pattern",
+        "hypothesis",
+        "prediction",
+        "synthesis",
+        "principle"
+      ],
+      "description": "Type of insight"
+    },
+    "contributing_agents": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Agents who contributed"
+    },
+    "source_knowledge": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Knowledge IDs used to form this insight"
+    },
+    "confidence_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "default": 50,
+      "description": "Confidence in this insight"
+    },
+    "validation_status": {
+      "type": "string",
+      "enum": [
+        "proposed",
+        "validating",
+        "validated",
+        "rejected"
+      ],
+      "default": "proposed",
+      "description": "Validation status"
+    },
+    "validating_agents": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Agents validating this insight"
+    },
+    "applications": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Potential uses for this insight"
+    },
+    "impact_level": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "default": "medium",
+      "description": "Potential impact"
+    }
+  },
+  "required": [
+    "title",
+    "description",
+    "insight_type"
+  ]
+}

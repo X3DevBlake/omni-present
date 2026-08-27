@@ -1,0 +1,110 @@
+{
+  "name": "AISkillModule",
+  "type": "object",
+  "properties": {
+    "module_id": {
+      "type": "string",
+      "description": "Unique skill module identifier"
+    },
+    "creator_id": {
+      "type": "string",
+      "description": "Developer who created this skill"
+    },
+    "module_name": {
+      "type": "string",
+      "description": "Human-readable skill name"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "spatial_navigation",
+        "object_recognition",
+        "predictive_analytics",
+        "natural_language",
+        "decision_making",
+        "emotional_intelligence",
+        "creative_generation",
+        "optimization"
+      ],
+      "description": "Skill category"
+    },
+    "code_url": {
+      "type": "string",
+      "description": "URL to skill code repository"
+    },
+    "entry_function": {
+      "type": "string",
+      "description": "Main function to invoke skill"
+    },
+    "input_schema": {
+      "type": "object",
+      "description": "Expected input format",
+      "additionalProperties": true
+    },
+    "output_schema": {
+      "type": "object",
+      "description": "Output format",
+      "additionalProperties": true
+    },
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Required libraries or other skills"
+    },
+    "performance_metrics": {
+      "type": "object",
+      "properties": {
+        "avg_execution_time_ms": {
+          "type": "number"
+        },
+        "success_rate": {
+          "type": "number"
+        },
+        "accuracy": {
+          "type": "number"
+        },
+        "resource_usage": {
+          "type": "object"
+        }
+      }
+    },
+    "training_data_required": {
+      "type": "boolean",
+      "default": false
+    },
+    "sandbox_tested": {
+      "type": "boolean",
+      "default": false
+    },
+    "installation_count": {
+      "type": "integer",
+      "default": 0
+    },
+    "rating": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 5
+    },
+    "price_omni": {
+      "type": "number",
+      "description": "Price in OMNI tokens"
+    },
+    "is_public": {
+      "type": "boolean",
+      "default": true
+    },
+    "version": {
+      "type": "string",
+      "default": "1.0.0"
+    }
+  },
+  "required": [
+    "module_id",
+    "creator_id",
+    "module_name",
+    "category",
+    "entry_function"
+  ]
+}

@@ -1,0 +1,159 @@
+{
+  "name": "SmartDeviceIntegration",
+  "type": "object",
+  "properties": {
+    "integration_id": {
+      "type": "string",
+      "description": "Integration identifier"
+    },
+    "device_name": {
+      "type": "string",
+      "description": "Human-readable device name"
+    },
+    "device_type": {
+      "type": "string",
+      "enum": [
+        "light",
+        "thermostat",
+        "lock",
+        "camera",
+        "speaker",
+        "robotic_arm",
+        "appliance"
+      ],
+      "description": "Type of device"
+    },
+    "api_provider": {
+      "type": "string",
+      "enum": [
+        "philips_hue",
+        "nest",
+        "yale_lock",
+        "robot_arm_api",
+        "generic_mqtt",
+        "homekit",
+        "alexa"
+      ],
+      "description": "Third-party API"
+    },
+    "api_credentials": {
+      "type": "object",
+      "properties": {
+        "api_key": {
+          "type": "string"
+        },
+        "api_secret": {
+          "type": "string"
+        },
+        "device_id": {
+          "type": "string"
+        },
+        "endpoint": {
+          "type": "string"
+        }
+      }
+    },
+    "device_location": {
+      "type": "object",
+      "properties": {
+        "room": {
+          "type": "string"
+        },
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "z": {
+          "type": "number"
+        }
+      }
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "current_state": {
+      "type": "object",
+      "properties": {
+        "power_on": {
+          "type": "boolean"
+        },
+        "brightness": {
+          "type": "number"
+        },
+        "temperature": {
+          "type": "number"
+        },
+        "color": {
+          "type": "string"
+        },
+        "position": {
+          "type": "object"
+        },
+        "last_updated": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "connection_status": {
+      "type": "string",
+      "enum": [
+        "connected",
+        "disconnected",
+        "error",
+        "offline"
+      ],
+      "default": "connected"
+    },
+    "supported_commands": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "command": {
+            "type": "string"
+          },
+          "parameters": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "automation_rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "trigger": {
+            "type": "string"
+          },
+          "action": {
+            "type": "string"
+          },
+          "condition": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "sync_frequency_seconds": {
+      "type": "integer",
+      "default": 30
+    },
+    "last_sync": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "integration_id",
+    "device_name",
+    "device_type",
+    "api_provider"
+  ]
+}

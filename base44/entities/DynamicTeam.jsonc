@@ -1,0 +1,55 @@
+{
+  "name": "DynamicTeam",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "User email"
+    },
+    "team_name": {
+      "type": "string",
+      "description": "Team name"
+    },
+    "agent_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Team member agent IDs"
+    },
+    "formation_reason": {
+      "type": "string",
+      "description": "Why this team was formed"
+    },
+    "task_objective": {
+      "type": "string",
+      "description": "Primary task"
+    },
+    "autonomous": {
+      "type": "boolean",
+      "default": false,
+      "description": "Autonomously formed"
+    },
+    "collaboration_score": {
+      "type": "number",
+      "description": "Team effectiveness score"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "forming",
+        "active",
+        "completed",
+        "dissolved"
+      ],
+      "default": "forming",
+      "description": "Team status"
+    }
+  },
+  "required": [
+    "user_email",
+    "team_name",
+    "agent_ids",
+    "task_objective"
+  ]
+}

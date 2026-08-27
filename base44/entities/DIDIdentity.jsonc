@@ -1,0 +1,32 @@
+{
+  "name": "DIDIdentity",
+  "type": "object",
+  "properties": {
+    "did": {
+      "type": "string",
+      "description": "The Decentralized Identifier string (e.g., did:omni:123...)"
+    },
+    "user_id": {
+      "type": "string"
+    },
+    "public_key": {
+      "type": "string"
+    },
+    "controller": {
+      "type": "string"
+    },
+    "reputation_score": {
+      "type": "number",
+      "default": 0
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "did",
+    "user_id",
+    "public_key"
+  ]
+}

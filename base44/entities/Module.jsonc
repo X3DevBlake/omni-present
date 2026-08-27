@@ -1,0 +1,81 @@
+{
+  "name": "Module",
+  "type": "object",
+  "properties": {
+    "module_id": {
+      "type": "string",
+      "description": "Unique module identifier"
+    },
+    "course_id": {
+      "type": "string",
+      "description": "Parent course ID"
+    },
+    "title": {
+      "type": "string",
+      "description": "Module title"
+    },
+    "order_index": {
+      "type": "integer",
+      "description": "Order within course"
+    },
+    "content_type": {
+      "type": "string",
+      "enum": [
+        "text",
+        "video",
+        "interactive_3d",
+        "simulation",
+        "holographic",
+        "mixed"
+      ],
+      "description": "Primary content type"
+    },
+    "documentation_articles": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Related DocumentationArticle IDs"
+    },
+    "media_assets": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "MediaAsset IDs"
+    },
+    "simulation_environments": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "SimulationEnvironment IDs"
+    },
+    "holographic_projections": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "HolographicProjection IDs"
+    },
+    "estimated_duration_minutes": {
+      "type": "integer"
+    },
+    "learning_outcomes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "ai_summary": {
+      "type": "string",
+      "description": "AI-generated module summary"
+    }
+  },
+  "required": [
+    "module_id",
+    "course_id",
+    "title",
+    "order_index"
+  ]
+}

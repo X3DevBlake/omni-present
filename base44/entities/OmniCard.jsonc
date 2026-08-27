@@ -1,0 +1,69 @@
+{
+  "name": "OmniCard",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "Card owner email"
+    },
+    "card_number": {
+      "type": "string",
+      "description": "Masked card number"
+    },
+    "card_type": {
+      "type": "string",
+      "enum": [
+        "debit",
+        "credit",
+        "crypto"
+      ],
+      "description": "Type of card"
+    },
+    "tier": {
+      "type": "string",
+      "enum": [
+        "standard",
+        "gold",
+        "platinum"
+      ],
+      "description": "Card tier"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "locked",
+        "expired",
+        "cancelled"
+      ],
+      "default": "active",
+      "description": "Card status"
+    },
+    "expiry_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Card expiry date"
+    },
+    "spending_limit": {
+      "type": "number",
+      "description": "Daily spending limit"
+    },
+    "cash_back_rate": {
+      "type": "number",
+      "description": "Cash back percentage"
+    },
+    "linked_account_id": {
+      "type": "string",
+      "description": "Linked bank account ID"
+    },
+    "color": {
+      "type": "string",
+      "description": "Card color preference"
+    }
+  },
+  "required": [
+    "user_email",
+    "card_number",
+    "card_type"
+  ]
+}

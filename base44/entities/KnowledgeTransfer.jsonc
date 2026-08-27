@@ -1,0 +1,108 @@
+{
+  "name": "KnowledgeTransfer",
+  "type": "object",
+  "properties": {
+    "transfer_id": {
+      "type": "string",
+      "description": "Unique transfer identifier"
+    },
+    "source_agent_id": {
+      "type": "string",
+      "description": "Agent sharing knowledge"
+    },
+    "target_agents": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Agents receiving knowledge"
+    },
+    "knowledge_type": {
+      "type": "string",
+      "enum": [
+        "skill",
+        "strategy",
+        "pattern",
+        "insight",
+        "model"
+      ],
+      "description": "Type of knowledge transferred"
+    },
+    "knowledge_payload": {
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "string"
+        },
+        "embeddings": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        },
+        "confidence": {
+          "type": "number"
+        }
+      }
+    },
+    "transfer_method": {
+      "type": "string",
+      "enum": [
+        "direct",
+        "broadcast",
+        "selective",
+        "federated"
+      ],
+      "default": "direct"
+    },
+    "assimilation_metrics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "type": "string"
+          },
+          "assimilation_rate": {
+            "type": "number"
+          },
+          "performance_change": {
+            "type": "number"
+          },
+          "integration_time_seconds": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "impact_analysis": {
+      "type": "object",
+      "properties": {
+        "agents_improved": {
+          "type": "integer"
+        },
+        "avg_performance_gain": {
+          "type": "number"
+        },
+        "knowledge_retention_rate": {
+          "type": "number"
+        }
+      }
+    },
+    "transfer_status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "in_progress",
+        "completed",
+        "failed"
+      ],
+      "default": "pending"
+    }
+  },
+  "required": [
+    "source_agent_id",
+    "target_agents",
+    "knowledge_type"
+  ]
+}

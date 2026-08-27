@@ -1,0 +1,69 @@
+{
+  "name": "Simulation",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "User who created simulation"
+    },
+    "name": {
+      "type": "string",
+      "description": "Simulation name"
+    },
+    "description": {
+      "type": "string",
+      "description": "Simulation description"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "running",
+        "paused",
+        "completed",
+        "failed"
+      ],
+      "default": "draft",
+      "description": "Simulation status"
+    },
+    "start_time": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When simulation started"
+    },
+    "end_time": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When simulation ended"
+    },
+    "duration_minutes": {
+      "type": "number",
+      "description": "Total duration in minutes"
+    },
+    "agent_count": {
+      "type": "integer",
+      "default": 1,
+      "description": "Number of agents"
+    },
+    "environment_id": {
+      "type": "string",
+      "description": "Environment ID"
+    },
+    "scenario_id": {
+      "type": "string",
+      "description": "Scenario ID"
+    },
+    "parameters": {
+      "type": "object",
+      "description": "Simulation parameters"
+    },
+    "results": {
+      "type": "object",
+      "description": "Simulation results and metrics"
+    }
+  },
+  "required": [
+    "user_email",
+    "name"
+  ]
+}

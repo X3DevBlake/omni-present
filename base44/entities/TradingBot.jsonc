@@ -1,0 +1,88 @@
+{
+  "name": "TradingBot",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "Owner email"
+    },
+    "bot_name": {
+      "type": "string",
+      "description": "Bot name"
+    },
+    "exchange": {
+      "type": "string",
+      "enum": [
+        "binance",
+        "coinbase",
+        "kraken",
+        "bybit"
+      ],
+      "description": "Connected exchange"
+    },
+    "api_key_encrypted": {
+      "type": "string",
+      "description": "Encrypted exchange API key"
+    },
+    "strategy": {
+      "type": "string",
+      "enum": [
+        "grid",
+        "dca",
+        "momentum",
+        "arbitrage"
+      ],
+      "description": "Trading strategy"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "inactive",
+        "running",
+        "paused",
+        "error"
+      ],
+      "default": "inactive",
+      "description": "Bot status"
+    },
+    "risk_level": {
+      "type": "string",
+      "enum": [
+        "conservative",
+        "moderate",
+        "aggressive"
+      ],
+      "default": "moderate",
+      "description": "Risk level"
+    },
+    "daily_loss_limit": {
+      "type": "number",
+      "description": "Daily loss limit %"
+    },
+    "total_pnl": {
+      "type": "number",
+      "default": 0,
+      "description": "Total P&L"
+    },
+    "trades_executed": {
+      "type": "integer",
+      "default": 0,
+      "description": "Total trades executed"
+    },
+    "win_rate": {
+      "type": "number",
+      "default": 0,
+      "description": "Win rate %"
+    },
+    "config": {
+      "type": "object",
+      "description": "Bot configuration"
+    }
+  },
+  "required": [
+    "user_email",
+    "bot_name",
+    "exchange",
+    "strategy"
+  ]
+}

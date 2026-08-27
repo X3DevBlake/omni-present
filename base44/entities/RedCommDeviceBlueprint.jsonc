@@ -1,0 +1,64 @@
+{
+  "name": "RedCommDeviceBlueprint",
+  "type": "object",
+  "properties": {
+    "device_name": {
+      "type": "string"
+    },
+    "model_series": {
+      "type": "string",
+      "enum": [
+        "XG-Alpha",
+        "XG-Beta",
+        "XG-Omega",
+        "XG-Prime"
+      ]
+    },
+    "specs": {
+      "type": "object",
+      "properties": {
+        "processing_power": {
+          "type": "number"
+        },
+        "bandwidth_capacity": {
+          "type": "string"
+        },
+        "encryption_level": {
+          "type": "string"
+        },
+        "ai_core_version": {
+          "type": "string"
+        }
+      }
+    },
+    "modules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "module_name": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "efficiency": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "holographic_config": {
+      "type": "object",
+      "description": "Configuration for 3D visualization"
+    },
+    "last_maintenance": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "device_name",
+    "model_series"
+  ]
+}

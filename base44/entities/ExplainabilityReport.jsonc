@@ -1,0 +1,94 @@
+{
+  "name": "ExplainabilityReport",
+  "type": "object",
+  "properties": {
+    "report_name": {
+      "type": "string",
+      "description": "Report identifier"
+    },
+    "model_id": {
+      "type": "string",
+      "description": "Model being explained"
+    },
+    "explanation_methods": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "SHAP",
+          "LIME",
+          "GradCAM",
+          "IntegratedGradients",
+          "AttentionVisualization"
+        ]
+      }
+    },
+    "feature_importance": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "feature_name": {
+            "type": "string"
+          },
+          "importance_score": {
+            "type": "number"
+          },
+          "contribution_direction": {
+            "type": "string",
+            "enum": [
+              "positive",
+              "negative",
+              "neutral"
+            ]
+          }
+        }
+      }
+    },
+    "decision_paths": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "path_description": {
+            "type": "string"
+          },
+          "confidence": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "counterfactual_explanations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "original_prediction": {
+            "type": "string"
+          },
+          "alternative_prediction": {
+            "type": "string"
+          },
+          "required_changes": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "interpretability_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "human_understandability": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    }
+  },
+  "required": [
+    "report_name",
+    "model_id"
+  ]
+}

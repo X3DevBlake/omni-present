@@ -1,0 +1,94 @@
+{
+  "name": "AnimationAsset",
+  "type": "object",
+  "properties": {
+    "asset_id": {
+      "type": "string",
+      "description": "Unique identifier for the animation asset"
+    },
+    "name": {
+      "type": "string",
+      "description": "Human-readable name of the animation"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "3D_GLTF",
+        "Lottie_JSON",
+        "Particle_Config",
+        "CSS_Keyframes",
+        "WebM",
+        "Shader"
+      ],
+      "description": "Type of animation asset"
+    },
+    "file_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL to the animation file"
+    },
+    "thumbnail_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Thumbnail for the animation"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Additional parameters (duration, loopable, scale, color presets)",
+      "additionalProperties": true
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Categorization tags"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "micro_interaction",
+        "feature_specific",
+        "environmental",
+        "gamification",
+        "ai_feedback"
+      ],
+      "description": "Animation category"
+    },
+    "trigger_events": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Events that trigger this animation"
+    },
+    "performance_budget": {
+      "type": "object",
+      "properties": {
+        "max_instances": {
+          "type": "integer"
+        },
+        "gpu_cost": {
+          "type": "number"
+        },
+        "cpu_cost": {
+          "type": "number"
+        }
+      }
+    },
+    "ai_parameters": {
+      "type": "object",
+      "description": "AI-driven dynamic parameters",
+      "additionalProperties": true
+    },
+    "version": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "asset_id",
+    "name",
+    "type",
+    "category"
+  ]
+}

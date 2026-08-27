@@ -1,0 +1,60 @@
+{
+  "name": "SharedExperienceLog",
+  "type": "object",
+  "properties": {
+    "experience_id": {
+      "type": "string",
+      "description": "Experience identifier"
+    },
+    "user_id": {
+      "type": "string"
+    },
+    "companion_id": {
+      "type": "string"
+    },
+    "experience_type": {
+      "type": "string",
+      "enum": [
+        "conversation",
+        "activity",
+        "milestone",
+        "challenge",
+        "discovery",
+        "emotional_moment"
+      ]
+    },
+    "experience_description": {
+      "type": "string"
+    },
+    "emotional_significance": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 10
+    },
+    "memory_vividness": {
+      "type": "number",
+      "description": "How vividly this memory is recalled"
+    },
+    "associated_media": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "narrative_role": {
+      "type": "string",
+      "description": "Role in ongoing narrative"
+    },
+    "recalled_count": {
+      "type": "integer"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "experience_id",
+    "experience_type"
+  ]
+}

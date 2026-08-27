@@ -1,0 +1,58 @@
+{
+  "name": "Budget",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "User who owns budget"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "housing",
+        "food",
+        "transport",
+        "entertainment",
+        "utilities",
+        "healthcare",
+        "education",
+        "shopping"
+      ],
+      "description": "Budget category"
+    },
+    "monthly_limit": {
+      "type": "number",
+      "description": "Monthly spending limit"
+    },
+    "current_month_spent": {
+      "type": "number",
+      "default": 0,
+      "description": "Current month spending"
+    },
+    "alert_threshold": {
+      "type": "number",
+      "default": 0.8,
+      "description": "Threshold to trigger alert (0.8 = 80%)"
+    },
+    "rollover_enabled": {
+      "type": "boolean",
+      "default": false,
+      "description": "Allow unused budget to roll to next month"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "on_track",
+        "warning",
+        "exceeded"
+      ],
+      "default": "on_track",
+      "description": "Budget status"
+    }
+  },
+  "required": [
+    "user_email",
+    "category",
+    "monthly_limit"
+  ]
+}

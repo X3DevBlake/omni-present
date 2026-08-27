@@ -1,0 +1,66 @@
+{
+  "name": "BlockchainTransaction",
+  "type": "object",
+  "properties": {
+    "transaction_hash": {
+      "type": "string",
+      "description": "Blockchain transaction hash"
+    },
+    "from_node": {
+      "type": "string",
+      "description": "Source node ID"
+    },
+    "to_node": {
+      "type": "string",
+      "description": "Destination node ID"
+    },
+    "transaction_type": {
+      "type": "string",
+      "enum": [
+        "agent_transfer",
+        "data_exchange",
+        "collaboration_agreement",
+        "reputation_update"
+      ],
+      "description": "Type of transaction"
+    },
+    "payload": {
+      "type": "object",
+      "description": "Transaction data"
+    },
+    "signature": {
+      "type": "string",
+      "description": "Digital signature"
+    },
+    "block_number": {
+      "type": "integer",
+      "description": "Block number"
+    },
+    "confirmations": {
+      "type": "integer",
+      "default": 0
+    },
+    "gas_fee": {
+      "type": "number",
+      "description": "Transaction fee"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "confirmed",
+        "failed"
+      ],
+      "default": "pending"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "from_node",
+    "to_node",
+    "transaction_type"
+  ]
+}

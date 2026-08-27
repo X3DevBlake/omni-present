@@ -1,0 +1,65 @@
+{
+  "name": "SimulationScenario",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "threat_type": {
+      "type": "string",
+      "enum": [
+        "adversarial_ai",
+        "environmental_hazard",
+        "cyber_attack",
+        "resource_scarcity"
+      ]
+    },
+    "threat_level": {
+      "type": "string",
+      "enum": [
+        "low",
+        "moderate",
+        "high",
+        "critical",
+        "existential"
+      ]
+    },
+    "environment_config": {
+      "type": "object",
+      "properties": {
+        "terrain": {
+          "type": "string"
+        },
+        "weather": {
+          "type": "string"
+        },
+        "physics_engine": {
+          "type": "string"
+        }
+      }
+    },
+    "adversarial_agents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "archetype": {
+            "type": "string"
+          },
+          "difficulty": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "complexity": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    }
+  },
+  "required": [
+    "name",
+    "threat_type"
+  ]
+}

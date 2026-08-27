@@ -1,0 +1,120 @@
+{
+  "name": "AgentBehaviorTemplate",
+  "type": "object",
+  "properties": {
+    "template_id": {
+      "type": "string",
+      "description": "Template identifier"
+    },
+    "template_name": {
+      "type": "string",
+      "description": "Template name"
+    },
+    "creator_id": {
+      "type": "string",
+      "description": "User who created template"
+    },
+    "personality_archetype": {
+      "type": "string",
+      "enum": [
+        "analytical",
+        "creative",
+        "empathetic",
+        "decisive",
+        "balanced",
+        "custom"
+      ],
+      "description": "Base personality type"
+    },
+    "behavioral_traits": {
+      "type": "object",
+      "properties": {
+        "proactiveness": {
+          "type": "number"
+        },
+        "risk_preference": {
+          "type": "number"
+        },
+        "collaboration_style": {
+          "type": "string"
+        },
+        "decision_speed": {
+          "type": "number"
+        },
+        "learning_aggressiveness": {
+          "type": "number"
+        }
+      }
+    },
+    "communication_config": {
+      "type": "object",
+      "properties": {
+        "language_style": {
+          "type": "string"
+        },
+        "formality_level": {
+          "type": "number"
+        },
+        "emoji_usage": {
+          "type": "number"
+        },
+        "explanation_depth": {
+          "type": "string"
+        }
+      }
+    },
+    "ethical_guidelines": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "principle": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "number"
+          },
+          "enforcement": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "training_curriculum": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "skill": {
+            "type": "string"
+          },
+          "training_method": {
+            "type": "string"
+          },
+          "target_proficiency": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "usage_stats": {
+      "type": "object",
+      "properties": {
+        "times_applied": {
+          "type": "integer"
+        },
+        "user_satisfaction_avg": {
+          "type": "number"
+        }
+      }
+    },
+    "is_public": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "template_id",
+    "template_name"
+  ]
+}

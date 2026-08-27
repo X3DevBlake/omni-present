@@ -1,0 +1,174 @@
+{
+  "name": "IntelligenceDashboard",
+  "type": "object",
+  "properties": {
+    "dashboard_name": {
+      "type": "string",
+      "description": "Intelligence dashboard identifier"
+    },
+    "dashboard_type": {
+      "type": "string",
+      "enum": [
+        "executive",
+        "operational",
+        "analytical",
+        "strategic",
+        "real_time"
+      ],
+      "description": "Dashboard purpose"
+    },
+    "widgets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "widget_id": {
+            "type": "string"
+          },
+          "widget_type": {
+            "type": "string",
+            "enum": [
+              "chart",
+              "kpi",
+              "table",
+              "heatmap",
+              "3d_viz",
+              "alert_panel"
+            ]
+          },
+          "data_source": {
+            "type": "string"
+          },
+          "position": {
+            "type": "object",
+            "properties": {
+              "x": {
+                "type": "integer"
+              },
+              "y": {
+                "type": "integer"
+              },
+              "width": {
+                "type": "integer"
+              },
+              "height": {
+                "type": "integer"
+              }
+            }
+          },
+          "refresh_rate_seconds": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "kpis": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "kpi_name": {
+            "type": "string"
+          },
+          "current_value": {
+            "type": "number"
+          },
+          "target_value": {
+            "type": "number"
+          },
+          "trend": {
+            "type": "string",
+            "enum": [
+              "up",
+              "down",
+              "stable"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "on_track",
+              "at_risk",
+              "critical"
+            ]
+          }
+        }
+      }
+    },
+    "alerts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "alert_id": {
+            "type": "string"
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "info",
+              "warning",
+              "error",
+              "critical"
+            ]
+          },
+          "message": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "acknowledged": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "ai_recommendations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "recommendation": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high",
+              "urgent"
+            ]
+          },
+          "expected_impact": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "collaboration": {
+      "type": "object",
+      "properties": {
+        "shared_with": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "comments_enabled": {
+          "type": "boolean"
+        }
+      }
+    },
+    "auto_insights": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "dashboard_name",
+    "dashboard_type"
+  ]
+}

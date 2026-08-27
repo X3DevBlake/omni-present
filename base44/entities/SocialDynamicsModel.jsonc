@@ -1,0 +1,54 @@
+{
+  "name": "SocialDynamicsModel",
+  "type": "object",
+  "properties": {
+    "simulation_id": {
+      "type": "string",
+      "description": "Simulation ID"
+    },
+    "crowd_behavior": {
+      "type": "object",
+      "properties": {
+        "sentiment": {
+          "type": "string"
+        },
+        "cohesion": {
+          "type": "number"
+        },
+        "volatility": {
+          "type": "number"
+        }
+      }
+    },
+    "public_opinion": {
+      "type": "object",
+      "description": "Opinion on various topics"
+    },
+    "emergent_groups": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "group_name": {
+            "type": "string"
+          },
+          "members": {
+            "type": "array"
+          },
+          "goals": {
+            "type": "array"
+          }
+        }
+      }
+    },
+    "social_trends": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "simulation_id"
+  ]
+}

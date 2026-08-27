@@ -1,0 +1,65 @@
+{
+  "name": "EthicalSpendingCategory",
+  "type": "object",
+  "properties": {
+    "category_id": {
+      "type": "string",
+      "description": "Category identifier"
+    },
+    "category_name": {
+      "type": "string",
+      "description": "Name of spending category"
+    },
+    "ethical_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Ethical alignment score"
+    },
+    "impact_dimensions": {
+      "type": "object",
+      "properties": {
+        "environmental_impact": {
+          "type": "number"
+        },
+        "social_impact": {
+          "type": "number"
+        },
+        "governance_score": {
+          "type": "number"
+        },
+        "sustainability_rating": {
+          "type": "number"
+        }
+      }
+    },
+    "user_alignment": {
+      "type": "number",
+      "description": "Alignment with user values"
+    },
+    "merchant_patterns": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "recommended_alternatives": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "alternative_name": {
+            "type": "string"
+          },
+          "ethical_improvement": {
+            "type": "number"
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "category_id",
+    "category_name"
+  ]
+}

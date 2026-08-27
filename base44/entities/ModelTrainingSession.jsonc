@@ -1,0 +1,107 @@
+{
+  "name": "ModelTrainingSession",
+  "type": "object",
+  "properties": {
+    "session_name": {
+      "type": "string",
+      "description": "Training session identifier"
+    },
+    "model_type": {
+      "type": "string",
+      "enum": [
+        "diffusion",
+        "neuro_symbolic",
+        "few_shot",
+        "active_learning",
+        "constitutional",
+        "causal_rl",
+        "moe",
+        "cot",
+        "ebm",
+        "rlaif"
+      ],
+      "description": "Type of model being trained"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "initializing",
+        "training",
+        "validating",
+        "completed",
+        "failed",
+        "paused"
+      ],
+      "default": "initializing"
+    },
+    "current_epoch": {
+      "type": "integer",
+      "default": 0
+    },
+    "total_epochs": {
+      "type": "integer"
+    },
+    "metrics": {
+      "type": "object",
+      "properties": {
+        "loss": {
+          "type": "number"
+        },
+        "accuracy": {
+          "type": "number"
+        },
+        "validation_loss": {
+          "type": "number"
+        },
+        "validation_accuracy": {
+          "type": "number"
+        },
+        "learning_rate": {
+          "type": "number"
+        }
+      }
+    },
+    "hyperparameters": {
+      "type": "object",
+      "description": "Training configuration"
+    },
+    "gradient_flow": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "layer": {
+            "type": "string"
+          },
+          "gradient_norm": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "activation_maps": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "resource_usage": {
+      "type": "object",
+      "properties": {
+        "gpu_utilization": {
+          "type": "number"
+        },
+        "memory_usage_gb": {
+          "type": "number"
+        },
+        "estimated_time_remaining": {
+          "type": "number"
+        }
+      }
+    }
+  },
+  "required": [
+    "session_name",
+    "model_type"
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "name": "EmergentBehaviorPrediction",
+  "type": "object",
+  "properties": {
+    "simulation_id": {
+      "type": "string",
+      "description": "Associated simulation"
+    },
+    "behavior_name": {
+      "type": "string",
+      "description": "Predicted behavior name"
+    },
+    "behavior_type": {
+      "type": "string",
+      "enum": [
+        "cooperation",
+        "competition",
+        "innovation",
+        "adaptation",
+        "conflict",
+        "organization"
+      ],
+      "description": "Type of emergent behavior"
+    },
+    "prediction_confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "AI confidence in prediction"
+    },
+    "expected_occurrence_time": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When behavior is expected"
+    },
+    "triggering_conditions": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Conditions that trigger behavior"
+    },
+    "participating_agents": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Agents likely to exhibit behavior"
+    },
+    "potential_impact": {
+      "type": "string",
+      "description": "Expected impact on simulation"
+    },
+    "occurred": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether behavior actually occurred"
+    },
+    "actual_occurrence_time": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When it actually occurred"
+    },
+    "visualization_data": {
+      "type": "object",
+      "description": "3D visualization parameters"
+    }
+  },
+  "required": [
+    "simulation_id",
+    "behavior_name",
+    "behavior_type"
+  ]
+}

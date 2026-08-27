@@ -1,0 +1,63 @@
+{
+  "name": "AgentReview",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Agent being reviewed"
+    },
+    "task_id": {
+      "type": "string",
+      "description": "Related task assignment"
+    },
+    "reviewer_id": {
+      "type": "string",
+      "description": "User who submitted review"
+    },
+    "rating": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 5,
+      "description": "Star rating"
+    },
+    "review_text": {
+      "type": "string",
+      "description": "Detailed review"
+    },
+    "strengths": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Highlighted strengths"
+    },
+    "areas_for_improvement": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Suggested improvements"
+    },
+    "verified_purchase": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether reviewer actually used the agent"
+    },
+    "helpful_count": {
+      "type": "integer",
+      "default": 0,
+      "description": "Number of users who found review helpful"
+    },
+    "sentiment_score": {
+      "type": "number",
+      "minimum": -1,
+      "maximum": 1,
+      "description": "AI-analyzed sentiment"
+    }
+  },
+  "required": [
+    "agent_id",
+    "reviewer_id",
+    "rating"
+  ]
+}

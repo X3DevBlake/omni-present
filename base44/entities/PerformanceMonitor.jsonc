@@ -1,0 +1,117 @@
+{
+  "name": "PerformanceMonitor",
+  "type": "object",
+  "properties": {
+    "monitor_name": {
+      "type": "string",
+      "description": "Performance monitor identifier"
+    },
+    "target_system": {
+      "type": "string",
+      "enum": [
+        "agent",
+        "model",
+        "function",
+        "integration",
+        "infrastructure"
+      ],
+      "description": "What is being monitored"
+    },
+    "target_id": {
+      "type": "string"
+    },
+    "metrics_collected": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "metric_name": {
+            "type": "string"
+          },
+          "current_value": {
+            "type": "number"
+          },
+          "historical_avg": {
+            "type": "number"
+          },
+          "threshold": {
+            "type": "number"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "normal",
+              "warning",
+              "critical"
+            ]
+          }
+        }
+      }
+    },
+    "performance_score": {
+      "type": "number",
+      "description": "Overall performance 0-100"
+    },
+    "bottlenecks_detected": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "bottleneck_type": {
+            "type": "string"
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high",
+              "critical"
+            ]
+          },
+          "impact": {
+            "type": "string"
+          },
+          "recommendation": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "optimization_suggestions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "suggestion": {
+            "type": "string"
+          },
+          "expected_improvement": {
+            "type": "number"
+          },
+          "effort_required": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ]
+          }
+        }
+      }
+    },
+    "monitoring_interval_seconds": {
+      "type": "integer",
+      "default": 60
+    },
+    "alert_enabled": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "monitor_name",
+    "target_system",
+    "target_id"
+  ]
+}

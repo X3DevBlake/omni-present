@@ -1,0 +1,96 @@
+{
+  "name": "MultiDeviceProjection",
+  "type": "object",
+  "properties": {
+    "projection_session_id": {
+      "type": "string",
+      "description": "Session identifier"
+    },
+    "agent_id": {
+      "type": "string",
+      "description": "Agent being projected"
+    },
+    "active_devices": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "device_id": {
+            "type": "string"
+          },
+          "projection_portion": {
+            "type": "string",
+            "enum": [
+              "full",
+              "partial",
+              "shadow"
+            ]
+          },
+          "quality_level": {
+            "type": "string"
+          },
+          "resource_allocation": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "optimization_strategy": {
+      "type": "string",
+      "enum": [
+        "load_balanced",
+        "quality_priority",
+        "range_extension",
+        "power_efficient"
+      ],
+      "default": "load_balanced"
+    },
+    "coverage_map": {
+      "type": "object",
+      "properties": {
+        "total_coverage_area_sqm": {
+          "type": "number"
+        },
+        "overlap_zones": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "devices": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "coordinates": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    "seamless_transition_enabled": {
+      "type": "boolean",
+      "default": true
+    },
+    "ai_optimization_metrics": {
+      "type": "object",
+      "properties": {
+        "device_utilization_balance": {
+          "type": "number"
+        },
+        "total_power_consumption_watts": {
+          "type": "number"
+        },
+        "projection_consistency_score": {
+          "type": "number"
+        }
+      }
+    }
+  },
+  "required": [
+    "agent_id",
+    "active_devices"
+  ]
+}

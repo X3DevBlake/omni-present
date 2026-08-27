@@ -1,0 +1,140 @@
+{
+  "name": "PhysicalInteraction",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Agent performing the interaction"
+    },
+    "interaction_type": {
+      "type": "string",
+      "enum": [
+        "gesture_command",
+        "object_manipulation",
+        "natural_language",
+        "emotional_response",
+        "environmental_adjustment"
+      ],
+      "description": "Type of physical interaction"
+    },
+    "gesture_data": {
+      "type": "object",
+      "properties": {
+        "gesture_type": {
+          "type": "string",
+          "enum": [
+            "point",
+            "wave",
+            "swipe",
+            "circle",
+            "thumbs_up",
+            "stop",
+            "come_here",
+            "custom"
+          ]
+        },
+        "confidence": {
+          "type": "number"
+        },
+        "hand_position": {
+          "type": "object",
+          "properties": {
+            "x": {
+              "type": "number"
+            },
+            "y": {
+              "type": "number"
+            },
+            "z": {
+              "type": "number"
+            }
+          }
+        },
+        "velocity": {
+          "type": "number"
+        },
+        "interpreted_command": {
+          "type": "string"
+        }
+      }
+    },
+    "physical_action": {
+      "type": "object",
+      "properties": {
+        "target_device_id": {
+          "type": "string"
+        },
+        "device_type": {
+          "type": "string",
+          "enum": [
+            "robotic_arm",
+            "smart_light",
+            "smart_thermostat",
+            "smart_lock",
+            "smart_appliance",
+            "drone"
+          ]
+        },
+        "action": {
+          "type": "string"
+        },
+        "parameters": {
+          "type": "object"
+        },
+        "success": {
+          "type": "boolean"
+        }
+      }
+    },
+    "user_context": {
+      "type": "object",
+      "properties": {
+        "detected_emotion": {
+          "type": "string",
+          "enum": [
+            "happy",
+            "sad",
+            "frustrated",
+            "excited",
+            "neutral",
+            "confused"
+          ]
+        },
+        "energy_level": {
+          "type": "string",
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ]
+        },
+        "activity": {
+          "type": "string"
+        },
+        "environmental_factors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "agent_response": {
+      "type": "string",
+      "description": "How agent responded to interaction"
+    },
+    "adaptation_learned": {
+      "type": "string",
+      "description": "What the agent learned from this interaction"
+    },
+    "success_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    }
+  },
+  "required": [
+    "agent_id",
+    "interaction_type"
+  ]
+}

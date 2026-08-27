@@ -1,0 +1,127 @@
+{
+  "name": "TaskCoordination",
+  "type": "object",
+  "properties": {
+    "coordination_id": {
+      "type": "string",
+      "description": "Coordination session identifier"
+    },
+    "task_description": {
+      "type": "string",
+      "description": "What needs to be coordinated"
+    },
+    "assigned_agents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "subtasks": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "completion_percentage": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "coordination_strategy": {
+      "type": "string",
+      "enum": [
+        "parallel",
+        "sequential",
+        "hierarchical",
+        "swarm",
+        "democratic"
+      ],
+      "description": "How work is coordinated"
+    },
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "task_id": {
+            "type": "string"
+          },
+          "depends_on": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "blocking": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "progress_metrics": {
+      "type": "object",
+      "properties": {
+        "overall_progress": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "time_elapsed_minutes": {
+          "type": "number"
+        },
+        "estimated_completion_minutes": {
+          "type": "number"
+        },
+        "efficiency_rating": {
+          "type": "number"
+        }
+      }
+    },
+    "conflict_resolution": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "conflict_type": {
+            "type": "string"
+          },
+          "involved_agents": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "resolution_strategy": {
+            "type": "string"
+          },
+          "resolved": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "ai_coordinator_active": {
+      "type": "boolean",
+      "default": false
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "planning",
+        "active",
+        "paused",
+        "completed"
+      ],
+      "default": "planning"
+    }
+  },
+  "required": [
+    "task_description"
+  ]
+}

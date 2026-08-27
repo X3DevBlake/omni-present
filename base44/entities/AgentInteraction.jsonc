@@ -1,0 +1,64 @@
+{
+  "name": "AgentInteraction",
+  "type": "object",
+  "properties": {
+    "agent_a_id": {
+      "type": "string",
+      "description": "First agent ID"
+    },
+    "agent_b_id": {
+      "type": "string",
+      "description": "Second agent ID"
+    },
+    "interaction_type": {
+      "type": "string",
+      "enum": [
+        "text_message",
+        "voice_call",
+        "video_call",
+        "collaboration",
+        "data_exchange"
+      ],
+      "description": "Type of interaction"
+    },
+    "channel": {
+      "type": "string",
+      "enum": [
+        "slack",
+        "twilio_sms",
+        "twilio_voice",
+        "video",
+        "direct"
+      ],
+      "description": "Communication channel used"
+    },
+    "content": {
+      "type": "string",
+      "description": "Interaction content or summary"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Additional interaction data"
+    },
+    "location": {
+      "type": "object",
+      "properties": {
+        "latitude": {
+          "type": "number"
+        },
+        "longitude": {
+          "type": "number"
+        }
+      }
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "agent_a_id",
+    "agent_b_id",
+    "interaction_type"
+  ]
+}

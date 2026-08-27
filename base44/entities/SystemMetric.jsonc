@@ -1,0 +1,60 @@
+{
+  "name": "SystemMetric",
+  "type": "object",
+  "properties": {
+    "metric_id": {
+      "type": "string",
+      "description": "Unique metric identifier"
+    },
+    "component_type": {
+      "type": "string",
+      "enum": [
+        "agent",
+        "swarm",
+        "network_node",
+        "knowledge_cluster",
+        "communication_link",
+        "device",
+        "framework"
+      ]
+    },
+    "component_id": {
+      "type": "string"
+    },
+    "metric_name": {
+      "type": "string",
+      "description": "Name of metric being tracked"
+    },
+    "metric_value": {
+      "type": "number"
+    },
+    "metric_unit": {
+      "type": "string",
+      "description": "Unit of measurement"
+    },
+    "threshold_min": {
+      "type": "number"
+    },
+    "threshold_max": {
+      "type": "number"
+    },
+    "anomaly_detected": {
+      "type": "boolean",
+      "default": false
+    },
+    "deviation_from_baseline": {
+      "type": "number"
+    },
+    "contextual_metadata": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "required": [
+    "metric_id",
+    "component_type",
+    "component_id",
+    "metric_name",
+    "metric_value"
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "name": "NeuroSymbolicSystem",
+  "type": "object",
+  "properties": {
+    "system_name": {
+      "type": "string",
+      "description": "Neuro-symbolic system identifier"
+    },
+    "neural_component": {
+      "type": "object",
+      "properties": {
+        "architecture": {
+          "type": "string"
+        },
+        "learning_rate": {
+          "type": "number"
+        },
+        "accuracy": {
+          "type": "number"
+        }
+      }
+    },
+    "symbolic_component": {
+      "type": "object",
+      "properties": {
+        "logic_type": {
+          "type": "string",
+          "enum": [
+            "first_order",
+            "temporal",
+            "fuzzy",
+            "probabilistic"
+          ]
+        },
+        "rule_count": {
+          "type": "integer"
+        },
+        "reasoning_depth": {
+          "type": "integer"
+        }
+      }
+    },
+    "integration_method": {
+      "type": "string",
+      "enum": [
+        "tight_coupling",
+        "loose_coupling",
+        "hybrid"
+      ],
+      "description": "How neural and symbolic parts interact"
+    },
+    "knowledge_base": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "rule": {
+            "type": "string"
+          },
+          "confidence": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "reasoning_capabilities": {
+      "type": "object",
+      "properties": {
+        "logical_inference": {
+          "type": "number"
+        },
+        "pattern_recognition": {
+          "type": "number"
+        },
+        "explainability": {
+          "type": "number"
+        }
+      }
+    },
+    "hybrid_performance": {
+      "type": "number",
+      "description": "Combined system performance"
+    }
+  },
+  "required": [
+    "system_name",
+    "integration_method"
+  ]
+}

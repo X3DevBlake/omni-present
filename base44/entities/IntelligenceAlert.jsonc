@@ -1,0 +1,116 @@
+{
+  "name": "IntelligenceAlert",
+  "type": "object",
+  "properties": {
+    "alert_id": {
+      "type": "string",
+      "description": "Unique alert identifier"
+    },
+    "alert_type": {
+      "type": "string",
+      "enum": [
+        "anomaly",
+        "prediction",
+        "correlation",
+        "threshold",
+        "trend",
+        "security"
+      ],
+      "description": "Type of intelligence alert"
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "info",
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "default": "medium"
+    },
+    "source_hubs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Hubs that contributed to this alert"
+    },
+    "affected_entities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "entity_type": {
+            "type": "string"
+          },
+          "entity_id": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "ai_analysis": {
+      "type": "object",
+      "properties": {
+        "confidence_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "root_cause": {
+          "type": "string"
+        },
+        "predicted_impact": {
+          "type": "string"
+        },
+        "recommended_actions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "data_points": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "metric": {
+            "type": "string"
+          },
+          "value": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "correlation_id": {
+      "type": "string",
+      "description": "Links related alerts"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "investigating",
+        "resolved",
+        "dismissed"
+      ],
+      "default": "active"
+    },
+    "auto_resolved": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "alert_type",
+    "severity"
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "name": "AgentTransaction",
+  "type": "object",
+  "properties": {
+    "buyer_agent_id": {
+      "type": "string",
+      "description": "Agent purchasing the resource"
+    },
+    "seller_agent_id": {
+      "type": "string",
+      "description": "Agent selling the resource"
+    },
+    "listing_id": {
+      "type": "string",
+      "description": "Marketplace listing ID"
+    },
+    "transaction_type": {
+      "type": "string",
+      "enum": [
+        "purchase",
+        "trade",
+        "lease"
+      ],
+      "description": "Type of transaction"
+    },
+    "amount": {
+      "type": "number",
+      "description": "Transaction amount in tokens"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "completed",
+        "failed",
+        "disputed"
+      ],
+      "default": "pending",
+      "description": "Transaction status"
+    },
+    "transaction_hash": {
+      "type": "string",
+      "description": "Blockchain transaction hash"
+    },
+    "transferred_resource": {
+      "type": "object",
+      "description": "The actual resource transferred"
+    },
+    "buyer_rating": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 5,
+      "description": "Buyer's rating of the transaction"
+    },
+    "seller_rating": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 5,
+      "description": "Seller's rating of the transaction"
+    }
+  },
+  "required": [
+    "buyer_agent_id",
+    "seller_agent_id",
+    "listing_id",
+    "amount"
+  ]
+}

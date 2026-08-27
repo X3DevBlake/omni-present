@@ -1,0 +1,77 @@
+{
+  "name": "LiquidityPool",
+  "type": "object",
+  "properties": {
+    "pool_name": {
+      "type": "string",
+      "description": "Pool name (e.g., OMNI/USDT)"
+    },
+    "token_a": {
+      "type": "string",
+      "description": "First token in the pair"
+    },
+    "token_b": {
+      "type": "string",
+      "description": "Second token in the pair"
+    },
+    "base_apy": {
+      "type": "number",
+      "description": "Base APY percentage"
+    },
+    "current_apy": {
+      "type": "number",
+      "description": "Current APY after adjustments"
+    },
+    "total_value_locked": {
+      "type": "number",
+      "default": 0,
+      "description": "Total value locked in pool"
+    },
+    "reward_rate": {
+      "type": "number",
+      "description": "Base reward rate for calculations"
+    },
+    "pool_type": {
+      "type": "string",
+      "enum": [
+        "liquidity",
+        "single_stake",
+        "yield_farm"
+      ],
+      "default": "liquidity",
+      "description": "Type of pool"
+    },
+    "risk_level": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "extreme"
+      ],
+      "default": "medium",
+      "description": "Risk assessment"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether pool is accepting deposits"
+    },
+    "min_deposit": {
+      "type": "number",
+      "default": 1,
+      "description": "Minimum deposit amount"
+    },
+    "lock_period_days": {
+      "type": "integer",
+      "default": 0,
+      "description": "Lock period in days (0 for flexible)"
+    }
+  },
+  "required": [
+    "pool_name",
+    "token_a",
+    "base_apy",
+    "reward_rate"
+  ]
+}

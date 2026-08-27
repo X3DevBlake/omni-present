@@ -1,0 +1,111 @@
+{
+  "name": "SelfEvolvingCognitiveModel",
+  "type": "object",
+  "properties": {
+    "model_id": {
+      "type": "string",
+      "description": "Unique cognitive model identifier"
+    },
+    "agent_id": {
+      "type": "string",
+      "description": "Agent using this cognitive architecture"
+    },
+    "version": {
+      "type": "string",
+      "description": "Current architecture version"
+    },
+    "architecture_json": {
+      "type": "object",
+      "description": "Neural network topology, layers, connections",
+      "additionalProperties": true
+    },
+    "learning_parameters": {
+      "type": "object",
+      "properties": {
+        "learning_rate": {
+          "type": "number"
+        },
+        "exploration_rate": {
+          "type": "number"
+        },
+        "memory_retention": {
+          "type": "number"
+        },
+        "adaptation_speed": {
+          "type": "number"
+        }
+      }
+    },
+    "performance_metrics": {
+      "type": "object",
+      "properties": {
+        "accuracy": {
+          "type": "number"
+        },
+        "response_time_ms": {
+          "type": "number"
+        },
+        "decision_quality_score": {
+          "type": "number"
+        },
+        "generalization_capability": {
+          "type": "number"
+        }
+      }
+    },
+    "evolution_log": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "change_type": {
+            "type": "string",
+            "enum": [
+              "architecture_modification",
+              "parameter_tuning",
+              "knowledge_integration",
+              "pruning"
+            ]
+          },
+          "reason": {
+            "type": "string"
+          },
+          "performance_delta": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "cognitive_bottlenecks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "bottleneck_type": {
+            "type": "string"
+          },
+          "severity": {
+            "type": "number"
+          },
+          "proposed_solution": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "reasoning_depth": {
+      "type": "integer",
+      "description": "Layers of reasoning capability"
+    }
+  },
+  "required": [
+    "model_id",
+    "agent_id",
+    "version",
+    "architecture_json"
+  ]
+}

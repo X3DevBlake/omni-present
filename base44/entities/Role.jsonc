@@ -1,0 +1,71 @@
+{
+  "name": "Role",
+  "type": "object",
+  "properties": {
+    "roleName": {
+      "type": "string",
+      "enum": [
+        "admin",
+        "trader",
+        "analyst",
+        "viewer"
+      ],
+      "description": "Role name"
+    },
+    "description": {
+      "type": "string",
+      "description": "Role description"
+    },
+    "permissions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "resource": {
+            "type": "string",
+            "description": "Resource type (defi, video, workflows, integrations, etc)"
+          },
+          "actions": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "read",
+                "create",
+                "update",
+                "delete",
+                "execute",
+                "approve"
+              ]
+            }
+          },
+          "dataAccess": {
+            "type": "string",
+            "enum": [
+              "own",
+              "team",
+              "all",
+              "none"
+            ],
+            "description": "Data scope access level"
+          }
+        }
+      },
+      "description": "Permission configuration"
+    },
+    "apiAccessLevel": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 10,
+      "description": "API rate limit tier"
+    },
+    "workflowApprovalRequired": {
+      "type": "boolean",
+      "description": "Whether workflows require approval"
+    }
+  },
+  "required": [
+    "roleName",
+    "permissions"
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "name": "ResourceRequest",
+  "type": "object",
+  "properties": {
+    "requester_agent_id": {
+      "type": "string",
+      "description": "Agent requesting resources"
+    },
+    "resource_type": {
+      "type": "string",
+      "enum": [
+        "cpu",
+        "gpu",
+        "memory",
+        "storage",
+        "network"
+      ],
+      "description": "Requested resource type"
+    },
+    "amount_requested": {
+      "type": "number",
+      "description": "Amount requested"
+    },
+    "duration_hours": {
+      "type": "number",
+      "description": "Duration needed in hours"
+    },
+    "justification": {
+      "type": "string",
+      "description": "Reason for request"
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "low",
+        "normal",
+        "high",
+        "urgent"
+      ],
+      "default": "normal"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "approved",
+        "rejected",
+        "allocated",
+        "completed"
+      ],
+      "default": "pending"
+    },
+    "approved_by": {
+      "type": "string",
+      "description": "Approver agent/user ID"
+    },
+    "allocated_resource_id": {
+      "type": "string",
+      "description": "Allocated resource ID"
+    }
+  },
+  "required": [
+    "requester_agent_id",
+    "resource_type",
+    "amount_requested"
+  ]
+}

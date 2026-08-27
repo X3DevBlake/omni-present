@@ -1,0 +1,146 @@
+{
+  "name": "NeuralBrainChip",
+  "type": "object",
+  "properties": {
+    "chip_id": {
+      "type": "string",
+      "description": "Unique chip identifier"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "User with implant"
+    },
+    "implant_specifications": {
+      "type": "object",
+      "properties": {
+        "model": {
+          "type": "string"
+        },
+        "neural_interface_count": {
+          "type": "integer"
+        },
+        "processing_power_tflops": {
+          "type": "number"
+        },
+        "memory_capacity_tb": {
+          "type": "number"
+        },
+        "wireless_protocols": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "consciousness_bridge": {
+      "type": "object",
+      "properties": {
+        "bidirectional_sync": {
+          "type": "boolean"
+        },
+        "thought_reading_enabled": {
+          "type": "boolean"
+        },
+        "motor_control_enabled": {
+          "type": "boolean"
+        },
+        "sensory_enhancement": {
+          "type": "boolean"
+        },
+        "memory_access": {
+          "type": "boolean"
+        }
+      }
+    },
+    "omni_present_connection": {
+      "type": "object",
+      "properties": {
+        "connected": {
+          "type": "boolean"
+        },
+        "sync_latency_ms": {
+          "type": "number"
+        },
+        "data_throughput_gbps": {
+          "type": "number"
+        },
+        "consciousness_integration_level": {
+          "type": "number"
+        }
+      }
+    },
+    "motor_command_interface": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "command_type": {
+            "type": "string",
+            "enum": [
+              "walk",
+              "reach",
+              "grasp",
+              "turn",
+              "stop",
+              "gesture"
+            ]
+          },
+          "neural_pathway": {
+            "type": "string"
+          },
+          "override_enabled": {
+            "type": "boolean"
+          },
+          "safety_threshold": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "cognitive_data_access": {
+      "type": "object",
+      "properties": {
+        "memory_read": {
+          "type": "boolean"
+        },
+        "knowledge_extraction": {
+          "type": "boolean"
+        },
+        "reasoning_integration": {
+          "type": "boolean"
+        },
+        "emotion_sensing": {
+          "type": "boolean"
+        }
+      }
+    },
+    "augmentation_capabilities": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "safety_protocols": {
+      "type": "object",
+      "properties": {
+        "user_override_always": {
+          "type": "boolean"
+        },
+        "dangerous_command_blocking": {
+          "type": "boolean"
+        },
+        "health_monitoring": {
+          "type": "boolean"
+        },
+        "emergency_disconnect": {
+          "type": "boolean"
+        }
+      }
+    }
+  },
+  "required": [
+    "chip_id",
+    "user_id"
+  ]
+}

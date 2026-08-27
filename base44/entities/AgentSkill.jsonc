@@ -1,0 +1,63 @@
+{
+  "name": "AgentSkill",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Agent this skill belongs to"
+    },
+    "skill_name": {
+      "type": "string",
+      "description": "Name of the skill"
+    },
+    "skill_category": {
+      "type": "string",
+      "enum": [
+        "technical",
+        "communication",
+        "analytical",
+        "creative",
+        "leadership"
+      ],
+      "description": "Skill category"
+    },
+    "proficiency_level": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Current proficiency percentage"
+    },
+    "verified": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether skill is verified"
+    },
+    "verification_source": {
+      "type": "string",
+      "description": "Who/what verified this skill"
+    },
+    "last_used": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "times_used": {
+      "type": "integer",
+      "default": 0
+    },
+    "growth_rate": {
+      "type": "number",
+      "description": "Rate of skill improvement over time"
+    },
+    "market_demand": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Current market demand for this skill"
+    }
+  },
+  "required": [
+    "agent_id",
+    "skill_name",
+    "proficiency_level"
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "name": "DeFiRiskAssessment",
+  "type": "object",
+  "properties": {
+    "protocol_name": {
+      "type": "string",
+      "description": "DeFi protocol being assessed"
+    },
+    "assessment_type": {
+      "type": "string",
+      "enum": [
+        "smart_contract",
+        "liquidity",
+        "market",
+        "systemic"
+      ],
+      "description": "Type of risk assessment"
+    },
+    "risk_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Overall risk score (higher = riskier)"
+    },
+    "anomalies_detected": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "anomaly_type": {
+            "type": "string"
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high",
+              "critical"
+            ]
+          },
+          "description": {
+            "type": "string"
+          },
+          "detected_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "description": "Detected anomalies"
+    },
+    "vulnerability_predictions": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Predicted vulnerabilities"
+    },
+    "recommended_actions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Risk mitigation recommendations"
+    },
+    "confidence_level": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    }
+  },
+  "required": [
+    "protocol_name",
+    "assessment_type",
+    "risk_score"
+  ]
+}

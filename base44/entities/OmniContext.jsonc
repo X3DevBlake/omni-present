@@ -1,0 +1,92 @@
+{
+  "name": "OmniContext",
+  "type": "object",
+  "properties": {
+    "context_id": {
+      "type": "string",
+      "description": "Context snapshot identifier"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "User context belongs to"
+    },
+    "active_tasks": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "current_location": {
+      "type": "object",
+      "properties": {
+        "physical": {
+          "type": "object"
+        },
+        "digital_hub": {
+          "type": "string"
+        }
+      }
+    },
+    "emotional_state": {
+      "type": "object",
+      "properties": {
+        "primary_emotion": {
+          "type": "string"
+        },
+        "intensity": {
+          "type": "number"
+        },
+        "valence": {
+          "type": "number"
+        }
+      }
+    },
+    "cognitive_load": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "active_devices": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "active_agents": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "environmental_conditions": {
+      "type": "object"
+    },
+    "recent_interactions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "interaction_type": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "significance": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "predicted_next_action": {
+      "type": "string"
+    },
+    "context_confidence": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "context_id"
+  ]
+}

@@ -1,0 +1,164 @@
+{
+  "name": "ProactiveAssistance",
+  "type": "object",
+  "properties": {
+    "assistance_id": {
+      "type": "string",
+      "description": "Unique assistance identifier"
+    },
+    "agent_id": {
+      "type": "string",
+      "description": "Agent offering assistance"
+    },
+    "assistance_type": {
+      "type": "string",
+      "enum": [
+        "suggestion",
+        "warning",
+        "optimization",
+        "delegation",
+        "environmental",
+        "safety"
+      ],
+      "description": "Type of proactive assistance"
+    },
+    "trigger_source": {
+      "type": "object",
+      "properties": {
+        "entity_type": {
+          "type": "string"
+        },
+        "entity_id": {
+          "type": "string"
+        },
+        "trigger_condition": {
+          "type": "string"
+        }
+      }
+    },
+    "context_snapshot": {
+      "type": "object",
+      "properties": {
+        "sensor_data": {
+          "type": "object"
+        },
+        "agent_state": {
+          "type": "object"
+        },
+        "environmental_conditions": {
+          "type": "object"
+        },
+        "nearby_obstacles": {
+          "type": "array"
+        },
+        "active_tasks": {
+          "type": "array"
+        }
+      }
+    },
+    "assistance_content": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "severity": {
+          "type": "string",
+          "enum": [
+            "info",
+            "suggestion",
+            "warning",
+            "critical"
+          ]
+        },
+        "recommended_actions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "action_id": {
+                "type": "string"
+              },
+              "action_name": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "auto_executable": {
+                "type": "boolean"
+              },
+              "estimated_benefit": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "affected_entities": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "prediction_data": {
+      "type": "object",
+      "properties": {
+        "prediction_type": {
+          "type": "string"
+        },
+        "confidence": {
+          "type": "number"
+        },
+        "time_horizon_seconds": {
+          "type": "number"
+        },
+        "predicted_outcome": {
+          "type": "string"
+        }
+      }
+    },
+    "user_response": {
+      "type": "object",
+      "properties": {
+        "accepted": {
+          "type": "boolean"
+        },
+        "action_taken": {
+          "type": "string"
+        },
+        "feedback": {
+          "type": "string"
+        },
+        "responded_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "shown",
+        "accepted",
+        "dismissed",
+        "expired",
+        "auto_resolved"
+      ],
+      "default": "pending"
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "agent_id",
+    "assistance_type"
+  ]
+}

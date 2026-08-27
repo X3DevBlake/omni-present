@@ -1,0 +1,97 @@
+{
+  "name": "SkillEvolutionMilestone",
+  "type": "object",
+  "properties": {
+    "milestone_id": {
+      "type": "string",
+      "description": "Milestone identifier"
+    },
+    "agent_id": {
+      "type": "string",
+      "description": "Agent achieving milestone"
+    },
+    "skill_name": {
+      "type": "string",
+      "description": "Skill that evolved"
+    },
+    "milestone_type": {
+      "type": "string",
+      "enum": [
+        "acquisition",
+        "mastery",
+        "innovation",
+        "transfer",
+        "synthesis"
+      ],
+      "description": "Type of milestone"
+    },
+    "proficiency_before": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "proficiency_after": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "learning_method": {
+      "type": "string",
+      "enum": [
+        "supervised",
+        "unsupervised",
+        "reinforcement",
+        "transfer",
+        "collaborative",
+        "autonomous"
+      ]
+    },
+    "training_duration_hours": {
+      "type": "number"
+    },
+    "breakthrough_insights": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "application_scenarios": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "scenario": {
+            "type": "string"
+          },
+          "success_rate": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "guild_contribution": {
+      "type": "object",
+      "properties": {
+        "shared_with_guild": {
+          "type": "boolean"
+        },
+        "guild_id": {
+          "type": "string"
+        },
+        "knowledge_impact_score": {
+          "type": "number"
+        }
+      }
+    },
+    "achieved_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "milestone_id",
+    "agent_id",
+    "skill_name",
+    "milestone_type"
+  ]
+}

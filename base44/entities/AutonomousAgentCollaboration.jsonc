@@ -1,0 +1,162 @@
+{
+  "name": "AutonomousAgentCollaboration",
+  "type": "object",
+  "properties": {
+    "collaboration_id": {
+      "type": "string",
+      "description": "Collaboration session identifier"
+    },
+    "initiating_agent_id": {
+      "type": "string",
+      "description": "Agent that initiated collaboration"
+    },
+    "participating_agents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "skill_contribution": {
+            "type": "array"
+          },
+          "performance_score": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "collaborative_goal": {
+      "type": "object",
+      "properties": {
+        "goal_description": {
+          "type": "string"
+        },
+        "complexity_level": {
+          "type": "number"
+        },
+        "estimated_duration_hours": {
+          "type": "number"
+        },
+        "requires_human_approval": {
+          "type": "boolean"
+        }
+      }
+    },
+    "task_allocation": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "task_name": {
+            "type": "string"
+          },
+          "assigned_agent": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "progress_percent": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "communication_log": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "from_agent": {
+            "type": "string"
+          },
+          "to_agent": {
+            "type": "string"
+          },
+          "message_type": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "synergy_metrics": {
+      "type": "object",
+      "properties": {
+        "coordination_quality": {
+          "type": "number"
+        },
+        "communication_efficiency": {
+          "type": "number"
+        },
+        "collective_performance": {
+          "type": "number"
+        },
+        "conflict_resolution_speed": {
+          "type": "number"
+        }
+      }
+    },
+    "emergent_behaviors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "behavior_type": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "innovation_level": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "collaboration_outcome": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "quality_score": {
+          "type": "number"
+        },
+        "time_to_completion": {
+          "type": "number"
+        },
+        "lessons_learned": {
+          "type": "array"
+        }
+      }
+    },
+    "collaboration_status": {
+      "type": "string",
+      "enum": [
+        "forming",
+        "planning",
+        "executing",
+        "coordinating",
+        "completed",
+        "failed"
+      ],
+      "default": "forming"
+    }
+  },
+  "required": [
+    "collaboration_id",
+    "initiating_agent_id"
+  ]
+}

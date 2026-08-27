@@ -1,0 +1,110 @@
+{
+  "name": "OmegaLearningInsight",
+  "type": "object",
+  "properties": {
+    "insight_id": {
+      "type": "string",
+      "description": "Learning insight identifier"
+    },
+    "agent_id": {
+      "type": "string",
+      "description": "Agent being analyzed"
+    },
+    "insight_type": {
+      "type": "string",
+      "enum": [
+        "trend",
+        "optimization",
+        "prediction",
+        "scenario",
+        "capability_gap"
+      ],
+      "description": "Type of learning insight"
+    },
+    "ai_generated_analysis": {
+      "type": "object",
+      "properties": {
+        "trend_description": {
+          "type": "string"
+        },
+        "statistical_significance": {
+          "type": "number"
+        },
+        "confidence": {
+          "type": "number"
+        },
+        "data_sources": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "optimization_suggestions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "suggestion": {
+            "type": "string"
+          },
+          "expected_improvement": {
+            "type": "number"
+          },
+          "implementation_difficulty": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "hypothetical_scenarios": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "scenario_name": {
+            "type": "string"
+          },
+          "conditions": {
+            "type": "object"
+          },
+          "predicted_capabilities": {
+            "type": "array"
+          },
+          "success_probability": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "learning_path_recommendations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "skill_name": {
+            "type": "string"
+          },
+          "recommended_priority": {
+            "type": "number"
+          },
+          "estimated_time_hours": {
+            "type": "number"
+          },
+          "dependencies": {
+            "type": "array"
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "insight_id",
+    "agent_id",
+    "insight_type"
+  ]
+}

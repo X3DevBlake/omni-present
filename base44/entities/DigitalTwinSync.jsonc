@@ -1,0 +1,93 @@
+{
+  "name": "DigitalTwinSync",
+  "type": "object",
+  "properties": {
+    "sync_id": {
+      "type": "string",
+      "description": "Sync event identifier"
+    },
+    "physical_device_id": {
+      "type": "string",
+      "description": "Physical device being mirrored"
+    },
+    "digital_twin_id": {
+      "type": "string",
+      "description": "Digital twin representation"
+    },
+    "sync_type": {
+      "type": "string",
+      "enum": [
+        "sensor_update",
+        "state_change",
+        "command_execution",
+        "anomaly_detected",
+        "maintenance_required"
+      ],
+      "description": "Type of synchronization event"
+    },
+    "sensor_readings": {
+      "type": "object",
+      "properties": {
+        "temperature": {
+          "type": "number"
+        },
+        "humidity": {
+          "type": "number"
+        },
+        "pressure": {
+          "type": "number"
+        },
+        "vibration": {
+          "type": "number"
+        },
+        "power_consumption": {
+          "type": "number"
+        },
+        "custom_metrics": {
+          "type": "object"
+        }
+      }
+    },
+    "state_delta": {
+      "type": "object",
+      "description": "What changed in the device state",
+      "additionalProperties": true
+    },
+    "predicted_next_state": {
+      "type": "object",
+      "description": "AI prediction of future state",
+      "additionalProperties": true
+    },
+    "anomalies_detected": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "anomaly_type": {
+            "type": "string"
+          },
+          "severity": {
+            "type": "number"
+          },
+          "recommendation": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "latency_ms": {
+      "type": "number",
+      "description": "Sync latency"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "sync_id",
+    "physical_device_id",
+    "digital_twin_id",
+    "sync_type"
+  ]
+}

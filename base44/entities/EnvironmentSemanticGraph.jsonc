@@ -1,0 +1,109 @@
+{
+  "name": "EnvironmentSemanticGraph",
+  "type": "object",
+  "properties": {
+    "node_id": {
+      "type": "string",
+      "description": "Unique identifier for the spatial node"
+    },
+    "node_type": {
+      "type": "string",
+      "enum": [
+        "wall",
+        "floor",
+        "ceiling",
+        "furniture",
+        "agent",
+        "device",
+        "hazard",
+        "poi",
+        "dynamic_object"
+      ],
+      "description": "Type of spatial object"
+    },
+    "spatial_coordinates": {
+      "type": "object",
+      "properties": {
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "z": {
+          "type": "number"
+        }
+      },
+      "description": "3D position in environment"
+    },
+    "properties_json": {
+      "type": "object",
+      "description": "Dynamic properties (color, size, material, temperature, etc.)",
+      "additionalProperties": true
+    },
+    "relations_json": {
+      "type": "object",
+      "description": "Relationships to other nodes (near, on, inside, connected_to)",
+      "additionalProperties": true
+    },
+    "semantic_tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "AI-generated semantic labels"
+    },
+    "confidence_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "AI confidence in node identification"
+    },
+    "last_scan_timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "scan_source": {
+      "type": "string",
+      "enum": [
+        "lidar",
+        "camera",
+        "radar",
+        "ultrasonic",
+        "manual",
+        "ai_inference"
+      ],
+      "description": "How this node was detected"
+    },
+    "dynamic_state": {
+      "type": "object",
+      "properties": {
+        "is_moving": {
+          "type": "boolean"
+        },
+        "velocity_vector": {
+          "type": "object",
+          "properties": {
+            "x": {
+              "type": "number"
+            },
+            "y": {
+              "type": "number"
+            },
+            "z": {
+              "type": "number"
+            }
+          }
+        },
+        "predicted_trajectory": {
+          "type": "array"
+        }
+      }
+    }
+  },
+  "required": [
+    "node_id",
+    "node_type",
+    "spatial_coordinates"
+  ]
+}

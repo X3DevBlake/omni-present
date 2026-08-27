@@ -1,0 +1,149 @@
+{
+  "name": "EthicalDriftPrediction",
+  "type": "object",
+  "properties": {
+    "prediction_id": {
+      "type": "string",
+      "description": "Unique prediction identifier"
+    },
+    "agent_id": {
+      "type": "string",
+      "description": "Agent being monitored"
+    },
+    "predicted_violation_type": {
+      "type": "string",
+      "enum": [
+        "privacy_breach",
+        "bias_amplification",
+        "autonomy_overreach",
+        "transparency_failure",
+        "fairness_violation",
+        "accountability_gap"
+      ]
+    },
+    "confidence_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "AI confidence in prediction"
+    },
+    "severity_level": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "description": "Predicted severity"
+    },
+    "time_to_violation_estimate": {
+      "type": "object",
+      "properties": {
+        "hours": {
+          "type": "number"
+        },
+        "confidence": {
+          "type": "number"
+        }
+      }
+    },
+    "behavioral_indicators": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "indicator": {
+            "type": "string"
+          },
+          "deviation_score": {
+            "type": "number"
+          },
+          "trend": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "decision_pattern_anomalies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "pattern_type": {
+            "type": "string"
+          },
+          "anomaly_score": {
+            "type": "number"
+          },
+          "example_decisions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "contributing_factors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "factor": {
+            "type": "string"
+          },
+          "impact_weight": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "recommended_interventions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "intervention": {
+            "type": "string"
+          },
+          "urgency": {
+            "type": "string"
+          },
+          "expected_effectiveness": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "alert_triggered": {
+      "type": "boolean",
+      "default": false
+    },
+    "alert_level": {
+      "type": "string",
+      "enum": [
+        "watch",
+        "warning",
+        "critical",
+        "emergency"
+      ],
+      "description": "Tiered alert level"
+    },
+    "human_review_required": {
+      "type": "boolean",
+      "default": false
+    },
+    "prediction_accuracy": {
+      "type": "number",
+      "description": "Retroactive accuracy score"
+    }
+  },
+  "required": [
+    "prediction_id",
+    "agent_id",
+    "predicted_violation_type",
+    "confidence_score",
+    "severity_level"
+  ]
+}

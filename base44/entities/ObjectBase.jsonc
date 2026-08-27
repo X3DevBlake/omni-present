@@ -1,0 +1,40 @@
+{
+  "name": "ObjectBase",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Object base name"
+    },
+    "object_category": {
+      "type": "string",
+      "enum": [
+        "vehicle",
+        "furniture",
+        "prop",
+        "building",
+        "environment"
+      ],
+      "description": "Object category"
+    },
+    "base_mesh_url": {
+      "type": "string",
+      "description": "URL to base 3D model"
+    },
+    "thumbnail_url": {
+      "type": "string",
+      "description": "Preview image"
+    },
+    "compatible_component_types": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "name",
+    "object_category",
+    "base_mesh_url"
+  ]
+}

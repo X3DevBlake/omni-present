@@ -1,0 +1,72 @@
+{
+  "name": "AttentionMechanism",
+  "type": "object",
+  "properties": {
+    "mechanism_name": {
+      "type": "string",
+      "description": "Attention mechanism identifier"
+    },
+    "attention_type": {
+      "type": "string",
+      "enum": [
+        "self_attention",
+        "cross_attention",
+        "multi_head",
+        "sparse",
+        "linear"
+      ],
+      "description": "Type of attention"
+    },
+    "num_heads": {
+      "type": "integer",
+      "description": "Number of attention heads"
+    },
+    "head_dimension": {
+      "type": "integer",
+      "description": "Dimension of each head"
+    },
+    "attention_weights": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "query_token": {
+            "type": "string"
+          },
+          "key_token": {
+            "type": "string"
+          },
+          "weight": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "sparsity_pattern": {
+      "type": "string",
+      "enum": [
+        "dense",
+        "local",
+        "strided",
+        "random"
+      ],
+      "description": "Attention sparsity"
+    },
+    "computational_complexity": {
+      "type": "string",
+      "description": "Time/space complexity"
+    },
+    "context_length": {
+      "type": "integer",
+      "description": "Maximum sequence length"
+    },
+    "attention_entropy": {
+      "type": "number",
+      "description": "How spread out attention is"
+    }
+  },
+  "required": [
+    "mechanism_name",
+    "attention_type"
+  ]
+}

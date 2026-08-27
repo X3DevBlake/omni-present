@@ -1,0 +1,138 @@
+{
+  "name": "AgentOrchestrator",
+  "type": "object",
+  "properties": {
+    "orchestrator_name": {
+      "type": "string",
+      "description": "Orchestrator identifier"
+    },
+    "orchestration_strategy": {
+      "type": "string",
+      "enum": [
+        "round_robin",
+        "load_balanced",
+        "skill_based",
+        "ai_optimized",
+        "priority_queue"
+      ],
+      "default": "ai_optimized"
+    },
+    "managed_teams": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "team_id": {
+            "type": "string"
+          },
+          "workload": {
+            "type": "number"
+          },
+          "availability": {
+            "type": "number"
+          },
+          "performance_score": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "task_queue": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "task_id": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "integer"
+          },
+          "complexity": {
+            "type": "string"
+          },
+          "required_skills": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "assigned_team_id": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "queued",
+              "assigned",
+              "in_progress",
+              "completed"
+            ]
+          }
+        }
+      }
+    },
+    "allocation_rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "rule_name": {
+            "type": "string"
+          },
+          "condition": {
+            "type": "string"
+          },
+          "action": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "performance_metrics": {
+      "type": "object",
+      "properties": {
+        "total_tasks_allocated": {
+          "type": "integer",
+          "default": 0
+        },
+        "avg_allocation_time_ms": {
+          "type": "number"
+        },
+        "success_rate": {
+          "type": "number"
+        },
+        "optimization_score": {
+          "type": "number"
+        }
+      }
+    },
+    "ai_recommendations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "recommendation": {
+            "type": "string"
+          },
+          "confidence": {
+            "type": "number"
+          },
+          "impact": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "orchestrator_name"
+  ]
+}

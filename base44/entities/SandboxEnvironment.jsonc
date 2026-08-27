@@ -1,0 +1,97 @@
+{
+  "name": "SandboxEnvironment",
+  "type": "object",
+  "properties": {
+    "sandbox_id": {
+      "type": "string",
+      "description": "Sandbox identifier"
+    },
+    "developer_id": {
+      "type": "string",
+      "description": "Developer who created sandbox"
+    },
+    "environment_name": {
+      "type": "string",
+      "description": "Sandbox name"
+    },
+    "integration_under_test": {
+      "type": "string",
+      "description": "Integration being tested"
+    },
+    "test_data": {
+      "type": "object",
+      "properties": {
+        "mock_agents": {
+          "type": "array"
+        },
+        "mock_augmentations": {
+          "type": "array"
+        },
+        "simulated_users": {
+          "type": "array"
+        }
+      }
+    },
+    "test_results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "test_name": {
+            "type": "string"
+          },
+          "passed": {
+            "type": "boolean"
+          },
+          "execution_time_ms": {
+            "type": "number"
+          },
+          "error_log": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "resource_limits": {
+      "type": "object",
+      "properties": {
+        "max_api_calls": {
+          "type": "integer"
+        },
+        "max_compute_seconds": {
+          "type": "integer"
+        },
+        "max_storage_mb": {
+          "type": "integer"
+        }
+      }
+    },
+    "isolation_level": {
+      "type": "string",
+      "enum": [
+        "full",
+        "partial",
+        "shared"
+      ],
+      "default": "full"
+    },
+    "auto_cleanup_hours": {
+      "type": "integer",
+      "default": 24
+    },
+    "sandbox_status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "paused",
+        "expired",
+        "archived"
+      ],
+      "default": "active"
+    }
+  },
+  "required": [
+    "sandbox_id",
+    "developer_id"
+  ]
+}

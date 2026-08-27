@@ -1,0 +1,73 @@
+{
+  "name": "RealWorldDevice",
+  "type": "object",
+  "properties": {
+    "device_name": {
+      "type": "string",
+      "description": "Device name"
+    },
+    "device_brand": {
+      "type": "string",
+      "enum": [
+        "apple",
+        "samsung",
+        "google",
+        "microsoft",
+        "other"
+      ],
+      "description": "Device manufacturer"
+    },
+    "device_model": {
+      "type": "string",
+      "description": "Specific model"
+    },
+    "os_type": {
+      "type": "string",
+      "enum": [
+        "ios",
+        "android",
+        "windows",
+        "macos",
+        "linux"
+      ],
+      "description": "Operating system"
+    },
+    "installed_apps": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Apps agent can access"
+    },
+    "agent_access_level": {
+      "type": "string",
+      "enum": [
+        "full",
+        "limited",
+        "read_only",
+        "none"
+      ],
+      "default": "limited"
+    },
+    "haptic_capable": {
+      "type": "boolean",
+      "default": false
+    },
+    "gesture_sensors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Available sensors"
+    },
+    "connected_agent_id": {
+      "type": "string",
+      "description": "Current agent on device"
+    }
+  },
+  "required": [
+    "device_name",
+    "device_brand",
+    "os_type"
+  ]
+}

@@ -1,0 +1,135 @@
+{
+  "name": "PredictiveSimulation",
+  "type": "object",
+  "properties": {
+    "simulation_id": {
+      "type": "string",
+      "description": "Associated simulation"
+    },
+    "prediction_model": {
+      "type": "string",
+      "enum": [
+        "monte_carlo",
+        "bayesian",
+        "ml_ensemble",
+        "deep_learning",
+        "causal"
+      ],
+      "description": "Prediction algorithm"
+    },
+    "input_parameters": {
+      "type": "object",
+      "properties": {
+        "agent_count": {
+          "type": "integer"
+        },
+        "environment_complexity": {
+          "type": "string"
+        },
+        "time_horizon": {
+          "type": "integer"
+        },
+        "variables": {
+          "type": "object"
+        }
+      }
+    },
+    "predicted_outcomes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "outcome_id": {
+            "type": "string"
+          },
+          "scenario": {
+            "type": "string"
+          },
+          "probability": {
+            "type": "number"
+          },
+          "expected_value": {
+            "type": "number"
+          },
+          "confidence_interval": {
+            "type": "object",
+            "properties": {
+              "lower": {
+                "type": "number"
+              },
+              "upper": {
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    },
+    "trajectory_forecast": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "predicted_state": {
+            "type": "object"
+          },
+          "confidence": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "risk_assessment": {
+      "type": "object",
+      "properties": {
+        "overall_risk_score": {
+          "type": "number"
+        },
+        "risk_factors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "factor": {
+                "type": "string"
+              },
+              "severity": {
+                "type": "string"
+              },
+              "mitigation": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "historical_accuracy": {
+      "type": "object",
+      "properties": {
+        "predictions_made": {
+          "type": "integer"
+        },
+        "accuracy_rate": {
+          "type": "number"
+        },
+        "avg_error_margin": {
+          "type": "number"
+        }
+      }
+    },
+    "ai_confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    }
+  },
+  "required": [
+    "simulation_id",
+    "prediction_model"
+  ]
+}

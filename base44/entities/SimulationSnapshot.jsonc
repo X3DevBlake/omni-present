@@ -1,0 +1,47 @@
+{
+  "name": "SimulationSnapshot",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "User email"
+    },
+    "simulation_id": {
+      "type": "string",
+      "description": "Simulation ID"
+    },
+    "snapshot_name": {
+      "type": "string",
+      "description": "Snapshot name"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When snapshot was taken"
+    },
+    "state_data": {
+      "type": "object",
+      "description": "Complete simulation state"
+    },
+    "agent_states": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "All agent states"
+    },
+    "environment_state": {
+      "type": "object",
+      "description": "Environment parameters"
+    },
+    "metrics": {
+      "type": "object",
+      "description": "Performance metrics at snapshot"
+    }
+  },
+  "required": [
+    "user_email",
+    "simulation_id",
+    "snapshot_name"
+  ]
+}

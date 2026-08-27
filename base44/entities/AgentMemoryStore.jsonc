@@ -1,0 +1,63 @@
+{
+  "name": "AgentMemoryStore",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Agent ID"
+    },
+    "user_email": {
+      "type": "string",
+      "description": "Owner email"
+    },
+    "memory_type": {
+      "type": "string",
+      "enum": [
+        "short_term",
+        "long_term",
+        "episodic",
+        "semantic"
+      ],
+      "description": "Type of memory"
+    },
+    "content": {
+      "type": "object",
+      "description": "Memory content"
+    },
+    "importance_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "How important this memory is"
+    },
+    "associated_interactions": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Associated interaction records"
+    },
+    "learned_patterns": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Patterns learned from memory"
+    },
+    "last_accessed": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last accessed time"
+    },
+    "decay_rate": {
+      "type": "number",
+      "description": "Memory decay factor"
+    }
+  },
+  "required": [
+    "agent_id",
+    "user_email",
+    "memory_type",
+    "content"
+  ]
+}

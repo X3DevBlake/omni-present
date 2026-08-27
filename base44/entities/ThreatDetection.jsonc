@@ -1,0 +1,141 @@
+{
+  "name": "ThreatDetection",
+  "type": "object",
+  "properties": {
+    "threat_id": {
+      "type": "string",
+      "description": "Unique threat identifier"
+    },
+    "threat_type": {
+      "type": "string",
+      "enum": [
+        "malware",
+        "intrusion",
+        "data_breach",
+        "ddos",
+        "phishing",
+        "insider_threat",
+        "api_abuse"
+      ],
+      "description": "Type of security threat"
+    },
+    "severity_level": {
+      "type": "string",
+      "enum": [
+        "info",
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "default": "medium"
+    },
+    "affected_systems": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "system_name": {
+            "type": "string"
+          },
+          "impact_level": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "detection_method": {
+      "type": "string",
+      "enum": [
+        "ai_analysis",
+        "signature_based",
+        "behavioral",
+        "anomaly",
+        "manual"
+      ],
+      "description": "How threat was detected"
+    },
+    "threat_indicators": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "indicator_type": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          },
+          "confidence": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "mitigation_actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "action": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "in_progress",
+              "completed"
+            ]
+          },
+          "automated": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "threat_intelligence": {
+      "type": "object",
+      "properties": {
+        "origin_location": {
+          "type": "object",
+          "properties": {
+            "country": {
+              "type": "string"
+            },
+            "latitude": {
+              "type": "number"
+            },
+            "longitude": {
+              "type": "number"
+            }
+          }
+        },
+        "attack_vector": {
+          "type": "string"
+        },
+        "known_signatures": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "detected",
+        "investigating",
+        "contained",
+        "mitigated",
+        "resolved"
+      ],
+      "default": "detected"
+    }
+  },
+  "required": [
+    "threat_type",
+    "severity_level"
+  ]
+}

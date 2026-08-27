@@ -1,0 +1,92 @@
+{
+  "name": "BiometricAdaptationEvent",
+  "type": "object",
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "description": "Adaptation event identifier"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "User whose biometrics triggered adaptation"
+    },
+    "biometric_snapshot": {
+      "type": "object",
+      "properties": {
+        "heart_rate": {
+          "type": "number"
+        },
+        "heart_rate_variability": {
+          "type": "number"
+        },
+        "stress_level": {
+          "type": "number"
+        },
+        "focus_score": {
+          "type": "number"
+        },
+        "emotional_valence": {
+          "type": "number"
+        },
+        "arousal_level": {
+          "type": "number"
+        },
+        "brainwave_pattern": {
+          "type": "string"
+        }
+      }
+    },
+    "cognitive_state": {
+      "type": "string",
+      "enum": [
+        "focused",
+        "distracted",
+        "stressed",
+        "relaxed",
+        "flow_state",
+        "fatigued",
+        "alert"
+      ]
+    },
+    "adaptations_applied": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "adaptation_type": {
+            "type": "string",
+            "enum": [
+              "ui_simplification",
+              "color_adjustment",
+              "pacing_slowdown",
+              "break_suggestion",
+              "task_rescheduling",
+              "ambient_sound",
+              "lighting_change"
+            ]
+          },
+          "parameter_changes": {
+            "type": "object"
+          },
+          "effectiveness": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "spatial_environment_id": {
+      "type": "string",
+      "description": "Where the adaptation occurred"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "event_id",
+    "user_id",
+    "biometric_snapshot",
+    "cognitive_state"
+  ]
+}

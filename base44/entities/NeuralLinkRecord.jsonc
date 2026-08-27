@@ -1,0 +1,91 @@
+{
+  "name": "NeuralLinkRecord",
+  "type": "object",
+  "properties": {
+    "link_id": {
+      "type": "string",
+      "description": "Neural link identifier"
+    },
+    "human_user_id": {
+      "type": "string",
+      "description": "Human participant"
+    },
+    "ai_consciousness_id": {
+      "type": "string",
+      "description": "AI consciousness linked"
+    },
+    "link_type": {
+      "type": "string",
+      "enum": [
+        "temporary_merge",
+        "cognitive_enhancement",
+        "memory_share",
+        "skill_transfer",
+        "consciousness_bridge"
+      ],
+      "description": "Type of neural connection"
+    },
+    "bandwidth_mbps": {
+      "type": "number",
+      "description": "Data transfer rate"
+    },
+    "latency_ms": {
+      "type": "number",
+      "description": "Neural response time"
+    },
+    "cognitive_amplification": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 10,
+      "description": "Cognitive enhancement factor"
+    },
+    "shared_experiences": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "experience_type": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "emotional_intensity": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "safety_protocols": {
+      "type": "object",
+      "properties": {
+        "disconnect_threshold": {
+          "type": "number"
+        },
+        "monitoring_enabled": {
+          "type": "boolean"
+        },
+        "emergency_shutoff": {
+          "type": "boolean"
+        }
+      }
+    },
+    "link_status": {
+      "type": "string",
+      "enum": [
+        "establishing",
+        "active",
+        "suspended",
+        "disconnected"
+      ],
+      "default": "establishing"
+    }
+  },
+  "required": [
+    "link_id",
+    "human_user_id",
+    "ai_consciousness_id",
+    "link_type"
+  ]
+}

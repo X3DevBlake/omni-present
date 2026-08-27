@@ -1,0 +1,112 @@
+{
+  "name": "Agent",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Agent's name"
+    },
+    "personality": {
+      "type": "object",
+      "description": "Personality traits (curiosity, risk_aversion, frugality, ambition)"
+    },
+    "skills": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Agent's capabilities"
+    },
+    "mastery_levels": {
+      "type": "object",
+      "description": "Map of skill to mastery level (Novice, Adept, Expert, Master)"
+    },
+    "omni_budget": {
+      "type": "number",
+      "default": 0,
+      "description": "Allocated budget in Omni"
+    },
+    "omni_spent": {
+      "type": "number",
+      "default": 0,
+      "description": "Amount spent by agent"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "idle",
+        "working",
+        "learning",
+        "shopping",
+        "traveling",
+        "collaborating",
+        "retired"
+      ],
+      "default": "idle",
+      "description": "Current agent status"
+    },
+    "latitude": {
+      "type": "number",
+      "description": "Current latitude position"
+    },
+    "longitude": {
+      "type": "number",
+      "description": "Current longitude position"
+    },
+    "altitude": {
+      "type": "number",
+      "default": 0,
+      "description": "Current altitude in meters"
+    },
+    "location_name": {
+      "type": "string",
+      "description": "Human-readable location name"
+    },
+    "last_location_update": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last time location was updated"
+    },
+    "knowledge_count": {
+      "type": "integer",
+      "default": 0,
+      "description": "Total items learned"
+    },
+    "perception_rate": {
+      "type": "string",
+      "default": "247 zeptoseconds",
+      "description": "Perception update frequency"
+    },
+    "experience": {
+      "type": "integer",
+      "default": 0,
+      "description": "Total experience points gained"
+    },
+    "level": {
+      "type": "integer",
+      "default": 1,
+      "description": "Agent proficiency level"
+    },
+    "adaptive_strategy": {
+      "type": "string",
+      "description": "Current learned behavior strategy"
+    },
+    "current_team_id": {
+      "type": "string",
+      "description": "ID of the team the agent is currently part of"
+    },
+    "evolution_stage": {
+      "type": "string",
+      "enum": [
+        "Generation-1",
+        "Generation-2",
+        "Sentient",
+        "Ascended"
+      ],
+      "default": "Generation-1"
+    }
+  },
+  "required": [
+    "name"
+  ]
+}

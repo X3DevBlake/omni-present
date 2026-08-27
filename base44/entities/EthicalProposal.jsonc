@@ -1,0 +1,108 @@
+{
+  "name": "EthicalProposal",
+  "type": "object",
+  "properties": {
+    "proposal_id": {
+      "type": "string",
+      "description": "Unique proposal identifier"
+    },
+    "proposed_by": {
+      "type": "string",
+      "description": "Council member ID"
+    },
+    "proposal_type": {
+      "type": "string",
+      "enum": [
+        "new_principle",
+        "weight_adjustment",
+        "framework_modification",
+        "principle_removal"
+      ]
+    },
+    "target_framework_id": {
+      "type": "string"
+    },
+    "proposed_changes": {
+      "type": "object",
+      "description": "Detailed changes to framework"
+    },
+    "supporting_evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "evidence_type": {
+            "type": "string"
+          },
+          "source_data": {
+            "type": "string"
+          },
+          "relevance_score": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "council_debate_log": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "member_id": {
+            "type": "string"
+          },
+          "statement": {
+            "type": "string"
+          },
+          "stance": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "votes": {
+      "type": "object",
+      "properties": {
+        "approve": {
+          "type": "integer"
+        },
+        "reject": {
+          "type": "integer"
+        },
+        "abstain": {
+          "type": "integer"
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "proposed",
+        "debating",
+        "voting",
+        "approved",
+        "rejected"
+      ],
+      "default": "proposed"
+    },
+    "impact_simulation_results": {
+      "type": "object",
+      "properties": {
+        "swarm_performance_delta": {
+          "type": "number"
+        },
+        "planetary_ops_delta": {
+          "type": "number"
+        },
+        "ethical_score_delta": {
+          "type": "number"
+        }
+      }
+    }
+  },
+  "required": [
+    "proposal_id",
+    "proposed_by",
+    "proposal_type"
+  ]
+}

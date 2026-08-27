@@ -1,0 +1,71 @@
+{
+  "name": "PermissionAuditLog",
+  "type": "object",
+  "properties": {
+    "audit_type": {
+      "type": "string",
+      "enum": [
+        "role_created",
+        "role_modified",
+        "role_deleted",
+        "permission_granted",
+        "permission_revoked",
+        "role_assigned",
+        "role_unassigned",
+        "access_elevated",
+        "access_revoked"
+      ],
+      "description": "Type of permission audit event"
+    },
+    "user_email": {
+      "type": "string",
+      "description": "User who made the change"
+    },
+    "affected_user_email": {
+      "type": "string",
+      "description": "User affected by the change"
+    },
+    "role_id": {
+      "type": "string",
+      "description": "Role ID involved in the change"
+    },
+    "role_name": {
+      "type": "string",
+      "description": "Name of the role"
+    },
+    "permission_changed": {
+      "type": "string",
+      "description": "Specific permission that changed"
+    },
+    "old_value": {
+      "type": "object",
+      "description": "Previous permission/role value"
+    },
+    "new_value": {
+      "type": "object",
+      "description": "New permission/role value"
+    },
+    "reason": {
+      "type": "string",
+      "description": "Reason for the change"
+    },
+    "ip_address": {
+      "type": "string",
+      "description": "IP address of the user making the change"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "success",
+        "failed",
+        "pending"
+      ],
+      "default": "success",
+      "description": "Audit event status"
+    }
+  },
+  "required": [
+    "audit_type",
+    "user_email"
+  ]
+}

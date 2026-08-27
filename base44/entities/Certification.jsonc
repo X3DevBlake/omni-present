@@ -1,0 +1,99 @@
+{
+  "name": "Certification",
+  "type": "object",
+  "properties": {
+    "certification_id": {
+      "type": "string",
+      "description": "Unique certification identifier"
+    },
+    "recipient_id": {
+      "type": "string",
+      "description": "User ID of recipient"
+    },
+    "certification_type": {
+      "type": "string",
+      "enum": [
+        "course_completion",
+        "specialization",
+        "degree",
+        "research_publication",
+        "skill_mastery"
+      ],
+      "description": "Type of certification"
+    },
+    "title": {
+      "type": "string",
+      "description": "Certification title"
+    },
+    "description": {
+      "type": "string",
+      "description": "Certification description"
+    },
+    "course_id": {
+      "type": "string",
+      "description": "Related course ID if applicable"
+    },
+    "research_project_id": {
+      "type": "string",
+      "description": "Related research project if applicable"
+    },
+    "issued_date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expiry_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Expiration date if applicable"
+    },
+    "blockchain_record": {
+      "type": "object",
+      "properties": {
+        "transaction_hash": {
+          "type": "string"
+        },
+        "block_number": {
+          "type": "integer"
+        },
+        "blockchain": {
+          "type": "string"
+        },
+        "nft_token_id": {
+          "type": "string"
+        },
+        "smart_contract_address": {
+          "type": "string"
+        }
+      }
+    },
+    "verification_url": {
+      "type": "string",
+      "description": "Public verification URL"
+    },
+    "issuer": {
+      "type": "string",
+      "description": "Issuing institution or AI"
+    },
+    "grade": {
+      "type": "string",
+      "description": "Grade or distinction if applicable"
+    },
+    "skills_acquired": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "holographic_badge_url": {
+      "type": "string",
+      "description": "3D badge asset URL"
+    }
+  },
+  "required": [
+    "certification_id",
+    "recipient_id",
+    "certification_type",
+    "title",
+    "issued_date"
+  ]
+}

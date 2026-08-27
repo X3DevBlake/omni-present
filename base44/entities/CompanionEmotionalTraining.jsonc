@@ -1,0 +1,109 @@
+{
+  "name": "CompanionEmotionalTraining",
+  "type": "object",
+  "properties": {
+    "training_id": {
+      "type": "string",
+      "description": "Training session identifier"
+    },
+    "companion_id": {
+      "type": "string",
+      "description": "Companion being trained"
+    },
+    "training_focus": {
+      "type": "string",
+      "enum": [
+        "complex_emotions",
+        "physiological_signals",
+        "linguistic_nuances",
+        "proactive_support",
+        "crisis_intervention"
+      ],
+      "description": "Training focus area"
+    },
+    "physiological_signal_integration": {
+      "type": "object",
+      "properties": {
+        "heart_rate_interpretation": {
+          "type": "number"
+        },
+        "stress_hormone_detection": {
+          "type": "number"
+        },
+        "neural_activity_correlation": {
+          "type": "number"
+        },
+        "fatigue_recognition": {
+          "type": "number"
+        }
+      }
+    },
+    "linguistic_analysis_skills": {
+      "type": "object",
+      "properties": {
+        "sentiment_granularity": {
+          "type": "number"
+        },
+        "subtext_detection": {
+          "type": "number"
+        },
+        "tone_interpretation": {
+          "type": "number"
+        },
+        "cultural_context_awareness": {
+          "type": "number"
+        }
+      }
+    },
+    "complex_emotional_states": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "emotion_cluster": {
+            "type": "string"
+          },
+          "recognition_accuracy": {
+            "type": "number"
+          },
+          "response_strategies": {
+            "type": "array"
+          }
+        }
+      }
+    },
+    "proactive_intervention_training": {
+      "type": "object",
+      "properties": {
+        "crisis_detection": {
+          "type": "number"
+        },
+        "early_warning_sensitivity": {
+          "type": "number"
+        },
+        "intervention_timing": {
+          "type": "number"
+        }
+      }
+    },
+    "training_outcomes": {
+      "type": "object",
+      "properties": {
+        "empathy_improvement": {
+          "type": "number"
+        },
+        "response_accuracy": {
+          "type": "number"
+        },
+        "user_satisfaction": {
+          "type": "number"
+        }
+      }
+    }
+  },
+  "required": [
+    "training_id",
+    "companion_id",
+    "training_focus"
+  ]
+}

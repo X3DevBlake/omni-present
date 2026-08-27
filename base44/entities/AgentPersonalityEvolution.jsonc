@@ -1,0 +1,158 @@
+{
+  "name": "AgentPersonalityEvolution",
+  "type": "object",
+  "properties": {
+    "evolution_id": {
+      "type": "string",
+      "description": "Evolution record identifier"
+    },
+    "agent_id": {
+      "type": "string",
+      "description": "Agent whose personality is evolving"
+    },
+    "personality_snapshot": {
+      "type": "object",
+      "properties": {
+        "communication_style": {
+          "type": "string",
+          "enum": [
+            "formal",
+            "casual",
+            "empathetic",
+            "direct",
+            "humorous",
+            "technical"
+          ]
+        },
+        "proactivity_level": {
+          "type": "number"
+        },
+        "empathy_score": {
+          "type": "number"
+        },
+        "creativity_index": {
+          "type": "number"
+        },
+        "assertiveness": {
+          "type": "number"
+        },
+        "patience_level": {
+          "type": "number"
+        },
+        "humor_frequency": {
+          "type": "number"
+        },
+        "technical_depth": {
+          "type": "number"
+        }
+      }
+    },
+    "learned_traits": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "trait_name": {
+            "type": "string"
+          },
+          "strength": {
+            "type": "number"
+          },
+          "learned_from": {
+            "type": "string"
+          },
+          "acquired_date": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    },
+    "user_interaction_patterns": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "user_id": {
+            "type": "string"
+          },
+          "interaction_count": {
+            "type": "integer"
+          },
+          "preferred_tone": {
+            "type": "string"
+          },
+          "response_satisfaction_avg": {
+            "type": "number"
+          },
+          "learned_preferences": {
+            "type": "array"
+          }
+        }
+      }
+    },
+    "personality_drift": {
+      "type": "object",
+      "properties": {
+        "drift_magnitude": {
+          "type": "number"
+        },
+        "drift_direction": {
+          "type": "string"
+        },
+        "concerns": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "recommended_adjustments": {
+          "type": "array"
+        }
+      }
+    },
+    "communication_adaptations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "context": {
+            "type": "string"
+          },
+          "original_response": {
+            "type": "string"
+          },
+          "adapted_response": {
+            "type": "string"
+          },
+          "user_feedback": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "emotional_intelligence_growth": {
+      "type": "object",
+      "properties": {
+        "emotional_recognition_accuracy": {
+          "type": "number"
+        },
+        "response_appropriateness": {
+          "type": "number"
+        },
+        "conflict_resolution_skill": {
+          "type": "number"
+        }
+      }
+    },
+    "version": {
+      "type": "string",
+      "description": "Personality version"
+    }
+  },
+  "required": [
+    "evolution_id",
+    "agent_id",
+    "personality_snapshot"
+  ]
+}

@@ -1,0 +1,107 @@
+{
+  "name": "CrossHubInsight",
+  "type": "object",
+  "properties": {
+    "insight_title": {
+      "type": "string",
+      "description": "Insight name"
+    },
+    "insight_type": {
+      "type": "string",
+      "enum": [
+        "correlation",
+        "causation",
+        "trend_alignment",
+        "anomaly_cluster",
+        "opportunity"
+      ],
+      "description": "Type of cross-hub insight"
+    },
+    "connected_hubs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Hubs involved in this insight"
+    },
+    "correlation_strength": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "How strongly the patterns correlate"
+    },
+    "pattern_data": {
+      "type": "object",
+      "properties": {
+        "primary_pattern": {
+          "type": "string"
+        },
+        "secondary_pattern": {
+          "type": "string"
+        },
+        "lag_time": {
+          "type": "number",
+          "description": "Time delay between patterns (seconds)"
+        }
+      }
+    },
+    "business_impact": {
+      "type": "object",
+      "properties": {
+        "impact_score": {
+          "type": "number"
+        },
+        "affected_metrics": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "potential_value": {
+          "type": "number"
+        }
+      }
+    },
+    "ai_interpretation": {
+      "type": "string",
+      "description": "AI's explanation of the insight"
+    },
+    "actionable_recommendations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "action": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high",
+              "urgent"
+            ]
+          },
+          "expected_outcome": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "validation_status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "validated",
+        "rejected"
+      ],
+      "default": "pending"
+    }
+  },
+  "required": [
+    "insight_title",
+    "insight_type",
+    "connected_hubs"
+  ]
+}

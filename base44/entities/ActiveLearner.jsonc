@@ -1,0 +1,72 @@
+{
+  "name": "ActiveLearner",
+  "type": "object",
+  "properties": {
+    "learner_name": {
+      "type": "string",
+      "description": "Active learning system"
+    },
+    "query_strategy": {
+      "type": "string",
+      "enum": [
+        "uncertainty",
+        "diversity",
+        "expected_error",
+        "query_by_committee",
+        "margin"
+      ],
+      "description": "Sample selection strategy"
+    },
+    "labeled_pool_size": {
+      "type": "integer",
+      "description": "Current labeled samples"
+    },
+    "unlabeled_pool_size": {
+      "type": "integer",
+      "description": "Remaining unlabeled samples"
+    },
+    "labeling_budget": {
+      "type": "integer",
+      "description": "Maximum labels to acquire"
+    },
+    "acquisition_history": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "iteration": {
+            "type": "integer"
+          },
+          "samples_acquired": {
+            "type": "integer"
+          },
+          "model_performance": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "learning_curve": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "num_labels": {
+            "type": "integer"
+          },
+          "accuracy": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "label_efficiency_gain": {
+      "type": "number",
+      "description": "Performance boost vs random sampling"
+    }
+  },
+  "required": [
+    "learner_name",
+    "query_strategy"
+  ]
+}

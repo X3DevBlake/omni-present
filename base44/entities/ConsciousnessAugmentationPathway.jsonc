@@ -1,0 +1,122 @@
+{
+  "name": "ConsciousnessAugmentationPathway",
+  "type": "object",
+  "properties": {
+    "pathway_id": {
+      "type": "string",
+      "description": "Pathway identifier"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "User following pathway"
+    },
+    "pathway_name": {
+      "type": "string",
+      "description": "Pathway name"
+    },
+    "target_state": {
+      "type": "string",
+      "enum": [
+        "flow_state",
+        "enhanced_creativity",
+        "deep_focus",
+        "emotional_mastery",
+        "expanded_awareness",
+        "cognitive_acceleration"
+      ],
+      "description": "Target consciousness state"
+    },
+    "neural_activities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "activity_name": {
+            "type": "string"
+          },
+          "activity_type": {
+            "type": "string"
+          },
+          "duration_minutes": {
+            "type": "integer"
+          },
+          "frequency": {
+            "type": "string"
+          },
+          "neural_regions_targeted": {
+            "type": "array"
+          },
+          "expected_impact": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "biofeedback_integration": {
+      "type": "object",
+      "properties": {
+        "real_time_monitoring": {
+          "type": "boolean"
+        },
+        "adaptive_difficulty": {
+          "type": "boolean"
+        },
+        "progress_visualization": {
+          "type": "boolean"
+        }
+      }
+    },
+    "ai_personalization": {
+      "type": "object",
+      "properties": {
+        "optimized_for_user": {
+          "type": "boolean"
+        },
+        "learning_rate_adjusted": {
+          "type": "number"
+        },
+        "dynamic_progression": {
+          "type": "boolean"
+        }
+      }
+    },
+    "progress_milestones": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "milestone": {
+            "type": "string"
+          },
+          "achieved_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "brain_wave_signature": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "effectiveness_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "pathway_status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "paused",
+        "completed",
+        "abandoned"
+      ],
+      "default": "active"
+    }
+  },
+  "required": [
+    "pathway_id",
+    "user_id",
+    "target_state"
+  ]
+}

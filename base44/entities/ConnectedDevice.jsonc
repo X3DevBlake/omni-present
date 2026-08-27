@@ -1,0 +1,49 @@
+{
+  "name": "ConnectedDevice",
+  "type": "object",
+  "properties": {
+    "device_id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "os": {
+      "type": "string",
+      "enum": [
+        "linux",
+        "android",
+        "macos",
+        "windows",
+        "ios"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "online",
+        "offline",
+        "busy",
+        "error"
+      ],
+      "default": "offline"
+    },
+    "ip_address": {
+      "type": "string"
+    },
+    "last_active": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "name",
+    "os"
+  ]
+}

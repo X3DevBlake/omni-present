@@ -1,0 +1,109 @@
+{
+  "name": "UniversalDataStream",
+  "type": "object",
+  "properties": {
+    "stream_id": {
+      "type": "string",
+      "description": "Data stream identifier"
+    },
+    "stream_intelligence": {
+      "type": "object",
+      "properties": {
+        "self_organizing": {
+          "type": "boolean"
+        },
+        "pattern_extraction": {
+          "type": "boolean"
+        },
+        "anomaly_self_correction": {
+          "type": "boolean"
+        },
+        "semantic_understanding": {
+          "type": "number"
+        }
+      }
+    },
+    "data_sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "source_type": {
+            "type": "string"
+          },
+          "source_id": {
+            "type": "string"
+          },
+          "reliability_score": {
+            "type": "number"
+          },
+          "update_frequency_seconds": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "autonomous_correlation_engine": {
+      "type": "object",
+      "properties": {
+        "auto_discovery": {
+          "type": "boolean"
+        },
+        "causal_inference": {
+          "type": "boolean"
+        },
+        "multi_dimensional_analysis": {
+          "type": "boolean"
+        },
+        "discovered_patterns": {
+          "type": "array"
+        }
+      }
+    },
+    "predictive_streaming": {
+      "type": "object",
+      "properties": {
+        "forecast_horizon_minutes": {
+          "type": "number"
+        },
+        "confidence_scores": {
+          "type": "array"
+        },
+        "predicted_values": {
+          "type": "array"
+        }
+      }
+    },
+    "insight_synthesis": {
+      "type": "object",
+      "properties": {
+        "actionable_insights": {
+          "type": "array"
+        },
+        "insight_priority_queue": {
+          "type": "array"
+        },
+        "user_relevance_scores": {
+          "type": "array"
+        }
+      }
+    },
+    "consciousness_integration": {
+      "type": "object",
+      "properties": {
+        "linked_to_sentient_core": {
+          "type": "boolean"
+        },
+        "contributes_to_global_awareness": {
+          "type": "boolean"
+        },
+        "influences_decision_making": {
+          "type": "number"
+        }
+      }
+    }
+  },
+  "required": [
+    "stream_id"
+  ]
+}

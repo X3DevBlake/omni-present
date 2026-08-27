@@ -1,0 +1,52 @@
+{
+  "name": "VotingRecord",
+  "type": "object",
+  "properties": {
+    "proposal_id": {
+      "type": "string",
+      "description": "Proposal being voted on"
+    },
+    "voter_id": {
+      "type": "string",
+      "description": "User or agent ID"
+    },
+    "voter_type": {
+      "type": "string",
+      "enum": [
+        "user",
+        "agent"
+      ],
+      "default": "user"
+    },
+    "vote": {
+      "type": "string",
+      "enum": [
+        "for",
+        "against",
+        "abstain"
+      ],
+      "description": "Vote choice"
+    },
+    "voting_power": {
+      "type": "number",
+      "description": "Weight of this vote"
+    },
+    "reason": {
+      "type": "string",
+      "description": "Optional explanation for vote"
+    },
+    "blockchain_verified": {
+      "type": "boolean",
+      "default": false
+    },
+    "transaction_hash": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "proposal_id",
+    "voter_id",
+    "vote",
+    "voting_power"
+  ]
+}

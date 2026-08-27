@@ -1,0 +1,62 @@
+{
+  "name": "CollaborationPrediction",
+  "type": "object",
+  "properties": {
+    "collaboration_id": {
+      "type": "string",
+      "description": "Collaboration workspace ID"
+    },
+    "user_email": {
+      "type": "string",
+      "description": "User email"
+    },
+    "predicted_outcome": {
+      "type": "object",
+      "description": "Predicted results"
+    },
+    "success_probability": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Success likelihood %"
+    },
+    "bottleneck_predictions": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Predicted bottlenecks"
+    },
+    "suggested_reassignments": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Task reassignment suggestions"
+    },
+    "agent_needs_forecast": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Predicted agent needs"
+    },
+    "optimal_timeline": {
+      "type": "object",
+      "description": "Recommended timeline"
+    },
+    "confidence_score": {
+      "type": "number",
+      "description": "Prediction confidence"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Prediction timestamp"
+    }
+  },
+  "required": [
+    "collaboration_id",
+    "user_email"
+  ]
+}

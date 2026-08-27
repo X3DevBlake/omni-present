@@ -1,0 +1,59 @@
+{
+  "name": "Submission",
+  "type": "object",
+  "properties": {
+    "submission_id": {
+      "type": "string",
+      "description": "Unique submission identifier"
+    },
+    "assignment_id": {
+      "type": "string",
+      "description": "Associated assignment"
+    },
+    "student_id": {
+      "type": "string",
+      "description": "Student user ID"
+    },
+    "submission_data": {
+      "type": "object",
+      "description": "Submission content",
+      "additionalProperties": true
+    },
+    "submitted_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "submitted",
+        "graded",
+        "returned"
+      ],
+      "default": "draft"
+    },
+    "grade": {
+      "type": "number",
+      "description": "Final grade"
+    },
+    "ai_grading_result": {
+      "type": "object",
+      "description": "AI-generated grading analysis",
+      "additionalProperties": true
+    },
+    "instructor_feedback": {
+      "type": "string",
+      "description": "Human instructor feedback"
+    },
+    "ai_analysis_pending": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "submission_id",
+    "assignment_id",
+    "student_id"
+  ]
+}

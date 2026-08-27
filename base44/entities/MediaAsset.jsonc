@@ -1,0 +1,82 @@
+{
+  "name": "MediaAsset",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "Owner of media asset"
+    },
+    "media_type": {
+      "type": "string",
+      "enum": [
+        "image",
+        "video",
+        "document"
+      ],
+      "description": "Type of media"
+    },
+    "source": {
+      "type": "string",
+      "enum": [
+        "upload",
+        "unsplash",
+        "pexels",
+        "cloudinary",
+        "external"
+      ],
+      "description": "Media source"
+    },
+    "url": {
+      "type": "string",
+      "description": "Media URL (Cloudinary or external)"
+    },
+    "cloudinary_id": {
+      "type": "string",
+      "description": "Cloudinary asset ID"
+    },
+    "title": {
+      "type": "string",
+      "description": "Media title"
+    },
+    "description": {
+      "type": "string",
+      "description": "Media description"
+    },
+    "associated_entity_id": {
+      "type": "string",
+      "description": "ID of associated goal/agent/transaction"
+    },
+    "associated_entity_type": {
+      "type": "string",
+      "enum": [
+        "goal",
+        "agent",
+        "transaction",
+        "portfolio"
+      ],
+      "description": "Type of associated entity"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Media tags for search"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Image metadata (width, height, colors, etc)"
+    },
+    "usage_count": {
+      "type": "integer",
+      "default": 0,
+      "description": "Times media has been used"
+    }
+  },
+  "required": [
+    "user_email",
+    "media_type",
+    "source",
+    "url"
+  ]
+}

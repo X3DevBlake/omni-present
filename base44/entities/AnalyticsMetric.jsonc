@@ -1,0 +1,93 @@
+{
+  "name": "AnalyticsMetric",
+  "type": "object",
+  "properties": {
+    "metric_name": {
+      "type": "string",
+      "description": "Name of the metric"
+    },
+    "metric_category": {
+      "type": "string",
+      "enum": [
+        "performance",
+        "business",
+        "user_engagement",
+        "system_health",
+        "agent_activity"
+      ],
+      "description": "Category of metric"
+    },
+    "current_value": {
+      "type": "number",
+      "description": "Current metric value"
+    },
+    "previous_value": {
+      "type": "number",
+      "description": "Previous period value"
+    },
+    "target_value": {
+      "type": "number",
+      "description": "Target/goal value"
+    },
+    "unit": {
+      "type": "string",
+      "description": "Unit of measurement"
+    },
+    "trend_direction": {
+      "type": "string",
+      "enum": [
+        "up",
+        "down",
+        "stable"
+      ],
+      "description": "Trend direction"
+    },
+    "change_percentage": {
+      "type": "number",
+      "description": "Percentage change"
+    },
+    "time_series_data": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "value": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "prediction": {
+      "type": "object",
+      "properties": {
+        "next_value": {
+          "type": "number"
+        },
+        "confidence": {
+          "type": "number"
+        },
+        "prediction_date": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "alert_threshold": {
+      "type": "number",
+      "description": "Value that triggers alert"
+    },
+    "is_critical": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "metric_name",
+    "metric_category",
+    "current_value"
+  ]
+}

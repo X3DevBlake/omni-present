@@ -1,0 +1,74 @@
+{
+  "name": "AgentSpecialization",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Agent this specialization belongs to"
+    },
+    "specialization_tree": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string"
+          },
+          "subcategories": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "proficiency": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 100
+                },
+                "verified": {
+                  "type": "boolean"
+                },
+                "certification_date": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "primary_specialization": {
+      "type": "string",
+      "description": "Main area of expertise"
+    },
+    "secondary_specializations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "specialization_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "market_demand": {
+      "type": "object",
+      "description": "Demand metrics for each specialization"
+    },
+    "recommended_path": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "AI-recommended specialization progression"
+    }
+  },
+  "required": [
+    "agent_id",
+    "primary_specialization"
+  ]
+}

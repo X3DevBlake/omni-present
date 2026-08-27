@@ -1,0 +1,91 @@
+{
+  "name": "WorkflowTemplate",
+  "type": "object",
+  "properties": {
+    "template_name": {
+      "type": "string",
+      "description": "Workflow template name"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "data_processing",
+        "agent_coordination",
+        "financial",
+        "analytics",
+        "integration"
+      ],
+      "description": "Workflow category"
+    },
+    "steps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "step_id": {
+            "type": "string"
+          },
+          "step_name": {
+            "type": "string"
+          },
+          "step_type": {
+            "type": "string",
+            "enum": [
+              "function",
+              "integration",
+              "decision",
+              "loop",
+              "parallel"
+            ]
+          },
+          "config": {
+            "type": "object"
+          },
+          "dependencies": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "input_schema": {
+      "type": "object",
+      "description": "Expected input structure"
+    },
+    "output_schema": {
+      "type": "object",
+      "description": "Expected output structure"
+    },
+    "execution_stats": {
+      "type": "object",
+      "properties": {
+        "total_runs": {
+          "type": "integer",
+          "default": 0
+        },
+        "success_rate": {
+          "type": "number"
+        },
+        "avg_duration_seconds": {
+          "type": "number"
+        }
+      }
+    },
+    "ai_generated": {
+      "type": "boolean",
+      "default": false
+    },
+    "optimization_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    }
+  },
+  "required": [
+    "template_name",
+    "category",
+    "steps"
+  ]
+}

@@ -1,0 +1,130 @@
+{
+  "name": "RealTimeMarketSignal",
+  "type": "object",
+  "properties": {
+    "signal_id": {
+      "type": "string",
+      "description": "Signal identifier"
+    },
+    "asset_symbol": {
+      "type": "string",
+      "description": "Asset the signal is for"
+    },
+    "signal_type": {
+      "type": "string",
+      "enum": [
+        "buy",
+        "sell",
+        "hold",
+        "rebalance",
+        "hedge",
+        "liquidate"
+      ],
+      "description": "Type of trading signal"
+    },
+    "ai_confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "AI confidence in signal"
+    },
+    "signal_strength": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 10,
+      "description": "Signal strength indicator"
+    },
+    "supporting_indicators": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "indicator_name": {
+            "type": "string"
+          },
+          "value": {
+            "type": "number"
+          },
+          "weight": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "market_context": {
+      "type": "object",
+      "properties": {
+        "sentiment_score": {
+          "type": "number"
+        },
+        "volatility_index": {
+          "type": "number"
+        },
+        "volume_profile": {
+          "type": "string"
+        },
+        "trend_direction": {
+          "type": "string"
+        }
+      }
+    },
+    "predicted_price_movement": {
+      "type": "object",
+      "properties": {
+        "direction": {
+          "type": "string"
+        },
+        "magnitude_percent": {
+          "type": "number"
+        },
+        "time_horizon": {
+          "type": "string"
+        }
+      }
+    },
+    "risk_assessment": {
+      "type": "object",
+      "properties": {
+        "risk_level": {
+          "type": "string"
+        },
+        "stop_loss_price": {
+          "type": "number"
+        },
+        "take_profit_price": {
+          "type": "number"
+        }
+      }
+    },
+    "execution_recommendation": {
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string"
+        },
+        "timing": {
+          "type": "string"
+        },
+        "position_size": {
+          "type": "number"
+        },
+        "urgency": {
+          "type": "string"
+        }
+      }
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "signal_id",
+    "asset_symbol",
+    "signal_type"
+  ]
+}

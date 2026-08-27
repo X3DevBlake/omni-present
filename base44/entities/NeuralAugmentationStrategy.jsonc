@@ -1,0 +1,146 @@
+{
+  "name": "NeuralAugmentationStrategy",
+  "type": "object",
+  "properties": {
+    "strategy_id": {
+      "type": "string",
+      "description": "Strategy identifier"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "User receiving strategy"
+    },
+    "biometric_baseline": {
+      "type": "object",
+      "properties": {
+        "cognitive_performance": {
+          "type": "number"
+        },
+        "stress_resilience": {
+          "type": "number"
+        },
+        "focus_capacity": {
+          "type": "number"
+        },
+        "emotional_stability": {
+          "type": "number"
+        }
+      }
+    },
+    "personalized_goals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "goal_area": {
+            "type": "string"
+          },
+          "target_improvement_percent": {
+            "type": "number"
+          },
+          "timeline_days": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "augmentation_recommendations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "augmentation_type": {
+            "type": "string"
+          },
+          "expected_benefit": {
+            "type": "string"
+          },
+          "implementation_complexity": {
+            "type": "string"
+          },
+          "risk_level": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "neural_training_protocol": {
+      "type": "object",
+      "properties": {
+        "training_exercises": {
+          "type": "array"
+        },
+        "frequency": {
+          "type": "string"
+        },
+        "difficulty_progression": {
+          "type": "string"
+        },
+        "neurofeedback_enabled": {
+          "type": "boolean"
+        }
+      }
+    },
+    "continuous_monitoring_plan": {
+      "type": "object",
+      "properties": {
+        "metrics_tracked": {
+          "type": "array"
+        },
+        "alert_thresholds": {
+          "type": "object"
+        },
+        "reporting_frequency": {
+          "type": "string"
+        }
+      }
+    },
+    "ai_personalization": {
+      "type": "object",
+      "properties": {
+        "learning_rate_adjustment": {
+          "type": "number"
+        },
+        "adaptive_difficulty": {
+          "type": "boolean"
+        },
+        "personalized_feedback": {
+          "type": "boolean"
+        }
+      }
+    },
+    "progress_tracking": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "metrics": {
+            "type": "object"
+          },
+          "improvements": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "strategy_status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "active",
+        "paused",
+        "completed",
+        "archived"
+      ],
+      "default": "draft"
+    }
+  },
+  "required": [
+    "strategy_id",
+    "user_id"
+  ]
+}

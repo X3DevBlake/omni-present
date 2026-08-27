@@ -1,0 +1,61 @@
+{
+  "name": "AgentTrainingModule",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Agent being trained"
+    },
+    "training_objective": {
+      "type": "string",
+      "description": "Training goal"
+    },
+    "dataset": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Training data"
+    },
+    "outcomes_tracked": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "scenario": {
+            "type": "string"
+          },
+          "decision": {
+            "type": "string"
+          },
+          "outcome": {
+            "type": "string"
+          },
+          "feedback_score": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "adaptation_history": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "initializing",
+        "training",
+        "completed",
+        "deployed"
+      ],
+      "default": "initializing"
+    }
+  },
+  "required": [
+    "agent_id",
+    "training_objective"
+  ]
+}

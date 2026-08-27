@@ -1,0 +1,47 @@
+{
+  "name": "SecureVault",
+  "type": "object",
+  "properties": {
+    "vault_name": {
+      "type": "string",
+      "description": "Vault name"
+    },
+    "encrypted_data": {
+      "type": "string",
+      "description": "Encrypted vault content"
+    },
+    "vault_type": {
+      "type": "string",
+      "enum": [
+        "recovery_phrase",
+        "private_key",
+        "api_key",
+        "password"
+      ],
+      "description": "Type of stored data"
+    },
+    "access_method": {
+      "type": "string",
+      "enum": [
+        "hardware_wallet",
+        "mfa",
+        "biometric"
+      ],
+      "description": "Required access method"
+    },
+    "last_accessed": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "access_count": {
+      "type": "integer",
+      "default": 0
+    }
+  },
+  "required": [
+    "vault_name",
+    "encrypted_data",
+    "vault_type",
+    "access_method"
+  ]
+}

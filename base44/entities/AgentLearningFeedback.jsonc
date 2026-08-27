@@ -1,0 +1,129 @@
+{
+  "name": "AgentLearningFeedback",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Agent receiving feedback"
+    },
+    "task_id": {
+      "type": "string",
+      "description": "Related task or action"
+    },
+    "feedback_type": {
+      "type": "string",
+      "enum": [
+        "task_success",
+        "task_failure",
+        "user_correction",
+        "environmental_adaptation",
+        "collaboration_outcome",
+        "device_response"
+      ]
+    },
+    "source": {
+      "type": "string",
+      "enum": [
+        "user",
+        "system",
+        "device",
+        "other_agent",
+        "environment"
+      ]
+    },
+    "outcome_data": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "completion_time_ms": {
+          "type": "number"
+        },
+        "accuracy_score": {
+          "type": "number"
+        },
+        "efficiency_score": {
+          "type": "number"
+        },
+        "user_satisfaction": {
+          "type": "number"
+        }
+      }
+    },
+    "corrections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "original_action": {
+            "type": "string"
+          },
+          "corrected_action": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "learned_patterns": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "pattern_type": {
+            "type": "string"
+          },
+          "pattern_description": {
+            "type": "string"
+          },
+          "confidence": {
+            "type": "number"
+          },
+          "applicable_contexts": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "behavioral_adjustments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "behavior_name": {
+            "type": "string"
+          },
+          "old_value": {
+            "type": "string"
+          },
+          "new_value": {
+            "type": "string"
+          },
+          "adjustment_weight": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "integration_status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "processing",
+        "integrated",
+        "rejected"
+      ],
+      "default": "pending"
+    }
+  },
+  "required": [
+    "agent_id",
+    "feedback_type"
+  ]
+}

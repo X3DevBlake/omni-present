@@ -1,0 +1,137 @@
+{
+  "name": "NanoAgentSwarm",
+  "type": "object",
+  "properties": {
+    "swarm_id": {
+      "type": "string",
+      "description": "Swarm identifier"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "User this swarm belongs to"
+    },
+    "augmentation_id": {
+      "type": "string",
+      "description": "Associated augmentation"
+    },
+    "swarm_size": {
+      "type": "integer",
+      "description": "Number of nano-agents"
+    },
+    "deployment_location": {
+      "type": "string",
+      "enum": [
+        "circulatory",
+        "lymphatic",
+        "neural",
+        "muscular",
+        "digestive",
+        "respiratory"
+      ],
+      "description": "Body system location"
+    },
+    "nano_agents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "type": "string"
+          },
+          "position": {
+            "type": "object"
+          },
+          "health": {
+            "type": "number"
+          },
+          "task": {
+            "type": "string"
+          },
+          "battery_level": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "collective_task": {
+      "type": "object",
+      "properties": {
+        "task_type": {
+          "type": "string"
+        },
+        "progress": {
+          "type": "number"
+        },
+        "estimated_completion": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "swarm_intelligence_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "coordination_protocol": {
+      "type": "string",
+      "enum": [
+        "hierarchical",
+        "distributed",
+        "emergent",
+        "adaptive"
+      ]
+    },
+    "performance_metrics": {
+      "type": "object",
+      "properties": {
+        "efficiency": {
+          "type": "number"
+        },
+        "coordination_quality": {
+          "type": "number"
+        },
+        "task_success_rate": {
+          "type": "number"
+        },
+        "energy_consumption": {
+          "type": "number"
+        }
+      }
+    },
+    "real_time_telemetry": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "metric_type": {
+            "type": "string"
+          },
+          "value": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "swarm_status": {
+      "type": "string",
+      "enum": [
+        "deploying",
+        "active",
+        "coordinating",
+        "recharging",
+        "recalled"
+      ],
+      "default": "deploying"
+    }
+  },
+  "required": [
+    "swarm_id",
+    "user_id",
+    "deployment_location"
+  ]
+}

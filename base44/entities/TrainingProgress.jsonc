@@ -1,0 +1,65 @@
+{
+  "name": "TrainingProgress",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Agent being trained"
+    },
+    "training_session_id": {
+      "type": "string",
+      "description": "Unique training session ID"
+    },
+    "epoch": {
+      "type": "integer",
+      "description": "Current training epoch"
+    },
+    "total_epochs": {
+      "type": "integer",
+      "description": "Total epochs to train"
+    },
+    "loss": {
+      "type": "number",
+      "description": "Current loss value"
+    },
+    "accuracy": {
+      "type": "number",
+      "description": "Current accuracy percentage"
+    },
+    "learning_rate": {
+      "type": "number",
+      "description": "Current learning rate"
+    },
+    "batch_size": {
+      "type": "integer",
+      "description": "Training batch size"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "training",
+        "paused",
+        "completed",
+        "failed"
+      ],
+      "default": "training",
+      "description": "Training status"
+    },
+    "start_time": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When training started"
+    },
+    "estimated_completion": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Estimated completion time"
+    }
+  },
+  "required": [
+    "agent_id",
+    "training_session_id",
+    "epoch",
+    "total_epochs"
+  ]
+}

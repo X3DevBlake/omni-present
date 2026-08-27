@@ -1,0 +1,118 @@
+{
+  "name": "UserPreferences",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "User these preferences belong to"
+    },
+    "theme": {
+      "type": "string",
+      "enum": [
+        "dark",
+        "light",
+        "auto"
+      ],
+      "default": "dark"
+    },
+    "language": {
+      "type": "string",
+      "default": "en"
+    },
+    "timezone": {
+      "type": "string",
+      "default": "UTC"
+    },
+    "notifications": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "boolean",
+          "default": true
+        },
+        "push": {
+          "type": "boolean",
+          "default": true
+        },
+        "sms": {
+          "type": "boolean",
+          "default": false
+        },
+        "in_app": {
+          "type": "boolean",
+          "default": true
+        }
+      }
+    },
+    "dashboard_layout": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "widget_id": {
+            "type": "string"
+          },
+          "position": {
+            "type": "object",
+            "properties": {
+              "x": {
+                "type": "integer"
+              },
+              "y": {
+                "type": "integer"
+              },
+              "w": {
+                "type": "integer"
+              },
+              "h": {
+                "type": "integer"
+              }
+            }
+          }
+        }
+      }
+    },
+    "visualization_preferences": {
+      "type": "object",
+      "properties": {
+        "enable_3d": {
+          "type": "boolean",
+          "default": true
+        },
+        "auto_rotate": {
+          "type": "boolean",
+          "default": true
+        },
+        "particle_effects": {
+          "type": "boolean",
+          "default": true
+        }
+      }
+    },
+    "accessibility": {
+      "type": "object",
+      "properties": {
+        "high_contrast": {
+          "type": "boolean",
+          "default": false
+        },
+        "reduce_motion": {
+          "type": "boolean",
+          "default": false
+        },
+        "font_size": {
+          "type": "string",
+          "enum": [
+            "small",
+            "medium",
+            "large"
+          ],
+          "default": "medium"
+        }
+      }
+    }
+  },
+  "required": [
+    "user_id"
+  ]
+}

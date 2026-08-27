@@ -1,0 +1,79 @@
+{
+  "name": "EthicalDilemma",
+  "type": "object",
+  "properties": {
+    "dilemma_id": {
+      "type": "string",
+      "description": "Dilemma identifier"
+    },
+    "companion_id": {
+      "type": "string",
+      "description": "Companion facing dilemma"
+    },
+    "dilemma_description": {
+      "type": "string"
+    },
+    "competing_principles": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "principle_name": {
+            "type": "string"
+          },
+          "weight": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "available_actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "action": {
+            "type": "string"
+          },
+          "predicted_consequences": {
+            "type": "array"
+          },
+          "ethical_score": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "decision_made": {
+      "type": "string"
+    },
+    "reasoning_process": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "user_feedback": {
+      "type": "object",
+      "properties": {
+        "agreed_with_decision": {
+          "type": "boolean"
+        },
+        "feedback_text": {
+          "type": "string"
+        }
+      }
+    },
+    "framework_evolution_impact": {
+      "type": "number"
+    },
+    "occurred_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "dilemma_id",
+    "dilemma_description"
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "name": "SecurityEvent",
+  "type": "object",
+  "properties": {
+    "event_type": {
+      "type": "string",
+      "enum": [
+        "unauthorized_access",
+        "data_breach",
+        "anomalous_behavior",
+        "ddos_attempt",
+        "suspicious_transaction",
+        "privilege_escalation",
+        "failed_login"
+      ],
+      "description": "Type of security event"
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "description": "Event severity"
+    },
+    "source_ip": {
+      "type": "string",
+      "description": "Source IP address"
+    },
+    "target_resource": {
+      "type": "string",
+      "description": "Targeted resource"
+    },
+    "affected_user_id": {
+      "type": "string",
+      "description": "Affected user or agent"
+    },
+    "detection_method": {
+      "type": "string",
+      "description": "How event was detected"
+    },
+    "ai_threat_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "AI-calculated threat level"
+    },
+    "event_details": {
+      "type": "object",
+      "description": "Detailed event information"
+    },
+    "automated_response": {
+      "type": "object",
+      "properties": {
+        "action_taken": {
+          "type": "string"
+        },
+        "success": {
+          "type": "boolean"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "detected",
+        "investigating",
+        "mitigated",
+        "resolved",
+        "false_positive"
+      ],
+      "default": "detected"
+    },
+    "resolution_notes": {
+      "type": "string"
+    },
+    "escalated_to": {
+      "type": "string",
+      "description": "User ID if escalated"
+    }
+  },
+  "required": [
+    "event_type",
+    "severity"
+  ]
+}

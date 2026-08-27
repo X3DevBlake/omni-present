@@ -1,0 +1,104 @@
+{
+  "name": "SimulationPhysicsConfig",
+  "type": "object",
+  "properties": {
+    "simulation_id": {
+      "type": "string",
+      "description": "Associated simulation"
+    },
+    "physics_engine": {
+      "type": "string",
+      "enum": [
+        "basic",
+        "realistic",
+        "quantum",
+        "custom"
+      ],
+      "default": "realistic"
+    },
+    "gravity": {
+      "type": "object",
+      "properties": {
+        "x": {
+          "type": "number",
+          "default": 0
+        },
+        "y": {
+          "type": "number",
+          "default": -9.8
+        },
+        "z": {
+          "type": "number",
+          "default": 0
+        }
+      }
+    },
+    "environmental_factors": {
+      "type": "object",
+      "properties": {
+        "wind_speed": {
+          "type": "number",
+          "default": 0
+        },
+        "temperature": {
+          "type": "number",
+          "default": 20
+        },
+        "humidity": {
+          "type": "number",
+          "default": 50
+        },
+        "pressure": {
+          "type": "number",
+          "default": 101.3
+        }
+      }
+    },
+    "collision_detection": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "precision": {
+          "type": "string",
+          "enum": [
+            "low",
+            "medium",
+            "high",
+            "ultra"
+          ]
+        }
+      }
+    },
+    "time_scale": {
+      "type": "number",
+      "default": 1.0,
+      "description": "Simulation speed multiplier"
+    },
+    "material_properties": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "material_name": {
+            "type": "string"
+          },
+          "friction": {
+            "type": "number"
+          },
+          "restitution": {
+            "type": "number"
+          },
+          "density": {
+            "type": "number"
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "simulation_id"
+  ]
+}

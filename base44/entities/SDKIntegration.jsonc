@@ -1,0 +1,93 @@
+{
+  "name": "SDKIntegration",
+  "type": "object",
+  "properties": {
+    "integration_id": {
+      "type": "string",
+      "description": "Unique integration identifier"
+    },
+    "developer_id": {
+      "type": "string",
+      "description": "Developer who created the integration"
+    },
+    "sdk_language": {
+      "type": "string",
+      "enum": [
+        "javascript",
+        "python",
+        "typescript",
+        "go",
+        "rust"
+      ],
+      "description": "SDK language used"
+    },
+    "sdk_version": {
+      "type": "string",
+      "description": "SDK version"
+    },
+    "integration_type": {
+      "type": "string",
+      "enum": [
+        "agent_plugin",
+        "data_connector",
+        "visualization",
+        "automation",
+        "analytics"
+      ],
+      "description": "Type of integration"
+    },
+    "api_endpoints_used": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of API endpoints utilized"
+    },
+    "performance_metrics": {
+      "type": "object",
+      "properties": {
+        "avg_response_time_ms": {
+          "type": "number"
+        },
+        "success_rate": {
+          "type": "number"
+        },
+        "error_count": {
+          "type": "integer"
+        }
+      }
+    },
+    "sandbox_test_results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "test_name": {
+            "type": "string"
+          },
+          "passed": {
+            "type": "boolean"
+          },
+          "execution_time_ms": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "development",
+        "testing",
+        "production",
+        "deprecated"
+      ],
+      "default": "development"
+    }
+  },
+  "required": [
+    "integration_id",
+    "developer_id",
+    "sdk_language"
+  ]
+}

@@ -1,0 +1,110 @@
+{
+  "name": "InfoNCEAlignment",
+  "type": "object",
+  "properties": {
+    "alignment_id": {
+      "type": "string",
+      "description": "Unique alignment record identifier"
+    },
+    "neural_stream_id": {
+      "type": "string",
+      "description": "Source neural signal"
+    },
+    "semantic_target": {
+      "type": "string",
+      "description": "Target semantic concept"
+    },
+    "neural_encoder_f\u03b8": {
+      "type": "object",
+      "properties": {
+        "model_architecture": {
+          "type": "string"
+        },
+        "embedding_dimension": {
+          "type": "integer"
+        },
+        "parameter_count": {
+          "type": "integer"
+        }
+      }
+    },
+    "semantic_encoder_f\u03c6": {
+      "type": "object",
+      "properties": {
+        "model_architecture": {
+          "type": "string"
+        },
+        "embedding_dimension": {
+          "type": "integer"
+        },
+        "parameter_count": {
+          "type": "integer"
+        }
+      }
+    },
+    "temperature_\u03c4": {
+      "type": "number",
+      "description": "Temperature scaling parameter"
+    },
+    "loss_value": {
+      "type": "number",
+      "description": "Current InfoNCE loss"
+    },
+    "mutual_information_estimate": {
+      "type": "number",
+      "description": "I(X;Y) lower bound"
+    },
+    "cosine_similarity": {
+      "type": "number",
+      "description": "Dot product similarity in latent space"
+    },
+    "positive_pairs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "neural_vector": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          },
+          "semantic_vector": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          },
+          "similarity": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "negative_samples_K": {
+      "type": "integer",
+      "description": "Number of negative samples"
+    },
+    "training_epoch": {
+      "type": "integer"
+    },
+    "convergence_status": {
+      "type": "string",
+      "enum": [
+        "converging",
+        "converged",
+        "diverging",
+        "unstable"
+      ]
+    },
+    "alignment_quality": {
+      "type": "number",
+      "description": "Overall quality score 0-1"
+    }
+  },
+  "required": [
+    "alignment_id",
+    "neural_stream_id",
+    "semantic_target"
+  ]
+}

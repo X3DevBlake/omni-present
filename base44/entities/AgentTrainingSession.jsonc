@@ -1,0 +1,94 @@
+{
+  "name": "AgentTrainingSession",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Agent being trained"
+    },
+    "training_type": {
+      "type": "string",
+      "enum": [
+        "fine_tuning",
+        "reinforcement_learning",
+        "supervised",
+        "transfer_learning"
+      ],
+      "description": "Type of training"
+    },
+    "dataset_id": {
+      "type": "string",
+      "description": "Training dataset ID"
+    },
+    "hyperparameters": {
+      "type": "object",
+      "description": "Training hyperparameters",
+      "properties": {
+        "learning_rate": {
+          "type": "number"
+        },
+        "batch_size": {
+          "type": "integer"
+        },
+        "epochs": {
+          "type": "integer"
+        },
+        "optimizer": {
+          "type": "string"
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "running",
+        "completed",
+        "failed",
+        "paused"
+      ],
+      "default": "pending",
+      "description": "Training status"
+    },
+    "current_epoch": {
+      "type": "integer",
+      "default": 0,
+      "description": "Current training epoch"
+    },
+    "total_epochs": {
+      "type": "integer",
+      "description": "Total epochs to train"
+    },
+    "current_loss": {
+      "type": "number",
+      "description": "Current training loss"
+    },
+    "current_accuracy": {
+      "type": "number",
+      "description": "Current validation accuracy"
+    },
+    "best_accuracy": {
+      "type": "number",
+      "description": "Best accuracy achieved"
+    },
+    "model_version": {
+      "type": "string",
+      "description": "Model version identifier"
+    },
+    "optimization_results": {
+      "type": "object",
+      "description": "Hyperparameter optimization results"
+    },
+    "convergence_data": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Loss/accuracy per epoch"
+    }
+  },
+  "required": [
+    "agent_id",
+    "training_type"
+  ]
+}

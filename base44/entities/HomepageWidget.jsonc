@@ -1,0 +1,90 @@
+{
+  "name": "HomepageWidget",
+  "type": "object",
+  "properties": {
+    "widget_id": {
+      "type": "string",
+      "description": "Widget identifier"
+    },
+    "widget_type": {
+      "type": "string",
+      "enum": [
+        "ecosystem_map",
+        "activity_stream",
+        "kpi_dashboard",
+        "recommendations",
+        "quick_actions",
+        "news_feed",
+        "achievement_showcase",
+        "3d_visualization"
+      ],
+      "description": "Type of homepage widget"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "User who owns this widget configuration"
+    },
+    "position": {
+      "type": "object",
+      "properties": {
+        "x": {
+          "type": "integer"
+        },
+        "y": {
+          "type": "integer"
+        },
+        "width": {
+          "type": "integer"
+        },
+        "height": {
+          "type": "integer"
+        }
+      }
+    },
+    "data_source": {
+      "type": "object",
+      "properties": {
+        "entity_name": {
+          "type": "string"
+        },
+        "filter": {
+          "type": "object"
+        },
+        "refresh_interval_seconds": {
+          "type": "integer"
+        }
+      }
+    },
+    "visualization_config": {
+      "type": "object",
+      "properties": {
+        "color_scheme": {
+          "type": "string"
+        },
+        "animation_enabled": {
+          "type": "boolean"
+        },
+        "interaction_mode": {
+          "type": "string",
+          "enum": [
+            "hover",
+            "click",
+            "voice",
+            "gesture"
+          ]
+        }
+      }
+    },
+    "is_visible": {
+      "type": "boolean",
+      "default": true
+    },
+    "display_order": {
+      "type": "integer"
+    }
+  },
+  "required": [
+    "widget_type",
+    "user_id"
+  ]
+}

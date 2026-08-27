@@ -1,0 +1,80 @@
+{
+  "name": "KnowledgeArticle",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Article title"
+    },
+    "content": {
+      "type": "string",
+      "description": "Article content in markdown"
+    },
+    "category": {
+      "type": "string",
+      "description": "Knowledge category"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "author_id": {
+      "type": "string",
+      "description": "User who created article"
+    },
+    "version": {
+      "type": "integer",
+      "default": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "published",
+        "archived"
+      ],
+      "default": "draft"
+    },
+    "view_count": {
+      "type": "integer",
+      "default": 0
+    },
+    "helpful_count": {
+      "type": "integer",
+      "default": 0
+    },
+    "embedding_vector": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      },
+      "description": "Vector embedding for semantic search"
+    },
+    "related_articles": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "IDs of related articles"
+    },
+    "last_updated_by": {
+      "type": "string"
+    },
+    "access_level": {
+      "type": "string",
+      "enum": [
+        "public",
+        "internal",
+        "restricted"
+      ],
+      "default": "public"
+    }
+  },
+  "required": [
+    "title",
+    "content",
+    "category"
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "name": "UserAchievement",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "User who earned achievement"
+    },
+    "achievement_id": {
+      "type": "string",
+      "description": "Achievement identifier"
+    },
+    "achievement_name": {
+      "type": "string",
+      "description": "Achievement name"
+    },
+    "achievement_description": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "learning",
+        "collaboration",
+        "performance",
+        "milestone",
+        "special"
+      ],
+      "description": "Achievement category"
+    },
+    "rarity": {
+      "type": "string",
+      "enum": [
+        "common",
+        "rare",
+        "epic",
+        "legendary"
+      ],
+      "default": "common"
+    },
+    "xp_reward": {
+      "type": "integer",
+      "default": 0
+    },
+    "badge_icon_url": {
+      "type": "string"
+    },
+    "unlocked_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "progress": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Progress percentage"
+    },
+    "requirements": {
+      "type": "object",
+      "description": "Requirements to unlock"
+    },
+    "is_unlocked": {
+      "type": "boolean",
+      "default": false
+    },
+    "display_order": {
+      "type": "integer"
+    }
+  },
+  "required": [
+    "user_id",
+    "achievement_id",
+    "achievement_name"
+  ]
+}

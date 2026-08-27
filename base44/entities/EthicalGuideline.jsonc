@@ -1,0 +1,69 @@
+{
+  "name": "EthicalGuideline",
+  "type": "object",
+  "properties": {
+    "guideline_name": {
+      "type": "string",
+      "description": "Name of the ethical guideline"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "bias_prevention",
+        "safety",
+        "transparency",
+        "fairness",
+        "privacy"
+      ],
+      "description": "Category of guideline"
+    },
+    "description": {
+      "type": "string",
+      "description": "Detailed guideline description"
+    },
+    "rules": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Specific rules to enforce"
+    },
+    "severity_level": {
+      "type": "string",
+      "enum": [
+        "advisory",
+        "warning",
+        "strict"
+      ],
+      "default": "warning",
+      "description": "Enforcement level"
+    },
+    "applicable_agents": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Agent IDs this applies to (empty = all)"
+    },
+    "violation_action": {
+      "type": "string",
+      "enum": [
+        "log",
+        "block",
+        "override",
+        "escalate"
+      ],
+      "default": "log",
+      "description": "Action to take on violation"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "guideline_name",
+    "category",
+    "description"
+  ]
+}

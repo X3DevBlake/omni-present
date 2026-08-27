@@ -1,0 +1,67 @@
+{
+  "name": "VoiceInteraction",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "User who spoke"
+    },
+    "audio_url": {
+      "type": "string",
+      "description": "Audio recording URL"
+    },
+    "transcription": {
+      "type": "string",
+      "description": "Speech-to-text result"
+    },
+    "intent": {
+      "type": "string",
+      "description": "AI-detected user intent"
+    },
+    "entities_extracted": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "entity_type": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          },
+          "confidence": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "action_taken": {
+      "type": "string",
+      "description": "Action executed based on voice command"
+    },
+    "response_text": {
+      "type": "string",
+      "description": "AI response"
+    },
+    "response_audio_url": {
+      "type": "string",
+      "description": "Generated voice response"
+    },
+    "sentiment": {
+      "type": "number",
+      "minimum": -1,
+      "maximum": 1
+    },
+    "language": {
+      "type": "string",
+      "default": "en"
+    },
+    "duration_seconds": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "user_id",
+    "transcription"
+  ]
+}

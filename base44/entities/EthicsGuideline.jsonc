@@ -1,0 +1,62 @@
+{
+  "name": "EthicsGuideline",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Guideline title"
+    },
+    "description": {
+      "type": "string",
+      "description": "Detailed description of the guideline"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "transparency",
+        "fairness",
+        "safety",
+        "privacy",
+        "accountability",
+        "sustainability"
+      ],
+      "description": "Ethics category"
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "default": "medium",
+      "description": "Violation severity level"
+    },
+    "applicable_to": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Agent types this applies to"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "draft",
+        "archived"
+      ],
+      "default": "active",
+      "description": "Guideline status"
+    },
+    "enforcement_rules": {
+      "type": "object",
+      "description": "Rules for enforcement and monitoring"
+    }
+  },
+  "required": [
+    "title",
+    "category"
+  ]
+}

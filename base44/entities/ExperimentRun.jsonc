@@ -1,0 +1,91 @@
+{
+  "name": "ExperimentRun",
+  "type": "object",
+  "properties": {
+    "experiment_name": {
+      "type": "string",
+      "description": "Experiment identifier"
+    },
+    "model_type": {
+      "type": "string",
+      "description": "Type of model being trained"
+    },
+    "version": {
+      "type": "string",
+      "description": "Model version"
+    },
+    "hyperparameters": {
+      "type": "object",
+      "description": "Training hyperparameters"
+    },
+    "training_metrics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "epoch": {
+            "type": "integer"
+          },
+          "train_loss": {
+            "type": "number"
+          },
+          "val_loss": {
+            "type": "number"
+          },
+          "train_accuracy": {
+            "type": "number"
+          },
+          "val_accuracy": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "final_metrics": {
+      "type": "object",
+      "properties": {
+        "test_accuracy": {
+          "type": "number"
+        },
+        "test_loss": {
+          "type": "number"
+        },
+        "inference_time_ms": {
+          "type": "number"
+        }
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "running",
+        "completed",
+        "failed",
+        "cancelled"
+      ],
+      "default": "running"
+    },
+    "parent_experiment_id": {
+      "type": "string",
+      "description": "For comparing variants"
+    }
+  },
+  "required": [
+    "experiment_name",
+    "model_type"
+  ]
+}

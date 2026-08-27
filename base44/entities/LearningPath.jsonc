@@ -1,0 +1,117 @@
+{
+  "name": "LearningPath",
+  "type": "object",
+  "properties": {
+    "path_id": {
+      "type": "string",
+      "description": "Unique learning path identifier"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "User following this path"
+    },
+    "path_name": {
+      "type": "string",
+      "description": "Learning path name"
+    },
+    "goal": {
+      "type": "string",
+      "description": "Overall learning goal"
+    },
+    "ai_generated": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether path was AI-generated"
+    },
+    "path_stages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "stage_order": {
+            "type": "integer"
+          },
+          "stage_name": {
+            "type": "string"
+          },
+          "courses": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "modules": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "estimated_duration_weeks": {
+            "type": "integer"
+          },
+          "completed": {
+            "type": "boolean",
+            "default": false
+          }
+        }
+      }
+    },
+    "current_stage": {
+      "type": "integer",
+      "description": "Current stage index"
+    },
+    "progress_percentage": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "adaptive_adjustments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "adjustment_type": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "skill_targets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "skill_name": {
+            "type": "string"
+          },
+          "current_level": {
+            "type": "number"
+          },
+          "target_level": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "next_recommendations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "AI-recommended next steps"
+    }
+  },
+  "required": [
+    "path_id",
+    "user_id",
+    "path_name",
+    "goal"
+  ]
+}

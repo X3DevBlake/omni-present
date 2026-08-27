@@ -1,0 +1,94 @@
+{
+  "name": "MultiUserSimulationSession",
+  "type": "object",
+  "properties": {
+    "simulation_id": {
+      "type": "string",
+      "description": "Associated simulation"
+    },
+    "session_name": {
+      "type": "string"
+    },
+    "participants": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "user_id": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "observer",
+              "controller",
+              "moderator",
+              "admin"
+            ]
+          },
+          "joined_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "is_active": {
+            "type": "boolean"
+          },
+          "cursor_position": {
+            "type": "object"
+          },
+          "current_action": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "shared_state": {
+      "type": "object",
+      "properties": {
+        "synchronized": {
+          "type": "boolean"
+        },
+        "last_sync": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "version": {
+          "type": "integer"
+        }
+      }
+    },
+    "collaboration_events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "event_type": {
+            "type": "string"
+          },
+          "user_id": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "data": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "voice_channel_enabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "max_participants": {
+      "type": "integer",
+      "default": 10
+    }
+  },
+  "required": [
+    "simulation_id",
+    "session_name"
+  ]
+}

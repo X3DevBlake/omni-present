@@ -1,0 +1,98 @@
+{
+  "name": "DynamicUIConfig",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "User this configuration belongs to"
+    },
+    "layout_type": {
+      "type": "string",
+      "enum": [
+        "compact",
+        "expanded",
+        "minimal",
+        "immersive"
+      ],
+      "default": "expanded",
+      "description": "Current layout mode"
+    },
+    "widget_positions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "widget_id": {
+            "type": "string"
+          },
+          "x": {
+            "type": "number"
+          },
+          "y": {
+            "type": "number"
+          },
+          "z": {
+            "type": "number"
+          },
+          "scale": {
+            "type": "number"
+          },
+          "rotation": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "theme_preferences": {
+      "type": "object",
+      "properties": {
+        "primary_color": {
+          "type": "string"
+        },
+        "accent_color": {
+          "type": "string"
+        },
+        "animation_speed": {
+          "type": "number"
+        },
+        "3d_enabled": {
+          "type": "boolean"
+        }
+      }
+    },
+    "adaptive_rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "condition": {
+            "type": "string"
+          },
+          "action": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "ai_optimizations": {
+      "type": "object",
+      "properties": {
+        "auto_arrange": {
+          "type": "boolean"
+        },
+        "predictive_layout": {
+          "type": "boolean"
+        },
+        "usage_based_adjustment": {
+          "type": "boolean"
+        }
+      }
+    }
+  },
+  "required": [
+    "user_id"
+  ]
+}

@@ -1,0 +1,105 @@
+{
+  "name": "CompanionPersonalityEvolution",
+  "type": "object",
+  "properties": {
+    "evolution_id": {
+      "type": "string",
+      "description": "Evolution record identifier"
+    },
+    "companion_id": {
+      "type": "string",
+      "description": "Companion evolving"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "personality_snapshot": {
+      "type": "object",
+      "properties": {
+        "empathy_level": {
+          "type": "number"
+        },
+        "proactivity_score": {
+          "type": "number"
+        },
+        "emotional_intelligence": {
+          "type": "number"
+        },
+        "communication_style": {
+          "type": "string"
+        },
+        "humor_style": {
+          "type": "string"
+        },
+        "vocabulary_complexity": {
+          "type": "string"
+        }
+      }
+    },
+    "learned_from_experiences": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "experience_type": {
+            "type": "string"
+          },
+          "emotional_impact": {
+            "type": "number"
+          },
+          "personality_shift": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "conversational_adaptations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "adaptation_type": {
+            "type": "string"
+          },
+          "trigger": {
+            "type": "string"
+          },
+          "result": {
+            "type": "string"
+          },
+          "user_response_positive": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "emotional_resonance_patterns": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "user_state": {
+            "type": "string"
+          },
+          "companion_response": {
+            "type": "string"
+          },
+          "resonance_score": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "unique_traits_developed": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "evolution_id",
+    "companion_id"
+  ]
+}

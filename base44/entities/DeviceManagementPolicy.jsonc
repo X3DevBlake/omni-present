@@ -1,0 +1,60 @@
+{
+  "name": "DeviceManagementPolicy",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "User email"
+    },
+    "agent_id": {
+      "type": "string",
+      "description": "Agent managing this policy"
+    },
+    "policy_name": {
+      "type": "string",
+      "description": "Policy name"
+    },
+    "trigger_condition": {
+      "type": "string",
+      "enum": [
+        "idle_timeout",
+        "connection_lost",
+        "high_usage",
+        "scheduled",
+        "manual"
+      ],
+      "description": "What triggers this policy"
+    },
+    "action": {
+      "type": "string",
+      "enum": [
+        "disconnect",
+        "reboot",
+        "power_off",
+        "power_on",
+        "notify"
+      ],
+      "description": "Action to take"
+    },
+    "threshold": {
+      "type": "object",
+      "description": "Threshold parameters"
+    },
+    "autonomous": {
+      "type": "boolean",
+      "default": true,
+      "description": "Execute autonomously"
+    },
+    "active": {
+      "type": "boolean",
+      "default": true,
+      "description": "Policy is active"
+    }
+  },
+  "required": [
+    "user_email",
+    "policy_name",
+    "trigger_condition",
+    "action"
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "name": "CrossSimulationMessage",
+  "type": "object",
+  "properties": {
+    "from_agent_id": {
+      "type": "string",
+      "description": "Sender agent"
+    },
+    "from_simulation_id": {
+      "type": "string",
+      "description": "Source simulation"
+    },
+    "to_agent_id": {
+      "type": "string",
+      "description": "Recipient agent"
+    },
+    "to_simulation_id": {
+      "type": "string",
+      "description": "Target simulation"
+    },
+    "message_type": {
+      "type": "string",
+      "enum": [
+        "data_exchange",
+        "collaboration_request",
+        "knowledge_share",
+        "alert"
+      ],
+      "description": "Message type"
+    },
+    "encrypted_payload": {
+      "type": "string",
+      "description": "Encrypted message content"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "delivered",
+        "failed"
+      ],
+      "default": "pending"
+    }
+  },
+  "required": [
+    "from_agent_id",
+    "from_simulation_id",
+    "to_agent_id",
+    "to_simulation_id"
+  ]
+}

@@ -1,0 +1,84 @@
+{
+  "name": "FiatTransaction",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "User initiating transaction"
+    },
+    "transaction_type": {
+      "type": "string",
+      "enum": [
+        "deposit",
+        "withdrawal",
+        "transfer"
+      ],
+      "description": "Type of transaction"
+    },
+    "amount": {
+      "type": "number",
+      "description": "Transaction amount"
+    },
+    "currency": {
+      "type": "string",
+      "default": "USD"
+    },
+    "payment_method": {
+      "type": "string",
+      "enum": [
+        "bank_transfer",
+        "card",
+        "wire",
+        "plaid"
+      ],
+      "description": "Method used"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "processing",
+        "completed",
+        "failed",
+        "cancelled"
+      ],
+      "default": "pending"
+    },
+    "destination_account": {
+      "type": "string"
+    },
+    "source_account": {
+      "type": "string"
+    },
+    "processing_fee": {
+      "type": "number",
+      "default": 0
+    },
+    "estimated_completion": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "confirmation_code": {
+      "type": "string"
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "ip_address": {
+          "type": "string"
+        },
+        "device_id": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "required": [
+    "user_id",
+    "transaction_type",
+    "amount"
+  ]
+}

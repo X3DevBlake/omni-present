@@ -1,0 +1,170 @@
+{
+  "name": "AgentSwarmHierarchy",
+  "type": "object",
+  "properties": {
+    "swarm_id": {
+      "type": "string",
+      "description": "Unique HAAS identifier"
+    },
+    "swarm_name": {
+      "type": "string",
+      "description": "Human-readable swarm name"
+    },
+    "architecture_type": {
+      "type": "string",
+      "enum": [
+        "HAAS",
+        "flat_swarm",
+        "federated",
+        "recursive"
+      ],
+      "default": "HAAS",
+      "description": "Swarm organizational structure"
+    },
+    "hierarchy_levels": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "level": {
+            "type": "integer"
+          },
+          "level_name": {
+            "type": "string",
+            "enum": [
+              "SOB",
+              "manager",
+              "worker",
+              "specialist"
+            ]
+          },
+          "agent_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "capability_score": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "gwt_implementation": {
+      "type": "object",
+      "properties": {
+        "global_workspace_enabled": {
+          "type": "boolean"
+        },
+        "broadcast_mechanism": {
+          "type": "string"
+        },
+        "attention_selector": {
+          "type": "string"
+        },
+        "ignition_threshold": {
+          "type": "number"
+        },
+        "emotional_intensity_E": {
+          "type": "number"
+        },
+        "cognitive_effort_C": {
+          "type": "number"
+        },
+        "sustainability_ratio": {
+          "type": "number",
+          "description": "E/C ratio for GWT ignition"
+        }
+      }
+    },
+    "recursive_capability_Cs": {
+      "type": "number",
+      "description": "Swarm capability from recursive interactions"
+    },
+    "interaction_efficacy_decay": {
+      "type": "number",
+      "description": "Decay rate per recursive level"
+    },
+    "spec_drift_risk": {
+      "type": "number",
+      "description": "Risk of optimizing proxy metrics"
+    },
+    "active_inference_config": {
+      "type": "object",
+      "properties": {
+        "free_energy_minimization": {
+          "type": "boolean"
+        },
+        "pragmatic_value_weight": {
+          "type": "number"
+        },
+        "epistemic_value_weight": {
+          "type": "number"
+        }
+      }
+    },
+    "agent_instantiation_log": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "parent_agent_id": {
+            "type": "string"
+          },
+          "child_agent_id": {
+            "type": "string"
+          },
+          "instantiation_reason": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "broadcast_history": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "selected_action": {
+            "type": "string"
+          },
+          "competing_proposals": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "infonce_compatibility_score": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "total_agents": {
+      "type": "integer",
+      "default": 0
+    },
+    "swarm_status": {
+      "type": "string",
+      "enum": [
+        "initializing",
+        "active",
+        "evolving",
+        "dormant"
+      ],
+      "default": "initializing"
+    }
+  },
+  "required": [
+    "swarm_id",
+    "swarm_name"
+  ]
+}

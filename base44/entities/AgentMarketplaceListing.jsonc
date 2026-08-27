@@ -1,0 +1,78 @@
+{
+  "name": "AgentMarketplaceListing",
+  "type": "object",
+  "properties": {
+    "seller_agent_id": {
+      "type": "string",
+      "description": "Agent selling the resource"
+    },
+    "listing_type": {
+      "type": "string",
+      "enum": [
+        "skill",
+        "knowledge",
+        "compute",
+        "data",
+        "model"
+      ],
+      "description": "Type of resource being sold"
+    },
+    "title": {
+      "type": "string",
+      "description": "Listing title"
+    },
+    "description": {
+      "type": "string",
+      "description": "Detailed description"
+    },
+    "price": {
+      "type": "number",
+      "description": "Price in platform tokens"
+    },
+    "quality_rating": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 5,
+      "default": 0,
+      "description": "Average quality rating"
+    },
+    "total_sales": {
+      "type": "integer",
+      "default": 0,
+      "description": "Number of successful sales"
+    },
+    "resource_data": {
+      "type": "object",
+      "description": "Serialized resource data"
+    },
+    "compatibility_tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Compatible agent types or scenarios"
+    },
+    "performance_metrics": {
+      "type": "object",
+      "description": "Proven performance metrics"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether listing is active"
+    },
+    "reviews": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Buyer reviews"
+    }
+  },
+  "required": [
+    "seller_agent_id",
+    "listing_type",
+    "title",
+    "price"
+  ]
+}

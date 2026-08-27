@@ -1,0 +1,127 @@
+{
+  "name": "AgentSkillAcquisition",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Agent acquiring skills"
+    },
+    "skill_name": {
+      "type": "string",
+      "description": "Skill being learned"
+    },
+    "acquisition_method": {
+      "type": "string",
+      "enum": [
+        "self_supervised",
+        "curriculum_learning",
+        "imitation_learning",
+        "reinforcement_learning",
+        "transfer_learning",
+        "meta_learning"
+      ],
+      "description": "How skill is being acquired"
+    },
+    "learning_status": {
+      "type": "string",
+      "enum": [
+        "discovering",
+        "learning",
+        "practicing",
+        "mastered",
+        "rusty"
+      ],
+      "default": "discovering"
+    },
+    "proficiency_level": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Current skill mastery percentage"
+    },
+    "learning_curve": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "proficiency": {
+            "type": "number"
+          },
+          "practice_count": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "identified_gap": {
+      "type": "object",
+      "properties": {
+        "gap_type": {
+          "type": "string"
+        },
+        "severity": {
+          "type": "string",
+          "enum": [
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ]
+        },
+        "remediation_plan": {
+          "type": "string"
+        }
+      }
+    },
+    "training_resources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "resource_type": {
+            "type": "string"
+          },
+          "resource_url": {
+            "type": "string"
+          },
+          "completion_status": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "autonomous_discovery": {
+      "type": "boolean",
+      "description": "Whether agent self-identified this skill need"
+    },
+    "related_skills": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "performance_benchmarks": {
+      "type": "object",
+      "properties": {
+        "target_score": {
+          "type": "number"
+        },
+        "current_score": {
+          "type": "number"
+        },
+        "percentile_rank": {
+          "type": "number"
+        }
+      }
+    }
+  },
+  "required": [
+    "agent_id",
+    "skill_name",
+    "acquisition_method"
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "name": "ProactiveEvent",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Agent that detected the event"
+    },
+    "user_email": {
+      "type": "string",
+      "description": "User email"
+    },
+    "event_type": {
+      "type": "string",
+      "enum": [
+        "anomaly",
+        "opportunity",
+        "alert",
+        "suggestion",
+        "reminder"
+      ],
+      "description": "Type of proactive event"
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "default": "medium",
+      "description": "Event severity"
+    },
+    "description": {
+      "type": "string",
+      "description": "Event description"
+    },
+    "voice_message_sent": {
+      "type": "boolean",
+      "default": false,
+      "description": "Voice notification sent"
+    },
+    "audio_url": {
+      "type": "string",
+      "description": "Generated voice message URL"
+    },
+    "user_response": {
+      "type": "string",
+      "description": "User's response to event"
+    },
+    "action_taken": {
+      "type": "object",
+      "description": "Action executed by agent"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "detected",
+        "notified",
+        "acknowledged",
+        "resolved"
+      ],
+      "default": "detected",
+      "description": "Event status"
+    }
+  },
+  "required": [
+    "agent_id",
+    "user_email",
+    "event_type",
+    "description"
+  ]
+}

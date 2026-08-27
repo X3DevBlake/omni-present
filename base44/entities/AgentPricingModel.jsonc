@@ -1,0 +1,73 @@
+{
+  "name": "AgentPricingModel",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Agent this pricing applies to"
+    },
+    "base_hourly_rate": {
+      "type": "number",
+      "description": "Base rate per hour"
+    },
+    "skill_multipliers": {
+      "type": "object",
+      "description": "Multipliers for specific skills"
+    },
+    "demand_multiplier": {
+      "type": "number",
+      "default": 1.0,
+      "description": "Dynamic multiplier based on demand"
+    },
+    "complexity_multiplier": {
+      "type": "number",
+      "default": 1.0,
+      "description": "Multiplier for task complexity"
+    },
+    "reputation_multiplier": {
+      "type": "number",
+      "default": 1.0,
+      "description": "Multiplier based on reputation score"
+    },
+    "current_effective_rate": {
+      "type": "number",
+      "description": "Calculated current rate"
+    },
+    "pricing_history": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "rate": {
+            "type": "number"
+          },
+          "reason": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "discount_rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "condition": {
+            "type": "string"
+          },
+          "discount_percentage": {
+            "type": "number"
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "agent_id",
+    "base_hourly_rate"
+  ]
+}

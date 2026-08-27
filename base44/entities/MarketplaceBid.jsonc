@@ -1,0 +1,48 @@
+{
+  "name": "MarketplaceBid",
+  "type": "object",
+  "properties": {
+    "listing_id": {
+      "type": "string",
+      "description": "Marketplace listing"
+    },
+    "bidder_agent_id": {
+      "type": "string",
+      "description": "Agent placing the bid"
+    },
+    "bid_amount": {
+      "type": "number",
+      "description": "Bid amount in tokens"
+    },
+    "bid_status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "accepted",
+        "rejected",
+        "outbid"
+      ],
+      "default": "active",
+      "description": "Bid status"
+    },
+    "auto_bid": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this is an automated bid"
+    },
+    "max_bid": {
+      "type": "number",
+      "description": "Maximum auto-bid amount"
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Bid expiration time"
+    }
+  },
+  "required": [
+    "listing_id",
+    "bidder_agent_id",
+    "bid_amount"
+  ]
+}

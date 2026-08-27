@@ -1,0 +1,90 @@
+{
+  "name": "AgentGoal",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Agent pursuing this goal"
+    },
+    "title": {
+      "type": "string",
+      "description": "Goal title"
+    },
+    "description": {
+      "type": "string",
+      "description": "Detailed goal description"
+    },
+    "goal_type": {
+      "type": "string",
+      "enum": [
+        "short_term",
+        "long_term",
+        "immediate"
+      ],
+      "description": "Time scope of goal"
+    },
+    "priority": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "default": 50,
+      "description": "Goal priority level"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "completed",
+        "failed",
+        "paused"
+      ],
+      "default": "active",
+      "description": "Current goal status"
+    },
+    "progress": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "default": 0,
+      "description": "Completion percentage"
+    },
+    "related_skills": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Skills needed for this goal"
+    },
+    "required_resources": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Resources needed"
+    },
+    "sub_goals": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Breakdown of goal into sub-objectives"
+    },
+    "success_criteria": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Metrics to measure success"
+    },
+    "deadline": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Target completion date"
+    }
+  },
+  "required": [
+    "agent_id",
+    "title",
+    "goal_type"
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "name": "Assignment",
+  "type": "object",
+  "properties": {
+    "assignment_id": {
+      "type": "string",
+      "description": "Unique assignment identifier"
+    },
+    "course_id": {
+      "type": "string",
+      "description": "Associated course"
+    },
+    "module_id": {
+      "type": "string",
+      "description": "Associated module"
+    },
+    "title": {
+      "type": "string",
+      "description": "Assignment title"
+    },
+    "description": {
+      "type": "string",
+      "description": "Assignment instructions"
+    },
+    "assignment_type": {
+      "type": "string",
+      "enum": [
+        "essay",
+        "code",
+        "research_proposal",
+        "simulation",
+        "holographic_presentation",
+        "peer_review"
+      ],
+      "description": "Type of assignment"
+    },
+    "due_date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "max_points": {
+      "type": "integer"
+    },
+    "submission_format": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Accepted file formats"
+    },
+    "rubric": {
+      "type": "object",
+      "properties": {
+        "criteria": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "ai_grading_enabled": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "assignment_id",
+    "course_id",
+    "title",
+    "due_date"
+  ]
+}

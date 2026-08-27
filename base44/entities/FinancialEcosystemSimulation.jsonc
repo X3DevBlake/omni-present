@@ -1,0 +1,99 @@
+{
+  "name": "FinancialEcosystemSimulation",
+  "type": "object",
+  "properties": {
+    "simulation_id": {
+      "type": "string",
+      "description": "Simulation identifier"
+    },
+    "scenario_description": {
+      "type": "string",
+      "description": "What-if scenario being tested"
+    },
+    "affected_entities": {
+      "type": "object",
+      "properties": {
+        "bank_accounts": {
+          "type": "array"
+        },
+        "crypto_assets": {
+          "type": "array"
+        },
+        "defi_positions": {
+          "type": "array"
+        },
+        "portfolios": {
+          "type": "array"
+        }
+      }
+    },
+    "simulated_changes": {
+      "type": "object",
+      "properties": {
+        "market_conditions": {
+          "type": "object"
+        },
+        "regulatory_changes": {
+          "type": "array"
+        },
+        "user_behavior_shifts": {
+          "type": "object"
+        },
+        "time_horizon_days": {
+          "type": "number"
+        }
+      }
+    },
+    "predicted_outcomes": {
+      "type": "object",
+      "properties": {
+        "total_value_change_usd": {
+          "type": "number"
+        },
+        "risk_level_change": {
+          "type": "number"
+        },
+        "liquidity_impact": {
+          "type": "number"
+        },
+        "goal_achievement_probability": {
+          "type": "number"
+        }
+      }
+    },
+    "ai_interventions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "intervention_type": {
+            "type": "string"
+          },
+          "trigger_condition": {
+            "type": "string"
+          },
+          "expected_impact": {
+            "type": "object"
+          },
+          "auto_executable": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "simulation_status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "running",
+        "completed",
+        "failed"
+      ],
+      "default": "pending"
+    }
+  },
+  "required": [
+    "simulation_id",
+    "scenario_description"
+  ]
+}

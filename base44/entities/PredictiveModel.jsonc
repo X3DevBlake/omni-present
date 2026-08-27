@@ -1,0 +1,121 @@
+{
+  "name": "PredictiveModel",
+  "type": "object",
+  "properties": {
+    "model_name": {
+      "type": "string",
+      "description": "Model identifier"
+    },
+    "model_type": {
+      "type": "string",
+      "enum": [
+        "time_series",
+        "classification",
+        "regression",
+        "anomaly_detection",
+        "clustering"
+      ],
+      "description": "Type of predictive model"
+    },
+    "target_entity": {
+      "type": "string",
+      "description": "Entity this model predicts for"
+    },
+    "features": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "feature_name": {
+            "type": "string"
+          },
+          "importance": {
+            "type": "number"
+          },
+          "data_type": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "performance_metrics": {
+      "type": "object",
+      "properties": {
+        "accuracy": {
+          "type": "number"
+        },
+        "precision": {
+          "type": "number"
+        },
+        "recall": {
+          "type": "number"
+        },
+        "f1_score": {
+          "type": "number"
+        },
+        "mae": {
+          "type": "number"
+        },
+        "rmse": {
+          "type": "number"
+        }
+      }
+    },
+    "training_data": {
+      "type": "object",
+      "properties": {
+        "samples_count": {
+          "type": "integer"
+        },
+        "time_range": {
+          "type": "object",
+          "properties": {
+            "start": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "end": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        }
+      }
+    },
+    "predictions_made": {
+      "type": "integer",
+      "default": 0
+    },
+    "last_prediction": {
+      "type": "object",
+      "properties": {
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "prediction_value": {
+          "type": "number"
+        },
+        "confidence": {
+          "type": "number"
+        },
+        "actual_outcome": {
+          "type": "number"
+        }
+      }
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    },
+    "auto_retrain": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "model_name",
+    "model_type",
+    "target_entity"
+  ]
+}

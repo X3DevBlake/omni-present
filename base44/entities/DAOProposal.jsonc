@@ -1,0 +1,59 @@
+{
+  "name": "DAOProposal",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Proposal title"
+    },
+    "description": {
+      "type": "string",
+      "description": "Detailed proposal description"
+    },
+    "proposer_email": {
+      "type": "string",
+      "description": "Email of proposer"
+    },
+    "vote_count": {
+      "type": "integer",
+      "default": 0,
+      "description": "Total votes received"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "active",
+        "passed",
+        "failed",
+        "executed"
+      ],
+      "default": "pending",
+      "description": "Proposal status"
+    },
+    "voting_deadline": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When voting ends"
+    },
+    "votes_for": {
+      "type": "integer",
+      "default": 0,
+      "description": "Votes in favor"
+    },
+    "votes_against": {
+      "type": "integer",
+      "default": 0,
+      "description": "Votes against"
+    },
+    "quorum_required": {
+      "type": "integer",
+      "description": "Minimum votes needed"
+    }
+  },
+  "required": [
+    "title",
+    "proposer_email",
+    "voting_deadline"
+  ]
+}

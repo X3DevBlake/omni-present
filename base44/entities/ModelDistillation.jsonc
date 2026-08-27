@@ -1,0 +1,65 @@
+{
+  "name": "ModelDistillation",
+  "type": "object",
+  "properties": {
+    "distillation_name": {
+      "type": "string",
+      "description": "Knowledge distillation session"
+    },
+    "teacher_model": {
+      "type": "string",
+      "description": "Large model to compress"
+    },
+    "student_model": {
+      "type": "string",
+      "description": "Smaller model being trained"
+    },
+    "compression_ratio": {
+      "type": "number",
+      "description": "Size reduction factor"
+    },
+    "distillation_temperature": {
+      "type": "number",
+      "description": "Softmax temperature for knowledge transfer"
+    },
+    "loss_weights": {
+      "type": "object",
+      "properties": {
+        "distillation_loss": {
+          "type": "number"
+        },
+        "student_loss": {
+          "type": "number"
+        }
+      }
+    },
+    "performance_retention": {
+      "type": "number",
+      "description": "Student performance vs teacher percentage"
+    },
+    "speedup_factor": {
+      "type": "number",
+      "description": "Inference speed improvement"
+    },
+    "parameter_count": {
+      "type": "object",
+      "properties": {
+        "teacher_params": {
+          "type": "integer"
+        },
+        "student_params": {
+          "type": "integer"
+        }
+      }
+    },
+    "quantization_bits": {
+      "type": "integer",
+      "description": "Bit precision for compression"
+    }
+  },
+  "required": [
+    "distillation_name",
+    "teacher_model",
+    "student_model"
+  ]
+}

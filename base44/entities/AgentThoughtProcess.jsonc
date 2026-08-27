@@ -1,0 +1,132 @@
+{
+  "name": "AgentThoughtProcess",
+  "type": "object",
+  "properties": {
+    "thought_id": {
+      "type": "string",
+      "description": "Unique thought identifier"
+    },
+    "agent_id": {
+      "type": "string",
+      "description": "Agent generating the thought"
+    },
+    "thought_type": {
+      "type": "string",
+      "enum": [
+        "reasoning",
+        "planning",
+        "decision",
+        "observation",
+        "prediction",
+        "collaboration",
+        "learning"
+      ],
+      "description": "Type of thought process"
+    },
+    "thought_content": {
+      "type": "object",
+      "properties": {
+        "main_thought": {
+          "type": "string"
+        },
+        "sub_thoughts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "considerations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "factor": {
+                "type": "string"
+              },
+              "weight": {
+                "type": "number"
+              },
+              "evaluation": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "conclusion": {
+          "type": "string"
+        }
+      }
+    },
+    "related_entities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "entity_type": {
+            "type": "string"
+          },
+          "entity_id": {
+            "type": "string"
+          },
+          "relationship": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "visualization_data": {
+      "type": "object",
+      "properties": {
+        "display_duration_seconds": {
+          "type": "number"
+        },
+        "position_offset": {
+          "type": "object",
+          "properties": {
+            "x": {
+              "type": "number"
+            },
+            "y": {
+              "type": "number"
+            },
+            "z": {
+              "type": "number"
+            }
+          }
+        },
+        "bubble_style": {
+          "type": "string",
+          "enum": [
+            "speech",
+            "thought",
+            "alert",
+            "plan",
+            "question"
+          ]
+        },
+        "color_scheme": {
+          "type": "string"
+        },
+        "animation_type": {
+          "type": "string"
+        }
+      }
+    },
+    "confidence_level": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "processing_time_ms": {
+      "type": "number"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "agent_id",
+    "thought_type"
+  ]
+}

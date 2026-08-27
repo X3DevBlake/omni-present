@@ -1,0 +1,78 @@
+{
+  "name": "DeviceConnection",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "User email"
+    },
+    "agent_id": {
+      "type": "string",
+      "description": "Agent managing this device"
+    },
+    "device_name": {
+      "type": "string",
+      "description": "Device name"
+    },
+    "device_type": {
+      "type": "string",
+      "enum": [
+        "computer",
+        "phone",
+        "tablet",
+        "iot",
+        "smart_speaker",
+        "other"
+      ],
+      "description": "Device type"
+    },
+    "ip_address": {
+      "type": "string",
+      "description": "Device IP address"
+    },
+    "location": {
+      "type": "object",
+      "description": "Geolocation data"
+    },
+    "browser_info": {
+      "type": "object",
+      "description": "Browser/user agent info"
+    },
+    "connection_status": {
+      "type": "string",
+      "enum": [
+        "connected",
+        "disconnected",
+        "idle"
+      ],
+      "default": "connected",
+      "description": "Connection status"
+    },
+    "voice_enabled": {
+      "type": "boolean",
+      "default": false,
+      "description": "Voice communication enabled"
+    },
+    "elevenlabs_conversation_id": {
+      "type": "string",
+      "description": "ElevenLabs conversation session ID"
+    },
+    "last_activity": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last activity timestamp"
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Device capabilities"
+    }
+  },
+  "required": [
+    "user_email",
+    "device_name",
+    "ip_address"
+  ]
+}

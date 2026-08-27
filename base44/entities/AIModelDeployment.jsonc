@@ -1,0 +1,92 @@
+{
+  "name": "AIModelDeployment",
+  "type": "object",
+  "properties": {
+    "model_name": {
+      "type": "string",
+      "description": "Model identifier"
+    },
+    "model_type": {
+      "type": "string",
+      "enum": [
+        "llm",
+        "vision",
+        "audio",
+        "multimodal",
+        "custom"
+      ],
+      "description": "Type of AI model"
+    },
+    "version": {
+      "type": "string",
+      "description": "Model version"
+    },
+    "deployment_status": {
+      "type": "string",
+      "enum": [
+        "deployed",
+        "deploying",
+        "failed",
+        "stopped"
+      ],
+      "default": "deploying"
+    },
+    "endpoint_url": {
+      "type": "string",
+      "description": "API endpoint for model"
+    },
+    "performance_metrics": {
+      "type": "object",
+      "properties": {
+        "requests_per_second": {
+          "type": "number"
+        },
+        "avg_latency_ms": {
+          "type": "number"
+        },
+        "error_rate": {
+          "type": "number"
+        },
+        "accuracy": {
+          "type": "number"
+        }
+      }
+    },
+    "resource_allocation": {
+      "type": "object",
+      "properties": {
+        "cpu_cores": {
+          "type": "integer"
+        },
+        "memory_gb": {
+          "type": "number"
+        },
+        "gpu_count": {
+          "type": "integer"
+        }
+      }
+    },
+    "auto_scaling": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "min_instances": {
+          "type": "integer"
+        },
+        "max_instances": {
+          "type": "integer"
+        }
+      }
+    },
+    "cost_per_hour": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "model_name",
+    "model_type",
+    "version"
+  ]
+}

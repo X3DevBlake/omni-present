@@ -1,0 +1,119 @@
+{
+  "name": "CollaborationNetwork",
+  "type": "object",
+  "properties": {
+    "network_name": {
+      "type": "string",
+      "description": "Collaboration network identifier"
+    },
+    "network_type": {
+      "type": "string",
+      "enum": [
+        "agent_to_agent",
+        "agent_to_human",
+        "multi_team",
+        "cross_platform"
+      ],
+      "description": "Type of collaboration network"
+    },
+    "participants": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "participant_id": {
+            "type": "string"
+          },
+          "participant_type": {
+            "type": "string",
+            "enum": [
+              "agent",
+              "human",
+              "system"
+            ]
+          },
+          "role": {
+            "type": "string"
+          },
+          "contribution_score": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "collaboration_metrics": {
+      "type": "object",
+      "properties": {
+        "total_interactions": {
+          "type": "integer",
+          "default": 0
+        },
+        "successful_collaborations": {
+          "type": "integer",
+          "default": 0
+        },
+        "synergy_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "knowledge_transfer_rate": {
+          "type": "number"
+        }
+      }
+    },
+    "communication_graph": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "from_id": {
+            "type": "string"
+          },
+          "to_id": {
+            "type": "string"
+          },
+          "message_count": {
+            "type": "integer"
+          },
+          "sentiment": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "shared_objectives": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "objective": {
+            "type": "string"
+          },
+          "progress": {
+            "type": "number"
+          },
+          "assigned_to": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "ai_facilitator_active": {
+      "type": "boolean",
+      "default": false
+    },
+    "network_health": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    }
+  },
+  "required": [
+    "network_name",
+    "network_type"
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "name": "MissionReport",
+  "type": "object",
+  "properties": {
+    "mission_id": {
+      "type": "string"
+    },
+    "outcome": {
+      "type": "string"
+    },
+    "lessons_learned": {
+      "type": "string"
+    },
+    "resource_utilization": {
+      "type": "object"
+    },
+    "anomalies_detected": {
+      "type": "integer"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "mission_id"
+  ]
+}

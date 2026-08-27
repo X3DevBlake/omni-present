@@ -1,0 +1,65 @@
+{
+  "name": "SkillGapAnalysis",
+  "type": "object",
+  "properties": {
+    "analysis_id": {
+      "type": "string",
+      "description": "Unique analysis identifier"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "User being analyzed"
+    },
+    "learning_path_id": {
+      "type": "string",
+      "description": "Associated learning path"
+    },
+    "identified_gaps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "skill_name": {
+            "type": "string"
+          },
+          "gap_size": {
+            "type": "number"
+          },
+          "priority": {
+            "type": "string"
+          },
+          "estimated_time_weeks": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "recommendations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "AI recommendations to close gaps"
+    },
+    "optimal_sequence": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Suggested learning order"
+    },
+    "analysis_date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "ai_confidence": {
+      "type": "number",
+      "description": "AI confidence in analysis"
+    }
+  },
+  "required": [
+    "analysis_id",
+    "user_id",
+    "learning_path_id"
+  ]
+}

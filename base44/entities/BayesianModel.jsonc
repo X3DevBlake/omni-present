@@ -1,0 +1,66 @@
+{
+  "name": "BayesianModel",
+  "type": "object",
+  "properties": {
+    "model_name": {
+      "type": "string",
+      "description": "Bayesian deep learning model"
+    },
+    "uncertainty_type": {
+      "type": "string",
+      "enum": [
+        "epistemic",
+        "aleatoric",
+        "combined"
+      ],
+      "description": "Type of uncertainty quantified"
+    },
+    "inference_method": {
+      "type": "string",
+      "enum": [
+        "VI",
+        "MCMC",
+        "Ensemble",
+        "Dropout"
+      ],
+      "description": "Bayesian inference technique"
+    },
+    "posterior_samples": {
+      "type": "integer",
+      "description": "MC samples for uncertainty estimation"
+    },
+    "uncertainty_metrics": {
+      "type": "object",
+      "properties": {
+        "prediction_entropy": {
+          "type": "number"
+        },
+        "mutual_information": {
+          "type": "number"
+        },
+        "confidence_calibration": {
+          "type": "number"
+        }
+      }
+    },
+    "credible_intervals": {
+      "type": "object",
+      "properties": {
+        "coverage_90": {
+          "type": "number"
+        },
+        "coverage_95": {
+          "type": "number"
+        }
+      }
+    },
+    "out_of_distribution_detection": {
+      "type": "number",
+      "description": "OOD detection performance"
+    }
+  },
+  "required": [
+    "model_name",
+    "inference_method"
+  ]
+}

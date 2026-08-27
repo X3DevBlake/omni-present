@@ -1,0 +1,75 @@
+{
+  "name": "CryptoAssetData",
+  "type": "object",
+  "properties": {
+    "token_symbol": {
+      "type": "string",
+      "description": "Token symbol (e.g., BTC, ETH)"
+    },
+    "token_name": {
+      "type": "string",
+      "description": "Full token name"
+    },
+    "current_price_usd": {
+      "type": "number",
+      "description": "Current price in USD"
+    },
+    "price_24h_change": {
+      "type": "number",
+      "description": "24h price change percentage"
+    },
+    "market_cap": {
+      "type": "number"
+    },
+    "trading_volume_24h": {
+      "type": "number"
+    },
+    "circulating_supply": {
+      "type": "number"
+    },
+    "blockchain": {
+      "type": "string",
+      "description": "Primary blockchain"
+    },
+    "contract_address": {
+      "type": "string",
+      "description": "Smart contract address"
+    },
+    "liquidity_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "volatility_index": {
+      "type": "number",
+      "description": "Historical volatility measure"
+    },
+    "ai_risk_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "AI-calculated risk level"
+    },
+    "price_predictions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timeframe": {
+            "type": "string"
+          },
+          "predicted_price": {
+            "type": "number"
+          },
+          "confidence": {
+            "type": "number"
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "token_symbol",
+    "token_name"
+  ]
+}

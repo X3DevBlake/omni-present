@@ -1,0 +1,66 @@
+{
+  "name": "SimulationEvent",
+  "type": "object",
+  "properties": {
+    "simulation_id": {
+      "type": "string",
+      "description": "Simulation ID"
+    },
+    "user_email": {
+      "type": "string",
+      "description": "User email"
+    },
+    "event_type": {
+      "type": "string",
+      "enum": [
+        "agent_interaction",
+        "resource_change",
+        "objective_update",
+        "anomaly",
+        "milestone",
+        "error"
+      ],
+      "description": "Event type"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Event timestamp"
+    },
+    "simulation_time": {
+      "type": "number",
+      "description": "Simulation time in minutes"
+    },
+    "source_agent": {
+      "type": "string",
+      "description": "Source agent ID"
+    },
+    "target_agent": {
+      "type": "string",
+      "description": "Target agent ID"
+    },
+    "description": {
+      "type": "string",
+      "description": "Event description"
+    },
+    "impact": {
+      "type": "object",
+      "description": "Event impact metrics"
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "description": "Event severity"
+    }
+  },
+  "required": [
+    "simulation_id",
+    "user_email",
+    "event_type"
+  ]
+}

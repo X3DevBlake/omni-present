@@ -1,0 +1,48 @@
+{
+  "name": "WorldState",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "World state name"
+    },
+    "environment_data": {
+      "type": "object",
+      "description": "Environmental conditions"
+    },
+    "resources": {
+      "type": "object",
+      "description": "Resource levels and locations"
+    },
+    "weather_state": {
+      "type": "object",
+      "description": "Current weather conditions"
+    },
+    "physics_state": {
+      "type": "object",
+      "description": "Physics simulation state"
+    },
+    "time_cycle": {
+      "type": "number",
+      "default": 0,
+      "description": "Current simulation time"
+    },
+    "agent_positions": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Positions of all agents"
+    },
+    "terrain_modifications": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Changes to terrain"
+    }
+  },
+  "required": [
+    "name"
+  ]
+}

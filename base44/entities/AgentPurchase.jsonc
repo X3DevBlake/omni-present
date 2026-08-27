@@ -1,0 +1,60 @@
+{
+  "name": "AgentPurchase",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Agent who made the purchase"
+    },
+    "platform": {
+      "type": "string",
+      "description": "E-commerce platform (e.g., Amazon, eBay)"
+    },
+    "item_name": {
+      "type": "string",
+      "description": "Purchased item name"
+    },
+    "item_category": {
+      "type": "string",
+      "description": "Product category"
+    },
+    "cost": {
+      "type": "number",
+      "description": "Purchase cost in Omni"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "ordered",
+        "shipped",
+        "delivered",
+        "cancelled"
+      ],
+      "default": "pending",
+      "description": "Purchase status"
+    },
+    "tracking_number": {
+      "type": "string",
+      "description": "Shipping tracking number"
+    },
+    "reasoning": {
+      "type": "string",
+      "description": "Agent's reasoning for purchase"
+    },
+    "order_id": {
+      "type": "string",
+      "description": "External order ID"
+    },
+    "delivery_address": {
+      "type": "object",
+      "description": "Shipping address"
+    }
+  },
+  "required": [
+    "agent_id",
+    "platform",
+    "item_name",
+    "cost"
+  ]
+}

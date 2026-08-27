@@ -1,0 +1,118 @@
+{
+  "name": "PredictiveAnalytics",
+  "type": "object",
+  "properties": {
+    "analytics_name": {
+      "type": "string",
+      "description": "Predictive analytics identifier"
+    },
+    "prediction_type": {
+      "type": "string",
+      "enum": [
+        "time_series",
+        "classification",
+        "regression",
+        "anomaly_detection",
+        "trend_forecasting"
+      ],
+      "description": "Type of prediction"
+    },
+    "data_sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "source_id": {
+            "type": "string"
+          },
+          "source_type": {
+            "type": "string"
+          },
+          "data_points": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "model_config": {
+      "type": "object",
+      "properties": {
+        "algorithm": {
+          "type": "string",
+          "enum": [
+            "lstm",
+            "prophet",
+            "arima",
+            "xgboost",
+            "random_forest",
+            "neural_network"
+          ]
+        },
+        "hyperparameters": {
+          "type": "object"
+        },
+        "training_accuracy": {
+          "type": "number"
+        }
+      }
+    },
+    "predictions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "predicted_value": {
+            "type": "number"
+          },
+          "confidence_interval": {
+            "type": "object",
+            "properties": {
+              "lower": {
+                "type": "number"
+              },
+              "upper": {
+                "type": "number"
+              }
+            }
+          },
+          "actual_value": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "accuracy_metrics": {
+      "type": "object",
+      "properties": {
+        "mae": {
+          "type": "number"
+        },
+        "rmse": {
+          "type": "number"
+        },
+        "r2_score": {
+          "type": "number"
+        },
+        "prediction_accuracy": {
+          "type": "number"
+        }
+      }
+    },
+    "auto_retrain": {
+      "type": "boolean",
+      "default": true
+    },
+    "last_trained": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "analytics_name",
+    "prediction_type"
+  ]
+}

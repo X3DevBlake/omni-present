@@ -1,0 +1,115 @@
+{
+  "name": "Course",
+  "type": "object",
+  "properties": {
+    "course_id": {
+      "type": "string",
+      "description": "Unique course identifier"
+    },
+    "title": {
+      "type": "string",
+      "description": "Course title"
+    },
+    "description": {
+      "type": "string",
+      "description": "Course description"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "ai_fundamentals",
+        "quantum_computing",
+        "agent_development",
+        "spatial_intelligence",
+        "blockchain_security",
+        "consciousness_studies",
+        "holographic_systems",
+        "defi_economics",
+        "research_methodology",
+        "ethics_governance"
+      ],
+      "description": "Course category"
+    },
+    "academic_level": {
+      "type": "string",
+      "enum": [
+        "undergraduate",
+        "masters",
+        "phd",
+        "postdoctoral",
+        "professional"
+      ],
+      "description": "Academic level"
+    },
+    "instructor_id": {
+      "type": "string",
+      "description": "AI or human instructor"
+    },
+    "duration_weeks": {
+      "type": "integer",
+      "description": "Course duration in weeks"
+    },
+    "credits": {
+      "type": "number",
+      "description": "Academic credits"
+    },
+    "prerequisites": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Required prerequisite course IDs"
+    },
+    "learning_objectives": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Course learning objectives"
+    },
+    "holographic_environment_config": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "environment_type": {
+          "type": "string"
+        },
+        "projection_settings": {
+          "type": "object"
+        }
+      }
+    },
+    "modules": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Module IDs in this course"
+    },
+    "enrollment_count": {
+      "type": "integer",
+      "default": 0
+    },
+    "rating": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 5
+    },
+    "is_published": {
+      "type": "boolean",
+      "default": false
+    },
+    "ai_generated": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "course_id",
+    "title",
+    "category",
+    "academic_level"
+  ]
+}

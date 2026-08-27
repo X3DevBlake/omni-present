@@ -1,0 +1,66 @@
+{
+  "name": "UserPermissionConsent",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "User who gave consent"
+    },
+    "permission_type": {
+      "type": "string",
+      "enum": [
+        "location_access",
+        "notification_access",
+        "camera_access",
+        "microphone_access",
+        "contact_access",
+        "calendar_access",
+        "files_access",
+        "health_data_access"
+      ],
+      "description": "Type of permission being requested"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "granted",
+        "denied",
+        "revoked"
+      ],
+      "default": "pending",
+      "description": "Consent status"
+    },
+    "granted_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When permission was granted"
+    },
+    "revoked_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When permission was revoked"
+    },
+    "context": {
+      "type": "string",
+      "description": "Context/feature requesting the permission"
+    },
+    "data_usage": {
+      "type": "string",
+      "description": "How the data will be used"
+    },
+    "retention_period": {
+      "type": "integer",
+      "description": "Days to retain the data"
+    },
+    "third_party_sharing": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether data is shared with third parties"
+    }
+  },
+  "required": [
+    "user_email",
+    "permission_type"
+  ]
+}

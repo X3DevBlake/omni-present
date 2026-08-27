@@ -1,0 +1,47 @@
+{
+  "name": "AutonomousSetting",
+  "type": "object",
+  "properties": {
+    "setting_key": {
+      "type": "string",
+      "description": "Unique key for the setting"
+    },
+    "setting_name": {
+      "type": "string",
+      "description": "Display name"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of what this setting controls"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "general",
+        "agents",
+        "workflow",
+        "trading",
+        "security"
+      ]
+    },
+    "enabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "user_email": {
+      "type": "string",
+      "description": "User specific setting"
+    },
+    "automation_level": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "default": 50,
+      "description": "Level of autonomy allowed"
+    }
+  },
+  "required": [
+    "setting_key",
+    "setting_name"
+  ]
+}

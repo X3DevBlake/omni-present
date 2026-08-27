@@ -1,0 +1,66 @@
+{
+  "name": "DynamicSimulationScenario",
+  "type": "object",
+  "properties": {
+    "scenario_id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "complexity_level": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 100
+    },
+    "generated_from_risk_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "ethical_dilemmas": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "environment_parameters": {
+      "type": "object",
+      "properties": {
+        "volatility": {
+          "type": "number"
+        },
+        "resource_scarcity": {
+          "type": "number"
+        },
+        "adversarial_presence": {
+          "type": "number"
+        }
+      }
+    },
+    "target_objectives": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "generated",
+        "running",
+        "completed",
+        "archived"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "name",
+    "complexity_level"
+  ]
+}

@@ -1,0 +1,143 @@
+{
+  "name": "SpatialZone",
+  "type": "object",
+  "properties": {
+    "zone_name": {
+      "type": "string",
+      "description": "Name of the spatial zone"
+    },
+    "zone_type": {
+      "type": "string",
+      "enum": [
+        "interaction",
+        "projection",
+        "navigation",
+        "restricted",
+        "charging",
+        "collaboration",
+        "sensor_coverage"
+      ],
+      "description": "Type of zone"
+    },
+    "spatial_map_id": {
+      "type": "string",
+      "description": "Parent spatial map"
+    },
+    "boundaries": {
+      "type": "object",
+      "properties": {
+        "min_x": {
+          "type": "number"
+        },
+        "max_x": {
+          "type": "number"
+        },
+        "min_y": {
+          "type": "number"
+        },
+        "max_y": {
+          "type": "number"
+        },
+        "min_z": {
+          "type": "number"
+        },
+        "max_z": {
+          "type": "number"
+        }
+      }
+    },
+    "polygon_vertices": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "x": {
+            "type": "number"
+          },
+          "y": {
+            "type": "number"
+          },
+          "z": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "assigned_devices": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "assigned_agents": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "environmental_settings": {
+      "type": "object",
+      "properties": {
+        "lighting_preset": {
+          "type": "string"
+        },
+        "temperature_target": {
+          "type": "number"
+        },
+        "ambient_sound": {
+          "type": "string"
+        }
+      }
+    },
+    "activity_heat_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "learned_patterns": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "pattern_type": {
+            "type": "string"
+          },
+          "frequency": {
+            "type": "number"
+          },
+          "time_of_day": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "obstacle_avoidance_rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "obstacle_type": {
+            "type": "string"
+          },
+          "buffer_meters": {
+            "type": "number"
+          },
+          "dynamic": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "real_time_occupancy": {
+      "type": "integer",
+      "default": 0
+    },
+    "color_code": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "zone_name",
+    "zone_type"
+  ]
+}

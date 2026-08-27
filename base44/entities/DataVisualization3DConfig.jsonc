@@ -1,0 +1,141 @@
+{
+  "name": "DataVisualization3DConfig",
+  "type": "object",
+  "properties": {
+    "config_id": {
+      "type": "string",
+      "description": "Visualization config identifier"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "User who created config"
+    },
+    "visualization_type": {
+      "type": "string",
+      "enum": [
+        "network_graph",
+        "galaxy",
+        "neural_network",
+        "particle_system",
+        "holographic",
+        "terrain",
+        "flow_diagram",
+        "heatmap_3d"
+      ],
+      "description": "Type of 3D visualization"
+    },
+    "data_source": {
+      "type": "object",
+      "properties": {
+        "entity_name": {
+          "type": "string"
+        },
+        "query_filter": {
+          "type": "object"
+        },
+        "real_time_updates": {
+          "type": "boolean"
+        },
+        "refresh_interval_ms": {
+          "type": "number"
+        }
+      }
+    },
+    "visual_properties": {
+      "type": "object",
+      "properties": {
+        "color_scheme": {
+          "type": "array"
+        },
+        "animation_speed": {
+          "type": "number"
+        },
+        "particle_count": {
+          "type": "number"
+        },
+        "camera_position": {
+          "type": "object"
+        },
+        "lighting_config": {
+          "type": "object"
+        }
+      }
+    },
+    "interaction_settings": {
+      "type": "object",
+      "properties": {
+        "enable_orbit_controls": {
+          "type": "boolean"
+        },
+        "enable_zoom": {
+          "type": "boolean"
+        },
+        "enable_pan": {
+          "type": "boolean"
+        },
+        "auto_rotate": {
+          "type": "boolean"
+        },
+        "click_interactions": {
+          "type": "boolean"
+        }
+      }
+    },
+    "ai_enhancements": {
+      "type": "object",
+      "properties": {
+        "auto_layout_optimization": {
+          "type": "boolean"
+        },
+        "intelligent_clustering": {
+          "type": "boolean"
+        },
+        "anomaly_highlighting": {
+          "type": "boolean"
+        },
+        "predictive_rendering": {
+          "type": "boolean"
+        }
+      }
+    },
+    "performance_settings": {
+      "type": "object",
+      "properties": {
+        "max_objects": {
+          "type": "number"
+        },
+        "lod_enabled": {
+          "type": "boolean"
+        },
+        "target_fps": {
+          "type": "number"
+        },
+        "quality_level": {
+          "type": "string"
+        }
+      }
+    },
+    "export_options": {
+      "type": "object",
+      "properties": {
+        "enable_screenshot": {
+          "type": "boolean"
+        },
+        "enable_video_export": {
+          "type": "boolean"
+        },
+        "enable_3d_model_export": {
+          "type": "boolean"
+        }
+      }
+    },
+    "is_public": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "config_id",
+    "visualization_type"
+  ]
+}

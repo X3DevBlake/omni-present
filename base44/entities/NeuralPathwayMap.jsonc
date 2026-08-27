@@ -1,0 +1,137 @@
+{
+  "name": "NeuralPathwayMap",
+  "type": "object",
+  "properties": {
+    "map_id": {
+      "type": "string",
+      "description": "Neural pathway map identifier"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "User this map belongs to"
+    },
+    "chip_id": {
+      "type": "string",
+      "description": "Associated neural chip"
+    },
+    "pathway_data": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "pathway_id": {
+            "type": "string"
+          },
+          "source_region": {
+            "type": "string"
+          },
+          "target_region": {
+            "type": "string"
+          },
+          "strength": {
+            "type": "number"
+          },
+          "activity_level": {
+            "type": "number"
+          },
+          "plasticity_score": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "brain_regions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "region_name": {
+            "type": "string"
+          },
+          "activation_level": {
+            "type": "number"
+          },
+          "connectivity_score": {
+            "type": "number"
+          },
+          "health_status": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "consciousness_sync_level": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Current AI-human consciousness sync"
+    },
+    "thought_latency_ms": {
+      "type": "number",
+      "description": "Thought-to-action latency"
+    },
+    "cognitive_load": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "memory_access_patterns": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "memory_type": {
+            "type": "string"
+          },
+          "access_frequency": {
+            "type": "number"
+          },
+          "retrieval_speed_ms": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "motor_command_queue": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "command_type": {
+            "type": "string"
+          },
+          "target_muscle_group": {
+            "type": "string"
+          },
+          "execution_status": {
+            "type": "string"
+          },
+          "latency_ms": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "emotional_neural_correlates": {
+      "type": "object",
+      "properties": {
+        "amygdala_activation": {
+          "type": "number"
+        },
+        "prefrontal_cortex_activity": {
+          "type": "number"
+        },
+        "emotional_valence": {
+          "type": "number"
+        },
+        "arousal_level": {
+          "type": "number"
+        }
+      }
+    }
+  },
+  "required": [
+    "map_id",
+    "user_id"
+  ]
+}

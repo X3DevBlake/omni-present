@@ -1,0 +1,73 @@
+{
+  "name": "SemanticRelationship",
+  "type": "object",
+  "properties": {
+    "relationship_id": {
+      "type": "string",
+      "description": "Unique relationship identifier"
+    },
+    "source_cluster_id": {
+      "type": "string",
+      "description": "Source knowledge cluster"
+    },
+    "target_cluster_id": {
+      "type": "string",
+      "description": "Target knowledge cluster"
+    },
+    "relationship_type": {
+      "type": "string",
+      "enum": [
+        "causes",
+        "contradicts",
+        "supports",
+        "extends",
+        "generalizes",
+        "specializes",
+        "temporally_precedes",
+        "requires"
+      ]
+    },
+    "strength": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "ai_confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "discovered_by": {
+      "type": "string",
+      "description": "AI agent that discovered this relationship"
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "evidence_type": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "weight": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "bidirectional": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "relationship_id",
+    "source_cluster_id",
+    "target_cluster_id",
+    "relationship_type",
+    "strength"
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "name": "MultiAgentSystem",
+  "type": "object",
+  "properties": {
+    "system_name": {
+      "type": "string",
+      "description": "Multi-agent system identifier"
+    },
+    "num_agents": {
+      "type": "integer",
+      "description": "Number of agents"
+    },
+    "agent_roles": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "role": {
+            "type": "string"
+          },
+          "capabilities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "specialization_score": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "coordination_protocol": {
+      "type": "string",
+      "enum": [
+        "centralized",
+        "decentralized",
+        "hierarchical",
+        "peer_to_peer"
+      ],
+      "description": "How agents coordinate"
+    },
+    "communication_overhead": {
+      "type": "number",
+      "description": "Communication cost percentage"
+    },
+    "emergent_behaviors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "behavior": {
+            "type": "string"
+          },
+          "emergence_frequency": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "system_performance": {
+      "type": "object",
+      "properties": {
+        "task_completion_rate": {
+          "type": "number"
+        },
+        "collaboration_efficiency": {
+          "type": "number"
+        },
+        "scalability_score": {
+          "type": "number"
+        }
+      }
+    }
+  },
+  "required": [
+    "system_name",
+    "num_agents"
+  ]
+}

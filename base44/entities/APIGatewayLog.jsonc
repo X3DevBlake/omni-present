@@ -1,0 +1,74 @@
+{
+  "name": "APIGatewayLog",
+  "type": "object",
+  "properties": {
+    "log_id": {
+      "type": "string",
+      "description": "Log entry identifier"
+    },
+    "api_key_id": {
+      "type": "string",
+      "description": "API key used"
+    },
+    "developer_id": {
+      "type": "string",
+      "description": "Developer making request"
+    },
+    "endpoint": {
+      "type": "string",
+      "description": "API endpoint accessed"
+    },
+    "method": {
+      "type": "string",
+      "enum": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "PATCH"
+      ]
+    },
+    "request_payload": {
+      "type": "object",
+      "description": "Request data (sanitized)"
+    },
+    "response_status": {
+      "type": "integer",
+      "description": "HTTP status code"
+    },
+    "response_time_ms": {
+      "type": "number",
+      "description": "Response latency"
+    },
+    "rate_limit_remaining": {
+      "type": "integer"
+    },
+    "authentication_method": {
+      "type": "string",
+      "enum": [
+        "api_key",
+        "oauth",
+        "jwt"
+      ]
+    },
+    "ip_address": {
+      "type": "string"
+    },
+    "user_agent": {
+      "type": "string"
+    },
+    "error_details": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "log_id",
+    "endpoint",
+    "method",
+    "response_status"
+  ]
+}

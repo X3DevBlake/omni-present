@@ -1,0 +1,71 @@
+{
+  "name": "WorkingGroup",
+  "type": "object",
+  "properties": {
+    "group_name": {
+      "type": "string",
+      "description": "Name of the working group"
+    },
+    "formation_criteria": {
+      "type": "object",
+      "properties": {
+        "required_skills": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "max_members": {
+          "type": "integer"
+        },
+        "task_type": {
+          "type": "string"
+        }
+      },
+      "description": "Criteria for group formation"
+    },
+    "member_agents": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Agent IDs in this group"
+    },
+    "task_assignments": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Tasks assigned to this group"
+    },
+    "communication_protocol": {
+      "type": "string",
+      "enum": [
+        "encrypted",
+        "public",
+        "selective"
+      ],
+      "default": "encrypted",
+      "description": "Communication security level"
+    },
+    "collaboration_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Group collaboration effectiveness"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "forming",
+        "active",
+        "completed",
+        "disbanded"
+      ],
+      "default": "forming"
+    }
+  },
+  "required": [
+    "group_name"
+  ]
+}

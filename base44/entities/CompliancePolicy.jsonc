@@ -1,0 +1,129 @@
+{
+  "name": "CompliancePolicy",
+  "type": "object",
+  "properties": {
+    "policy_name": {
+      "type": "string",
+      "description": "Compliance policy identifier"
+    },
+    "regulatory_framework": {
+      "type": "string",
+      "enum": [
+        "gdpr",
+        "hipaa",
+        "soc2",
+        "iso27001",
+        "pci_dss",
+        "ccpa",
+        "nist"
+      ],
+      "description": "Compliance standard"
+    },
+    "requirements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "requirement_id": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "mandatory": {
+            "type": "boolean"
+          },
+          "compliance_status": {
+            "type": "string",
+            "enum": [
+              "compliant",
+              "partial",
+              "non_compliant",
+              "not_applicable"
+            ]
+          }
+        }
+      }
+    },
+    "audit_trail": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "audit_id": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "auditor": {
+            "type": "string"
+          },
+          "result": {
+            "type": "string",
+            "enum": [
+              "pass",
+              "fail",
+              "warning"
+            ]
+          },
+          "findings": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "compliance_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "violations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "violation_id": {
+            "type": "string"
+          },
+          "requirement": {
+            "type": "string"
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "minor",
+              "major",
+              "critical"
+            ]
+          },
+          "remediation_plan": {
+            "type": "string"
+          },
+          "resolved": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "automated_checks": {
+      "type": "boolean",
+      "default": true
+    },
+    "next_audit_date": {
+      "type": "string",
+      "format": "date"
+    }
+  },
+  "required": [
+    "policy_name",
+    "regulatory_framework"
+  ]
+}

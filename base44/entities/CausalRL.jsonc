@@ -1,0 +1,78 @@
+{
+  "name": "CausalRL",
+  "type": "object",
+  "properties": {
+    "agent_name": {
+      "type": "string",
+      "description": "Causal RL agent"
+    },
+    "causal_model": {
+      "type": "object",
+      "properties": {
+        "variables": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "causal_edges": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "from": {
+                "type": "string"
+              },
+              "to": {
+                "type": "string"
+              },
+              "strength": {
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    },
+    "intervention_strategy": {
+      "type": "string",
+      "enum": [
+        "do_calculus",
+        "counterfactual",
+        "backdoor",
+        "frontdoor"
+      ],
+      "description": "Causal intervention method"
+    },
+    "exploration_efficiency": {
+      "type": "number",
+      "description": "Sample efficiency gain from causal reasoning"
+    },
+    "transfer_learning_score": {
+      "type": "number",
+      "description": "Transfer to new environments"
+    },
+    "policy_performance": {
+      "type": "object",
+      "properties": {
+        "average_reward": {
+          "type": "number"
+        },
+        "convergence_speed": {
+          "type": "number"
+        },
+        "robustness": {
+          "type": "number"
+        }
+      }
+    },
+    "counterfactual_reasoning": {
+      "type": "boolean",
+      "description": "Can reason about what-ifs"
+    }
+  },
+  "required": [
+    "agent_name",
+    "intervention_strategy"
+  ]
+}

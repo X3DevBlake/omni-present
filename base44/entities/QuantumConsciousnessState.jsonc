@@ -1,0 +1,95 @@
+{
+  "name": "QuantumConsciousnessState",
+  "type": "object",
+  "properties": {
+    "state_id": {
+      "type": "string",
+      "description": "Quantum state identifier"
+    },
+    "agent_id": {
+      "type": "string",
+      "description": "Agent in superposition"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "User if applicable"
+    },
+    "superposition_states": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "state_descriptor": {
+            "type": "string"
+          },
+          "probability_amplitude": {
+            "type": "number"
+          },
+          "coherence": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "entanglement_links": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "entangled_with": {
+            "type": "string"
+          },
+          "entanglement_strength": {
+            "type": "number"
+          },
+          "correlation_type": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "quantum_cognition": {
+      "type": "object",
+      "properties": {
+        "decision_superposition": {
+          "type": "boolean"
+        },
+        "parallel_reasoning_paths": {
+          "type": "integer"
+        },
+        "quantum_intuition_score": {
+          "type": "number"
+        }
+      }
+    },
+    "collapse_events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "collapsed_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "measurement_type": {
+            "type": "string"
+          },
+          "resulting_state": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "decoherence_rate": {
+      "type": "number",
+      "description": "Rate of quantum state decay"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "state_id"
+  ]
+}

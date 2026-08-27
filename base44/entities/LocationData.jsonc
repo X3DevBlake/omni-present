@@ -1,0 +1,82 @@
+{
+  "name": "LocationData",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Location name"
+    },
+    "latitude": {
+      "type": "number",
+      "minimum": -90,
+      "maximum": 90,
+      "description": "Geographic latitude"
+    },
+    "longitude": {
+      "type": "number",
+      "minimum": -180,
+      "maximum": 180,
+      "description": "Geographic longitude"
+    },
+    "location_type": {
+      "type": "string",
+      "enum": [
+        "agent",
+        "office",
+        "event",
+        "market",
+        "resource",
+        "poi"
+      ],
+      "description": "Type of location"
+    },
+    "associated_entity_id": {
+      "type": "string",
+      "description": "ID of associated agent/user/entity"
+    },
+    "associated_entity_type": {
+      "type": "string",
+      "enum": [
+        "agent",
+        "user",
+        "company",
+        "event"
+      ],
+      "description": "Type of associated entity"
+    },
+    "description": {
+      "type": "string",
+      "description": "Location description"
+    },
+    "address": {
+      "type": "string",
+      "description": "Street address"
+    },
+    "city": {
+      "type": "string",
+      "description": "City name"
+    },
+    "country": {
+      "type": "string",
+      "description": "Country name"
+    },
+    "timezone": {
+      "type": "string",
+      "description": "IANA timezone identifier"
+    },
+    "markers": {
+      "type": "object",
+      "description": "Custom marker data for visualization"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Additional location metadata"
+    }
+  },
+  "required": [
+    "name",
+    "latitude",
+    "longitude",
+    "location_type"
+  ]
+}

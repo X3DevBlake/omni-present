@@ -1,0 +1,100 @@
+{
+  "name": "EmergentGoal",
+  "type": "object",
+  "properties": {
+    "goal_id": {
+      "type": "string",
+      "description": "Unique emergent goal identifier"
+    },
+    "swarm_id": {
+      "type": "string",
+      "description": "Associated HAAS swarm"
+    },
+    "goal_description": {
+      "type": "string",
+      "description": "AI-generated goal description"
+    },
+    "emergence_source": {
+      "type": "string",
+      "enum": [
+        "collective_decision",
+        "environmental_trigger",
+        "gwt_broadcast",
+        "recursive_reasoning",
+        "human_collaboration"
+      ],
+      "description": "How this goal emerged"
+    },
+    "contributing_agents": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Agent IDs that contributed to goal formation"
+    },
+    "priority_score": {
+      "type": "number",
+      "description": "Calculated priority 0-1"
+    },
+    "task_decomposition": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "subtask": {
+            "type": "string"
+          },
+          "assigned_agent_id": {
+            "type": "string"
+          },
+          "required_skills": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "status": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "ethical_compliance_check": {
+      "type": "object",
+      "properties": {
+        "passed": {
+          "type": "boolean"
+        },
+        "ethical_score": {
+          "type": "number"
+        },
+        "concerns": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "execution_plan": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "proposed",
+        "planning",
+        "executing",
+        "completed",
+        "blocked"
+      ],
+      "default": "proposed"
+    }
+  },
+  "required": [
+    "goal_id",
+    "swarm_id",
+    "goal_description"
+  ]
+}

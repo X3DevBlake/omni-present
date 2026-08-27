@@ -1,0 +1,133 @@
+{
+  "name": "EthicalFramework",
+  "type": "object",
+  "properties": {
+    "framework_id": {
+      "type": "string",
+      "description": "Framework identifier"
+    },
+    "creator_id": {
+      "type": "string",
+      "description": "User who created framework"
+    },
+    "framework_name": {
+      "type": "string",
+      "description": "Name of ethical framework"
+    },
+    "core_principles": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "principle_name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "priority_level": {
+            "type": "integer"
+          },
+          "non_negotiable": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "decision_guidelines": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "scenario_type": {
+            "type": "string"
+          },
+          "guideline": {
+            "type": "string"
+          },
+          "example_application": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "conflict_resolution_rules": {
+      "type": "object",
+      "properties": {
+        "approach": {
+          "type": "string"
+        },
+        "hierarchy": {
+          "type": "array"
+        },
+        "human_oversight_required": {
+          "type": "boolean"
+        }
+      }
+    },
+    "transparency_requirements": {
+      "type": "object",
+      "properties": {
+        "explain_decisions": {
+          "type": "boolean"
+        },
+        "log_ethical_deliberations": {
+          "type": "boolean"
+        },
+        "user_notification_threshold": {
+          "type": "number"
+        }
+      }
+    },
+    "forbidden_actions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Absolute prohibitions"
+    },
+    "bias_mitigation": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "monitored_biases": {
+          "type": "array"
+        },
+        "correction_strategies": {
+          "type": "array"
+        }
+      }
+    },
+    "applied_to_agents": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Agent IDs using this framework"
+    },
+    "effectiveness_metrics": {
+      "type": "object",
+      "properties": {
+        "ethical_violations": {
+          "type": "integer"
+        },
+        "user_trust_score": {
+          "type": "number"
+        },
+        "alignment_score": {
+          "type": "number"
+        }
+      }
+    },
+    "is_public": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "framework_id",
+    "framework_name"
+  ]
+}

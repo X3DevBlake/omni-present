@@ -1,0 +1,130 @@
+{
+  "name": "MetricsAggregator",
+  "type": "object",
+  "properties": {
+    "aggregator_name": {
+      "type": "string",
+      "description": "Metrics aggregator identifier"
+    },
+    "aggregation_strategy": {
+      "type": "string",
+      "enum": [
+        "sum",
+        "average",
+        "min",
+        "max",
+        "percentile",
+        "custom"
+      ],
+      "description": "How metrics are aggregated"
+    },
+    "time_windows": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "window_size": {
+            "type": "string",
+            "enum": [
+              "1m",
+              "5m",
+              "15m",
+              "1h",
+              "6h",
+              "24h"
+            ]
+          },
+          "aggregated_value": {
+            "type": "number"
+          },
+          "sample_count": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "metric_categories": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string"
+          },
+          "metrics": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "value": {
+                  "type": "number"
+                },
+                "unit": {
+                  "type": "string"
+                },
+                "trend": {
+                  "type": "string",
+                  "enum": [
+                    "increasing",
+                    "decreasing",
+                    "stable",
+                    "volatile"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "rollup_config": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "retention_days": {
+          "type": "integer"
+        },
+        "granularity": {
+          "type": "string"
+        }
+      }
+    },
+    "visualization_config": {
+      "type": "object",
+      "properties": {
+        "dashboard_id": {
+          "type": "string"
+        },
+        "chart_types": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "export_targets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "target_type": {
+            "type": "string"
+          },
+          "endpoint": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "aggregator_name",
+    "aggregation_strategy"
+  ]
+}

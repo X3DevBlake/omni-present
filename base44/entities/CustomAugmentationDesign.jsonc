@@ -1,0 +1,105 @@
+{
+  "name": "CustomAugmentationDesign",
+  "type": "object",
+  "properties": {
+    "design_id": {
+      "type": "string",
+      "description": "Design identifier"
+    },
+    "augmentation_name": {
+      "type": "string",
+      "description": "User-defined name"
+    },
+    "intended_functionality": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Desired capabilities"
+    },
+    "neural_chip_integration": {
+      "type": "object",
+      "properties": {
+        "connection_points": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "data_exchange_bidirectional": {
+          "type": "boolean"
+        },
+        "control_mode": {
+          "type": "string",
+          "enum": [
+            "manual",
+            "semi_autonomous",
+            "fully_autonomous"
+          ]
+        }
+      }
+    },
+    "agent_navigation_design": {
+      "type": "object",
+      "properties": {
+        "pathway_count": {
+          "type": "integer"
+        },
+        "entry_points": {
+          "type": "array"
+        },
+        "exit_points": {
+          "type": "array"
+        },
+        "pathway_width_micrometers": {
+          "type": "number"
+        }
+      }
+    },
+    "ai_optimized_design": {
+      "type": "object",
+      "properties": {
+        "optimization_score": {
+          "type": "number"
+        },
+        "health_compatibility": {
+          "type": "number"
+        },
+        "suggested_modifications": {
+          "type": "array"
+        },
+        "predicted_performance": {
+          "type": "number"
+        }
+      }
+    },
+    "user_health_alignment": {
+      "type": "object",
+      "properties": {
+        "compatible_with_conditions": {
+          "type": "array"
+        },
+        "contraindications": {
+          "type": "array"
+        },
+        "risk_assessment": {
+          "type": "string"
+        }
+      }
+    },
+    "design_status": {
+      "type": "string",
+      "enum": [
+        "concept",
+        "ai_optimized",
+        "validated",
+        "ready_for_fabrication"
+      ],
+      "default": "concept"
+    }
+  },
+  "required": [
+    "design_id",
+    "augmentation_name"
+  ]
+}

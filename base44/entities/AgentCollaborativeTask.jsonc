@@ -1,0 +1,165 @@
+{
+  "name": "AgentCollaborativeTask",
+  "type": "object",
+  "properties": {
+    "task_name": {
+      "type": "string",
+      "description": "Name of the collaborative task"
+    },
+    "participating_agents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          },
+          "assigned_subtasks": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "contribution_score": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "coordination_strategy": {
+      "type": "string",
+      "enum": [
+        "hierarchical",
+        "democratic",
+        "swarm",
+        "specialist_roles",
+        "emergent"
+      ],
+      "description": "How agents coordinate"
+    },
+    "task_decomposition": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "subtask": {
+            "type": "string"
+          },
+          "assigned_to": {
+            "type": "string"
+          },
+          "dependencies": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "in_progress",
+              "completed"
+            ]
+          }
+        }
+      }
+    },
+    "knowledge_sharing": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "from_agent": {
+            "type": "string"
+          },
+          "to_agents": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "knowledge_type": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "emergent_behaviors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "behavior_description": {
+            "type": "string"
+          },
+          "participating_agents": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "effectiveness_score": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "physical_workspace": {
+      "type": "object",
+      "properties": {
+        "spatial_map_id": {
+          "type": "string"
+        },
+        "coordination_zones": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "zone_name": {
+                "type": "string"
+              },
+              "assigned_agent": {
+                "type": "string"
+              },
+              "boundaries": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    "progress": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "collaboration_quality_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "task_status": {
+      "type": "string",
+      "enum": [
+        "planning",
+        "active",
+        "paused",
+        "completed",
+        "failed"
+      ],
+      "default": "planning"
+    }
+  },
+  "required": [
+    "task_name",
+    "participating_agents"
+  ]
+}

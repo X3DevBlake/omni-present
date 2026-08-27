@@ -1,0 +1,63 @@
+{
+  "name": "AgentLearningJournal",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string"
+    },
+    "session_date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "topic": {
+      "type": "string",
+      "description": "What was learned"
+    },
+    "learning_type": {
+      "type": "string",
+      "enum": [
+        "skill_acquisition",
+        "knowledge_update",
+        "performance_improvement",
+        "collaboration_learning"
+      ],
+      "description": "Type of learning"
+    },
+    "initial_proficiency": {
+      "type": "number"
+    },
+    "final_proficiency": {
+      "type": "number"
+    },
+    "improvement_percentage": {
+      "type": "number"
+    },
+    "exercises_completed": {
+      "type": "integer",
+      "default": 0
+    },
+    "time_spent_minutes": {
+      "type": "number"
+    },
+    "ai_feedback": {
+      "type": "string",
+      "description": "AI tutor feedback"
+    },
+    "challenges_encountered": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "next_steps": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "agent_id",
+    "topic"
+  ]
+}

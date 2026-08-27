@@ -1,0 +1,90 @@
+{
+  "name": "PortfolioStressTest",
+  "type": "object",
+  "properties": {
+    "test_name": {
+      "type": "string",
+      "description": "Name of stress test scenario"
+    },
+    "scenario_type": {
+      "type": "string",
+      "enum": [
+        "market_crash",
+        "liquidity_crisis",
+        "protocol_failure",
+        "cascading_liquidation",
+        "custom"
+      ],
+      "description": "Type of stress scenario"
+    },
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "market_drop_percentage": {
+          "type": "number"
+        },
+        "liquidity_reduction": {
+          "type": "number"
+        },
+        "affected_protocols": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "duration_hours": {
+          "type": "number"
+        }
+      },
+      "description": "Stress test parameters"
+    },
+    "portfolio_snapshot": {
+      "type": "object",
+      "description": "Portfolio state before test"
+    },
+    "predicted_outcomes": {
+      "type": "object",
+      "properties": {
+        "total_loss": {
+          "type": "number"
+        },
+        "affected_positions": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "liquidation_risk": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "recovery_time_days": {
+          "type": "number"
+        }
+      },
+      "description": "Predicted impact"
+    },
+    "risk_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Overall risk score from test"
+    },
+    "recommended_hedges": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Suggested hedging strategies"
+    },
+    "visualization_data": {
+      "type": "object",
+      "description": "Data for 3D visualization"
+    }
+  },
+  "required": [
+    "test_name",
+    "scenario_type"
+  ]
+}

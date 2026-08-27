@@ -1,0 +1,176 @@
+{
+  "name": "PhysicallyEmbodiedAgent",
+  "type": "object",
+  "properties": {
+    "embodiment_id": {
+      "type": "string",
+      "description": "Physical embodiment identifier"
+    },
+    "agent_id": {
+      "type": "string",
+      "description": "Digital agent consciousness"
+    },
+    "embodiment_platform": {
+      "type": "string",
+      "enum": [
+        "humanoid_robot",
+        "exoskeleton",
+        "drone_swarm",
+        "nano_collective",
+        "holographic_solid_light",
+        "biomechanical_hybrid"
+      ],
+      "description": "Physical platform type"
+    },
+    "physical_specifications": {
+      "type": "object",
+      "properties": {
+        "height_cm": {
+          "type": "number"
+        },
+        "weight_kg": {
+          "type": "number"
+        },
+        "strength_rating": {
+          "type": "number"
+        },
+        "speed_max_ms": {
+          "type": "number"
+        },
+        "battery_capacity_kwh": {
+          "type": "number"
+        },
+        "operational_range_km": {
+          "type": "number"
+        }
+      }
+    },
+    "neural_chip_connection": {
+      "type": "object",
+      "properties": {
+        "chip_id": {
+          "type": "string"
+        },
+        "direct_consciousness_link": {
+          "type": "boolean"
+        },
+        "thought_to_action_latency_ms": {
+          "type": "number"
+        },
+        "bidirectional_feedback": {
+          "type": "boolean"
+        }
+      }
+    },
+    "augmentation_integration": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "augmentation_id": {
+            "type": "string"
+          },
+          "integration_type": {
+            "type": "string"
+          },
+          "data_sharing_enabled": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "physical_capabilities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "capability_name": {
+            "type": "string"
+          },
+          "proficiency_level": {
+            "type": "number"
+          },
+          "learned_through": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "real_world_tasks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "task_type": {
+            "type": "string"
+          },
+          "completion_count": {
+            "type": "integer"
+          },
+          "success_rate": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "current_physical_state": {
+      "type": "object",
+      "properties": {
+        "location": {
+          "type": "object"
+        },
+        "posture": {
+          "type": "string"
+        },
+        "battery_percentage": {
+          "type": "number"
+        },
+        "active_task": {
+          "type": "string"
+        },
+        "health_status": {
+          "type": "string"
+        }
+      }
+    },
+    "consciousness_embodiment_metrics": {
+      "type": "object",
+      "properties": {
+        "body_awareness": {
+          "type": "number"
+        },
+        "sensorimotor_integration": {
+          "type": "number"
+        },
+        "proprioception_accuracy": {
+          "type": "number"
+        },
+        "physical_self_model": {
+          "type": "number"
+        }
+      }
+    },
+    "autonomous_behavior": {
+      "type": "object",
+      "properties": {
+        "self_navigation": {
+          "type": "boolean"
+        },
+        "obstacle_learning": {
+          "type": "boolean"
+        },
+        "task_improvisation": {
+          "type": "boolean"
+        },
+        "human_interaction_natural": {
+          "type": "boolean"
+        }
+      }
+    }
+  },
+  "required": [
+    "embodiment_id",
+    "agent_id",
+    "embodiment_platform"
+  ]
+}

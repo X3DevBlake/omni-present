@@ -1,0 +1,96 @@
+{
+  "name": "BlockchainAuditLog",
+  "type": "object",
+  "properties": {
+    "transaction_hash": {
+      "type": "string",
+      "description": "Blockchain transaction hash"
+    },
+    "blockchain": {
+      "type": "string",
+      "enum": [
+        "ethereum",
+        "polygon",
+        "avalanche",
+        "solana",
+        "binance_smart_chain"
+      ],
+      "description": "Blockchain network"
+    },
+    "action_type": {
+      "type": "string",
+      "enum": [
+        "model_deployment",
+        "agent_certification",
+        "credential_verification",
+        "reputation_update",
+        "governance_vote",
+        "data_provenance"
+      ],
+      "description": "Type of action logged"
+    },
+    "actor_id": {
+      "type": "string",
+      "description": "Who performed the action"
+    },
+    "action_data": {
+      "type": "object",
+      "description": "Action details"
+    },
+    "block_number": {
+      "type": "integer"
+    },
+    "gas_used": {
+      "type": "number"
+    },
+    "confirmation_count": {
+      "type": "integer",
+      "default": 0
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "confirmed",
+        "failed",
+        "reverted"
+      ],
+      "default": "pending"
+    },
+    "smart_contract_address": {
+      "type": "string"
+    },
+    "verification": {
+      "type": "object",
+      "properties": {
+        "verified": {
+          "type": "boolean"
+        },
+        "verifier": {
+          "type": "string"
+        },
+        "verification_timestamp": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "immutability_proof": {
+      "type": "string",
+      "description": "Merkle proof or similar"
+    },
+    "linked_events": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Related transaction hashes"
+    }
+  },
+  "required": [
+    "transaction_hash",
+    "blockchain",
+    "action_type",
+    "actor_id"
+  ]
+}

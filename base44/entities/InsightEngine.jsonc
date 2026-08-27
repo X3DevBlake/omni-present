@@ -1,0 +1,112 @@
+{
+  "name": "InsightEngine",
+  "type": "object",
+  "properties": {
+    "insight_id": {
+      "type": "string",
+      "description": "Insight identifier"
+    },
+    "insight_category": {
+      "type": "string",
+      "enum": [
+        "pattern",
+        "anomaly",
+        "opportunity",
+        "risk",
+        "trend",
+        "correlation"
+      ],
+      "description": "Type of insight"
+    },
+    "data_sources": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Entities/hubs analyzed"
+    },
+    "insight_text": {
+      "type": "string",
+      "description": "Human-readable insight"
+    },
+    "confidence_level": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "business_impact": {
+      "type": "object",
+      "properties": {
+        "impact_score": {
+          "type": "number"
+        },
+        "affected_areas": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "potential_value": {
+          "type": "number"
+        }
+      }
+    },
+    "recommendations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "action": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high",
+              "urgent"
+            ]
+          },
+          "expected_outcome": {
+            "type": "string"
+          },
+          "implementation_complexity": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "supporting_data": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "data_point": {
+            "type": "string"
+          },
+          "value": {
+            "type": "number"
+          },
+          "context": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "validation_status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "validated",
+        "rejected",
+        "implemented"
+      ],
+      "default": "pending"
+    }
+  },
+  "required": [
+    "insight_category",
+    "insight_text"
+  ]
+}

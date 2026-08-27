@@ -1,0 +1,47 @@
+{
+  "name": "ComplexGestureSequence",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Executing agent"
+    },
+    "device_id": {
+      "type": "string",
+      "description": "Target device"
+    },
+    "gesture_steps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "step_number": {
+            "type": "number"
+          },
+          "gesture_type": {
+            "type": "string"
+          },
+          "haptic_response": {
+            "type": "object"
+          },
+          "timing_ms": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "command_result": {
+      "type": "string",
+      "description": "Final outcome"
+    },
+    "execution_success": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "agent_id",
+    "device_id",
+    "gesture_steps"
+  ]
+}

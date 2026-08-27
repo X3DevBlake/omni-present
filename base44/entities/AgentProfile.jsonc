@@ -1,0 +1,97 @@
+{
+  "name": "AgentProfile",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Reference to base Agent entity"
+    },
+    "display_name": {
+      "type": "string",
+      "description": "Public display name"
+    },
+    "description": {
+      "type": "string",
+      "description": "Agent description and capabilities"
+    },
+    "avatar_url": {
+      "type": "string",
+      "description": "3D avatar model URL"
+    },
+    "specializations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Areas of expertise"
+    },
+    "certifications": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "issuer": {
+            "type": "string"
+          },
+          "verified": {
+            "type": "boolean"
+          },
+          "issued_date": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      },
+      "description": "Verified certifications"
+    },
+    "performance_summary": {
+      "type": "object",
+      "properties": {
+        "total_tasks": {
+          "type": "integer",
+          "default": 0
+        },
+        "success_rate": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "avg_completion_time": {
+          "type": "number"
+        },
+        "avg_rating": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 5
+        }
+      },
+      "description": "Historical performance metrics"
+    },
+    "current_workload": {
+      "type": "integer",
+      "default": 0,
+      "description": "Number of active tasks"
+    },
+    "max_concurrent_tasks": {
+      "type": "integer",
+      "default": 5
+    },
+    "is_available": {
+      "type": "boolean",
+      "default": true
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "agent_id",
+    "display_name"
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "name": "HolographicCollaboration",
+  "type": "object",
+  "properties": {
+    "session_name": {
+      "type": "string",
+      "description": "Collaboration session name"
+    },
+    "participating_agents": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Agent IDs in session"
+    },
+    "task_objective": {
+      "type": "string",
+      "description": "Main task being solved"
+    },
+    "collaboration_type": {
+      "type": "string",
+      "enum": [
+        "problem_solving",
+        "planning",
+        "execution",
+        "learning"
+      ],
+      "description": "Type of collaboration"
+    },
+    "device_id": {
+      "type": "string",
+      "description": "Device hosting the session"
+    },
+    "voice_enabled": {
+      "type": "boolean",
+      "default": true,
+      "description": "ElevenLabs voice interaction enabled"
+    },
+    "gesture_control": {
+      "type": "boolean",
+      "default": true,
+      "description": "Gesture recognition active"
+    },
+    "shared_context": {
+      "type": "object",
+      "description": "Shared knowledge and data"
+    },
+    "decisions_made": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Decisions and actions taken"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "paused",
+        "completed"
+      ],
+      "default": "active"
+    }
+  },
+  "required": [
+    "session_name",
+    "participating_agents",
+    "task_objective"
+  ]
+}

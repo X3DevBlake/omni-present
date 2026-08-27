@@ -1,0 +1,119 @@
+{
+  "name": "GenerativeAIModel",
+  "type": "object",
+  "properties": {
+    "model_name": {
+      "type": "string",
+      "description": "Generative model identifier"
+    },
+    "model_architecture": {
+      "type": "string",
+      "enum": [
+        "stable_diffusion",
+        "dalle",
+        "midjourney",
+        "controlnet",
+        "stylegan",
+        "vae",
+        "flow_based"
+      ],
+      "description": "Architecture type"
+    },
+    "generation_type": {
+      "type": "string",
+      "enum": [
+        "text_to_image",
+        "image_to_image",
+        "text_to_video",
+        "audio_generation",
+        "3d_generation"
+      ],
+      "description": "Generation capability"
+    },
+    "training_status": {
+      "type": "string",
+      "enum": [
+        "untrained",
+        "training",
+        "fine_tuning",
+        "deployed",
+        "archived"
+      ],
+      "default": "untrained"
+    },
+    "quality_metrics": {
+      "type": "object",
+      "properties": {
+        "fid_score": {
+          "type": "number"
+        },
+        "inception_score": {
+          "type": "number"
+        },
+        "clip_score": {
+          "type": "number"
+        },
+        "aesthetic_score": {
+          "type": "number"
+        }
+      }
+    },
+    "generation_params": {
+      "type": "object",
+      "properties": {
+        "steps": {
+          "type": "integer"
+        },
+        "guidance_scale": {
+          "type": "number"
+        },
+        "seed": {
+          "type": "integer"
+        },
+        "sampler": {
+          "type": "string"
+        }
+      }
+    },
+    "prompt_engineering": {
+      "type": "object",
+      "properties": {
+        "supports_negative_prompts": {
+          "type": "boolean"
+        },
+        "max_prompt_length": {
+          "type": "integer"
+        },
+        "style_modifiers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "output_resolution": {
+      "type": "object",
+      "properties": {
+        "width": {
+          "type": "integer"
+        },
+        "height": {
+          "type": "integer"
+        }
+      }
+    },
+    "generations_count": {
+      "type": "integer",
+      "default": 0
+    },
+    "average_generation_time_ms": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "model_name",
+    "model_architecture",
+    "generation_type"
+  ]
+}

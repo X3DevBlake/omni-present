@@ -1,0 +1,76 @@
+{
+  "name": "SmartBankAccount",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "User email"
+    },
+    "account_name": {
+      "type": "string",
+      "description": "Custom account name"
+    },
+    "account_type": {
+      "type": "string",
+      "enum": [
+        "checking",
+        "savings",
+        "investment",
+        "crypto",
+        "lending"
+      ],
+      "description": "Type of account"
+    },
+    "balance": {
+      "type": "number",
+      "description": "Current balance"
+    },
+    "ai_enabled": {
+      "type": "boolean",
+      "default": true,
+      "description": "AI features enabled"
+    },
+    "spending_limit": {
+      "type": "number",
+      "description": "Monthly spending limit"
+    },
+    "predicted_spending": {
+      "type": "number",
+      "description": "AI predicted spending for the month"
+    },
+    "auto_save_enabled": {
+      "type": "boolean",
+      "default": false,
+      "description": "Automatic savings enabled"
+    },
+    "auto_save_amount": {
+      "type": "number",
+      "description": "Amount to auto-save per transaction"
+    },
+    "fraud_detection_enabled": {
+      "type": "boolean",
+      "default": true,
+      "description": "AI fraud detection active"
+    },
+    "risk_level": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "default": "low",
+      "description": "Account risk profile"
+    },
+    "preferred_currency": {
+      "type": "string",
+      "default": "USD",
+      "description": "Primary currency"
+    }
+  },
+  "required": [
+    "user_email",
+    "account_name",
+    "account_type"
+  ]
+}

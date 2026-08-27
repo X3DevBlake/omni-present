@@ -1,0 +1,44 @@
+{
+  "name": "AvatarBase",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Base model name"
+    },
+    "description": {
+      "type": "string",
+      "description": "Base description"
+    },
+    "base_mesh_url": {
+      "type": "string",
+      "description": "URL to base 3D model"
+    },
+    "thumbnail_url": {
+      "type": "string",
+      "description": "Preview image"
+    },
+    "default_components": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Default component IDs"
+    },
+    "compatible_component_types": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Allowed component types"
+    },
+    "skeleton_type": {
+      "type": "string",
+      "description": "Rigging type for animations"
+    }
+  },
+  "required": [
+    "name",
+    "base_mesh_url"
+  ]
+}

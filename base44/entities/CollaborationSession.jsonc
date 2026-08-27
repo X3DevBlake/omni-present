@@ -1,0 +1,82 @@
+{
+  "name": "CollaborationSession",
+  "type": "object",
+  "properties": {
+    "session_name": {
+      "type": "string",
+      "description": "Collaboration session identifier"
+    },
+    "workspace_type": {
+      "type": "string",
+      "enum": [
+        "model_training",
+        "visualization",
+        "data_analysis",
+        "deployment"
+      ],
+      "description": "Type of collaborative workspace"
+    },
+    "active_users": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "user_id": {
+            "type": "string"
+          },
+          "cursor_position": {
+            "type": "object"
+          },
+          "current_action": {
+            "type": "string"
+          },
+          "color": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "shared_state": {
+      "type": "object",
+      "description": "Synchronized workspace state"
+    },
+    "change_history": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "user_id": {
+            "type": "string"
+          },
+          "change_type": {
+            "type": "string"
+          },
+          "data": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "conflict_resolution_mode": {
+      "type": "string",
+      "enum": [
+        "last_write_wins",
+        "merge",
+        "manual"
+      ],
+      "default": "merge"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "session_name",
+    "workspace_type"
+  ]
+}

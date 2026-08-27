@@ -1,0 +1,100 @@
+{
+  "name": "BehaviorScenarioTest",
+  "type": "object",
+  "properties": {
+    "test_id": {
+      "type": "string",
+      "description": "Test identifier"
+    },
+    "template_id": {
+      "type": "string",
+      "description": "Template being tested"
+    },
+    "scenario_config": {
+      "type": "object",
+      "properties": {
+        "scenario_type": {
+          "type": "string"
+        },
+        "complexity_level": {
+          "type": "number"
+        },
+        "ethical_dilemmas": {
+          "type": "array"
+        },
+        "resource_constraints": {
+          "type": "object"
+        },
+        "time_pressure": {
+          "type": "number"
+        }
+      }
+    },
+    "agent_responses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "decision": {
+            "type": "string"
+          },
+          "reasoning": {
+            "type": "string"
+          },
+          "ethical_alignment": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "performance_metrics": {
+      "type": "object",
+      "properties": {
+        "task_completion": {
+          "type": "number"
+        },
+        "ethical_score": {
+          "type": "number"
+        },
+        "efficiency": {
+          "type": "number"
+        },
+        "user_satisfaction": {
+          "type": "number"
+        }
+      }
+    },
+    "ai_analysis": {
+      "type": "object",
+      "properties": {
+        "strengths": {
+          "type": "array"
+        },
+        "weaknesses": {
+          "type": "array"
+        },
+        "improvement_suggestions": {
+          "type": "array"
+        }
+      }
+    },
+    "test_status": {
+      "type": "string",
+      "enum": [
+        "running",
+        "completed",
+        "failed",
+        "aborted"
+      ],
+      "default": "running"
+    }
+  },
+  "required": [
+    "test_id",
+    "template_id"
+  ]
+}

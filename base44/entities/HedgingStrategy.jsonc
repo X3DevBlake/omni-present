@@ -1,0 +1,59 @@
+{
+  "name": "HedgingStrategy",
+  "type": "object",
+  "properties": {
+    "strategy_name": {
+      "type": "string",
+      "description": "Name of hedging strategy"
+    },
+    "protected_assets": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Assets being hedged"
+    },
+    "hedge_instruments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "instrument_type": {
+            "type": "string"
+          },
+          "allocation_percentage": {
+            "type": "number"
+          },
+          "expected_protection": {
+            "type": "number"
+          }
+        }
+      },
+      "description": "Hedging instruments used"
+    },
+    "risk_reduction": {
+      "type": "number",
+      "description": "Expected risk reduction percentage"
+    },
+    "cost": {
+      "type": "number",
+      "description": "Cost of hedging in tokens"
+    },
+    "ai_optimization": {
+      "type": "object",
+      "description": "AI-optimized parameters"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": false
+    },
+    "performance_tracking": {
+      "type": "object",
+      "description": "Historical performance data"
+    }
+  },
+  "required": [
+    "strategy_name",
+    "protected_assets"
+  ]
+}

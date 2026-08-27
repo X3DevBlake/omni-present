@@ -1,0 +1,76 @@
+{
+  "name": "PaymentTransaction",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "User email"
+    },
+    "transaction_id": {
+      "type": "string",
+      "description": "Unique transaction ID"
+    },
+    "amount": {
+      "type": "number",
+      "description": "Transaction amount"
+    },
+    "currency": {
+      "type": "string",
+      "default": "USD",
+      "description": "Currency"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "deposit",
+        "withdrawal",
+        "subscription",
+        "purchase"
+      ],
+      "description": "Transaction type"
+    },
+    "method": {
+      "type": "string",
+      "enum": [
+        "stripe",
+        "plaid",
+        "crypto",
+        "ach"
+      ],
+      "description": "Payment method"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "completed",
+        "failed",
+        "cancelled"
+      ],
+      "default": "pending",
+      "description": "Transaction status"
+    },
+    "stripe_id": {
+      "type": "string",
+      "description": "Stripe transaction ID"
+    },
+    "plaid_id": {
+      "type": "string",
+      "description": "Plaid transaction ID"
+    },
+    "description": {
+      "type": "string",
+      "description": "Transaction description"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Additional metadata"
+    }
+  },
+  "required": [
+    "user_email",
+    "amount",
+    "type",
+    "method"
+  ]
+}

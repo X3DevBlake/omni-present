@@ -1,0 +1,112 @@
+{
+  "name": "CustomEthicalDilemma",
+  "type": "object",
+  "properties": {
+    "dilemma_id": {
+      "type": "string",
+      "description": "Unique dilemma identifier"
+    },
+    "creator_id": {
+      "type": "string",
+      "description": "User or AI that created this"
+    },
+    "title": {
+      "type": "string",
+      "description": "Dilemma title"
+    },
+    "description": {
+      "type": "string",
+      "description": "Full scenario description"
+    },
+    "ethical_dimensions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "privacy",
+          "fairness",
+          "transparency",
+          "autonomy",
+          "beneficence",
+          "non_maleficence",
+          "justice",
+          "dignity"
+        ]
+      }
+    },
+    "stakeholders": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "stakeholder_type": {
+            "type": "string"
+          },
+          "interests": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "power_level": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "options": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "option_id": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "consequences": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "ethical_implications": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "difficulty_level": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 10
+    },
+    "framework_test_results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "framework_id": {
+            "type": "string"
+          },
+          "chosen_option": {
+            "type": "string"
+          },
+          "ethical_score": {
+            "type": "number"
+          },
+          "reasoning": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "dilemma_id",
+    "creator_id",
+    "title",
+    "description"
+  ]
+}

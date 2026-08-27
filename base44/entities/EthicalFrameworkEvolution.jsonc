@@ -1,0 +1,130 @@
+{
+  "name": "EthicalFrameworkEvolution",
+  "type": "object",
+  "properties": {
+    "evolution_id": {
+      "type": "string",
+      "description": "Unique evolution record identifier"
+    },
+    "framework_id": {
+      "type": "string",
+      "description": "Reference to EthicalFramework entity"
+    },
+    "version": {
+      "type": "string",
+      "description": "Framework version"
+    },
+    "principles": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "principle_name": {
+            "type": "string"
+          },
+          "weight": {
+            "type": "number"
+          },
+          "definition": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "simulation_tested": {
+      "type": "boolean",
+      "default": false
+    },
+    "test_scenarios": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "dilemma_id": {
+            "type": "string"
+          },
+          "outcome": {
+            "type": "string"
+          },
+          "ethical_score": {
+            "type": "number"
+          },
+          "stakeholder_satisfaction": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "real_world_performance": {
+      "type": "object",
+      "properties": {
+        "decisions_made": {
+          "type": "integer"
+        },
+        "avg_ethical_score": {
+          "type": "number"
+        },
+        "violations_count": {
+          "type": "integer"
+        },
+        "human_override_rate": {
+          "type": "number"
+        }
+      }
+    },
+    "ai_suggested_modifications": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "modification_type": {
+            "type": "string"
+          },
+          "principle_affected": {
+            "type": "string"
+          },
+          "suggested_weight_change": {
+            "type": "number"
+          },
+          "reasoning": {
+            "type": "string"
+          },
+          "expected_improvement": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "convergence_metrics": {
+      "type": "object",
+      "properties": {
+        "stability_score": {
+          "type": "number"
+        },
+        "divergence_from_baseline": {
+          "type": "number"
+        },
+        "adaptation_rate": {
+          "type": "number"
+        }
+      }
+    },
+    "parent_framework_id": {
+      "type": "string",
+      "description": "Previous version framework ID"
+    },
+    "adopted_by_agents": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Agent IDs using this framework version"
+    }
+  },
+  "required": [
+    "evolution_id",
+    "framework_id",
+    "version",
+    "principles"
+  ]
+}

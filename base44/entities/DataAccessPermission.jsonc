@@ -1,0 +1,137 @@
+{
+  "name": "DataAccessPermission",
+  "type": "object",
+  "properties": {
+    "permission_id": {
+      "type": "string",
+      "description": "Unique permission identifier"
+    },
+    "vault_id": {
+      "type": "string",
+      "description": "Vault this permission applies to"
+    },
+    "granted_by": {
+      "type": "string",
+      "description": "User who granted permission"
+    },
+    "granted_to": {
+      "type": "string",
+      "description": "User or service receiving permission"
+    },
+    "permission_type": {
+      "type": "string",
+      "enum": [
+        "read",
+        "write",
+        "delete",
+        "share",
+        "admin"
+      ],
+      "description": "Type of access granted"
+    },
+    "data_categories": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Which data categories are accessible"
+    },
+    "conditions": {
+      "type": "object",
+      "properties": {
+        "time_restricted": {
+          "type": "boolean"
+        },
+        "start_time": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "end_time": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "ip_whitelist": {
+          "type": "array"
+        },
+        "device_restricted": {
+          "type": "boolean"
+        },
+        "allowed_devices": {
+          "type": "array"
+        },
+        "requires_2fa": {
+          "type": "boolean"
+        }
+      }
+    },
+    "access_log": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "action": {
+            "type": "string"
+          },
+          "data_accessed": {
+            "type": "string"
+          },
+          "device_id": {
+            "type": "string"
+          },
+          "success": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "revocation_policy": {
+      "type": "object",
+      "properties": {
+        "auto_revoke_after_days": {
+          "type": "integer"
+        },
+        "revoke_on_suspicious_activity": {
+          "type": "boolean"
+        },
+        "requires_reauthorization": {
+          "type": "boolean"
+        }
+      }
+    },
+    "blockchain_proof": {
+      "type": "object",
+      "properties": {
+        "transaction_hash": {
+          "type": "string"
+        },
+        "block_number": {
+          "type": "integer"
+        },
+        "smart_contract_address": {
+          "type": "string"
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "suspended",
+        "revoked",
+        "expired"
+      ],
+      "default": "active"
+    }
+  },
+  "required": [
+    "permission_id",
+    "vault_id",
+    "granted_by",
+    "granted_to",
+    "permission_type"
+  ]
+}

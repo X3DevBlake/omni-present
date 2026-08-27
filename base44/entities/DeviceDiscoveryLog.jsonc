@@ -1,0 +1,39 @@
+{
+  "name": "DeviceDiscoveryLog",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Agent performing discovery"
+    },
+    "device_signature": {
+      "type": "string",
+      "description": "Unique device identifier"
+    },
+    "device_type_detected": {
+      "type": "string",
+      "description": "AI-detected device type"
+    },
+    "capabilities_discovered": {
+      "type": "object",
+      "description": "Discovered capabilities"
+    },
+    "interface_protocol": {
+      "type": "string",
+      "description": "Communication protocol"
+    },
+    "success": {
+      "type": "boolean",
+      "description": "Discovery success"
+    },
+    "learning_applied": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether agent learned from discovery"
+    }
+  },
+  "required": [
+    "agent_id",
+    "device_signature"
+  ]
+}

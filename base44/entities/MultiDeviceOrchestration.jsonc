@@ -1,0 +1,53 @@
+{
+  "name": "MultiDeviceOrchestration",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Orchestrating agent"
+    },
+    "orchestration_name": {
+      "type": "string",
+      "description": "Action name"
+    },
+    "devices_involved": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Device IDs"
+    },
+    "actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "device_id": {
+            "type": "string"
+          },
+          "command": {
+            "type": "string"
+          },
+          "timing": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "execution_status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "executing",
+        "completed",
+        "failed"
+      ],
+      "default": "pending"
+    }
+  },
+  "required": [
+    "agent_id",
+    "orchestration_name",
+    "devices_involved"
+  ]
+}

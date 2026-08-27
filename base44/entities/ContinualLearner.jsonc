@@ -1,0 +1,74 @@
+{
+  "name": "ContinualLearner",
+  "type": "object",
+  "properties": {
+    "learner_name": {
+      "type": "string",
+      "description": "Continual learning system identifier"
+    },
+    "learning_strategy": {
+      "type": "string",
+      "enum": [
+        "EWC",
+        "PackNet",
+        "ProgressiveNN",
+        "GEM",
+        "iCaRL"
+      ],
+      "description": "Anti-forgetting mechanism"
+    },
+    "task_sequence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "task_id": {
+            "type": "string"
+          },
+          "learned_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "performance": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "catastrophic_forgetting_rate": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "How much old knowledge is lost"
+    },
+    "forward_transfer": {
+      "type": "number",
+      "description": "Knowledge transfer to future tasks"
+    },
+    "backward_transfer": {
+      "type": "number",
+      "description": "Impact on previous tasks"
+    },
+    "memory_buffer": {
+      "type": "object",
+      "properties": {
+        "size": {
+          "type": "integer"
+        },
+        "retention_strategy": {
+          "type": "string"
+        }
+      }
+    },
+    "plasticity_stability_balance": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Balance between learning new vs retaining old"
+    }
+  },
+  "required": [
+    "learner_name",
+    "learning_strategy"
+  ]
+}

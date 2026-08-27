@@ -1,0 +1,83 @@
+{
+  "name": "AgentConnector",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Agent using this connector"
+    },
+    "platform_type": {
+      "type": "string",
+      "enum": [
+        "slack",
+        "telegram",
+        "discord",
+        "teams",
+        "internal",
+        "whatsapp",
+        "email"
+      ],
+      "description": "Platform type"
+    },
+    "connection_status": {
+      "type": "string",
+      "enum": [
+        "connected",
+        "disconnected",
+        "error",
+        "pending"
+      ],
+      "default": "pending"
+    },
+    "credentials": {
+      "type": "object",
+      "description": "Encrypted platform credentials"
+    },
+    "sync_config": {
+      "type": "object",
+      "properties": {
+        "auto_sync": {
+          "type": "boolean"
+        },
+        "sync_interval_minutes": {
+          "type": "integer"
+        },
+        "sync_direction": {
+          "type": "string",
+          "enum": [
+            "bidirectional",
+            "inbound",
+            "outbound"
+          ]
+        }
+      }
+    },
+    "last_sync": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "messages_synced": {
+      "type": "integer",
+      "default": 0
+    },
+    "platform_user_id": {
+      "type": "string",
+      "description": "Agent ID on the external platform"
+    },
+    "webhook_url": {
+      "type": "string",
+      "description": "Webhook for platform events"
+    },
+    "permissions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Granted permissions"
+    }
+  },
+  "required": [
+    "agent_id",
+    "platform_type"
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "name": "AgentMemory",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string"
+    },
+    "knowledge_nodes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "concept": {
+            "type": "string"
+          },
+          "confidence": {
+            "type": "number"
+          },
+          "source": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    },
+    "successful_strategies": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "failed_strategies": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "evolution_metrics": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "agent_id"
+  ]
+}

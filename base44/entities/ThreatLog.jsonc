@@ -1,0 +1,80 @@
+{
+  "name": "ThreatLog",
+  "type": "object",
+  "properties": {
+    "threat_id": {
+      "type": "string",
+      "description": "Threat identifier"
+    },
+    "threat_type": {
+      "type": "string",
+      "enum": [
+        "intrusion",
+        "malware",
+        "phishing",
+        "ddos",
+        "data_breach",
+        "insider_threat",
+        "zero_day"
+      ]
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ]
+    },
+    "source_ip": {
+      "type": "string"
+    },
+    "target_system": {
+      "type": "string"
+    },
+    "detection_method": {
+      "type": "string"
+    },
+    "threat_indicators": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "automated_response_taken": {
+      "type": "object",
+      "properties": {
+        "action": {
+          "type": "string"
+        },
+        "success": {
+          "type": "boolean"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "mitigation_status": {
+      "type": "string",
+      "enum": [
+        "detected",
+        "analyzing",
+        "mitigating",
+        "resolved",
+        "escalated"
+      ]
+    },
+    "detected_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "threat_id",
+    "threat_type",
+    "severity"
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "name": "RLTrainingSession",
+  "type": "object",
+  "properties": {
+    "environment_id": {
+      "type": "string",
+      "description": "Training environment"
+    },
+    "participating_agents": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Agents being trained"
+    },
+    "algorithm": {
+      "type": "string",
+      "enum": [
+        "dqn",
+        "ppo",
+        "sac",
+        "maddpg",
+        "qmix"
+      ],
+      "description": "RL algorithm used"
+    },
+    "episodes_completed": {
+      "type": "integer",
+      "default": 0
+    },
+    "total_episodes": {
+      "type": "integer"
+    },
+    "average_reward": {
+      "type": "number",
+      "description": "Average reward per episode"
+    },
+    "best_reward": {
+      "type": "number"
+    },
+    "convergence_data": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Episode rewards and metrics"
+    },
+    "emergent_behaviors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Detected emergent behaviors"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "running",
+        "completed",
+        "failed"
+      ],
+      "default": "running"
+    }
+  },
+  "required": [
+    "environment_id",
+    "algorithm"
+  ]
+}

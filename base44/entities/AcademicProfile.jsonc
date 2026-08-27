@@ -1,0 +1,137 @@
+{
+  "name": "AcademicProfile",
+  "type": "object",
+  "properties": {
+    "profile_id": {
+      "type": "string",
+      "description": "Unique profile identifier"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "Associated user ID"
+    },
+    "academic_role": {
+      "type": "string",
+      "enum": [
+        "student",
+        "researcher",
+        "instructor",
+        "phd_candidate",
+        "postdoc",
+        "professor",
+        "industry_professional"
+      ],
+      "description": "Primary academic role"
+    },
+    "institution": {
+      "type": "string",
+      "description": "Academic institution"
+    },
+    "field_of_study": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Primary fields of study"
+    },
+    "research_interests": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "enrolled_courses": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Current course IDs"
+    },
+    "completed_courses": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Completed course IDs"
+    },
+    "active_research_projects": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "ResearchProject IDs"
+    },
+    "certifications": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Certification IDs"
+    },
+    "ai_advisor_agent_id": {
+      "type": "string",
+      "description": "Personalized AI academic advisor"
+    },
+    "learning_preferences": {
+      "type": "object",
+      "properties": {
+        "preferred_content_types": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "learning_pace": {
+          "type": "string",
+          "enum": [
+            "slow",
+            "moderate",
+            "fast",
+            "adaptive"
+          ]
+        },
+        "holographic_preference": {
+          "type": "boolean"
+        }
+      }
+    },
+    "publications": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "doi": {
+            "type": "string"
+          },
+          "publication_date": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      }
+    },
+    "academic_achievements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "achievement_name": {
+            "type": "string"
+          },
+          "date_earned": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "profile_id",
+    "user_id",
+    "academic_role"
+  ]
+}

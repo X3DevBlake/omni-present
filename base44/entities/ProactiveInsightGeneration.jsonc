@@ -1,0 +1,110 @@
+{
+  "name": "ProactiveInsightGeneration",
+  "type": "object",
+  "properties": {
+    "insight_id": {
+      "type": "string",
+      "description": "Unique insight identifier"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "User for whom insight was generated"
+    },
+    "insight_type": {
+      "type": "string",
+      "enum": [
+        "predictive_alert",
+        "optimization_suggestion",
+        "learning_opportunity",
+        "risk_warning",
+        "efficiency_tip",
+        "contextual_recommendation"
+      ],
+      "description": "Category of proactive insight"
+    },
+    "insight_text": {
+      "type": "string",
+      "description": "Human-readable insight description"
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "context_json": {
+      "type": "object",
+      "description": "Contextual data that triggered the insight",
+      "additionalProperties": true
+    },
+    "suggested_actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "action_label": {
+            "type": "string"
+          },
+          "action_type": {
+            "type": "string"
+          },
+          "action_payload": {
+            "type": "object"
+          },
+          "expected_outcome": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "urgency_level": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ]
+    },
+    "spatial_context": {
+      "type": "object",
+      "properties": {
+        "environment_id": {
+          "type": "string"
+        },
+        "location": {
+          "type": "object",
+          "properties": {
+            "x": {
+              "type": "number"
+            },
+            "y": {
+              "type": "number"
+            },
+            "z": {
+              "type": "number"
+            }
+          }
+        }
+      }
+    },
+    "user_response": {
+      "type": "string",
+      "enum": [
+        "accepted",
+        "dismissed",
+        "deferred",
+        "pending"
+      ]
+    },
+    "effectiveness_score": {
+      "type": "number",
+      "description": "How helpful was this insight (user feedback)"
+    }
+  },
+  "required": [
+    "insight_id",
+    "user_id",
+    "insight_type",
+    "insight_text"
+  ]
+}

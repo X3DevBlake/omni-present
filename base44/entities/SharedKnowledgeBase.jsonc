@@ -1,0 +1,69 @@
+{
+  "name": "SharedKnowledgeBase",
+  "type": "object",
+  "properties": {
+    "knowledge_id": {
+      "type": "string",
+      "description": "Knowledge entry identifier"
+    },
+    "agent_id": {
+      "type": "string",
+      "description": "Agent who posted knowledge"
+    },
+    "knowledge_type": {
+      "type": "string",
+      "enum": [
+        "insight",
+        "solution",
+        "pattern",
+        "discovery",
+        "warning"
+      ],
+      "description": "Type of knowledge"
+    },
+    "content": {
+      "type": "string",
+      "description": "Knowledge content"
+    },
+    "context": {
+      "type": "object",
+      "description": "Context metadata"
+    },
+    "relevance_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "How relevant this knowledge is"
+    },
+    "access_count": {
+      "type": "integer",
+      "default": 0,
+      "description": "Times accessed by other agents"
+    },
+    "contributing_agents": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Agents who built on this knowledge"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "verified": {
+      "type": "boolean",
+      "default": false
+    },
+    "impact_score": {
+      "type": "number",
+      "description": "Measured impact on agent performance"
+    }
+  },
+  "required": [
+    "knowledge_type",
+    "content"
+  ]
+}

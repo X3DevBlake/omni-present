@@ -1,0 +1,141 @@
+{
+  "name": "CognitiveGoal",
+  "type": "object",
+  "properties": {
+    "goal_id": {
+      "type": "string",
+      "description": "Goal identifier"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "User who set goal"
+    },
+    "goal_type": {
+      "type": "string",
+      "enum": [
+        "increase_focus",
+        "reduce_stress",
+        "improve_clarity",
+        "enhance_memory",
+        "boost_creativity",
+        "emotional_balance",
+        "custom"
+      ],
+      "description": "Type of cognitive goal"
+    },
+    "target_metrics": {
+      "type": "object",
+      "properties": {
+        "target_focus_level": {
+          "type": "number"
+        },
+        "target_stress_level": {
+          "type": "number"
+        },
+        "target_mental_clarity": {
+          "type": "number"
+        },
+        "target_emotional_stability": {
+          "type": "number"
+        }
+      }
+    },
+    "baseline_measurements": {
+      "type": "object",
+      "properties": {
+        "initial_focus": {
+          "type": "number"
+        },
+        "initial_stress": {
+          "type": "number"
+        },
+        "initial_clarity": {
+          "type": "number"
+        },
+        "measurement_date": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "ai_recommendations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "recommendation": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "number"
+          },
+          "expected_impact": {
+            "type": "number"
+          },
+          "implementation_difficulty": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "progress_tracking": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "current_metrics": {
+            "type": "object"
+          },
+          "improvement_percent": {
+            "type": "number"
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "interventions_applied": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "intervention_type": {
+            "type": "string"
+          },
+          "applied_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "effectiveness": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "timeline_days": {
+      "type": "integer",
+      "description": "Goal timeline in days"
+    },
+    "goal_status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "achieved",
+        "in_progress",
+        "paused",
+        "abandoned"
+      ],
+      "default": "active"
+    }
+  },
+  "required": [
+    "goal_id",
+    "user_id",
+    "goal_type"
+  ]
+}

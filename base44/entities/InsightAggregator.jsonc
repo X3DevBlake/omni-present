@@ -1,0 +1,92 @@
+{
+  "name": "InsightAggregator",
+  "type": "object",
+  "properties": {
+    "insight_title": {
+      "type": "string",
+      "description": "Aggregated insight title"
+    },
+    "source_hubs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Hubs contributing to this insight"
+    },
+    "insight_type": {
+      "type": "string",
+      "enum": [
+        "correlation",
+        "prediction",
+        "anomaly",
+        "opportunity",
+        "risk"
+      ],
+      "description": "Type of insight"
+    },
+    "data_sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "hub": {
+            "type": "string"
+          },
+          "metric": {
+            "type": "string"
+          },
+          "value": {
+            "type": "number"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    },
+    "ai_analysis": {
+      "type": "string",
+      "description": "AI-generated insight explanation"
+    },
+    "confidence_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "recommended_actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "hub": {
+            "type": "string"
+          },
+          "action": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "impact_forecast": {
+      "type": "object",
+      "description": "Predicted impact across hubs"
+    },
+    "is_actionable": {
+      "type": "boolean",
+      "default": true
+    },
+    "acted_upon": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "insight_title",
+    "source_hubs",
+    "insight_type"
+  ]
+}

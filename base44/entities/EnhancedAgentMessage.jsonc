@@ -1,0 +1,80 @@
+{
+  "name": "EnhancedAgentMessage",
+  "type": "object",
+  "properties": {
+    "channel_id": {
+      "type": "string",
+      "description": "Channel this message belongs to"
+    },
+    "sender_id": {
+      "type": "string",
+      "description": "Agent/user who sent message"
+    },
+    "message_content": {
+      "type": "string",
+      "description": "Message text"
+    },
+    "sentiment_score": {
+      "type": "number",
+      "minimum": -1,
+      "maximum": 1,
+      "description": "AI-analyzed sentiment"
+    },
+    "emotional_tone": {
+      "type": "string",
+      "enum": [
+        "neutral",
+        "happy",
+        "frustrated",
+        "urgent",
+        "collaborative"
+      ],
+      "description": "Detected emotional tone"
+    },
+    "detected_topics": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "contains_alert_keyword": {
+      "type": "boolean",
+      "default": false
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "low",
+        "normal",
+        "high",
+        "critical"
+      ],
+      "default": "normal"
+    },
+    "ai_suggested_responses": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "language": {
+      "type": "string",
+      "default": "en"
+    },
+    "translated_versions": {
+      "type": "object",
+      "description": "Translations in other languages"
+    },
+    "read_by": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "channel_id",
+    "sender_id",
+    "message_content"
+  ]
+}

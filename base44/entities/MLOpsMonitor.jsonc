@@ -1,0 +1,75 @@
+{
+  "name": "MLOpsMonitor",
+  "type": "object",
+  "properties": {
+    "monitor_name": {
+      "type": "string",
+      "description": "Monitoring system identifier"
+    },
+    "model_deployment_id": {
+      "type": "string",
+      "description": "Deployment being monitored"
+    },
+    "drift_detection": {
+      "type": "object",
+      "properties": {
+        "data_drift_score": {
+          "type": "number"
+        },
+        "concept_drift_detected": {
+          "type": "boolean"
+        },
+        "feature_drift": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "performance_degradation": {
+      "type": "object",
+      "properties": {
+        "baseline_accuracy": {
+          "type": "number"
+        },
+        "current_accuracy": {
+          "type": "number"
+        },
+        "degradation_percentage": {
+          "type": "number"
+        }
+      }
+    },
+    "alert_triggers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "metric": {
+            "type": "string"
+          },
+          "threshold": {
+            "type": "number"
+          },
+          "triggered": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "retraining_recommended": {
+      "type": "boolean",
+      "default": false
+    },
+    "health_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    }
+  },
+  "required": [
+    "monitor_name",
+    "model_deployment_id"
+  ]
+}

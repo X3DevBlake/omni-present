@@ -1,0 +1,148 @@
+{
+  "name": "Sim2RealTrainingSession",
+  "type": "object",
+  "properties": {
+    "session_id": {
+      "type": "string",
+      "description": "Unique training session identifier"
+    },
+    "swarm_id": {
+      "type": "string",
+      "description": "Associated agent swarm"
+    },
+    "simulation_environment": {
+      "type": "string",
+      "enum": [
+        "isaac_sim",
+        "mujoco",
+        "pybullet",
+        "unity",
+        "custom"
+      ],
+      "description": "Simulation platform used"
+    },
+    "domain_randomization_config": {
+      "type": "object",
+      "properties": {
+        "physics_parameters": {
+          "type": "object",
+          "properties": {
+            "mass_range": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            },
+            "friction_range": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            },
+            "laser_power_variation": {
+              "type": "number"
+            },
+            "drag_coefficient_variance": {
+              "type": "number"
+            }
+          }
+        },
+        "randomization_strength": {
+          "type": "number"
+        }
+      }
+    },
+    "policy_training": {
+      "type": "object",
+      "properties": {
+        "policy_type": {
+          "type": "string",
+          "enum": [
+            "PPO",
+            "SAC",
+            "TD3",
+            "DQN"
+          ]
+        },
+        "training_iterations": {
+          "type": "integer"
+        },
+        "reward_function": {
+          "type": "string"
+        },
+        "expected_reward": {
+          "type": "number"
+        }
+      }
+    },
+    "adversarial_adaptation": {
+      "type": "object",
+      "properties": {
+        "discriminator_enabled": {
+          "type": "boolean"
+        },
+        "discriminator_accuracy": {
+          "type": "number"
+        },
+        "sim_vs_real_plausibility_score": {
+          "type": "number"
+        }
+      }
+    },
+    "reality_gap_metrics": {
+      "type": "object",
+      "properties": {
+        "transfer_success_rate": {
+          "type": "number"
+        },
+        "sim_performance": {
+          "type": "number"
+        },
+        "real_performance": {
+          "type": "number"
+        },
+        "gap_size": {
+          "type": "number"
+        }
+      }
+    },
+    "training_trajectory": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "episode": {
+            "type": "integer"
+          },
+          "reward": {
+            "type": "number"
+          },
+          "loss": {
+            "type": "number"
+          },
+          "sim_params": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "deployment_readiness": {
+      "type": "number",
+      "description": "Readiness score for real-world deployment"
+    },
+    "session_status": {
+      "type": "string",
+      "enum": [
+        "training",
+        "validating",
+        "deployed",
+        "failed"
+      ],
+      "default": "training"
+    }
+  },
+  "required": [
+    "session_id",
+    "simulation_environment"
+  ]
+}

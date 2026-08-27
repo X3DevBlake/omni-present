@@ -1,0 +1,132 @@
+{
+  "name": "DynamicUIAdaptation",
+  "type": "object",
+  "properties": {
+    "adaptation_id": {
+      "type": "string",
+      "description": "UI adaptation identifier"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "User receiving adaptation"
+    },
+    "detected_user_state": {
+      "type": "object",
+      "properties": {
+        "cognitive_state": {
+          "type": "string"
+        },
+        "emotional_state": {
+          "type": "string"
+        },
+        "stress_level": {
+          "type": "number"
+        },
+        "focus_level": {
+          "type": "number"
+        },
+        "fatigue_level": {
+          "type": "number"
+        }
+      }
+    },
+    "ui_modifications": {
+      "type": "object",
+      "properties": {
+        "color_scheme": {
+          "type": "string"
+        },
+        "contrast_level": {
+          "type": "number"
+        },
+        "animation_intensity": {
+          "type": "string"
+        },
+        "information_density": {
+          "type": "string"
+        },
+        "layout_simplification": {
+          "type": "boolean"
+        }
+      }
+    },
+    "cognitive_assistance": {
+      "type": "object",
+      "properties": {
+        "reduce_distractions": {
+          "type": "boolean"
+        },
+        "highlight_priorities": {
+          "type": "boolean"
+        },
+        "auto_organize_content": {
+          "type": "boolean"
+        },
+        "predictive_shortcuts": {
+          "type": "boolean"
+        }
+      }
+    },
+    "accessibility_enhancements": {
+      "type": "object",
+      "properties": {
+        "font_size_adjustment": {
+          "type": "number"
+        },
+        "reduce_motion": {
+          "type": "boolean"
+        },
+        "high_contrast_mode": {
+          "type": "boolean"
+        },
+        "voice_navigation": {
+          "type": "boolean"
+        }
+      }
+    },
+    "context_optimizations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "context_type": {
+            "type": "string"
+          },
+          "optimization_applied": {
+            "type": "string"
+          },
+          "effectiveness": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "user_feedback": {
+      "type": "object",
+      "properties": {
+        "helpful": {
+          "type": "boolean"
+        },
+        "preferred_adaptation": {
+          "type": "string"
+        },
+        "override_requested": {
+          "type": "boolean"
+        }
+      }
+    },
+    "adaptation_effectiveness": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "applied_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "adaptation_id",
+    "user_id"
+  ]
+}

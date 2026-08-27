@@ -1,0 +1,84 @@
+{
+  "name": "TradingStrategy",
+  "type": "object",
+  "properties": {
+    "strategy_name": {
+      "type": "string",
+      "description": "Strategy name"
+    },
+    "strategy_type": {
+      "type": "string",
+      "enum": [
+        "momentum",
+        "mean_reversion",
+        "arbitrage",
+        "market_making",
+        "ai_predictive"
+      ],
+      "description": "Type of trading strategy"
+    },
+    "ai_model_config": {
+      "type": "object",
+      "description": "AI model configuration for predictions"
+    },
+    "target_tokens": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Tokens to trade"
+    },
+    "risk_parameters": {
+      "type": "object",
+      "properties": {
+        "max_position_size": {
+          "type": "number"
+        },
+        "stop_loss_percentage": {
+          "type": "number"
+        },
+        "take_profit_percentage": {
+          "type": "number"
+        },
+        "max_drawdown": {
+          "type": "number"
+        }
+      }
+    },
+    "performance_metrics": {
+      "type": "object",
+      "properties": {
+        "total_trades": {
+          "type": "integer",
+          "default": 0
+        },
+        "winning_trades": {
+          "type": "integer",
+          "default": 0
+        },
+        "total_profit_loss": {
+          "type": "number",
+          "default": 0
+        },
+        "sharpe_ratio": {
+          "type": "number"
+        },
+        "max_drawdown": {
+          "type": "number"
+        }
+      }
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": false
+    },
+    "allocated_resources": {
+      "type": "object",
+      "description": "Compute resources allocated to this strategy"
+    }
+  },
+  "required": [
+    "strategy_name",
+    "strategy_type"
+  ]
+}

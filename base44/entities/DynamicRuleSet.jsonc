@@ -1,0 +1,79 @@
+{
+  "name": "DynamicRuleSet",
+  "type": "object",
+  "properties": {
+    "rule_name": {
+      "type": "string",
+      "description": "Name of the rule set"
+    },
+    "rule_type": {
+      "type": "string",
+      "enum": [
+        "workflow_automation",
+        "resource_allocation",
+        "bottleneck_resolution",
+        "performance_optimization",
+        "cost_optimization",
+        "security_enforcement"
+      ],
+      "description": "Type of rule"
+    },
+    "trigger_conditions": {
+      "type": "object",
+      "description": "Conditions that trigger this rule"
+    },
+    "actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "action_type": {
+            "type": "string"
+          },
+          "parameters": {
+            "type": "object"
+          }
+        }
+      },
+      "description": "Actions to execute when triggered"
+    },
+    "ai_generated": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this rule was AI-generated"
+    },
+    "confidence_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "AI confidence in this rule (0-100)"
+    },
+    "active": {
+      "type": "boolean",
+      "default": true
+    },
+    "priority": {
+      "type": "number",
+      "default": 50,
+      "description": "Execution priority (higher = earlier)"
+    },
+    "execution_count": {
+      "type": "number",
+      "default": 0
+    },
+    "last_executed": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "success_rate": {
+      "type": "number",
+      "default": 100
+    }
+  },
+  "required": [
+    "rule_name",
+    "rule_type",
+    "trigger_conditions",
+    "actions"
+  ]
+}

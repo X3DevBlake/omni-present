@@ -1,0 +1,95 @@
+{
+  "name": "QuantumCognitionState",
+  "type": "object",
+  "properties": {
+    "state_id": {
+      "type": "string",
+      "description": "Quantum state identifier"
+    },
+    "agent_id": {
+      "type": "string",
+      "description": "Agent performing quantum reasoning"
+    },
+    "input_data_hash": {
+      "type": "string",
+      "description": "Hash of input problem/data"
+    },
+    "superposition_states": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "state_descriptor": {
+            "type": "string"
+          },
+          "probability_amplitude": {
+            "type": "number"
+          },
+          "coherence": {
+            "type": "number"
+          },
+          "phase": {
+            "type": "number"
+          }
+        }
+      },
+      "description": "Possible solution states in superposition"
+    },
+    "entanglement_links": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "entangled_state_id": {
+            "type": "string"
+          },
+          "correlation_strength": {
+            "type": "number"
+          },
+          "correlation_type": {
+            "type": "string",
+            "enum": [
+              "positive",
+              "negative",
+              "complex"
+            ]
+          }
+        }
+      }
+    },
+    "measurement_result": {
+      "type": "object",
+      "properties": {
+        "collapsed_state": {
+          "type": "string"
+        },
+        "confidence": {
+          "type": "number"
+        },
+        "measurement_timestamp": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "decoherence_rate": {
+      "type": "number",
+      "description": "Rate of quantum state decay"
+    },
+    "parallel_reasoning_paths": {
+      "type": "integer",
+      "description": "Number of simultaneous solution paths explored"
+    },
+    "quantum_intuition_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Quality of quantum-inspired insight"
+    }
+  },
+  "required": [
+    "state_id",
+    "agent_id",
+    "input_data_hash"
+  ]
+}

@@ -1,0 +1,129 @@
+{
+  "name": "AgentNegotiationProtocol",
+  "type": "object",
+  "properties": {
+    "negotiation_id": {
+      "type": "string",
+      "description": "Negotiation session identifier"
+    },
+    "participating_agents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "agent_id": {
+            "type": "string"
+          },
+          "negotiation_position": {
+            "type": "string"
+          },
+          "priority_score": {
+            "type": "number"
+          },
+          "flexibility_level": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "negotiation_subject": {
+      "type": "object",
+      "properties": {
+        "subject_type": {
+          "type": "string"
+        },
+        "resource_contested": {
+          "type": "string"
+        },
+        "stakes": {
+          "type": "string"
+        },
+        "complexity": {
+          "type": "number"
+        }
+      }
+    },
+    "negotiation_rounds": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "round_number": {
+            "type": "integer"
+          },
+          "proposals": {
+            "type": "array"
+          },
+          "counteroffers": {
+            "type": "array"
+          },
+          "consensus_score": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "ai_mediation": {
+      "type": "object",
+      "properties": {
+        "mediator_enabled": {
+          "type": "boolean"
+        },
+        "fairness_score": {
+          "type": "number"
+        },
+        "suggested_compromises": {
+          "type": "array"
+        },
+        "bias_detection": {
+          "type": "object"
+        }
+      }
+    },
+    "game_theory_analysis": {
+      "type": "object",
+      "properties": {
+        "nash_equilibrium": {
+          "type": "object"
+        },
+        "pareto_efficiency": {
+          "type": "number"
+        },
+        "cooperative_potential": {
+          "type": "number"
+        }
+      }
+    },
+    "agreement_reached": {
+      "type": "object",
+      "properties": {
+        "agreement_type": {
+          "type": "string"
+        },
+        "terms": {
+          "type": "array"
+        },
+        "satisfaction_scores": {
+          "type": "array"
+        },
+        "enforcement_mechanism": {
+          "type": "string"
+        }
+      }
+    },
+    "negotiation_outcome": {
+      "type": "string",
+      "enum": [
+        "agreement",
+        "partial_agreement",
+        "stalemate",
+        "escalated",
+        "timeout"
+      ],
+      "default": "stalemate"
+    }
+  },
+  "required": [
+    "negotiation_id"
+  ]
+}

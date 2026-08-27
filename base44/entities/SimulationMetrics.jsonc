@@ -1,0 +1,56 @@
+{
+  "name": "SimulationMetrics",
+  "type": "object",
+  "properties": {
+    "simulation_id": {
+      "type": "string",
+      "description": "Simulation ID"
+    },
+    "user_email": {
+      "type": "string",
+      "description": "User email"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Metric timestamp"
+    },
+    "agent_count": {
+      "type": "integer",
+      "description": "Active agents"
+    },
+    "average_performance": {
+      "type": "number",
+      "description": "Average agent performance"
+    },
+    "collaboration_score": {
+      "type": "number",
+      "description": "Team collaboration effectiveness"
+    },
+    "objective_completion": {
+      "type": "number",
+      "description": "Percentage of objectives completed"
+    },
+    "resource_efficiency": {
+      "type": "number",
+      "description": "Resource usage efficiency"
+    },
+    "events_triggered": {
+      "type": "integer",
+      "description": "Number of events triggered"
+    },
+    "anomalies_detected": {
+      "type": "integer",
+      "default": 0,
+      "description": "Anomalies found"
+    },
+    "agent_states": {
+      "type": "object",
+      "description": "State of each agent"
+    }
+  },
+  "required": [
+    "simulation_id",
+    "user_email"
+  ]
+}

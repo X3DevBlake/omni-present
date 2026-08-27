@@ -1,0 +1,71 @@
+{
+  "name": "RealWorldTask",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "User email"
+    },
+    "agent_id": {
+      "type": "string",
+      "description": "Executing agent"
+    },
+    "task_type": {
+      "type": "string",
+      "enum": [
+        "booking",
+        "iot_control",
+        "logistics",
+        "purchase",
+        "payment",
+        "scheduling"
+      ],
+      "description": "Task category"
+    },
+    "task_details": {
+      "type": "object",
+      "description": "Task specifics"
+    },
+    "execution_plan": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Step-by-step plan"
+    },
+    "resources_required": {
+      "type": "object",
+      "description": "Required resources"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "planning",
+        "approved",
+        "executing",
+        "completed",
+        "failed"
+      ],
+      "default": "planning",
+      "description": "Task status"
+    },
+    "user_approval": {
+      "type": "boolean",
+      "default": false,
+      "description": "User authorization"
+    },
+    "execution_result": {
+      "type": "object",
+      "description": "Execution outcome"
+    },
+    "cost": {
+      "type": "number",
+      "description": "Task cost"
+    }
+  },
+  "required": [
+    "user_email",
+    "agent_id",
+    "task_type"
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "name": "UserObject",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "Creator email"
+    },
+    "object_name": {
+      "type": "string",
+      "description": "User-given name"
+    },
+    "object_base_id": {
+      "type": "string",
+      "description": "Reference to ObjectBase"
+    },
+    "selected_components": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "component_properties": {
+      "type": "object"
+    },
+    "public": {
+      "type": "boolean",
+      "default": false
+    },
+    "likes": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "required": [
+    "user_email",
+    "object_base_id"
+  ]
+}

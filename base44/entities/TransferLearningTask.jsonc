@@ -1,0 +1,78 @@
+{
+  "name": "TransferLearningTask",
+  "type": "object",
+  "properties": {
+    "task_name": {
+      "type": "string",
+      "description": "Transfer learning task"
+    },
+    "source_domain": {
+      "type": "string",
+      "description": "Original training domain"
+    },
+    "target_domain": {
+      "type": "string",
+      "description": "New domain to transfer to"
+    },
+    "pretrained_model": {
+      "type": "string",
+      "description": "Base model for transfer"
+    },
+    "frozen_layers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Layers to freeze during fine-tuning"
+    },
+    "fine_tuning_config": {
+      "type": "object",
+      "properties": {
+        "learning_rate": {
+          "type": "number"
+        },
+        "epochs": {
+          "type": "integer"
+        },
+        "batch_size": {
+          "type": "integer"
+        }
+      }
+    },
+    "domain_gap": {
+      "type": "number",
+      "description": "Similarity between source and target domains"
+    },
+    "transfer_metrics": {
+      "type": "object",
+      "properties": {
+        "baseline_accuracy": {
+          "type": "number"
+        },
+        "transfer_accuracy": {
+          "type": "number"
+        },
+        "improvement": {
+          "type": "number"
+        },
+        "convergence_speed": {
+          "type": "number"
+        }
+      }
+    },
+    "knowledge_transfer_type": {
+      "type": "string",
+      "enum": [
+        "feature_extraction",
+        "fine_tuning",
+        "domain_adaptation",
+        "multi_task"
+      ]
+    }
+  },
+  "required": [
+    "task_name",
+    "source_domain",
+    "target_domain"
+  ]
+}

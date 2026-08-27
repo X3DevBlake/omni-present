@@ -1,0 +1,65 @@
+{
+  "name": "SafetyViolation",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Agent that violated guideline"
+    },
+    "guideline_id": {
+      "type": "string",
+      "description": "Violated guideline"
+    },
+    "violation_type": {
+      "type": "string",
+      "enum": [
+        "bias_detected",
+        "harmful_output",
+        "privacy_breach",
+        "fairness_issue"
+      ],
+      "description": "Type of violation"
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "description": "Violation severity"
+    },
+    "context": {
+      "type": "object",
+      "description": "Context of violation"
+    },
+    "detected_output": {
+      "type": "string",
+      "description": "Output that triggered violation"
+    },
+    "corrected_output": {
+      "type": "string",
+      "description": "Corrected safe output"
+    },
+    "action_taken": {
+      "type": "string",
+      "description": "Action taken in response"
+    },
+    "resolution_status": {
+      "type": "string",
+      "enum": [
+        "open",
+        "investigating",
+        "resolved",
+        "escalated"
+      ],
+      "default": "open"
+    }
+  },
+  "required": [
+    "agent_id",
+    "violation_type",
+    "severity"
+  ]
+}

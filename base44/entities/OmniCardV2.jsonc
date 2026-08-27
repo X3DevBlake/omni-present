@@ -1,0 +1,83 @@
+{
+  "name": "OmniCardV2",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "User email"
+    },
+    "card_number": {
+      "type": "string",
+      "description": "Masked card number"
+    },
+    "card_type": {
+      "type": "string",
+      "enum": [
+        "basic",
+        "silver",
+        "gold",
+        "platinum",
+        "diamond"
+      ],
+      "description": "Card tier"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "inactive",
+        "frozen",
+        "pending"
+      ],
+      "default": "pending",
+      "description": "Card status"
+    },
+    "balance": {
+      "type": "number",
+      "description": "Available balance"
+    },
+    "spending_this_month": {
+      "type": "number",
+      "description": "Spending in current billing cycle"
+    },
+    "rewards_balance": {
+      "type": "number",
+      "description": "Accumulated rewards points"
+    },
+    "cashback_rate": {
+      "type": "number",
+      "description": "Cashback percentage"
+    },
+    "ai_recommendations_enabled": {
+      "type": "boolean",
+      "default": true,
+      "description": "AI-powered spending recommendations"
+    },
+    "fraud_protection_level": {
+      "type": "string",
+      "enum": [
+        "standard",
+        "enhanced",
+        "maximum"
+      ],
+      "default": "enhanced",
+      "description": "Fraud detection level"
+    },
+    "monthly_fee": {
+      "type": "number",
+      "default": 0,
+      "description": "Card membership fee"
+    },
+    "benefits": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Card benefits and perks"
+    }
+  },
+  "required": [
+    "user_email",
+    "card_type"
+  ]
+}

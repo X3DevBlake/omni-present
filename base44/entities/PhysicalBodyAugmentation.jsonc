@@ -1,0 +1,137 @@
+{
+  "name": "PhysicalBodyAugmentation",
+  "type": "object",
+  "properties": {
+    "augmentation_id": {
+      "type": "string",
+      "description": "Augmentation identifier"
+    },
+    "augmentation_type": {
+      "type": "string",
+      "enum": [
+        "neural_chip",
+        "exoskeleton",
+        "bionic_limb",
+        "sensory_implant",
+        "organ_enhancement",
+        "nano_network"
+      ],
+      "description": "Type of augmentation"
+    },
+    "body_location": {
+      "type": "object",
+      "properties": {
+        "region": {
+          "type": "string",
+          "enum": [
+            "brain",
+            "spine",
+            "arm",
+            "leg",
+            "torso",
+            "eye",
+            "ear",
+            "hand"
+          ]
+        },
+        "precise_coordinates": {
+          "type": "object",
+          "properties": {
+            "x": {
+              "type": "number"
+            },
+            "y": {
+              "type": "number"
+            },
+            "z": {
+              "type": "number"
+            }
+          }
+        },
+        "tissue_layer": {
+          "type": "string"
+        }
+      }
+    },
+    "agent_navigation_enabled": {
+      "type": "boolean",
+      "description": "Can agents navigate through this augmentation"
+    },
+    "nano_agent_pathways": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "pathway_id": {
+            "type": "string"
+          },
+          "entry_point": {
+            "type": "object"
+          },
+          "exit_point": {
+            "type": "object"
+          },
+          "traversal_time_seconds": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "integration_specs": {
+      "type": "object",
+      "properties": {
+        "neural_interface_count": {
+          "type": "integer"
+        },
+        "blood_flow_integration": {
+          "type": "boolean"
+        },
+        "lymphatic_connection": {
+          "type": "boolean"
+        },
+        "nervous_system_tap": {
+          "type": "boolean"
+        }
+      }
+    },
+    "augmentation_capabilities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "capability_name": {
+            "type": "string"
+          },
+          "enhancement_factor": {
+            "type": "number"
+          },
+          "energy_requirement_watts": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "omni_present_integration": {
+      "type": "object",
+      "properties": {
+        "direct_control": {
+          "type": "boolean"
+        },
+        "data_collection": {
+          "type": "boolean"
+        },
+        "agent_hosting": {
+          "type": "boolean"
+        },
+        "consciousness_link": {
+          "type": "boolean"
+        }
+      }
+    }
+  },
+  "required": [
+    "augmentation_id",
+    "augmentation_type",
+    "body_location"
+  ]
+}

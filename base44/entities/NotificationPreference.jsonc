@@ -1,0 +1,62 @@
+{
+  "name": "NotificationPreference",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "User email"
+    },
+    "notification_type": {
+      "type": "string",
+      "enum": [
+        "system_alert",
+        "webhook_failure",
+        "agent_update",
+        "avatar_approved",
+        "collaboration_invite",
+        "security_alert",
+        "performance_warning",
+        "feature_announcement"
+      ]
+    },
+    "channels": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "boolean",
+          "default": true
+        },
+        "in_app": {
+          "type": "boolean",
+          "default": true
+        },
+        "slack": {
+          "type": "boolean",
+          "default": false
+        },
+        "webhook": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "frequency": {
+      "type": "string",
+      "enum": [
+        "real_time",
+        "hourly",
+        "daily",
+        "weekly"
+      ],
+      "default": "real_time"
+    },
+    "enabled": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "user_email",
+    "notification_type"
+  ]
+}

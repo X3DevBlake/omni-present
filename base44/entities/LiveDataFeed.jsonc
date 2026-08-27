@@ -1,0 +1,88 @@
+{
+  "name": "LiveDataFeed",
+  "type": "object",
+  "properties": {
+    "feed_name": {
+      "type": "string",
+      "description": "Data feed identifier"
+    },
+    "feed_type": {
+      "type": "string",
+      "enum": [
+        "market_data",
+        "news",
+        "threat_intel",
+        "social_media",
+        "weather",
+        "sensor"
+      ],
+      "description": "Type of data feed"
+    },
+    "source_api": {
+      "type": "string",
+      "description": "API source"
+    },
+    "update_frequency_seconds": {
+      "type": "integer",
+      "default": 60
+    },
+    "data_points": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "value": {
+            "type": "number"
+          },
+          "metadata": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "current_value": {
+      "type": "object"
+    },
+    "trend": {
+      "type": "string",
+      "enum": [
+        "rising",
+        "falling",
+        "stable",
+        "volatile"
+      ]
+    },
+    "impact_analysis": {
+      "type": "object",
+      "properties": {
+        "affected_agents": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "affected_simulations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "impact_score": {
+          "type": "number"
+        }
+      }
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "feed_name",
+    "feed_type"
+  ]
+}

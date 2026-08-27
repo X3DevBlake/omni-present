@@ -1,0 +1,107 @@
+{
+  "name": "PersonalizationProfile",
+  "type": "object",
+  "properties": {
+    "profile_id": {
+      "type": "string",
+      "description": "Profile identifier"
+    },
+    "user_id": {
+      "type": "string"
+    },
+    "ui_preferences": {
+      "type": "object",
+      "properties": {
+        "theme": {
+          "type": "string"
+        },
+        "color_scheme": {
+          "type": "string"
+        },
+        "layout_density": {
+          "type": "string"
+        },
+        "animation_intensity": {
+          "type": "string"
+        }
+      }
+    },
+    "interaction_preferences": {
+      "type": "object",
+      "properties": {
+        "preferred_input_methods": {
+          "type": "array"
+        },
+        "notification_style": {
+          "type": "string"
+        },
+        "haptic_feedback_level": {
+          "type": "number"
+        }
+      }
+    },
+    "content_preferences": {
+      "type": "object",
+      "properties": {
+        "information_density": {
+          "type": "string"
+        },
+        "visualization_style": {
+          "type": "string"
+        },
+        "language": {
+          "type": "string"
+        }
+      }
+    },
+    "behavioral_patterns": {
+      "type": "object",
+      "properties": {
+        "peak_activity_hours": {
+          "type": "array"
+        },
+        "preferred_hubs": {
+          "type": "array"
+        },
+        "task_completion_style": {
+          "type": "string"
+        }
+      }
+    },
+    "accessibility_settings": {
+      "type": "object",
+      "properties": {
+        "font_size_multiplier": {
+          "type": "number"
+        },
+        "contrast_mode": {
+          "type": "string"
+        },
+        "screen_reader_enabled": {
+          "type": "boolean"
+        },
+        "motion_reduced": {
+          "type": "boolean"
+        }
+      }
+    },
+    "ai_interaction_style": {
+      "type": "object",
+      "properties": {
+        "verbosity": {
+          "type": "string"
+        },
+        "formality": {
+          "type": "number"
+        },
+        "proactiveness": {
+          "type": "number"
+        }
+      }
+    }
+  },
+  "required": [
+    "profile_id",
+    "user_id"
+  ]
+}

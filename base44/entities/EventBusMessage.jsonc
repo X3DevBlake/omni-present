@@ -1,0 +1,84 @@
+{
+  "name": "EventBusMessage",
+  "type": "object",
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "description": "Unique event identifier"
+    },
+    "event_type": {
+      "type": "string",
+      "description": "Type of event (e.g., agent_action, user_interaction, system_alert)"
+    },
+    "origin_service": {
+      "type": "string",
+      "description": "Service that generated the event"
+    },
+    "payload_json": {
+      "type": "object",
+      "description": "Event data payload",
+      "additionalProperties": true
+    },
+    "routing_key": {
+      "type": "string",
+      "description": "Topic/channel for event routing"
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "low",
+        "normal",
+        "high",
+        "critical"
+      ],
+      "default": "normal"
+    },
+    "target_services": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Services that should receive this event"
+    },
+    "correlation_id": {
+      "type": "string",
+      "description": "Links related events together"
+    },
+    "processed_by": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "service_name": {
+            "type": "string"
+          },
+          "processed_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "result": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "retry_count": {
+      "type": "integer",
+      "default": 0
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "event_id",
+    "event_type",
+    "origin_service",
+    "payload_json"
+  ]
+}

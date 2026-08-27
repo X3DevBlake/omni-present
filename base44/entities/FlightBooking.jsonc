@@ -1,0 +1,50 @@
+{
+  "name": "FlightBooking",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "User email"
+    },
+    "agent_id": {
+      "type": "string",
+      "description": "Booking agent ID"
+    },
+    "booking_reference": {
+      "type": "string",
+      "description": "Booking confirmation"
+    },
+    "flight_details": {
+      "type": "object",
+      "description": "Flight information"
+    },
+    "passenger_info": {
+      "type": "object",
+      "description": "Passenger details"
+    },
+    "total_cost": {
+      "type": "number",
+      "description": "Total booking cost"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "searching",
+        "booked",
+        "confirmed",
+        "cancelled"
+      ],
+      "default": "searching",
+      "description": "Booking status"
+    },
+    "booking_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Booking timestamp"
+    }
+  },
+  "required": [
+    "user_email",
+    "agent_id"
+  ]
+}

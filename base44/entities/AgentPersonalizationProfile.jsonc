@@ -1,0 +1,70 @@
+{
+  "name": "AgentPersonalizationProfile",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string"
+    },
+    "archetype": {
+      "type": "string",
+      "enum": [
+        "Strategist",
+        "Diplomat",
+        "Warrior",
+        "Analyst",
+        "Creator"
+      ]
+    },
+    "traits": {
+      "type": "object",
+      "properties": {
+        "adaptability": {
+          "type": "number"
+        },
+        "empathy": {
+          "type": "number"
+        },
+        "risk_tolerance": {
+          "type": "number"
+        },
+        "creativity": {
+          "type": "number"
+        }
+      }
+    },
+    "skill_mastery": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "skill_name": {
+            "type": "string"
+          },
+          "level": {
+            "type": "number"
+          },
+          "usage_count": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "learning_path": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "compliance_history_score": {
+      "type": "number"
+    },
+    "last_updated": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "agent_id",
+    "archetype"
+  ]
+}

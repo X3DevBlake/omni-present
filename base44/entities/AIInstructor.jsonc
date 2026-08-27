@@ -1,0 +1,44 @@
+{
+  "name": "AIInstructor",
+  "type": "object",
+  "properties": {
+    "instructor_name": {
+      "type": "string",
+      "description": "Instructor name"
+    },
+    "specialization": {
+      "type": "string",
+      "description": "Teaching specialization"
+    },
+    "teaching_style": {
+      "type": "string",
+      "enum": [
+        "socratic",
+        "direct",
+        "hands_on",
+        "collaborative"
+      ],
+      "description": "Teaching approach"
+    },
+    "students_trained": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Agent IDs trained"
+    },
+    "success_rate": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "simulation_environment_id": {
+      "type": "string",
+      "description": "Training simulation"
+    }
+  },
+  "required": [
+    "instructor_name",
+    "specialization"
+  ]
+}

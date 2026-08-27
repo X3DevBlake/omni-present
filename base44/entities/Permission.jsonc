@@ -1,0 +1,59 @@
+{
+  "name": "Permission",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "User who grants permission"
+    },
+    "resource_type": {
+      "type": "string",
+      "enum": [
+        "email",
+        "phone",
+        "profile",
+        "location",
+        "transaction_history",
+        "portfolio",
+        "identity",
+        "custom"
+      ],
+      "description": "Resource type"
+    },
+    "granted_to": {
+      "type": "string",
+      "description": "Email of entity with permission"
+    },
+    "access_level": {
+      "type": "string",
+      "enum": [
+        "read",
+        "write",
+        "delete",
+        "admin"
+      ],
+      "description": "Access level granted"
+    },
+    "granted_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When permission was granted"
+    },
+    "expiration_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When permission expires"
+    },
+    "revoked": {
+      "type": "boolean",
+      "default": false,
+      "description": "Has permission been revoked"
+    }
+  },
+  "required": [
+    "user_email",
+    "resource_type",
+    "granted_to",
+    "access_level"
+  ]
+}

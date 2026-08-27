@@ -1,0 +1,88 @@
+{
+  "name": "NavigationContext",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "User identifier"
+    },
+    "current_page": {
+      "type": "string",
+      "description": "Current page user is on"
+    },
+    "previous_pages": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Last 10 pages visited"
+    },
+    "session_duration": {
+      "type": "number",
+      "description": "Time spent in current session (minutes)"
+    },
+    "current_task": {
+      "type": "string",
+      "enum": [
+        "browsing",
+        "trading",
+        "managing_agents",
+        "simulation",
+        "banking",
+        "learning",
+        "customizing"
+      ],
+      "description": "Inferred current task"
+    },
+    "ai_suggestions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "confidence": {
+            "type": "number"
+          },
+          "priority": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "shortcuts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          },
+          "frequency": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "preferred_layout": {
+      "type": "string",
+      "enum": [
+        "compact",
+        "expanded",
+        "immersive"
+      ],
+      "default": "expanded"
+    }
+  },
+  "required": [
+    "user_id",
+    "current_page"
+  ]
+}

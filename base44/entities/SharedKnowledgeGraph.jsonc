@@ -1,0 +1,150 @@
+{
+  "name": "SharedKnowledgeGraph",
+  "type": "object",
+  "properties": {
+    "graph_name": {
+      "type": "string",
+      "description": "Knowledge graph identifier"
+    },
+    "domain": {
+      "type": "string",
+      "enum": [
+        "machine_learning",
+        "finance",
+        "healthcare",
+        "general",
+        "multi_domain"
+      ],
+      "description": "Knowledge domain"
+    },
+    "nodes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "node_id": {
+            "type": "string"
+          },
+          "node_type": {
+            "type": "string",
+            "enum": [
+              "concept",
+              "entity",
+              "fact",
+              "rule",
+              "procedure"
+            ]
+          },
+          "label": {
+            "type": "string"
+          },
+          "properties": {
+            "type": "object"
+          },
+          "contributed_by": {
+            "type": "string"
+          },
+          "confidence": {
+            "type": "number"
+          },
+          "access_count": {
+            "type": "integer",
+            "default": 0
+          }
+        }
+      }
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "edge_id": {
+            "type": "string"
+          },
+          "from_node": {
+            "type": "string"
+          },
+          "to_node": {
+            "type": "string"
+          },
+          "relationship_type": {
+            "type": "string"
+          },
+          "strength": {
+            "type": "number"
+          },
+          "bidirectional": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "auto_evolution": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "learning_rate": {
+          "type": "number"
+        },
+        "pruning_threshold": {
+          "type": "number"
+        }
+      }
+    },
+    "reasoning_engine": {
+      "type": "object",
+      "properties": {
+        "inference_types": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "max_inference_depth": {
+          "type": "integer"
+        }
+      }
+    },
+    "contributors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "contributor_id": {
+            "type": "string"
+          },
+          "contributions_count": {
+            "type": "integer"
+          },
+          "quality_score": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "graph_metrics": {
+      "type": "object",
+      "properties": {
+        "total_nodes": {
+          "type": "integer"
+        },
+        "total_edges": {
+          "type": "integer"
+        },
+        "graph_density": {
+          "type": "number"
+        },
+        "clustering_coefficient": {
+          "type": "number"
+        }
+      }
+    }
+  },
+  "required": [
+    "graph_name",
+    "domain"
+  ]
+}

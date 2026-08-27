@@ -1,0 +1,144 @@
+{
+  "name": "ResearchProject",
+  "type": "object",
+  "properties": {
+    "project_id": {
+      "type": "string",
+      "description": "Unique project identifier"
+    },
+    "title": {
+      "type": "string",
+      "description": "Research project title"
+    },
+    "abstract": {
+      "type": "string",
+      "description": "Project abstract"
+    },
+    "research_type": {
+      "type": "string",
+      "enum": [
+        "theoretical",
+        "experimental",
+        "applied",
+        "mixed_methods"
+      ],
+      "description": "Type of research"
+    },
+    "principal_investigator": {
+      "type": "string",
+      "description": "Lead researcher user ID"
+    },
+    "collaborators": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Collaborator user IDs"
+    },
+    "ai_assistants": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "AI agent IDs assisting with research"
+    },
+    "data_vaults": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "DecentralizedDataVault IDs for research data"
+    },
+    "methodology": {
+      "type": "string",
+      "description": "Research methodology"
+    },
+    "ethical_approval": {
+      "type": "object",
+      "properties": {
+        "approved": {
+          "type": "boolean"
+        },
+        "framework_id": {
+          "type": "string"
+        },
+        "approval_date": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "proposal",
+        "active",
+        "peer_review",
+        "published",
+        "archived"
+      ],
+      "default": "proposal"
+    },
+    "milestones": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "milestone_name": {
+            "type": "string"
+          },
+          "target_date": {
+            "type": "string",
+            "format": "date"
+          },
+          "completed": {
+            "type": "boolean"
+          },
+          "blockchain_anchor": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "publications": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "publication_date": {
+            "type": "string",
+            "format": "date"
+          },
+          "doi": {
+            "type": "string"
+          },
+          "blockchain_proof": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "funding_sources": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "ai_model_deployments": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "AIModelDeployment IDs"
+    }
+  },
+  "required": [
+    "project_id",
+    "title",
+    "principal_investigator",
+    "research_type"
+  ]
+}

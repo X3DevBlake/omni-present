@@ -1,0 +1,132 @@
+{
+  "name": "SecurityIncident",
+  "type": "object",
+  "properties": {
+    "incident_id": {
+      "type": "string",
+      "description": "Incident identifier"
+    },
+    "incident_type": {
+      "type": "string",
+      "enum": [
+        "security_breach",
+        "data_leak",
+        "unauthorized_access",
+        "service_disruption",
+        "compliance_violation"
+      ],
+      "description": "Type of security incident"
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "default": "medium"
+    },
+    "affected_assets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "asset_type": {
+            "type": "string"
+          },
+          "asset_id": {
+            "type": "string"
+          },
+          "impact": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "incident_timeline": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "event": {
+            "type": "string"
+          },
+          "actor": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "response_team": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "member_id": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "containment_status": {
+      "type": "object",
+      "properties": {
+        "is_contained": {
+          "type": "boolean"
+        },
+        "containment_time_minutes": {
+          "type": "number"
+        },
+        "spread_prevented": {
+          "type": "boolean"
+        }
+      }
+    },
+    "forensic_data": {
+      "type": "object",
+      "properties": {
+        "logs_collected": {
+          "type": "integer"
+        },
+        "artifacts_preserved": {
+          "type": "integer"
+        },
+        "chain_of_custody": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "resolution": {
+      "type": "object",
+      "properties": {
+        "resolved": {
+          "type": "boolean"
+        },
+        "resolution_time_hours": {
+          "type": "number"
+        },
+        "lessons_learned": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "incident_type",
+    "severity"
+  ]
+}

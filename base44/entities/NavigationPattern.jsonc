@@ -1,0 +1,87 @@
+{
+  "name": "NavigationPattern",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "User who created this pattern"
+    },
+    "session_id": {
+      "type": "string"
+    },
+    "navigation_sequence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "page_name": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "duration_seconds": {
+            "type": "number"
+          },
+          "interaction_count": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "most_visited_pages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "page_name": {
+            "type": "string"
+          },
+          "visit_count": {
+            "type": "integer"
+          },
+          "avg_duration": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "predicted_next_pages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "page_name": {
+            "type": "string"
+          },
+          "probability": {
+            "type": "number"
+          },
+          "reason": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "user_segments": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "developer",
+          "analyst",
+          "admin",
+          "power_user",
+          "beginner"
+        ]
+      }
+    },
+    "navigation_efficiency_score": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "user_id"
+  ]
+}

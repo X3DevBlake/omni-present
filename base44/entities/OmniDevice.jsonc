@@ -1,0 +1,120 @@
+{
+  "name": "OmniDevice",
+  "type": "object",
+  "properties": {
+    "device_name": {
+      "type": "string",
+      "description": "User-friendly device name"
+    },
+    "device_type": {
+      "type": "string",
+      "enum": [
+        "holographic_projector",
+        "mixed_reality_headset",
+        "spatial_display",
+        "volumetric_projector",
+        "smart_speaker",
+        "smart_tv",
+        "ar_glasses",
+        "smart_refrigerator",
+        "smart_mirror",
+        "robotic_assistant",
+        "projection_drone"
+      ],
+      "description": "Type of projection device"
+    },
+    "physical_location": {
+      "type": "object",
+      "properties": {
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "z": {
+          "type": "number"
+        },
+        "room": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        }
+      }
+    },
+    "online_status": {
+      "type": "boolean",
+      "default": true
+    },
+    "coverage_area": {
+      "type": "object",
+      "properties": {
+        "radius_meters": {
+          "type": "number"
+        },
+        "height_meters": {
+          "type": "number"
+        },
+        "shape": {
+          "type": "string",
+          "enum": [
+            "sphere",
+            "cylinder",
+            "cone"
+          ]
+        }
+      }
+    },
+    "sensor_capabilities": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "depth_sensor",
+          "microphone",
+          "speaker",
+          "camera",
+          "lidar",
+          "thermal"
+        ]
+      }
+    },
+    "projection_capability": {
+      "type": "object",
+      "properties": {
+        "max_resolution": {
+          "type": "string"
+        },
+        "brightness_lumens": {
+          "type": "number"
+        },
+        "color_depth_bits": {
+          "type": "integer"
+        },
+        "refresh_rate_hz": {
+          "type": "number"
+        }
+      }
+    },
+    "power_source_type": {
+      "type": "string",
+      "enum": [
+        "ac_power",
+        "battery",
+        "hybrid"
+      ]
+    },
+    "firmware_version": {
+      "type": "string"
+    },
+    "last_heartbeat": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "device_name",
+    "device_type"
+  ]
+}

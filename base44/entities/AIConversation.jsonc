@@ -1,0 +1,72 @@
+{
+  "name": "AIConversation",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "User email"
+    },
+    "conversation_name": {
+      "type": "string",
+      "description": "Conversation title"
+    },
+    "participants": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Participant emails/IDs"
+    },
+    "agent_participants": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Agent IDs participating"
+    },
+    "messages": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Message history"
+    },
+    "ai_enhanced": {
+      "type": "boolean",
+      "default": true,
+      "description": "Uses AI enhancement"
+    },
+    "voice_enabled": {
+      "type": "boolean",
+      "default": false,
+      "description": "Voice messages enabled"
+    },
+    "gemini_context": {
+      "type": "object",
+      "description": "Gemini conversation context"
+    },
+    "translation_enabled": {
+      "type": "boolean",
+      "default": false,
+      "description": "Auto-translate messages"
+    },
+    "sentiment_analysis": {
+      "type": "object",
+      "description": "Conversation sentiment"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "archived",
+        "muted"
+      ],
+      "default": "active",
+      "description": "Conversation status"
+    }
+  },
+  "required": [
+    "user_email",
+    "conversation_name"
+  ]
+}

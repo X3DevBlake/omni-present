@@ -1,0 +1,52 @@
+{
+  "name": "QuantumOptimizationConfig",
+  "type": "object",
+  "properties": {
+    "optimization_target": {
+      "type": "string",
+      "description": "What to optimize"
+    },
+    "quantum_algorithm": {
+      "type": "string",
+      "enum": [
+        "qaoa",
+        "vqe",
+        "quantum_annealing",
+        "grover",
+        "quantum_walk"
+      ],
+      "description": "Quantum-inspired algorithm"
+    },
+    "parameter_space": {
+      "type": "object",
+      "description": "Optimization parameters"
+    },
+    "current_solution": {
+      "type": "object",
+      "description": "Current best solution"
+    },
+    "optimization_score": {
+      "type": "number",
+      "description": "Quality of solution"
+    },
+    "iterations_completed": {
+      "type": "integer",
+      "default": 0
+    },
+    "convergence_rate": {
+      "type": "number"
+    },
+    "quantum_advantage_factor": {
+      "type": "number",
+      "description": "Speedup vs classical algorithms"
+    },
+    "is_running": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "optimization_target",
+    "quantum_algorithm"
+  ]
+}

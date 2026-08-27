@@ -1,0 +1,109 @@
+{
+  "name": "EmbodiedAgentLearning",
+  "type": "object",
+  "properties": {
+    "learning_session_id": {
+      "type": "string",
+      "description": "Learning session identifier"
+    },
+    "embodiment_id": {
+      "type": "string",
+      "description": "Physical embodiment"
+    },
+    "task_learned": {
+      "type": "string",
+      "description": "Task being learned"
+    },
+    "learning_method": {
+      "type": "string",
+      "enum": [
+        "reinforcement_learning",
+        "imitation_learning",
+        "self_discovery",
+        "human_demonstration",
+        "trial_and_error"
+      ],
+      "description": "How task was learned"
+    },
+    "motion_planning_evolution": {
+      "type": "object",
+      "properties": {
+        "initial_efficiency": {
+          "type": "number"
+        },
+        "current_efficiency": {
+          "type": "number"
+        },
+        "optimization_cycles": {
+          "type": "integer"
+        },
+        "breakthrough_moments": {
+          "type": "array"
+        }
+      }
+    },
+    "dexterity_improvements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "skill_name": {
+            "type": "string"
+          },
+          "before_proficiency": {
+            "type": "number"
+          },
+          "after_proficiency": {
+            "type": "number"
+          },
+          "practice_hours": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "human_interaction_learning": {
+      "type": "object",
+      "properties": {
+        "social_cue_recognition": {
+          "type": "number"
+        },
+        "gesture_understanding": {
+          "type": "number"
+        },
+        "personal_space_awareness": {
+          "type": "number"
+        },
+        "conversation_naturalness": {
+          "type": "number"
+        }
+      }
+    },
+    "autonomous_discoveries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "discovery": {
+            "type": "string"
+          },
+          "novelty_score": {
+            "type": "number"
+          },
+          "application": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "learning_rate": {
+      "type": "number",
+      "description": "Speed of skill acquisition"
+    }
+  },
+  "required": [
+    "learning_session_id",
+    "embodiment_id",
+    "task_learned"
+  ]
+}

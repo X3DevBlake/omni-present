@@ -1,0 +1,68 @@
+{
+  "name": "UserActivity",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string"
+    },
+    "activity_type": {
+      "type": "string",
+      "enum": [
+        "page_view",
+        "feature_usage",
+        "entity_creation",
+        "collaboration",
+        "achievement",
+        "voice_command",
+        "gesture_action"
+      ],
+      "description": "Type of activity"
+    },
+    "activity_details": {
+      "type": "object",
+      "properties": {
+        "page_name": {
+          "type": "string"
+        },
+        "feature_name": {
+          "type": "string"
+        },
+        "entity_type": {
+          "type": "string"
+        },
+        "duration_seconds": {
+          "type": "number"
+        },
+        "success": {
+          "type": "boolean"
+        }
+      }
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "context": {
+      "type": "object",
+      "properties": {
+        "previous_page": {
+          "type": "string"
+        },
+        "session_duration": {
+          "type": "number"
+        },
+        "device_type": {
+          "type": "string"
+        }
+      }
+    },
+    "engagement_score": {
+      "type": "number",
+      "description": "How engaged the user was (0-100)"
+    }
+  },
+  "required": [
+    "user_id",
+    "activity_type"
+  ]
+}

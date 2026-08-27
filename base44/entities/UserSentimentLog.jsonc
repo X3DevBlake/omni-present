@@ -1,0 +1,72 @@
+{
+  "name": "UserSentimentLog",
+  "type": "object",
+  "properties": {
+    "log_id": {
+      "type": "string",
+      "description": "Sentiment log identifier"
+    },
+    "user_id": {
+      "type": "string"
+    },
+    "detected_emotion": {
+      "type": "string",
+      "enum": [
+        "happy",
+        "sad",
+        "angry",
+        "anxious",
+        "excited",
+        "calm",
+        "frustrated",
+        "content"
+      ]
+    },
+    "emotion_intensity": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "valence": {
+      "type": "number",
+      "minimum": -1,
+      "maximum": 1,
+      "description": "Positive/negative emotional valence"
+    },
+    "detection_sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "source_type": {
+            "type": "string",
+            "enum": [
+              "text",
+              "voice_tone",
+              "facial_expression",
+              "physiological"
+            ]
+          },
+          "confidence": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "context_at_detection": {
+      "type": "object"
+    },
+    "companion_response_triggered": {
+      "type": "boolean",
+      "default": false
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "log_id",
+    "detected_emotion"
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "name": "EnergyBasedModel",
+  "type": "object",
+  "properties": {
+    "model_name": {
+      "type": "string",
+      "description": "EBM identifier"
+    },
+    "energy_function": {
+      "type": "string",
+      "description": "Energy landscape definition"
+    },
+    "training_method": {
+      "type": "string",
+      "enum": [
+        "contrastive_divergence",
+        "score_matching",
+        "maximum_likelihood",
+        "langevin_dynamics"
+      ],
+      "description": "Training algorithm"
+    },
+    "energy_landscape": {
+      "type": "object",
+      "properties": {
+        "num_modes": {
+          "type": "integer"
+        },
+        "energy_range": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        },
+        "smoothness": {
+          "type": "number"
+        }
+      }
+    },
+    "sampling_method": {
+      "type": "string",
+      "enum": [
+        "MCMC",
+        "Langevin",
+        "HMC",
+        "Gibbs"
+      ],
+      "description": "How to sample from model"
+    },
+    "convergence_steps": {
+      "type": "integer",
+      "description": "Steps to converge to equilibrium"
+    },
+    "mode_coverage": {
+      "type": "number",
+      "description": "Percentage of modes captured"
+    },
+    "spurious_modes": {
+      "type": "integer",
+      "description": "False energy minima"
+    }
+  },
+  "required": [
+    "model_name",
+    "training_method"
+  ]
+}

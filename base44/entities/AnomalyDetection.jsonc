@@ -1,0 +1,88 @@
+{
+  "name": "AnomalyDetection",
+  "type": "object",
+  "properties": {
+    "anomaly_id": {
+      "type": "string",
+      "description": "Unique anomaly identifier"
+    },
+    "detection_source": {
+      "type": "string",
+      "enum": [
+        "financial_market",
+        "aether_display",
+        "network_stability",
+        "agent_behavior",
+        "sim2real_transfer"
+      ],
+      "description": "Source system where anomaly was detected"
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "critical",
+        "high",
+        "medium",
+        "low"
+      ],
+      "default": "medium"
+    },
+    "anomaly_type": {
+      "type": "string",
+      "description": "Type of anomaly detected"
+    },
+    "detected_value": {
+      "type": "number",
+      "description": "Actual value that triggered detection"
+    },
+    "expected_value": {
+      "type": "number",
+      "description": "Expected baseline value"
+    },
+    "deviation_sigma": {
+      "type": "number",
+      "description": "Standard deviations from normal"
+    },
+    "context_data": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Additional context about the anomaly"
+    },
+    "ai_analysis": {
+      "type": "object",
+      "properties": {
+        "root_cause": {
+          "type": "string"
+        },
+        "predicted_impact": {
+          "type": "string"
+        },
+        "recommended_actions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "confidence_score": {
+          "type": "number"
+        }
+      }
+    },
+    "auto_remediation_attempted": {
+      "type": "boolean",
+      "default": false
+    },
+    "remediation_result": {
+      "type": "string"
+    },
+    "resolved": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "anomaly_id",
+    "detection_source",
+    "anomaly_type"
+  ]
+}

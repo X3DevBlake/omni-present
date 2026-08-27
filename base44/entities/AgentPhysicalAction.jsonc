@@ -1,0 +1,128 @@
+{
+  "name": "AgentPhysicalAction",
+  "type": "object",
+  "properties": {
+    "action_id": {
+      "type": "string",
+      "description": "Unique action identifier"
+    },
+    "agent_id": {
+      "type": "string",
+      "description": "Agent performing the action"
+    },
+    "action_type": {
+      "type": "string",
+      "enum": [
+        "device_control",
+        "multi_device_scene",
+        "environmental_adjustment",
+        "fetch_object",
+        "security_action",
+        "entertainment_control",
+        "comfort_optimization"
+      ],
+      "description": "Type of physical action"
+    },
+    "target_devices": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "device_id": {
+            "type": "string"
+          },
+          "protocol": {
+            "type": "string"
+          },
+          "command": {
+            "type": "string"
+          },
+          "parameters": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "intent_description": {
+      "type": "string",
+      "description": "Natural language intent from agent"
+    },
+    "context": {
+      "type": "object",
+      "properties": {
+        "user_present": {
+          "type": "boolean"
+        },
+        "time_of_day": {
+          "type": "string"
+        },
+        "user_activity": {
+          "type": "string"
+        },
+        "ambient_conditions": {
+          "type": "object"
+        }
+      }
+    },
+    "execution_sequence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "step_number": {
+            "type": "integer"
+          },
+          "device_id": {
+            "type": "string"
+          },
+          "command": {
+            "type": "string"
+          },
+          "delay_ms": {
+            "type": "number"
+          },
+          "status": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "executing",
+        "completed",
+        "failed",
+        "cancelled"
+      ],
+      "default": "pending"
+    },
+    "started_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "completed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "success_feedback": {
+      "type": "object",
+      "properties": {
+        "user_satisfaction": {
+          "type": "number"
+        },
+        "devices_responded": {
+          "type": "integer"
+        },
+        "execution_time_ms": {
+          "type": "number"
+        }
+      }
+    }
+  },
+  "required": [
+    "agent_id",
+    "action_type"
+  ]
+}

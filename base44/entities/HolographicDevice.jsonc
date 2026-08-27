@@ -1,0 +1,91 @@
+{
+  "name": "HolographicDevice",
+  "type": "object",
+  "properties": {
+    "device_name": {
+      "type": "string",
+      "description": "Device name"
+    },
+    "device_type": {
+      "type": "string",
+      "enum": [
+        "holographic_projector",
+        "ar_glasses",
+        "smart_display",
+        "wearable",
+        "mobile"
+      ],
+      "description": "Type of device"
+    },
+    "owner_email": {
+      "type": "string",
+      "description": "Device owner"
+    },
+    "capabilities": {
+      "type": "object",
+      "properties": {
+        "holographic_projection": {
+          "type": "boolean"
+        },
+        "voice_input": {
+          "type": "boolean"
+        },
+        "voice_output": {
+          "type": "boolean"
+        },
+        "video_call": {
+          "type": "boolean"
+        },
+        "spatial_tracking": {
+          "type": "boolean"
+        }
+      }
+    },
+    "location": {
+      "type": "object",
+      "properties": {
+        "latitude": {
+          "type": "number"
+        },
+        "longitude": {
+          "type": "number"
+        },
+        "altitude": {
+          "type": "number"
+        },
+        "address": {
+          "type": "string"
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "online",
+        "offline",
+        "standby"
+      ],
+      "default": "offline"
+    },
+    "connected_agents": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Agent IDs currently on this device"
+    },
+    "price": {
+      "type": "number",
+      "description": "Device price for marketplace"
+    },
+    "for_sale": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "device_name",
+    "device_type",
+    "owner_email"
+  ]
+}

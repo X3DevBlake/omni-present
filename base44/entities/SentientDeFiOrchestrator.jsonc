@@ -1,0 +1,89 @@
+{
+  "name": "SentientDeFiOrchestrator",
+  "type": "object",
+  "properties": {
+    "orchestrator_id": {
+      "type": "string",
+      "description": "DeFi orchestrator identifier"
+    },
+    "consciousness_network": {
+      "type": "object",
+      "properties": {
+        "protocol_connections": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "liquidity_awareness": {
+          "type": "number"
+        },
+        "gas_optimization_intelligence": {
+          "type": "number"
+        }
+      }
+    },
+    "autonomous_yield_farming": {
+      "type": "object",
+      "properties": {
+        "active_farms": {
+          "type": "array"
+        },
+        "auto_compound": {
+          "type": "boolean"
+        },
+        "risk_adjusted_selection": {
+          "type": "boolean"
+        },
+        "impermanent_loss_prediction": {
+          "type": "number"
+        }
+      }
+    },
+    "cross_chain_intelligence": {
+      "type": "object",
+      "properties": {
+        "bridge_optimization": {
+          "type": "boolean"
+        },
+        "multi_chain_arbitrage": {
+          "type": "boolean"
+        },
+        "gas_forecasting": {
+          "type": "number"
+        }
+      }
+    },
+    "smart_contract_awareness": {
+      "type": "object",
+      "properties": {
+        "vulnerability_detection": {
+          "type": "boolean"
+        },
+        "audit_score_tracking": {
+          "type": "boolean"
+        },
+        "risk_assessment_ai": {
+          "type": "number"
+        }
+      }
+    },
+    "market_making_ai": {
+      "type": "object",
+      "properties": {
+        "liquidity_provision_strategy": {
+          "type": "string"
+        },
+        "slippage_optimization": {
+          "type": "number"
+        },
+        "volume_prediction": {
+          "type": "number"
+        }
+      }
+    }
+  },
+  "required": [
+    "orchestrator_id"
+  ]
+}

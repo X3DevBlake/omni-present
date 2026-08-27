@@ -1,0 +1,75 @@
+{
+  "name": "FraudAlert",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "description": "User email"
+    },
+    "alert_type": {
+      "type": "string",
+      "enum": [
+        "suspicious_transaction",
+        "unusual_location",
+        "account_anomaly",
+        "identity_verification",
+        "stolen_credentials"
+      ],
+      "description": "Type of fraud alert"
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "description": "Alert severity level"
+    },
+    "description": {
+      "type": "string",
+      "description": "Alert description"
+    },
+    "detected_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When alert was triggered"
+    },
+    "transaction_id": {
+      "type": "string",
+      "description": "Associated transaction ID if applicable"
+    },
+    "confidence_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "AI confidence in fraud detection"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "reviewed",
+        "approved",
+        "blocked"
+      ],
+      "default": "pending",
+      "description": "Alert resolution status"
+    },
+    "user_action_required": {
+      "type": "boolean",
+      "default": false,
+      "description": "User confirmation needed"
+    },
+    "ai_explanation": {
+      "type": "string",
+      "description": "AI reasoning for alert"
+    }
+  },
+  "required": [
+    "user_email",
+    "alert_type",
+    "description"
+  ]
+}

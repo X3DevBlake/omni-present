@@ -1,0 +1,72 @@
+{
+  "name": "MetaLearningModel",
+  "type": "object",
+  "properties": {
+    "model_name": {
+      "type": "string",
+      "description": "Meta-learner identifier"
+    },
+    "base_architecture": {
+      "type": "string",
+      "enum": [
+        "MAML",
+        "Reptile",
+        "ProtoNet",
+        "MatchingNet",
+        "RelationNet"
+      ],
+      "description": "Meta-learning algorithm"
+    },
+    "task_distribution": {
+      "type": "object",
+      "properties": {
+        "domain": {
+          "type": "string"
+        },
+        "num_tasks": {
+          "type": "integer"
+        },
+        "task_similarity": {
+          "type": "number"
+        }
+      }
+    },
+    "adaptation_steps": {
+      "type": "integer",
+      "description": "Fine-tuning steps for new tasks"
+    },
+    "few_shot_performance": {
+      "type": "object",
+      "properties": {
+        "one_shot_accuracy": {
+          "type": "number"
+        },
+        "five_shot_accuracy": {
+          "type": "number"
+        },
+        "ten_shot_accuracy": {
+          "type": "number"
+        }
+      }
+    },
+    "meta_parameters": {
+      "type": "object",
+      "description": "Learned meta-parameters"
+    },
+    "transfer_efficiency": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "How efficiently model transfers to new tasks"
+    },
+    "generalization_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    }
+  },
+  "required": [
+    "model_name",
+    "base_architecture"
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "name": "EthicalCouncilMember",
+  "type": "object",
+  "properties": {
+    "member_id": {
+      "type": "string",
+      "description": "Unique council member identifier"
+    },
+    "ai_agent_name": {
+      "type": "string",
+      "description": "Name of AI council member"
+    },
+    "specialization": {
+      "type": "string",
+      "enum": [
+        "utilitarian",
+        "deontological",
+        "virtue_ethics",
+        "care_ethics",
+        "rights_based",
+        "justice_oriented",
+        "pragmatic"
+      ]
+    },
+    "voting_power": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Weighted voting influence"
+    },
+    "proposed_principles": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "principle_name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "proposed_weight": {
+            "type": "number"
+          },
+          "reasoning": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "voting_history": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "proposal_id": {
+            "type": "string"
+          },
+          "vote": {
+            "type": "string",
+            "enum": [
+              "approve",
+              "reject",
+              "abstain"
+            ]
+          },
+          "reasoning": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "cross_domain_insights_analyzed": {
+      "type": "integer",
+      "default": 0
+    },
+    "influence_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    }
+  },
+  "required": [
+    "member_id",
+    "ai_agent_name",
+    "specialization"
+  ]
+}

@@ -1,0 +1,107 @@
+{
+  "name": "AutomationRule",
+  "type": "object",
+  "properties": {
+    "rule_name": {
+      "type": "string",
+      "description": "Automation rule identifier"
+    },
+    "trigger_type": {
+      "type": "string",
+      "enum": [
+        "event",
+        "schedule",
+        "threshold",
+        "ai_detected",
+        "cross_hub"
+      ],
+      "description": "What triggers this automation"
+    },
+    "trigger_config": {
+      "type": "object",
+      "properties": {
+        "entity_type": {
+          "type": "string"
+        },
+        "event_name": {
+          "type": "string"
+        },
+        "condition": {
+          "type": "string"
+        },
+        "threshold_value": {
+          "type": "number"
+        }
+      }
+    },
+    "actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "action_type": {
+            "type": "string",
+            "enum": [
+              "invoke_function",
+              "update_entity",
+              "send_notification",
+              "trigger_workflow",
+              "call_integration"
+            ]
+          },
+          "target": {
+            "type": "string"
+          },
+          "parameters": {
+            "type": "object"
+          },
+          "order": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "execution_stats": {
+      "type": "object",
+      "properties": {
+        "total_executions": {
+          "type": "integer",
+          "default": 0
+        },
+        "success_count": {
+          "type": "integer",
+          "default": 0
+        },
+        "failure_count": {
+          "type": "integer",
+          "default": 0
+        },
+        "avg_duration_ms": {
+          "type": "number"
+        },
+        "last_execution": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "ai_optimized": {
+      "type": "boolean",
+      "default": false
+    },
+    "optimization_suggestions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "rule_name",
+    "trigger_type"
+  ]
+}

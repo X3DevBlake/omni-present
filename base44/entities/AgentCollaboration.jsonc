@@ -1,0 +1,35 @@
+{
+  "name": "AgentCollaboration",
+  "type": "object",
+  "properties": {
+    "agent_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "mission_id": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "forming",
+        "active",
+        "completed",
+        "disbanded"
+      ],
+      "default": "forming"
+    },
+    "shared_data": {
+      "type": "object"
+    },
+    "started_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "agent_ids"
+  ]
+}

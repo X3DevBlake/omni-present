@@ -1,0 +1,74 @@
+{
+  "name": "MultiModalModel",
+  "type": "object",
+  "properties": {
+    "model_name": {
+      "type": "string",
+      "description": "Multi-modal AI model"
+    },
+    "modalities": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "vision",
+          "text",
+          "audio",
+          "video",
+          "sensor",
+          "tabular"
+        ]
+      }
+    },
+    "fusion_strategy": {
+      "type": "string",
+      "enum": [
+        "early_fusion",
+        "late_fusion",
+        "intermediate_fusion",
+        "attention_fusion"
+      ],
+      "description": "How modalities are combined"
+    },
+    "cross_modal_alignment": {
+      "type": "object",
+      "properties": {
+        "vision_text_similarity": {
+          "type": "number"
+        },
+        "audio_text_similarity": {
+          "type": "number"
+        },
+        "alignment_score": {
+          "type": "number"
+        }
+      }
+    },
+    "performance_by_modality": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "number"
+      }
+    },
+    "zero_shot_capabilities": {
+      "type": "object",
+      "properties": {
+        "cross_modal_retrieval": {
+          "type": "number"
+        },
+        "modality_translation": {
+          "type": "number"
+        }
+      }
+    },
+    "embedding_dimension": {
+      "type": "integer",
+      "description": "Shared embedding space size"
+    }
+  },
+  "required": [
+    "model_name",
+    "modalities",
+    "fusion_strategy"
+  ]
+}

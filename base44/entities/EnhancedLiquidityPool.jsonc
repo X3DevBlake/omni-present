@@ -1,0 +1,85 @@
+{
+  "name": "EnhancedLiquidityPool",
+  "type": "object",
+  "properties": {
+    "pool_name": {
+      "type": "string",
+      "description": "Pool identifier"
+    },
+    "protocol": {
+      "type": "string",
+      "description": "DeFi protocol (Uniswap, Curve, etc.)"
+    },
+    "token_pair": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Token pair in pool"
+    },
+    "tvl_usd": {
+      "type": "number",
+      "description": "Total Value Locked in USD"
+    },
+    "apy": {
+      "type": "number",
+      "description": "Annual Percentage Yield"
+    },
+    "fees_24h": {
+      "type": "number"
+    },
+    "volume_24h": {
+      "type": "number"
+    },
+    "impermanent_loss_risk": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "IL risk percentage"
+    },
+    "smart_contract_audit_status": {
+      "type": "string",
+      "enum": [
+        "audited",
+        "unaudited",
+        "partial"
+      ],
+      "default": "unaudited"
+    },
+    "audit_firms": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "liquidity_depth": {
+      "type": "number",
+      "description": "Depth of liquidity for large trades"
+    },
+    "ai_opportunity_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "historical_apy": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "apy": {
+            "type": "number"
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "pool_name",
+    "protocol",
+    "token_pair"
+  ]
+}

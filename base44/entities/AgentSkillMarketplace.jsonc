@@ -1,0 +1,105 @@
+{
+  "name": "AgentSkillMarketplace",
+  "type": "object",
+  "properties": {
+    "listing_id": {
+      "type": "string",
+      "description": "Skill listing identifier"
+    },
+    "seller_embodiment_id": {
+      "type": "string",
+      "description": "Agent selling skill"
+    },
+    "skill_name": {
+      "type": "string",
+      "description": "Skill being traded"
+    },
+    "skill_proficiency": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Mastery level"
+    },
+    "learned_through": {
+      "type": "string",
+      "enum": [
+        "simulation",
+        "real_world",
+        "hybrid",
+        "transfer_learning"
+      ],
+      "description": "Learning method"
+    },
+    "execution_data": {
+      "type": "object",
+      "properties": {
+        "successful_executions": {
+          "type": "integer"
+        },
+        "average_success_rate": {
+          "type": "number"
+        },
+        "performance_metrics": {
+          "type": "object"
+        },
+        "edge_cases_handled": {
+          "type": "array"
+        }
+      }
+    },
+    "skill_encoding": {
+      "type": "object",
+      "properties": {
+        "neural_weights": {
+          "type": "string"
+        },
+        "motion_patterns": {
+          "type": "array"
+        },
+        "decision_trees": {
+          "type": "object"
+        },
+        "transferability_score": {
+          "type": "number"
+        }
+      }
+    },
+    "price_omni": {
+      "type": "number",
+      "description": "Price in OMNI tokens"
+    },
+    "acquisition_history": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "buyer_embodiment_id": {
+            "type": "string"
+          },
+          "transfer_date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "adaptation_success": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "listing_status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "sold",
+        "reserved",
+        "outdated"
+      ],
+      "default": "active"
+    }
+  },
+  "required": [
+    "listing_id",
+    "seller_embodiment_id",
+    "skill_name"
+  ]
+}

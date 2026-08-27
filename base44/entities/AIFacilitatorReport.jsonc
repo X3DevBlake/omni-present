@@ -1,0 +1,55 @@
+{
+  "name": "AIFacilitatorReport",
+  "type": "object",
+  "properties": {
+    "collaboration_id": {
+      "type": "string",
+      "description": "Collaboration workspace ID"
+    },
+    "user_email": {
+      "type": "string",
+      "description": "User email"
+    },
+    "report_type": {
+      "type": "string",
+      "enum": [
+        "performance",
+        "summary",
+        "proposal",
+        "contract"
+      ],
+      "description": "Report type"
+    },
+    "google_doc_id": {
+      "type": "string",
+      "description": "Google Docs ID"
+    },
+    "google_doc_url": {
+      "type": "string",
+      "description": "Document URL"
+    },
+    "content": {
+      "type": "object",
+      "description": "Report content"
+    },
+    "generated_by": {
+      "type": "string",
+      "description": "AI facilitator ID"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "generating",
+        "completed",
+        "shared"
+      ],
+      "default": "generating",
+      "description": "Report status"
+    }
+  },
+  "required": [
+    "collaboration_id",
+    "user_email",
+    "report_type"
+  ]
+}

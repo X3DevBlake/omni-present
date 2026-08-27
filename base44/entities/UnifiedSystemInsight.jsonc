@@ -1,0 +1,61 @@
+{
+  "name": "UnifiedSystemInsight",
+  "type": "object",
+  "properties": {
+    "correlation_id": {
+      "type": "string"
+    },
+    "primary_domain": {
+      "type": "string",
+      "enum": [
+        "Sentience",
+        "Maintenance",
+        "Ethics",
+        "Orchestration",
+        "Marketplace",
+        "Simulation"
+      ]
+    },
+    "secondary_domain": {
+      "type": "string"
+    },
+    "insight_type": {
+      "type": "string",
+      "enum": [
+        "Correlation",
+        "Causal",
+        "Prediction",
+        "Anomaly"
+      ]
+    },
+    "description": {
+      "type": "string"
+    },
+    "confidence_score": {
+      "type": "number"
+    },
+    "triggered_actions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "risk_level": {
+      "type": "string",
+      "enum": [
+        "Low",
+        "Medium",
+        "High",
+        "Critical"
+      ]
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "primary_domain",
+    "description"
+  ]
+}

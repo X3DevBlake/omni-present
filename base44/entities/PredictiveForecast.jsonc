@@ -1,0 +1,129 @@
+{
+  "name": "PredictiveForecast",
+  "type": "object",
+  "properties": {
+    "forecast_id": {
+      "type": "string",
+      "description": "Forecast identifier"
+    },
+    "forecast_type": {
+      "type": "string",
+      "enum": [
+        "financial",
+        "operational",
+        "security",
+        "collaboration",
+        "resource",
+        "market"
+      ],
+      "description": "Type of forecast"
+    },
+    "time_horizon": {
+      "type": "string",
+      "enum": [
+        "short_term",
+        "medium_term",
+        "long_term"
+      ],
+      "description": "Forecast time range"
+    },
+    "target_metric": {
+      "type": "string",
+      "description": "What is being forecasted"
+    },
+    "predictions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "predicted_value": {
+            "type": "number"
+          },
+          "confidence_interval": {
+            "type": "object",
+            "properties": {
+              "lower": {
+                "type": "number"
+              },
+              "upper": {
+                "type": "number"
+              }
+            }
+          },
+          "confidence_score": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "influencing_factors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "factor_name": {
+            "type": "string"
+          },
+          "impact_weight": {
+            "type": "number"
+          },
+          "trend": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "model_metrics": {
+      "type": "object",
+      "properties": {
+        "accuracy": {
+          "type": "number"
+        },
+        "precision": {
+          "type": "number"
+        },
+        "recall": {
+          "type": "number"
+        },
+        "mae": {
+          "type": "number"
+        }
+      }
+    },
+    "scenario_analysis": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "scenario_name": {
+            "type": "string"
+          },
+          "probability": {
+            "type": "number"
+          },
+          "outcome": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "generating",
+        "active",
+        "validated",
+        "expired"
+      ],
+      "default": "generating"
+    }
+  },
+  "required": [
+    "forecast_type",
+    "target_metric"
+  ]
+}
