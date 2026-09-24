@@ -1,0 +1,39 @@
+{
+  "name": "Companion Bond Evolution",
+  "description": "Evolves emotional bonds when companions interact",
+  "trigger": {
+    "condition": null,
+    "config": {
+      "trigger_type": "entity",
+      "events": [
+        "update"
+      ],
+      "entity_name": "CompanionEmotionalBond"
+    }
+  },
+  "definition": {
+    "document": {
+      "dsl": "1.0.0",
+      "name": "companion_bond_evolution",
+      "version": "1.0",
+      "namespace": "base44"
+    },
+    "do": [
+      {
+        "run_function": {
+          "call": "invoke_backend_function",
+          "with": {
+            "function_name": "interaction/omega-emotional-intelligence",
+            "args": {
+              "context": "auto_evolution"
+            }
+          },
+          "then": "end"
+        }
+      }
+    ]
+  },
+  "x-base44-migrated-from-automation": {
+    "legacy_payload_function": "interaction/omega-emotional-intelligence"
+  }
+}
